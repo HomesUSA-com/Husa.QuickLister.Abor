@@ -1,0 +1,147 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32505.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Api", "Husa.Quicklister.Abor.Api\Husa.Quicklister.Abor.Api.csproj", "{BC738A83-F3DD-4837-810D-F64C555B3A1C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{563084B3-3ECE-4CC8-A41C-977C3F9D7C6E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		azpip.yaml = azpip.yaml
+		CHANGELOG.md = CHANGELOG.md
+		ci-pipeline-quicklister-abor-api.yml = ci-pipeline-quicklister-abor-api.yml
+		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+		NuGet.config = NuGet.config
+		Readme.md = Readme.md
+		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Application", "Husa.Quicklister.Abor.Application\Husa.Quicklister.Abor.Application.csproj", "{4991850D-A510-4753-883E-609FA1EC7DE9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Crosscutting", "Husa.Quicklister.Abor.Crosscutting\Husa.Quicklister.Abor.Crosscutting.csproj", "{BCC87848-92DD-47EB-B28F-53D37DCCDE71}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Data", "Husa.Quicklister.Abor.Data\Husa.Quicklister.Abor.Data.csproj", "{92C11892-68C6-4E06-9A67-7E1BE883F85E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Data.Queries", "Husa.Quicklister.Abor.Data.Queries\Husa.Quicklister.Abor.Data.Queries.csproj", "{630BF3F8-8A17-407F-9E6A-F263D076AF9C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Domain", "Husa.Quicklister.Abor.Domain\Husa.Quicklister.Abor.Domain.csproj", "{79B99651-6966-47D6-899C-C4A92ABC41F3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Api.Tests", "Husa.Quicklister.Abor.Api.Tests\Husa.Quicklister.Abor.Api.Tests.csproj", "{E50C40AC-18FD-4169-AFAB-EC283000FC91}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Crosscutting.Tests", "Husa.Quicklister.Abor.Crosscutting.Tests\Husa.Quicklister.Abor.Crosscutting.Tests.csproj", "{D3EDC3D3-D81F-49F3-BC2D-59AD697995EC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Application.Tests", "Husa.Quicklister.Abor.Application.Tests\Husa.Quicklister.Abor.Application.Tests.csproj", "{E35000F7-71C7-4C80-8C6F-7944D0766F78}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Domain.Tests", "Husa.Quicklister.Abor.Domain.Tests\Husa.Quicklister.Abor.Domain.Tests.csproj", "{36FB2E6C-5DFA-400A-90CF-1BD750769329}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Data.Documents", "Husa.Quicklister.Abor.Data.Documents\Husa.Quicklister.Abor.Data.Documents.csproj", "{F92C7B4C-4BC0-4A2F-9F87-5B1B1FCF0C15}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Api.Client", "Husa.Quicklister.Abor.Api.Client\Husa.Quicklister.Abor.Api.Client.csproj", "{93FD079C-DEBC-4741-8CFB-9D07985D05FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Api.Contracts", "Husa.Quicklister.Abor.Api.Contracts\Husa.Quicklister.Abor.Api.Contracts.csproj", "{7281BF3F-49B6-4D2F-82E3-521509C0BF03}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Data.Commands", "Husa.Quicklister.Abor.Data.Commands\Husa.Quicklister.Abor.Data.Commands.csproj", "{F753B208-34C6-46C4-9C94-363A3028851A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Data.Queries.Tests", "Husa.Quicklister.Abor.Data.Queries.Tests\Husa.Quicklister.Abor.Data.Queries.Tests.csproj", "{E6FDE992-78A0-455C-AC7E-F6991DD4F38C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Api.Client.Tests", "Husa.Quicklister.Abor.Api.Client.Tests\Husa.Quicklister.Abor.Api.Client.Tests.csproj", "{5CECE21E-4559-4B9F-991F-47303E2D6512}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Domain.Enums", "Husa.Quicklister.Abor.Domain.Enums\Husa.Quicklister.Abor.Domain.Enums.csproj", "{ACB3AACF-58F1-4FDB-B3F7-DF364CC90824}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Data.Tests", "Husa.Quicklister.Abor.Data.Tests\Husa.Quicklister.Abor.Data.Tests.csproj", "{E254E91C-0A39-4831-A74C-8A7637DFF9F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Api.Contracts.Tests", "Husa.Quicklister.Abor.Api.Contracts.Tests\Husa.Quicklister.Abor.Api.Contracts.Tests.csproj", "{8B532584-1192-4623-A0B9-A77527E98A02}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC738A83-F3DD-4837-810D-F64C555B3A1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC738A83-F3DD-4837-810D-F64C555B3A1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC738A83-F3DD-4837-810D-F64C555B3A1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC738A83-F3DD-4837-810D-F64C555B3A1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4991850D-A510-4753-883E-609FA1EC7DE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4991850D-A510-4753-883E-609FA1EC7DE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4991850D-A510-4753-883E-609FA1EC7DE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4991850D-A510-4753-883E-609FA1EC7DE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCC87848-92DD-47EB-B28F-53D37DCCDE71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCC87848-92DD-47EB-B28F-53D37DCCDE71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCC87848-92DD-47EB-B28F-53D37DCCDE71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCC87848-92DD-47EB-B28F-53D37DCCDE71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92C11892-68C6-4E06-9A67-7E1BE883F85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92C11892-68C6-4E06-9A67-7E1BE883F85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92C11892-68C6-4E06-9A67-7E1BE883F85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92C11892-68C6-4E06-9A67-7E1BE883F85E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{630BF3F8-8A17-407F-9E6A-F263D076AF9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{630BF3F8-8A17-407F-9E6A-F263D076AF9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{630BF3F8-8A17-407F-9E6A-F263D076AF9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{630BF3F8-8A17-407F-9E6A-F263D076AF9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79B99651-6966-47D6-899C-C4A92ABC41F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79B99651-6966-47D6-899C-C4A92ABC41F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79B99651-6966-47D6-899C-C4A92ABC41F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79B99651-6966-47D6-899C-C4A92ABC41F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E50C40AC-18FD-4169-AFAB-EC283000FC91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E50C40AC-18FD-4169-AFAB-EC283000FC91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E50C40AC-18FD-4169-AFAB-EC283000FC91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E50C40AC-18FD-4169-AFAB-EC283000FC91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3EDC3D3-D81F-49F3-BC2D-59AD697995EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3EDC3D3-D81F-49F3-BC2D-59AD697995EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3EDC3D3-D81F-49F3-BC2D-59AD697995EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3EDC3D3-D81F-49F3-BC2D-59AD697995EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E35000F7-71C7-4C80-8C6F-7944D0766F78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E35000F7-71C7-4C80-8C6F-7944D0766F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E35000F7-71C7-4C80-8C6F-7944D0766F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E35000F7-71C7-4C80-8C6F-7944D0766F78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36FB2E6C-5DFA-400A-90CF-1BD750769329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36FB2E6C-5DFA-400A-90CF-1BD750769329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36FB2E6C-5DFA-400A-90CF-1BD750769329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36FB2E6C-5DFA-400A-90CF-1BD750769329}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F92C7B4C-4BC0-4A2F-9F87-5B1B1FCF0C15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F92C7B4C-4BC0-4A2F-9F87-5B1B1FCF0C15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F92C7B4C-4BC0-4A2F-9F87-5B1B1FCF0C15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F92C7B4C-4BC0-4A2F-9F87-5B1B1FCF0C15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93FD079C-DEBC-4741-8CFB-9D07985D05FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93FD079C-DEBC-4741-8CFB-9D07985D05FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93FD079C-DEBC-4741-8CFB-9D07985D05FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93FD079C-DEBC-4741-8CFB-9D07985D05FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7281BF3F-49B6-4D2F-82E3-521509C0BF03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7281BF3F-49B6-4D2F-82E3-521509C0BF03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7281BF3F-49B6-4D2F-82E3-521509C0BF03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7281BF3F-49B6-4D2F-82E3-521509C0BF03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F753B208-34C6-46C4-9C94-363A3028851A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F753B208-34C6-46C4-9C94-363A3028851A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F753B208-34C6-46C4-9C94-363A3028851A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F753B208-34C6-46C4-9C94-363A3028851A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6FDE992-78A0-455C-AC7E-F6991DD4F38C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6FDE992-78A0-455C-AC7E-F6991DD4F38C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6FDE992-78A0-455C-AC7E-F6991DD4F38C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6FDE992-78A0-455C-AC7E-F6991DD4F38C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CECE21E-4559-4B9F-991F-47303E2D6512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CECE21E-4559-4B9F-991F-47303E2D6512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CECE21E-4559-4B9F-991F-47303E2D6512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CECE21E-4559-4B9F-991F-47303E2D6512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACB3AACF-58F1-4FDB-B3F7-DF364CC90824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACB3AACF-58F1-4FDB-B3F7-DF364CC90824}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACB3AACF-58F1-4FDB-B3F7-DF364CC90824}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACB3AACF-58F1-4FDB-B3F7-DF364CC90824}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E254E91C-0A39-4831-A74C-8A7637DFF9F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E254E91C-0A39-4831-A74C-8A7637DFF9F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E254E91C-0A39-4831-A74C-8A7637DFF9F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E254E91C-0A39-4831-A74C-8A7637DFF9F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B532584-1192-4623-A0B9-A77527E98A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B532584-1192-4623-A0B9-A77527E98A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B532584-1192-4623-A0B9-A77527E98A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B532584-1192-4623-A0B9-A77527E98A02}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E098652-88B1-47A5-A86A-9F19E1A95DC5}
+	EndGlobalSection
+EndGlobal

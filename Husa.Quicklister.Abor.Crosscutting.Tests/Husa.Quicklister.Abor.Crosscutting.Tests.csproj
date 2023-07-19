@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Husa.Quicklister.Abor.Crosscutting.Tests</AssemblyName>
+        <RootNamespace>Husa.Quicklister.Abor.Crosscutting.Tests</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+        <!-- Exclude the project from analysis -->
+        <SonarQubeExclude>true</SonarQubeExclude>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Faker.Net" Version="2.0.154" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
+        <PackageReference Include="Moq" Version="4.18.4" />
+        <PackageReference Include="xunit" Version="2.5.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Api\Husa.Quicklister.Abor.Api.csproj" />
+    </ItemGroup>
+
+</Project>

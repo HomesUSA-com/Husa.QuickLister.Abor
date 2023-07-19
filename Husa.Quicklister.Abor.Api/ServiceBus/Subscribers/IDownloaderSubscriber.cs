@@ -1,0 +1,8 @@
+namespace Husa.Quicklister.Abor.Api.ServiceBus.Subscribers
+{
+    using Husa.Extensions.ServiceBus.Subscribers;
+
+    public interface IDownloaderSubscriber : IProvideSubscriptionClient
+    {
+    }
+}

@@ -1,0 +1,802 @@
+namespace Husa.Quicklister.Abor.Domain.Entities.Property
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Husa.Extensions.Common.Enums;
+    using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.Domain.Entities;
+    using Husa.Quicklister.Abor.Crosscutting;
+    using Husa.Quicklister.Abor.Domain.Common;
+    using Husa.Quicklister.Abor.Domain.Comparers;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
+    using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Plan;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Comparers;
+    using Husa.Quicklister.Extensions.Domain.Entities.Base;
+    using Husa.Quicklister.Extensions.Domain.Extensions;
+    using Husa.Quicklister.Extensions.Domain.Interfaces;
+    using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
+    using Husa.Xml.Api.Contracts.Response;
+
+    public class SaleProperty : Entity, IProvideBasicPropertyInfo, ISaleProperty, IEntityOpenHouse<SaleListingOpenHouse>
+    {
+        public SaleProperty(
+            string streetName,
+            string streetNum,
+            Cities city,
+            States state,
+            string zipCode,
+            Counties? county,
+            DateTime? constructionCompletionDate,
+            Guid companyId,
+            string ownerName,
+            Guid? communityId,
+            Guid? planId)
+            : this()
+        {
+            this.PlanId = planId;
+            this.CompanyId = companyId;
+            this.OwnerName = ownerName;
+            this.CommunityId = communityId;
+            this.PropertyInfo = new(constructionCompletionDate);
+            this.AddressInfo = new(streetNum, streetName, zipCode, city, state, county);
+        }
+
+        public SaleProperty(SalePropertyValueObject saleProperty, Guid companyId)
+            : this()
+        {
+            if (saleProperty is null)
+            {
+                throw new ArgumentNullException(nameof(saleProperty));
+            }
+
+            this.CompanyId = companyId;
+            this.InitializeEntity(saleProperty);
+        }
+
+        protected SaleProperty()
+        {
+            this.FeaturesInfo = new();
+            this.SchoolsInfo = new();
+            this.SpacesDimensionsInfo = new();
+            this.FinancialInfo = new();
+            this.ShowingInfo = new();
+            this.PropertyInfo = new();
+            this.AddressInfo = new();
+            this.SalesOfficeInfo = new();
+            this.ListingSaleHoas = new HashSet<SaleListingHoa>();
+            this.Rooms = new HashSet<ListingSaleRoom>();
+            this.OpenHouses = new HashSet<SaleListingOpenHouse>();
+        }
+
+        public virtual string OwnerName { get; set; }
+
+        public virtual Guid? PlanId { get; set; }
+
+        public virtual Guid? CommunityId { get; set; }
+
+        public virtual AddressInfo AddressInfo { get; set; }
+
+        public virtual PropertyInfo PropertyInfo { get; set; }
+
+        public virtual SpacesDimensionsInfo SpacesDimensionsInfo { get; set; }
+
+        public virtual FeaturesInfo FeaturesInfo { get; set; }
+
+        public virtual FinancialInfo FinancialInfo { get; set; }
+
+        public virtual ShowingInfo ShowingInfo { get; set; }
+
+        public virtual SchoolsInfo SchoolsInfo { get; set; }
+
+        public virtual SalesOffice SalesOfficeInfo { get; set; }
+
+        public virtual ICollection<ListingSaleRoom> Rooms { get; set; }
+
+        public virtual ICollection<SaleListingHoa> ListingSaleHoas { get; set; }
+
+        public virtual ICollection<SaleListingOpenHouse> OpenHouses { get; set; }
+
+        public virtual ICollection<SaleListing> SaleListings { get; set; }
+
+        public virtual CommunitySale Community { get; set; }
+
+        public virtual Plan Plan { get; set; }
+
+        public virtual string Address => $"{this.AddressInfo.StreetNumber} {this.AddressInfo.StreetName}";
+
+        public virtual bool CanBeDeleted => !this.IsDeleted && this.SaleListings != null && this.SaleListings.Any(sl => sl.IsInMarket && sl.IsExisting);
+
+        public virtual void UpdatePropertyInfo(PropertyInfo propertyInfo)
+        {
+            if (propertyInfo is null)
+            {
+                throw new ArgumentNullException(nameof(propertyInfo));
+            }
+
+            if (this.PropertyInfo != propertyInfo)
+            {
+                this.PropertyInfo = propertyInfo;
+            }
+        }
+
+        public virtual void UpdateAddressInfo(AddressInfo addressInfo)
+        {
+            if (addressInfo is null)
+            {
+                throw new ArgumentNullException(nameof(addressInfo));
+            }
+
+            if (this.AddressInfo != addressInfo)
+            {
+                this.AddressInfo = addressInfo;
+            }
+        }
+
+        public virtual void UpdateFeatures(FeaturesInfo features)
+        {
+            if (features is null)
+            {
+                throw new ArgumentNullException(nameof(features));
+            }
+
+            if (this.FeaturesInfo != features)
+            {
+                this.FeaturesInfo = features;
+            }
+        }
+
+        public virtual void UpdateFinancial(FinancialInfo financial)
+        {
+            if (financial is null)
+            {
+                throw new ArgumentNullException(nameof(financial));
+            }
+
+            if (!financial.IsValidBuyersAgentCommissionRange())
+            {
+                throw new DomainException($"The range for Buyers Agent Commission is invalid for type {financial.BuyersAgentCommissionType}");
+            }
+
+            if (financial.HasAgentBonus && !financial.IsValidAgentBonusAmountRange())
+            {
+                throw new DomainException($"The range for Agent bonus amount is invalid for type {financial.BuyersAgentCommissionType}");
+            }
+
+            if (this.FinancialInfo != financial)
+            {
+                this.FinancialInfo = financial;
+            }
+        }
+
+        public virtual void UpdateShowing(ShowingInfo showing)
+        {
+            if (showing is null)
+            {
+                throw new ArgumentNullException(nameof(showing));
+            }
+
+            if (this.ShowingInfo != showing)
+            {
+                this.ShowingInfo = showing;
+            }
+        }
+
+        public virtual void UpdateSchools(SchoolsInfo schools)
+        {
+            if (schools is null)
+            {
+                throw new ArgumentNullException(nameof(schools));
+            }
+
+            if (this.SchoolsInfo != schools)
+            {
+                this.SchoolsInfo = schools;
+            }
+        }
+
+        public virtual void UpdateSpacesDimensions(SpacesDimensionsInfo spacesDimensions)
+        {
+            if (spacesDimensions is null)
+            {
+                throw new ArgumentNullException(nameof(spacesDimensions));
+            }
+
+            if (this.SpacesDimensionsInfo != spacesDimensions)
+            {
+                this.SpacesDimensionsInfo = spacesDimensions;
+            }
+        }
+
+        public virtual void UpdateRooms(IEnumerable<ListingSaleRoom> rooms)
+        {
+            if (rooms is null)
+            {
+                throw new ArgumentNullException(nameof(rooms));
+            }
+
+            this.Rooms.Clear();
+
+            foreach (var roomDetail in rooms)
+            {
+                var room = new ListingSaleRoom(
+                    this.Id,
+                    roomDetail.RoomType,
+                    roomDetail.Level,
+                    roomDetail.Width,
+                    roomDetail.Length,
+                    roomDetail.Features);
+
+                this.Rooms.Add(room);
+            }
+        }
+
+        public virtual void UpdateHoas(IEnumerable<SaleListingHoa> hoas)
+        {
+            if (hoas is null)
+            {
+                throw new ArgumentNullException(nameof(hoas));
+            }
+
+            this.ListingSaleHoas.Clear();
+
+            foreach (var hoaDetail in hoas)
+            {
+                var hoa = new SaleListingHoa(
+                    this.Id,
+                    hoaDetail.Name,
+                    hoaDetail.TransferFee,
+                    hoaDetail.Fee,
+                    hoaDetail.BillingFrequency,
+                    hoaDetail.Website,
+                    hoaDetail.ContactPhone);
+
+                this.ListingSaleHoas.Add(hoa);
+            }
+        }
+
+        public virtual bool ImportOpenHouseInfoFromMarket(IEnumerable<SaleListingOpenHouse> openHouses)
+        {
+            if (openHouses is null)
+            {
+                throw new ArgumentNullException(nameof(openHouses));
+            }
+
+            if (this.OpenHouses.Any())
+            {
+                return false;
+            }
+
+            if (!openHouses.Any())
+            {
+                return false;
+            }
+
+            this.ShowingInfo.EnableOpenHouse();
+            this.UpdateOpenHouse(openHouses);
+            return true;
+        }
+
+        public virtual void ImportDataFromCommunity(CommunitySale communitySale)
+        {
+            this.CommunityId = communitySale.Id;
+            this.SchoolsInfo = this.SchoolsInfo.ImportSchools(communitySale.SchoolsInfo);
+            this.FeaturesInfo = this.FeaturesInfo.ImportFeaturesFromCommunity(communitySale.Utilities);
+            this.FinancialInfo = this.FinancialInfo.ImportFinancialFromCommunity(communitySale.Financial);
+            this.ShowingInfo = this.ShowingInfo.ImportShowingFromCommunity(communitySale.Showing);
+            this.SpacesDimensionsInfo = this.SpacesDimensionsInfo.ImportSpacesDimensionsFromCommunity(communitySale.Utilities);
+            this.AddressInfo = this.AddressInfo.ImportAddressInfoFromCommunity(communitySale.Property);
+
+            this.ImportSaleOfficeFromCommunity(communitySale.SaleOffice);
+            this.ImportPropertyFromCommunity(communitySale.Property);
+            this.ImportHoasFromEntity(communitySale.CommunityHoas);
+            this.ImportOpenHouseFromCommunity(communitySale);
+        }
+
+        public virtual void ImportDataFromCommunitySubmit(CommunitySale communitySale)
+        {
+            communitySale.SchoolsInfo.CopyProperties(this.SchoolsInfo, communitySale.GetChangedProperties(nameof(communitySale.SchoolsInfo)));
+            communitySale.Financial.CopyProperties(this.FinancialInfo, communitySale.GetChangedProperties(nameof(communitySale.Financial)));
+            communitySale.Showing.CopyProperties(this.ShowingInfo, communitySale.GetChangedProperties(nameof(communitySale.Showing)));
+            communitySale.SaleOffice.CopyProperties(this.SalesOfficeInfo, communitySale.GetChangedProperties(nameof(communitySale.SaleOffice)));
+
+            var utilitiesChanges = communitySale.GetChangedProperties(nameof(communitySale.Utilities));
+            communitySale.Utilities.CopyProperties(this.FeaturesInfo, utilitiesChanges);
+            communitySale.Utilities.CopyProperties(this.SpacesDimensionsInfo, utilitiesChanges);
+
+            var propertyChanges = communitySale.GetChangedProperties(nameof(communitySale.Property));
+            communitySale.Property.CopyProperties(this.AddressInfo, propertyChanges);
+            communitySale.Property.CopyProperties(this.PropertyInfo, propertyChanges);
+
+            if (communitySale.Changes.Any(x => x == nameof(communitySale.CommunityHoas)))
+            {
+                this.ImportHoasFromEntity(communitySale.CommunityHoas);
+            }
+        }
+
+        public virtual void ImportOpenHouseFromCommunity(CommunitySale communitySale)
+        {
+            this.ImportOpenHouse<CommunityOpenHouse, SaleListingOpenHouse, SaleProperty>(communitySale.OpenHouses);
+            this.ShowingInfo.EnableOpenHouse();
+        }
+
+        public virtual void ImportDataFromPlan(Plan plan)
+        {
+            if (plan is null)
+            {
+                throw new ArgumentNullException(nameof(plan));
+            }
+
+            this.PlanId = plan.Id;
+            this.SpacesDimensionsInfo = this.SpacesDimensionsInfo.ImportSpacesDimensionsFromPlan(plan.BasePlan);
+            this.FeaturesInfo = this.FeaturesInfo.ImportFeaturesFromPlan(plan.BasePlan);
+            this.ImportRoomsFromEntity(plan.Rooms);
+        }
+
+        public virtual void AddOpenHouses<T>(IEnumerable<T> openHouses)
+            where T : OpenHouse
+        {
+            foreach (var openHouse in openHouses)
+            {
+                var listingOpenHouse = new SaleListingOpenHouse(
+                    salePropertyId: this.Id,
+                    type: openHouse.Type,
+                    startTime: openHouse.StartTime,
+                    endTime: openHouse.EndTime,
+                    refreshments: openHouse.Refreshments,
+                    lunch: openHouse.Lunch);
+
+                this.OpenHouses.Add(listingOpenHouse);
+            }
+        }
+
+        public virtual void AddRooms(IEnumerable<ListingSaleRoom> rooms)
+        {
+            foreach (var roomDetail in rooms)
+            {
+                var room = new ListingSaleRoom(
+                    this.Id,
+                    roomDetail.RoomType,
+                    roomDetail.Level,
+                    roomDetail.Width,
+                    roomDetail.Length,
+                    roomDetail.Features);
+
+                this.Rooms.Add(room);
+            }
+        }
+
+        public virtual void AddHoas(IEnumerable<SaleListingHoa> hoas)
+        {
+            foreach (var hoa in hoas)
+            {
+                this.ListingSaleHoas.Add(
+                    new SaleListingHoa(
+                        this.Id,
+                        hoa.Name,
+                        hoa.TransferFee,
+                        hoa.Fee,
+                        hoa.BillingFrequency,
+                        hoa.Website,
+                        hoa.ContactPhone));
+            }
+        }
+
+        public virtual void FillSalesPropertyInformation(SalePropertyValueObject salePropertyInfo)
+        {
+            if (salePropertyInfo is null)
+            {
+                throw new ArgumentNullException(nameof(salePropertyInfo));
+            }
+
+            this.InitializeEntity(salePropertyInfo);
+        }
+
+        public virtual bool UpdateListingFromCommunitySubmit()
+        {
+            var oldProperty = this.Clone();
+
+            this.ImportDataFromCommunitySubmit(this.Community);
+
+            var hasChanges = !this.IsEqualTo(oldProperty);
+            var hasHoaChanges = !this.AreHoasEqual(oldProperty.ListingSaleHoas);
+
+            return hasChanges || hasHoaChanges;
+        }
+
+        public virtual void UpdateRoomsInfoFromPlan(Plan plan, Guid listingId, bool updateRooms)
+        {
+            if (!updateRooms)
+            {
+                return;
+            }
+
+            this.ImportRoomsFromEntity(plan.Rooms);
+            this.ImportSpacesAndDimensionsFromPlan(plan.BasePlan);
+        }
+
+        public virtual void ImportRoomsFromEntity<T>(IEnumerable<T> rooms)
+            where T : Room
+        {
+            this.Rooms.Clear();
+
+            foreach (var roomDetail in rooms)
+            {
+                var room = new ListingSaleRoom(
+                    this.Id,
+                    roomDetail.RoomType,
+                    roomDetail.Level,
+                    roomDetail.Width,
+                    roomDetail.Length,
+                    roomDetail.Features);
+
+                this.Rooms.Add(room);
+            }
+        }
+
+        public virtual void ImportHoasFromEntity<T>(IEnumerable<T> hoas)
+            where T : Hoa
+        {
+            this.ListingSaleHoas.Clear();
+
+            foreach (var hoaDetail in hoas)
+            {
+                var hoa = new SaleListingHoa(
+                    this.Id,
+                    hoaDetail.Name,
+                    hoaDetail.TransferFee,
+                    hoaDetail.Fee,
+                    hoaDetail.BillingFrequency,
+                    hoaDetail.Website,
+                    hoaDetail.ContactPhone);
+
+                this.ListingSaleHoas.Add(hoa);
+            }
+        }
+
+        public virtual void ImportSpacesAndDimensionsFromPlan(BasePlan basePlan)
+        {
+            this.SpacesDimensionsInfo = this.SpacesDimensionsInfo.ImportSpacesDimensionsFromPlan(basePlan);
+        }
+
+        public virtual SaleListing AddListing(
+            ListingValueObject listingInfo,
+            ListingSaleStatusFieldsInfo listingStatusInfo,
+            SalePropertyValueObject salePropertyInfo,
+            IEnumerable<ListingSaleRoom> rooms,
+            IEnumerable<SaleListingHoa> hoas,
+            Guid companyId)
+        {
+            if (listingInfo is null)
+            {
+                throw new ArgumentNullException(nameof(listingInfo));
+            }
+
+            if (listingStatusInfo is null)
+            {
+                throw new ArgumentNullException(nameof(listingStatusInfo));
+            }
+
+            if (salePropertyInfo is null)
+            {
+                throw new ArgumentNullException(nameof(salePropertyInfo));
+            }
+
+            var saleListing = new SaleListing(listingInfo, listingStatusInfo, saleProperty: this, companyId);
+            if (SaleListing.ActiveAndPendingListingStatuses.Contains(listingInfo.MlsStatus))
+            {
+                this.ApplyMarketUpdate(salePropertyInfo, rooms, hoas);
+            }
+
+            saleListing.Unlock(allowUnlock: true);
+            this.SaleListings.Add(saleListing);
+            return saleListing;
+        }
+
+        public virtual void ApplyMarketUpdate(SalePropertyValueObject salePropertyInfo, IEnumerable<ListingSaleRoom> roomsInfo, IEnumerable<SaleListingHoa> hoasInfo)
+        {
+            if (salePropertyInfo is null)
+            {
+                throw new ArgumentNullException(nameof(salePropertyInfo));
+            }
+
+            if (roomsInfo is null)
+            {
+                throw new ArgumentNullException(nameof(roomsInfo));
+            }
+
+            if (hoasInfo is null)
+            {
+                throw new ArgumentNullException(nameof(hoasInfo));
+            }
+
+            this.FillSalesPropertyInformation(salePropertyInfo);
+            this.UpdateRooms(roomsInfo);
+            this.UpdateHoas(hoasInfo);
+        }
+
+        public SaleProperty Clone()
+        {
+            var clonedProperty = (SaleProperty)this.MemberwiseClone();
+            clonedProperty.SalesOfficeInfo = this.SalesOfficeInfo.Clone();
+            clonedProperty.AddressInfo = this.AddressInfo.Clone();
+            clonedProperty.PropertyInfo = this.PropertyInfo.Clone();
+            clonedProperty.FinancialInfo = this.FinancialInfo.Clone();
+            clonedProperty.SchoolsInfo = this.SchoolsInfo.Clone();
+            clonedProperty.FeaturesInfo = this.FeaturesInfo.Clone();
+            clonedProperty.ShowingInfo = this.ShowingInfo.Clone();
+            clonedProperty.SpacesDimensionsInfo = this.SpacesDimensionsInfo.Clone();
+            clonedProperty.ListingSaleHoas = this.ListingSaleHoas.Select(hoaToClone => hoaToClone.Clone()).ToList();
+            clonedProperty.OpenHouses = this.OpenHouses.Select(openHouseToClone => openHouseToClone.Clone()).ToList();
+            clonedProperty.Rooms = this.Rooms.Select(roomToClone => roomToClone.Clone()).ToList();
+
+            return clonedProperty;
+        }
+
+        public void ImportFromXml(XmlListingDetailResponse listing, string companyName)
+        {
+            this.OwnerName = companyName;
+            this.PlanId = listing.PlanId;
+            this.CommunityId = listing.CommunityId;
+            this.CompanyId = (Guid)listing.CompanyId;
+
+            var profile = AddressInfo.ImportFromXml(listing, this.AddressInfo);
+            this.UpdateAddressInfo(profile);
+
+            var property = PropertyInfo.ImportFromXml(listing, this.PropertyInfo);
+            this.UpdatePropertyInfo(property);
+
+            var spacesDimensions = SpacesDimensionsInfo.ImportFromXml(listing, this.SpacesDimensionsInfo);
+            this.UpdateSpacesDimensions(spacesDimensions);
+
+            var features = FeaturesInfo.ImportFromXml(listing, this.FeaturesInfo);
+            this.UpdateFeatures(features);
+        }
+
+        public void UpdateFromXml(XmlListingDetailResponse listing)
+        {
+            this.PropertyInfo.UpdateFromXml(listing);
+            this.SpacesDimensionsInfo.UpdateFromXml(listing);
+            this.FeaturesInfo.UpdateFromXml(listing);
+        }
+
+        protected override void DeleteChildren(Guid userId) => throw new NotImplementedException();
+
+        protected bool AreRoomsEqual(ICollection<ListingSaleRoom> other)
+        {
+            return this.Rooms
+                .OrderBy(x => x.RoomType)
+                .SequenceEqual(other.OrderBy(x => x.RoomType), new ListingRoomComparer());
+        }
+
+        protected bool AreHoasEqual(ICollection<SaleListingHoa> other)
+        {
+            return this.ListingSaleHoas
+                .OrderBy(x => x.BillingFrequency)
+                .SequenceEqual(other.OrderBy(x => x.BillingFrequency), new ListingHoaComparer());
+        }
+
+        protected bool AreOpenHousesEqual(ICollection<SaleListingOpenHouse> other)
+        {
+            return this.OpenHouses
+                .OrderBy(x => x.Type)
+                .SequenceEqual(other.OrderBy(x => x.Type), new OpenHouseComparer());
+        }
+
+        protected override IEnumerable<object> GetEntityEqualityComponents()
+        {
+            yield return this.OwnerName;
+            yield return this.PlanId;
+            yield return this.CommunityId;
+            yield return this.AddressInfo;
+            yield return this.PropertyInfo;
+            yield return this.SpacesDimensionsInfo;
+            yield return this.FeaturesInfo;
+            yield return this.FinancialInfo;
+            yield return this.ShowingInfo;
+            yield return this.SchoolsInfo;
+            yield return this.SalesOfficeInfo;
+        }
+
+        private void ImportPropertyFromCommunity(Property property)
+        {
+            this.PropertyInfo.MlsArea = property.MlsArea;
+            this.PropertyInfo.MapscoGrid = property.MapscoGrid;
+        }
+
+        private void ImportSaleOfficeFromCommunity(CommunitySaleOffice saleOffice)
+        {
+            if (saleOffice is null)
+            {
+                throw new ArgumentNullException(nameof(saleOffice));
+            }
+
+            this.SalesOfficeInfo = new(saleOffice.StreetNumber, saleOffice.StreetName, saleOffice.StreetSuffix, saleOffice.SalesOfficeCity, saleOffice.SalesOfficeZip);
+        }
+
+        private void CopyPropertyInfoData(PropertyInfo propertyInfo)
+        {
+            if (propertyInfo is null)
+            {
+                throw new ArgumentNullException(nameof(propertyInfo));
+            }
+
+            this.PropertyInfo ??= new();
+            this.PropertyInfo.ConstructionStage = propertyInfo.ConstructionStage;
+            this.PropertyInfo.ConstructionCompletionDate = propertyInfo.ConstructionCompletionDate;
+            this.PropertyInfo.ConstructionStartYear = propertyInfo.ConstructionStartYear;
+            this.PropertyInfo.LegalDescription = propertyInfo.LegalDescription;
+            this.PropertyInfo.TaxId = propertyInfo.TaxId;
+            this.PropertyInfo.MlsArea = propertyInfo.MlsArea;
+            this.PropertyInfo.MapscoGrid = propertyInfo.MapscoGrid;
+            this.PropertyInfo.LotDimension = propertyInfo.LotDimension;
+            this.PropertyInfo.LotSize = propertyInfo.LotSize;
+            this.PropertyInfo.LotDescription = propertyInfo.LotDescription;
+            this.PropertyInfo.Occupancy = propertyInfo.Occupancy;
+            this.PropertyInfo.Latitude = propertyInfo.Latitude;
+            this.PropertyInfo.Longitude = propertyInfo.Longitude;
+        }
+
+        private void CopyAddressData(AddressInfo addressInfo)
+        {
+            if (addressInfo is null)
+            {
+                throw new ArgumentNullException(nameof(addressInfo));
+            }
+
+            this.AddressInfo = new(addressInfo.StreetNumber, addressInfo.StreetName, addressInfo.ZipCode, addressInfo.City, addressInfo.State, addressInfo.County)
+            {
+                LotNum = addressInfo.LotNum,
+                Block = addressInfo.Block,
+                Subdivision = addressInfo.Subdivision,
+            };
+        }
+
+        private void CopyFeaturesData(FeaturesInfo featuresInfo)
+        {
+            if (featuresInfo is null)
+            {
+                throw new ArgumentNullException(nameof(featuresInfo));
+            }
+
+            this.FeaturesInfo ??= new();
+            this.FeaturesInfo.PropertyDescription = featuresInfo.PropertyDescription;
+            this.FeaturesInfo.Inclusions = featuresInfo.Inclusions;
+            this.FeaturesInfo.FireplaceDescription = featuresInfo.FireplaceDescription;
+            this.FeaturesInfo.Floors = featuresInfo.Floors;
+            this.FeaturesInfo.WindowCoverings = featuresInfo.WindowCoverings;
+            this.FeaturesInfo.HasAccessibility = featuresInfo.HasAccessibility;
+            this.FeaturesInfo.Accessibility = featuresInfo.Accessibility;
+            this.FeaturesInfo.HousingStyle = featuresInfo.HousingStyle;
+            this.FeaturesInfo.Exterior = featuresInfo.Exterior;
+            this.FeaturesInfo.ExteriorFeatures = featuresInfo.ExteriorFeatures;
+            this.FeaturesInfo.RoofDescription = featuresInfo.RoofDescription;
+            this.FeaturesInfo.Foundation = featuresInfo.Foundation;
+            this.FeaturesInfo.HasPrivatePool = featuresInfo.HasPrivatePool;
+            this.FeaturesInfo.PrivatePool = featuresInfo.PrivatePool;
+            this.FeaturesInfo.HomeFaces = featuresInfo.HomeFaces;
+            this.FeaturesInfo.SupplierElectricity = featuresInfo.SupplierElectricity;
+            this.FeaturesInfo.SupplierGas = featuresInfo.SupplierGas;
+            this.FeaturesInfo.SupplierWater = featuresInfo.SupplierWater;
+            this.FeaturesInfo.SupplierGarbage = featuresInfo.SupplierGarbage;
+            this.FeaturesInfo.SupplierSewer = featuresInfo.SupplierSewer;
+            this.FeaturesInfo.SupplierOther = featuresInfo.SupplierOther;
+            this.FeaturesInfo.CoolingSystem = featuresInfo.CoolingSystem;
+            this.FeaturesInfo.GreenCertification = featuresInfo.GreenCertification;
+            this.FeaturesInfo.EnergyFeatures = featuresInfo.EnergyFeatures;
+            this.FeaturesInfo.GreenFeatures = featuresInfo.GreenFeatures;
+            this.FeaturesInfo.NeighborhoodAmenities = featuresInfo.NeighborhoodAmenities;
+            this.FeaturesInfo.LotImprovements = featuresInfo.LotImprovements;
+            this.FeaturesInfo.IsNewConstruction = featuresInfo.IsNewConstruction;
+            this.FeaturesInfo.HeatingFuel = featuresInfo.HeatingFuel;
+            this.FeaturesInfo.HeatSystem = featuresInfo.HeatSystem;
+            this.FeaturesInfo.WaterSewer = featuresInfo.WaterSewer;
+            this.CopyFireplaces(featuresInfo.Fireplaces);
+        }
+
+        private void CopyFireplaces(int? fireplaces)
+        {
+            if (this.FeaturesInfo.Fireplaces == fireplaces)
+            {
+                return;
+            }
+
+            var maxFireplaces = 3;
+            if (this.FeaturesInfo.Fireplaces > maxFireplaces && fireplaces == maxFireplaces)
+            {
+                return;
+            }
+
+            this.FeaturesInfo.Fireplaces = fireplaces;
+        }
+
+        private void CopyFinancialData(FinancialInfo financialInfo)
+        {
+            if (financialInfo is null)
+            {
+                throw new ArgumentNullException(nameof(financialInfo));
+            }
+
+            this.FinancialInfo ??= new();
+            this.FinancialInfo.TaxYear = financialInfo.TaxYear;
+            this.FinancialInfo.TaxRate = financialInfo.TaxRate;
+            this.FinancialInfo.IsMultipleTaxed = financialInfo.IsMultipleTaxed;
+            this.FinancialInfo.TitleCompany = financialInfo.TitleCompany;
+            this.FinancialInfo.ProposedTerms = financialInfo.ProposedTerms;
+            this.FinancialInfo.HasMultipleHOA = financialInfo.HasMultipleHOA;
+            this.FinancialInfo.BuyersAgentCommission = financialInfo.BuyersAgentCommission;
+            this.FinancialInfo.HasAgentBonus = financialInfo.AgentBonusAmount != null;
+            this.FinancialInfo.AgentBonusAmount = financialInfo.AgentBonusAmount;
+            this.FinancialInfo.AgentBonusAmountType = financialInfo.AgentBonusAmountType;
+            this.FinancialInfo.HOARequirement = financialInfo.HOARequirement;
+        }
+
+        private void CopyShowingData(ShowingInfo showingInfo)
+        {
+            if (showingInfo is null)
+            {
+                throw new ArgumentNullException(nameof(showingInfo));
+            }
+
+            this.ShowingInfo ??= new();
+            this.ShowingInfo.AltPhoneCommunity = showingInfo.AltPhoneCommunity;
+            this.ShowingInfo.AgentListApptPhone = showingInfo.AgentListApptPhone;
+            this.ShowingInfo.AgentPrivateRemarks = showingInfo.AgentPrivateRemarks;
+            this.ShowingInfo.RealtorContactEmail = showingInfo.RealtorContactEmail;
+            this.ShowingInfo.Directions = showingInfo.Directions;
+            this.ShowingInfo.Showing = showingInfo.Showing;
+        }
+
+        private void CopySpacesDimensionsData(SpacesDimensionsInfo spacesDimensions)
+        {
+            if (spacesDimensions is null)
+            {
+                throw new ArgumentNullException(nameof(spacesDimensions));
+            }
+
+            this.SpacesDimensionsInfo ??= new();
+            this.SpacesDimensionsInfo.Stories = spacesDimensions.Stories;
+            this.SpacesDimensionsInfo.SqFtTotal = spacesDimensions.SqFtTotal;
+            this.SpacesDimensionsInfo.SqFtSource = spacesDimensions.SqFtSource;
+            this.SpacesDimensionsInfo.SpecialtyRooms = spacesDimensions.SpecialtyRooms;
+            this.SpacesDimensionsInfo.BathsFull = spacesDimensions.BathsFull;
+            this.SpacesDimensionsInfo.BathsHalf = spacesDimensions.BathsHalf;
+            this.SpacesDimensionsInfo.NumBedrooms = spacesDimensions.NumBedrooms;
+            this.SpacesDimensionsInfo.GarageDescription = spacesDimensions.GarageDescription;
+            this.SpacesDimensionsInfo.TypeCategory = spacesDimensions.TypeCategory;
+            this.SpacesDimensionsInfo.OtherParking = spacesDimensions.OtherParking;
+        }
+
+        private void CopySchoolsData(SchoolsInfo schoolsInfo)
+        {
+            if (schoolsInfo is null)
+            {
+                throw new ArgumentNullException(nameof(schoolsInfo));
+            }
+
+            this.SchoolsInfo = new()
+            {
+                ElementarySchool = schoolsInfo.ElementarySchool,
+                MiddleSchool = schoolsInfo.MiddleSchool,
+                HighSchool = schoolsInfo.HighSchool,
+                SchoolDistrict = schoolsInfo.SchoolDistrict,
+            };
+        }
+
+        private void InitializeEntity(SalePropertyValueObject salePropertyInfo)
+        {
+            this.OwnerName = salePropertyInfo.OwnerName;
+            this.CopyPropertyInfoData(salePropertyInfo.PropertyInfo);
+            this.CopyAddressData(salePropertyInfo.AddressInfo);
+            this.CopyFeaturesData(salePropertyInfo.FeaturesInfo);
+            this.CopySchoolsData(salePropertyInfo.SchoolsInfo);
+            this.CopyShowingData(salePropertyInfo.ShowingInfo);
+            this.CopySpacesDimensionsData(salePropertyInfo.SpacesDimensionsInfo);
+            this.CopyFinancialData(salePropertyInfo.FinancialInfo);
+        }
+    }
+}

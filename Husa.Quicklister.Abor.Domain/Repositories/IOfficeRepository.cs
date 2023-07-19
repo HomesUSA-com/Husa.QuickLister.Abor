@@ -1,0 +1,11 @@
+namespace Husa.Quicklister.Abor.Domain.Repositories
+{
+    using System.Threading.Tasks;
+    using Husa.Extensions.Domain.Repositories;
+    using Husa.Quicklister.Abor.Domain.Entities.Office;
+
+    public interface IOfficeRepository : IRepository<Office>
+    {
+        Task<Office> GetByMarketUniqueId(string marketUniqueId);
+    }
+}

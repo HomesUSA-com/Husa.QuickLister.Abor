@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Husa.Quicklister.Abor.Api.Client</AssemblyName>
+        <RootNamespace>Husa.Quicklister.Abor.Api.Client</RootNamespace>
+        <Description>Husa Quicklister Abor Client</Description>
+        <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
+        <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
+        <Version>0.1.0-dev001</Version>
+        <PackageReleaseNotes>
+            Release 0.1.0:
+            - Initial version of the api client
+        </PackageReleaseNotes>
+        <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Husa.Extensions.Api" Version="4.0.2" />
+        <PackageReference Include="Husa.Extensions.Common" Version="3.8.2" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Domain.Enums" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Api.Contracts\Husa.Quicklister.Abor.Api.Contracts.csproj">
+            <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+            <IncludeAssets>Husa.Quicklister.Abor.Api.Contracts.dll</IncludeAssets>
+        </ProjectReference>
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Domain.Enums\Husa.Quicklister.Abor.Domain.Enums.csproj">
+            <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+            <IncludeAssets>Husa.Quicklister.Abor.Domain.Enums.dll</IncludeAssets>
+        </ProjectReference>
+    </ItemGroup>
+
+    <Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
+        <ItemGroup>
+            <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+        </ItemGroup>
+    </Target>
+</Project>

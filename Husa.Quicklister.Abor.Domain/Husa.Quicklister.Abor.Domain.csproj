@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Husa.Quicklister.Abor.Domain</AssemblyName>
+        <RootNamespace>Husa.Quicklister.Abor.Domain</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Husa.Extensions.Authorization" Version="3.1.0" />
+        <PackageReference Include="Husa.Extensions.Common" Version="3.8.2" />
+        <PackageReference Include="Husa.CompanyServiceManager.Client" Version="1.0.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Domain" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Crosscutting\Husa.Quicklister.Abor.Crosscutting.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Domain.Enums\Husa.Quicklister.Abor.Domain.Enums.csproj" />
+    </ItemGroup>
+
+</Project>

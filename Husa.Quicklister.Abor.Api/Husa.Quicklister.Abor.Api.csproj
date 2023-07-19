@@ -1,0 +1,68 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <AssemblyName>Husa.Quicklister.Abor.Api</AssemblyName>
+        <RootNamespace>Husa.Quicklister.Abor.Api</RootNamespace>
+        <UserSecretsId>0426892f-6935-38e4-9bb8-48001893f0cb</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <DockerfileContext>.</DockerfileContext>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Figgle" Version="0.5.1" />
+        <PackageReference Include="FluentValidation" Version="11.6.0" />
+        <PackageReference Include="Husa.Extensions.Api" Version="4.0.2" />
+        <PackageReference Include="Husa.Extensions.Api.Cors" Version="3.0.0" />
+        <PackageReference Include="Husa.Extensions.Api.Middleware" Version="1.1.0" />
+        <PackageReference Include="Husa.Extensions.Authorization" Version="3.1.0" />
+        <PackageReference Include="Husa.Extensions.Common" Version="3.8.2" />
+        <PackageReference Include="Husa.Extensions.EmailNotification" Version="3.1.0" />
+        <PackageReference Include="Husa.Extensions.Logger.Enrichers" Version="1.0.0" />
+        <PackageReference Include="Husa.Extensions.ServiceBus" Version="4.1.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Crosscutting" Version="1.1.0" />
+        <PackageReference Include="Husa.CompanyServiceManager.Client" Version="1.0.0" />
+        <PackageReference Include="Husa.MediaService.Client" Version="1.0.1" />
+        <PackageReference Include="Husa.Downloader.Sabor.ServiceBus.Contracts" Version="1.0.0" />
+        <PackageReference Include="Husa.Xml.ServiceBus.Messages" Version="1.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+        <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.35.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.9" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.9" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.9" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.9">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="System.Text.Json" Version="7.0.3" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
+        <PackageReference Include="Serilog" Version="3.0.1" />
+        <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.0" />
+        <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Api.Contracts\Husa.Quicklister.Abor.Api.Contracts.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Application\Husa.Quicklister.Abor.Application.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Crosscutting\Husa.Quicklister.Abor.Crosscutting.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Data.Commands\Husa.Quicklister.Abor.Data.Commands.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Data.Queries\Husa.Quicklister.Abor.Data.Queries.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Data\Husa.Quicklister.Abor.Data.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Data.Documents\Husa.Quicklister.Abor.Data.Documents.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Domain\Husa.Quicklister.Abor.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <SonarQubeSetting Include="sonar.coverage.exclusions">
+            <Value>**/Program.cs, **/Startup.cs, **/Bootstrapper.cs, **/Mappings/*Profile.cs, **/Worker.cs, **/ValidationsRules/**/*.cs</Value>
+        </SonarQubeSetting>
+    </ItemGroup>
+</Project>

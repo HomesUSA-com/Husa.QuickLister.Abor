@@ -1,0 +1,133 @@
+namespace Husa.Quicklister.Abor.Application.Tests
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Husa.CompanyServicesManager.Api.Client.Interfaces;
+    using Husa.CompanyServicesManager.Api.Contracts.Response;
+    using Husa.Extensions.Common.Exceptions;
+    using Husa.Migration.Api.Client;
+    using Husa.Quicklister.Abor.Application.Services.Plans;
+    using Husa.Quicklister.Abor.Crosscutting.Tests;
+    using Husa.Quicklister.Abor.Domain.Entities.Plan;
+    using Husa.Quicklister.Abor.Domain.Repositories;
+    using Microsoft.Extensions.Logging;
+    using Moq;
+    using Xunit;
+    using MigrationContracts = Husa.Migration.Api.Contracts.Response;
+    using MigrationEnums = Husa.Migration.Crosscutting.Enums;
+
+    [ExcludeFromCodeCoverage]
+    [Collection("Husa.Quicklister.Abor.Application.Test")]
+
+    public class PlanMigrationServiceTests
+    {
+        private readonly Mock<IPlanRepository> planRepository = new();
+        private readonly Mock<ILogger<PlanMigrationService>> logger = new();
+        private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
+        private readonly Mock<IMigrationClient> migrationClient = new();
+
+        public PlanMigrationServiceTests(ApplicationServicesFixture fixture)
+        {
+            this.Sut = new PlanMigrationService(
+                this.planRepository.Object,
+                this.migrationClient.Object,
+                this.serviceSubscriptionClient.Object,
+                this.logger.Object,
+                fixture.Mapper);
+        }
+
+        private PlanMigrationService Sut { get; set; }
+
+        [Fact]
+        public async Task MigrateByCompanyIdSuccess()
+        {
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var legacyCompanyId = 1;
+            var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
+            companyDetail.LegacyId = legacyCompanyId;
+            this.serviceSubscriptionClient
+                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(companyDetail);
+
+            var plansReponse = MigrationPlansResponse(20);
+            this.migrationClient.Setup(m => m.Plans.GetByCompanyIdAsync(legacyCompanyId, It.IsAny<CancellationToken>())).ReturnsAsync(plansReponse).Verifiable();
+
+            // Act
+            await this.Sut.MigrateByCompanyId(companyId);
+
+            // Assert
+            this.planRepository.Verify(r => r.Attach(It.Is<IEnumerable<Plan>>(x => x.Count() == plansReponse.Count())), Times.Once);
+            this.planRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
+        }
+
+        [Fact]
+        public async Task MigrateByCompanyIdNoPlansFound()
+        {
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var legacyCompanyId = 1;
+            var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
+            companyDetail.LegacyId = legacyCompanyId;
+            this.serviceSubscriptionClient
+                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(companyDetail);
+
+            this.migrationClient.Setup(m => m.Plans.GetByCompanyIdAsync(legacyCompanyId, It.IsAny<CancellationToken>())).ReturnsAsync(new List<MigrationContracts.PlanResponse>()).Verifiable();
+
+            // Act
+            await this.Sut.MigrateByCompanyId(companyId);
+
+            // Assert
+            this.planRepository.Verify(r => r.Attach(It.IsAny<IEnumerable<Plan>>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task MigrateByCompanyIdNoLegacyCompany()
+        {
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
+            companyDetail.LegacyId = null;
+            this.serviceSubscriptionClient
+                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync((CompanyDetail)null);
+
+            // Act and Assert
+            await Assert.ThrowsAsync<DomainException>(() => this.Sut.MigrateByCompanyId(companyId));
+        }
+
+        private static IEnumerable<MigrationContracts.PlanResponse> MigrationPlansResponse(int plansToAdd = 20)
+        {
+            for (int num = 1; num <= plansToAdd; num++)
+            {
+                yield return new()
+                {
+                    Id = Guid.NewGuid(),
+                    PlanName = string.Join(" ", Faker.Lorem.Words(2)),
+                    Rooms = new List<MigrationContracts.RoomResponse>
+                    {
+                        new MigrationContracts.RoomResponse
+                        {
+                            Level = "1",
+                            Length = 6,
+                            Width = 7,
+                            RoomType = MigrationEnums.RoomType.MasterBath,
+                        },
+                        new MigrationContracts.RoomResponse
+                        {
+                            Level = "0",
+                            Length = 6,
+                            Width = 7,
+                            RoomType = MigrationEnums.RoomType.MasterBedroom,
+                        },
+                    },
+                };
+            }
+        }
+    }
+}

@@ -1,0 +1,29 @@
+namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
+{
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using Husa.Quicklister.Abor.Domain.Enums;
+
+    public class ListingRequest
+    {
+        public Guid Id { get; set; }
+
+        [Range(100000, 3000000, ErrorMessage = "{0} must be between {1} and {2}")]
+        public decimal? ListPrice { get; set; }
+
+        public DateTime? ExpirationDate { get; set; }
+
+        public DateTime? ListDate { get; set; }
+
+        public ListType ListType { get; set; }
+
+        public string MlsNumber { get; set; }
+
+        [EnumDataType(typeof(MarketStatuses), ErrorMessage = "{0} value is not valid.")]
+        public MarketStatuses MlsStatus { get; set; }
+
+        public DateTime? MarketModifiedOn { get; set; }
+
+        public bool IsManuallyManaged { get; set; }
+    }
+}

@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <AssemblyName>Husa.Quicklister.Abor.Api.Client.Tests</AssemblyName>
+        <RootNamespace>Husa.Quicklister.Abor.Api.Client.Tests</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+        <!-- Exclude the project from analysis -->
+        <SonarQubeExclude>true</SonarQubeExclude>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
+        <PackageReference Include="Moq" Version="4.18.4" />
+        <PackageReference Include="xunit" Version="2.5.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.9" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.9" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+        <PackageReference Include="Bogus" Version="34.0.2" />
+        <PackageReference Include="Serilog" Version="3.0.1" />
+        <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Api.Client\Husa.Quicklister.Abor.Api.Client.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Crosscutting.Tests\Husa.Quicklister.Abor.Crosscutting.Tests.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Data.Queries\Husa.Quicklister.Abor.Data.Queries.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Data\Husa.Quicklister.Abor.Data.csproj" />
+    </ItemGroup>
+
+</Project>

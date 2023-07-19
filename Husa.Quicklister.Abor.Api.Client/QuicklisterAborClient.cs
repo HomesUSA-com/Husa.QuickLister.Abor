@@ -1,0 +1,33 @@
+namespace Husa.Quicklister.Abor.Api.Client
+{
+    using System;
+    using System.Net.Http;
+    using Husa.Extensions.Api.Client;
+    using Husa.Quicklister.Abor.Api.Client.Interfaces;
+    using Husa.Quicklister.Abor.Api.Client.Resources;
+    using Microsoft.Extensions.Logging;
+
+    public class QuicklisterAborClient : HusaStandardClient, IQuicklisterAborClient
+    {
+        public QuicklisterAborClient(ILoggerFactory loggerFactory, HttpClient httpClient)
+            : base(httpClient)
+        {
+            var logger = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
+            this.ListingSaleRequest = new ListingSaleRequest(this, logger.CreateLogger<ListingSaleRequest>());
+            this.SaleListing = new SaleListing(this, logger.CreateLogger<SaleListing>());
+            this.SaleCommunity = new SaleCommunity(this, logger.CreateLogger<SaleCommunity>());
+            this.Plan = new Plan(this, logger.CreateLogger<Plan>());
+            this.Alert = new Alert(this, logger.CreateLogger<Alert>());
+            this.Report = new Report(this, logger.CreateLogger<Report>());
+            this.Xml = new Xml(this, logger.CreateLogger<Xml>());
+        }
+
+        public IListingSaleRequest ListingSaleRequest { get; }
+        public ISaleListing SaleListing { get; }
+        public ISaleCommunity SaleCommunity { get; }
+        public IPlan Plan { get; }
+        public IAlert Alert { get; }
+        public IReport Report { get; }
+        public IXml Xml { get; }
+    }
+}

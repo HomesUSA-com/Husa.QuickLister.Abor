@@ -1,0 +1,78 @@
+pr:
+  branches:
+    include:
+    - develop
+    - release/*
+    - hotfix/*
+    - master
+    
+trigger:
+- develop
+- release/*
+- hotfix/*
+- master
+
+pool:
+  vmImage: windows-latest
+
+variables:
+  isPullRequest: $[eq(variables['Build.Reason'], 'PullRequest')]
+  isDevelopment: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
+  isFeatureOrBugfix: $[or(startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'), startsWith(variables['Build.SourceBranch'], 'refs/heads/bugfix'))]
+
+steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloudHomesUSA'
+    organization: 'homesusa'
+    scannerMode: 'MSBuild'
+    projectKey: 'homesusa_husa.quicklister.abor'
+    projectName: 'Husa.Quicklister.Abor'
+    extraProperties: |
+      sonar.exclusions=**/obj/**,**/*.dll,*.Data/Migrations/**
+      sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/**/coverage.opencover.xml
+      sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet restore'
+  inputs:
+    command: restore
+    projects: '**/Husa.Quicklister.Abor.sln'
+    restoreArguments: '/property:Configuration=Release'
+    feedsToUse: 'select'
+    vstsFeed: 'f820f957-6781-4cd6-b5f5-e720c189507f/891ce0ed-37b7-4336-b1fe-079c0525a171'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    command: build
+    projects: '**/Husa.Quicklister.Abor.sln'
+    arguments: '--configuration Release --no-restore'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: test
+    projects: '**/*Tests.csproj'
+    arguments: '--configuration Release --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura,opencover --logger trx'
+    publishTestResults: true
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish coverage report'
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+- task: SonarCloudAnalyze@1
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  condition: ne(variables.isPullRequest, true)
+  inputs:
+    command: 'publish'
+    projects: '**/Husa.Quicklister.Abor.Api.csproj'
+    publishWebProjects: false
+    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  condition: and(succeededOrFailed(), ne(variables.isPullRequest, true))
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'

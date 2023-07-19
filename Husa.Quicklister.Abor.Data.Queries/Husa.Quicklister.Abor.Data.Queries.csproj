@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Husa.Quicklister.Abor.Data.Queries</AssemblyName>
+        <RootNamespace>Husa.Quicklister.Abor.Data.Queries</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Husa.CompanyServiceManager.Client" Version="1.0.0" />
+        <PackageReference Include="Husa.Extensions.Authorization" Version="3.1.0" />
+        <PackageReference Include="Husa.Extensions.Cache" Version="3.0.0" />
+        <PackageReference Include="Husa.Extensions.Common" Version="3.8.2" />
+        <PackageReference Include="Husa.MediaService.Client" Version="1.0.1" />
+        <PackageReference Include="Husa.PhotoService.Client" Version="1.1.0" />
+        <PackageReference Include="Husa.Notes.Client" Version="1.0.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Data.Queries" Version="1.0.0" />
+        <PackageReference Include="Husa.Xml.Client" Version="1.0.0" />
+        <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Api.Contracts\Husa.Quicklister.Abor.Api.Contracts.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Crosscutting\Husa.Quicklister.Abor.Crosscutting.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Data\Husa.Quicklister.Abor.Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <SonarQubeSetting Include="sonar.coverage.exclusions">
+            <Value>**/ApplicationQueriesDbContext.cs, **/Models/**/*.cs</Value>
+        </SonarQubeSetting>
+    </ItemGroup>
+
+    <ItemGroup>
+        <SonarQubeSetting Include="sonar.exclusions">
+            <Value>**/Models/**/*.cs</Value>
+        </SonarQubeSetting>
+    </ItemGroup>
+
+</Project>

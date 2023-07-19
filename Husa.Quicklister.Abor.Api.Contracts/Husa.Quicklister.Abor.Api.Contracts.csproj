@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Husa.Quicklister.Abor.Api.Contracts</AssemblyName>
+        <RootNamespace>Husa.Quicklister.Abor.Api.Contracts</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Husa.Extensions.Common" Version="3.8.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Husa.Quicklister.Abor.Domain.Enums\Husa.Quicklister.Abor.Domain.Enums.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <SonarQubeSetting Include="sonar.coverage.exclusions">
+            <Value>**/Request/**/*.cs, **/Response/**/*.cs</Value>
+        </SonarQubeSetting>
+    </ItemGroup>
+
+    <ItemGroup>
+        <SonarQubeSetting Include="sonar.exclusions">
+            <Value>**/Request/**/*.cs, **/Response/**/*.cs</Value>
+        </SonarQubeSetting>
+    </ItemGroup>
+
+</Project>

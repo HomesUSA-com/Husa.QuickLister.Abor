@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Husa.Quicklister.Abor.Data.Documents</AssemblyName>
+        <RootNamespace>Husa.Quicklister.Abor.Data.Documents</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Husa.Extensions.Linq" Version="3.3.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Data.Documents" Version="1.0.0" />
+        <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.35.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Data.Queries\Husa.Quicklister.Abor.Data.Queries.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Domain\Husa.Quicklister.Abor.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <SonarQubeSetting Include="sonar.coverage.exclusions">
+            <Value>**/Models/*.cs, **/Models/ListingRequest/*.cs, **/QueryFilters/*.cs, **/Interfaces/*.cs, **/Repositories/*.cs, **/Extensions/*.cs, **/Specifications/*.cs</Value>
+        </SonarQubeSetting>
+    </ItemGroup>
+
+    <ItemGroup>
+        <SonarQubeSetting Include="sonar.exclusions">
+            <Value>**/Models/**.cs</Value>
+        </SonarQubeSetting>
+    </ItemGroup>
+</Project>

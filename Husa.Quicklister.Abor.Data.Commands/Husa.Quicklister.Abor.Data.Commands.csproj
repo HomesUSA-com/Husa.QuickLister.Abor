@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Husa.Quicklister.Abor.Data.Commands</AssemblyName>
+        <RootNamespace>Husa.Quicklister.Abor.Data.Commands</RootNamespace>
+        <!-- Exclude the project from analysis -->
+        <SonarQubeExclude>true</SonarQubeExclude>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Husa.Quicklister.Abor.Data\Husa.Quicklister.Abor.Data.csproj" />
+    </ItemGroup>
+
+</Project>
