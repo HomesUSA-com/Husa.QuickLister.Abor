@@ -10,8 +10,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
     public class ListingSaleRoom : Room
     {
-        public ListingSaleRoom(Guid salePropertyId, RoomType roomType, RoomLevel level, int width, int length, ICollection<RoomFeatures> features)
-            : base(roomType, level, width, length, features)
+        public ListingSaleRoom(Guid salePropertyId, RoomType roomType, RoomLevel level)
+            : base(roomType, level)
         {
             this.SalePropertyId = salePropertyId;
             this.EntityOwnerType = EntityType.SaleProperty.ToString();
@@ -34,12 +34,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         protected override IEnumerable<object> GetEntityEqualityComponents()
         {
             yield return this.SalePropertyId;
-            yield return this.Length;
-            yield return this.Width;
             yield return this.Level;
             yield return this.RoomType;
             yield return this.EntityOwnerType;
-            yield return this.Features;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Guid? companyId = null)
         => new()
         {
-            Stories = Faker.Enum.Random<Stories>(),
+            StoriesTotal = Faker.Enum.Random<Stories>(),
             CompanyId = companyId ?? Guid.NewGuid(),
             Name = Faker.Name.FullName(),
             OwnerName = Faker.Company.Name(),

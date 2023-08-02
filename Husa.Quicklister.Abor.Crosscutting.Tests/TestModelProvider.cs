@@ -805,9 +805,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             ResidentialId = Guid.NewGuid(),
             Level = Faker.RandomNumber.Next(1, 10).ToString(),
-            Type = RoomType.Bed.ToString(),
-            Width = "4",
-            Length = "5",
+            Type = RoomType.MasterBedroom.ToString(),
             EntityOwnerType = "SaleProperty",
         };
 
@@ -874,8 +872,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             RoomType = Faker.Enum.Random<RoomType>(),
             Level = Faker.Enum.Random<RoomLevel>(),
-            Length = Faker.RandomNumber.Next(1, 20),
-            Width = Faker.RandomNumber.Next(1, 20),
         };
 
         public static IEnumerable<RoomDto> GetRoomsDtoList(int? totalElements = 3)
@@ -1266,7 +1262,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         };
         public static SpacesDimensionsInfo GetSpacesDimensionsInfo() => new()
         {
-            Stories = Stories.One,
+            StoriesTotal = Stories.One,
         };
 
         public static ScrapedListingQueryResult GetScrapedListingQueryResult(

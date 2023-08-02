@@ -9,8 +9,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
 
     public class PlanRoom : Room
     {
-        public PlanRoom(Guid planId, RoomType roomType, RoomLevel level, int width, int length, ICollection<RoomFeatures> features)
-            : base(roomType, level, width, length, features)
+        public PlanRoom(Guid planId, RoomType roomType, RoomLevel level)
+            : base(roomType, level)
         {
             this.PlanId = planId;
             this.EntityOwnerType = EntityType.Plan.ToString();
@@ -28,12 +28,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
         protected override IEnumerable<object> GetEntityEqualityComponents()
         {
             yield return this.PlanId;
-            yield return this.Length;
-            yield return this.Width;
             yield return this.Level;
             yield return this.RoomType;
             yield return this.EntityOwnerType;
-            yield return this.Features;
         }
     }
 }

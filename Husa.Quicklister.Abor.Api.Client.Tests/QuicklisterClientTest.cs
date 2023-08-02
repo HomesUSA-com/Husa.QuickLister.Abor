@@ -306,7 +306,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             // Assert
             var listing = await this.quicklisterClient.SaleListing.GetByIdAsync(listingId);
             Assert.Equal(listingSaleRequest.SaleProperty.FeaturesInfo.NeighborhoodAmenities, listing.SaleProperty.FeaturesInfo.NeighborhoodAmenities);
-            Assert.Equal(listingSaleRequest.SaleProperty.SpacesDimensionsInfo.BathsFull, listing.SaleProperty.SpacesDimensionsInfo.BathsFull);
+            Assert.Equal(listingSaleRequest.SaleProperty.SpacesDimensionsInfo.FullBathsTotal, listing.SaleProperty.SpacesDimensionsInfo.FullBathsTotal);
         }
 
         [Fact]

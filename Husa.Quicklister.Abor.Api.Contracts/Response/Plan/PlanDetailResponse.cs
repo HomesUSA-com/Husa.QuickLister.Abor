@@ -11,11 +11,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Plan
         public Guid CompanyId { get; set; }
         public string Name { get; set; }
         public string OwnerName { get; set; }
-        public Stories? Stories { get; set; }
-        public int? BathsFull { get; set; }
-        public int? BathsHalf { get; set; }
-        public int? NumBedrooms { get; set; }
-        public ICollection<GarageDescription> GarageDescription { get; set; }
         public bool IsNewConstruction { get; set; }
         public IEnumerable<RoomResponse> Rooms { get; set; }
         public DateTime? SysModifiedOn { get; set; }
@@ -25,5 +20,14 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Plan
         public Guid? SysModifiedBy { get; set; }
         public DateTime SysCreatedOn { get; set; }
         public XmlStatus XmlStatus { get; set; }
+
+        public Stories? StoriesTotal { get; set; }
+        public int? SqFtTotal { get; set; }
+        public int? DiningAreasTotal { get; set; }
+        public int? MainLevelBedroomTotal { get; set; }
+        public int? OtherLevelsBedroomTotal { get; set; }
+        public int? HalfBathsTotal { get; set; }
+        public int? FullBathsTotal { get; set; }
+        public int? LivingAreasTotal { get; set; }
     }
 }

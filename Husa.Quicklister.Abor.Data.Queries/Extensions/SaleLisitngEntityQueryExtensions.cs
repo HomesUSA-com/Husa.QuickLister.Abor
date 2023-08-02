@@ -21,11 +21,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 {
                     Id = r.Id,
                     Level = r.Level,
-                    Width = r.Width,
-                    Length = r.Length,
                     RoomType = r.RoomType,
                     IsDeleted = r.IsDeleted,
-                    Features = r.Features,
                 };
 
                 roomsCollection.Add(room);
@@ -120,15 +117,18 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             return new()
             {
                 SpecialtyRooms = spacesDimensions.SpecialtyRooms,
-                GarageDescription = spacesDimensions.GarageDescription,
                 SqFtSource = spacesDimensions.SqFtSource,
-                SqFtTotal = spacesDimensions.SqFtTotal,
-                BathsFull = spacesDimensions.BathsFull,
-                Stories = spacesDimensions.Stories,
-                BathsHalf = spacesDimensions.BathsHalf,
-                NumBedrooms = spacesDimensions.NumBedrooms,
                 OtherParking = spacesDimensions.OtherParking,
                 TypeCategory = spacesDimensions.TypeCategory,
+
+                StoriesTotal = spacesDimensions.StoriesTotal,
+                SqFtTotal = spacesDimensions.SqFtTotal,
+                DiningAreasTotal = spacesDimensions.DiningAreasTotal,
+                MainLevelBedroomTotal = spacesDimensions.MainLevelBedroomTotal,
+                OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal,
+                HalfBathsTotal = spacesDimensions.HalfBathsTotal,
+                FullBathsTotal = spacesDimensions.FullBathsTotal,
+                LivingAreasTotal = spacesDimensions.LivingAreasTotal,
             };
         }
 

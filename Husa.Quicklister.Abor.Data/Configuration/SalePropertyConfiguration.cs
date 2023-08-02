@@ -110,27 +110,14 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             var converter = new ValueConverter<CategoryType, string>(categoryType => categoryType.GetEnumDescription(), categoryTypeDescription => categoryTypeDescription.GetEnumValueFromDescription<CategoryType>());
 
             builder.Property(x => x.TypeCategory).HasConversion<string>().HasColumnName(nameof(SpacesDimensionsInfo.TypeCategory)).HasConversion(converter).HasMaxLength(5);
-            builder.Property(r => r.Stories)
-                .HasColumnName(nameof(IProvideSpacesDimensions.Stories))
-                .HasMaxLength(10)
-                .HasConversion<EnumFieldValueConverter<Stories>>();
-
-            builder.Property(r => r.SqFtTotal).HasColumnName(nameof(SpacesDimensionsInfo.SqFtTotal)).HasMaxLength(10).IsRequired(false);
             builder.Property(r => r.SqFtSource)
                 .HasColumnName(nameof(SpacesDimensionsInfo.SqFtSource))
                 .HasConversion<EnumFieldValueConverter<SqFtSource>>()
                 .HasMaxLength(10);
-
             builder.Property(r => r.SpecialtyRooms).HasColumnName(nameof(SpacesDimensionsInfo.SpecialtyRooms)).HasEnumCollectionValue<SpecialtyRooms>(400);
-            builder.Property(r => r.NumBedrooms).HasColumnName(nameof(SpacesDimensionsInfo.NumBedrooms)).HasMaxLength(1).IsRequired(false);
-            builder.Property(r => r.BathsFull).HasColumnName(nameof(SpacesDimensionsInfo.BathsFull)).HasMaxLength(1).IsRequired(false);
-            builder.Property(r => r.BathsHalf).HasColumnName(nameof(SpacesDimensionsInfo.BathsHalf)).HasMaxLength(1).IsRequired(false);
-
-            builder.Property(x => x.GarageDescription)
-                .HasColumnName(nameof(IProvideSpacesDimensions.GarageDescription))
-                .HasEnumCollectionValue<GarageDescription>(maxLength: 255, isRequired: false);
-
             builder.Property(r => r.OtherParking).HasColumnName(nameof(SpacesDimensionsInfo.OtherParking)).HasEnumCollectionValue<OtherParking>(40);
+
+            builder.ConfigureSpacesDimensions();
         }
 
         private static void ConfigureFeaturesMapping(OwnedNavigationBuilder<SaleProperty, FeaturesInfo> builder)

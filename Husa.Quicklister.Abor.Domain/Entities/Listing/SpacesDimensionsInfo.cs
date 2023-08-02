@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 {
     using System.Collections.Generic;
-    using Husa.Extensions.Common;
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
@@ -15,28 +14,21 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     {
         public SpacesDimensionsInfo()
         {
-            this.GarageDescription = new HashSet<GarageDescription>();
         }
 
         public CategoryType TypeCategory { get; set; }
-
-        public virtual int? SqFtTotal { get; set; }
-
         public virtual SqFtSource? SqFtSource { get; set; }
-
         public virtual ICollection<SpecialtyRooms> SpecialtyRooms { get; set; }
-
         public virtual ICollection<OtherParking> OtherParking { get; set; }
 
-        public virtual Stories? Stories { get; set; }
-
-        public virtual int? BathsFull { get; set; }
-
-        public virtual int? BathsHalf { get; set; }
-
-        public virtual int? NumBedrooms { get; set; }
-
-        public virtual ICollection<GarageDescription> GarageDescription { get; set; }
+        public virtual Stories? StoriesTotal { get; set; }
+        public virtual int? SqFtTotal { get; set; }
+        public virtual int? DiningAreasTotal { get; set; }
+        public virtual int? MainLevelBedroomTotal { get; set; }
+        public virtual int? OtherLevelsBedroomTotal { get; set; }
+        public virtual int? HalfBathsTotal { get; set; }
+        public virtual int? FullBathsTotal { get; set; }
+        public virtual int? LivingAreasTotal { get; set; }
 
         public static SpacesDimensionsInfo ImportFromXml(XmlListingDetailResponse listing, SpacesDimensionsInfo spacesDimensions)
         {
@@ -47,13 +39,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             }
 
             importedSpacesDimensions.TypeCategory = listing.Type.ToCategoryType();
-            var garageSpaces = listing.Stories != null ? decimal.ToInt32((decimal)listing.Stories) : 0;
-            importedSpacesDimensions.GarageDescription = listing.Entry.ToEntry(garageSpaces);
             importedSpacesDimensions.SqFtTotal = listing.Sqft;
-            importedSpacesDimensions.Stories = listing.Stories.ToStories();
-            importedSpacesDimensions.BathsHalf = listing.HalfBaths;
-            importedSpacesDimensions.BathsFull = listing.Baths;
-            importedSpacesDimensions.NumBedrooms = listing.Bedrooms;
+            importedSpacesDimensions.StoriesTotal = listing.Stories.ToStories();
+            importedSpacesDimensions.HalfBathsTotal = listing.HalfBaths;
+            importedSpacesDimensions.FullBathsTotal = listing.Baths;
+            importedSpacesDimensions.MainLevelBedroomTotal = listing.Bedrooms;
 
             return importedSpacesDimensions;
         }
@@ -67,22 +57,22 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
             if (listing.Stories.HasValue)
             {
-                this.Stories = listing.Stories.ToStories();
+                this.StoriesTotal = listing.Stories.ToStories();
             }
 
             if (listing.HalfBaths.HasValue)
             {
-                this.BathsHalf = listing.HalfBaths;
+                this.HalfBathsTotal = listing.HalfBaths;
             }
 
             if (listing.Baths.HasValue)
             {
-                this.BathsFull = listing.Baths;
+                this.FullBathsTotal = listing.Baths;
             }
 
             if (listing.Bedrooms.HasValue)
             {
-                this.NumBedrooms = listing.Bedrooms;
+                this.MainLevelBedroomTotal = listing.Bedrooms;
             }
         }
 
@@ -94,11 +84,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public SpacesDimensionsInfo ImportSpacesDimensionsFromPlan(BasePlan basePlan)
         {
             var clonnedSpacesDimensions = this.Clone();
-            clonnedSpacesDimensions.Stories = basePlan.Stories;
-            clonnedSpacesDimensions.BathsFull = basePlan.BathsFull;
-            clonnedSpacesDimensions.BathsHalf = basePlan.BathsHalf;
-            clonnedSpacesDimensions.NumBedrooms = basePlan.NumBedrooms;
-            clonnedSpacesDimensions.GarageDescription = basePlan.GarageDescription;
+            clonnedSpacesDimensions.StoriesTotal = basePlan.StoriesTotal;
+            clonnedSpacesDimensions.SqFtTotal = basePlan.SqFtTotal;
+            clonnedSpacesDimensions.DiningAreasTotal = basePlan.DiningAreasTotal;
+            clonnedSpacesDimensions.MainLevelBedroomTotal = basePlan.MainLevelBedroomTotal;
+            clonnedSpacesDimensions.OtherLevelsBedroomTotal = basePlan.OtherLevelsBedroomTotal;
+            clonnedSpacesDimensions.HalfBathsTotal = basePlan.HalfBathsTotal;
+            clonnedSpacesDimensions.FullBathsTotal = basePlan.FullBathsTotal;
+            clonnedSpacesDimensions.LivingAreasTotal = basePlan.LivingAreasTotal;
 
             return clonnedSpacesDimensions;
         }
@@ -113,15 +106,18 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return this.TypeCategory;
-            yield return this.Stories;
-            yield return this.SqFtTotal;
             yield return this.SqFtSource;
             yield return this.SpecialtyRooms;
-            yield return this.NumBedrooms;
-            yield return this.BathsFull;
-            yield return this.BathsHalf;
-            yield return this.GarageDescription.ToStringFromEnumMembers();
             yield return this.OtherParking;
+
+            yield return this.StoriesTotal;
+            yield return this.SqFtTotal;
+            yield return this.DiningAreasTotal;
+            yield return this.MainLevelBedroomTotal;
+            yield return this.OtherLevelsBedroomTotal;
+            yield return this.HalfBathsTotal;
+            yield return this.FullBathsTotal;
+            yield return this.LivingAreasTotal;
         }
     }
 }

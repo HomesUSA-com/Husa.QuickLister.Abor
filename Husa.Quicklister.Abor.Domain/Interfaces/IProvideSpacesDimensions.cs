@@ -1,14 +1,16 @@
 namespace Husa.Quicklister.Abor.Domain.Interfaces
 {
-    using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public interface IProvideSpacesDimensions
     {
-        Stories? Stories { get; set; }
-        int? BathsFull { get; set; }
-        int? BathsHalf { get; set; }
-        int? NumBedrooms { get; set; }
-        ICollection<GarageDescription> GarageDescription { get; set; }
+        public Stories? StoriesTotal { get; set; }
+        public int? SqFtTotal { get; set; }
+        public int? DiningAreasTotal { get; set; }
+        public int? MainLevelBedroomTotal { get; set; }
+        public int? OtherLevelsBedroomTotal { get; set; }
+        public int? HalfBathsTotal { get; set; }
+        public int? FullBathsTotal { get; set; }
+        public int? LivingAreasTotal { get; set; }
     }
 }

@@ -1,8 +1,6 @@
 namespace Husa.Quicklister.Abor.Domain.Comparers
 {
     using System.Collections.Generic;
-    using System.Linq;
-    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
 
     public class ListingRoomComparer : IEqualityComparer<IProvideRoomInfo>
@@ -19,13 +17,8 @@ namespace Husa.Quicklister.Abor.Domain.Comparers
                 return false;
             }
 
-            var comparerFeatures = (x.Features ?? new List<RoomFeatures>()).Except(y.Features ?? new List<RoomFeatures>());
-
             return x.RoomType == y.RoomType &&
-                   x.Level == y.Level &&
-                   x.Length == y.Length &&
-                   x.Width == y.Width &&
-                   !comparerFeatures.Any();
+                   x.Level == y.Level;
         }
 
         public int GetHashCode(IProvideRoomInfo room)
@@ -37,15 +30,9 @@ namespace Husa.Quicklister.Abor.Domain.Comparers
 
             int hashRoomType = room.RoomType.GetHashCode();
             int hashRoomLevel = room.Level.GetHashCode();
-            int hashRoomLength = room.Length.GetHashCode();
-            int hashWidthLevel = room.Width.GetHashCode();
-            int hashFeatures = room.Features.GetHashCode();
 
             return hashRoomType ^
-                   hashRoomLevel ^
-                   hashRoomLength ^
-                   hashWidthLevel ^
-                   hashFeatures;
+                   hashRoomLevel;
         }
     }
 }

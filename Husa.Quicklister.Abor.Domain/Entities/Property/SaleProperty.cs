@@ -226,10 +226,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 var room = new ListingSaleRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level,
-                    roomDetail.Width,
-                    roomDetail.Length,
-                    roomDetail.Features);
+                    roomDetail.Level);
 
                 this.Rooms.Add(room);
             }
@@ -361,10 +358,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 var room = new ListingSaleRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level,
-                    roomDetail.Width,
-                    roomDetail.Length,
-                    roomDetail.Features);
+                    roomDetail.Level);
 
                 this.Rooms.Add(room);
             }
@@ -429,10 +423,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 var room = new ListingSaleRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level,
-                    roomDetail.Width,
-                    roomDetail.Length,
-                    roomDetail.Features);
+                    roomDetail.Level);
 
                 this.Rooms.Add(room);
             }
@@ -759,16 +750,19 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
 
             this.SpacesDimensionsInfo ??= new();
-            this.SpacesDimensionsInfo.Stories = spacesDimensions.Stories;
-            this.SpacesDimensionsInfo.SqFtTotal = spacesDimensions.SqFtTotal;
             this.SpacesDimensionsInfo.SqFtSource = spacesDimensions.SqFtSource;
             this.SpacesDimensionsInfo.SpecialtyRooms = spacesDimensions.SpecialtyRooms;
-            this.SpacesDimensionsInfo.BathsFull = spacesDimensions.BathsFull;
-            this.SpacesDimensionsInfo.BathsHalf = spacesDimensions.BathsHalf;
-            this.SpacesDimensionsInfo.NumBedrooms = spacesDimensions.NumBedrooms;
-            this.SpacesDimensionsInfo.GarageDescription = spacesDimensions.GarageDescription;
             this.SpacesDimensionsInfo.TypeCategory = spacesDimensions.TypeCategory;
             this.SpacesDimensionsInfo.OtherParking = spacesDimensions.OtherParking;
+
+            this.SpacesDimensionsInfo.StoriesTotal = spacesDimensions.StoriesTotal;
+            this.SpacesDimensionsInfo.SqFtTotal = spacesDimensions.SqFtTotal;
+            this.SpacesDimensionsInfo.DiningAreasTotal = spacesDimensions.DiningAreasTotal;
+            this.SpacesDimensionsInfo.MainLevelBedroomTotal = spacesDimensions.MainLevelBedroomTotal;
+            this.SpacesDimensionsInfo.OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal;
+            this.SpacesDimensionsInfo.HalfBathsTotal = spacesDimensions.HalfBathsTotal;
+            this.SpacesDimensionsInfo.FullBathsTotal = spacesDimensions.FullBathsTotal;
+            this.SpacesDimensionsInfo.LivingAreasTotal = spacesDimensions.LivingAreasTotal;
         }
 
         private void CopySchoolsData(SchoolsInfo schoolsInfo)

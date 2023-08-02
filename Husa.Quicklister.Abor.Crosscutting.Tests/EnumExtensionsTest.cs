@@ -52,7 +52,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         [InlineData(typeof(ExteriorFeatures))]
         [InlineData(typeof(RoomLevel))]
         [InlineData(typeof(RoomType))]
-        [InlineData(typeof(RoomFeatures))]
         [InlineData(typeof(FireplaceDescription))]
         [InlineData(typeof(Floors))]
         [InlineData(typeof(Foundation))]

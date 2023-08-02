@@ -19,17 +19,17 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var listingId = Guid.NewGuid();
             var bathsFull = 2;
             var listing = TestModelProvider.GetListingSaleEntity(listingId, true);
-            listing.SaleProperty.SpacesDimensionsInfo.BathsFull = bathsFull;
+            listing.SaleProperty.SpacesDimensionsInfo.FullBathsTotal = bathsFull;
 
             var companyId = Guid.NewGuid();
             var plan = new Plan(companyId, "testName", "testOwnerName");
-            plan.BasePlan.BathsFull = 1;
+            plan.BasePlan.FullBathsTotal = 1;
 
             // Act
             plan.ImportFromListing(listing);
 
             // Assert
-            Assert.Equal(listing.SaleProperty.SpacesDimensionsInfo.BathsFull, plan.BasePlan.BathsFull);
+            Assert.Equal(listing.SaleProperty.SpacesDimensionsInfo.FullBathsTotal, plan.BasePlan.FullBathsTotal);
         }
 
         [Theory]
@@ -51,7 +51,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var basePlan = BasePlan.ImportFromXml(planXml, companyName);
 
             // Assert
-            Assert.Equal(stories, basePlan.Stories);
+            Assert.Equal(stories, basePlan.StoriesTotal);
         }
     }
 }

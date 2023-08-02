@@ -8,22 +8,19 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
     {
         public CategoryType TypeCategory { get; set; }
 
-        public Stories? Stories { get; set; }
-
-        public int? SqFtTotal { get; set; }
-
         public SqFtSource? SqFtSource { get; set; }
 
         public ICollection<SpecialtyRooms> SpecialtyRooms { get; set; }
 
-        public int? NumBedrooms { get; set; }
-
-        public int? BathsFull { get; set; }
-
-        public int? BathsHalf { get; set; }
-
-        public ICollection<GarageDescription> GarageDescription { get; set; }
-
         public ICollection<OtherParking> OtherParking { get; set; }
+
+        public Stories? StoriesTotal { get; set; }
+        public int? SqFtTotal { get; set; }
+        public int? DiningAreasTotal { get; set; }
+        public int? MainLevelBedroomTotal { get; set; }
+        public int? OtherLevelsBedroomTotal { get; set; }
+        public int? HalfBathsTotal { get; set; }
+        public int? FullBathsTotal { get; set; }
+        public int? LivingAreasTotal { get; set; }
     }
 }

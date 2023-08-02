@@ -5,17 +5,20 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum Stories
     {
-        [EnumMember(Value = "1")]
+        [EnumMember(Value = "One")]
         [Description("1")]
         One,
-        [EnumMember(Value = "1.5")]
+        [EnumMember(Value = "1dot5")]
         [Description("1.5")]
         OnePointFive,
         [EnumMember(Value = "2")]
         [Description("2")]
         Two,
-        [EnumMember(Value = "3+")]
+        [EnumMember(Value = "3plus")]
         [Description("3+")]
         ThreePlus,
+        [EnumMember(Value = "MUL")]
+        [Description("Multi-Level")]
+        MultiLevel,
     }
 }

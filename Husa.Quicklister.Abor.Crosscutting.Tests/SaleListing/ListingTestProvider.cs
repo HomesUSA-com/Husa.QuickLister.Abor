@@ -106,7 +106,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                 FinancialInfo = new(),
                 SpacesDimensionsInfo = new()
                 {
-                    Stories = Faker.Enum.Random<Stories>(),
+                    StoriesTotal = Faker.Enum.Random<Stories>(),
                 },
             },
         };
@@ -115,7 +115,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
         {
             SpacesDimensionsInfo = new()
             {
-                Stories = Faker.Enum.Random<Stories>(),
+                StoriesTotal = Faker.Enum.Random<Stories>(),
             },
             FeaturesInfo = new(),
             FinancialInfo = new()

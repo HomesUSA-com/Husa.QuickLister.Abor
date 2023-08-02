@@ -7,7 +7,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
-    using Enums = Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class BasePlan : ValueObject, IProvideSpacesDimensions
     {
@@ -20,24 +19,19 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
 
         protected BasePlan()
         {
-            this.GarageDescription = new HashSet<GarageDescription>();
         }
 
         public string Name { get; set; }
-
         public string OwnerName { get; set; }
-
-        public virtual Stories? Stories { get; set; }
-
-        public int? BathsFull { get; set; }
-
-        public int? BathsHalf { get; set; }
-
-        public int? NumBedrooms { get; set; }
-
-        public virtual ICollection<Enums.GarageDescription> GarageDescription { get; set; }
-
         public bool IsNewConstruction { get; set; }
+        public virtual Stories? StoriesTotal { get; set; }
+        public virtual int? SqFtTotal { get; set; }
+        public virtual int? DiningAreasTotal { get; set; }
+        public virtual int? MainLevelBedroomTotal { get; set; }
+        public virtual int? OtherLevelsBedroomTotal { get; set; }
+        public virtual int? HalfBathsTotal { get; set; }
+        public virtual int? FullBathsTotal { get; set; }
+        public virtual int? LivingAreasTotal { get; set; }
 
         public static BasePlan ImportFromXml(PlanResponse xmlPlan, string companyName)
         {
@@ -48,11 +42,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
 
             return new BasePlan(name: xmlPlan.Name, ownerName: companyName)
             {
-                BathsFull = xmlPlan.Baths,
-                BathsHalf = xmlPlan.HalfBaths,
-                NumBedrooms = xmlPlan.Bedrooms,
-                Stories = xmlPlan.Stories.ToStories(),
-                GarageDescription = EnumExtensions.GetGarageDescription(xmlPlan.Garage),
+                FullBathsTotal = xmlPlan.Baths,
+                HalfBathsTotal = xmlPlan.HalfBaths,
+                MainLevelBedroomTotal = xmlPlan.Bedrooms,
+                StoriesTotal = xmlPlan.Stories.ToStories(),
             };
         }
 
@@ -60,11 +53,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
         {
             yield return this.Name;
             yield return this.OwnerName;
-            yield return this.Stories;
-            yield return this.BathsFull;
-            yield return this.NumBedrooms;
-            yield return this.GarageDescription;
             yield return this.IsNewConstruction;
+            yield return this.StoriesTotal;
+            yield return this.SqFtTotal;
+            yield return this.DiningAreasTotal;
+            yield return this.MainLevelBedroomTotal;
+            yield return this.OtherLevelsBedroomTotal;
+            yield return this.HalfBathsTotal;
+            yield return this.FullBathsTotal;
+            yield return this.LivingAreasTotal;
         }
     }
 }
