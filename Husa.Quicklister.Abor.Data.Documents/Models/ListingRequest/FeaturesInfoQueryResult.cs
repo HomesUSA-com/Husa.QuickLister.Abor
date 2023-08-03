@@ -5,6 +5,9 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
 
     public class FeaturesInfoQueryResult
     {
+        public ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
+        public ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
+        public ICollection<WaterSource> WaterSource { get; set; }
         public string PropertyDescription { get; set; }
 
         public int? Fireplaces { get; set; }

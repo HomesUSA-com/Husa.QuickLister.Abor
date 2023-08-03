@@ -5,6 +5,13 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
 
     public class FeaturesResponse
     {
+        public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
+        public ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
+        public ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
+        public ICollection<WaterSource> WaterSource { get; set; }
+        public ICollection<WaterSewer> WaterSewer { get; set; }
+        public ICollection<HeatingSystem> HeatSystem { get; set; }
+        public ICollection<CoolingSystem> CoolingSystem { get; set; }
         public string PropertyDescription { get; set; }
         public ICollection<Inclusions> Inclusions { get; set; }
         public int? Fireplaces { get; set; }
@@ -27,14 +34,10 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
         public string SupplierGas { get; set; }
         public string SupplierSewer { get; set; }
         public string SupplierOther { get; set; }
-        public ICollection<HeatingSystem> HeatSystem { get; set; }
-        public ICollection<CoolingSystem> CoolingSystem { get; set; }
         public ICollection<HeatingFuel> HeatingFuel { get; set; }
-        public ICollection<WaterSewer> WaterSewer { get; set; }
         public ICollection<GreenCertification> GreenCertification { get; set; }
         public ICollection<EnergyFeatures> EnergyFeatures { get; set; }
         public ICollection<GreenFeatures> GreenFeatures { get; set; }
-        public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
         public ICollection<LotImprovements> LotImprovements { get; set; }
     }
 }

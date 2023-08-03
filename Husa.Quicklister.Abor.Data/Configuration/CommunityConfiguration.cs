@@ -5,7 +5,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Husa.Extensions.Linq.ValueComparer;
     using Husa.Extensions.Linq.ValueConverters;
     using Husa.Quicklister.Abor.Data.Extensions;
-    using Husa.Quicklister.Abor.Data.ValueConverters;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
@@ -101,7 +100,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureUtilities(OwnedNavigationBuilder<CommunitySale, Utilities> builder)
         {
-            builder.Property(x => x.WaterSewer).HasColumnName(nameof(Utilities.WaterSewer)).HasEnumCollectionValue<WaterSewer>(255);
+            builder.ConfigureFeature();
             builder.Property(x => x.SupplierElectricity).HasColumnName(nameof(Utilities.SupplierElectricity)).HasMaxLength(60);
             builder.Property(x => x.SupplierWater).HasColumnName(nameof(Utilities.SupplierWater)).HasMaxLength(25);
             builder.Property(x => x.SupplierSewer).HasColumnName(nameof(Utilities.SupplierSewer)).HasMaxLength(25);
@@ -109,19 +108,11 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(x => x.SupplierGas).HasColumnName(nameof(Utilities.SupplierGas)).HasMaxLength(25);
             builder.Property(x => x.SupplierOther).HasColumnName(nameof(Utilities.SupplierOther)).HasMaxLength(25);
             builder.Property(x => x.HeatingFuel).HasColumnName(nameof(Utilities.HeatingFuel)).HasEnumCollectionValue<HeatingFuel>(100);
-            builder.Property(x => x.NeighborhoodAmenities)
-             .HasColumnName(nameof(Utilities.NeighborhoodAmenities))
-             .HasMaxLength(286)
-             .IsRequired(false)
-             .HasConversion<EnumListValueConverter<NeighborhoodAmenities>>(valueComparer: new EnumCollectionValueComparer<NeighborhoodAmenities>());
-
             builder.Property(r => r.Inclusions).HasColumnName(nameof(Utilities.Inclusions)).HasEnumCollectionValue<Inclusions>(500);
             builder.Property(r => r.Floors).HasColumnName(nameof(Utilities.Floors)).HasEnumCollectionValue<Floors>(300);
             builder.Property(r => r.ExteriorFeatures).HasColumnName(nameof(Utilities.ExteriorFeatures)).HasEnumCollectionValue<ExteriorFeatures>(500);
             builder.Property(r => r.RoofDescription).HasColumnName(nameof(Utilities.RoofDescription)).HasEnumCollectionValue<RoofDescription>(145);
             builder.Property(r => r.Foundation).HasColumnName(nameof(Utilities.Foundation)).HasEnumCollectionValue<Foundation>(94);
-            builder.Property(r => r.HeatSystem).HasColumnName(nameof(Utilities.HeatSystem)).HasEnumCollectionValue<HeatingSystem>(255);
-            builder.Property(r => r.CoolingSystem).HasColumnName(nameof(Utilities.CoolingSystem)).HasEnumCollectionValue<CoolingSystem>(100);
             builder.Property(r => r.EnergyFeatures).HasColumnName(nameof(Utilities.EnergyFeatures)).HasEnumCollectionValue<EnergyFeatures>(176);
             builder.Property(r => r.GreenCertification).HasColumnName(nameof(Utilities.GreenCertification)).HasEnumCollectionValue<GreenCertification>(80);
             builder.Property(r => r.GreenFeatures).HasColumnName(nameof(Utilities.GreenFeatures)).HasEnumCollectionValue<GreenFeatures>(90);

@@ -722,7 +722,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Inclusions = "CLFNS,WSHCN,DRYCN,MCOVN,STVRN,REFRI,GSWTR",
             Improvements = "ALLEY,ASPHALT",
             MasterBedroom = "SPLIT",
-            NeighborhoodAmenities = NeighborhoodAmenities.ParkPlayground.ToStringFromEnumMember(),
+            NeighborhoodAmenities = NeighborhoodAmenities.Playground.ToStringFromEnumMember(),
             Occupancy = "VACNT",
             GarageDescription = "NONE",
             PrivatePoolDescription = "NONE",

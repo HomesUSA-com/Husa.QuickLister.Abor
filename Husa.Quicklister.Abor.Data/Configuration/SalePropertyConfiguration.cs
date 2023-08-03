@@ -106,6 +106,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureFeaturesMapping(OwnedNavigationBuilder<SaleProperty, FeaturesInfo> builder)
         {
+            builder.ConfigureFeature();
             builder.Property(r => r.PropertyDescription).HasColumnName(nameof(FeaturesInfo.PropertyDescription)).HasMaxLength(4000).IsRequired(false);
             builder.Property(r => r.Inclusions).HasColumnName(nameof(FeaturesInfo.Inclusions)).HasEnumCollectionValue<Inclusions>(500);
             builder.Property(r => r.Fireplaces).HasColumnName(nameof(FeaturesInfo.Fireplaces)).HasMaxLength(20);
@@ -126,14 +127,10 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.SupplierGas).HasColumnName(nameof(FeaturesInfo.SupplierGas)).HasMaxLength(25);
             builder.Property(r => r.SupplierSewer).HasColumnName(nameof(FeaturesInfo.SupplierSewer)).HasMaxLength(25);
             builder.Property(r => r.SupplierOther).HasColumnName(nameof(FeaturesInfo.SupplierOther)).HasMaxLength(25);
-            builder.Property(r => r.HeatSystem).HasColumnName(nameof(FeaturesInfo.HeatSystem)).HasEnumCollectionValue<HeatingSystem>(255);
-            builder.Property(r => r.CoolingSystem).HasColumnName(nameof(FeaturesInfo.CoolingSystem)).HasEnumCollectionValue<CoolingSystem>(100);
             builder.Property(r => r.HeatingFuel).HasColumnName(nameof(FeaturesInfo.HeatingFuel)).HasEnumCollectionValue<HeatingFuel>(100);
-            builder.Property(r => r.WaterSewer).HasColumnName(nameof(FeaturesInfo.WaterSewer)).HasEnumCollectionValue<WaterSewer>(255);
             builder.Property(r => r.EnergyFeatures).HasColumnName(nameof(FeaturesInfo.EnergyFeatures)).HasEnumCollectionValue<EnergyFeatures>(176);
             builder.Property(r => r.GreenCertification).HasColumnName(nameof(FeaturesInfo.GreenCertification)).HasEnumCollectionValue<GreenCertification>(80);
             builder.Property(r => r.GreenFeatures).HasColumnName(nameof(FeaturesInfo.GreenFeatures)).HasEnumCollectionValue<GreenFeatures>(90);
-            builder.Property(x => x.NeighborhoodAmenities).HasColumnName(nameof(Utilities.NeighborhoodAmenities)).HasEnumCollectionValue<NeighborhoodAmenities>(286);
 
             builder.Property(r => r.LotImprovements).HasColumnName(nameof(FeaturesInfo.LotImprovements)).HasEnumCollectionValue<LotImprovements>(359);
 

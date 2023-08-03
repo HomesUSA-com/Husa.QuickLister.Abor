@@ -49,6 +49,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.Inclusions, cr => cr.MapFrom(x => x.Inclusions.CsvToEnum<Inclusions>(true)))
                 .ForMember(dto => dto.RoofDescription, cr => cr.MapFrom(x => x.RoofDescription.CsvToEnum<RoofDescription>(true)))
                 .ForMember(dto => dto.SpecialtyRooms, cr => cr.Ignore())
+                .ForMember(dto => dto.WaterSource, cr => cr.Ignore())
+                .ForMember(dto => dto.RestrictionsDescription, cr => cr.Ignore())
+                .ForMember(dto => dto.UtilitiesDescription, cr => cr.Ignore())
                 .ForMember(dto => dto.SupplierElectricity, cr => cr.Ignore());
             this.CreateMap<FinancialResponse, CommunityFinancialInfo>()
                 .ForMember(dto => dto.BuyersAgentCommission, cr => cr.MapFrom(x => GetBuyersAgentCommissionNumber(x.CompBuy)))

@@ -14,18 +14,21 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     public class Utilities : ValueObject, IProvideFeature
     {
         private ICollection<DomainEnums.FireplaceDescription> fireplaceDescription;
-        public ICollection<DomainEnums.NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
+        public virtual ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
+        public virtual ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
+        public virtual ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
+        public virtual ICollection<WaterSource> WaterSource { get; set; }
+        public virtual ICollection<WaterSewer> WaterSewer { get; set; }
+        public virtual ICollection<HeatingSystem> HeatSystem { get; set; }
+        public virtual ICollection<CoolingSystem> CoolingSystem { get; set; }
         public virtual ICollection<Inclusions> Inclusions { get; set; }
         public virtual ICollection<Floors> Floors { get; set; }
         public virtual ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
         public virtual ICollection<RoofDescription> RoofDescription { get; set; }
         public virtual ICollection<Foundation> Foundation { get; set; }
-        public virtual ICollection<HeatingSystem> HeatSystem { get; set; }
-        public virtual ICollection<CoolingSystem> CoolingSystem { get; set; }
         public virtual ICollection<GreenCertification> GreenCertification { get; set; }
         public virtual ICollection<EnergyFeatures> EnergyFeatures { get; set; }
         public virtual ICollection<GreenFeatures> GreenFeatures { get; set; }
-        public virtual ICollection<WaterSewer> WaterSewer { get; set; }
         public virtual string SupplierElectricity { get; set; }
         public virtual string SupplierWater { get; set; }
         public virtual string SupplierSewer { get; set; }
@@ -141,14 +144,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         private static DomainEnums.NeighborhoodAmenities GetNeighborhoodAmenity(AmenityType amenityType) => amenityType switch
         {
             AmenityType.Pool => DomainEnums.NeighborhoodAmenities.Pool,
-            AmenityType.Playground => DomainEnums.NeighborhoodAmenities.ParkPlayground,
+            AmenityType.Playground => DomainEnums.NeighborhoodAmenities.Playground,
             AmenityType.GolfCourse => DomainEnums.NeighborhoodAmenities.GolfCourse,
-            AmenityType.Tennis => DomainEnums.NeighborhoodAmenities.Tennis,
-            AmenityType.Volleyball => DomainEnums.NeighborhoodAmenities.VolleyballCourt,
-            AmenityType.Basketball => DomainEnums.NeighborhoodAmenities.BasketballCourt,
-            AmenityType.Baseball => DomainEnums.NeighborhoodAmenities.BasketballCourt,
-            AmenityType.Park => DomainEnums.NeighborhoodAmenities.ParkPlayground,
-            AmenityType.Trails => DomainEnums.NeighborhoodAmenities.JoggingTrails,
+            AmenityType.Tennis => DomainEnums.NeighborhoodAmenities.TennisCourt,
+            AmenityType.Park => DomainEnums.NeighborhoodAmenities.Park,
+            AmenityType.Trails => DomainEnums.NeighborhoodAmenities.WalkBikeHikeJogTrails,
             AmenityType.Clubhouse => DomainEnums.NeighborhoodAmenities.Clubhouse,
             _ => DomainEnums.NeighborhoodAmenities.None,
         };

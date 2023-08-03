@@ -6,17 +6,20 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Community.CommunityDetail
     public class FeaturesAndUtilitiesResponse
     {
         public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
+        public ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
+        public ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
+        public ICollection<WaterSource> WaterSource { get; set; }
+        public ICollection<WaterSewer> WaterSewer { get; set; }
+        public ICollection<HeatingSystem> HeatSystem { get; set; }
+        public ICollection<CoolingSystem> CoolingSystem { get; set; }
         public ICollection<Inclusions> Inclusions { get; set; }
         public ICollection<Floors> Floors { get; set; }
         public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
         public ICollection<RoofDescription> RoofDescription { get; set; }
         public ICollection<Foundation> Foundation { get; set; }
-        public ICollection<HeatingSystem> HeatSystem { get; set; }
-        public ICollection<CoolingSystem> CoolingSystem { get; set; }
         public ICollection<GreenCertification> GreenCertification { get; set; }
         public ICollection<EnergyFeatures> EnergyFeatures { get; set; }
         public ICollection<GreenFeatures> GreenFeatures { get; set; }
-        public ICollection<WaterSewer> WaterSewer { get; set; }
         public string SupplierElectricity { get; set; }
         public string SupplierWater { get; set; }
         public string SupplierSewer { get; set; }

@@ -19,6 +19,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.PrivatePool = new List<Enums.Domain.PrivatePool> { Enums.Domain.PrivatePool.None };
         }
 
+        public virtual ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
+        public virtual ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
+        public virtual ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
+        public virtual ICollection<WaterSource> WaterSource { get; set; }
+        public virtual ICollection<WaterSewer> WaterSewer { get; set; }
+        public virtual ICollection<HeatingSystem> HeatSystem { get; set; }
+        public virtual ICollection<CoolingSystem> CoolingSystem { get; set; }
+
         public virtual string PropertyDescription { get; set; }
 
         public virtual int? Fireplaces { get; set; }
@@ -49,8 +57,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual ICollection<HomeFaces> HomeFaces { get; set; }
 
-        public virtual ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
-
         public virtual ICollection<LotImprovements> LotImprovements { get; set; }
 
         public virtual ICollection<Inclusions> Inclusions { get; set; }
@@ -63,17 +69,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual ICollection<Foundation> Foundation { get; set; }
 
-        public virtual ICollection<HeatingSystem> HeatSystem { get; set; }
-
-        public virtual ICollection<CoolingSystem> CoolingSystem { get; set; }
-
         public virtual ICollection<GreenCertification> GreenCertification { get; set; }
 
         public virtual ICollection<EnergyFeatures> EnergyFeatures { get; set; }
 
         public virtual ICollection<GreenFeatures> GreenFeatures { get; set; }
-
-        public virtual ICollection<WaterSewer> WaterSewer { get; set; }
 
         public virtual string SupplierElectricity { get; set; }
 

@@ -1,23 +1,29 @@
-﻿namespace Husa.Quicklister.Abor.Domain.Enums.Domain
+namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 {
     using System.ComponentModel;
     using System.Runtime.Serialization;
 
     public enum CoolingSystem
     {
-        [EnumMember(Value = "1CNTR")]
-        [Description("One Central")]
-        OneCentral,
-        [EnumMember(Value = "2CNTR")]
-        [Description("Two Central")]
-        TwoCentral,
-        [EnumMember(Value = "3+CNT")]
-        [Description("Three+ Central")]
-        ThreePlusCentral,
-        [EnumMember(Value = "OTHER")]
-        [Description("Other")]
-        Other,
-        [EnumMember(Value = "ZONED")]
+        [EnumMember(Value = "CeilingFans")]
+        [Description("Ceiling Fan(s)")]
+        CeilingFan,
+        [EnumMember(Value = "CentralAir")]
+        [Description("Central Air")]
+        CentralAir,
+        [EnumMember(Value = "Dual")]
+        [Description("Dual")]
+        Dual,
+        [EnumMember(Value = "Electric")]
+        [Description("Electric")]
+        Electric,
+        [EnumMember(Value = "ENERGYSTARQualifiedEquipment")]
+        [Description("ENERGY STAR Qualified Equipment")]
+        EnergyStarQualifiedEquipment,
+        [EnumMember(Value = "MultiUnits")]
+        [Description("Multi Units")]
+        MultiUnits,
+        [EnumMember(Value = "Zoned")]
         [Description("Zoned")]
         Zoned,
     }

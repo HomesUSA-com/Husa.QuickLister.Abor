@@ -80,6 +80,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         [Required(AllowEmptyStrings = false)]
         public ICollection<HeatingFuel> HeatingFuel { get; set; }
         public bool IsNewConstruction { get; set; }
+        public ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
+        public ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
+        public ICollection<WaterSource> WaterSource { get; set; }
 
         public FeaturesRecord CloneRecord() => (FeaturesRecord)this.MemberwiseClone();
 
