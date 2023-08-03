@@ -570,7 +570,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         [Theory]
         [InlineData(ListActionType.ListNow, XmlListActionType.ListNow)]
         [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare)]
-        public async Task ProcessListingThrowsDomainExceptionWhenMarketIsNotSanAntonio(ListActionType listAction, XmlListActionType xmlListActionType)
+        public async Task ProcessListingThrowsDomainExceptionWhenMarketIsNotAustin(ListActionType listAction, XmlListActionType xmlListActionType)
         {
             // Arrange
             var xmlListingId = Guid.NewGuid();
@@ -609,7 +609,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var listingResource = new Mock<IXmlListing>();
             listingResource
                 .Setup(r => r.GetByIdAsync(It.Is<Guid>(id => id == xmlListingId), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new XmlResponse.XmlListingDetailResponse { Market = MarketCode.SanAntonio })
+                .ReturnsAsync(new XmlResponse.XmlListingDetailResponse { Market = MarketCode.Austin })
                 .Verifiable();
 
             this.xmlClient
@@ -664,7 +664,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                     CommunityId = communityId ?? Guid.NewGuid(),
                     CompanyId = companyId ?? Guid.NewGuid(),
                     PlanId = planId ?? Guid.NewGuid(),
-                    Market = MarketCode.SanAntonio,
+                    Market = MarketCode.Austin,
                 })
                 .Verifiable();
         }

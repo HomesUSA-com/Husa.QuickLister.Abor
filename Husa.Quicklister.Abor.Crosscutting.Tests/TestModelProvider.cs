@@ -328,7 +328,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             var communityQueryResult = new Mock<CommunityQueryResult>();
             communityQueryResult.SetupAllProperties();
             communityQueryResult.Object.Name = Faker.Address.UkCounty();
-            communityQueryResult.Object.Market = MarketCode.SanAntonio;
+            communityQueryResult.Object.Market = MarketCode.Austin;
             communityQueryResult.Object.City = Faker.Enum.Random<Cities>();
             communityQueryResult.Object.ZipCode = Faker.Address.ZipCode()[..5];
             communityQueryResult.Object.Builder = Faker.Company.Name();
@@ -368,7 +368,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             var planQueryResult = new Mock<PlanQueryResult>();
             planQueryResult.SetupAllProperties();
             planQueryResult.Object.Name = Faker.Address.UkCounty();
-            planQueryResult.Object.Market = MarketCode.SanAntonio;
+            planQueryResult.Object.Market = MarketCode.Austin;
             planQueryResult.Object.OwnerName = Faker.Company.Name();
             planQueryResult.Object.Id = planId ?? Guid.NewGuid();
             planQueryResult.Object.SysModifiedOn = DateTime.UtcNow;
@@ -683,7 +683,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             EntityId = ownerId ?? Guid.NewGuid(),
             Type = HusaNoteType.Residential,
-            MarketCode = MarketCode.SanAntonio,
+            MarketCode = MarketCode.Austin,
         };
         public static ResidentialMessage GetResidentialMessage() => new()
         {
@@ -1094,7 +1094,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 SaleOffice = GetDefaultCommunitySalesOfficeInfo(),
                 Property = new()
                 {
-                    City = Cities.SanAntonio,
+                    City = Cities.Austin,
                     County = Counties.Bexar,
                 },
             };
@@ -1246,7 +1246,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             StreetNumber = "1528",
             StreetName = "MULBERRY AVE",
-            City = Cities.SanAntonio,
+            City = Cities.Austin,
             State = States.Texas,
             ZipCode = "75035",
             County = Counties.Bexar,
@@ -1406,7 +1406,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             StreetNumber = "165",
             StreetName = "MULBERRY AVE",
-            SalesOfficeCity = Cities.SanAntonio,
+            SalesOfficeCity = Cities.Austin,
             StreetSuffix = "ST",
             SalesOfficeZip = "11111",
         };
@@ -1449,7 +1449,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             StreetNumber = "165",
             StreetName = "MULBERRY AVE",
-            SalesOfficeCity = Cities.SanAntonio,
+            SalesOfficeCity = Cities.Austin,
             StreetSuffix = "ST",
             SalesOfficeZip = "11111",
         };

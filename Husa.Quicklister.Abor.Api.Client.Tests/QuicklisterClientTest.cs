@@ -286,7 +286,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         {
             // Arrange
             var listingId = Guid.NewGuid();
-            var marketCode = MarketCode.SanAntonio;
+            var marketCode = MarketCode.Austin;
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<HttpRequestException>(() => this.quicklisterClient.SaleListing.GetReverseProspect(listingId, marketCode));
@@ -359,7 +359,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
 
             var xmlListingDetailResponse = new XmlResponse.XmlListingDetailResponse
             {
-                Market = MarketCode.SanAntonio,
+                Market = MarketCode.Austin,
                 CompanyId = Factory.CompanyId,
                 CommunityId = Factory.CommunityId,
                 PlanId = Factory.PlanId,
@@ -396,7 +396,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
 
             var xmlListingDetailResponse = new XmlResponse.XmlListingDetailResponse()
             {
-                Market = MarketCode.SanAntonio,
+                Market = MarketCode.Austin,
                 CompanyId = Factory.CompanyId,
                 Name = "fakeName",
                 SalesPrice = 4345355,
@@ -457,7 +457,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var xmlListing = new XmlResponse.XmlListingDetailResponse
             {
                 Id = xmlListingId,
-                Market = MarketCode.SanAntonio,
+                Market = MarketCode.Austin,
                 CompanyId = Factory.CompanyId,
             };
             var xmlClient = this.customWebApplicationFactory.GetService<IXmlClient>();
@@ -480,7 +480,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var xmlListing = new XmlResponse.XmlListingDetailResponse
             {
                 Id = xmlListingId,
-                Market = MarketCode.SanAntonio,
+                Market = MarketCode.Austin,
                 CompanyId = Factory.CompanyId,
             };
             var xmlClient = this.customWebApplicationFactory.GetService<IXmlClient>();

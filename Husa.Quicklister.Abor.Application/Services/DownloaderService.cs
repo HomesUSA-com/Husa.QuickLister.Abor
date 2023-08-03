@@ -63,7 +63,7 @@ namespace Husa.Quicklister.Abor.Application.Services
             var companyName = listingSaleDto.SaleProperty.SalePropertyInfo.OwnerName;
             var companies = await this.serviceSubscriptionClient.Company.GetAsync(new()
             {
-                MarketCode = MarketCode.SanAntonio,
+                MarketCode = MarketCode.Austin,
             });
 
             var company = companies.Data.SingleOrDefault(c => c.Name == companyName);
@@ -149,7 +149,7 @@ namespace Husa.Quicklister.Abor.Application.Services
             }
 
             await this.listingMediaService.Resource.DeleteAsync(listingId);
-            await this.listingMediaService.Resource.BulkCreateAsync(listingId, MarketCode.SanAntonio, mlsMedia, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
+            await this.listingMediaService.Resource.BulkCreateAsync(listingId, MarketCode.Austin, mlsMedia, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
         }
     }
 }

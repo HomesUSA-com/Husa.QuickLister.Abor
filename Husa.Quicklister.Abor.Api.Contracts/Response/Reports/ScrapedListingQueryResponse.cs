@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Reports
     public class ScrapedListingQueryResponse
     {
         public Guid Id { get; set; }
-        public MarketCode Market => MarketCode.SanAntonio;
+        public MarketCode Market => MarketCode.Austin;
         public string OfficeName { get; set; }
         public string BuilderName { get; set; }
         public int? DOM { get; set; }

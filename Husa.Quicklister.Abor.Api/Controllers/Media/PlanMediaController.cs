@@ -57,7 +57,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to add media to entity id {planId}", planId);
 
-            await this.planMediaService.Resource.CreateAsync(planId, MarketCode.SanAntonio, media, mediaLimitAllowed: this.options.MediaAllowed.PlanMaxAllowedMedia);
+            await this.planMediaService.Resource.CreateAsync(planId, MarketCode.Austin, media, mediaLimitAllowed: this.options.MediaAllowed.PlanMaxAllowedMedia);
 
             return this.Ok();
         }
@@ -68,7 +68,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to replace media with id {mediaId} for entity id {planId}", media.Id, planId);
 
-            await this.planMediaService.Resource.ReplaceAsync(planId, MarketCode.SanAntonio, media);
+            await this.planMediaService.Resource.ReplaceAsync(planId, MarketCode.Austin, media);
 
             return this.Ok();
         }

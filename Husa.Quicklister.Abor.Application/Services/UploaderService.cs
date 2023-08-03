@@ -56,7 +56,7 @@ namespace Husa.Quicklister.Abor.Application.Services
             }
             else
             {
-                var uploadResult = await this.reverseProspectClient.ReverseProspectRequest.GetReverseProspectData(saleListing.MlsNumber, MarketCode.SanAntonio);
+                var uploadResult = await this.reverseProspectClient.ReverseProspectRequest.GetReverseProspectData(saleListing.MlsNumber, MarketCode.Austin);
 
                 if (uploadResult.Code == ResponseCode.Error)
                 {

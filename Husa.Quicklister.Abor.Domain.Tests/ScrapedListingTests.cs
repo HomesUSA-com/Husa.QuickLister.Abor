@@ -12,10 +12,10 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     public class ScrapedListingTests
     {
         [Fact]
-        public void MarketIsSanAntonioSuccess()
+        public void MarketIsAustinSuccess()
         {
             // Arange && Act && Assert
-            Assert.Equal(MarketCode.SanAntonio, ScrapedListing.Market);
+            Assert.Equal(MarketCode.Austin, ScrapedListing.Market);
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 
             // Assert
             Assert.Equal(sut.ListingDetails, scrapedListingValueObject);
-            Assert.Equal(MarketCode.SanAntonio, ScrapedListing.Market);
+            Assert.Equal(MarketCode.Austin, ScrapedListing.Market);
         }
 
         [Fact]

@@ -35,7 +35,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
         public Task<DataSet<XmlResponse.XmlListingResponse>> GetAsync(XmlListingQueryFilter filter)
         {
             var xmlFilter = this.mapper.Map<ListingRequestFilter>(filter);
-            xmlFilter.MarketCode = MarketCode.SanAntonio;
+            xmlFilter.MarketCode = MarketCode.Austin;
             var currentUser = this.userContext.GetCurrentUser();
 
             if (currentUser.UserRole == UserRole.User && currentUser.EmployeeRole == RoleEmployee.SalesEmployee)

@@ -160,7 +160,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 Description = description,
                 Title = title,
                 Type = RemoteNoteType.CommunityProfile,
-                MarketCode = MarketCode.SanAntonio,
+                MarketCode = MarketCode.Austin,
             };
 
             this.notesClient

@@ -48,7 +48,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 CompanyName = Faker.Company.Name(),
-                MarketCode = MarketCode.SanAntonio,
+                MarketCode = MarketCode.Austin,
             };
             var message = this.ArrangeMessage(subdivisionMessage);
             var sut = this.GetSut();
@@ -101,7 +101,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 CompanyName = Faker.Company.Name(),
-                MarketCode = MarketCode.SanAntonio,
+                MarketCode = MarketCode.Austin,
             };
             var message = this.ArrangeMessage(planMessage);
             var sut = this.GetSut();
@@ -133,7 +133,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 CompanyName = Faker.Company.Name(),
-                MarketCode = MarketCode.SanAntonio,
+                MarketCode = MarketCode.Austin,
             };
             var message = this.ArrangeMessage(importListingMessage);
             var sut = this.GetSut();
@@ -155,7 +155,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 CompanyName = Faker.Company.Name(),
-                MarketCode = MarketCode.SanAntonio,
+                MarketCode = MarketCode.Austin,
             };
             var message = this.ArrangeMessage(autoMatchListingMessage);
             var sut = this.GetSut();

@@ -14,7 +14,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             Id = plan.Id,
             CompanyId = plan.CompanyId,
             Name = plan.BasePlan.Name,
-            Market = MarketCode.SanAntonio,
+            Market = MarketCode.Austin,
             OwnerName = plan.BasePlan.OwnerName,
             SysCreatedBy = plan.SysCreatedBy,
             SysCreatedOn = plan.SysCreatedOn,

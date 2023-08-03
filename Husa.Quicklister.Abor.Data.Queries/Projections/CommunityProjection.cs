@@ -19,7 +19,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             Subdivision = community.Property.Subdivision,
             ZipCode = community.Property.ZipCode,
             County = community.Property.County,
-            Market = MarketCode.SanAntonio,
+            Market = MarketCode.Austin,
             SysCreatedBy = community.SysCreatedBy,
             SysCreatedOn = community.SysCreatedOn,
             SysModifiedBy = community.SysModifiedBy,

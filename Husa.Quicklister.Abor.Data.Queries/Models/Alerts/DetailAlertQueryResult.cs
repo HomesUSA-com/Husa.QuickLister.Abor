@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Alerts
     {
         public Guid Id { get; set; }
 
-        public MarketCode MarketCode { get; set; } = MarketCode.SanAntonio;
+        public MarketCode MarketCode { get; set; } = MarketCode.Austin;
 
         public string MlsNumber { get; set; }
 

@@ -59,7 +59,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                .ForMember(dest => dest.MlsNumber, config => config.MapFrom(x => x.MlsNumber))
                .ForMember(dest => dest.MlsStatus, config => config.MapFrom(x => x.MlsStatus))
                .ForMember(dest => dest.MarketModifiedOn, config => config.MapFrom(x => x.MarketModifiedOn))
-               .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.SanAntonio))
+               .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.Austin))
                .ForMember(dest => dest.CommunityId, config => config.MapFrom(x => x.CommunityId))
                .ForMember(dest => dest.PlanName, config => config.MapFrom(x => x.PlanName))
                .ForMember(dest => dest.IsCompleteHome, config => config.MapFrom(x => x.IsCompleteHome));
@@ -83,7 +83,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                .ForMember(dest => dest.MlsNumber, config => config.MapFrom(x => x.MlsNumber))
                .ForMember(dest => dest.MlsStatus, config => config.MapFrom(x => x.MlsStatus))
                .ForMember(dest => dest.MarketModifiedOn, config => config.MapFrom(x => x.MarketModifiedOn))
-               .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.SanAntonio))
+               .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.Austin))
                .ForMember(dest => dest.IsCompleteHome, config => config.MapFrom(x => x.SaleProperty.PropertyInfo.ConstructionStage == ConstructionStage.Complete))
                .ForMember(dest => dest.PlanName, config => config.MapFrom(x => x.PlanName));
 

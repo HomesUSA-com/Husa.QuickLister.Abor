@@ -221,7 +221,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 {
                     ListingId = request.listing.Id,
                     PhotoRequestId = request.photo.Id,
-                    MarketCode = MarketCode.SanAntonio,
+                    MarketCode = MarketCode.Austin,
                     MlsNumber = request.listing.MlsNumber,
                     Address = request.listing.SaleProperty.Address,
                     Subdivision = request.listing.SaleProperty.AddressInfo.Subdivision,
