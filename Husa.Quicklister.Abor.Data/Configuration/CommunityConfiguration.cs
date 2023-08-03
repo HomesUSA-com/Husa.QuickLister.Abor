@@ -109,7 +109,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(x => x.SupplierOther).HasColumnName(nameof(Utilities.SupplierOther)).HasMaxLength(25);
             builder.Property(x => x.HeatingFuel).HasColumnName(nameof(Utilities.HeatingFuel)).HasEnumCollectionValue<HeatingFuel>(100);
             builder.Property(r => r.Inclusions).HasColumnName(nameof(Utilities.Inclusions)).HasEnumCollectionValue<Inclusions>(500);
-            builder.Property(r => r.Floors).HasColumnName(nameof(Utilities.Floors)).HasEnumCollectionValue<Floors>(300);
             builder.Property(r => r.ExteriorFeatures).HasColumnName(nameof(Utilities.ExteriorFeatures)).HasEnumCollectionValue<ExteriorFeatures>(500);
             builder.Property(r => r.RoofDescription).HasColumnName(nameof(Utilities.RoofDescription)).HasEnumCollectionValue<RoofDescription>(145);
             builder.Property(r => r.Foundation).HasColumnName(nameof(Utilities.Foundation)).HasEnumCollectionValue<Foundation>(94);
@@ -118,9 +117,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.GreenFeatures).HasColumnName(nameof(Utilities.GreenFeatures)).HasEnumCollectionValue<GreenFeatures>(90);
             builder.Property(r => r.SpecialtyRooms).HasColumnName(nameof(Utilities.SpecialtyRooms)).HasEnumCollectionValue<SpecialtyRooms>(400);
             builder.Property(r => r.HasAccessibility).HasColumnName(nameof(Utilities.HasAccessibility));
-            builder.Property(r => r.FireplaceDescription).HasColumnName(nameof(Utilities.FireplaceDescription)).HasEnumCollectionValue<FireplaceDescription>(255);
             builder.Property(r => r.Exterior).HasColumnName(nameof(Utilities.Exterior)).HasEnumCollectionValue<Exterior>(255);
-            builder.Property(r => r.Fireplaces).HasColumnName(nameof(Utilities.Fireplaces)).HasMaxLength(255);
             builder.Property(r => r.Accessibility).HasColumnName(nameof(Utilities.Accessibility)).HasEnumCollectionValue<Accessibility>(maxLength: 200);
         }
 

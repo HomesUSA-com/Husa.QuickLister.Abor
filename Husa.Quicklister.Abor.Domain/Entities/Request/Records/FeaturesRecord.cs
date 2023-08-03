@@ -24,7 +24,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public ICollection<FireplaceDescription> FireplaceDescription { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        public ICollection<WindowCoverings> WindowCoverings { get; set; }
+        public ICollection<WindowFeatures> WindowCoverings { get; set; }
         public bool HasAccessibility { get; set; }
 
         [IfRequired(nameof(HasAccessibility), true, OperatorType.Equal)]
@@ -49,7 +49,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public ICollection<Inclusions> Inclusions { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        public ICollection<Floors> Floors { get; set; }
+        public ICollection<Flooring> Floors { get; set; }
 
         public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
 
@@ -64,6 +64,18 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         [Required(AllowEmptyStrings = false)]
         public ICollection<CoolingSystem> CoolingSystem { get; set; }
+
+        public ICollection<Appliances> Appliances { get; set; }
+        public int? GarageSpaces { get; set; }
+        public ICollection<GarageDescription> GarageDescription { get; set; }
+        public ICollection<LaundryFeatures> LaundryFeatures { get; set; }
+        public ICollection<LaundryLocation> LaundryLocation { get; set; }
+        public ICollection<InteriorFeatures> InteriorFeatures { get; set; }
+        public ICollection<KitchenFeatures> KitchenFeatures { get; set; }
+        public ICollection<MasterBedroomFeatures> MasterBedroomFeatures { get; set; }
+        public ICollection<WaterAccessDescription> WaterAccessDescription { get; set; }
+        public ICollection<SecurityFeatures> SecurityFeatures { get; set; }
+        public ICollection<WindowFeatures> WindowFeatures { get; set; }
         public ICollection<GreenCertification> GreenCertification { get; set; }
         public ICollection<EnergyFeatures> EnergyFeatures { get; set; }
         public ICollection<GreenFeatures> GreenFeatures { get; set; }

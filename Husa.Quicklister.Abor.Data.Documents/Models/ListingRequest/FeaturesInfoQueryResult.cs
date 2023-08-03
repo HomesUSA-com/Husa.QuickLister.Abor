@@ -14,7 +14,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
 
         public ICollection<FireplaceDescription> FireplaceDescription { get; set; }
 
-        public ICollection<WindowCoverings> WindowCoverings { get; set; }
+        public ICollection<WindowFeatures> WindowCoverings { get; set; }
 
         public bool HasAccessibility { get; set; }
 
@@ -34,41 +34,52 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
 
         public ICollection<LotImprovements> LotImprovements { get; set; }
 
-        public virtual ICollection<Inclusions> Inclusions { get; set; }
+        public ICollection<Inclusions> Inclusions { get; set; }
 
-        public virtual ICollection<Floors> Floors { get; set; }
+        public ICollection<Flooring> Floors { get; set; }
 
-        public virtual ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
+        public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
 
-        public virtual ICollection<RoofDescription> RoofDescription { get; set; }
+        public ICollection<RoofDescription> RoofDescription { get; set; }
 
-        public virtual ICollection<Foundation> Foundation { get; set; }
+        public ICollection<Foundation> Foundation { get; set; }
 
-        public virtual ICollection<HeatingSystem> HeatSystem { get; set; }
+        public ICollection<HeatingSystem> HeatSystem { get; set; }
 
-        public virtual ICollection<CoolingSystem> CoolingSystem { get; set; }
+        public ICollection<CoolingSystem> CoolingSystem { get; set; }
+        public ICollection<Appliances> Appliances { get; set; }
+        public int? GarageSpaces { get; set; }
+        public ICollection<GarageDescription> GarageDescription { get; set; }
+        public ICollection<LaundryFeatures> LaundryFeatures { get; set; }
+        public ICollection<LaundryLocation> LaundryLocation { get; set; }
+        public ICollection<InteriorFeatures> InteriorFeatures { get; set; }
+        public ICollection<KitchenFeatures> KitchenFeatures { get; set; }
+        public ICollection<MasterBedroomFeatures> MasterBedroomFeatures { get; set; }
+        public ICollection<WaterAccessDescription> WaterAccessDescription { get; set; }
+        public ICollection<SecurityFeatures> SecurityFeatures { get; set; }
+        public ICollection<WindowFeatures> WindowFeatures { get; set; }
 
-        public virtual ICollection<GreenCertification> GreenCertification { get; set; }
+        public ICollection<GreenCertification> GreenCertification { get; set; }
 
-        public virtual ICollection<EnergyFeatures> EnergyFeatures { get; set; }
+        public ICollection<EnergyFeatures> EnergyFeatures { get; set; }
 
-        public virtual ICollection<GreenFeatures> GreenFeatures { get; set; }
+        public ICollection<GreenFeatures> GreenFeatures { get; set; }
 
-        public virtual ICollection<WaterSewer> WaterSewer { get; set; }
+        public ICollection<WaterSewer> WaterSewer { get; set; }
 
-        public virtual string SupplierElectricity { get; set; }
+        public string SupplierElectricity { get; set; }
 
-        public virtual string SupplierWater { get; set; }
+        public string SupplierWater { get; set; }
 
-        public virtual string SupplierSewer { get; set; }
+        public string SupplierSewer { get; set; }
 
-        public virtual string SupplierGarbage { get; set; }
+        public string SupplierGarbage { get; set; }
 
-        public virtual string SupplierGas { get; set; }
+        public string SupplierGas { get; set; }
 
-        public virtual string SupplierOther { get; set; }
+        public string SupplierOther { get; set; }
 
-        public virtual ICollection<HeatingFuel> HeatingFuel { get; set; }
+        public ICollection<HeatingFuel> HeatingFuel { get; set; }
 
         public bool IsNewConstruction { get; set; }
     }

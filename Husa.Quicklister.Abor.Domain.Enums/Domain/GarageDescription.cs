@@ -5,37 +5,82 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum GarageDescription
     {
-        [EnumMember(Value = "NONE")]
-        [Description("None/Not Applicable")]
-        NotApplicable,
-        [EnumMember(Value = "1GAR")]
-        [Description("One Car Garage")]
-        OneCarGarage,
-        [EnumMember(Value = "2GAR")]
-        [Description("Two Car Garage")]
-        TwoCarGarage,
-        [EnumMember(Value = "3GAR")]
-        [Description("Three Car Garage")]
-        ThreeCarGarage,
-        [EnumMember(Value = "4+GAR")]
-        [Description("Four or More Car Garage")]
-        FourPlusCarGarage,
-        [EnumMember(Value = "ATT")]
+        [EnumMember(Value = "AlleyAccess")]
+        [Description("Alley Access")]
+        AlleyAccess,
+        [EnumMember(Value = "Attached")]
         [Description("Attached")]
         Attached,
-        [EnumMember(Value = "DTCHD")]
+        [EnumMember(Value = "CircularDriveway")]
+        [Description("Circular Driveway")]
+        CircularDriveway,
+        [EnumMember(Value = "Concrete")]
+        [Description("Concrete")]
+        Concrete,
+        [EnumMember(Value = "Covered")]
+        [Description("Covered")]
+        Covered,
+        [EnumMember(Value = "Detached")]
         [Description("Detached")]
         Detached,
-        [EnumMember(Value = "OVRSZ")]
+        [EnumMember(Value = "DirectAccess")]
+        [Description("Direct Access")]
+        DirectAccess,
+        [EnumMember(Value = "Door-Multi")]
+        [Description("Door-Multi")]
+        DoorMulti,
+        [EnumMember(Value = "Door-Single")]
+        [Description("Door-Single")]
+        DoorSingle,
+        [EnumMember(Value = "DriveThrough")]
+        [Description("Drive Through")]
+        DriveThrough,
+        [EnumMember(Value = "Driveway")]
+        [Description("Driveway")]
+        Driveway,
+        [EnumMember(Value = "ElectricGate")]
+        [Description("Electric Gate")]
+        ElectricGate,
+        [EnumMember(Value = "Garage")]
+        [Description("Garage")]
+        Garage,
+        [EnumMember(Value = "GarageDoorOpener")]
+        [Description("Garage Door Opener")]
+        GarageDoorOpener,
+        [EnumMember(Value = "GarageFacesFront")]
+        [Description("Garage Faces Front")]
+        GarageFacesFront,
+        [EnumMember(Value = "GarageFacesRear")]
+        [Description("Garage Faces Rear")]
+        GarageFacesRear,
+        [EnumMember(Value = "GarageFacesSide")]
+        [Description("Garage Faces Side")]
+        GarageFacesSide,
+        [EnumMember(Value = "Gravel")]
+        [Description("Gravel")]
+        Gravel,
+        [EnumMember(Value = "InsideEntrance")]
+        [Description("Inside Entrance")]
+        InsideEntrance,
+        [EnumMember(Value = "KitchenLevel")]
+        [Description("Kitchen Level")]
+        KitchenLevel,
+        [EnumMember(Value = "Lighted")]
+        [Description("Lighted")]
+        Lighted,
+        [EnumMember(Value = "Oversized")]
         [Description("Oversized")]
         Oversized,
-        [EnumMember(Value = "REAR")]
-        [Description("Rear Entry")]
-        RearEntry,
-        [EnumMember(Value = "SIDE")]
-        [Description("Side Entry")]
-        SideEntry,
-        [EnumMember(Value = "TANDEM")]
+        [EnumMember(Value = "Private")]
+        [Description("Private")]
+        Private,
+        [EnumMember(Value = "SideBySide")]
+        [Description("Side By Side")]
+        SideBySide,
+        [EnumMember(Value = "Storage")]
+        [Description("Storage")]
+        Storage,
+        [EnumMember(Value = "Tandem")]
         [Description("Tandem")]
         Tandem,
     }

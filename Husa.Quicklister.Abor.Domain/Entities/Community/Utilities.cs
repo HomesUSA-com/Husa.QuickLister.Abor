@@ -21,8 +21,27 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual ICollection<WaterSewer> WaterSewer { get; set; }
         public virtual ICollection<HeatingSystem> HeatSystem { get; set; }
         public virtual ICollection<CoolingSystem> CoolingSystem { get; set; }
+        public virtual ICollection<Appliances> Appliances { get; set; }
+        public virtual int? GarageSpaces { get; set; }
+        public virtual ICollection<GarageDescription> GarageDescription { get; set; }
+        public virtual ICollection<LaundryFeatures> LaundryFeatures { get; set; }
+        public virtual ICollection<LaundryLocation> LaundryLocation { get; set; }
+        public virtual ICollection<InteriorFeatures> InteriorFeatures { get; set; }
+        public virtual ICollection<KitchenFeatures> KitchenFeatures { get; set; }
+        public virtual ICollection<MasterBedroomFeatures> MasterBedroomFeatures { get; set; }
+        public virtual ICollection<WaterAccessDescription> WaterAccessDescription { get; set; }
+        public virtual int? Fireplaces { get; set; }
+        public virtual ICollection<DomainEnums.FireplaceDescription> FireplaceDescription
+        {
+            get { return this.fireplaceDescription; }
+            set { this.fireplaceDescription = this.Fireplaces.HasValue && this.Fireplaces.Value > 0 ? value : null; }
+        }
+
+        public virtual ICollection<Flooring> Floors { get; set; }
+        public virtual ICollection<SecurityFeatures> SecurityFeatures { get; set; }
+        public virtual ICollection<WindowFeatures> WindowFeatures { get; set; }
+
         public virtual ICollection<Inclusions> Inclusions { get; set; }
-        public virtual ICollection<Floors> Floors { get; set; }
         public virtual ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
         public virtual ICollection<RoofDescription> RoofDescription { get; set; }
         public virtual ICollection<Foundation> Foundation { get; set; }
@@ -39,12 +58,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual ICollection<SpecialtyRooms> SpecialtyRooms { get; set; }
         public virtual bool HasAccessibility { get; set; }
         public virtual ICollection<Accessibility> Accessibility { get; set; }
-        public virtual int? Fireplaces { get; set; }
-        public virtual ICollection<DomainEnums.FireplaceDescription> FireplaceDescription
-        {
-            get { return this.fireplaceDescription; }
-            set { this.fireplaceDescription = this.Fireplaces.HasValue && this.Fireplaces.Value > 0 ? value : null; }
-        }
 
         public virtual ICollection<Exterior> Exterior { get; set; }
 

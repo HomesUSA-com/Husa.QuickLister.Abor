@@ -13,8 +13,22 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         ICollection<HeatingSystem> HeatSystem { get; set; }
         ICollection<CoolingSystem> CoolingSystem { get; set; }
 
+        ICollection<Appliances> Appliances { get; set; }
+        int? GarageSpaces { get; set; }
+        ICollection<GarageDescription> GarageDescription { get; set; }
+        ICollection<LaundryFeatures> LaundryFeatures { get; set; }
+        ICollection<LaundryLocation> LaundryLocation { get; set; }
+        ICollection<InteriorFeatures> InteriorFeatures { get; set; }
+        ICollection<KitchenFeatures> KitchenFeatures { get; set; }
+        ICollection<MasterBedroomFeatures> MasterBedroomFeatures { get; set; }
+        ICollection<WaterAccessDescription> WaterAccessDescription { get; set; }
+        int? Fireplaces { get; set; }
+        ICollection<FireplaceDescription> FireplaceDescription { get; set; }
+        ICollection<Flooring> Floors { get; set; }
+        ICollection<SecurityFeatures> SecurityFeatures { get; set; }
+        ICollection<WindowFeatures> WindowFeatures { get; set; }
+
         ICollection<Inclusions> Inclusions { get; set; }
-        ICollection<Floors> Floors { get; set; }
         ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
         ICollection<RoofDescription> RoofDescription { get; set; }
         ICollection<Foundation> Foundation { get; set; }
@@ -28,8 +42,6 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         string SupplierGas { get; set; }
         string SupplierOther { get; set; }
         ICollection<HeatingFuel> HeatingFuel { get; set; }
-        int? Fireplaces { get; set; }
-        ICollection<FireplaceDescription> FireplaceDescription { get; set; }
         bool HasAccessibility { get; set; }
         ICollection<Accessibility> Accessibility { get; set; }
     }

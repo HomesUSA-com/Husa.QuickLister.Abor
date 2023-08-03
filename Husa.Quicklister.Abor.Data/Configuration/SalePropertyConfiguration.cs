@@ -109,10 +109,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.ConfigureFeature();
             builder.Property(r => r.PropertyDescription).HasColumnName(nameof(FeaturesInfo.PropertyDescription)).HasMaxLength(4000).IsRequired(false);
             builder.Property(r => r.Inclusions).HasColumnName(nameof(FeaturesInfo.Inclusions)).HasEnumCollectionValue<Inclusions>(500);
-            builder.Property(r => r.Fireplaces).HasColumnName(nameof(FeaturesInfo.Fireplaces)).HasMaxLength(20);
-            builder.Property(r => r.FireplaceDescription).HasColumnName(nameof(FeaturesInfo.FireplaceDescription)).HasEnumCollectionValue<FireplaceDescription>(256);
-            builder.Property(r => r.Floors).HasColumnName(nameof(FeaturesInfo.Floors)).HasEnumCollectionValue<Floors>(300);
-            builder.Property(r => r.WindowCoverings).HasColumnName(nameof(FeaturesInfo.WindowCoverings)).HasEnumCollectionValue<WindowCoverings>(100);
+            builder.Property(r => r.WindowCoverings).HasColumnName(nameof(FeaturesInfo.WindowCoverings)).HasEnumCollectionValue<WindowFeatures>(100);
             builder.Property(r => r.Accessibility).HasColumnName(nameof(FeaturesInfo.Accessibility)).HasEnumCollectionValue<Accessibility>(200);
             builder.Property(r => r.HousingStyle).HasColumnName(nameof(FeaturesInfo.HousingStyle)).HasEnumCollectionValue<HousingStyle>(255);
             builder.Property(r => r.ExteriorFeatures).HasColumnName(nameof(FeaturesInfo.ExteriorFeatures)).HasEnumCollectionValue<ExteriorFeatures>(500);
