@@ -39,7 +39,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             Utilities = community.Utilities.ToProjectionUtilities(),
             FinancialSchools = community.ToProjectionFinancialSchools(),
             Showing = community.Showing.ToProjectionCommunityShowing(),
-            Hoas = community.CommunityHoas.ToProjectionHoas(),
             OpenHouses = community.OpenHouses.ToProjectionOpenHouses(),
             SysCreatedBy = community.SysCreatedBy,
             SysCreatedOn = community.SysCreatedOn,

@@ -2,7 +2,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
 {
     using System;
     using System.Collections.Generic;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class PropertyInfoQueryResult
@@ -36,5 +35,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
         public decimal? Longitude { get; set; }
 
         public bool IsXmlManaged { get; set; }
+
+        public PropertySubType? PropertyType { get; set; }
     }
 }

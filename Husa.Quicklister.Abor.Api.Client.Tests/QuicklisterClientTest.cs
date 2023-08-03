@@ -554,7 +554,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var listingDto = new Request.ListingSaleRequest
             {
                 MlsStatus = MarketStatuses.Active,
-                City = Cities.Abilene,
+                City = Cities.LaGrange,
                 StreetNumber = "1234",
                 StreetName = Faker.Address.StreetName(),
                 ZipCode = Faker.Address.ZipCode()[..5],

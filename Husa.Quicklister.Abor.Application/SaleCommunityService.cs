@@ -11,8 +11,8 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Application.Models.Community;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Microsoft.Extensions.Logging;
@@ -85,10 +85,9 @@ namespace Husa.Quicklister.Abor.Application
                 SchoolsInfo = this.mapper.Map<SchoolsInfo>(communitySaleDto.FinancialSchools.Schools),
                 ShowingInfo = this.mapper.Map<CommunityShowingInfo>(communitySaleDto.Showing),
             };
-            var communityHoas = this.mapper.Map<IEnumerable<CommunityHoa>>(communitySaleDto.Hoas);
             var communityOpenHouses = this.mapper.Map<IEnumerable<CommunityOpenHouse>>(communitySaleDto.OpenHouses);
 
-            community.Update(communityInfo, communityHoas, communityOpenHouses);
+            community.Update(communityInfo, communityOpenHouses);
 
             await this.CommunitySaleRepository.SaveChangesAsync();
         }

@@ -113,7 +113,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .FilterByCompany(companyId)
                 .FilterByCommunityName(communityName)
                 .Include(c => c.OpenHouses)
-                .Include(c => c.CommunityHoas)
                 .Select(CommunityProjection.ProjectionToCommunityDetailQueryResult)
                 .SingleOrDefaultAsync();
         }
@@ -123,11 +122,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             var currentUser = this.userContext.GetCurrentUser();
             var community = await this.context.Community
                 .Include(c => c.OpenHouses)
-                .Include(c => c.CommunityHoas).FilterByCompany(currentUser)
+                .FilterByCompany(currentUser)
                 .SingleOrDefaultAsync(x => x.Id == id) ?? throw new NotFoundException<CommunitySale>(id);
             var listingSale = await this.context.ListingSale
                 .Include(x => x.SaleProperty)
-                .Include(x => x.SaleProperty.ListingSaleHoas)
                 .Include(x => x.SaleProperty.OpenHouses).FilterByCompany(currentUser)
                 .SingleOrDefaultAsync(x => x.Id == listingId) ?? throw new NotFoundException<SaleListing>(listingId);
             community.ImportFromListing(listingSale);

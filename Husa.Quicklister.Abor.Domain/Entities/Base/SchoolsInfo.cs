@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Entities.Listing
+namespace Husa.Quicklister.Abor.Domain.Entities.Base
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -14,9 +14,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public ElementarySchool? ElementarySchool { get; set; }
 
+        public OtherElementarySchool? OtherElementarySchool { get; set; }
+
         public MiddleSchool? MiddleSchool { get; set; }
 
+        public OtherMiddleSchool? OtherMiddleSchool { get; set; }
+
         public HighSchool? HighSchool { get; set; }
+
+        public OtherHighSchool? OtherHighSchool { get; set; }
 
         public static SchoolsInfo ImportFromXml(SubdivisionResponse subdivision, SchoolsInfo schoolsInfo)
         {

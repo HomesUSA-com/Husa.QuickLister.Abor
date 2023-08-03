@@ -229,7 +229,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             Assert.NotEqual(saleListingRequest.Id, requestCloned.Id);
             Assert.NotEqual(saleListingRequest.RequestState, requestCloned.RequestState);
             Assert.Equal(saleListingRequest.SaleProperty.FinancialInfo.HOARequirement, requestCloned.SaleProperty.FinancialInfo.HOARequirement);
-            Assert.Equal(saleListingRequest.SaleProperty.ShowingInfo.Showing, requestCloned.SaleProperty.ShowingInfo.Showing);
+            Assert.Equal(saleListingRequest.SaleProperty.ShowingInfo.ShowingInstructions, requestCloned.SaleProperty.ShowingInfo.ShowingInstructions);
             Assert.Equal(saleListingRequest.SaleProperty.SchoolsInfo.HighSchool, requestCloned.SaleProperty.SchoolsInfo.HighSchool);
         }
 

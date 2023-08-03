@@ -22,6 +22,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Application.Models.Media;
@@ -37,7 +38,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<SalePropertyQueryResult, SalePropertyResponse>();
             this.CreateMap<FeaturesQueryResult, FeaturesResponse>();
             this.CreateMap<FinancialQueryResult, FinancialResponse>();
-            this.CreateMap<SchoolsInfoQueryResult, SchoolsResponse>();
             this.CreateMap<ListingShowingQueryResult, ShowingResponse>();
             this.CreateMap<AddressQueryResult, AddressInfoResponse>();
             this.CreateMap<PropertyInfoQueryResult, PropertyInfoResponse>()
@@ -91,7 +91,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<FeaturesRequest, FeaturesDto>()
                 .ForMember(dto => dto.IsNewConstruction, r => r.Ignore());
             this.CreateMap<FinancialRequest, FinancialDto>();
-            this.CreateMap<SchoolsRequest, SchoolsDto>();
             this.CreateMap<ShowingRequest, ShowingDto>();
             this.CreateMap<AddressInfoRequest, AddressDto>();
             this.CreateMap<PropertyInfoRequest, PropertyDto>();
@@ -121,9 +120,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<ListingSaleRequest, ListingSaleDto>();
 
-            this.CreateMap<ShowingDto, ShowingInfo>()
-                .ForMember(dest => dest.Showing, config => config.MapFrom(dto => dto.Showing));
-            this.CreateMap<SchoolsDto, SchoolsInfo>();
+            this.CreateMap<ShowingDto, ShowingInfo>();
 
             this.CreateMap<RoomDto, ListingSaleRoom>()
                 .ForMember(dto => dto.Id, c => c.MapFrom(x => x.Id))

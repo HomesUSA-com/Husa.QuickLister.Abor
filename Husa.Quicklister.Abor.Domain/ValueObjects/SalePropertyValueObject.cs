@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.ValueObjects
     using System;
     using System.Collections.Generic;
     using Husa.Extensions.Domain.ValueObjects;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
 
     public class SalePropertyValueObject : ValueObject

@@ -9,7 +9,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Extensions.Domain.Extensions;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Common;
-    using Husa.Quicklister.Abor.Domain.Comparers;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
@@ -43,7 +43,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             this.Property = new();
             this.OpenHouses = new HashSet<CommunityOpenHouse>();
             this.SaleProperties = new HashSet<SaleProperty>();
-            this.CommunityHoas = new HashSet<CommunityHoa>();
             this.Changes = new HashSet<string>();
             this.Employees = new HashSet<CommunityEmployee>();
             this.XmlStatus = XmlStatus.NotFromXml;
@@ -68,8 +67,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual ICollection<CommunityOpenHouse> OpenHouses { get; set; }
 
         public virtual ICollection<SaleProperty> SaleProperties { get; set; }
-
-        public virtual ICollection<CommunityHoa> CommunityHoas { get; set; }
 
         public virtual ICollection<CommunityEmployee> Employees { get; set; }
 
@@ -208,38 +205,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             }
         }
 
-        public virtual void UpdateHoas(IEnumerable<CommunityHoa> hoas)
-        {
-            if (hoas is null)
-            {
-                throw new ArgumentNullException(nameof(hoas));
-            }
-
-            this.Changes ??= new HashSet<string>();
-
-            var communityHoaSummary = this.CommunityHoas.GetSummaryByComparer<CommunityHoa, ListingHoaComparer>(hoas);
-            if (communityHoaSummary != null && communityHoaSummary.Any())
-            {
-                this.Changes.Add(nameof(this.CommunityHoas));
-            }
-
-            this.CommunityHoas.Clear();
-
-            foreach (var hoaDetail in hoas)
-            {
-                var hoa = new CommunityHoa(
-                    this.Id,
-                    hoaDetail.Name,
-                    hoaDetail.TransferFee,
-                    hoaDetail.Fee,
-                    hoaDetail.BillingFrequency,
-                    hoaDetail.Website,
-                    hoaDetail.ContactPhone);
-
-                this.CommunityHoas.Add(hoa);
-            }
-        }
-
         public virtual void AddCommunityEmployee(Guid userId)
         {
             this.Employees.Add(new CommunityEmployee(userId, this.Id, this.CompanyId));
@@ -304,15 +269,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             this.Showing = this.Showing.ImportShowing(listing.SaleProperty.ShowingInfo);
             this.Utilities = this.Utilities.ImportUtilities(listing.SaleProperty.FeaturesInfo, listing.SaleProperty.SpacesDimensionsInfo);
             this.SchoolsInfo = this.SchoolsInfo.ImportSchools(listing.SaleProperty.SchoolsInfo);
-
-            this.UpdateHoas(listing.SaleProperty.ListingSaleHoas.Select(hoaDetail => new CommunityHoa(
-                    this.Id,
-                    hoaDetail.Name,
-                    hoaDetail.TransferFee,
-                    hoaDetail.Fee,
-                    hoaDetail.BillingFrequency,
-                    hoaDetail.Website,
-                    hoaDetail.ContactPhone)));
 
             this.ImportOpenHouse<SaleListingOpenHouse, CommunityOpenHouse, CommunitySale>(listing.SaleProperty.OpenHouses);
         }
@@ -405,7 +361,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
 
         public virtual void Update(
             CommunityValueObject communityInfo,
-            IEnumerable<CommunityHoa> communityHoas,
             IEnumerable<CommunityOpenHouse> communityOpenHouses)
         {
             if (communityInfo is null)
@@ -421,7 +376,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             this.UpdateFinancial(financial: communityInfo.FinancialInfo);
             this.UpdateSchools(schools: communityInfo.SchoolsInfo);
             this.UpdateShowing(showing: communityInfo.ShowingInfo);
-            this.UpdateHoas(hoas: communityHoas);
             this.UpdateOpenHouse(openHouses: communityOpenHouses);
         }
 

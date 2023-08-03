@@ -41,7 +41,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             {
                 StreetNumber = "1234",
                 StreetName = "sample",
-                City = Cities.CiboloCity,
+                City = Cities.LakeShores,
                 State = States.Tennessee,
                 ZipCode = "75034",
                 County = Counties.Anderson,

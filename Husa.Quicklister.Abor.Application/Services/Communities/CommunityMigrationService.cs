@@ -60,9 +60,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             {
                 var community = this.mapper.Map<CommunitySale>(communityMigration);
                 var openHouses = this.mapper.Map<IEnumerable<CommunityOpenHouse>>(communityMigration.OpenHouses);
-                var hoas = this.mapper.Map<IEnumerable<CommunityHoa>>(communityMigration.Hoas);
                 community.UpdateOpenHouse(openHouses);
-                community.UpdateHoas(hoas);
                 community.UpdateCompanyInfo(companyId, company.Name);
                 communities.Add(community);
             }

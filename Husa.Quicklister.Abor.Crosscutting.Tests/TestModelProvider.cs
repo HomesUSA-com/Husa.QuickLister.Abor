@@ -589,14 +589,14 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Type = MediaType.Residential,
         };
 
-        public static RequestPhoto.Property GetProperty(PropertyType? type = null) => new()
+        public static RequestPhoto.Property GetProperty(PhotoService.Domain.Enums.PropertyType? type = null) => new()
         {
             Id = Guid.NewGuid(),
-            Type = type ?? PropertyType.Residential,
+            Type = type ?? PhotoService.Domain.Enums.PropertyType.Residential,
             City = Faker.Enum.Random<Cities>().ToStringFromEnumMember(),
         };
 
-        public static RequestPhoto.PhotoRequest GetPhotoRequest(PropertyType? type = null) => new()
+        public static RequestPhoto.PhotoRequest GetPhotoRequest(PhotoService.Domain.Enums.PropertyType? type = null) => new()
         {
             ExteriorOptions = new List<ExteriorOptionType>(),
             Phones = new List<RequestPhoto.Phones>(),
@@ -614,7 +614,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Status = PhotoRequestStatus.Pending,
             InteriorOptions = new List<InteriorOptionType>(),
             ServiceOptions = new List<ServiceOptionType>(),
-            CommunityInfo = type == PropertyType.Community ? new() : null,
+            CommunityInfo = type == PhotoService.Domain.Enums.PropertyType.Community ? new() : null,
             CompanyId = Guid.NewGuid(),
         };
 
@@ -1098,9 +1098,8 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                     County = Counties.Bexar,
                 },
             };
-            community.Property.MapscoGrid = "stri";
             community.Property.ZipCode = "string";
-            community.Property.MlsArea = MlsArea.HundredOne;
+            community.Property.MlsArea = MlsArea.WE;
             return community;
         }
 
@@ -1256,7 +1255,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
         public static PropertyInfo GetDefaultPropertyInfo() => new()
         {
-            MlsArea = MlsArea.HundredOne,
+            MlsArea = MlsArea.LW,
             MapscoGrid = "stri",
             ConstructionCompletionDate = new DateTime(DateTime.UtcNow.Year, 10, 4, 0, 0, 0, 0, DateTimeKind.Utc),
         };
@@ -1308,9 +1307,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
         public static SchoolsInfo GetDefaultSchoolsInfo() => new()
         {
-            SchoolDistrict = SchoolDistrict.Cayuga,
-            MiddleSchool = MiddleSchool.Briesemiester,
-            ElementarySchool = ElementarySchool.Bonham,
+            SchoolDistrict = SchoolDistrict.Gause,
+            MiddleSchool = MiddleSchool.Gateway,
+            ElementarySchool = ElementarySchool.GatesvillePri,
             HighSchool = HighSchool.Canyon,
         };
 
@@ -1387,16 +1386,12 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return new()
             {
                 TaxYear = 2020,
-                HasMultipleHOA = false,
-                NumHOA = 0,
                 HasAgentBonus = false,
                 HasBonusWithAmount = false,
                 AgentBonusAmount = 0,
                 HasBuyerIncentive = false,
-                IsMultipleTaxed = communityFinancialInfo.IsMultipleTaxed,
                 TaxRate = communityFinancialInfo.TaxRate,
                 TitleCompany = communityFinancialInfo.TitleCompany,
-                ProposedTerms = communityFinancialInfo.ProposedTerms,
                 HOARequirement = communityFinancialInfo.HOARequirement,
                 BuyersAgentCommission = communityFinancialInfo.BuyersAgentCommission,
             };
@@ -1417,10 +1412,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return new()
             {
                 AgentPrivateRemarks = "PROPEPRTY SOLD \"AS IS\". Apartment is not included in main house square footage. Please submit offers to davidkline@cbharper.com and cc cfinley@cbharper.com. Title company is Alamo Title, Toni Altum, 950 E. Basse Rd, 78209. Please see associated documents for offer instructions and supporting paperwork.",
-                AltPhoneCommunity = communityShowingInfo.AltPhoneCommunity,
-                AgentListApptPhone = communityShowingInfo.AgentListApptPhone,
-                Showing = communityShowingInfo.Showing,
-                RealtorContactEmail = communityShowingInfo.RealtorContactEmail,
+                OccupantPhone = communityShowingInfo.OccupantPhone,
+                ContactPhone = communityShowingInfo.ContactPhone,
+                ShowingInstructions = communityShowingInfo.ShowingInstructions,
                 Directions = communityShowingInfo.Directions,
             };
         }
@@ -1456,20 +1450,18 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
         private static CommunityFinancialInfo GetDefaultCommunityFinancialInfo() => new()
         {
-            IsMultipleTaxed = false,
             TaxRate = decimal.Parse("7362.26"),
             TitleCompany = "Alamo Title",
-            ProposedTerms = GetEnumCollectionRandom<ProposedTerms>(),
-            HOARequirement = HoaRequirement.None,
+            HoaIncludes = GetEnumCollectionRandom<HoaIncludes>(),
+            HOARequirement = HoaRequirement.Voluntary,
             BuyersAgentCommission = 3,
         };
 
         private static CommunityShowingInfo GetDefaultCommunityShowingInfo() => new()
         {
-            AltPhoneCommunity = null,
-            AgentListApptPhone = "210-222-2227",
-            Showing = Showing.Office,
-            RealtorContactEmail = null,
+            OccupantPhone = null,
+            ContactPhone = "210-222-2227",
+            ShowingInstructions = GetEnumCollectionRandom<ShowingInstructions>(),
             Directions = "Fredericksburg Rd to Mulberry - West on Mulberry.",
         };
     }

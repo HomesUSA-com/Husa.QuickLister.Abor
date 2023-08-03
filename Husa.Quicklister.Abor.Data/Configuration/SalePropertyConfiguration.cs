@@ -12,7 +12,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -48,47 +47,32 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigurePropertyInfoMapping(OwnedNavigationBuilder<SaleProperty, PropertyInfo> builder)
         {
-            var converter = new ValueConverter<ConstructionStage, string>(constructionStage => constructionStage.GetEnumDescription(), constructionStageDescription => constructionStageDescription.GetEnumValueFromDescription<ConstructionStage>());
-
             builder.Property(x => x.ConstructionCompletionDate).HasColumnName(nameof(PropertyInfo.ConstructionCompletionDate)).IsRequired(false);
-            builder.Property(x => x.ConstructionStage).HasConversion<string>().HasColumnName(nameof(PropertyInfo.ConstructionStage)).HasConversion(converter).HasMaxLength(1);
             builder.Property(r => r.ConstructionStartYear).HasColumnName(nameof(PropertyInfo.ConstructionStartYear)).IsRequired(false);
             builder.Property(r => r.IsXmlManaged).HasColumnName(nameof(PropertyInfo.IsXmlManaged));
             builder.Property(r => r.Latitude).HasColumnName(nameof(PropertyInfo.Latitude)).HasPrecision(32, 12);
             builder.Property(r => r.LegalDescription).HasColumnName(nameof(PropertyInfo.LegalDescription)).HasMaxLength(60).IsRequired(false);
             builder.Property(r => r.Longitude).HasColumnName(nameof(PropertyInfo.Longitude)).HasPrecision(32, 12);
-            builder.Property(r => r.LotDescription).HasColumnName(nameof(PropertyInfo.LotDescription)).HasEnumCollectionValue<LotDescription>(296);
-            builder.Property(r => r.LotDimension).HasColumnName(nameof(PropertyInfo.LotDimension)).HasMaxLength(25);
-            builder.Property(r => r.LotSize).HasColumnName(nameof(PropertyInfo.LotSize)).HasMaxLength(25).IsRequired(false);
             builder.Property(r => r.MapscoGrid).HasColumnName(nameof(PropertyInfo.MapscoGrid)).HasMaxLength(5);
-
-            builder.Property(r => r.MlsArea)
-               .HasColumnName(nameof(PropertyInfo.MlsArea))
-               .HasEnumFieldValue<MlsArea>(maxLength: 5);
-
             builder.Property(r => r.Occupancy).HasColumnName(nameof(PropertyInfo.Occupancy)).HasEnumCollectionValue<Occupancy>(255);
             builder.Property(r => r.TaxId).HasColumnName(nameof(PropertyInfo.TaxId)).HasMaxLength(25);
             builder.Property(r => r.UpdateGeocodes).HasColumnName(nameof(PropertyInfo.UpdateGeocodes));
+
+            builder.ConfigureProperty();
         }
 
         private static void ConfigureAddressInfoMapping(OwnedNavigationBuilder<SaleProperty, AddressInfo> builder)
         {
             builder.Property(x => x.StreetNumber).HasColumnName(nameof(AddressInfo.StreetNumber)).HasMaxLength(12);
             builder.Property(r => r.StreetName).HasColumnName(nameof(AddressInfo.StreetName)).HasMaxLength(50);
-
-            builder.Property(r => r.City)
-                .HasColumnName(nameof(AddressInfo.City))
-                .HasEnumFieldValue<Cities>(maxLength: 50, isRequired: true);
-
             builder.Property(r => r.State).HasConversion<string>().HasColumnName(nameof(AddressInfo.State)).HasMaxLength(2).HasConversion<EnumFieldValueConverter<States>>();
-            builder.Property(r => r.ZipCode).HasColumnName(nameof(AddressInfo.ZipCode)).HasMaxLength(12);
-            builder.Property(r => r.County)
-               .HasColumnName(nameof(AddressInfo.County))
-                .HasEnumFieldValue<Counties>(maxLength: 20, isRequired: false);
-
             builder.Property(r => r.Block).HasColumnName(nameof(AddressInfo.Block)).HasMaxLength(5).IsRequired(false);
-            builder.Property(r => r.Subdivision).HasColumnName(nameof(AddressInfo.Subdivision)).HasMaxLength(75).IsRequired(false);
             builder.Property(r => r.LotNum).HasColumnName(nameof(AddressInfo.LotNum)).HasMaxLength(6).IsRequired(false);
+
+            builder.Property(r => r.City).HasColumnName(nameof(AddressInfo.City)).HasEnumFieldValue<Cities>(maxLength: 50, isRequired: true);
+            builder.Property(r => r.County).HasColumnName(nameof(AddressInfo.County)).HasEnumFieldValue<Counties>(maxLength: 20);
+            builder.Property(x => x.Subdivision).HasColumnName(nameof(AddressInfo.Subdivision)).HasMaxLength(75);
+            builder.Property(x => x.ZipCode).HasColumnName(nameof(AddressInfo.ZipCode)).HasMaxLength(12);
         }
 
         private static void ConfigureSalesOfficeMapping(OwnedNavigationBuilder<SaleProperty, SalesOffice> builder)
@@ -160,55 +144,18 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureFinancialMapping(OwnedNavigationBuilder<SaleProperty, FinancialInfo> builder)
         {
-            var converter = new ValueConverter<CommissionType, string>(bonusType => bonusType.GetEnumDescription(), bonusTypeDescription => bonusTypeDescription.GetEnumValueFromDescription<CommissionType>());
-
-            builder
-                .Property(r => r.TaxRate)
-                .HasColumnName(nameof(FinancialInfo.TaxRate))
-                .HasPrecision(18, 2)
-                .IsRequired(false);
-
             builder.Property(r => r.TaxYear).HasColumnName(nameof(FinancialInfo.TaxYear)).HasMaxLength(4);
-            builder.Property(r => r.TitleCompany).HasColumnName(nameof(FinancialInfo.TitleCompany)).HasMaxLength(45).IsRequired(false);
             builder.Property(r => r.ProposedTerms).HasColumnName(nameof(FinancialInfo.ProposedTerms)).HasEnumCollectionValue<ProposedTerms>(100);
-            builder.Property(r => r.HOARequirement)
-                .HasColumnName(nameof(FinancialInfo.HOARequirement))
-                .HasMaxLength(10)
-                .HasConversion<EnumFieldValueConverter<HoaRequirement>>();
-
             builder.Property(r => r.NumHOA).HasColumnName(nameof(FinancialInfo.NumHOA)).HasMaxLength(2);
-            builder.Property(r => r.BuyersAgentCommission).HasPrecision(18, 2).HasColumnName(nameof(FinancialInfo.BuyersAgentCommission)).HasMaxLength(6);
-            builder.Property(r => r.BuyersAgentCommissionType)
-                .HasColumnName(nameof(FinancialInfo.BuyersAgentCommissionType))
-                .HasConversion(converter)
-                .HasMaxLength(1);
-
             builder.Property(r => r.IsMultipleTaxed).HasColumnName(nameof(FinancialInfo.IsMultipleTaxed));
-            builder.Property(r => r.HasAgentBonus).HasColumnName(nameof(FinancialInfo.HasAgentBonus));
-            builder.Property(r => r.HasBonusWithAmount).HasColumnName(nameof(FinancialInfo.HasBonusWithAmount));
-            builder
-                .Property(r => r.AgentBonusAmount)
-                .HasColumnName(nameof(FinancialInfo.AgentBonusAmount))
-                .HasPrecision(18, 2);
-
-            builder.Property(r => r.AgentBonusAmountType).HasColumnName(nameof(FinancialInfo.AgentBonusAmountType)).HasConversion(converter).HasMaxLength(1);
-            builder.Property(r => r.BonusExpirationDate).HasColumnName(nameof(FinancialInfo.BonusExpirationDate));
-            builder.Property(r => r.HasBuyerIncentive).HasColumnName(nameof(FinancialInfo.HasBuyerIncentive));
-
+            builder.ConfigureFinancial();
             builder.Ignore(p => p.ReadableBuyersAgentCommission);
         }
 
         private static void ConfigureShowingMapping(OwnedNavigationBuilder<SaleProperty, ShowingInfo> builder)
         {
-            builder.Property(r => r.AltPhoneCommunity).HasColumnName(nameof(ShowingInfo.AltPhoneCommunity)).HasMaxLength(14);
-            builder.Property(r => r.AgentListApptPhone).HasColumnName(nameof(ShowingInfo.AgentListApptPhone)).HasMaxLength(14).IsRequired(false);
-            builder.Property(r => r.Showing)
-                .HasColumnName(nameof(IProvideShowingInfo.Showing))
-                .HasMaxLength(10)
-                .HasConversion<EnumFieldValueConverter<Showing>>();
-
+            builder.ConfigureShowing();
             builder.Property(r => r.RealtorContactEmail).HasColumnName(nameof(ShowingInfo.RealtorContactEmail)).HasMaxLength(255);
-            builder.Property(r => r.Directions).HasColumnName(nameof(ShowingInfo.Directions)).HasMaxLength(255).IsRequired(false);
             builder.Property(r => r.AgentPrivateRemarks).HasColumnName(nameof(ShowingInfo.AgentPrivateRemarks)).HasMaxLength(1024);
             builder.Property(r => r.EnableOpenHouses).HasColumnName(nameof(ShowingInfo.EnableOpenHouses));
             builder.Property(r => r.OpenHousesAgree).HasColumnName(nameof(ShowingInfo.OpenHousesAgree));
@@ -217,25 +164,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<SaleProperty, SchoolsInfo> builder)
         {
-            builder.Property(r => r.SchoolDistrict)
-                .HasColumnName(nameof(SchoolsInfo.SchoolDistrict))
-                .HasMaxLength(50)
-                .HasConversion<EnumFieldValueConverter<SchoolDistrict>>();
-
-            builder.Property(r => r.ElementarySchool)
-                .HasColumnName(nameof(SchoolsInfo.ElementarySchool))
-                .HasMaxLength(50)
-                .HasConversion<EnumFieldValueConverter<ElementarySchool>>();
-
-            builder.Property(r => r.MiddleSchool)
-                .HasColumnName(nameof(SchoolsInfo.MiddleSchool))
-                .HasMaxLength(50)
-                .HasConversion<EnumFieldValueConverter<MiddleSchool>>();
-
-            builder.Property(r => r.HighSchool)
-                .HasColumnName(nameof(SchoolsInfo.HighSchool))
-                .HasMaxLength(50)
-                .HasConversion<EnumFieldValueConverter<HighSchool>>();
+            builder.ConfigureSchools();
         }
     }
 }

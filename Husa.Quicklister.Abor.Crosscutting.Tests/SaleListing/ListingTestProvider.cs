@@ -125,7 +125,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
             },
             ShowingInfo = new()
             {
-                Showing = Faker.Enum.Random<Showing>(),
+                ShowingInstructions = new[] { Faker.Enum.Random<ShowingInstructions>() },
             },
             SchoolsInfo = new()
             {

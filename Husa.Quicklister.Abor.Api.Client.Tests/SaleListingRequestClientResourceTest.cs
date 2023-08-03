@@ -45,7 +45,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var requestResult = new ListingSaleRequestQueryResult
             {
                 Address = "1234 sample",
-                City = Cities.AlamoHeights,
+                City = Cities.LaGrange,
                 Id = requestId,
                 ListPrice = 123000,
                 ZipCode = "75035",

@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.Community;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
@@ -440,7 +441,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             {
                 AgentBonusAmount = new decimal(3.44),
                 HasAgentBonus = true,
-                IsMultipleTaxed = true,
             };
 
             var financialClonned = financial.ImportFinancialFromCommunity(new CommunityFinancialInfo());
@@ -472,10 +472,10 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             // Arrange
             var schools = new SchoolsInfo
             {
-                SchoolDistrict = SchoolDistrict.DrippingSpringsISD,
-                ElementarySchool = ElementarySchool.BonnieEllison,
-                HighSchool = HighSchool.Highlands,
-                MiddleSchool = MiddleSchool.McDowell,
+                SchoolDistrict = SchoolDistrict.LaGrange,
+                ElementarySchool = ElementarySchool.Gattis,
+                HighSchool = HighSchool.Genesis,
+                MiddleSchool = MiddleSchool.LagoVista,
             };
 
             // Act
@@ -486,35 +486,15 @@ namespace Husa.Quicklister.Abor.Domain.Tests
         }
 
         [Fact]
-        public void HasNewChangesFromCommunity_ListingHasHoaChanges_ReturnsTrue()
-        {
-            // Arrange
-            var community = CommunityTestProvider.GetCommunityEntity();
-            community.CommunityHoas = CommunityHoaTestProvider.GetCommunityHoas(community.Id);
-            community.Changes.Add(nameof(community.CommunityHoas));
-
-            var saleProperty = ListingTestProvider.GetSalePropertyEntity();
-            saleProperty.CommunityId = community.Id;
-            saleProperty.Community = community;
-
-            // Act
-            var result = saleProperty.UpdateListingFromCommunitySubmit();
-
-            // Assert
-            Assert.True(result);
-        }
-
-        [Fact]
         public void HasNewChangesFromCommunity_ListingHasChanges_ReturnsTrue()
         {
             // Arrange
             var communityId = Guid.NewGuid();
 
             var community = CommunityTestProvider.GetCommunityEntity(communityId);
-            community.Property.MapscoGrid = "stri";
             community.Property.ZipCode = "string";
-            community.Property.MlsArea = MlsArea.HundredOne;
-            var changes = new List<string> { nameof(community.Property.MapscoGrid), nameof(community.Property.ZipCode), nameof(community.Property.MlsArea) };
+            community.Property.MlsArea = MlsArea.WW;
+            var changes = new List<string> { nameof(community.Property.ZipCode), nameof(community.Property.MlsArea) };
             community.UpdateChanges(nameof(community.Property), changes);
 
             var saleProperty = ListingTestProvider.GetSalePropertyEntity(communityId: communityId);

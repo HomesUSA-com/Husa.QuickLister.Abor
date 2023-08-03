@@ -5,7 +5,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.ValueObjects;
@@ -38,6 +37,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public decimal? Latitude { get; set; }
         public decimal? Longitude { get; set; }
         public bool IsXmlManaged { get; set; }
+
+        public PropertySubType? PropertyType { get; set; }
 
         public PropertyRecord CloneRecord() => (PropertyRecord)this.MemberwiseClone();
 

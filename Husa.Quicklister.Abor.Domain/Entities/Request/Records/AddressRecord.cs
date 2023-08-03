@@ -41,7 +41,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public string Block { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        public string Subdivision { get => this.subdivision.ToTitleCase(); set => this.subdivision = value.ToTitleCase(); }
+        public string Subdivision { get => this.subdivision; set => this.subdivision = value.ToTitleCase(); }
 
         public AddressRecord CloneRecord() => (AddressRecord)this.MemberwiseClone();
 

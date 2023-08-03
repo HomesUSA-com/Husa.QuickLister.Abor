@@ -88,11 +88,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var community = new CommunitySale(companyId, "community name", "Owner name");
             community.Id = communityId;
-            community.CommunityHoas = new List<CommunityHoa>()
-            {
-                new CommunityHoa("Hoa name", 23, 3455, BillingFrequency.Quarterly, "www.somewebsite.com", "234456788"),
-                new CommunityHoa("Hoa name2", 1234, 3443455, BillingFrequency.Annually, "www.somewebsite2.com", "234456788"),
-            };
 
             this.SetupCompanyDetail();
             this.SetupMlsAdministrator(userId);
@@ -140,12 +135,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var community = new CommunitySale(companyId, "community name", "Owner name");
             community.Id = communityId;
-            community.CommunityHoas = new List<CommunityHoa>()
-            {
-                new CommunityHoa("Hoa name", 23, 3455, BillingFrequency.Quarterly, "www.somewebsite.com", "234456788"),
-                new CommunityHoa("Hoa name2", 1234, 3443455, BillingFrequency.Annually, "www.somewebsite2.com", "234456788"),
-            };
-
             this.communitySaleRepository
                .Setup(x => x.GetById(It.IsAny<Guid>(), It.IsAny<bool>()))
                .ReturnsAsync(community)
@@ -183,11 +172,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var community = new CommunitySale(companyId, "community name", "Owner name");
             community.Id = communityId;
-            community.CommunityHoas = new List<CommunityHoa>()
-            {
-                new CommunityHoa("Hoa name", 23, 3455, BillingFrequency.Quarterly, "www.somewebsite.com", "234456788"),
-                new CommunityHoa("Hoa name2", 1234, 3443455, BillingFrequency.Annually, "www.somewebsite2.com", "234456788"),
-            };
 
             this.SetupUserEmployee(RoleEmployee.SalesEmployee, userId, companyId);
             this.SetupCompanyDetail();

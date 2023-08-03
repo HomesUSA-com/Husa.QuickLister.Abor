@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Community
 {
+    using System;
     using System.Collections.Generic;
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -8,26 +9,47 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class CommunityFinancialInfo : ValueObject, IProvideFinancial, IProvideAgentCommission
+    public class CommunityFinancialInfo : ValueObject, IProvideFinancial, IProvideAgentCommission, IProvideAgentBonusCommission
     {
         public CommunityFinancialInfo()
         {
             this.BuyersAgentCommissionType = CommissionType.Percent;
         }
 
-        public bool IsMultipleTaxed { get; set; }
-
         public decimal? TaxRate { get; set; }
 
         public string TitleCompany { get; set; }
 
-        public ICollection<ProposedTerms> ProposedTerms { get; set; }
+        public ICollection<AcceptableFinancing> AcceptableFinancing { get; set; }
+
+        public ICollection<TaxExemptions> TaxExemptions { get; set; }
+
+        public ICollection<HoaIncludes> HoaIncludes { get; set; }
+
+        public bool HasHoa { get; set; }
+
+        public string HoaName { get; set; }
+
+        public decimal? HoaFee { get; set; }
+
+        public BillingFrequency? BillingFrequency { get; set; }
 
         public HoaRequirement? HOARequirement { get; set; }
 
         public decimal? BuyersAgentCommission { get; set; }
 
-        public virtual CommissionType BuyersAgentCommissionType { get; set; }
+        public CommissionType BuyersAgentCommissionType { get; set; }
+
+        public bool HasAgentBonus { get; set; }
+
+        public bool HasBonusWithAmount { get; set; }
+
+        public decimal? AgentBonusAmount { get; set; }
+
+        public CommissionType AgentBonusAmountType { get; set; }
+
+        public DateTime? BonusExpirationDate { get; set; }
+        public bool HasBuyerIncentive { get; set; }
 
         public virtual string ReadableBuyersAgentCommission => this.BuyersAgentCommissionType == CommissionType.Percent ?
                 $"{this.BuyersAgentCommission}%" :
@@ -65,10 +87,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual CommunityFinancialInfo ImportFinancial(FinancialInfo info)
         {
             var clonedFinancial = this.Clone();
-            clonedFinancial.IsMultipleTaxed = info.IsMultipleTaxed;
             clonedFinancial.TaxRate = info.TaxRate;
             clonedFinancial.TitleCompany = info.TitleCompany;
-            clonedFinancial.ProposedTerms = info.ProposedTerms;
             clonedFinancial.HOARequirement = info.HOARequirement;
             clonedFinancial.BuyersAgentCommission = info.BuyersAgentCommission;
             clonedFinancial.BuyersAgentCommissionType = info.BuyersAgentCommissionType;
@@ -78,13 +98,24 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return this.IsMultipleTaxed;
             yield return this.TaxRate;
             yield return this.TitleCompany;
-            yield return this.ProposedTerms;
+            yield return this.AcceptableFinancing;
+            yield return this.TaxExemptions;
+            yield return this.HoaIncludes;
+            yield return this.HasHoa;
+            yield return this.HoaName;
+            yield return this.HoaFee;
+            yield return this.BillingFrequency;
             yield return this.HOARequirement;
             yield return this.BuyersAgentCommission;
             yield return this.BuyersAgentCommissionType;
+            yield return this.HasAgentBonus;
+            yield return this.HasBonusWithAmount;
+            yield return this.AgentBonusAmount;
+            yield return this.AgentBonusAmountType;
+            yield return this.BonusExpirationDate;
+            yield return this.HasBuyerIncentive;
         }
     }
 }

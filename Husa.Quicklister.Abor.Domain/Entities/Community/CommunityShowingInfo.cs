@@ -12,23 +12,24 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     {
         public const int MaxDirectionsLength = 255;
 
-        private string altPhoneCommunity;
-        private string agentListApptPhone;
-        public virtual string AltPhoneCommunity
+        private string occupantPhone;
+        private string contactPhone;
+        public virtual string OccupantPhone
         {
-            get { return this.altPhoneCommunity.CleanPhoneValue(); }
-            set { this.altPhoneCommunity = value.CleanPhoneValue(); }
+            get { return this.occupantPhone; }
+            set { this.occupantPhone = value.CleanPhoneValue(); }
         }
 
-        public virtual string AgentListApptPhone
+        public virtual string ContactPhone
         {
-            get { return this.agentListApptPhone.CleanPhoneValue(); }
-            set { this.agentListApptPhone = value.CleanPhoneValue(); }
+            get { return this.contactPhone; }
+            set { this.contactPhone = value.CleanPhoneValue(); }
         }
 
-        public virtual Showing? Showing { get; set; }
-        public virtual string RealtorContactEmail { get; set; }
+        public virtual ICollection<ShowingInstructions> ShowingInstructions { get; set; }
+        public virtual ShowingRequirements? ShowingRequirements { get; set; }
         public virtual string Directions { get; set; }
+        public virtual LockBoxType? LockBoxType { get; set; }
 
         public static CommunityShowingInfo ImportFromXml(SubdivisionResponse subdivision, CommunityShowingInfo showingInfo)
         {
@@ -38,7 +39,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
                 importedShowingInfo = showingInfo.Clone();
             }
 
-            importedShowingInfo.RealtorContactEmail = subdivision.SaleOffice.Email;
             if (string.IsNullOrEmpty(subdivision.DrivingDirections))
             {
                 return importedShowingInfo;
@@ -57,11 +57,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual CommunityShowingInfo UpdateFromXml(SubdivisionResponse subdivision)
         {
             var clonnedShowing = this.Clone();
-
-            if (!string.IsNullOrEmpty(subdivision.SaleOffice.Email))
-            {
-                clonnedShowing.RealtorContactEmail = subdivision.SaleOffice.Email;
-            }
 
             if (!string.IsNullOrEmpty(subdivision.DrivingDirections))
             {
@@ -85,22 +80,24 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual CommunityShowingInfo ImportShowing(ShowingInfo info)
         {
             var clonedShowing = this.Clone();
-            clonedShowing.AltPhoneCommunity = info.AltPhoneCommunity;
-            clonedShowing.AgentListApptPhone = info.AgentListApptPhone;
-            clonedShowing.RealtorContactEmail = info.RealtorContactEmail;
-            clonedShowing.Showing = info.Showing;
+            clonedShowing.OccupantPhone = info.OccupantPhone;
+            clonedShowing.ContactPhone = info.ContactPhone;
+            clonedShowing.ShowingInstructions = info.ShowingInstructions;
             clonedShowing.Directions = info.Directions;
+            clonedShowing.ShowingRequirements = info.ShowingRequirements;
+            clonedShowing.LockBoxType = info.LockBoxType;
 
             return clonedShowing;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return this.AltPhoneCommunity;
-            yield return this.AgentListApptPhone;
-            yield return this.Showing;
-            yield return this.RealtorContactEmail;
+            yield return this.OccupantPhone;
+            yield return this.ContactPhone;
+            yield return this.ShowingInstructions;
+            yield return this.ShowingRequirements;
             yield return this.Directions;
+            yield return this.LockBoxType;
         }
     }
 }

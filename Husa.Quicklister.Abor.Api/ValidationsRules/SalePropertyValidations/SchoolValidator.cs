@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Api.ValidationsRules.SalePropertyValidations
 {
     using FluentValidation;
-    using Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail;
+    using Husa.Quicklister.Abor.Api.Contracts.Request;
 
     public class SchoolValidator : AbstractValidator<SchoolsRequest>
     {

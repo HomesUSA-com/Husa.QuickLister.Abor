@@ -1,785 +1,776 @@
-﻿namespace Husa.Quicklister.Abor.Domain.Enums.Domain
+namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 {
     using System.ComponentModel;
     using System.Runtime.Serialization;
 
     public enum Counties
     {
-        [EnumMember(Value = "ANDERSON")]
+        [EnumMember(Value = "Anderson")]
         [Description("Anderson")]
         Anderson,
-        [EnumMember(Value = "ANDREWS")]
+        [EnumMember(Value = "Andrews")]
         [Description("Andrews")]
         Andrews,
-        [EnumMember(Value = "ANGELINA")]
+        [EnumMember(Value = "Angelina")]
         [Description("Angelina")]
         Angelina,
-        [EnumMember(Value = "ARANSAS")]
+        [EnumMember(Value = "Aransas")]
         [Description("Aransas")]
         Aransas,
-        [EnumMember(Value = "ARCHER")]
+        [EnumMember(Value = "Archer")]
         [Description("Archer")]
         Archer,
-        [EnumMember(Value = "ARMSTRONG")]
+        [EnumMember(Value = "Armstrong")]
         [Description("Armstrong")]
         Armstrong,
-        [EnumMember(Value = "ATASCOSA")]
+        [EnumMember(Value = "Atascosa")]
         [Description("Atascosa")]
         Atascosa,
-        [EnumMember(Value = "AUSTIN")]
+        [EnumMember(Value = "Austin")]
         [Description("Austin")]
         Austin,
-        [EnumMember(Value = "BAILEY")]
+        [EnumMember(Value = "Bailey")]
         [Description("Bailey")]
         Bailey,
-        [EnumMember(Value = "BANDERA")]
+        [EnumMember(Value = "Bandera")]
         [Description("Bandera")]
         Bandera,
-        [EnumMember(Value = "BASTROP")]
+        [EnumMember(Value = "Bastrop")]
         [Description("Bastrop")]
         Bastrop,
-        [EnumMember(Value = "BAYLOR")]
+        [EnumMember(Value = "Baylor")]
         [Description("Baylor")]
         Baylor,
-        [EnumMember(Value = "BEE")]
+        [EnumMember(Value = "Bee")]
         [Description("Bee")]
         Bee,
-        [EnumMember(Value = "BELL")]
+        [EnumMember(Value = "Bell")]
         [Description("Bell")]
         Bell,
-        [EnumMember(Value = "BEXAR")]
+        [EnumMember(Value = "Bexar")]
         [Description("Bexar")]
         Bexar,
-        [EnumMember(Value = "BLANCO")]
+        [EnumMember(Value = "Blanco")]
         [Description("Blanco")]
         Blanco,
-        [EnumMember(Value = "BORDEN")]
+        [EnumMember(Value = "Borden")]
         [Description("Borden")]
         Borden,
-        [EnumMember(Value = "BOSQUE")]
+        [EnumMember(Value = "Bosque")]
         [Description("Bosque")]
         Bosque,
-        [EnumMember(Value = "BOWIE")]
+        [EnumMember(Value = "Bowie")]
         [Description("Bowie")]
         Bowie,
-        [EnumMember(Value = "BRAZORIA")]
+        [EnumMember(Value = "Brazoria")]
         [Description("Brazoria")]
         Brazoria,
-        [EnumMember(Value = "BRAZOS")]
+        [EnumMember(Value = "Brazos")]
         [Description("Brazos")]
         Brazos,
-        [EnumMember(Value = "BREWSTER")]
+        [EnumMember(Value = "Brewster")]
         [Description("Brewster")]
         Brewster,
-        [EnumMember(Value = "BRISCOE")]
+        [EnumMember(Value = "Briscoe")]
         [Description("Briscoe")]
         Briscoe,
-        [EnumMember(Value = "BROOKS")]
+        [EnumMember(Value = "Brooks")]
         [Description("Brooks")]
         Brooks,
-        [EnumMember(Value = "BROWN")]
+        [EnumMember(Value = "Brown")]
         [Description("Brown")]
         Brown,
-        [EnumMember(Value = "BURLESON")]
+        [EnumMember(Value = "Burleson")]
         [Description("Burleson")]
         Burleson,
-        [EnumMember(Value = "BURNET")]
+        [EnumMember(Value = "Burnet")]
         [Description("Burnet")]
         Burnet,
-        [EnumMember(Value = "CALDWELL")]
+        [EnumMember(Value = "Caldwell")]
         [Description("Caldwell")]
         Caldwell,
-        [EnumMember(Value = "CALHOUN")]
+        [EnumMember(Value = "Calhoun")]
         [Description("Calhoun")]
         Calhoun,
-        [EnumMember(Value = "CALLAHAN")]
+        [EnumMember(Value = "Callahan")]
         [Description("Callahan")]
         Callahan,
-        [EnumMember(Value = "CAMERON")]
+        [EnumMember(Value = "Cameron")]
         [Description("Cameron")]
         Cameron,
-        [EnumMember(Value = "CAMP")]
+        [EnumMember(Value = "Camp")]
         [Description("Camp")]
         Camp,
-        [EnumMember(Value = "CARSON")]
+        [EnumMember(Value = "Carson")]
         [Description("Carson")]
         Carson,
-        [EnumMember(Value = "CASS")]
+        [EnumMember(Value = "Cass")]
         [Description("Cass")]
         Cass,
-        [EnumMember(Value = "CASTRO")]
+        [EnumMember(Value = "Castro")]
         [Description("Castro")]
         Castro,
-        [EnumMember(Value = "CHAMBERS")]
+        [EnumMember(Value = "Chambers")]
         [Description("Chambers")]
         Chambers,
-        [EnumMember(Value = "CHEROKEE")]
+        [EnumMember(Value = "Cherokee")]
         [Description("Cherokee")]
         Cherokee,
-        [EnumMember(Value = "CHILDRESS")]
+        [EnumMember(Value = "Childress")]
         [Description("Childress")]
         Childress,
-        [EnumMember(Value = "CLAY")]
+        [EnumMember(Value = "Chisumisd")]
+        [Description("Chisum Isd")]
+        Chisumisd,
+        [EnumMember(Value = "Clay")]
         [Description("Clay")]
         Clay,
-        [EnumMember(Value = "COCHRAN")]
+        [EnumMember(Value = "Cochran")]
         [Description("Cochran")]
         Cochran,
-        [EnumMember(Value = "COKE")]
+        [EnumMember(Value = "Coke")]
         [Description("Coke")]
         Coke,
-        [EnumMember(Value = "COLEMAN")]
+        [EnumMember(Value = "Coleman")]
         [Description("Coleman")]
         Coleman,
-        [EnumMember(Value = "COLLIN")]
+        [EnumMember(Value = "Collin")]
         [Description("Collin")]
         Collin,
-        [EnumMember(Value = "COLLNSWRTH")]
-        [Description("Collinsworth")]
-        Collinsworth,
-        [EnumMember(Value = "COLORADO")]
+        [EnumMember(Value = "Collingsworth")]
+        [Description("Collingsworth")]
+        Collingsworth,
+        [EnumMember(Value = "Colorado")]
         [Description("Colorado")]
         Colorado,
-        [EnumMember(Value = "COMAL")]
+        [EnumMember(Value = "Comal")]
         [Description("Comal")]
         Comal,
-        [EnumMember(Value = "COMANCHE")]
+        [EnumMember(Value = "Comanche")]
         [Description("Comanche")]
         Comanche,
-        [EnumMember(Value = "CONCHO")]
+        [EnumMember(Value = "Concho")]
         [Description("Concho")]
         Concho,
-        [EnumMember(Value = "COOKE")]
+        [EnumMember(Value = "Cooke")]
         [Description("Cooke")]
         Cooke,
-        [EnumMember(Value = "CORYELL")]
+        [EnumMember(Value = "Coryell")]
         [Description("Coryell")]
         Coryell,
-        [EnumMember(Value = "COTTLE")]
+        [EnumMember(Value = "Cottle")]
         [Description("Cottle")]
         Cottle,
-        [EnumMember(Value = "CRANE")]
+        [EnumMember(Value = "Crane")]
         [Description("Crane")]
         Crane,
-        [EnumMember(Value = "CROCKETT")]
+        [EnumMember(Value = "Crockett")]
         [Description("Crockett")]
         Crockett,
-        [EnumMember(Value = "CROSBY")]
+        [EnumMember(Value = "Crosby")]
         [Description("Crosby")]
         Crosby,
-        [EnumMember(Value = "CULBERSON")]
+        [EnumMember(Value = "Culberson")]
         [Description("Culberson")]
         Culberson,
-        [EnumMember(Value = "DALLAM")]
+        [EnumMember(Value = "Dallam")]
         [Description("Dallam")]
         Dallam,
-        [EnumMember(Value = "DALLAS")]
+        [EnumMember(Value = "Dallas")]
         [Description("Dallas")]
         Dallas,
-        [EnumMember(Value = "DAWSON")]
+        [EnumMember(Value = "Dawson")]
         [Description("Dawson")]
         Dawson,
-        [EnumMember(Value = "DE WITT")]
-        [Description("De Witt")]
-        DeWitt,
-        [EnumMember(Value = "DEAF SMITH")]
+        [EnumMember(Value = "DeafSmith")]
         [Description("Deaf Smith")]
         DeafSmith,
-        [EnumMember(Value = "DELTA")]
+        [EnumMember(Value = "Delta")]
         [Description("Delta")]
         Delta,
-        [EnumMember(Value = "DENTON")]
+        [EnumMember(Value = "Denton")]
         [Description("Denton")]
         Denton,
-        [EnumMember(Value = "DICKENS")]
+        [EnumMember(Value = "DeWitt")]
+        [Description("DeWitt")]
+        DeWitt,
+        [EnumMember(Value = "Dickens")]
         [Description("Dickens")]
         Dickens,
-        [EnumMember(Value = "DIMMIT")]
+        [EnumMember(Value = "Dimmit")]
         [Description("Dimmit")]
         Dimmit,
-        [EnumMember(Value = "DONLEY")]
+        [EnumMember(Value = "Donley")]
         [Description("Donley")]
         Donley,
-        [EnumMember(Value = "DUVAL")]
+        [EnumMember(Value = "Duval")]
         [Description("Duval")]
         Duval,
-        [EnumMember(Value = "EASTLAND")]
+        [EnumMember(Value = "Eastland")]
         [Description("Eastland")]
         Eastland,
-        [EnumMember(Value = "ECTOR")]
+        [EnumMember(Value = "Ector")]
         [Description("Ector")]
         Ector,
-        [EnumMember(Value = "EDWARDS")]
+        [EnumMember(Value = "Edwards")]
         [Description("Edwards")]
         Edwards,
-        [EnumMember(Value = "EL PASO")]
-        [Description("El Paso")]
-        ElPaso,
-        [EnumMember(Value = "ELLIS")]
+        [EnumMember(Value = "Ellis")]
         [Description("Ellis")]
         Ellis,
-        [EnumMember(Value = "ERATH")]
+        [EnumMember(Value = "ElPaso")]
+        [Description("El Paso")]
+        ElPaso,
+        [EnumMember(Value = "Erath")]
         [Description("Erath")]
         Erath,
-        [EnumMember(Value = "FALLS")]
+        [EnumMember(Value = "Falls")]
         [Description("Falls")]
         Falls,
-        [EnumMember(Value = "FANNIN")]
+        [EnumMember(Value = "Fannin")]
         [Description("Fannin")]
         Fannin,
-        [EnumMember(Value = "FAYETTE")]
+        [EnumMember(Value = "Fayette")]
         [Description("Fayette")]
         Fayette,
-        [EnumMember(Value = "FISHER")]
+        [EnumMember(Value = "Fisher")]
         [Description("Fisher")]
         Fisher,
-        [EnumMember(Value = "FLOYD")]
+        [EnumMember(Value = "Floyd")]
         [Description("Floyd")]
         Floyd,
-        [EnumMember(Value = "FOARD")]
+        [EnumMember(Value = "Foard")]
         [Description("Foard")]
         Foard,
-        [EnumMember(Value = "FORT BEND")]
+        [EnumMember(Value = "FortBend")]
         [Description("Fort Bend")]
         FortBend,
-        [EnumMember(Value = "FRANKLIN")]
+        [EnumMember(Value = "Franklin")]
         [Description("Franklin")]
         Franklin,
-        [EnumMember(Value = "FREESTONE")]
+        [EnumMember(Value = "Freestone")]
         [Description("Freestone")]
         Freestone,
-        [EnumMember(Value = "FRIO")]
+        [EnumMember(Value = "Frio")]
         [Description("Frio")]
         Frio,
-        [EnumMember(Value = "GAINES")]
+        [EnumMember(Value = "Gaines")]
         [Description("Gaines")]
         Gaines,
-        [EnumMember(Value = "GALVESTON")]
+        [EnumMember(Value = "Galveston")]
         [Description("Galveston")]
         Galveston,
-        [EnumMember(Value = "GARZA")]
+        [EnumMember(Value = "Garza")]
         [Description("Garza")]
         Garza,
-        [EnumMember(Value = "GILLESPIE")]
+        [EnumMember(Value = "Gillespie")]
         [Description("Gillespie")]
         Gillespie,
-        [EnumMember(Value = "GLASSCOCK")]
+        [EnumMember(Value = "Glasscock")]
         [Description("Glasscock")]
         Glasscock,
-        [EnumMember(Value = "GOLIAD")]
+        [EnumMember(Value = "Goliad")]
         [Description("Goliad")]
         Goliad,
-        [EnumMember(Value = "GONZALES")]
+        [EnumMember(Value = "Gonzales")]
         [Description("Gonzales")]
         Gonzales,
-        [EnumMember(Value = "GRAY")]
+        [EnumMember(Value = "Gray")]
         [Description("Gray")]
         Gray,
-        [EnumMember(Value = "GRAYSON")]
+        [EnumMember(Value = "Grayson")]
         [Description("Grayson")]
         Grayson,
-        [EnumMember(Value = "GREGG")]
+        [EnumMember(Value = "Gregg")]
         [Description("Gregg")]
         Gregg,
-        [EnumMember(Value = "GRIMES")]
+        [EnumMember(Value = "Grimes")]
         [Description("Grimes")]
         Grimes,
-        [EnumMember(Value = "GUADALUPE")]
+        [EnumMember(Value = "Guadalupe")]
         [Description("Guadalupe")]
         Guadalupe,
-        [EnumMember(Value = "HALE")]
+        [EnumMember(Value = "Hale")]
         [Description("Hale")]
         Hale,
-        [EnumMember(Value = "HALL")]
+        [EnumMember(Value = "Hall")]
         [Description("Hall")]
         Hall,
-        [EnumMember(Value = "HAMILTON")]
+        [EnumMember(Value = "Hamilton")]
         [Description("Hamilton")]
         Hamilton,
-        [EnumMember(Value = "HANSFORD")]
+        [EnumMember(Value = "Hansford")]
         [Description("Hansford")]
         Hansford,
-        [EnumMember(Value = "HARDEMAN")]
+        [EnumMember(Value = "Hardeman")]
         [Description("Hardeman")]
         Hardeman,
-        [EnumMember(Value = "HARDIN")]
+        [EnumMember(Value = "Hardin")]
         [Description("Hardin")]
         Hardin,
-        [EnumMember(Value = "HARRIS")]
+        [EnumMember(Value = "Harris")]
         [Description("Harris")]
         Harris,
-        [EnumMember(Value = "HARRISON")]
+        [EnumMember(Value = "Harrison")]
         [Description("Harrison")]
         Harrison,
-        [EnumMember(Value = "HARTLEY")]
+        [EnumMember(Value = "Hartley")]
         [Description("Hartley")]
         Hartley,
-        [EnumMember(Value = "HASKELL")]
+        [EnumMember(Value = "Haskell")]
         [Description("Haskell")]
         Haskell,
-        [EnumMember(Value = "HAYES")]
-        [Description("Hayes")]
-        Hayes,
-        [EnumMember(Value = "HAYS")]
+        [EnumMember(Value = "Hays")]
         [Description("Hays")]
         Hays,
-        [EnumMember(Value = "HEMPHILL")]
+        [EnumMember(Value = "Hemphill")]
         [Description("Hemphill")]
         Hemphill,
-        [EnumMember(Value = "HENDERSON")]
+        [EnumMember(Value = "Henderson")]
         [Description("Henderson")]
         Henderson,
-        [EnumMember(Value = "HIDALGO")]
+        [EnumMember(Value = "Hidalgo")]
         [Description("Hidalgo")]
         Hidalgo,
-        [EnumMember(Value = "HILL")]
+        [EnumMember(Value = "Hill")]
         [Description("Hill")]
         Hill,
-        [EnumMember(Value = "HOCKLEY")]
+        [EnumMember(Value = "Hockley")]
         [Description("Hockley")]
         Hockley,
-        [EnumMember(Value = "HOOD")]
+        [EnumMember(Value = "Hood")]
         [Description("Hood")]
         Hood,
-        [EnumMember(Value = "HOPKINNS")]
-        [Description("Hopkinns")]
-        Hopkinns,
-        [EnumMember(Value = "HOUSTON")]
+        [EnumMember(Value = "Hopkins")]
+        [Description("Hopkins")]
+        Hopkins,
+        [EnumMember(Value = "Houston")]
         [Description("Houston")]
         Houston,
-        [EnumMember(Value = "HOWARD")]
+        [EnumMember(Value = "Howard")]
         [Description("Howard")]
         Howard,
-        [EnumMember(Value = "HUDSPETH")]
+        [EnumMember(Value = "Hudspeth")]
         [Description("Hudspeth")]
         Hudspeth,
-        [EnumMember(Value = "HUNT")]
+        [EnumMember(Value = "Hunt")]
         [Description("Hunt")]
         Hunt,
-        [EnumMember(Value = "HUTCHINSON")]
+        [EnumMember(Value = "Hutchinson")]
         [Description("Hutchinson")]
         Hutchinson,
-        [EnumMember(Value = "IRION")]
+        [EnumMember(Value = "Irion")]
         [Description("Irion")]
         Irion,
-        [EnumMember(Value = "JACK")]
+        [EnumMember(Value = "Jack")]
         [Description("Jack")]
         Jack,
-        [EnumMember(Value = "JACKSON")]
+        [EnumMember(Value = "Jackson")]
         [Description("Jackson")]
         Jackson,
-        [EnumMember(Value = "JASPER")]
+        [EnumMember(Value = "Jasper")]
         [Description("Jasper")]
         Jasper,
-        [EnumMember(Value = "JEFF DAVIS")]
-        [Description("Jeff Davis")]
-        JeffDavis,
-        [EnumMember(Value = "JEFFERSON")]
+        [EnumMember(Value = "Jeff")]
+        [Description("Jeff")]
+        Jeff,
+        [EnumMember(Value = "Jefferson")]
         [Description("Jefferson")]
         Jefferson,
-        [EnumMember(Value = "JIM HOGG")]
+        [EnumMember(Value = "Jimhogg")]
         [Description("Jim Hogg")]
-        JimHogg,
-        [EnumMember(Value = "JIM WELLS")]
+        Jimhogg,
+        [EnumMember(Value = "JimWells")]
         [Description("Jim Wells")]
         JimWells,
-        [EnumMember(Value = "JOHNSON")]
+        [EnumMember(Value = "Johnson")]
         [Description("Johnson")]
         Johnson,
-        [EnumMember(Value = "JONES")]
+        [EnumMember(Value = "Jones")]
         [Description("Jones")]
         Jones,
-        [EnumMember(Value = "KARNES")]
+        [EnumMember(Value = "Karnes")]
         [Description("Karnes")]
         Karnes,
-        [EnumMember(Value = "KAUFMAN")]
+        [EnumMember(Value = "Kaufman")]
         [Description("Kaufman")]
         Kaufman,
-        [EnumMember(Value = "KENDALL")]
+        [EnumMember(Value = "Kendall")]
         [Description("Kendall")]
         Kendall,
-        [EnumMember(Value = "KENEDY")]
+        [EnumMember(Value = "Kenedy")]
         [Description("Kenedy")]
         Kenedy,
-        [EnumMember(Value = "KENT")]
+        [EnumMember(Value = "Kent")]
         [Description("Kent")]
         Kent,
-        [EnumMember(Value = "KERR")]
+        [EnumMember(Value = "Kerr")]
         [Description("Kerr")]
         Kerr,
-        [EnumMember(Value = "KIMBALL")]
-        [Description("Kimball")]
-        Kimball,
-        [EnumMember(Value = "KIMBLE")]
+        [EnumMember(Value = "Kimble")]
         [Description("Kimble")]
         Kimble,
-        [EnumMember(Value = "KING")]
+        [EnumMember(Value = "King")]
         [Description("King")]
         King,
-        [EnumMember(Value = "KINNEY")]
+        [EnumMember(Value = "Kinney")]
         [Description("Kinney")]
         Kinney,
-        [EnumMember(Value = "KLEBERG")]
+        [EnumMember(Value = "Kleberg")]
         [Description("Kleberg")]
         Kleberg,
-        [EnumMember(Value = "KNOX")]
+        [EnumMember(Value = "Knox")]
         [Description("Knox")]
         Knox,
-        [EnumMember(Value = "LA SALLE")]
-        [Description("La Salle")]
-        LaSalle,
-        [EnumMember(Value = "LAMAR")]
+        [EnumMember(Value = "Knoxcounty")]
+        [Description("Knox County")]
+        Knoxcounty,
+        [EnumMember(Value = "Lamar")]
         [Description("Lamar")]
         Lamar,
-        [EnumMember(Value = "LAMB")]
+        [EnumMember(Value = "Lamb")]
         [Description("Lamb")]
         Lamb,
-        [EnumMember(Value = "LAMPASAS")]
+        [EnumMember(Value = "Lampasas")]
         [Description("Lampasas")]
         Lampasas,
-        [EnumMember(Value = "LAVACA")]
+        [EnumMember(Value = "LaSalle")]
+        [Description("La Salle")]
+        LaSalle,
+        [EnumMember(Value = "Lavaca")]
         [Description("Lavaca")]
         Lavaca,
-        [EnumMember(Value = "LEE")]
+        [EnumMember(Value = "Lee")]
         [Description("Lee")]
         Lee,
-        [EnumMember(Value = "LEON")]
+        [EnumMember(Value = "Leon")]
         [Description("Leon")]
         Leon,
-        [EnumMember(Value = "LIBERTY")]
+        [EnumMember(Value = "Liberty")]
         [Description("Liberty")]
         Liberty,
-        [EnumMember(Value = "LIMESTONE")]
+        [EnumMember(Value = "Limestone")]
         [Description("Limestone")]
         Limestone,
-        [EnumMember(Value = "LIPSCOMB")]
+        [EnumMember(Value = "Lipscomb")]
         [Description("Lipscomb")]
         Lipscomb,
-        [EnumMember(Value = "LIVE OAK")]
+        [EnumMember(Value = "LiveOak")]
         [Description("Live Oak")]
         LiveOak,
-        [EnumMember(Value = "LLANO")]
+        [EnumMember(Value = "Llano")]
         [Description("Llano")]
         Llano,
-        [EnumMember(Value = "LOVING")]
+        [EnumMember(Value = "Loving")]
         [Description("Loving")]
         Loving,
-        [EnumMember(Value = "LUBBOCK")]
+        [EnumMember(Value = "Lubbock")]
         [Description("Lubbock")]
         Lubbock,
-        [EnumMember(Value = "LYNN")]
+        [EnumMember(Value = "Lynn")]
         [Description("Lynn")]
         Lynn,
-        [EnumMember(Value = "MADISON")]
+        [EnumMember(Value = "Madison")]
         [Description("Madison")]
         Madison,
-        [EnumMember(Value = "MARION")]
+        [EnumMember(Value = "Marion")]
         [Description("Marion")]
         Marion,
-        [EnumMember(Value = "MARTIN")]
+        [EnumMember(Value = "Martin")]
         [Description("Martin")]
         Martin,
-        [EnumMember(Value = "MASON CO")]
-        [Description("Mason Co")]
-        MasonCo,
-        [EnumMember(Value = "MATAGORDA")]
+        [EnumMember(Value = "Mason")]
+        [Description("Mason")]
+        Mason,
+        [EnumMember(Value = "Matagorda")]
         [Description("Matagorda")]
         Matagorda,
-        [EnumMember(Value = "MAVERICK")]
+        [EnumMember(Value = "Maverick")]
         [Description("Maverick")]
         Maverick,
-        [EnumMember(Value = "MCCULLOCH")]
-        [Description("Mcculloch")]
-        Mcculloch,
-        [EnumMember(Value = "MCLENNAN")]
+        [EnumMember(Value = "McCulloch")]
+        [Description("McCulloch")]
+        McCulloch,
+        [EnumMember(Value = "McLennan")]
         [Description("McLennan")]
         McLennan,
-        [EnumMember(Value = "MCMULLEN")]
-        [Description("McMullen")]
-        McMullen,
-        [EnumMember(Value = "MEDINA")]
+        [EnumMember(Value = "Medina")]
         [Description("Medina")]
         Medina,
-        [EnumMember(Value = "MENARD")]
+        [EnumMember(Value = "Menard")]
         [Description("Menard")]
         Menard,
-        [EnumMember(Value = "MIDLAND")]
+        [EnumMember(Value = "Midland")]
         [Description("Midland")]
         Midland,
-        [EnumMember(Value = "MILAM")]
+        [EnumMember(Value = "Milam")]
         [Description("Milam")]
         Milam,
-        [EnumMember(Value = "MILLS")]
+        [EnumMember(Value = "Mills")]
         [Description("Mills")]
         Mills,
-        [EnumMember(Value = "MITCHELL")]
+        [EnumMember(Value = "Mitchell")]
         [Description("Mitchell")]
         Mitchell,
-        [EnumMember(Value = "MONTAGUE")]
+        [EnumMember(Value = "Montague")]
         [Description("Montague")]
         Montague,
-        [EnumMember(Value = "MONTGOMERY")]
+        [EnumMember(Value = "Montgomery")]
         [Description("Montgomery")]
         Montgomery,
-        [EnumMember(Value = "MOORE")]
+        [EnumMember(Value = "Moore")]
         [Description("Moore")]
         Moore,
-        [EnumMember(Value = "MORRIS")]
+        [EnumMember(Value = "Morris")]
         [Description("Morris")]
         Morris,
-        [EnumMember(Value = "MOTLEY")]
+        [EnumMember(Value = "Motley")]
         [Description("Motley")]
         Motley,
-        [EnumMember(Value = "NA")]
+        [EnumMember(Value = "Nacogdoches")]
         [Description("Nacogdoches")]
         Nacogdoches,
-        [EnumMember(Value = "NACOGDOCHS")]
+        [EnumMember(Value = "Navarro")]
         [Description("Navarro")]
         Navarro,
-        [EnumMember(Value = "NAVARRO")]
+        [EnumMember(Value = "Newton")]
         [Description("Newton")]
         Newton,
-        [EnumMember(Value = "NEWTON")]
+        [EnumMember(Value = "Nolan")]
         [Description("Nolan")]
         Nolan,
-        [EnumMember(Value = "NOLAN")]
-        [Description("Not Applicable")]
-        NotApplicable,
-        [EnumMember(Value = "NUECES")]
+        [EnumMember(Value = "Nueces")]
         [Description("Nueces")]
         Nueces,
-        [EnumMember(Value = "OCHILTREE")]
+        [EnumMember(Value = "Ochiltree")]
         [Description("Ochiltree")]
         Ochiltree,
-        [EnumMember(Value = "OLDHAM")]
+        [EnumMember(Value = "Oldham")]
         [Description("Oldham")]
         Oldham,
-        [EnumMember(Value = "ORANGE")]
+        [EnumMember(Value = "Orange")]
         [Description("Orange")]
         Orange,
-        [EnumMember(Value = "OTHER")]
-        [Description("Other")]
+        [EnumMember(Value = "Other")]
+        [Description("Out of State")]
         Other,
-        [EnumMember(Value = "PALO PINTO")]
+        [EnumMember(Value = "PaloPinto")]
         [Description("Palo Pinto")]
         PaloPinto,
-        [EnumMember(Value = "PANOLA")]
+        [EnumMember(Value = "Panola")]
         [Description("Panola")]
         Panola,
-        [EnumMember(Value = "PARKER")]
+        [EnumMember(Value = "Parker")]
         [Description("Parker")]
         Parker,
-        [EnumMember(Value = "PARMER")]
+        [EnumMember(Value = "Parmer")]
         [Description("Parmer")]
         Parmer,
-        [EnumMember(Value = "PECOS")]
+        [EnumMember(Value = "Pecos")]
         [Description("Pecos")]
         Pecos,
-        [EnumMember(Value = "POLK")]
+        [EnumMember(Value = "Polk")]
         [Description("Polk")]
         Polk,
-        [EnumMember(Value = "POTTER")]
+        [EnumMember(Value = "Potter")]
         [Description("Potter")]
         Potter,
-        [EnumMember(Value = "PRESIDIO")]
+        [EnumMember(Value = "Presidio")]
         [Description("Presidio")]
         Presidio,
-        [EnumMember(Value = "RAINS")]
+        [EnumMember(Value = "Rains")]
         [Description("Rains")]
         Rains,
-        [EnumMember(Value = "RANDALL")]
+        [EnumMember(Value = "Randall")]
         [Description("Randall")]
         Randall,
-        [EnumMember(Value = "REAGAN")]
+        [EnumMember(Value = "Reagan")]
         [Description("Reagan")]
         Reagan,
-        [EnumMember(Value = "REAL")]
+        [EnumMember(Value = "Real")]
         [Description("Real")]
         Real,
-        [EnumMember(Value = "RED RIVER")]
+        [EnumMember(Value = "RedRiver")]
         [Description("Red River")]
         RedRiver,
-        [EnumMember(Value = "REEVES")]
+        [EnumMember(Value = "Reeves")]
         [Description("Reeves")]
         Reeves,
-        [EnumMember(Value = "REFUGIO")]
+        [EnumMember(Value = "Refugio")]
         [Description("Refugio")]
         Refugio,
-        [EnumMember(Value = "ROBERTS")]
+        [EnumMember(Value = "Roberts")]
         [Description("Roberts")]
         Roberts,
-        [EnumMember(Value = "ROBERTSON")]
+        [EnumMember(Value = "Robertson")]
         [Description("Robertson")]
         Robertson,
-        [EnumMember(Value = "ROCKWALL")]
+        [EnumMember(Value = "Rockwall")]
         [Description("Rockwall")]
         Rockwall,
-        [EnumMember(Value = "RUNNELS")]
+        [EnumMember(Value = "Runnels")]
         [Description("Runnels")]
         Runnels,
-        [EnumMember(Value = "RUSK")]
+        [EnumMember(Value = "Rusk")]
         [Description("Rusk")]
         Rusk,
-        [EnumMember(Value = "SABINE")]
+        [EnumMember(Value = "Sabine")]
         [Description("Sabine")]
         Sabine,
-        [EnumMember(Value = "SAN AGSTNE")]
+        [EnumMember(Value = "SanAugustine")]
         [Description("San Augustine")]
         SanAugustine,
-        [EnumMember(Value = "SAN SABA")]
+        [EnumMember(Value = "SanJacinto")]
         [Description("San Jacinto")]
         SanJacinto,
-        [EnumMember(Value = "SANJACINTO")]
+        [EnumMember(Value = "SanPatricio")]
         [Description("San Patricio")]
         SanPatricio,
-        [EnumMember(Value = "SANPATRCIO")]
+        [EnumMember(Value = "SanSaba")]
         [Description("San Saba")]
         SanSaba,
-        [EnumMember(Value = "SCHLEICHER")]
+        [EnumMember(Value = "Schleicher")]
         [Description("Schleicher")]
         Schleicher,
-        [EnumMember(Value = "SCURRY")]
+        [EnumMember(Value = "Scurry")]
         [Description("Scurry")]
         Scurry,
-        [EnumMember(Value = "SHACKELFRD")]
+        [EnumMember(Value = "Shackelford")]
         [Description("Shackelford")]
         Shackelford,
-        [EnumMember(Value = "SHELBY")]
+        [EnumMember(Value = "Shelby")]
         [Description("Shelby")]
         Shelby,
-        [EnumMember(Value = "SHERMAN")]
+        [EnumMember(Value = "Sherman")]
         [Description("Sherman")]
         Sherman,
-        [EnumMember(Value = "SMITH")]
+        [EnumMember(Value = "Smith")]
         [Description("Smith")]
         Smith,
-        [EnumMember(Value = "SOMERVELL")]
+        [EnumMember(Value = "Somervell")]
         [Description("Somervell")]
         Somervell,
-        [EnumMember(Value = "STARR")]
+        [EnumMember(Value = "Starr")]
         [Description("Starr")]
         Starr,
-        [EnumMember(Value = "STEPHENS")]
+        [EnumMember(Value = "Stephens")]
         [Description("Stephens")]
         Stephens,
-        [EnumMember(Value = "STERLING")]
+        [EnumMember(Value = "Sterling")]
         [Description("Sterling")]
         Sterling,
-        [EnumMember(Value = "STONEWALL")]
+        [EnumMember(Value = "Stonewall")]
         [Description("Stonewall")]
         Stonewall,
-        [EnumMember(Value = "SUTTON")]
+        [EnumMember(Value = "Sutton")]
         [Description("Sutton")]
         Sutton,
-        [EnumMember(Value = "SWISHER")]
+        [EnumMember(Value = "Swisher")]
         [Description("Swisher")]
         Swisher,
-        [EnumMember(Value = "TARRANT")]
+        [EnumMember(Value = "Tarrant")]
         [Description("Tarrant")]
         Tarrant,
-        [EnumMember(Value = "TAYLOR")]
+        [EnumMember(Value = "Taylor")]
         [Description("Taylor")]
         Taylor,
-        [EnumMember(Value = "TERRELL")]
+        [EnumMember(Value = "Terrell")]
         [Description("Terrell")]
         Terrell,
-        [EnumMember(Value = "TERRY")]
+        [EnumMember(Value = "Terry")]
         [Description("Terry")]
         Terry,
-        [EnumMember(Value = "THROCKMRTN")]
+        [EnumMember(Value = "Throckmorton")]
         [Description("Throckmorton")]
         Throckmorton,
-        [EnumMember(Value = "TITUS")]
+        [EnumMember(Value = "Titus")]
         [Description("Titus")]
         Titus,
-        [EnumMember(Value = "TOM GREEN")]
+        [EnumMember(Value = "TomGreen")]
         [Description("Tom Green")]
         TomGreen,
-        [EnumMember(Value = "TRAVIS")]
+        [EnumMember(Value = "Travis")]
         [Description("Travis")]
         Travis,
-        [EnumMember(Value = "TRINITY")]
+        [EnumMember(Value = "Trinity")]
         [Description("Trinity")]
         Trinity,
-        [EnumMember(Value = "TYLER")]
+        [EnumMember(Value = "Tyler")]
         [Description("Tyler")]
         Tyler,
-        [EnumMember(Value = "UPSHUR")]
+        [EnumMember(Value = "Upshur")]
         [Description("Upshur")]
         Upshur,
-        [EnumMember(Value = "UPTON")]
+        [EnumMember(Value = "Upton")]
         [Description("Upton")]
         Upton,
-        [EnumMember(Value = "UVALDE")]
+        [EnumMember(Value = "Uvalde")]
         [Description("Uvalde")]
         Uvalde,
-        [EnumMember(Value = "VAL VERDE")]
+        [EnumMember(Value = "ValVerde")]
         [Description("Val Verde")]
         ValVerde,
-        [EnumMember(Value = "VAN ZANDT")]
+        [EnumMember(Value = "VanZandt")]
         [Description("Van Zandt")]
         VanZandt,
-        [EnumMember(Value = "VICTORIA")]
+        [EnumMember(Value = "Victoria")]
         [Description("Victoria")]
         Victoria,
-        [EnumMember(Value = "WALKER")]
+        [EnumMember(Value = "Walker")]
         [Description("Walker")]
         Walker,
-        [EnumMember(Value = "WALLER")]
+        [EnumMember(Value = "Waller")]
         [Description("Waller")]
         Waller,
-        [EnumMember(Value = "WARD")]
+        [EnumMember(Value = "Ward")]
         [Description("Ward")]
         Ward,
-        [EnumMember(Value = "WASHINGTON")]
+        [EnumMember(Value = "Washington")]
         [Description("Washington")]
         Washington,
-        [EnumMember(Value = "WEBB")]
+        [EnumMember(Value = "Webb")]
         [Description("Webb")]
         Webb,
-        [EnumMember(Value = "WHARTON")]
+        [EnumMember(Value = "Wharton")]
         [Description("Wharton")]
         Wharton,
-        [EnumMember(Value = "WHELLER")]
-        [Description("Wheller")]
-        Wheller,
-        [EnumMember(Value = "WICHITA")]
+        [EnumMember(Value = "Wheeler")]
+        [Description("Wheeler")]
+        Wheeler,
+        [EnumMember(Value = "Wichita")]
         [Description("Wichita")]
         Wichita,
-        [EnumMember(Value = "WILBARGER")]
+        [EnumMember(Value = "Wilbarger")]
         [Description("Wilbarger")]
         Wilbarger,
-        [EnumMember(Value = "WILLACY")]
+        [EnumMember(Value = "Willacy")]
         [Description("Willacy")]
         Willacy,
-        [EnumMember(Value = "WILLIAMS")]
-        [Description("Williams")]
-        Williams,
-        [EnumMember(Value = "WILLIAMSON")]
+        [EnumMember(Value = "Williamson")]
         [Description("Williamson")]
         Williamson,
-        [EnumMember(Value = "WILSON")]
+        [EnumMember(Value = "Wilson")]
         [Description("Wilson")]
         Wilson,
-        [EnumMember(Value = "WINKLER")]
+        [EnumMember(Value = "Winkler")]
         [Description("Winkler")]
         Winkler,
-        [EnumMember(Value = "WISE")]
+        [EnumMember(Value = "Wise")]
         [Description("Wise")]
         Wise,
-        [EnumMember(Value = "WOOD")]
+        [EnumMember(Value = "Wood")]
         [Description("Wood")]
         Wood,
-        [EnumMember(Value = "YOAKUM")]
+        [EnumMember(Value = "Yoakum")]
         [Description("Yoakum")]
         Yoakum,
-        [EnumMember(Value = "YOUNG")]
+        [EnumMember(Value = "Young")]
         [Description("Young")]
         Young,
-        [EnumMember(Value = "ZAPATA")]
+        [EnumMember(Value = "Zapata")]
         [Description("Zapata")]
         Zapata,
-        [EnumMember(Value = "ZAVALA")]
+        [EnumMember(Value = "Zavala")]
         [Description("Zavala")]
         Zavala,
     }

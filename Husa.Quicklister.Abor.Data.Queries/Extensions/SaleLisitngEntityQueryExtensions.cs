@@ -100,11 +100,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             return new()
             {
                 Directions = showing.Directions,
-                Showing = showing.Showing,
-                AgentListApptPhone = showing.AgentListApptPhone,
+                ShowingInstructions = showing.ShowingInstructions,
+                ContactPhone = showing.ContactPhone,
                 AgentPrivateRemarks = showing.AgentPrivateRemarks,
-                AltPhoneCommunity = showing.AltPhoneCommunity,
-                RealtorContactEmail = showing.RealtorContactEmail,
+                OccupantPhone = showing.OccupantPhone,
                 EnableOpenHouses = showing.EnableOpenHouses,
                 OpenHousesAgree = showing.OpenHousesAgree,
                 ShowOpenHousesPending = showing.ShowOpenHousesPending,
@@ -145,11 +144,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 HasAgentBonus = financial.HasAgentBonus,
                 HasBonusWithAmount = financial.HasBonusWithAmount,
                 HasBuyerIncentive = financial.HasBuyerIncentive,
-                HasMultipleHOA = financial.HasMultipleHOA,
                 HOARequirement = financial.HOARequirement,
-                IsMultipleTaxed = financial.IsMultipleTaxed,
-                NumHOA = financial.NumHOA,
-                ProposedTerms = financial.ProposedTerms,
                 TaxRate = financial.TaxRate,
                 TaxYear = financial.TaxYear,
                 TitleCompany = financial.TitleCompany,
@@ -267,7 +262,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             {
                 City = property.City,
                 County = property.County,
-                MapscoGrid = property.MapscoGrid,
                 MlsArea = property.MlsArea,
                 Subdivision = property.Subdivision,
                 ZipCode = property.ZipCode,
@@ -283,11 +277,12 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
 
             return new()
             {
-                AltPhoneCommunity = showing.AltPhoneCommunity,
-                AgentListApptPhone = showing.AgentListApptPhone,
-                Showing = showing.Showing,
-                RealtorContactEmail = showing.RealtorContactEmail,
+                OccupantPhone = showing.OccupantPhone,
+                ContactPhone = showing.ContactPhone,
+                ShowingInstructions = showing.ShowingInstructions,
+                ShowingRequirements = showing.ShowingRequirements,
                 Directions = showing.Directions,
+                LockBoxType = showing.LockBoxType,
             };
         }
 
@@ -315,13 +310,24 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         {
             return new()
             {
-                IsMultipleTaxed = community.Financial.IsMultipleTaxed,
                 TaxRate = community.Financial.TaxRate,
                 TitleCompany = community.Financial.TitleCompany,
-                ProposedTerms = community.Financial.ProposedTerms,
+                AcceptableFinancing = community.Financial.AcceptableFinancing,
+                TaxExemptions = community.Financial.TaxExemptions,
+                HoaIncludes = community.Financial.HoaIncludes,
+                HasHoa = community.Financial.HasHoa,
+                HoaName = community.Financial.HoaName,
+                HoaFee = community.Financial.HoaFee,
+                BillingFrequency = community.Financial.BillingFrequency,
                 HOARequirement = community.Financial.HOARequirement,
                 BuyersAgentCommission = community.Financial.BuyersAgentCommission,
                 BuyersAgentCommissionType = community.Financial.BuyersAgentCommissionType,
+                HasAgentBonus = community.Financial.HasAgentBonus,
+                HasBonusWithAmount = community.Financial.HasBonusWithAmount,
+                AgentBonusAmount = community.Financial.AgentBonusAmount,
+                AgentBonusAmountType = community.Financial.AgentBonusAmountType,
+                BonusExpirationDate = community.Financial.BonusExpirationDate,
+                HasBuyerIncentive = community.Financial.HasBuyerIncentive,
                 Schools = community.SchoolsInfo?.ToProjectionSchoolsInfo(),
             };
         }
@@ -394,6 +400,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 HighSchool = schools.HighSchool,
                 MiddleSchool = schools.MiddleSchool,
                 SchoolDistrict = schools.SchoolDistrict,
+                OtherElementarySchool = schools.OtherElementarySchool,
+                OtherHighSchool = schools.OtherHighSchool,
+                OtherMiddleSchool = schools.OtherMiddleSchool,
             };
         }
 

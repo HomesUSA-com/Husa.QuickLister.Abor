@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public static class ListingSaleProjection
     {

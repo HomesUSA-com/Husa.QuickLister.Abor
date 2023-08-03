@@ -23,6 +23,20 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
 
         public int NumHOA { get; set; }
 
+        public ICollection<AcceptableFinancing> AcceptableFinancing { get; set; }
+
+        public ICollection<TaxExemptions> TaxExemptions { get; set; }
+
+        public ICollection<HoaIncludes> HoaIncludes { get; set; }
+
+        public bool HasHoa { get; set; }
+
+        public string HoaName { get; set; }
+
+        public decimal? HoaFee { get; set; }
+
+        public BillingFrequency? BillingFrequency { get; set; }
+
         public decimal? BuyersAgentCommission { get; set; }
 
         public CommissionType BuyersAgentCommissionType { get; set; }
@@ -36,7 +50,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
         public CommissionType AgentBonusAmountType { get; set; }
 
         public DateTime? BonusExpirationDate { get; set; }
-
         public bool HasBuyerIncentive { get; set; }
     }
 }

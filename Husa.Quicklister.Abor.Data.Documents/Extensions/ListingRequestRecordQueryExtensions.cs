@@ -117,10 +117,12 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
            where T : ShowingRecord => new()
            {
                Directions = showing.Directions,
-               Showing = showing.Showing,
-               AgentListApptPhone = showing.AgentListApptPhone,
+               ShowingInstructions = showing.ShowingInstructions,
+               ShowingRequirements = showing.ShowingRequirements,
+               LockBoxType = showing.LockBoxType,
+               ContactPhone = showing.ContactPhone,
                AgentPrivateRemarks = showing.AgentPrivateRemarks,
-               AltPhoneCommunity = showing.AltPhoneCommunity,
+               OccupantPhone = showing.OccupantPhone,
                RealtorContactEmail = showing.RealtorContactEmail,
                EnableOpenHouses = showing.EnableOpenHouses,
                OpenHousesAgree = showing.OpenHousesAgree,

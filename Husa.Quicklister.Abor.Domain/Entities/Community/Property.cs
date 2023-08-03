@@ -6,9 +6,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class Property : ValueObject
+    public class Property : ValueObject, IProvideProperty
     {
         private string subdivision;
 
@@ -16,13 +17,21 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
 
         public Counties? County { get; set; }
 
+        public string ZipCode { get; set; }
+
+        public string Subdivision { get => this.subdivision; set => this.subdivision = value.ToTitleCase(); }
+
+        public string LotSize { get; set; }
+
         public MlsArea? MlsArea { get; set; }
 
-        public string MapscoGrid { get; set; }
+        public ConstructionStage? ConstructionStage { get; set; }
 
-        public string Subdivision { get => this.subdivision.ToTitleCase(); set => this.subdivision = value.ToTitleCase(); }
+        public string LotDimension { get; set; }
 
-        public string ZipCode { get; set; }
+        public ICollection<LotDescription> LotDescription { get; set; }
+
+        public PropertySubType? PropertyType { get; set; }
 
         public static Property ImportFromXml(SubdivisionResponse subdivision, Property property)
         {
@@ -80,7 +89,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             clonedProperty.Subdivision = saleProperty.AddressInfo.Subdivision;
             clonedProperty.ZipCode = saleProperty.AddressInfo.ZipCode;
             clonedProperty.MlsArea = saleProperty.PropertyInfo.MlsArea;
-            clonedProperty.MapscoGrid = saleProperty.PropertyInfo.MapscoGrid;
 
             return clonedProperty;
         }
@@ -90,9 +98,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             yield return this.City;
             yield return this.County;
             yield return this.MlsArea;
-            yield return this.MapscoGrid;
             yield return this.Subdivision;
             yield return this.ZipCode;
+            yield return this.PropertyType;
+            yield return this.LotDescription;
+            yield return this.LotDimension;
+            yield return this.LotSize;
         }
     }
 }

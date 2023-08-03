@@ -12,11 +12,12 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Data.Documents.QueryFilters;
     using Husa.Quicklister.Abor.Data.Queries.Models;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Domain.Entities.Request;

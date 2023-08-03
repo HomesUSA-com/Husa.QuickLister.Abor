@@ -8,10 +8,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Husa.Quicklister.Abor.Data.ValueConverters;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -50,38 +47,13 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureShowing(OwnedNavigationBuilder<CommunitySale, CommunityShowingInfo> builder)
         {
-            builder.Property(r => r.AltPhoneCommunity).HasColumnName(nameof(CommunityShowingInfo.AltPhoneCommunity)).HasMaxLength(14);
-            builder.Property(r => r.AgentListApptPhone).HasColumnName(nameof(CommunityShowingInfo.AgentListApptPhone)).HasMaxLength(14);
-            builder.Property(r => r.Showing)
-                .HasColumnName(nameof(IProvideShowingInfo.Showing))
-                .HasMaxLength(10)
-                .HasConversion<EnumFieldValueConverter<Showing>>();
-            builder.Property(r => r.RealtorContactEmail).HasColumnName(nameof(CommunityShowingInfo.RealtorContactEmail)).HasMaxLength(255);
-            builder.Property(r => r.Directions).HasColumnName(nameof(CommunityShowingInfo.Directions)).HasMaxLength(255);
+            builder.ConfigureShowing();
         }
 
         private static void ConfigureFinancial(OwnedNavigationBuilder<CommunitySale, CommunityFinancialInfo> builder)
         {
-            builder
-                .Property(r => r.TaxRate)
-                .HasColumnName(nameof(CommunityFinancialInfo.TaxRate))
-                .HasPrecision(18, 2);
-
-            builder.Property(r => r.TitleCompany).HasColumnName(nameof(CommunityFinancialInfo.TitleCompany)).HasMaxLength(45);
-            builder.Property(r => r.ProposedTerms).HasColumnName(nameof(CommunityFinancialInfo.ProposedTerms)).HasEnumCollectionValue<ProposedTerms>(100);
-            builder.Property(r => r.HOARequirement)
-                .HasColumnName(nameof(CommunityFinancialInfo.HOARequirement))
-                .HasMaxLength(10)
-                .HasConversion<EnumFieldValueConverter<HoaRequirement>>();
-
-            builder.Property(r => r.BuyersAgentCommission)
-                .HasPrecision(18, 2)
-                .HasColumnName(nameof(FinancialInfo.BuyersAgentCommission))
-                .HasMaxLength(6);
-
+            builder.ConfigureFinancial();
             builder.Ignore(p => p.ReadableBuyersAgentCommission);
-
-            builder.Property(r => r.BuyersAgentCommissionType).HasColumnName(nameof(FinancialInfo.BuyersAgentCommissionType)).HasEnumFieldValue<CommissionType>(1, isRequired: true);
         }
 
         private static void ConfigureProFile(OwnedNavigationBuilder<CommunitySale, ProfileInfo> builder)
@@ -120,23 +92,11 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureProperty(OwnedNavigationBuilder<CommunitySale, Property> builder)
         {
-            builder.Property(r => r.City)
-                .HasColumnName(nameof(Property.City))
-                .HasConversion<EnumFieldValueConverter<Cities>>()
-                .HasMaxLength(50);
-
-            builder.Property(r => r.County)
-               .HasColumnName(nameof(Property.County))
-               .HasConversion<EnumFieldValueConverter<Counties>>()
-               .HasMaxLength(20);
-
-            builder.Property(x => x.MlsArea)
-               .HasColumnName(nameof(Property.MlsArea))
-               .HasConversion<EnumFieldValueConverter<MlsArea>>()
-               .HasMaxLength(5);
-            builder.Property(x => x.MapscoGrid).HasColumnName(nameof(Property.MapscoGrid)).HasMaxLength(5);
-            builder.Property(x => x.Subdivision).HasColumnName(nameof(Property.Subdivision)).HasMaxLength(50);
+            builder.Property(r => r.City).HasColumnName(nameof(Property.City)).HasEnumFieldValue<Cities>(maxLength: 50);
+            builder.Property(r => r.County).HasColumnName(nameof(Property.County)).HasEnumFieldValue<Counties>(maxLength: 20);
+            builder.Property(x => x.Subdivision).HasColumnName(nameof(Property.Subdivision)).HasMaxLength(75);
             builder.Property(x => x.ZipCode).HasColumnName(nameof(Property.ZipCode)).HasMaxLength(12);
+            builder.ConfigureProperty();
         }
 
         private static void ConfigureUtilities(OwnedNavigationBuilder<CommunitySale, Utilities> builder)
@@ -175,25 +135,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<CommunitySale, SchoolsInfo> builder)
         {
-            builder.Property(r => r.SchoolDistrict)
-                .HasColumnName(nameof(SchoolsInfo.SchoolDistrict))
-                .HasMaxLength(50)
-                .HasConversion<EnumFieldValueConverter<SchoolDistrict>>();
-
-            builder.Property(r => r.ElementarySchool)
-                .HasColumnName(nameof(SchoolsInfo.ElementarySchool))
-                .HasMaxLength(50)
-                .HasConversion<EnumFieldValueConverter<ElementarySchool>>();
-
-            builder.Property(r => r.MiddleSchool)
-                .HasColumnName(nameof(SchoolsInfo.MiddleSchool))
-                .HasMaxLength(50)
-                .HasConversion<EnumFieldValueConverter<MiddleSchool>>();
-
-            builder.Property(r => r.HighSchool)
-                .HasColumnName(nameof(SchoolsInfo.HighSchool))
-                .HasMaxLength(50)
-                .HasConversion<EnumFieldValueConverter<HighSchool>>();
+            builder.ConfigureSchools();
         }
     }
 }

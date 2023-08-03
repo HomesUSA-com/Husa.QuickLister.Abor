@@ -36,8 +36,6 @@ namespace Husa.Quicklister.Abor.Data
 
         public virtual DbSet<SaleListingHoa> ListingSaleHoa { get; set; }
 
-        public virtual DbSet<CommunityHoa> CommunityHoa { get; set; }
-
         public virtual DbSet<OpenHouse> OpenHouse { get; set; }
 
         public virtual DbSet<CommunitySale> Community { get; set; }

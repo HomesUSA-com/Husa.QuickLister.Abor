@@ -290,7 +290,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
             this.ImportSaleOfficeFromCommunity(communitySale.SaleOffice);
             this.ImportPropertyFromCommunity(communitySale.Property);
-            this.ImportHoasFromEntity(communitySale.CommunityHoas);
             this.ImportOpenHouseFromCommunity(communitySale);
         }
 
@@ -308,11 +307,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             var propertyChanges = communitySale.GetChangedProperties(nameof(communitySale.Property));
             communitySale.Property.CopyProperties(this.AddressInfo, propertyChanges);
             communitySale.Property.CopyProperties(this.PropertyInfo, propertyChanges);
-
-            if (communitySale.Changes.Any(x => x == nameof(communitySale.CommunityHoas)))
-            {
-                this.ImportHoasFromEntity(communitySale.CommunityHoas);
-            }
         }
 
         public virtual void ImportOpenHouseFromCommunity(CommunitySale communitySale)
@@ -596,7 +590,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
         private void ImportPropertyFromCommunity(Property property)
         {
             this.PropertyInfo.MlsArea = property.MlsArea;
-            this.PropertyInfo.MapscoGrid = property.MapscoGrid;
+            this.PropertyInfo.LotDimension = property.LotDimension;
+            this.PropertyInfo.LotDescription = property.LotDescription;
+            this.PropertyInfo.LotSize = property.LotSize;
+            this.PropertyInfo.PropertyType = property.PropertyType;
         }
 
         private void ImportSaleOfficeFromCommunity(CommunitySaleOffice saleOffice)
@@ -715,7 +712,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.FinancialInfo ??= new();
             this.FinancialInfo.TaxYear = financialInfo.TaxYear;
             this.FinancialInfo.TaxRate = financialInfo.TaxRate;
-            this.FinancialInfo.IsMultipleTaxed = financialInfo.IsMultipleTaxed;
             this.FinancialInfo.TitleCompany = financialInfo.TitleCompany;
             this.FinancialInfo.ProposedTerms = financialInfo.ProposedTerms;
             this.FinancialInfo.HasMultipleHOA = financialInfo.HasMultipleHOA;
@@ -723,7 +719,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.FinancialInfo.HasAgentBonus = financialInfo.AgentBonusAmount != null;
             this.FinancialInfo.AgentBonusAmount = financialInfo.AgentBonusAmount;
             this.FinancialInfo.AgentBonusAmountType = financialInfo.AgentBonusAmountType;
-            this.FinancialInfo.HOARequirement = financialInfo.HOARequirement;
         }
 
         private void CopyShowingData(ShowingInfo showingInfo)
@@ -734,12 +729,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
 
             this.ShowingInfo ??= new();
-            this.ShowingInfo.AltPhoneCommunity = showingInfo.AltPhoneCommunity;
-            this.ShowingInfo.AgentListApptPhone = showingInfo.AgentListApptPhone;
+            this.ShowingInfo.OccupantPhone = showingInfo.OccupantPhone;
+            this.ShowingInfo.ContactPhone = showingInfo.ContactPhone;
             this.ShowingInfo.AgentPrivateRemarks = showingInfo.AgentPrivateRemarks;
             this.ShowingInfo.RealtorContactEmail = showingInfo.RealtorContactEmail;
             this.ShowingInfo.Directions = showingInfo.Directions;
-            this.ShowingInfo.Showing = showingInfo.Showing;
+            this.ShowingInfo.ShowingRequirements = showingInfo.ShowingRequirements;
+            this.ShowingInfo.ShowingInstructions = showingInfo.ShowingInstructions;
+            this.ShowingInfo.LockBoxType = showingInfo.LockBoxType;
         }
 
         private void CopySpacesDimensionsData(SpacesDimensionsInfo spacesDimensions)
