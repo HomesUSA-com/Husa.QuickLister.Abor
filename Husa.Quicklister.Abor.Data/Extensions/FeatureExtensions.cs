@@ -56,6 +56,20 @@ namespace Husa.Quicklister.Abor.Data.Extensions
                 .HasEnumCollectionValue<SecurityFeatures>(300);
             builder.Property(r => r.WindowFeatures).HasColumnName(nameof(IProvideFeature.WindowFeatures))
                 .HasEnumCollectionValue<WindowFeatures>(300);
+            builder.Property(r => r.Foundation).HasColumnName(nameof(IProvideFeature.Foundation))
+                .HasEnumCollectionValue<Foundation>(300);
+            builder.Property(r => r.RoofDescription).HasColumnName(nameof(IProvideFeature.RoofDescription))
+                   .HasEnumCollectionValue<RoofDescription>(300);
+            builder.Property(r => r.Fencing).HasColumnName(nameof(IProvideFeature.Fencing))
+                   .HasEnumCollectionValue<Fencing>(300);
+            builder.Property(r => r.ConstructionMaterials).HasColumnName(nameof(IProvideFeature.ConstructionMaterials))
+                   .HasEnumCollectionValue<ConstructionMaterials>(300);
+            builder.Property(r => r.PatioAndPorchFeatures).HasColumnName(nameof(IProvideFeature.PatioAndPorchFeatures))
+                   .HasEnumCollectionValue<PatioAndPorchFeatures>(300);
+            builder.Property(r => r.View).HasColumnName(nameof(IProvideFeature.View))
+                   .HasEnumCollectionValue<View>(300);
+            builder.Property(r => r.ExteriorFeatures).HasColumnName(nameof(IProvideFeature.ExteriorFeatures))
+                   .HasEnumCollectionValue<ExteriorFeatures>(300);
         }
     }
 }

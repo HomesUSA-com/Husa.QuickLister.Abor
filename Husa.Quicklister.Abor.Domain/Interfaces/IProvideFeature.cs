@@ -28,21 +28,12 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         ICollection<SecurityFeatures> SecurityFeatures { get; set; }
         ICollection<WindowFeatures> WindowFeatures { get; set; }
 
-        ICollection<Inclusions> Inclusions { get; set; }
-        ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
-        ICollection<RoofDescription> RoofDescription { get; set; }
         ICollection<Foundation> Foundation { get; set; }
-        ICollection<GreenCertification> GreenCertification { get; set; }
-        ICollection<EnergyFeatures> EnergyFeatures { get; set; }
-        ICollection<GreenFeatures> GreenFeatures { get; set; }
-        string SupplierElectricity { get; set; }
-        string SupplierWater { get; set; }
-        string SupplierSewer { get; set; }
-        string SupplierGarbage { get; set; }
-        string SupplierGas { get; set; }
-        string SupplierOther { get; set; }
-        ICollection<HeatingFuel> HeatingFuel { get; set; }
-        bool HasAccessibility { get; set; }
-        ICollection<Accessibility> Accessibility { get; set; }
+        ICollection<RoofDescription> RoofDescription { get; set; }
+        ICollection<Fencing> Fencing { get; set; }
+        ICollection<ConstructionMaterials> ConstructionMaterials { get; set; }
+        ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
+        ICollection<View> View { get; set; }
+        ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
     }
 }

@@ -7,7 +7,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Husa.Extensions.Linq.ValueConverters;
     using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
-    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -112,9 +111,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.WindowCoverings).HasColumnName(nameof(FeaturesInfo.WindowCoverings)).HasEnumCollectionValue<WindowFeatures>(100);
             builder.Property(r => r.Accessibility).HasColumnName(nameof(FeaturesInfo.Accessibility)).HasEnumCollectionValue<Accessibility>(200);
             builder.Property(r => r.HousingStyle).HasColumnName(nameof(FeaturesInfo.HousingStyle)).HasEnumCollectionValue<HousingStyle>(255);
-            builder.Property(r => r.ExteriorFeatures).HasColumnName(nameof(FeaturesInfo.ExteriorFeatures)).HasEnumCollectionValue<ExteriorFeatures>(500);
-            builder.Property(r => r.RoofDescription).HasColumnName(nameof(FeaturesInfo.RoofDescription)).HasEnumCollectionValue<RoofDescription>(145);
-            builder.Property(r => r.Foundation).HasColumnName(nameof(FeaturesInfo.Foundation)).HasEnumCollectionValue<Foundation>(94);
             builder.Property(r => r.Exterior).HasColumnName(nameof(FeaturesInfo.Exterior)).HasEnumCollectionValue<Exterior>(157);
             builder.Property(r => r.PrivatePool).HasColumnName(nameof(FeaturesInfo.PrivatePool)).HasEnumCollectionValue<PrivatePool>(256);
             builder.Property(r => r.HomeFaces).HasColumnName(nameof(FeaturesInfo.HomeFaces)).HasEnumCollectionValue<HomeFaces>(14);

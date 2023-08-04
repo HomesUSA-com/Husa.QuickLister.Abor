@@ -26,15 +26,19 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
         public ICollection<Flooring> Floors { get; set; }
         public ICollection<SecurityFeatures> SecurityFeatures { get; set; }
         public ICollection<WindowFeatures> WindowFeatures { get; set; }
+        public ICollection<Foundation> Foundation { get; set; }
+        public ICollection<RoofDescription> RoofDescription { get; set; }
+        public ICollection<Fencing> Fencing { get; set; }
+        public ICollection<ConstructionMaterials> ConstructionMaterials { get; set; }
+        public ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
+        public ICollection<View> View { get; set; }
+        public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
         public string PropertyDescription { get; set; }
         public ICollection<Inclusions> Inclusions { get; set; }
         public ICollection<WindowFeatures> WindowCoverings { get; set; }
         public bool HasAccessibility { get; set; }
         public ICollection<Accessibility> Accessibility { get; set; }
         public ICollection<HousingStyle> HousingStyle { get; set; }
-        public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
-        public ICollection<RoofDescription> RoofDescription { get; set; }
-        public ICollection<Foundation> Foundation { get; set; }
         public ICollection<Exterior> Exterior { get; set; }
         public bool HasPrivatePool { get; set; }
         public ICollection<PrivatePool> PrivatePool { get; set; }

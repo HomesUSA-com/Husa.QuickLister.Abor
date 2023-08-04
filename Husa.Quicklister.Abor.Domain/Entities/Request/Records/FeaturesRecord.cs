@@ -95,6 +95,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
         public ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
         public ICollection<WaterSource> WaterSource { get; set; }
+        public virtual ICollection<Fencing> Fencing { get; set; }
+        public virtual ICollection<ConstructionMaterials> ConstructionMaterials { get; set; }
+        public virtual ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
+        public virtual ICollection<View> View { get; set; }
 
         public FeaturesRecord CloneRecord() => (FeaturesRecord)this.MemberwiseClone();
 

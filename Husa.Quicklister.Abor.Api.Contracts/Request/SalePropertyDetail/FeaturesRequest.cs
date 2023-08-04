@@ -27,6 +27,13 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
         public ICollection<SecurityFeatures> SecurityFeatures { get; set; }
         public ICollection<WindowFeatures> WindowFeatures { get; set; }
 
+        public ICollection<Foundation> Foundation { get; set; }
+        public ICollection<RoofDescription> RoofDescription { get; set; }
+        public ICollection<Fencing> Fencing { get; set; }
+        public ICollection<ConstructionMaterials> ConstructionMaterials { get; set; }
+        public ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
+        public ICollection<View> View { get; set; }
+        public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
         public string PropertyDescription { get; set; }
 
         public ICollection<Inclusions> Inclusions { get; set; }
@@ -38,12 +45,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
         public ICollection<Accessibility> Accessibility { get; set; }
 
         public ICollection<HousingStyle> HousingStyle { get; set; }
-
-        public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
-
-        public ICollection<RoofDescription> RoofDescription { get; set; }
-
-        public ICollection<Foundation> Foundation { get; set; }
 
         public ICollection<Exterior> Exterior { get; set; }
 

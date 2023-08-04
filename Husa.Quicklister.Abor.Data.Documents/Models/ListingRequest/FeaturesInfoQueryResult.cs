@@ -58,6 +58,10 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public ICollection<WaterAccessDescription> WaterAccessDescription { get; set; }
         public ICollection<SecurityFeatures> SecurityFeatures { get; set; }
         public ICollection<WindowFeatures> WindowFeatures { get; set; }
+        public ICollection<Fencing> Fencing { get; set; }
+        public ICollection<ConstructionMaterials> ConstructionMaterials { get; set; }
+        public ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
+        public ICollection<View> View { get; set; }
 
         public ICollection<GreenCertification> GreenCertification { get; set; }
 

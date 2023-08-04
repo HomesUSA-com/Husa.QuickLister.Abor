@@ -101,24 +101,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
         private static void ConfigureUtilities(OwnedNavigationBuilder<CommunitySale, Utilities> builder)
         {
             builder.ConfigureFeature();
-            builder.Property(x => x.SupplierElectricity).HasColumnName(nameof(Utilities.SupplierElectricity)).HasMaxLength(60);
-            builder.Property(x => x.SupplierWater).HasColumnName(nameof(Utilities.SupplierWater)).HasMaxLength(25);
-            builder.Property(x => x.SupplierSewer).HasColumnName(nameof(Utilities.SupplierSewer)).HasMaxLength(25);
-            builder.Property(x => x.SupplierGarbage).HasColumnName(nameof(Utilities.SupplierGarbage)).HasMaxLength(25);
-            builder.Property(x => x.SupplierGas).HasColumnName(nameof(Utilities.SupplierGas)).HasMaxLength(25);
-            builder.Property(x => x.SupplierOther).HasColumnName(nameof(Utilities.SupplierOther)).HasMaxLength(25);
-            builder.Property(x => x.HeatingFuel).HasColumnName(nameof(Utilities.HeatingFuel)).HasEnumCollectionValue<HeatingFuel>(100);
-            builder.Property(r => r.Inclusions).HasColumnName(nameof(Utilities.Inclusions)).HasEnumCollectionValue<Inclusions>(500);
-            builder.Property(r => r.ExteriorFeatures).HasColumnName(nameof(Utilities.ExteriorFeatures)).HasEnumCollectionValue<ExteriorFeatures>(500);
-            builder.Property(r => r.RoofDescription).HasColumnName(nameof(Utilities.RoofDescription)).HasEnumCollectionValue<RoofDescription>(145);
-            builder.Property(r => r.Foundation).HasColumnName(nameof(Utilities.Foundation)).HasEnumCollectionValue<Foundation>(94);
-            builder.Property(r => r.EnergyFeatures).HasColumnName(nameof(Utilities.EnergyFeatures)).HasEnumCollectionValue<EnergyFeatures>(176);
-            builder.Property(r => r.GreenCertification).HasColumnName(nameof(Utilities.GreenCertification)).HasEnumCollectionValue<GreenCertification>(80);
-            builder.Property(r => r.GreenFeatures).HasColumnName(nameof(Utilities.GreenFeatures)).HasEnumCollectionValue<GreenFeatures>(90);
-            builder.Property(r => r.SpecialtyRooms).HasColumnName(nameof(Utilities.SpecialtyRooms)).HasEnumCollectionValue<SpecialtyRooms>(400);
-            builder.Property(r => r.HasAccessibility).HasColumnName(nameof(Utilities.HasAccessibility));
-            builder.Property(r => r.Exterior).HasColumnName(nameof(Utilities.Exterior)).HasEnumCollectionValue<Exterior>(255);
-            builder.Property(r => r.Accessibility).HasColumnName(nameof(Utilities.Accessibility)).HasEnumCollectionValue<Accessibility>(maxLength: 200);
         }
 
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<CommunitySale, SchoolsInfo> builder)

@@ -267,7 +267,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             this.Property = this.Property.ImportProperty(listing.SaleProperty);
             this.Financial = this.Financial.ImportFinancial(listing.SaleProperty.FinancialInfo);
             this.Showing = this.Showing.ImportShowing(listing.SaleProperty.ShowingInfo);
-            this.Utilities = this.Utilities.ImportUtilities(listing.SaleProperty.FeaturesInfo, listing.SaleProperty.SpacesDimensionsInfo);
+            this.Utilities = this.Utilities.ImportUtilities(listing.SaleProperty.FeaturesInfo);
             this.SchoolsInfo = this.SchoolsInfo.ImportSchools(listing.SaleProperty.SchoolsInfo);
 
             this.ImportOpenHouse<SaleListingOpenHouse, CommunityOpenHouse, CommunitySale>(listing.SaleProperty.OpenHouses);

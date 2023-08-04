@@ -36,7 +36,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<MasterBedroomFeatures> MasterBedroomFeatures { get; set; }
         public virtual ICollection<WaterAccessDescription> WaterAccessDescription { get; set; }
         public virtual int? Fireplaces { get; set; }
-
         public virtual ICollection<FireplaceDescription> FireplaceDescription
         {
             get { return this.fireplaceDescription; }
@@ -46,6 +45,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<Flooring> Floors { get; set; }
         public virtual ICollection<SecurityFeatures> SecurityFeatures { get; set; }
         public virtual ICollection<WindowFeatures> WindowFeatures { get; set; }
+
+        public virtual ICollection<Foundation> Foundation { get; set; }
+        public virtual ICollection<RoofDescription> RoofDescription { get; set; }
+        public virtual ICollection<Fencing> Fencing { get; set; }
+        public virtual ICollection<ConstructionMaterials> ConstructionMaterials { get; set; }
+        public virtual ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
+        public virtual ICollection<View> View { get; set; }
+        public virtual ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
 
         public virtual string PropertyDescription { get; set; }
 
@@ -72,12 +79,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<LotImprovements> LotImprovements { get; set; }
 
         public virtual ICollection<Inclusions> Inclusions { get; set; }
-
-        public virtual ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
-
-        public virtual ICollection<RoofDescription> RoofDescription { get; set; }
-
-        public virtual ICollection<Foundation> Foundation { get; set; }
 
         public virtual ICollection<GreenCertification> GreenCertification { get; set; }
 
@@ -130,29 +131,33 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
             var clonnedFeatures = this.Clone();
             clonnedFeatures.NeighborhoodAmenities = utilities.NeighborhoodAmenities;
-            clonnedFeatures.Inclusions = utilities.Inclusions;
-            clonnedFeatures.Floors = utilities.Floors;
-            clonnedFeatures.ExteriorFeatures = utilities.ExteriorFeatures;
-            clonnedFeatures.RoofDescription = utilities.RoofDescription;
-            clonnedFeatures.Foundation = utilities.Foundation;
+            clonnedFeatures.RestrictionsDescription = utilities.RestrictionsDescription;
+            clonnedFeatures.UtilitiesDescription = utilities.UtilitiesDescription;
+            clonnedFeatures.WaterSource = utilities.WaterSource;
+            clonnedFeatures.WaterSewer = utilities.WaterSewer;
             clonnedFeatures.HeatSystem = utilities.HeatSystem;
             clonnedFeatures.CoolingSystem = utilities.CoolingSystem;
-            clonnedFeatures.GreenCertification = utilities.GreenCertification;
-            clonnedFeatures.EnergyFeatures = utilities.EnergyFeatures;
-            clonnedFeatures.GreenFeatures = utilities.GreenFeatures;
-            clonnedFeatures.WaterSewer = utilities.WaterSewer;
-            clonnedFeatures.SupplierElectricity = utilities.SupplierElectricity;
-            clonnedFeatures.SupplierWater = utilities.SupplierWater;
-            clonnedFeatures.SupplierSewer = utilities.SupplierSewer;
-            clonnedFeatures.SupplierGarbage = utilities.SupplierGarbage;
-            clonnedFeatures.SupplierGas = utilities.SupplierGas;
-            clonnedFeatures.SupplierOther = utilities.SupplierOther;
-            clonnedFeatures.HeatingFuel = utilities.HeatingFuel;
-            clonnedFeatures.Accessibility = utilities.Accessibility;
-            clonnedFeatures.HasAccessibility = utilities.HasAccessibility;
+            clonnedFeatures.Appliances = utilities.Appliances;
+            clonnedFeatures.GarageSpaces = utilities.GarageSpaces;
+            clonnedFeatures.GarageDescription = utilities.GarageDescription;
+            clonnedFeatures.LaundryFeatures = utilities.LaundryFeatures;
+            clonnedFeatures.LaundryLocation = utilities.LaundryLocation;
+            clonnedFeatures.InteriorFeatures = utilities.InteriorFeatures;
+            clonnedFeatures.KitchenFeatures = utilities.KitchenFeatures;
+            clonnedFeatures.MasterBedroomFeatures = utilities.MasterBedroomFeatures;
+            clonnedFeatures.WaterAccessDescription = utilities.WaterAccessDescription;
             clonnedFeatures.Fireplaces = utilities.Fireplaces;
             clonnedFeatures.FireplaceDescription = utilities.FireplaceDescription;
-            clonnedFeatures.Exterior = utilities.Exterior;
+            clonnedFeatures.Floors = utilities.Floors;
+            clonnedFeatures.SecurityFeatures = utilities.SecurityFeatures;
+            clonnedFeatures.WindowFeatures = utilities.WindowFeatures;
+            clonnedFeatures.Foundation = utilities.Foundation;
+            clonnedFeatures.RoofDescription = utilities.RoofDescription;
+            clonnedFeatures.Fencing = utilities.Fencing;
+            clonnedFeatures.ConstructionMaterials = utilities.ConstructionMaterials;
+            clonnedFeatures.PatioAndPorchFeatures = utilities.PatioAndPorchFeatures;
+            clonnedFeatures.View = utilities.View;
+            clonnedFeatures.ExteriorFeatures = utilities.ExteriorFeatures;
 
             return clonnedFeatures;
         }

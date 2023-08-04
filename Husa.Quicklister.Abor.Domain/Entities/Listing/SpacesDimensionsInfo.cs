@@ -3,7 +3,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using System.Collections.Generic;
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
-    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
@@ -94,13 +93,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             clonnedSpacesDimensions.LivingAreasTotal = basePlan.LivingAreasTotal;
 
             return clonnedSpacesDimensions;
-        }
-
-        public SpacesDimensionsInfo ImportSpacesDimensionsFromCommunity(Utilities utilities)
-        {
-            var clonned = this.Clone();
-            clonned.SpecialtyRooms = utilities.SpecialtyRooms;
-            return clonned;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

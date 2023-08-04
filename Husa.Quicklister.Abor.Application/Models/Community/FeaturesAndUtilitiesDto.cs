@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Application.Models.Community
         public ICollection<WaterSewer> WaterSewer { get; set; }
         public ICollection<HeatingSystem> HeatSystem { get; set; }
         public ICollection<CoolingSystem> CoolingSystem { get; set; }
+
         public ICollection<Appliances> Appliances { get; set; }
         public int? GarageSpaces { get; set; }
         public ICollection<GarageDescription> GarageDescription { get; set; }
@@ -27,23 +28,13 @@ namespace Husa.Quicklister.Abor.Application.Models.Community
         public ICollection<Flooring> Floors { get; set; }
         public ICollection<SecurityFeatures> SecurityFeatures { get; set; }
         public ICollection<WindowFeatures> WindowFeatures { get; set; }
-        public ICollection<Inclusions> Inclusions { get; set; }
-        public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
-        public ICollection<RoofDescription> RoofDescription { get; set; }
+
         public ICollection<Foundation> Foundation { get; set; }
-        public ICollection<GreenCertification> GreenCertification { get; set; }
-        public ICollection<EnergyFeatures> EnergyFeatures { get; set; }
-        public ICollection<GreenFeatures> GreenFeatures { get; set; }
-        public string SupplierElectricity { get; set; }
-        public string SupplierWater { get; set; }
-        public string SupplierSewer { get; set; }
-        public string SupplierGarbage { get; set; }
-        public string SupplierGas { get; set; }
-        public string SupplierOther { get; set; }
-        public ICollection<HeatingFuel> HeatingFuel { get; set; }
-        public ICollection<SpecialtyRooms> SpecialtyRooms { get; set; }
-        public bool HasAccessibility { get; set; }
-        public ICollection<Accessibility> Accessibility { get; set; }
-        public ICollection<Exterior> Exterior { get; set; }
+        public ICollection<RoofDescription> RoofDescription { get; set; }
+        public ICollection<Fencing> Fencing { get; set; }
+        public ICollection<ConstructionMaterials> ConstructionMaterials { get; set; }
+        public ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
+        public ICollection<View> View { get; set; }
+        public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
     }
 }
