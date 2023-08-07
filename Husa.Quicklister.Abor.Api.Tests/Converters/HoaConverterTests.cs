@@ -10,8 +10,8 @@ namespace Husa.Quicklister.Abor.Api.Tests.Converters
         [Theory]
         [InlineData("A", BillingFrequency.Annually)]
         [InlineData("Q", BillingFrequency.Quarterly)]
-        [InlineData("M", BillingFrequency.Monthly)]
-        [InlineData("S", BillingFrequency.SemiAnnually)]
+        [InlineData("MN", BillingFrequency.Monthly)]
+        [InlineData("SEMIA", BillingFrequency.SemiAnnually)]
         public void Convert_WhenHoaMessageIsNotNull_ShouldReturnHoaDto(string enumMemberValue, BillingFrequency billingFrequency)
         {
             // Arrange

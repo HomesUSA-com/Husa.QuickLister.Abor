@@ -703,13 +703,13 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Bedrooms = 4,
             Block = "26",
             Contract = "ERS",
-            ElementarySchool = "HONDO",
+            ElementarySchool = "Holland",
             EnergyFeatures = null,
             FullBaths = 1,
             GreenCertification = null,
             GreenFeatures = null,
             HalfBaths = "2",
-            HighSchool = "HONDO",
+            HighSchool = "Holland",
             ListingAgentId = "365976",
             CoolingSystemDescription = "RAMPD",
             ExteriorFeatures = "WKSHP,STRG",
@@ -738,7 +738,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             OwnerLREALREB = "NO",
             TitleCompany = "Mission Title Co.",
             Showing = "AGENT",
-            SchoolDistrict = "HONDO",
+            SchoolDistrict = "Holland",
             TaxId = "16468",
             BuilderName = "unknown",
             SaleTerms2nd = null,
@@ -764,7 +764,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             MlsArea = 3000,
             ListPrice = 199000,
             CDOM = 203,
-            City = "HONDO",
+            City = "Holland",
             Type = "RE",
             CloseDate = null,
             ContractDate = null,
@@ -788,7 +788,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Longitude = null,
             LotSize = ".3857",
             LotDimensions = "120X140",
-            MiddleSchool = "HONDO",
+            MiddleSchool = "Holland",
             Stories = "1",
             GarageSpaces = null,
             RecentRehab = null,
@@ -1259,9 +1259,18 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             MapscoGrid = "stri",
             ConstructionCompletionDate = new DateTime(DateTime.UtcNow.Year, 10, 4, 0, 0, 0, 0, DateTimeKind.Utc),
         };
+
         public static SpacesDimensionsInfo GetSpacesDimensionsInfo() => new()
         {
             StoriesTotal = Stories.One,
+            SqFtTotal = 1254,
+            DiningAreasTotal = 3,
+            HalfBathsTotal = 1,
+            FullBathsTotal = 3,
+            LivingAreasTotal = 1,
+            MainLevelBedroomTotal = 1,
+            OtherLevelsBedroomTotal = 1,
+            SqFtSource = SqFtSource.BuilderPlans,
         };
 
         public static ScrapedListingQueryResult GetScrapedListingQueryResult(
@@ -1390,6 +1399,8 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 ContactPhone = communityShowingInfo.ContactPhone,
                 ShowingInstructions = communityShowingInfo.ShowingInstructions,
                 Directions = communityShowingInfo.Directions,
+                LockBoxType = communityShowingInfo.LockBoxType,
+                ShowingRequirements = ShowingRequirements.AgentOrOwnerPresent,
             };
         }
 
@@ -1435,8 +1446,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             OccupantPhone = null,
             ContactPhone = "210-222-2227",
-            ShowingInstructions = GetEnumCollectionRandom<ShowingInstructions>(),
+            ShowingInstructions = "Call salesperson or come to the model home at 1234 Sample Trail.",
             Directions = "Fredericksburg Rd to Mulberry - West on Mulberry.",
+            LockBoxType = LockBoxType.Combo,
         };
     }
 }

@@ -115,43 +115,41 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
         {
             SpacesDimensionsInfo = new()
             {
-                StoriesTotal = Faker.Enum.Random<Stories>(),
+                StoriesTotal = Stories.MultiLevel,
+                SqFtTotal = 1235,
+                DiningAreasTotal = 4,
+                FullBathsTotal = 3,
+                HalfBathsTotal = 1,
+                LivingAreasTotal = 1,
             },
             FeaturesInfo = new(),
             FinancialInfo = new()
             {
-                HOARequirement = Faker.Enum.Random<HoaRequirement>(),
+                HOARequirement = HoaRequirement.Mandatory,
                 BuyersAgentCommission = 5,
             },
             ShowingInfo = new()
             {
-                ShowingInstructions = new[] { Faker.Enum.Random<ShowingInstructions>() },
+                ShowingInstructions = "Call salesperson or come to the model home at 1234 Sample Trail.",
+                LockBoxType = LockBoxType.Combo,
+                ShowingRequirements = ShowingRequirements.ShowingService,
             },
             SchoolsInfo = new()
             {
-                SchoolDistrict = Faker.Enum.Random<SchoolDistrict>(),
-                MiddleSchool = Faker.Enum.Random<MiddleSchool>(),
-                HighSchool = Faker.Enum.Random<HighSchool>(),
-                ElementarySchool = Faker.Enum.Random<ElementarySchool>(),
+                SchoolDistrict = SchoolDistrict.Holland,
+                MiddleSchool = MiddleSchool.Holland,
+                HighSchool = HighSchool.Holland,
+                ElementarySchool = ElementarySchool.Holland,
             },
             PropertyInfo = new(),
             AddressInfo = new()
             {
-                County = Faker.Enum.Random<Counties>(),
+                County = Counties.Bee,
             },
             SalePropertyInfo = new(),
-            Hoas = new HoaDto[]
-                {
-                    new(),
-                },
-            OpenHouses = new OpenHouseDto[]
-                {
-                    new(),
-                },
-            Rooms = new RoomDto[]
-                {
-                    new(),
-                },
+            Hoas = new HoaDto[] { new() },
+            OpenHouses = new OpenHouseDto[] { new() },
+            Rooms = new RoomDto[] { new() },
         };
     }
 }

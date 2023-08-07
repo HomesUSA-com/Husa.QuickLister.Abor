@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230804152129_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230807163048_V0.1.0_InitialMigration")]
+    partial class V010_InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1226,8 +1226,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("OccupantPhone");
 
                             b1.Property<string>("ShowingInstructions")
-                                .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)")
+                                .HasMaxLength(2000)
+                                .HasColumnType("nvarchar(2000)")
                                 .HasColumnName("ShowingInstructions");
 
                             b1.Property<string>("ShowingRequirements")
@@ -2618,8 +2618,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("ShowOpenHousesPending");
 
                             b1.Property<string>("ShowingInstructions")
-                                .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)")
+                                .HasMaxLength(2000)
+                                .HasColumnType("nvarchar(2000)")
                                 .HasColumnName("ShowingInstructions");
 
                             b1.Property<string>("ShowingRequirements")

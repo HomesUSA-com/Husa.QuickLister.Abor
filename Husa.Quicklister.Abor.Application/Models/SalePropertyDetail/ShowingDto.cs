@@ -1,13 +1,12 @@
 namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
 {
-    using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class ShowingDto
     {
         public string OccupantPhone { get; set; }
         public string ContactPhone { get; set; }
-        public ICollection<ShowingInstructions> ShowingInstructions { get; set; }
+        public string ShowingInstructions { get; set; }
         public string RealtorContactEmail { get; set; }
         public string Directions { get; set; }
         public string AgentPrivateRemarks { get; set; }

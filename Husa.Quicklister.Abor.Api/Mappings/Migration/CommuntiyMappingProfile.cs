@@ -83,7 +83,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.LockBoxType, cr => cr.Ignore())
                 .ForMember(dto => dto.OccupantPhone, cr => cr.MapFrom(x => x.AltPhoneCommunity))
                 .ForMember(dto => dto.ContactPhone, cr => cr.MapFrom(x => x.AgentListApptPhone))
-                .ForMember(dto => dto.ShowingInstructions, cr => cr.MapFrom(x => x.Showing.CsvToEnum<ShowingInstructions>(true)))
+                .ForMember(dto => dto.ShowingInstructions, cr => cr.MapFrom(x => x.Showing))
                 .ForMember(dto => dto.Directions, cr => cr.MapFrom(x => x.Directions.Length > CommunityShowingInfo.MaxDirectionsLength ? x.Directions.Substring(CommunityShowingInfo.MaxDirectionsLength) : x.Directions));
             this.CreateMap<EmailLeadResponse, EmailLead>()
                 .ForMember(dto => dto.EmailLeadPrincipal, cr => cr.MapFrom(x => x.Email))

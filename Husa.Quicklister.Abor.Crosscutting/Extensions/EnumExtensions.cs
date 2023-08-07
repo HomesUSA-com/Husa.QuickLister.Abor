@@ -78,16 +78,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Extensions
             return marketStatus.ToEnumFromEnumMember<MarketStatuses>();
         }
 
-        public static ICollection<ShowingInstructions> ToShowing(this string showing)
-        {
-            if (string.IsNullOrWhiteSpace(showing))
-            {
-                return new List<ShowingInstructions>();
-            }
-
-            return showing.CsvToEnum<ShowingInstructions>(true).ToList();
-        }
-
         public static Stories? ToStories(this string stories)
         {
             if (string.IsNullOrWhiteSpace(stories))

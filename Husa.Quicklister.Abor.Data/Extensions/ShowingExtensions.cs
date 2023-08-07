@@ -22,7 +22,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
             builder.Property(r => r.ContactPhone).HasColumnName(nameof(IProvideShowingInfo.ContactPhone)).HasMaxLength(14).IsRequired(false);
             builder.Property(r => r.ShowingInstructions)
                 .HasColumnName(nameof(IProvideShowingInfo.ShowingInstructions))
-                .HasEnumCollectionValue<ShowingInstructions>(maxLength: 200);
+                .HasMaxLength(2000);
             builder.Property(r => r.ShowingRequirements)
                 .HasColumnName(nameof(IProvideShowingInfo.ShowingRequirements))
                 .HasEnumFieldValue<ShowingRequirements>(maxLength: 50);

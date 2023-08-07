@@ -1,6 +1,5 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
@@ -12,7 +11,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
         [MaxLength(14, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string ContactPhone { get; set; }
 
-        public ICollection<ShowingInstructions> ShowingInstructions { get; set; }
+        public string ShowingInstructions { get; set; }
 
         public string RealtorContactEmail { get; set; }
 

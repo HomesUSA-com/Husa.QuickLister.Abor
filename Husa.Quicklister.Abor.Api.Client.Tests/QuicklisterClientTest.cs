@@ -60,7 +60,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var listings = await this.quicklisterClient.SaleListing.GetAsync(filter);
 
             // Assert
-            Assert.Equal(10, listings.Count());
+            Assert.Equal(12, listings.Count());
         }
 
         [Fact]
@@ -441,13 +441,30 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         public async Task DeleteListingAsyncSuccess()
         {
             var xmlListingId = Factory.XmlListingId;
+            var xmlListing = new XmlResponse.XmlListingDetailResponse
+            {
+                Id = Factory.XmlListingId,
+                Market = MarketCode.Austin,
+                CompanyId = Factory.CompanyId,
+            };
+            var xmlClient = this.customWebApplicationFactory.GetService<IXmlClient>();
+            var xmlResourceMock = Mock.Get(xmlClient.Listing);
+            xmlResourceMock
+                .Setup(s => s.GetByIdAsync(It.Is<Guid>(id => id == Factory.XmlListingId), It.Is<bool>(skipProfiles => !skipProfiles), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(xmlListing)
+                .Verifiable();
 
             // Act
-            var task = Task.Run(() => this.quicklisterClient.Xml.DeleteListingAsync(xmlListingId));
-            await task;
+            await this.quicklisterClient.Xml.DeleteListingAsync(xmlListingId);
 
             // Assert
-            Assert.True(task.IsCompletedSuccessfully);
+            xmlResourceMock.Verify();
+            xmlResourceMock.Verify(
+                listing => listing.ProcessListing(
+                    It.Is<Guid>(id => id == xmlListingId),
+                    It.Is<ListActionRequest>(listAction => listAction.Type == Xml.Domain.Enums.ListActionType.ListNever),
+                    It.IsAny<CancellationToken>()),
+                Times.Once);
         }
 
         [Fact]
