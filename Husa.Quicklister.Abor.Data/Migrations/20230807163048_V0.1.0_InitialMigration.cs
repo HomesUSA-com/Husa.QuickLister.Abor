@@ -1,10 +1,12 @@
+#nullable disable
+
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     using System;
     using Microsoft.EntityFrameworkCore.Migrations;
 
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class V010_InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -82,7 +84,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     HasBuyerIncentive = table.Column<bool>(type: "bit", nullable: true),
                     OccupantPhone = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: true),
                     ContactPhone = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: true),
-                    ShowingInstructions = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    ShowingInstructions = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     ShowingRequirements = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Directions = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     LockBoxType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
@@ -414,7 +416,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     OccupantPhone = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: true),
                     ContactPhone = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: true),
                     AgentPrivateRemarks = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
-                    ShowingInstructions = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    ShowingInstructions = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     ShowingRequirements = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     LockBoxType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     RealtorContactEmail = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),

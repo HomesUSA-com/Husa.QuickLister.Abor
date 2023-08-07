@@ -1223,8 +1223,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("OccupantPhone");
 
                             b1.Property<string>("ShowingInstructions")
-                                .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)")
+                                .HasMaxLength(2000)
+                                .HasColumnType("nvarchar(2000)")
                                 .HasColumnName("ShowingInstructions");
 
                             b1.Property<string>("ShowingRequirements")
@@ -2615,8 +2615,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("ShowOpenHousesPending");
 
                             b1.Property<string>("ShowingInstructions")
-                                .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)")
+                                .HasMaxLength(2000)
+                                .HasColumnType("nvarchar(2000)")
                                 .HasColumnName("ShowingInstructions");
 
                             b1.Property<string>("ShowingRequirements")
