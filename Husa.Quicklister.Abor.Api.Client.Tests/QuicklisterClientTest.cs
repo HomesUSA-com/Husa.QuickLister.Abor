@@ -54,15 +54,13 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var filter = new Request.ListingSaleRequestFilter()
             {
                 MlsStatus = SaleListing.ActiveAndPendingListingStatuses,
-                Skip = 0,
-                Take = 10,
             };
 
             // Act
             var listings = await this.quicklisterClient.SaleListing.GetAsync(filter);
 
             // Assert
-            Assert.Equal(10, listings.Count());
+            Assert.Equal(12, listings.Count());
         }
 
         [Fact]
