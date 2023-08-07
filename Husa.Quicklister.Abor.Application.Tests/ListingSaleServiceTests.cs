@@ -19,6 +19,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
@@ -177,10 +178,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var listingId = Guid.NewGuid();
             var companyId = Guid.NewGuid();
             var listingSale = TestModelProvider.GetListingSaleEntity(listingId, createStub: true, companyId: companyId);
+            listingSale.SaleProperty.ShowingInfo.ShowingInstructions = new[] { ShowingInstructions.Agent };
             var listingSaleDto = TestModelProvider.GetListingSaleDto(companyId);
             var listingIdToImport = Guid.NewGuid();
             listingSaleDto.ListingIdToImport = listingIdToImport;
             var listingToImport = TestModelProvider.GetListingSaleEntity(listingIdToImport, true, companyId);
+            listingToImport.SaleProperty.ShowingInfo.ShowingInstructions = new[] { ShowingInstructions.Agent };
 
             this.listingSaleRepository
                 .Setup(c => c.AddAsync(It.IsAny<SaleListing>()))

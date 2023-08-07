@@ -7,13 +7,13 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
     {
         [EnumMember(Value = "AGNTOROWN")]
         [Description("Agent or Owner Present")]
-        AgentorOwnerPresent,
+        AgentOrOwnerPresent,
         [EnumMember(Value = "APPT")]
         [Description("Appointment Only")]
         AppointmentOnly,
         [EnumMember(Value = "CALL1ST")]
         [Description("CALL-1ST")]
-        Call1st,
+        CallFirst,
         [EnumMember(Value = "GO")]
         [Description("Go")]
         Go,
@@ -25,7 +25,7 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         KeyInOffice,
         [EnumMember(Value = "KEYOWNR")]
         [Description("Key with Owner")]
-        KeywithOwner,
+        KeyWithOwner,
         [EnumMember(Value = "OWNR")]
         [Description("Call Owner")]
         CallOwner,

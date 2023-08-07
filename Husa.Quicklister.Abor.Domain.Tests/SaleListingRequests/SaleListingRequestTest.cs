@@ -222,8 +222,10 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         {
             // Arrange
             var listing = TestModelProvider.GetListingSaleEntity(Guid.NewGuid(), true);
-            var saleListingRequest = new SaleListingRequest(listing, Guid.NewGuid());
-            saleListingRequest.RequestState = ListingRequestState.Completed;
+            var saleListingRequest = new SaleListingRequest(listing, Guid.NewGuid())
+            {
+                RequestState = ListingRequestState.Completed,
+            };
 
             var requestCloned = saleListingRequest.Clone();
             Assert.NotEqual(saleListingRequest.Id, requestCloned.Id);
