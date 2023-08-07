@@ -165,7 +165,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForPath(dto => dto.SaleProperty.ShowingInfo.ContactPhone, config => config.MapFrom(dto => dto.ApptPhone))
                 .ForPath(dto => dto.SaleProperty.ShowingInfo.AgentPrivateRemarks, config => config.MapFrom(dto => dto.AgentPrivateRemarks))
                 .ForPath(dto => dto.SaleProperty.ShowingInfo.Directions, config => config.MapFrom(dto => dto.Directions))
-                .ForPath(dto => dto.SaleProperty.ShowingInfo.ShowingInstructions, config => config.MapFrom(dto => dto.Showing.ToShowing()))
+                .ForPath(dto => dto.SaleProperty.ShowingInfo.ShowingInstructions, config => config.MapFrom(dto => dto.Showing))
                 .ForPath(dto => dto.SaleProperty.SchoolsInfo.SchoolDistrict, config => config.MapFrom(dto => dto.SchoolDistrict))
                 .ForPath(dto => dto.SaleProperty.SchoolsInfo.MiddleSchool, config => config.MapFrom(dto => dto.MiddleSchool))
                 .ForPath(dto => dto.SaleProperty.SchoolsInfo.ElementarySchool, config => config.MapFrom(dto => dto.ElementarySchool))

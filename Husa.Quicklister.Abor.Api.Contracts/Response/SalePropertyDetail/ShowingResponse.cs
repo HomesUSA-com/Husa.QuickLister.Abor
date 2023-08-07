@@ -1,6 +1,5 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
 {
-    using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class ShowingResponse
@@ -8,7 +7,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
         public string OccupantPhone { get; set; }
         public string ContactPhone { get; set; }
 
-        public ICollection<ShowingInstructions> ShowingInstructions { get; set; }
+        public string ShowingInstructions { get; set; }
         public string RealtorContactEmail { get; set; }
         public string Directions { get; set; }
         public string AgentPrivateRemarks { get; set; }
