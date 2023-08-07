@@ -1446,7 +1446,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             OccupantPhone = null,
             ContactPhone = "210-222-2227",
-            ShowingInstructions = GetEnumCollectionRandom<ShowingInstructions>(),
+            ShowingInstructions = "Call salesperson or come to the model home at 1234 Sample Trail.",
             Directions = "Fredericksburg Rd to Mulberry - West on Mulberry.",
             LockBoxType = LockBoxType.Combo,
         };

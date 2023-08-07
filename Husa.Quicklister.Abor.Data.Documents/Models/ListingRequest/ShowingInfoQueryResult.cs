@@ -1,6 +1,5 @@
 namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
 {
-    using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class ShowingInfoQueryResult
@@ -11,7 +10,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
 
         public string ContactPhone { get; set; }
 
-        public ICollection<ShowingInstructions> ShowingInstructions { get; set; }
+        public string ShowingInstructions { get; set; }
 
         public string RealtorContactEmail { get; set; }
 

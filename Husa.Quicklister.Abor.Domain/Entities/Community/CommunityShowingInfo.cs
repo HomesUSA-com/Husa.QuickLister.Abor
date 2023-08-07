@@ -26,7 +26,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             set { this.contactPhone = value.CleanPhoneValue(); }
         }
 
-        public virtual ICollection<ShowingInstructions> ShowingInstructions { get; set; }
+        public virtual string ShowingInstructions { get; set; }
         public virtual ShowingRequirements? ShowingRequirements { get; set; }
         public virtual string Directions { get; set; }
         public virtual LockBoxType? LockBoxType { get; set; }

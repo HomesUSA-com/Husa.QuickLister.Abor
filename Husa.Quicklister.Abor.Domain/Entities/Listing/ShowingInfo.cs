@@ -26,7 +26,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual string AgentPrivateRemarks { get; set; }
 
-        public virtual ICollection<ShowingInstructions> ShowingInstructions { get; set; }
+        public virtual string ShowingInstructions { get; set; }
         public virtual ShowingRequirements? ShowingRequirements { get; set; }
         public virtual LockBoxType? LockBoxType { get; set; }
 
