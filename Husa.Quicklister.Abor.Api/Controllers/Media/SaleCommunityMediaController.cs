@@ -94,7 +94,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
 
         [HttpPatch("{mediaId}")]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid communityId, [FromRoute] Guid mediaId, [FromBody] Media media)
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid communityId, [FromRoute] Guid mediaId, [FromBody] SimpleMedia media)
         {
             this.logger.LogInformation("Starting to update media for community with id {mediaId}", mediaId);
 

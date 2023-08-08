@@ -96,7 +96,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
 
         [HttpPatch("{mediaId}")]
         [ApiAuthorization(RoleEmployee.CompanyAdmin)]
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid planId, [FromRoute] Guid mediaId, [FromBody] Media media)
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid planId, [FromRoute] Guid mediaId, [FromBody] SimpleMedia media)
         {
             this.logger.LogInformation("Starting to update media with id {mediaId}", mediaId);
 
