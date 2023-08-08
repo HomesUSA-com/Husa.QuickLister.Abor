@@ -366,10 +366,10 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 
         private static SchoolsInfo SetupSchoolsInfo() => new()
         {
-            SchoolDistrict = Faker.Enum.Random<SchoolDistrict>(),
-            ElementarySchool = Faker.Enum.Random<ElementarySchool>(),
-            MiddleSchool = Faker.Enum.Random<MiddleSchool>(),
-            HighSchool = Faker.Enum.Random<HighSchool>(),
+            SchoolDistrict = SchoolDistrict.Harper,
+            ElementarySchool = ElementarySchool.Harper,
+            MiddleSchool = MiddleSchool.Harper,
+            HighSchool = HighSchool.Harper,
         };
 
         private static CommunityShowingInfo SetupShowingInfo() => new()

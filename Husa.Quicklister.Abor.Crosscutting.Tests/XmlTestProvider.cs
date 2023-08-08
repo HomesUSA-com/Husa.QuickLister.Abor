@@ -51,17 +51,17 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                     {
                         new()
                         {
-                            Name = Faker.Enum.Random<ElementarySchool>().ToStringFromEnumMember(),
+                            Name = ElementarySchool.Gause.ToStringFromEnumMember(),
                             Type = SchoolType.Elementary,
                         },
                         new()
                         {
-                            Name = Faker.Enum.Random<MiddleSchool>().ToStringFromEnumMember(),
+                            Name = MiddleSchool.Gause.ToStringFromEnumMember(),
                             Type = SchoolType.Middle,
                         },
                         new()
                         {
-                            Name = Faker.Enum.Random<HighSchool>().ToStringFromEnumMember(),
+                            Name = HighSchool.Harper.ToStringFromEnumMember(),
                             Type = SchoolType.High,
                         },
                     },

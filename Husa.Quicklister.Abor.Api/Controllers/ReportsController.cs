@@ -32,9 +32,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [HttpGet("comparison-report")]
         public async Task<IActionResult> GetComparisonReportAsync([FromQuery] ScrapedListingRequestFilter filter)
         {
-            var filterOptions = !filter.BuilderName.Equals(string.Empty) ? $"of {filter.BuilderName}" : $"of all companies";
-            this.logger.LogInformation("Starting to get comparison report {filterOptions} in ABOR", filterOptions);
-
+            this.logger.LogInformation("Getting the comparison report with the following optiosn {@filters} in ABOR", filter);
             var requestFilter = this.mapper.Map<ScrapedListingQueryFilter>(filter);
             var queryResponse = await this.scrapedListingQueriesRepository.GetAsync(requestFilter);
             return this.Ok(this.mapper.Map<IEnumerable<ScrapedListingQueryResponse>>(queryResponse));

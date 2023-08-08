@@ -36,8 +36,15 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
         public async Task<IEnumerable<CommunityDataQueryResponse>> GetAsync(CommunityRequestFilter filter, CancellationToken token = default)
         {
             this.logger.LogInformation("Getting communities with the filter {@filters}", filter);
-            var endpoint = this.baseUri.AddQueryString("name", filter.Name)
-                   .AddQueryString("searchBy", filter.SearchBy);
+            var endpoint = this.baseUri
+                .AddQueryString("name", filter.Name)
+                .AddQueryString("searchBy", filter.SearchBy)
+                .AddQueryString("skip", filter.Skip)
+                .AddQueryString("take", filter.Take)
+                .AddQueryString("isOnlyCount", filter.IsOnlyCount)
+                .AddQueryString("sortBy", filter.SortBy)
+                .AddQueryString("xmlStatus", filter.XmlStatus);
+
             var response = await this.client.GetAsync<DataSet<CommunityDataQueryResponse>>(endpoint, token);
             return response.Data;
         }
@@ -45,7 +52,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
         public async Task<CommunitySaleResponse> GetByIdAsync(Guid id, CancellationToken token = default)
         {
             this.logger.LogInformation("Get community with Id: {id}.", id);
-            return await this.client.GetAsync<CommunitySaleResponse>($"{this.baseUri}/{id}", token);
+            var endpoint = $"{this.baseUri}/{id}";
+            return await this.client.GetAsync<CommunitySaleResponse>(endpoint, token);
         }
 
         public async Task<CommunitySaleResponse> GetByNameAsync(Request.CommunityByNameFilter filter, CancellationToken token = default)
@@ -55,7 +63,9 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
 
             if (!string.IsNullOrEmpty(filter.CommunityName) && filter.CompanyId != Guid.Empty)
             {
-                endpoint = $"{endpoint}?companyId={filter.CompanyId}&communityName={filter.CommunityName}";
+                endpoint = endpoint
+                    .AddQueryString("companyId", filter.CompanyId)
+                    .AddQueryString("planName", filter.CommunityName);
             }
 
             var response = await this.client.GetAsync<CommunitySaleResponse>(endpoint, token);

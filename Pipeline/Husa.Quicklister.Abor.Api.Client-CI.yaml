@@ -36,7 +36,7 @@ steps:
   displayName: 'dotnet build'
   inputs:
     projects: '**/Husa.Quicklister.Abor.Api.Client.csproj'
-    arguments: '--configuration $(BuildConfiguration)'
+    arguments: '--configuration Release'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'

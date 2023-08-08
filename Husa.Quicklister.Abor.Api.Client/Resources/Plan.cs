@@ -28,15 +28,22 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
 
         public async Task<Guid> CreatePlan(Request.CreatePlanRequest planRequest, CancellationToken token = default)
         {
-            this.logger.LogInformation("Create Plan.");
+            this.logger.LogDebug("Creating the plan: {@planRequest}", planRequest);
             var response = await this.client.PostAsJsonAsync<Request.CreatePlanRequest, Guid>(this.baseUri, planRequest, token);
             return response;
         }
 
         public async Task<IEnumerable<Response.PlanDataQueryResponse>> GetAsync(PlanRequestFilter filter, CancellationToken token = default)
         {
-            this.logger.LogInformation("Get plan.");
-            var endpoint = this.baseUri.AddQueryString("searchBy", filter.SearchBy);
+            this.logger.LogInformation("Getting plan filtered by {@filters}", filter);
+            var endpoint = this.baseUri
+                .AddQueryString("searchBy", filter.SearchBy)
+                .AddQueryString("skip", filter.Skip)
+                .AddQueryString("take", filter.Take)
+                .AddQueryString("isOnlyCount", filter.IsOnlyCount)
+                .AddQueryString("sortBy", filter.SortBy)
+                .AddQueryString("xmlStatus", filter.XmlStatus);
+
             var response = await this.client.GetAsync<DataSet<Response.PlanDataQueryResponse>>(endpoint, token);
             return response.Data;
         }
@@ -49,12 +56,14 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
 
         public async Task<Response.PlanDetailResponse> GetByNameAsync(Request.PlanByNameFilter filter, CancellationToken token = default)
         {
-            this.logger.LogInformation("Retrieving the Plan By Name: '{PlanName} from company id: {CompanyId}'.", filter.PlanName, filter.CompanyId);
+            this.logger.LogInformation("Retrieving the Plan By Name:'{PlanName} from company id: {CompanyId}'.", filter.PlanName, filter.CompanyId);
             var endpoint = $"{this.baseUri}/Name";
 
             if (!string.IsNullOrEmpty(filter.PlanName) && filter.CompanyId != Guid.Empty)
             {
-                endpoint = $"{endpoint}?companyId={filter.CompanyId}&planName={filter.PlanName}";
+                endpoint = endpoint
+                    .AddQueryString("companyId", filter.CompanyId)
+                    .AddQueryString("planName", filter.PlanName);
             }
 
             var response = await this.client.GetAsync<Response.PlanDetailResponse>(endpoint, token);

@@ -93,7 +93,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
                 Id = Guid.NewGuid(),
                 OfficeId = officeId,
                 Name = officeName,
-                City = "San Antonio",
+                City = "Austin",
                 State = "TX",
             };
 

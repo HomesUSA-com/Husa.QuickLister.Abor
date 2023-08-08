@@ -46,7 +46,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery] PlanRequestFilter filter)
         {
-            this.logger.LogInformation($"Starting to get plan profiles in ABOR");
+            this.logger.LogInformation("Starting to get plan profiles in ABOR filtered by {@filters}", filter);
             var requestFilter = this.mapper.Map<PlanQueryFilter>(filter);
             var queryResponse = await this.planQueriesRepository.GetAsync(requestFilter);
             var data = this.mapper.Map<IEnumerable<PlanDataQueryResponse>>(queryResponse.Data);

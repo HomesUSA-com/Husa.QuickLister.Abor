@@ -367,7 +367,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 State = "TX",
                 Price = 100000,
                 SalesPrice = salesPrice,
-                City = "San Antonio",
+                City = "Austin",
                 LivingArea = "Study;FamilyRoom",
             };
             var xmlClient = this.customWebApplicationFactory.Services.GetRequiredService<IXmlClient>();

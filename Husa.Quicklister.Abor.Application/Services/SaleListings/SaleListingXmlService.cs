@@ -256,7 +256,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
             if (xmlListing.Market != MarketCode.Austin)
             {
-                throw new DomainException($"Listing {xmlListing.Street1} is not for San Antonio market");
+                throw new DomainException($"Listing {xmlListing.Street1} is not for '{MarketCode.Austin}' market");
             }
 
             if (xmlListing.CompanyId == null)
