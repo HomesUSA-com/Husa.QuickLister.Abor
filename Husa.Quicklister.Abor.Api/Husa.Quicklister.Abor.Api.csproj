@@ -4,8 +4,6 @@
         <AssemblyName>Husa.Quicklister.Abor.Api</AssemblyName>
         <RootNamespace>Husa.Quicklister.Abor.Api</RootNamespace>
         <UserSecretsId>0426892f-6935-38e4-9bb8-48001893f0cb</UserSecretsId>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <DockerfileContext>.</DockerfileContext>
     </PropertyGroup>
 
     <ItemGroup>

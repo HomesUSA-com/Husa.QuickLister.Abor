@@ -30,8 +30,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery] AgentRequestFilter filter)
         {
-            var filterOptions = !filter.CompanyId.Equals(Guid.Empty) ? $"by company with id {filter.CompanyId}" : string.Empty;
-            this.logger.LogInformation($"Starting to get agents {filterOptions} in ABOR");
+            this.logger.LogInformation("Getting agents filtered by {@filters} in ABOR", filter);
 
             var requestFilter = this.mapper.Map<AgentQueryFilter>(filter);
             var queryResponse = await this.agentQueriesRepository.GetAsync(requestFilter);
@@ -41,7 +40,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [HttpGet("{agentId:guid}")]
         public async Task<IActionResult> GetAgentByIdAsync([FromRoute] Guid agentId)
         {
-            this.logger.LogInformation($"Starting to get agent {agentId}.");
+            this.logger.LogInformation("Getting agent {agentId}.", agentId);
 
             var queryResponse = await this.agentQueriesRepository.GetAgentByIdAsync(agentId);
             return this.Ok(this.mapper.Map<AgentQueryResponse>(queryResponse));

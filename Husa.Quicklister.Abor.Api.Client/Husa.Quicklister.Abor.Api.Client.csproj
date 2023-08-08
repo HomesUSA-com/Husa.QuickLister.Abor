@@ -8,7 +8,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>0.1.0-dev002</Version>
+        <Version>0.1.0-dev003</Version>
         <PackageReleaseNotes>
             Release 0.1.0:
             - Initial version of the api client

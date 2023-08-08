@@ -75,7 +75,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> GetCommunityByName([FromQuery] CommunityByNameFilter filters)
         {
-            this.logger.LogInformation($"Retrieving the Community By Name: '{filters.CommunityName} from company id: {filters.CompanyId}'.");
+            this.logger.LogInformation("Retrieving the communities with the filters: {@filters}.", filters);
 
             var community = await this.communityQueriesRepository.GetCommunityByName(filters.CompanyId, filters.CommunityName);
 
@@ -93,7 +93,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly)]
         public async Task<IActionResult> GetCommunityById([FromRoute] Guid communityId)
         {
-            this.logger.LogInformation($"Received request to GET community detail with Id '{communityId}'.");
+            this.logger.LogInformation("Received request to GET community detail with Id '{communityId}'.", communityId);
 
             var community = await this.communityQueriesRepository.GetCommunityById(communityId);
 
@@ -106,7 +106,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> UpdateCommunityAsync(Guid communityId, [FromBody] CommunitySaleRequest communitySaleRequest)
         {
-            this.logger.LogInformation("Starting to update the community sale in Abor with id {communityId}", communityId);
+            this.logger.LogInformation("Updating the community sale in Abor with id {communityId}", communityId);
 
             var communitySale = this.mapper.Map<CommunitySaleDto>(communitySaleRequest);
             await this.communitySaleService.UpdateCommunity(communityId, communitySale);
@@ -118,7 +118,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin)]
         public async Task<IActionResult> DeleteCommunityAsync(Guid communityId, [FromQuery] bool deleteInCascade = false)
         {
-            this.logger.LogInformation($"Starting to delete the community sale in Abor with id {communityId}");
+            this.logger.LogInformation("Deleting the community sale in Abor with id {communityId}", communityId);
 
             await this.communitySaleService.DeleteCommunity(communityId, deleteInCascade);
 
@@ -129,7 +129,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> SaveAndSubmitCommunityAsync(Guid communityId, CommunitySaleRequest communitySaleRequest, CancellationToken cancellationToken = default)
         {
-            this.logger.LogInformation("Starting to submit community sale with id {communityId}", communityId);
+            this.logger.LogInformation("Submitting community sale with id {communityId}", communityId);
             var communitySaleDto = this.mapper.Map<CommunitySaleDto>(communitySaleRequest);
             await this.communitySaleService.UpdateCommunity(communityId, communitySaleDto);
             var response = await this.saleRequestService.CreateRequestsFromCommunityAsync(communityId, cancellationToken);
@@ -147,7 +147,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [Authorize(Roles.MLSAdministrator)]
         public async Task<IActionResult> ApproveCommunityAsync(Guid communityId)
         {
-            this.logger.LogInformation("Starting to approve a community sale with id {communityId} imported by xml", communityId);
+            this.logger.LogInformation("Approving a community sale with id {communityId} imported by xml", communityId);
             await this.communityXmlService.ApproveCommunity(communityId);
             return this.Ok();
         }
@@ -156,7 +156,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly)]
         public async Task<IActionResult> GetEmployeesAsync([FromRoute] Guid communityId)
         {
-            this.logger.LogInformation($"Start to get the employees for the community id {communityId}");
+            this.logger.LogInformation("Getting the employees for the community id {communityId}", communityId);
             var queryResponse = await this.communityQueriesRepository.GetCommunityEmployees(communityId);
 
             var data = this.mapper.Map<IEnumerable<CommunityEmployeeDataQueryResponse>>(queryResponse.Data);
@@ -168,11 +168,11 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> AddEmployeesAsync([FromRoute] Guid communityId, CommunityEmployeesRequest employees)
         {
-            this.logger.LogInformation($"Start to create employees to the community id {communityId}");
+            this.logger.LogInformation("Creating employees to the community id {communityId}", communityId);
 
             if (!employees.UserIds.Any())
             {
-                this.logger.LogError($"The user list to added as employees of community {communityId} cannot be empty");
+                this.logger.LogError("The user list to added as employees of community {communityId} cannot be empty", communityId);
                 return this.BadRequest();
             }
 
@@ -189,11 +189,11 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> DeleteEmployeesAsync([FromRoute] Guid communityId, CommunityEmployeesDeleteRequest employees)
         {
-            this.logger.LogInformation($"Start to delete employees to the community id {communityId}");
+            this.logger.LogInformation("Start to delete employees to the community id {communityId}", communityId);
 
             if (!employees.UserIds.Any())
             {
-                this.logger.LogError($"The user list to delete of community {communityId} cannot be empty");
+                this.logger.LogError("The user list to delete of community {communityId} cannot be empty", communityId);
                 return this.BadRequest();
             }
 
