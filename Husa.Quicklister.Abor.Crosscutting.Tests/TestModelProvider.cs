@@ -805,7 +805,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             ResidentialId = Guid.NewGuid(),
             Level = Faker.RandomNumber.Next(1, 10).ToString(),
-            Type = RoomType.MasterBedroom.ToString(),
+            Type = RoomType.PrimaryBedroom.ToString(),
             EntityOwnerType = "SaleProperty",
         };
 

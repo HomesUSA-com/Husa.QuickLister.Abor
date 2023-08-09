@@ -42,6 +42,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
         }
 
         public static RoomType ToRoomType(MigrationRoomType type) =>
-            Enum.TryParse(type.ToString(), out RoomType roomType) ? roomType : RoomType.MasterBedroom;
+            Enum.TryParse(type.ToString(), out RoomType roomType) ? roomType : RoomType.PrimaryBathroom;
     }
 }

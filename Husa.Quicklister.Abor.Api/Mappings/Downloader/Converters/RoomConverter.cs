@@ -21,24 +21,16 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader.Converters
 
         private static string GetRoomType(string roomTypeSource) => roomTypeSource switch
         {
-            "BEDROO" => "Bed",
-            "BREROO" => "Breakfast",
-            "DINROO" => "Dining",
-            "FULBAT" => "FullBath",
-            "GAMROO" => "Game",
-            "HALBAT" => "HalfBath",
-            "KITCHE" => "Kitchen",
-            "STUDY" => "Study",
+            "BEDROO" => "Bedroom",
             "LIVROO" => "Living",
-            "MASBED" => "MasterBedroom",
+            "MASBED" => "PrimaryBedroom",
+            "MASBATH" => "PrimaryBathroom",
+            "HALBAT" => "Bathroom",
+            "KITCHE" => "Kitchen",
+            "DINROO" => "Dining",
+            "GAMROO" => "Game",
             "OFFICE" => "Office",
-            "STUDEN" => "Studen",
-            "UTIROO" => "Utility",
-            "ENTRY" => "Entry",
-            "FAMILY" => "Family",
-            "MASBATH" => "MasterBath",
-            "MASBEDCLO" => "MasterBedroomCloset",
-            _ => "Other",
+            _ => "Bedroom",
         };
     }
 }
