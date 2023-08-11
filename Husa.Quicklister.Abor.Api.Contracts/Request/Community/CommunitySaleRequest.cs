@@ -13,6 +13,5 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.Community
         public CommunityFinancialRequest FinancialSchools { get; set; }
         public CommunityShowingRequest Showing { get; set; }
         public IEnumerable<OpenHouseRequest> OpenHouses { get; set; }
-        public IEnumerable<CommunityHoaRequest> Hoas { get; set; }
     }
 }

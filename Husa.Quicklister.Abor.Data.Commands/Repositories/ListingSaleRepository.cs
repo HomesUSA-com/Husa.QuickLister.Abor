@@ -18,13 +18,9 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
         private readonly List<MarketStatuses> openStatuses = new()
         {
             MarketStatuses.Active,
-            MarketStatuses.ActiveOption,
-            MarketStatuses.ActiveRFR,
-            MarketStatuses.BackOnMarket,
+            MarketStatuses.ActiveUnderContract,
             MarketStatuses.Pending,
-            MarketStatuses.PendingSB,
-            MarketStatuses.PriceChange,
-            MarketStatuses.Withdrawn,
+            MarketStatuses.Hold,
         };
 
         public ListingSaleRepository(ApplicationDbContext context, IUserContextProvider userContextProvider, ILogger<ListingSaleRepository> logger)
@@ -47,7 +43,6 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             this.logger.LogInformation("Starting to get the Sale listing with streetNumber: {streetNumber} streetName: {streetName} and zipcode: {zipcode}", streetNumber, streetName, zipcode);
             return await this.context.ListingSale
                 .Include(x => x.SaleProperty.Rooms)
-                .Include(x => x.SaleProperty.ListingSaleHoas)
                 .Include(x => x.SaleProperty.OpenHouses)
                 .Where(l => l.SaleProperty.AddressInfo.StreetName == streetName &&
                             l.SaleProperty.AddressInfo.StreetNumber == streetNumber &&
@@ -63,7 +58,6 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             this.logger.LogInformation("Starting to get the Sale listing by xmlListingId: {xmlListingId}", xmlListingId);
             return await this.context.ListingSale
                 .Include(x => x.SaleProperty.Rooms)
-                .Include(x => x.SaleProperty.ListingSaleHoas)
                 .Include(x => x.SaleProperty.OpenHouses)
                 .FirstOrDefaultAsync(l => l.XmlListingId == xmlListingId || l.XmlDiscrepancyListingId == xmlListingId);
         }

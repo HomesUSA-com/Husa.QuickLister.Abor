@@ -89,6 +89,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             clonedProperty.Subdivision = saleProperty.AddressInfo.Subdivision;
             clonedProperty.ZipCode = saleProperty.AddressInfo.ZipCode;
             clonedProperty.MlsArea = saleProperty.PropertyInfo.MlsArea;
+            clonedProperty.LotSize = saleProperty.PropertyInfo.LotSize;
+            clonedProperty.ConstructionStage = saleProperty.PropertyInfo.ConstructionStage;
+            clonedProperty.LotDimension = saleProperty.PropertyInfo.LotDimension;
+            clonedProperty.LotDescription = saleProperty.PropertyInfo.LotDescription;
+            clonedProperty.PropertyType = saleProperty.PropertyInfo.PropertyType;
 
             return clonedProperty;
         }

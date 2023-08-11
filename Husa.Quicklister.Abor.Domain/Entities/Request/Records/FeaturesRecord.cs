@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using Husa.Extensions.Common.Enums;
+    using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Common.Validations;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
@@ -18,55 +19,20 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public string PropertyDescription { get; set; }
 
         [Required]
-        public int? Fireplaces { get; set; }
+        public int Fireplaces { get; set; }
 
         [IfRequired(nameof(Fireplaces), "0", OperatorType.GreaterThan)]
         public ICollection<FireplaceDescription> FireplaceDescription { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
-        public ICollection<WindowFeatures> WindowCoverings { get; set; }
-        public bool HasAccessibility { get; set; }
-
-        [IfRequired(nameof(HasAccessibility), true, OperatorType.Equal)]
-        public ICollection<Accessibility> Accessibility { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
-        public ICollection<HousingStyle> HousingStyle { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
-        public ICollection<Exterior> Exterior { get; set; }
-        public bool HasPrivatePool { get; set; }
-
-        [IfRequired(nameof(HasPrivatePool), true, OperatorType.Equal)]
-        public ICollection<PrivatePool> PrivatePool { get; set; }
-        public ICollection<HomeFaces> HomeFaces { get; set; }
-
-        [Required]
         public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
-        public ICollection<LotImprovements> LotImprovements { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
-        public ICollection<Inclusions> Inclusions { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
-        public ICollection<Flooring> Floors { get; set; }
-
-        public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
-        public ICollection<RoofDescription> RoofDescription { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
-        public ICollection<Foundation> Foundation { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
+        public ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
+        public ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
+        public ICollection<WaterSource> WaterSource { get; set; }
+        public ICollection<WaterSewer> WaterSewer { get; set; }
         public ICollection<HeatingSystem> HeatSystem { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
         public ICollection<CoolingSystem> CoolingSystem { get; set; }
-
         public ICollection<Appliances> Appliances { get; set; }
-        public int? GarageSpaces { get; set; }
+        public int GarageSpaces { get; set; }
         public ICollection<GarageDescription> GarageDescription { get; set; }
         public ICollection<LaundryFeatures> LaundryFeatures { get; set; }
         public ICollection<LaundryLocation> LaundryLocation { get; set; }
@@ -74,31 +40,26 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public ICollection<KitchenFeatures> KitchenFeatures { get; set; }
         public ICollection<MasterBedroomFeatures> MasterBedroomFeatures { get; set; }
         public ICollection<WaterAccessDescription> WaterAccessDescription { get; set; }
+        public ICollection<Flooring> Floors { get; set; }
         public ICollection<SecurityFeatures> SecurityFeatures { get; set; }
         public ICollection<WindowFeatures> WindowFeatures { get; set; }
-        public ICollection<GreenCertification> GreenCertification { get; set; }
-        public ICollection<EnergyFeatures> EnergyFeatures { get; set; }
-        public ICollection<GreenFeatures> GreenFeatures { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
-        public ICollection<WaterSewer> WaterSewer { get; set; }
-        public string SupplierElectricity { get; set; }
-        public string SupplierWater { get; set; }
-        public string SupplierSewer { get; set; }
-        public string SupplierGarbage { get; set; }
-        public string SupplierGas { get; set; }
-        public string SupplierOther { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
-        public ICollection<HeatingFuel> HeatingFuel { get; set; }
+        public ICollection<Foundation> Foundation { get; set; }
+        public ICollection<RoofDescription> RoofDescription { get; set; }
+        public ICollection<Fencing> Fencing { get; set; }
+        public ICollection<ConstructionMaterials> ConstructionMaterials { get; set; }
+        public ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
+        public ICollection<View> View { get; set; }
+        public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
+        public ICollection<HomeFaces> HomeFaces { get; set; }
+        public ICollection<WaterBodyName> WaterBodyName { get; set; }
+        public ICollection<DistanceToWaterAccess> DistanceToWaterAccess { get; set; }
+        public ICollection<WaterfrontFeatures> WaterfrontFeatures { get; set; }
+        public UnitStyle? UnitStyle { get; set; }
+        public ICollection<GuestAccommodationsDescription> GuestAccommodationsDescription { get; set; }
+        public int? GuestBedroomsTotal { get; set; }
+        public int? GuestFullBathsTotal { get; set; }
+        public int? GuestHalfBathsTotal { get; set; }
         public bool IsNewConstruction { get; set; }
-        public ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
-        public ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
-        public ICollection<WaterSource> WaterSource { get; set; }
-        public virtual ICollection<Fencing> Fencing { get; set; }
-        public virtual ICollection<ConstructionMaterials> ConstructionMaterials { get; set; }
-        public virtual ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
-        public virtual ICollection<View> View { get; set; }
 
         public FeaturesRecord CloneRecord() => (FeaturesRecord)this.MemberwiseClone();
 
@@ -111,37 +72,44 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
             return new()
             {
-                PropertyDescription = featuresInfo.PropertyDescription,
-                Fireplaces = featuresInfo.Fireplaces,
-                FireplaceDescription = featuresInfo.FireplaceDescription,
-                WindowCoverings = featuresInfo.WindowCoverings,
-                HasAccessibility = featuresInfo.HasAccessibility,
-                Accessibility = featuresInfo.Accessibility,
-                HousingStyle = featuresInfo.HousingStyle,
-                Exterior = featuresInfo.Exterior,
-                HasPrivatePool = featuresInfo.HasPrivatePool,
-                PrivatePool = featuresInfo.PrivatePool,
-                HomeFaces = featuresInfo.HomeFaces,
                 NeighborhoodAmenities = featuresInfo.NeighborhoodAmenities,
-                LotImprovements = featuresInfo.LotImprovements,
-                Inclusions = featuresInfo.Inclusions,
-                Floors = featuresInfo.Floors,
-                ExteriorFeatures = featuresInfo.ExteriorFeatures,
-                RoofDescription = featuresInfo.RoofDescription,
-                Foundation = featuresInfo.Foundation,
+                RestrictionsDescription = featuresInfo.RestrictionsDescription,
+                UtilitiesDescription = featuresInfo.UtilitiesDescription,
+                WaterSource = featuresInfo.WaterSource,
+                WaterSewer = featuresInfo.WaterSewer,
                 HeatSystem = featuresInfo.HeatSystem,
                 CoolingSystem = featuresInfo.CoolingSystem,
-                GreenCertification = featuresInfo.GreenCertification,
-                EnergyFeatures = featuresInfo.EnergyFeatures,
-                GreenFeatures = featuresInfo.GreenFeatures,
-                WaterSewer = featuresInfo.WaterSewer,
-                SupplierElectricity = featuresInfo.SupplierElectricity,
-                SupplierWater = featuresInfo.SupplierWater,
-                SupplierSewer = featuresInfo.SupplierSewer,
-                SupplierGarbage = featuresInfo.SupplierGarbage,
-                SupplierGas = featuresInfo.SupplierGas,
-                SupplierOther = featuresInfo.SupplierOther,
-                HeatingFuel = featuresInfo.HeatingFuel,
+                Appliances = featuresInfo.Appliances,
+                GarageSpaces = featuresInfo.GarageSpaces ?? throw new DomainException(nameof(featuresInfo.GarageSpaces)),
+                GarageDescription = featuresInfo.GarageDescription,
+                LaundryFeatures = featuresInfo.LaundryFeatures,
+                LaundryLocation = featuresInfo.LaundryLocation,
+                InteriorFeatures = featuresInfo.InteriorFeatures,
+                KitchenFeatures = featuresInfo.KitchenFeatures,
+                MasterBedroomFeatures = featuresInfo.MasterBedroomFeatures,
+                WaterAccessDescription = featuresInfo.WaterAccessDescription,
+                Fireplaces = featuresInfo.Fireplaces ?? throw new DomainException(nameof(featuresInfo.Fireplaces)),
+                FireplaceDescription = featuresInfo.FireplaceDescription,
+                Floors = featuresInfo.Floors,
+                SecurityFeatures = featuresInfo.SecurityFeatures,
+                WindowFeatures = featuresInfo.WindowFeatures,
+                Foundation = featuresInfo.Foundation,
+                RoofDescription = featuresInfo.RoofDescription,
+                Fencing = featuresInfo.Fencing,
+                ConstructionMaterials = featuresInfo.ConstructionMaterials,
+                PatioAndPorchFeatures = featuresInfo.PatioAndPorchFeatures,
+                View = featuresInfo.View,
+                ExteriorFeatures = featuresInfo.ExteriorFeatures,
+                HomeFaces = featuresInfo.HomeFaces,
+                WaterBodyName = featuresInfo.WaterBodyName,
+                DistanceToWaterAccess = featuresInfo.DistanceToWaterAccess,
+                WaterfrontFeatures = featuresInfo.WaterfrontFeatures,
+                UnitStyle = featuresInfo.UnitStyle,
+                GuestAccommodationsDescription = featuresInfo.GuestAccommodationsDescription,
+                GuestBedroomsTotal = featuresInfo.GuestBedroomsTotal,
+                GuestFullBathsTotal = featuresInfo.GuestFullBathsTotal,
+                GuestHalfBathsTotal = featuresInfo.GuestHalfBathsTotal,
+                PropertyDescription = featuresInfo.PropertyDescription,
                 IsNewConstruction = featuresInfo.IsNewConstruction,
             };
         }

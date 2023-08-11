@@ -40,7 +40,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.AddressInfo, config => config.MapFrom(dto => dto.AddressInfo))
                 .ForMember(dest => dest.PropertyInfo, config => config.MapFrom(dto => dto.PropertyInfo))
                 .ForMember(dest => dest.Rooms, config => config.MapFrom(dto => dto.Rooms))
-                .ForMember(dest => dest.Hoas, config => config.MapFrom(dto => dto.Hoas))
                 .ForMember(dest => dest.OpenHouses, config => config.MapFrom(dto => dto.OpenHouses));
 
             this.CreateMap<SalePropertyDetailDto, SaleProperty>()
@@ -58,7 +57,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.Plan, config => config.Ignore())
                 .ForMember(dest => dest.CommunityId, config => config.Ignore())
                 .ForMember(dest => dest.Community, config => config.Ignore())
-                .ForMember(dest => dest.ListingSaleHoas, config => config.Ignore())
                 .ForMember(dest => dest.SaleListings, config => config.Ignore())
                 .ForMember(dest => dest.SysCreatedBy, config => config.Ignore())
                 .ForMember(dest => dest.SysCreatedOn, config => config.Ignore())
@@ -111,18 +109,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.IsDeleted, config => config.Ignore())
                 .ForMember(dest => dest.Id, config => config.Ignore());
 
-            this.CreateMap<HoaDto, HoaRecord>()
-                .ForMember(dest => dest.SysCreatedBy, config => config.Ignore())
-                .ForMember(dest => dest.SysCreatedOn, config => config.Ignore())
-                .ForMember(dest => dest.SysModifiedBy, config => config.Ignore())
-                .ForMember(dest => dest.SysModifiedOn, config => config.Ignore())
-                .ForMember(dest => dest.IsDeleted, config => config.Ignore())
-                .ForMember(dest => dest.SysTimestamp, config => config.Ignore())
-                .ForMember(dest => dest.Id, config => config.Ignore())
-                .ForMember(dest => dest.SalePropertyId, config => config.Ignore())
-                .ForMember(dest => dest.FieldType, config => config.Ignore())
-                .ForMember(dest => dest.CompanyId, config => config.Ignore());
-
             this.CreateMap<SalePropertyDetailDto, SalePropertyRecord>()
                 .ForMember(dest => dest.OwnerName, config => config.MapFrom(dto => dto.SalePropertyInfo.OwnerName))
                 .ForPath(dest => dest.SpacesDimensionsInfo, config => config.MapFrom(dto => dto.SpacesDimensionsInfo))
@@ -134,7 +120,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForPath(dest => dest.PropertyInfo, config => config.MapFrom(dto => dto.PropertyInfo))
                 .ForPath(dest => dest.Rooms, config => config.MapFrom(dto => dto.Rooms))
                 .ForPath(dest => dest.OpenHouses, config => config.MapFrom(dto => dto.OpenHouses))
-                .ForPath(dest => dest.ListingSaleHoas, config => config.MapFrom(dto => dto.Hoas))
                 .ForPath(dest => dest.SalesOfficeInfo, config => config.Ignore())
                 .ForMember(dest => dest.CompanyId, config => config.Ignore())
                 .ForMember(dest => dest.PlanId, config => config.Ignore())
@@ -159,11 +144,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.BuyersAgentCommissionType, config => config.Ignore());
             this.CreateMap<PropertyRecord, PropertyInfoResponse>();
             this.CreateMap<ShowingRecord, ShowingResponse>();
-            this.CreateMap<HoaRecord, HoaResponse>();
             this.CreateMap<RoomRecord, RoomResponse>();
             this.CreateMap<OpenHouseRecord, OpenHouseResponse>();
             this.CreateMap<SalePropertyRecord, SalePropertyDetailResponse>()
-                .ForPath(dest => dest.Hoas, config => config.MapFrom(dto => dto.ListingSaleHoas))
                 .ForPath(dest => dest.SalePropertyInfo.OwnerName, config => config.MapFrom(dto => dto.OwnerName))
                 .ForPath(dest => dest.SalePropertyInfo.PlanId, config => config.MapFrom(dto => dto.PlanId))
                 .ForPath(dest => dest.SalePropertyInfo.CommunityId, config => config.MapFrom(dto => dto.CommunityId))
@@ -189,7 +172,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.ShowingInfo, config => config.MapFrom(dto => dto.ShowingInfo))
                 .ForMember(dest => dest.SchoolsInfo, config => config.MapFrom(dto => dto.SchoolsInfo))
                 .ForMember(dest => dest.Rooms, config => config.MapFrom(dto => dto.Rooms))
-                .ForMember(dest => dest.Hoas, config => config.MapFrom(dto => dto.ListingSaleHoas))
                 .ForMember(dest => dest.OpenHouses, config => config.MapFrom(dto => dto.OpenHouses))
                 .ForPath(dest => dest.SalePropertyInfo.OwnerName, config => config.MapFrom(dto => dto.OwnerName))
                 .ForPath(dest => dest.SalePropertyInfo.PlanId, config => config.MapFrom(dto => dto.PlanId))
@@ -202,7 +184,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<ShowingInfo, ShowingResponse>();
             this.CreateMap<SchoolsInfo, SchoolsResponse>();
             this.CreateMap<ListingSaleRoom, RoomResponse>();
-            this.CreateMap<SaleListingHoa, HoaResponse>();
             this.CreateMap<AddressInfo, AddressInfoResponse>();
             this.CreateMap<PropertyInfo, PropertyInfoResponse>();
             this.CreateMap<SaleListingOpenHouse, OpenHouseResponse>();
@@ -227,7 +208,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.AddressInfo, config => config.MapFrom(dto => dto.AddressInfo))
                 .ForMember(dest => dest.PropertyInfo, config => config.MapFrom(dto => dto.PropertyInfo))
                 .ForMember(dest => dest.Rooms, config => config.MapFrom(dto => dto.Rooms))
-                .ForMember(dest => dest.Hoas, config => config.MapFrom(dto => dto.ListingSaleHoas))
                 .ForMember(dest => dest.OpenHouses, config => config.MapFrom(dto => dto.OpenHouses))
                 .ForPath(dest => dest.SalePropertyInfo.OwnerName, config => config.MapFrom(dto => dto.OwnerName))
                 .ForPath(dest => dest.SalePropertyInfo.PlanId, config => config.MapFrom(dto => dto.PlanId))
@@ -243,7 +223,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<ShowingInfo, ShowingDto>();
             this.CreateMap<SchoolsInfo, SchoolsDto>();
             this.CreateMap<ListingSaleRoom, RoomDto>();
-            this.CreateMap<SaleListingHoa, HoaDto>();
             this.CreateMap<SaleListingOpenHouse, OpenHouseDto>();
             this.CreateMap<PublishInfo, ListingSalePublishInfoDto>().ReverseMap();
 

@@ -85,6 +85,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
             clonnedSchools.MiddleSchool = schools.MiddleSchool;
             clonnedSchools.ElementarySchool = schools.ElementarySchool;
             clonnedSchools.HighSchool = schools.HighSchool;
+            clonnedSchools.OtherElementarySchool = schools.OtherElementarySchool;
+            clonnedSchools.OtherMiddleSchool = schools.OtherMiddleSchool;
+            clonnedSchools.OtherHighSchool = schools.OtherHighSchool;
 
             return clonnedSchools;
         }
@@ -95,6 +98,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
             yield return this.MiddleSchool;
             yield return this.ElementarySchool;
             yield return this.HighSchool;
+            yield return this.OtherMiddleSchool;
+            yield return this.OtherElementarySchool;
+            yield return this.OtherHighSchool;
         }
     }
 }

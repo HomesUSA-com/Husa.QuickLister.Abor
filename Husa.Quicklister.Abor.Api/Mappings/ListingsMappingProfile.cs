@@ -43,7 +43,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<PropertyInfoQueryResult, PropertyInfoResponse>()
                 .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(dto => dto.MlsArea.HasValue ? dto.MlsArea.Value.ToStringFromEnumMember(false) : null));
             this.CreateMap<RoomQueryResult, RoomResponse>();
-            this.CreateMap<HoaQueryResult, HoaResponse>();
             this.CreateMap<ListingSaleQueryResult, ListingSaleResponse>()
                .ForMember(dest => dest.StreetNum, config => config.MapFrom(x => x.StreetNum))
                .ForMember(dest => dest.StreetName, config => config.MapFrom(x => x.StreetName))
@@ -95,7 +94,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<AddressInfoRequest, AddressDto>();
             this.CreateMap<PropertyInfoRequest, PropertyDto>();
             this.CreateMap<RoomRequest, RoomDto>();
-            this.CreateMap<HoaRequest, HoaDto>();
             this.CreateMap<ListingRequest, ListingDto>()
                 .ForMember(dto => dto.LockedStatus, c => c.Ignore())
                 .ForMember(dto => dto.LockedBy, c => c.Ignore())
@@ -132,18 +130,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.SysModifiedBy, c => c.Ignore())
                 .ForMember(dto => dto.SysTimestamp, c => c.Ignore())
                 .ForMember(dto => dto.EntityOwnerType, c => c.MapFrom(x => EntityType.SaleProperty.ToString()))
-                .ForMember(dto => dto.CompanyId, c => c.Ignore());
-
-            this.CreateMap<HoaDto, SaleListingHoa>()
-                .ForMember(dto => dto.SysCreatedOn, c => c.Ignore())
-                .ForMember(dto => dto.SalePropertyId, c => c.Ignore())
-                .ForMember(dto => dto.SysCreatedBy, c => c.Ignore())
-                .ForMember(dto => dto.IsDeleted, c => c.Ignore())
-                .ForMember(dto => dto.SysModifiedOn, c => c.Ignore())
-                .ForMember(dto => dto.SysModifiedBy, c => c.Ignore())
-                .ForMember(dto => dto.Id, c => c.Ignore())
-                .ForMember(dto => dto.SaleProperty, c => c.Ignore())
-                .ForMember(dto => dto.SysTimestamp, c => c.Ignore())
                 .ForMember(dto => dto.CompanyId, c => c.Ignore());
 
             this.CreateMap<OpenHouseDto, SaleListingOpenHouse>()
@@ -189,7 +175,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.ShowingInfo, c => c.Ignore())
                 .ForMember(dto => dto.AddressInfo, c => c.Ignore())
                 .ForMember(dto => dto.PropertyInfo, c => c.Ignore())
-                .ForMember(dto => dto.ListingSaleHoas, c => c.Ignore())
                 .ForMember(dto => dto.OpenHouses, c => c.Ignore())
                 .ForMember(dto => dto.Rooms, c => c.Ignore())
                 .ForMember(dto => dto.CompanyId, c => c.Ignore())

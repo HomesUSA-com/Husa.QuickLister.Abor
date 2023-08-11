@@ -128,7 +128,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
                     MlsNumber = mlsNumber,
                     BuilderName = "Builder Name",
                     SellingAgent = sellingAgent,
-                    Status = MarketStatuses.PriceChange.ToStringFromEnumMember(),
+                    Status = MarketStatuses.ActiveUnderContract.ToStringFromEnumMember(),
                 },
                 LegacyResidentialInfo = new()
                 {
@@ -153,9 +153,8 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
             // Assert
             this.downloaderServiceMock.Verify(
                 ds => ds.ProcessDataFromDownloaderAsync(
-                    It.Is<FullListingSaleDto>(l => l.MlsNumber.Equals(mlsNumber) && l.MlsStatus == MarketStatuses.PriceChange),
+                    It.Is<FullListingSaleDto>(l => l.MlsNumber.Equals(mlsNumber) && l.MlsStatus == MarketStatuses.ActiveUnderContract),
                     It.IsAny<IEnumerable<RoomDto>>(),
-                    It.IsAny<IEnumerable<HoaDto>>(),
                     It.Is<string>(agentId => agentId.Equals(sellingAgent))),
                 Times.Once);
         }
@@ -281,7 +280,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
             // Assert
             this.agentServiceMock.Verify(s => s.ProcessDataFromDownloaderAsync(It.IsAny<AgentDto>()), Times.Never);
             this.officeServiceMock.Verify(s => s.ProcessDataFromDownloaderAsync(It.IsAny<OfficeDto>()), Times.Never);
-            this.downloaderServiceMock.Verify(s => s.ProcessDataFromDownloaderAsync(It.IsAny<FullListingSaleDto>(), It.IsAny<IEnumerable<RoomDto>>(), It.IsAny<IEnumerable<HoaDto>>(), It.IsAny<string>()), Times.Never);
+            this.downloaderServiceMock.Verify(s => s.ProcessDataFromDownloaderAsync(It.IsAny<FullListingSaleDto>(), It.IsAny<IEnumerable<RoomDto>>(), It.IsAny<string>()), Times.Never);
             this.downloaderServiceMock.Verify(s => s.ProcessOpenHouseFromDownloaderAsync(It.IsAny<string>(), It.IsAny<IEnumerable<OpenHouseDto>>()), Times.Never);
             this.downloaderServiceMock.Verify(s => s.ProcessMediaFromDownloaderAsync(It.IsAny<string>(), It.IsAny<IEnumerable<ListingSaleMediaDto>>()), Times.Never);
             this.subscriptionClientMock.Verify(s => s.CompleteAsync(It.Is<string>(token => string.IsNullOrEmpty(token))), Times.Once);

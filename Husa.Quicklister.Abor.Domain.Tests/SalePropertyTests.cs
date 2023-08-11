@@ -392,49 +392,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
         }
 
         [Fact]
-        public void UpdateHoas_Added_Success()
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-            var listing = TestModelProvider.GetListingSaleEntity(listingId, true);
-            var listingMock = Mock.Get(listing);
-            var hoas = new List<SaleListingHoa>
-            {
-                HoaTestProvider.GetListingSaleHoaEntity(listingId),
-            };
-
-            listingMock
-                .Setup(x => x.SaleProperty.UpdateHoas(It.IsAny<List<SaleListingHoa>>()))
-                .CallBase()
-                .Verifiable();
-
-            // Act
-            listing.SaleProperty.UpdateHoas(hoas);
-
-            // Assert
-            listingMock.Verify(r => r.SaleProperty.UpdateHoas(hoas), Times.Once);
-        }
-
-        [Fact]
-        public void UpdateHoas_Failed_Error()
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-            var listing = TestModelProvider.GetListingSaleEntity(listingId, true);
-            var listingMock = Mock.Get(listing);
-            List<SaleListingHoa> hoas = null;
-
-            listingMock
-                .Setup(x => x.SaleProperty.UpdateHoas(It.IsAny<List<SaleListingHoa>>()))
-                .CallBase()
-                .Verifiable();
-
-            // Act and Assert
-            Assert.Throws<ArgumentNullException>(() => listing.SaleProperty.UpdateHoas(hoas));
-            listingMock.Verify(r => r.SaleProperty.UpdateHoas(hoas), Times.Once);
-        }
-
-        [Fact]
         public void UpdateFinancialInfo_CloneUsed_Success()
         {
             var financial = new FinancialInfo
@@ -622,7 +579,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                     It.IsAny<ListingSaleStatusFieldsInfo>(),
                     It.IsAny<SalePropertyValueObject>(),
                     It.IsAny<IEnumerable<ListingSaleRoom>>(),
-                    It.IsAny<IEnumerable<SaleListingHoa>>(),
                     It.IsAny<Guid>()))
                 .CallBase();
             var listingStatusInfo = new Mock<ListingSaleStatusFieldsInfo>();
@@ -634,7 +590,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 listingStatusInfo: listingStatusInfo.Object,
                 salePropertyInfo: salePropertyInfo.Object,
                 rooms: Array.Empty<ListingSaleRoom>(),
-                hoas: Array.Empty<SaleListingHoa>(),
                 companyId));
         }
 
@@ -650,7 +605,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                     It.IsAny<ListingSaleStatusFieldsInfo>(),
                     It.IsAny<SalePropertyValueObject>(),
                     It.IsAny<IEnumerable<ListingSaleRoom>>(),
-                    It.IsAny<IEnumerable<SaleListingHoa>>(),
                     It.IsAny<Guid>()))
                 .CallBase();
             var listingInfo = new Mock<ListingValueObject>();
@@ -662,7 +616,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 listingStatusInfo: null,
                 salePropertyInfo: salePropertyInfo.Object,
                 rooms: Array.Empty<ListingSaleRoom>(),
-                hoas: Array.Empty<SaleListingHoa>(),
                 companyId));
         }
 
@@ -678,7 +631,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                     It.IsAny<ListingSaleStatusFieldsInfo>(),
                     It.IsAny<SalePropertyValueObject>(),
                     It.IsAny<IEnumerable<ListingSaleRoom>>(),
-                    It.IsAny<IEnumerable<SaleListingHoa>>(),
                     It.IsAny<Guid>()))
                 .CallBase();
             var listingInfo = new Mock<ListingValueObject>();
@@ -690,7 +642,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 listingStatusInfo: listingStatusInfo.Object,
                 salePropertyInfo: null,
                 rooms: Array.Empty<ListingSaleRoom>(),
-                hoas: Array.Empty<SaleListingHoa>(),
                 companyId));
         }
 
@@ -712,7 +663,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                     It.IsAny<ListingSaleStatusFieldsInfo>(),
                     It.IsAny<SalePropertyValueObject>(),
                     It.IsAny<IEnumerable<ListingSaleRoom>>(),
-                    It.IsAny<IEnumerable<SaleListingHoa>>(),
                     It.IsAny<Guid>()))
                 .CallBase();
 
@@ -726,7 +676,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             listingInfo.SetupGet(sp => sp.ListType).Returns(ListType.Residential);
             listingInfo.SetupGet(sp => sp.MarketModifiedOn).Returns(referenceDate.AddMonths(12));
             listingInfo.SetupGet(sp => sp.MlsNumber).Returns(mlsNumber);
-            listingInfo.SetupGet(sp => sp.MlsStatus).Returns(MarketStatuses.Cancelled);
+            listingInfo.SetupGet(sp => sp.MlsStatus).Returns(MarketStatuses.Canceled);
 
             var listingStatusInfo = new Mock<ListingSaleStatusFieldsInfo>();
             var salePropertyInfo = new Mock<SalePropertyValueObject>();
@@ -737,7 +687,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 listingStatusInfo: listingStatusInfo.Object,
                 salePropertyInfo: salePropertyInfo.Object,
                 rooms: Array.Empty<ListingSaleRoom>(),
-                hoas: Array.Empty<SaleListingHoa>(),
                 companyId);
 
             // Assert
@@ -745,8 +694,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             saleProperty.Verify(
                 sp => sp.ApplyMarketUpdate(
                     It.IsAny<SalePropertyValueObject>(),
-                    It.IsAny<IEnumerable<ListingSaleRoom>>(),
-                    It.IsAny<IEnumerable<SaleListingHoa>>()),
+                    It.IsAny<IEnumerable<ListingSaleRoom>>()),
                 Times.Never);
             Assert.Equal(LockedStatus.NoLocked, addedListing.LockedStatus);
             var propertyListing = Assert.Single(saleProperty.Object.SaleListings);
@@ -771,7 +719,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                     It.IsAny<ListingSaleStatusFieldsInfo>(),
                     It.IsAny<SalePropertyValueObject>(),
                     It.IsAny<IEnumerable<ListingSaleRoom>>(),
-                    It.IsAny<IEnumerable<SaleListingHoa>>(),
                     It.IsAny<Guid>()))
                 .CallBase();
 
@@ -796,7 +743,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 listingStatusInfo: listingStatusInfo.Object,
                 salePropertyInfo: salePropertyInfo.Object,
                 rooms: Array.Empty<ListingSaleRoom>(),
-                hoas: Array.Empty<SaleListingHoa>(),
                 companyId);
 
             // Assert
@@ -806,8 +752,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             saleProperty.Verify(
                 sp => sp.ApplyMarketUpdate(
                     It.IsAny<SalePropertyValueObject>(),
-                    It.IsAny<IEnumerable<ListingSaleRoom>>(),
-                    It.IsAny<IEnumerable<SaleListingHoa>>()),
+                    It.IsAny<IEnumerable<ListingSaleRoom>>()),
                 Times.Once);
             var propertyListing = Assert.Single(saleProperty.Object.SaleListings);
             Assert.Equal(addedListing.MlsNumber, propertyListing.MlsNumber);
@@ -821,15 +766,13 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             saleProperty
                 .Setup(sp => sp.ApplyMarketUpdate(
                     It.IsAny<SalePropertyValueObject>(),
-                    It.IsAny<IEnumerable<ListingSaleRoom>>(),
-                    It.IsAny<IEnumerable<SaleListingHoa>>()))
+                    It.IsAny<IEnumerable<ListingSaleRoom>>()))
                 .CallBase();
 
             // Act && Assert
             Assert.Throws<ArgumentNullException>(() => saleProperty.Object.ApplyMarketUpdate(
                 salePropertyInfo: null,
-                roomsInfo: Array.Empty<ListingSaleRoom>(),
-                hoasInfo: Array.Empty<SaleListingHoa>()));
+                roomsInfo: Array.Empty<ListingSaleRoom>()));
         }
 
         [Fact]
@@ -840,36 +783,14 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             saleProperty
                 .Setup(sp => sp.ApplyMarketUpdate(
                     It.IsAny<SalePropertyValueObject>(),
-                    It.IsAny<IEnumerable<ListingSaleRoom>>(),
-                    It.IsAny<IEnumerable<SaleListingHoa>>()))
+                    It.IsAny<IEnumerable<ListingSaleRoom>>()))
                 .CallBase();
             var salePropertyInfo = new Mock<SalePropertyValueObject>();
 
             // Act && Assert
             Assert.Throws<ArgumentNullException>(() => saleProperty.Object.ApplyMarketUpdate(
                 salePropertyInfo: salePropertyInfo.Object,
-                roomsInfo: null,
-                hoasInfo: Array.Empty<SaleListingHoa>()));
-        }
-
-        [Fact]
-        public void ApplyMarketUpdateThrowsArgumentNullExceptionWhenHoaInfoIsNotProvided()
-        {
-            // Arrange
-            var saleProperty = new Mock<SaleProperty>();
-            saleProperty
-                .Setup(sp => sp.ApplyMarketUpdate(
-                    It.IsAny<SalePropertyValueObject>(),
-                    It.IsAny<IEnumerable<ListingSaleRoom>>(),
-                    It.IsAny<IEnumerable<SaleListingHoa>>()))
-                .CallBase();
-            var salePropertyInfo = new Mock<SalePropertyValueObject>();
-
-            // Act && Assert
-            Assert.Throws<ArgumentNullException>(() => saleProperty.Object.ApplyMarketUpdate(
-                salePropertyInfo: salePropertyInfo.Object,
-                roomsInfo: Array.Empty<ListingSaleRoom>(),
-                hoasInfo: null));
+                roomsInfo: null));
         }
 
         [Fact]
@@ -880,8 +801,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             saleProperty
                 .Setup(sp => sp.ApplyMarketUpdate(
                     It.IsAny<SalePropertyValueObject>(),
-                    It.IsAny<IEnumerable<ListingSaleRoom>>(),
-                    It.IsAny<IEnumerable<SaleListingHoa>>()))
+                    It.IsAny<IEnumerable<ListingSaleRoom>>()))
                 .CallBase();
 
             var salePropertyInfo = new Mock<SalePropertyValueObject>();
@@ -889,13 +809,11 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             // Act
             saleProperty.Object.ApplyMarketUpdate(
                 salePropertyInfo: salePropertyInfo.Object,
-                roomsInfo: Array.Empty<ListingSaleRoom>(),
-                hoasInfo: Array.Empty<SaleListingHoa>());
+                roomsInfo: Array.Empty<ListingSaleRoom>());
 
             // Assert
             saleProperty.Verify(sp => sp.FillSalesPropertyInformation(It.IsAny<SalePropertyValueObject>()), Times.Once);
             saleProperty.Verify(sp => sp.UpdateRooms(It.IsAny<IEnumerable<ListingSaleRoom>>()), Times.Once);
-            saleProperty.Verify(sp => sp.UpdateHoas(It.IsAny<IEnumerable<SaleListingHoa>>()), Times.Once);
         }
 
         [Fact]

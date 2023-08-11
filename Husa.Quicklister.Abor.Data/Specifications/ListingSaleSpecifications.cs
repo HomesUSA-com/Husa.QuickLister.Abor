@@ -45,7 +45,7 @@ namespace Husa.Quicklister.Abor.Data.Specifications
                 return listings.Where(p => p.LockedStatus == LockedStatus.LockedByUser || p.LockedStatus == LockedStatus.LockedBySystem);
             }
 
-            return listings.Where(p => p.MlsStatus != MarketStatuses.Sold);
+            return listings.Where(p => p.MlsStatus != MarketStatuses.Closed);
         }
 
         public static IQueryable<T> FilterByCommunity<T>(this IQueryable<T> listings, Guid? communityId)

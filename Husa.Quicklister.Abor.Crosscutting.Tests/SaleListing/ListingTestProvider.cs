@@ -91,9 +91,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                     City = Faker.Enum.Random<Cities>(),
                     ZipCode = Faker.RandomNumber.Next(10000, 99999).ToString(),
                     State = Faker.Enum.Random<States>(),
-                    Block = "7",
                     County = Faker.Enum.Random<Counties>(),
-                    LotNum = "6",
                     Subdivision = "subdivision name",
                 },
                 PropertyInfo = new(),
@@ -121,8 +119,14 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                 FullBathsTotal = 3,
                 HalfBathsTotal = 1,
                 LivingAreasTotal = 1,
+                MainLevelBedroomTotal = 1,
+                OtherLevelsBedroomTotal = 0,
             },
-            FeaturesInfo = new(),
+            FeaturesInfo = new()
+            {
+                GarageSpaces = 1,
+                Fireplaces = 0,
+            },
             FinancialInfo = new()
             {
                 HOARequirement = HoaRequirement.Mandatory,
@@ -141,13 +145,18 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                 HighSchool = HighSchool.Holland,
                 ElementarySchool = ElementarySchool.Holland,
             },
-            PropertyInfo = new(),
+            PropertyInfo = new()
+            {
+                ConstructionCompletionDate = new DateTime(DateTime.UtcNow.Year, 10, 4, 0, 0, 0, 0, DateTimeKind.Utc),
+                ConstructionStage = ConstructionStage.Complete,
+                ConstructionStartYear = 2023,
+                PropertyType = PropertySubType.Condominium,
+            },
             AddressInfo = new()
             {
                 County = Counties.Bee,
             },
             SalePropertyInfo = new(),
-            Hoas = new HoaDto[] { new() },
             OpenHouses = new OpenHouseDto[] { new() },
             Rooms = new RoomDto[] { new() },
         };

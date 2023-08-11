@@ -14,8 +14,6 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules.SalePropertyValidations
             this.RuleFor(sps => sps.StoriesTotal).IsInEnum();
             this.RuleFor(sps => sps.DiningAreasTotal).NotNull();
             this.RuleFor(sps => sps.LivingAreasTotal).NotNull();
-            this.RuleFor(sps => sps.TypeCategory).IsInEnum();
-            this.RuleFor(sp => sp.SpecialtyRooms).NotEmpty();
             this.RuleFor(sps => sps.SqFtTotal).LessThanOrEqualTo(10000).GreaterThanOrEqualTo(500);
         }
     }

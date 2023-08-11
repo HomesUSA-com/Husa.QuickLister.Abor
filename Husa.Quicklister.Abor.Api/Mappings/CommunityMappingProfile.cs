@@ -59,7 +59,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<OpenHouseRequest, OpenHouseDto>();
             this.CreateMap<CommunitySalesOfficeRequest, CommunitySalesOfficeDto>();
             this.CreateMap<EmailLeadRequest, EmailLeadDto>();
-            this.CreateMap<CommunityHoaRequest, CommunityHoaDto>();
 
             this.CreateMap<CommunityProfileDto, ProfileInfo>();
             this.CreateMap<CommunityPropertyDto, Property>();
@@ -93,7 +92,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<ShowingQueryResult, CommunityShowingResponse>();
             this.CreateMap<OpenHousesQueryResult, OpenHouseResponse>();
             this.CreateMap<EmailLeadQueryResult, Api.Contracts.Response.EmailLeadResponse>();
-            this.CreateMap<HoaQueryResult, CommunityHoaResponse>();
             this.CreateMap<CommunityDetailQueryResult, CommunitySaleResponse>()
                 .ForMember(dto => dto.City, pr => pr.MapFrom(dto => dto.Property.City))
                 .ForMember(dto => dto.ZipCode, pr => pr.MapFrom(dto => dto.Property.ZipCode))

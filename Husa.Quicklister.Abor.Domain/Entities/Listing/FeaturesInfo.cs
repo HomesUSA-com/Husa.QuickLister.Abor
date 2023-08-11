@@ -11,12 +11,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     public class FeaturesInfo : ValueObject, IProvideFeature
     {
         private ICollection<FireplaceDescription> fireplaceDescription;
-        private ICollection<PrivatePool> privatePool;
 
         public FeaturesInfo()
         {
             this.IsNewConstruction = true;
-            this.PrivatePool = new List<Enums.Domain.PrivatePool> { Enums.Domain.PrivatePool.None };
         }
 
         public virtual ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
@@ -45,7 +43,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<Flooring> Floors { get; set; }
         public virtual ICollection<SecurityFeatures> SecurityFeatures { get; set; }
         public virtual ICollection<WindowFeatures> WindowFeatures { get; set; }
-
         public virtual ICollection<Foundation> Foundation { get; set; }
         public virtual ICollection<RoofDescription> RoofDescription { get; set; }
         public virtual ICollection<Fencing> Fencing { get; set; }
@@ -53,54 +50,17 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
         public virtual ICollection<View> View { get; set; }
         public virtual ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
-
-        public virtual string PropertyDescription { get; set; }
-
-        public virtual ICollection<WindowFeatures> WindowCoverings { get; set; }
-
-        public virtual bool HasAccessibility { get; set; }
-
-        public virtual ICollection<Accessibility> Accessibility { get; set; }
-
-        public virtual ICollection<HousingStyle> HousingStyle { get; set; }
-
-        public virtual ICollection<Exterior> Exterior { get; set; }
-
-        public virtual bool HasPrivatePool { get; set; }
-
-        public virtual ICollection<PrivatePool> PrivatePool
-        {
-            get { return this.privatePool; }
-            set { this.privatePool = !this.HasPrivatePool ? new PrivatePool[] { Enums.Domain.PrivatePool.None } : value;  }
-        }
-
         public virtual ICollection<HomeFaces> HomeFaces { get; set; }
-
-        public virtual ICollection<LotImprovements> LotImprovements { get; set; }
-
-        public virtual ICollection<Inclusions> Inclusions { get; set; }
-
-        public virtual ICollection<GreenCertification> GreenCertification { get; set; }
-
-        public virtual ICollection<EnergyFeatures> EnergyFeatures { get; set; }
-
-        public virtual ICollection<GreenFeatures> GreenFeatures { get; set; }
-
-        public virtual string SupplierElectricity { get; set; }
-
-        public virtual string SupplierWater { get; set; }
-
-        public virtual string SupplierSewer { get; set; }
-
-        public virtual string SupplierGarbage { get; set; }
-
-        public virtual string SupplierGas { get; set; }
-
-        public virtual string SupplierOther { get; set; }
-
-        public virtual ICollection<HeatingFuel> HeatingFuel { get; set; }
-
-        public bool IsNewConstruction { get; set; }
+        public virtual ICollection<WaterBodyName> WaterBodyName { get; set; }
+        public virtual ICollection<DistanceToWaterAccess> DistanceToWaterAccess { get; set; }
+        public virtual ICollection<WaterfrontFeatures> WaterfrontFeatures { get; set; }
+        public virtual UnitStyle? UnitStyle { get; set; }
+        public virtual ICollection<GuestAccommodationsDescription> GuestAccommodationsDescription { get; set; }
+        public virtual int? GuestBedroomsTotal { get; set; }
+        public virtual int? GuestFullBathsTotal { get; set; }
+        public virtual int? GuestHalfBathsTotal { get; set; }
+        public virtual string PropertyDescription { get; set; }
+        public virtual bool IsNewConstruction { get; set; }
 
         public static FeaturesInfo ImportFromXml(XmlListingDetailResponse listing, FeaturesInfo features)
         {
@@ -171,37 +131,45 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return this.PropertyDescription;
-            yield return this.Fireplaces;
-            yield return this.FireplaceDescription;
-            yield return this.Inclusions;
-            yield return this.Floors;
-            yield return this.WindowCoverings;
-            yield return this.HasAccessibility;
-            yield return this.Accessibility;
-            yield return this.HousingStyle;
-            yield return this.ExteriorFeatures;
-            yield return this.RoofDescription;
-            yield return this.Foundation;
-            yield return this.Exterior;
-            yield return this.HasPrivatePool;
-            yield return this.PrivatePool;
-            yield return this.HomeFaces;
             yield return this.NeighborhoodAmenities;
-            yield return this.SupplierElectricity;
+            yield return this.RestrictionsDescription;
+            yield return this.UtilitiesDescription;
+            yield return this.WaterSource;
+            yield return this.WaterSewer;
             yield return this.HeatSystem;
             yield return this.CoolingSystem;
-            yield return this.GreenCertification;
-            yield return this.EnergyFeatures;
-            yield return this.GreenFeatures;
-            yield return this.WaterSewer;
-            yield return this.SupplierWater;
-            yield return this.SupplierSewer;
-            yield return this.SupplierGarbage;
-            yield return this.SupplierGas;
-            yield return this.SupplierOther;
-            yield return this.HeatingFuel;
-            yield return this.LotImprovements;
+            yield return this.Appliances;
+            yield return this.GarageSpaces;
+            yield return this.GarageDescription;
+            yield return this.LaundryFeatures;
+            yield return this.LaundryLocation;
+            yield return this.InteriorFeatures;
+            yield return this.KitchenFeatures;
+            yield return this.MasterBedroomFeatures;
+            yield return this.WaterAccessDescription;
+            yield return this.Fireplaces;
+            yield return this.FireplaceDescription;
+            yield return this.Floors;
+            yield return this.SecurityFeatures;
+            yield return this.WindowFeatures;
+            yield return this.Foundation;
+            yield return this.RoofDescription;
+            yield return this.Fencing;
+            yield return this.ConstructionMaterials;
+            yield return this.PatioAndPorchFeatures;
+            yield return this.View;
+            yield return this.ExteriorFeatures;
+            yield return this.HomeFaces;
+            yield return this.WaterBodyName;
+            yield return this.DistanceToWaterAccess;
+            yield return this.WaterfrontFeatures;
+            yield return this.UnitStyle;
+            yield return this.GuestAccommodationsDescription;
+            yield return this.GuestBedroomsTotal;
+            yield return this.GuestFullBathsTotal;
+            yield return this.GuestHalfBathsTotal;
+            yield return this.PropertyDescription;
+            yield return this.IsNewConstruction;
         }
     }
 }

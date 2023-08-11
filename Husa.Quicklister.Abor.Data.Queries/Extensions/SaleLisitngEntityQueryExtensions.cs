@@ -31,66 +31,50 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             return roomsCollection;
         }
 
-        public static ICollection<HoaQueryResult> ToProjectionHoas<T>(this ICollection<T> hoas)
-            where T : Hoa
-        {
-            var hoaCollection = new List<HoaQueryResult>();
-            foreach (var h in hoas)
-            {
-                var hoa = new HoaQueryResult
-                {
-                    Id = h.Id,
-                    Fee = h.Fee,
-                    BillingFrequency = h.BillingFrequency,
-                    ContactPhone = h.ContactPhone,
-                    Name = h.Name,
-                    TransferFee = h.TransferFee,
-                    Website = h.Website,
-                    IsDeleted = h.IsDeleted,
-                };
-
-                hoaCollection.Add(hoa);
-            }
-
-            return hoaCollection;
-        }
-
         public static FeaturesQueryResult ToProjectionFeatures<T>(this T features)
             where T : FeaturesInfo
         {
             return new()
             {
-                FireplaceDescription = features.FireplaceDescription,
-                PropertyDescription = features.PropertyDescription,
-                Fireplaces = features.Fireplaces,
-                RoofDescription = features.RoofDescription,
-                Accessibility = features.Accessibility,
-                SupplierElectricity = features.SupplierElectricity,
-                SupplierGarbage = features.SupplierGarbage,
-                SupplierGas = features.SupplierGas,
-                SupplierOther = features.SupplierOther,
-                SupplierSewer = features.SupplierSewer,
-                SupplierWater = features.SupplierWater,
-                CoolingSystem = features.CoolingSystem,
-                HeatSystem = features.HeatSystem,
-                HousingStyle = features.HousingStyle,
-                WaterSewer = features.WaterSewer,
-                EnergyFeatures = features.EnergyFeatures,
-                Exterior = features.Exterior,
-                ExteriorFeatures = features.ExteriorFeatures,
-                Floors = features.Floors,
-                Foundation = features.Foundation,
-                GreenCertification = features.GreenCertification,
-                GreenFeatures = features.GreenFeatures,
-                HasAccessibility = features.HasAccessibility,
-                HasPrivatePool = features.HasPrivatePool,
-                HeatingFuel = features.HeatingFuel,
-                HomeFaces = features.HomeFaces,
-                Inclusions = features.Inclusions,
-                LotImprovements = features.LotImprovements,
                 NeighborhoodAmenities = features.NeighborhoodAmenities,
-                PrivatePool = features.PrivatePool,
-                WindowCoverings = features.WindowCoverings,
+                RestrictionsDescription = features.RestrictionsDescription,
+                UtilitiesDescription = features.UtilitiesDescription,
+                WaterSource = features.WaterSource,
+                WaterSewer = features.WaterSewer,
+                HeatSystem = features.HeatSystem,
+                CoolingSystem = features.CoolingSystem,
+                Appliances = features.Appliances,
+                GarageSpaces = features.GarageSpaces,
+                GarageDescription = features.GarageDescription,
+                LaundryFeatures = features.LaundryFeatures,
+                LaundryLocation = features.LaundryLocation,
+                InteriorFeatures = features.InteriorFeatures,
+                KitchenFeatures = features.KitchenFeatures,
+                MasterBedroomFeatures = features.MasterBedroomFeatures,
+                WaterAccessDescription = features.WaterAccessDescription,
+                Fireplaces = features.Fireplaces,
+                FireplaceDescription = features.FireplaceDescription,
+                Floors = features.Floors,
+                SecurityFeatures = features.SecurityFeatures,
+                WindowFeatures = features.WindowFeatures,
+                Foundation = features.Foundation,
+                RoofDescription = features.RoofDescription,
+                Fencing = features.Fencing,
+                ConstructionMaterials = features.ConstructionMaterials,
+                PatioAndPorchFeatures = features.PatioAndPorchFeatures,
+                View = features.View,
+                ExteriorFeatures = features.ExteriorFeatures,
+                HomeFaces = features.HomeFaces,
+                WaterBodyName = features.WaterBodyName,
+                DistanceToWaterAccess = features.DistanceToWaterAccess,
+                WaterfrontFeatures = features.WaterfrontFeatures,
+                UnitStyle = features.UnitStyle,
+                GuestAccommodationsDescription = features.GuestAccommodationsDescription,
+                GuestBedroomsTotal = features.GuestBedroomsTotal,
+                GuestFullBathsTotal = features.GuestFullBathsTotal,
+                GuestHalfBathsTotal = features.GuestHalfBathsTotal,
+                PropertyDescription = features.PropertyDescription,
+                IsNewConstruction = features.IsNewConstruction,
             };
         }
 
@@ -99,11 +83,16 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         {
             return new()
             {
-                Directions = showing.Directions,
-                ShowingInstructions = showing.ShowingInstructions,
+                OccupantPhone = showing.OccupantPhone,
                 ContactPhone = showing.ContactPhone,
                 AgentPrivateRemarks = showing.AgentPrivateRemarks,
-                OccupantPhone = showing.OccupantPhone,
+                AgentPrivateRemarksAdditional = showing.AgentPrivateRemarksAdditional,
+                LockBoxSerialNumber = showing.LockBoxSerialNumber,
+                ShowingInstructions = showing.ShowingInstructions,
+                ShowingRequirements = showing.ShowingRequirements,
+                LockBoxType = showing.LockBoxType,
+                RealtorContactEmail = showing.RealtorContactEmail,
+                Directions = showing.Directions,
                 EnableOpenHouses = showing.EnableOpenHouses,
                 OpenHousesAgree = showing.OpenHousesAgree,
                 ShowOpenHousesPending = showing.ShowOpenHousesPending,
@@ -115,11 +104,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         {
             return new()
             {
-                SpecialtyRooms = spacesDimensions.SpecialtyRooms,
-                SqFtSource = spacesDimensions.SqFtSource,
-                OtherParking = spacesDimensions.OtherParking,
-                TypeCategory = spacesDimensions.TypeCategory,
-
                 StoriesTotal = spacesDimensions.StoriesTotal,
                 SqFtTotal = spacesDimensions.SqFtTotal,
                 DiningAreasTotal = spacesDimensions.DiningAreasTotal,
@@ -136,18 +120,25 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         {
             return new()
             {
-                AgentBonusAmount = financial.AgentBonusAmount,
-                AgentBonusAmountType = financial.AgentBonusAmountType,
-                BonusExpirationDate = financial.BonusExpirationDate,
+                TaxYear = financial.TaxYear,
+                TaxRate = financial.TaxRate,
+                TitleCompany = financial.TitleCompany,
+                AcceptableFinancing = financial.AcceptableFinancing,
+                TaxExemptions = financial.TaxExemptions,
+                HoaIncludes = financial.HoaIncludes,
+                HasHoa = financial.HasHoa,
+                HoaName = financial.HoaName,
+                HoaFee = financial.HoaFee,
+                BillingFrequency = financial.BillingFrequency,
+                HOARequirement = financial.HOARequirement,
                 BuyersAgentCommission = financial.BuyersAgentCommission,
                 BuyersAgentCommissionType = financial.BuyersAgentCommissionType,
                 HasAgentBonus = financial.HasAgentBonus,
                 HasBonusWithAmount = financial.HasBonusWithAmount,
+                AgentBonusAmount = financial.AgentBonusAmount,
+                AgentBonusAmountType = financial.AgentBonusAmountType,
+                BonusExpirationDate = financial.BonusExpirationDate,
                 HasBuyerIncentive = financial.HasBuyerIncentive,
-                HOARequirement = financial.HOARequirement,
-                TaxRate = financial.TaxRate,
-                TaxYear = financial.TaxYear,
-                TitleCompany = financial.TitleCompany,
             };
         }
 
@@ -158,8 +149,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             {
                 SchoolDistrict = schools.SchoolDistrict,
                 ElementarySchool = schools.ElementarySchool,
-                HighSchool = schools.HighSchool,
+                OtherElementarySchool = schools.OtherElementarySchool,
                 MiddleSchool = schools.MiddleSchool,
+                OtherMiddleSchool = schools.OtherMiddleSchool,
+                HighSchool = schools.HighSchool,
+                OtherHighSchool = schools.OtherHighSchool,
             };
         }
 
@@ -198,15 +192,15 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         {
             return new()
             {
-                StreetName = addressInfo.StreetName,
                 StreetNumber = addressInfo.StreetNumber,
-                Subdivision = addressInfo.Subdivision,
+                StreetName = addressInfo.StreetName,
                 City = addressInfo.City,
-                County = addressInfo.County,
-                Block = addressInfo.Block,
                 State = addressInfo.State,
                 ZipCode = addressInfo.ZipCode,
-                LotNum = addressInfo.LotNum,
+                County = addressInfo.County,
+                StreetType = addressInfo.StreetType,
+                UnitNumber = addressInfo.UnitNumber,
+                Subdivision = addressInfo.Subdivision,
             };
         }
 
@@ -216,20 +210,20 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             return new()
             {
                 ConstructionCompletionDate = propertyInfo.ConstructionCompletionDate,
-                LegalDescription = propertyInfo.LegalDescription,
-                LotDescription = propertyInfo.LotDescription,
                 ConstructionStage = propertyInfo.ConstructionStage,
                 ConstructionStartYear = propertyInfo.ConstructionStartYear,
-                LotSize = propertyInfo.LotSize,
-                IsXmlManaged = propertyInfo.IsXmlManaged,
+                LegalDescription = propertyInfo.LegalDescription,
+                TaxId = propertyInfo.TaxId,
+                TaxLot = propertyInfo.TaxLot,
+                MlsArea = propertyInfo.MlsArea,
                 LotDimension = propertyInfo.LotDimension,
+                LotSize = propertyInfo.LotSize,
+                LotDescription = propertyInfo.LotDescription,
+                PropertyType = propertyInfo.PropertyType,
+                UpdateGeocodes = propertyInfo.UpdateGeocodes,
                 Latitude = propertyInfo.Latitude,
                 Longitude = propertyInfo.Longitude,
-                MapscoGrid = propertyInfo.MapscoGrid,
-                MlsArea = propertyInfo.MlsArea,
-                Occupancy = propertyInfo.Occupancy,
-                TaxId = propertyInfo.TaxId,
-                UpdateGeocodes = propertyInfo.UpdateGeocodes,
+                IsXmlManaged = propertyInfo.IsXmlManaged,
             };
         }
 
@@ -247,7 +241,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 FinancialInfo = saleProperty.FinancialInfo.ToProjectionSpacesFinancial(),
                 OpenHouses = saleProperty.OpenHouses.ToProjectionOpenHouses(),
                 Rooms = saleProperty.Rooms.ToProjectionRooms(),
-                Hoas = saleProperty.ListingSaleHoas.ToProjectionHoas(),
             };
         }
 
@@ -328,7 +321,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 AgentBonusAmountType = community.Financial.AgentBonusAmountType,
                 BonusExpirationDate = community.Financial.BonusExpirationDate,
                 HasBuyerIncentive = community.Financial.HasBuyerIncentive,
-                Schools = community.SchoolsInfo?.ToProjectionSchoolsInfo(),
+                Schools = community.SchoolsInfo?.ToProjectionSchools(),
             };
         }
 
@@ -387,25 +380,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 PatioAndPorchFeatures = utilities.PatioAndPorchFeatures,
                 View = utilities.View,
                 ExteriorFeatures = utilities.ExteriorFeatures,
-            };
-        }
-
-        public static SchoolsInfoQueryResult ToProjectionSchoolsInfo(this SchoolsInfo schools)
-        {
-            if (schools == null)
-            {
-                return new();
-            }
-
-            return new()
-            {
-                ElementarySchool = schools.ElementarySchool,
-                HighSchool = schools.HighSchool,
-                MiddleSchool = schools.MiddleSchool,
-                SchoolDistrict = schools.SchoolDistrict,
-                OtherElementarySchool = schools.OtherElementarySchool,
-                OtherHighSchool = schools.OtherHighSchool,
-                OtherMiddleSchool = schools.OtherMiddleSchool,
             };
         }
 

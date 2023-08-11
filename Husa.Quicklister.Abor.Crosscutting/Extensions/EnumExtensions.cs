@@ -6,7 +6,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Extensions
     using Husa.Extensions.Common;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Xml.Domain.Enums;
     using Husa.Xml.Domain.Enums.Xml;
     using States = Husa.Extensions.Common.Enums.States;
 
@@ -46,16 +45,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Extensions
             return isExactValue ?
                 county.ToEnumFromEnumMember<Counties>() :
                 county.GetEnumFromText<Counties>();
-        }
-
-        public static SqFtSource? ToSqftSource(this string sqftSource)
-        {
-            if (string.IsNullOrWhiteSpace(sqftSource))
-            {
-                return null;
-            }
-
-            return sqftSource.ToEnumFromEnumMember<SqFtSource>();
         }
 
         public static ListType? ToListType(this string sqftSource)
@@ -108,23 +97,14 @@ namespace Husa.Quicklister.Abor.Crosscutting.Extensions
             };
         }
 
-        public static CategoryType ToCategoryType(this PlanType type)
-        {
-            return type switch
-            {
-                PlanType.SingleFamily => CategoryType.SingleFamilyDetached,
-                _ => CategoryType.Townhome,
-            };
-        }
-
         public static MarketStatuses ToStatus(this SpecStatus status)
         {
             return status switch
             {
                 SpecStatus.Active => MarketStatuses.Active,
-                SpecStatus.ActiveOption => MarketStatuses.ActiveOption,
+                SpecStatus.ActiveOption => MarketStatuses.ActiveUnderContract,
                 SpecStatus.Pending or SpecStatus.PendingContinuetoShow => MarketStatuses.Pending,
-                _ => MarketStatuses.Sold,
+                _ => MarketStatuses.Closed,
             };
         }
 

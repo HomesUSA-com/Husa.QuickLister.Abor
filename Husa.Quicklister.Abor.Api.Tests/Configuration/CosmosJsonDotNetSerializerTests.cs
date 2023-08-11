@@ -28,8 +28,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Configuration
                 State = States.Texas,
                 ZipCode = "75666",
                 County = Counties.Andrews,
-                LotNum = "2",
-                Block = "2",
                 Subdivision = "No SC SC is this Community",
             };
             var jsonAddressInfoStream = GetJsonStream(addressRecord, enumAsInteger);
@@ -58,8 +56,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Configuration
                 State = States.Texas,
                 ZipCode = "75666",
                 County = Counties.Anderson,
-                LotNum = "2",
-                Block = "2",
                 Subdivision = "No SC SC is this Community",
             };
 
@@ -88,8 +84,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Configuration
                 ""State"": {finalValue},
                 ""ZipCode"": ""{addressRecord.ZipCode}"",
                 ""County"": ""{addressRecord.County}"",
-                ""LotNum"": ""{addressRecord.LotNum}"",
-                ""Block"": ""{addressRecord.Block}"",
                 ""Subdivision"": ""{addressRecord.Subdivision}""
             }}";
 

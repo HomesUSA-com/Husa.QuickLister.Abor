@@ -2,11 +2,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.Extensions.Common.Validations;
     using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -16,54 +13,26 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
     public record FinancialRecord : IProvideSummary
     {
-        private CommissionType agentBonusAmountType;
-
         public const string SummarySection = "Financial";
         public int? TaxYear { get; set; }
-        public bool HasMultipleHOA { get; set; }
-
-        [IfRequired(nameof(HasMultipleHOA), true, OperatorType.Equal)]
-        public int NumHOA { get; set; }
+        public decimal? TaxRate { get; set; }
+        public string TitleCompany { get; set; }
+        public ICollection<AcceptableFinancing> AcceptableFinancing { get; set; }
+        public ICollection<TaxExemptions> TaxExemptions { get; set; }
+        public ICollection<HoaIncludes> HoaIncludes { get; set; }
+        public bool HasHoa { get; set; }
+        public string HoaName { get; set; }
+        public decimal? HoaFee { get; set; }
+        public BillingFrequency? BillingFrequency { get; set; }
+        public HoaRequirement HOARequirement { get; set; }
+        public decimal BuyersAgentCommission { get; set; }
+        public CommissionType BuyersAgentCommissionType { get; set; }
         public bool HasAgentBonus { get; set; }
         public bool HasBonusWithAmount { get; set; }
         public decimal? AgentBonusAmount { get; set; }
-        public CommissionType AgentBonusAmountType
-        {
-            get
-            {
-                if (!this.HasBonusWithAmount)
-                {
-                    return CommissionType.Percent;
-                }
-
-                return this.agentBonusAmountType;
-            }
-
-            set
-            {
-                this.agentBonusAmountType = value;
-            }
-        }
-
+        public CommissionType AgentBonusAmountType { get; set; }
         public DateTime? BonusExpirationDate { get; set; }
         public bool HasBuyerIncentive { get; set; }
-        public bool IsMultipleTaxed { get; set; }
-
-        [Required]
-        public decimal? TaxRate { get; set; }
-
-        [Required]
-        public string TitleCompany { get; set; }
-
-        [Required]
-        public ICollection<ProposedTerms> ProposedTerms { get; set; }
-
-        [Required]
-        public HoaRequirement HOARequirement { get; set; }
-
-        public decimal BuyersAgentCommission { get; set; }
-
-        public CommissionType BuyersAgentCommissionType { get; set; }
 
         public FinancialRecord CloneRecord() => (FinancialRecord)this.MemberwiseClone();
         public static FinancialRecord CreateRecord(FinancialInfo financialInfo)
@@ -80,18 +49,25 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
             return new()
             {
+                HOARequirement = financialInfo.HOARequirement ?? throw new DomainException(nameof(financialInfo.HOARequirement)),
+                BuyersAgentCommission = financialInfo.BuyersAgentCommission ?? throw new DomainException(nameof(financialInfo.BuyersAgentCommission)),
+                BuyersAgentCommissionType = financialInfo.BuyersAgentCommissionType,
                 TaxYear = financialInfo.TaxYear,
+                TaxRate = financialInfo.TaxRate,
+                TitleCompany = financialInfo.TitleCompany,
+                AcceptableFinancing = financialInfo.AcceptableFinancing,
+                TaxExemptions = financialInfo.TaxExemptions,
+                HoaIncludes = financialInfo.HoaIncludes,
+                HasHoa = financialInfo.HasHoa,
+                HoaName = financialInfo.HoaName,
+                HoaFee = financialInfo.HoaFee,
+                BillingFrequency = financialInfo.BillingFrequency,
                 HasAgentBonus = financialInfo.HasAgentBonus,
                 HasBonusWithAmount = financialInfo.HasBonusWithAmount,
                 AgentBonusAmount = financialInfo.AgentBonusAmount,
                 AgentBonusAmountType = financialInfo.AgentBonusAmountType,
                 BonusExpirationDate = financialInfo.BonusExpirationDate,
                 HasBuyerIncentive = financialInfo.HasBuyerIncentive,
-                TaxRate = financialInfo.TaxRate,
-                TitleCompany = financialInfo.TitleCompany,
-                HOARequirement = financialInfo.HOARequirement ?? throw new DomainException(nameof(financialInfo.HOARequirement)),
-                BuyersAgentCommission = financialInfo.BuyersAgentCommission ?? throw new DomainException(nameof(financialInfo.BuyersAgentCommission)),
-                BuyersAgentCommissionType = financialInfo.BuyersAgentCommissionType,
             };
         }
 

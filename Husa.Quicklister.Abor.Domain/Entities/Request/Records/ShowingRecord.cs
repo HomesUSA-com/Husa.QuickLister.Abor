@@ -29,14 +29,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         [Required(AllowEmptyStrings = false)]
         [MaxLength(255, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string Directions { get; set; }
-
-        public bool EnableOpenHouses { get; set; }
-
-        public bool OpenHousesAgree { get; set; }
-
-        public bool ShowOpenHousesPending { get; set; }
-        public LockBoxType LockBoxType { get; set; }
+        public string AgentPrivateRemarksAdditional { get; set; }
+        public string LockBoxSerialNumber { get; set; }
         public ShowingRequirements ShowingRequirements { get; set; }
+        public LockBoxType LockBoxType { get; set; }
+        public bool EnableOpenHouses { get; set; }
+        public bool OpenHousesAgree { get; set; }
+        public bool ShowOpenHousesPending { get; set; }
 
         public ShowingRecord CloneRecord() => (ShowingRecord)this.MemberwiseClone();
         public static ShowingRecord CreateRecord(ShowingInfo showingInfo)
@@ -48,9 +47,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
             return new()
             {
-                AgentPrivateRemarks = showingInfo.AgentPrivateRemarks,
                 OccupantPhone = showingInfo.OccupantPhone,
                 ContactPhone = showingInfo.ContactPhone,
+                AgentPrivateRemarks = showingInfo.AgentPrivateRemarks,
+                AgentPrivateRemarksAdditional = showingInfo.AgentPrivateRemarksAdditional,
+                LockBoxSerialNumber = showingInfo.LockBoxSerialNumber,
                 ShowingInstructions = showingInfo.ShowingInstructions,
                 RealtorContactEmail = showingInfo.RealtorContactEmail,
                 Directions = showingInfo.Directions,

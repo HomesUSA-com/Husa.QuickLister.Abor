@@ -18,9 +18,9 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
 
         public string TaxId { get; set; }
 
-        public MlsArea? MlsArea { get; set; }
+        public string TaxLot { get; set; }
 
-        public string MapscoGrid { get; set; }
+        public MlsArea? MlsArea { get; set; }
 
         public string LotDimension { get; set; }
 
@@ -28,7 +28,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
 
         public ICollection<LotDescription> LotDescription { get; set; }
 
-        public ICollection<Occupancy> Occupancy { get; set; }
+        public PropertySubType? PropertyType { get; set; }
 
         public bool UpdateGeocodes { get; set; }
 
@@ -37,7 +37,5 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
         public decimal? Longitude { get; set; }
 
         public bool IsXmlManaged { get; set; }
-
-        public PropertySubType? PropertyType { get; set; }
     }
 }

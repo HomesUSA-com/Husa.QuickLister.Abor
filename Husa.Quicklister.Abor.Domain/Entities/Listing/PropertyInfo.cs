@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class PropertyInfo : ValueObject, IProvideProperty
+    public class PropertyInfo : ValueObject, IProvideProperty, IProvideGeocodes
     {
         private DateTime? constructionCompletionDate;
 
@@ -38,9 +38,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public string TaxId { get; set; }
 
-        public MlsArea? MlsArea { get; set; }
+        public string TaxLot { get; set; }
 
-        public string MapscoGrid { get; set; }
+        public MlsArea? MlsArea { get; set; }
 
         public string LotDimension { get; set; }
 
@@ -49,8 +49,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public ICollection<LotDescription> LotDescription { get; set; }
 
         public PropertySubType? PropertyType { get; set; }
-
-        public ICollection<Occupancy> Occupancy { get; set; }
 
         public bool UpdateGeocodes { get; set; }
 
@@ -115,8 +113,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.MlsArea = propertyInfoToClone.MlsArea;
             this.LotSize = propertyInfoToClone.LotSize;
             this.LotDescription = propertyInfoToClone.LotDescription;
-            this.Occupancy = propertyInfoToClone.Occupancy;
-            this.MapscoGrid = propertyInfoToClone.MapscoGrid;
         }
 
         public PropertyInfo ImportAddressInfoFromCommunity(Community.Property property)
@@ -134,17 +130,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             yield return this.ConstructionStartYear;
             yield return this.LegalDescription;
             yield return this.TaxId;
+            yield return this.TaxLot;
             yield return this.MlsArea;
-            yield return this.MapscoGrid;
             yield return this.LotDimension;
             yield return this.LotSize;
             yield return this.LotDescription;
-            yield return this.Occupancy;
+            yield return this.PropertyType;
             yield return this.UpdateGeocodes;
             yield return this.Latitude;
             yield return this.Longitude;
             yield return this.IsXmlManaged;
-            yield return this.PropertyType;
         }
     }
 }

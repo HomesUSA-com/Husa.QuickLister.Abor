@@ -57,7 +57,6 @@ namespace Husa.Quicklister.Abor.Application.Services
         public async Task ProcessDataFromDownloaderAsync(
             FullListingSaleDto listingSaleDto,
             IEnumerable<RoomDto> roomsDto,
-            IEnumerable<HoaDto> hoasDto,
             string sellingAgent)
         {
             var companyName = listingSaleDto.SaleProperty.SalePropertyInfo.OwnerName;
@@ -87,13 +86,11 @@ namespace Husa.Quicklister.Abor.Application.Services
             var listingInfo = this.mapper.Map<ListingValueObject>(listingSaleDto);
             var salePropertyInfo = this.mapper.Map<SalePropertyValueObject>(listingSaleDto.SaleProperty);
             var roomsInfo = this.mapper.Map<IEnumerable<ListingSaleRoom>>(roomsDto);
-            var hoasInfo = this.mapper.Map<IEnumerable<SaleListingHoa>>(hoasDto);
 
             if (listingSale is null)
             {
                 listingSale = new SaleListing(listingInfo, listingStatusInfo, salePropertyInfo, company.Id);
                 listingSale.SaleProperty.AddRooms(roomsInfo);
-                listingSale.SaleProperty.AddHoas(hoasInfo);
                 this.listingSaleRepository.Attach(listingSale);
             }
             else
@@ -103,7 +100,6 @@ namespace Husa.Quicklister.Abor.Application.Services
                     listingStatusInfo,
                     salePropertyInfo,
                     roomsInfo,
-                    hoasInfo,
                     companyId: company.Id);
             }
 

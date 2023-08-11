@@ -14,30 +14,26 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual string OccupantPhone
         {
-            get { return this.occupantPhone.CleanPhoneValue(); }
+            get { return this.occupantPhone; }
             set { this.occupantPhone = value.CleanPhoneValue(); }
         }
 
         public virtual string ContactPhone
         {
-            get { return this.contactPhone.CleanPhoneValue(); }
+            get { return this.contactPhone; }
             set { this.contactPhone = value.CleanPhoneValue(); }
         }
 
         public virtual string AgentPrivateRemarks { get; set; }
-
+        public virtual string AgentPrivateRemarksAdditional { get; set; }
+        public virtual string LockBoxSerialNumber { get; set; }
         public virtual string ShowingInstructions { get; set; }
         public virtual ShowingRequirements? ShowingRequirements { get; set; }
         public virtual LockBoxType? LockBoxType { get; set; }
-
         public virtual string RealtorContactEmail { get; set; }
-
         public virtual string Directions { get; set; }
-
         public virtual bool EnableOpenHouses { get; protected set; }
-
         public virtual bool OpenHousesAgree { get; protected set; }
-
         public virtual bool ShowOpenHousesPending { get; protected set; }
 
         public ShowingInfo Clone()
@@ -73,12 +69,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
             yield return this.OccupantPhone;
             yield return this.ContactPhone;
+            yield return this.AgentPrivateRemarks;
+            yield return this.AgentPrivateRemarksAdditional;
+            yield return this.LockBoxSerialNumber;
             yield return this.ShowingInstructions;
             yield return this.ShowingRequirements;
             yield return this.LockBoxType;
             yield return this.RealtorContactEmail;
             yield return this.Directions;
-            yield return this.AgentPrivateRemarks;
             yield return this.EnableOpenHouses;
             yield return this.OpenHousesAgree;
             yield return this.ShowOpenHousesPending;

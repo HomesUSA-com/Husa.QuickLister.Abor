@@ -23,8 +23,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
 
         public ICollection<RoomQueryResult> Rooms { get; set; }
 
-        public ICollection<HoaQueryResult> Hoas { get; set; }
-
         public ICollection<OpenHousesQueryResult> OpenHouses { get; set; }
     }
 }

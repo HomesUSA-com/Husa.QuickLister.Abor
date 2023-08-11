@@ -7,14 +7,17 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
 
     public class FinancialResponse
     {
-        public decimal? TaxRate { get; set; }
         public int? TaxYear { get; set; }
-        public bool IsMultipleTaxed { get; set; }
+        public decimal? TaxRate { get; set; }
         public string TitleCompany { get; set; }
-        public ICollection<ProposedTerms> ProposedTerms { get; set; }
+        public ICollection<AcceptableFinancing> AcceptableFinancing { get; set; }
+        public ICollection<TaxExemptions> TaxExemptions { get; set; }
+        public ICollection<HoaIncludes> HoaIncludes { get; set; }
+        public bool HasHoa { get; set; }
+        public string HoaName { get; set; }
+        public decimal? HoaFee { get; set; }
+        public BillingFrequency? BillingFrequency { get; set; }
         public HoaRequirement? HOARequirement { get; set; }
-        public bool HasMultipleHOA { get; set; }
-        public int NumHOA { get; set; }
         public decimal? BuyersAgentCommission { get; set; }
         public CommissionType BuyersAgentCommissionType { get; set; }
         public bool HasAgentBonus { get; set; }

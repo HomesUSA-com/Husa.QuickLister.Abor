@@ -20,13 +20,12 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
 
         [MaxLength(1024, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string AgentPrivateRemarks { get; set; }
-
-        public bool EnableOpenHouses { get; set; }
-
-        public bool OpenHousesAgree { get; set; }
-
-        public bool ShowOpenHousesPending { get; set; }
-        public LockBoxType? LockBoxType { get; set; }
+        public string AgentPrivateRemarksAdditional { get; set; }
+        public string LockBoxSerialNumber { get; set; }
         public ShowingRequirements? ShowingRequirements { get; set; }
+        public LockBoxType? LockBoxType { get; set; }
+        public bool EnableOpenHouses { get; set; }
+        public bool OpenHousesAgree { get; set; }
+        public bool ShowOpenHousesPending { get; set; }
     }
 }

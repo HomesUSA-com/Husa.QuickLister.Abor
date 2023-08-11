@@ -4,21 +4,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class SpacesDimensionsInfo : ValueObject, IProvideSpacesDimensions, IProvideSpecialtyRooms
+    public class SpacesDimensionsInfo : ValueObject, IProvideSpacesDimensions
     {
         public SpacesDimensionsInfo()
         {
         }
-
-        public CategoryType TypeCategory { get; set; }
-        public virtual SqFtSource? SqFtSource { get; set; }
-        public virtual ICollection<SpecialtyRooms> SpecialtyRooms { get; set; }
-        public virtual ICollection<OtherParking> OtherParking { get; set; }
 
         public virtual Stories? StoriesTotal { get; set; }
         public virtual int? SqFtTotal { get; set; }
@@ -37,7 +31,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 importedSpacesDimensions = spacesDimensions.Clone();
             }
 
-            importedSpacesDimensions.TypeCategory = listing.Type.ToCategoryType();
             importedSpacesDimensions.SqFtTotal = listing.Sqft;
             importedSpacesDimensions.StoriesTotal = listing.Stories.ToStories();
             importedSpacesDimensions.HalfBathsTotal = listing.HalfBaths;
@@ -97,11 +90,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return this.TypeCategory;
-            yield return this.SqFtSource;
-            yield return this.SpecialtyRooms;
-            yield return this.OtherParking;
-
             yield return this.StoriesTotal;
             yield return this.SqFtTotal;
             yield return this.DiningAreasTotal;

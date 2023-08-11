@@ -68,7 +68,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.PropertyInfo = new();
             this.AddressInfo = new();
             this.SalesOfficeInfo = new();
-            this.ListingSaleHoas = new HashSet<SaleListingHoa>();
             this.Rooms = new HashSet<ListingSaleRoom>();
             this.OpenHouses = new HashSet<SaleListingOpenHouse>();
         }
@@ -96,8 +95,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
         public virtual SalesOffice SalesOfficeInfo { get; set; }
 
         public virtual ICollection<ListingSaleRoom> Rooms { get; set; }
-
-        public virtual ICollection<SaleListingHoa> ListingSaleHoas { get; set; }
 
         public virtual ICollection<SaleListingOpenHouse> OpenHouses { get; set; }
 
@@ -232,30 +229,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
         }
 
-        public virtual void UpdateHoas(IEnumerable<SaleListingHoa> hoas)
-        {
-            if (hoas is null)
-            {
-                throw new ArgumentNullException(nameof(hoas));
-            }
-
-            this.ListingSaleHoas.Clear();
-
-            foreach (var hoaDetail in hoas)
-            {
-                var hoa = new SaleListingHoa(
-                    this.Id,
-                    hoaDetail.Name,
-                    hoaDetail.TransferFee,
-                    hoaDetail.Fee,
-                    hoaDetail.BillingFrequency,
-                    hoaDetail.Website,
-                    hoaDetail.ContactPhone);
-
-                this.ListingSaleHoas.Add(hoa);
-            }
-        }
-
         public virtual bool ImportOpenHouseInfoFromMarket(IEnumerable<SaleListingOpenHouse> openHouses)
         {
             if (openHouses is null)
@@ -357,22 +330,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
         }
 
-        public virtual void AddHoas(IEnumerable<SaleListingHoa> hoas)
-        {
-            foreach (var hoa in hoas)
-            {
-                this.ListingSaleHoas.Add(
-                    new SaleListingHoa(
-                        this.Id,
-                        hoa.Name,
-                        hoa.TransferFee,
-                        hoa.Fee,
-                        hoa.BillingFrequency,
-                        hoa.Website,
-                        hoa.ContactPhone));
-            }
-        }
-
         public virtual void FillSalesPropertyInformation(SalePropertyValueObject salePropertyInfo)
         {
             if (salePropertyInfo is null)
@@ -390,9 +347,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.ImportDataFromCommunitySubmit(this.Community);
 
             var hasChanges = !this.IsEqualTo(oldProperty);
-            var hasHoaChanges = !this.AreHoasEqual(oldProperty.ListingSaleHoas);
 
-            return hasChanges || hasHoaChanges;
+            return hasChanges;
         }
 
         public virtual void UpdateRoomsInfoFromPlan(Plan plan, Guid listingId, bool updateRooms)
@@ -422,26 +378,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
         }
 
-        public virtual void ImportHoasFromEntity<T>(IEnumerable<T> hoas)
-            where T : Hoa
-        {
-            this.ListingSaleHoas.Clear();
-
-            foreach (var hoaDetail in hoas)
-            {
-                var hoa = new SaleListingHoa(
-                    this.Id,
-                    hoaDetail.Name,
-                    hoaDetail.TransferFee,
-                    hoaDetail.Fee,
-                    hoaDetail.BillingFrequency,
-                    hoaDetail.Website,
-                    hoaDetail.ContactPhone);
-
-                this.ListingSaleHoas.Add(hoa);
-            }
-        }
-
         public virtual void ImportSpacesAndDimensionsFromPlan(BasePlan basePlan)
         {
             this.SpacesDimensionsInfo = this.SpacesDimensionsInfo.ImportSpacesDimensionsFromPlan(basePlan);
@@ -452,7 +388,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             ListingSaleStatusFieldsInfo listingStatusInfo,
             SalePropertyValueObject salePropertyInfo,
             IEnumerable<ListingSaleRoom> rooms,
-            IEnumerable<SaleListingHoa> hoas,
             Guid companyId)
         {
             if (listingInfo is null)
@@ -473,7 +408,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             var saleListing = new SaleListing(listingInfo, listingStatusInfo, saleProperty: this, companyId);
             if (SaleListing.ActiveAndPendingListingStatuses.Contains(listingInfo.MlsStatus))
             {
-                this.ApplyMarketUpdate(salePropertyInfo, rooms, hoas);
+                this.ApplyMarketUpdate(salePropertyInfo, rooms);
             }
 
             saleListing.Unlock(allowUnlock: true);
@@ -481,7 +416,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             return saleListing;
         }
 
-        public virtual void ApplyMarketUpdate(SalePropertyValueObject salePropertyInfo, IEnumerable<ListingSaleRoom> roomsInfo, IEnumerable<SaleListingHoa> hoasInfo)
+        public virtual void ApplyMarketUpdate(SalePropertyValueObject salePropertyInfo, IEnumerable<ListingSaleRoom> roomsInfo)
         {
             if (salePropertyInfo is null)
             {
@@ -493,14 +428,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 throw new ArgumentNullException(nameof(roomsInfo));
             }
 
-            if (hoasInfo is null)
-            {
-                throw new ArgumentNullException(nameof(hoasInfo));
-            }
-
             this.FillSalesPropertyInformation(salePropertyInfo);
             this.UpdateRooms(roomsInfo);
-            this.UpdateHoas(hoasInfo);
         }
 
         public SaleProperty Clone()
@@ -514,7 +443,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             clonedProperty.FeaturesInfo = this.FeaturesInfo.Clone();
             clonedProperty.ShowingInfo = this.ShowingInfo.Clone();
             clonedProperty.SpacesDimensionsInfo = this.SpacesDimensionsInfo.Clone();
-            clonedProperty.ListingSaleHoas = this.ListingSaleHoas.Select(hoaToClone => hoaToClone.Clone()).ToList();
             clonedProperty.OpenHouses = this.OpenHouses.Select(openHouseToClone => openHouseToClone.Clone()).ToList();
             clonedProperty.Rooms = this.Rooms.Select(roomToClone => roomToClone.Clone()).ToList();
 
@@ -557,13 +485,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 .SequenceEqual(other.OrderBy(x => x.RoomType), new ListingRoomComparer());
         }
 
-        protected bool AreHoasEqual(ICollection<SaleListingHoa> other)
-        {
-            return this.ListingSaleHoas
-                .OrderBy(x => x.BillingFrequency)
-                .SequenceEqual(other.OrderBy(x => x.BillingFrequency), new ListingHoaComparer());
-        }
-
         protected bool AreOpenHousesEqual(ICollection<SaleListingOpenHouse> other)
         {
             return this.OpenHouses
@@ -595,6 +516,22 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.PropertyInfo.PropertyType = property.PropertyType;
         }
 
+        private void CopyFireplaces(int? fireplaces)
+        {
+            if (this.FeaturesInfo.Fireplaces == fireplaces)
+            {
+                return;
+            }
+
+            var maxFireplaces = 3;
+            if (this.FeaturesInfo.Fireplaces > maxFireplaces && fireplaces == maxFireplaces)
+            {
+                return;
+            }
+
+            this.FeaturesInfo.Fireplaces = fireplaces;
+        }
+
         private void ImportSaleOfficeFromCommunity(CommunitySaleOffice saleOffice)
         {
             if (saleOffice is null)
@@ -618,14 +555,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.PropertyInfo.ConstructionStartYear = propertyInfo.ConstructionStartYear;
             this.PropertyInfo.LegalDescription = propertyInfo.LegalDescription;
             this.PropertyInfo.TaxId = propertyInfo.TaxId;
+            this.PropertyInfo.TaxLot = propertyInfo.TaxLot;
             this.PropertyInfo.MlsArea = propertyInfo.MlsArea;
-            this.PropertyInfo.MapscoGrid = propertyInfo.MapscoGrid;
             this.PropertyInfo.LotDimension = propertyInfo.LotDimension;
             this.PropertyInfo.LotSize = propertyInfo.LotSize;
             this.PropertyInfo.LotDescription = propertyInfo.LotDescription;
-            this.PropertyInfo.Occupancy = propertyInfo.Occupancy;
+            this.PropertyInfo.PropertyType = propertyInfo.PropertyType;
+            this.PropertyInfo.UpdateGeocodes = propertyInfo.UpdateGeocodes;
             this.PropertyInfo.Latitude = propertyInfo.Latitude;
             this.PropertyInfo.Longitude = propertyInfo.Longitude;
+            this.PropertyInfo.IsXmlManaged = propertyInfo.IsXmlManaged;
         }
 
         private void CopyAddressData(AddressInfo addressInfo)
@@ -637,9 +576,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
             this.AddressInfo = new(addressInfo.StreetNumber, addressInfo.StreetName, addressInfo.ZipCode, addressInfo.City, addressInfo.State, addressInfo.County)
             {
-                LotNum = addressInfo.LotNum,
-                Block = addressInfo.Block,
                 Subdivision = addressInfo.Subdivision,
+                StreetType = addressInfo.StreetType,
+                UnitNumber = addressInfo.UnitNumber,
             };
         }
 
@@ -651,54 +590,45 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
 
             this.FeaturesInfo ??= new();
-            this.FeaturesInfo.PropertyDescription = featuresInfo.PropertyDescription;
-            this.FeaturesInfo.Inclusions = featuresInfo.Inclusions;
-            this.FeaturesInfo.FireplaceDescription = featuresInfo.FireplaceDescription;
-            this.FeaturesInfo.Floors = featuresInfo.Floors;
-            this.FeaturesInfo.WindowCoverings = featuresInfo.WindowCoverings;
-            this.FeaturesInfo.HasAccessibility = featuresInfo.HasAccessibility;
-            this.FeaturesInfo.Accessibility = featuresInfo.Accessibility;
-            this.FeaturesInfo.HousingStyle = featuresInfo.HousingStyle;
-            this.FeaturesInfo.Exterior = featuresInfo.Exterior;
-            this.FeaturesInfo.ExteriorFeatures = featuresInfo.ExteriorFeatures;
-            this.FeaturesInfo.RoofDescription = featuresInfo.RoofDescription;
-            this.FeaturesInfo.Foundation = featuresInfo.Foundation;
-            this.FeaturesInfo.HasPrivatePool = featuresInfo.HasPrivatePool;
-            this.FeaturesInfo.PrivatePool = featuresInfo.PrivatePool;
-            this.FeaturesInfo.HomeFaces = featuresInfo.HomeFaces;
-            this.FeaturesInfo.SupplierElectricity = featuresInfo.SupplierElectricity;
-            this.FeaturesInfo.SupplierGas = featuresInfo.SupplierGas;
-            this.FeaturesInfo.SupplierWater = featuresInfo.SupplierWater;
-            this.FeaturesInfo.SupplierGarbage = featuresInfo.SupplierGarbage;
-            this.FeaturesInfo.SupplierSewer = featuresInfo.SupplierSewer;
-            this.FeaturesInfo.SupplierOther = featuresInfo.SupplierOther;
-            this.FeaturesInfo.CoolingSystem = featuresInfo.CoolingSystem;
-            this.FeaturesInfo.GreenCertification = featuresInfo.GreenCertification;
-            this.FeaturesInfo.EnergyFeatures = featuresInfo.EnergyFeatures;
-            this.FeaturesInfo.GreenFeatures = featuresInfo.GreenFeatures;
             this.FeaturesInfo.NeighborhoodAmenities = featuresInfo.NeighborhoodAmenities;
-            this.FeaturesInfo.LotImprovements = featuresInfo.LotImprovements;
-            this.FeaturesInfo.IsNewConstruction = featuresInfo.IsNewConstruction;
-            this.FeaturesInfo.HeatingFuel = featuresInfo.HeatingFuel;
-            this.FeaturesInfo.HeatSystem = featuresInfo.HeatSystem;
+            this.FeaturesInfo.RestrictionsDescription = featuresInfo.RestrictionsDescription;
+            this.FeaturesInfo.UtilitiesDescription = featuresInfo.UtilitiesDescription;
+            this.FeaturesInfo.WaterSource = featuresInfo.WaterSource;
             this.FeaturesInfo.WaterSewer = featuresInfo.WaterSewer;
+            this.FeaturesInfo.HeatSystem = featuresInfo.HeatSystem;
+            this.FeaturesInfo.CoolingSystem = featuresInfo.CoolingSystem;
+            this.FeaturesInfo.Appliances = featuresInfo.Appliances;
+            this.FeaturesInfo.GarageSpaces = featuresInfo.GarageSpaces;
+            this.FeaturesInfo.GarageDescription = featuresInfo.GarageDescription;
+            this.FeaturesInfo.LaundryFeatures = featuresInfo.LaundryFeatures;
+            this.FeaturesInfo.LaundryLocation = featuresInfo.LaundryLocation;
+            this.FeaturesInfo.InteriorFeatures = featuresInfo.InteriorFeatures;
+            this.FeaturesInfo.KitchenFeatures = featuresInfo.KitchenFeatures;
+            this.FeaturesInfo.MasterBedroomFeatures = featuresInfo.MasterBedroomFeatures;
+            this.FeaturesInfo.WaterAccessDescription = featuresInfo.WaterAccessDescription;
+            this.FeaturesInfo.Floors = featuresInfo.Floors;
+            this.FeaturesInfo.SecurityFeatures = featuresInfo.SecurityFeatures;
+            this.FeaturesInfo.WindowFeatures = featuresInfo.WindowFeatures;
+            this.FeaturesInfo.Foundation = featuresInfo.Foundation;
+            this.FeaturesInfo.RoofDescription = featuresInfo.RoofDescription;
+            this.FeaturesInfo.Fencing = featuresInfo.Fencing;
+            this.FeaturesInfo.ConstructionMaterials = featuresInfo.ConstructionMaterials;
+            this.FeaturesInfo.PatioAndPorchFeatures = featuresInfo.PatioAndPorchFeatures;
+            this.FeaturesInfo.View = featuresInfo.View;
+            this.FeaturesInfo.ExteriorFeatures = featuresInfo.ExteriorFeatures;
+            this.FeaturesInfo.HomeFaces = featuresInfo.HomeFaces;
+            this.FeaturesInfo.WaterBodyName = featuresInfo.WaterBodyName;
+            this.FeaturesInfo.DistanceToWaterAccess = featuresInfo.DistanceToWaterAccess;
+            this.FeaturesInfo.WaterfrontFeatures = featuresInfo.WaterfrontFeatures;
+            this.FeaturesInfo.UnitStyle = featuresInfo.UnitStyle;
+            this.FeaturesInfo.GuestAccommodationsDescription = featuresInfo.GuestAccommodationsDescription;
+            this.FeaturesInfo.GuestBedroomsTotal = featuresInfo.GuestBedroomsTotal;
+            this.FeaturesInfo.GuestFullBathsTotal = featuresInfo.GuestFullBathsTotal;
+            this.FeaturesInfo.GuestHalfBathsTotal = featuresInfo.GuestHalfBathsTotal;
+            this.FeaturesInfo.PropertyDescription = featuresInfo.PropertyDescription;
+            this.FeaturesInfo.IsNewConstruction = featuresInfo.IsNewConstruction;
             this.CopyFireplaces(featuresInfo.Fireplaces);
-        }
-
-        private void CopyFireplaces(int? fireplaces)
-        {
-            if (this.FeaturesInfo.Fireplaces == fireplaces)
-            {
-                return;
-            }
-
-            var maxFireplaces = 3;
-            if (this.FeaturesInfo.Fireplaces > maxFireplaces && fireplaces == maxFireplaces)
-            {
-                return;
-            }
-
-            this.FeaturesInfo.Fireplaces = fireplaces;
+            this.FeaturesInfo.FireplaceDescription = featuresInfo.FireplaceDescription;
         }
 
         private void CopyFinancialData(FinancialInfo financialInfo)
@@ -712,8 +642,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.FinancialInfo.TaxYear = financialInfo.TaxYear;
             this.FinancialInfo.TaxRate = financialInfo.TaxRate;
             this.FinancialInfo.TitleCompany = financialInfo.TitleCompany;
-            this.FinancialInfo.ProposedTerms = financialInfo.ProposedTerms;
-            this.FinancialInfo.HasMultipleHOA = financialInfo.HasMultipleHOA;
             this.FinancialInfo.BuyersAgentCommission = financialInfo.BuyersAgentCommission;
             this.FinancialInfo.HasAgentBonus = financialInfo.AgentBonusAmount != null;
             this.FinancialInfo.AgentBonusAmount = financialInfo.AgentBonusAmount;
@@ -746,11 +674,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
 
             this.SpacesDimensionsInfo ??= new();
-            this.SpacesDimensionsInfo.SqFtSource = spacesDimensions.SqFtSource;
-            this.SpacesDimensionsInfo.SpecialtyRooms = spacesDimensions.SpecialtyRooms;
-            this.SpacesDimensionsInfo.TypeCategory = spacesDimensions.TypeCategory;
-            this.SpacesDimensionsInfo.OtherParking = spacesDimensions.OtherParking;
-
             this.SpacesDimensionsInfo.StoriesTotal = spacesDimensions.StoriesTotal;
             this.SpacesDimensionsInfo.SqFtTotal = spacesDimensions.SqFtTotal;
             this.SpacesDimensionsInfo.DiningAreasTotal = spacesDimensions.DiningAreasTotal;

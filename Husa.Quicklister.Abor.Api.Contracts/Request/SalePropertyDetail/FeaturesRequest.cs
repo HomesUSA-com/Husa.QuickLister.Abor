@@ -26,7 +26,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
         public ICollection<Flooring> Floors { get; set; }
         public ICollection<SecurityFeatures> SecurityFeatures { get; set; }
         public ICollection<WindowFeatures> WindowFeatures { get; set; }
-
         public ICollection<Foundation> Foundation { get; set; }
         public ICollection<RoofDescription> RoofDescription { get; set; }
         public ICollection<Fencing> Fencing { get; set; }
@@ -34,46 +33,16 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
         public ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
         public ICollection<View> View { get; set; }
         public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
-        public string PropertyDescription { get; set; }
-
-        public ICollection<Inclusions> Inclusions { get; set; }
-
-        public ICollection<WindowFeatures> WindowCoverings { get; set; }
-
-        public bool HasAccessibility { get; set; }
-
-        public ICollection<Accessibility> Accessibility { get; set; }
-
-        public ICollection<HousingStyle> HousingStyle { get; set; }
-
-        public ICollection<Exterior> Exterior { get; set; }
-
-        public bool HasPrivatePool { get; set; }
-
-        public ICollection<PrivatePool> PrivatePool { get; set; }
-
         public ICollection<HomeFaces> HomeFaces { get; set; }
-
-        public string SupplierElectricity { get; set; }
-
-        public string SupplierWater { get; set; }
-
-        public string SupplierGarbage { get; set; }
-
-        public string SupplierGas { get; set; }
-
-        public string SupplierSewer { get; set; }
-
-        public string SupplierOther { get; set; }
-
-        public ICollection<HeatingFuel> HeatingFuel { get; set; }
-
-        public ICollection<GreenCertification> GreenCertification { get; set; }
-
-        public ICollection<EnergyFeatures> EnergyFeatures { get; set; }
-
-        public ICollection<GreenFeatures> GreenFeatures { get; set; }
-
-        public ICollection<LotImprovements> LotImprovements { get; set; }
+        public ICollection<WaterBodyName> WaterBodyName { get; set; }
+        public ICollection<DistanceToWaterAccess> DistanceToWaterAccess { get; set; }
+        public ICollection<WaterfrontFeatures> WaterfrontFeatures { get; set; }
+        public UnitStyle? UnitStyle { get; set; }
+        public ICollection<GuestAccommodationsDescription> GuestAccommodationsDescription { get; set; }
+        public int? GuestBedroomsTotal { get; set; }
+        public int? GuestFullBathsTotal { get; set; }
+        public int? GuestHalfBathsTotal { get; set; }
+        public string PropertyDescription { get; set; }
+        public bool IsNewConstruction { get; set; }
     }
 }

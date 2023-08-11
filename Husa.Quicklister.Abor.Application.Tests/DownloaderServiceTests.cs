@@ -65,7 +65,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
             const string sellingAgent = "some-listing-agent";
             var fullListingSaleDto = TestModelProvider.GetFullListingSaleDto();
             var roomsDto = TestModelProvider.GetRoomsDtoList();
-            var hoasDto = TestModelProvider.GetHoasDtoList();
 
             this.serviceSubscriptionClient.Setup(s => s.Company.GetAsync(
                 It.IsAny<Request.CompanyRequest>(),
@@ -74,7 +73,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             .Verifiable();
 
             // Act
-            var notFoundException = await Assert.ThrowsAsync<NotFoundException<Response.Company>>(() => this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, hoasDto, sellingAgent));
+            var notFoundException = await Assert.ThrowsAsync<NotFoundException<Response.Company>>(() => this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, sellingAgent));
 
             // Assert
             this.serviceSubscriptionClient.Verify();
@@ -89,7 +88,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var agentId = Guid.NewGuid();
             var fullListingSaleDto = TestModelProvider.GetFullListingSaleDto();
             var roomsDto = TestModelProvider.GetRoomsDtoList();
-            var hoasDto = TestModelProvider.GetHoasDtoList();
 
             var mlsNumber = Faker.RandomNumber.Next(10000, 19000).ToString();
             fullListingSaleDto.MlsNumber = mlsNumber;
@@ -116,7 +114,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(agent.Object);
 
             // Act
-            await this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, hoasDto, sellingAgent);
+            await this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, sellingAgent);
 
             // Assert
             this.serviceSubscriptionClient.Verify();
@@ -134,7 +132,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var listingSaleId = Guid.NewGuid();
             var fullListingSaleDto = TestModelProvider.GetFullListingSaleDto();
             var roomsDto = TestModelProvider.GetRoomsDtoList();
-            var hoasDto = TestModelProvider.GetHoasDtoList();
 
             var mlsNumber = Faker.RandomNumber.Next(10000, 19000).ToString();
             fullListingSaleDto.MlsNumber = mlsNumber;
@@ -160,7 +157,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(agent.Object);
 
             // Act
-            await this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, hoasDto, sellingAgent);
+            await this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, sellingAgent);
 
             // Assert
             this.serviceSubscriptionClient.Verify();

@@ -30,56 +30,43 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public static readonly IEnumerable<MarketStatuses> ActiveListingStatuses = new[]
         {
             MarketStatuses.Active,
-            MarketStatuses.PriceChange,
-            MarketStatuses.BackOnMarket,
+            MarketStatuses.ActiveUnderContract,
+            MarketStatuses.Hold,
         };
         public static readonly IEnumerable<MarketStatuses> OrphanListingStatuses = new[]
         {
             MarketStatuses.Active,
-            MarketStatuses.ActiveOption,
-            MarketStatuses.ActiveRFR,
-            MarketStatuses.BackOnMarket,
-            MarketStatuses.PriceChange,
+            MarketStatuses.ActiveUnderContract,
+            MarketStatuses.Hold,
             MarketStatuses.Pending,
-            MarketStatuses.Withdrawn,
-            MarketStatuses.Sold,
+            MarketStatuses.Canceled,
+            MarketStatuses.Closed,
         };
-        public static readonly IEnumerable<MarketStatuses> PendingListingStatuses = new[] { MarketStatuses.Pending, MarketStatuses.PendingSB };
-        public static readonly IEnumerable<MarketStatuses> PendingAndWithdrawnStatuses = new[]
+        public static readonly IEnumerable<MarketStatuses> PendingListingStatuses = new[] { MarketStatuses.Pending };
+        public static readonly IEnumerable<MarketStatuses> PendingAndCanceledStatuses = new[]
         {
             MarketStatuses.Pending,
-            MarketStatuses.PendingSB,
-            MarketStatuses.Withdrawn,
+            MarketStatuses.Canceled,
         };
         public static readonly IEnumerable<MarketStatuses> ActivePhotoRequestListingStatuses = new[]
         {
             MarketStatuses.Active,
-            MarketStatuses.ActiveRFR,
-            MarketStatuses.ActiveOption,
-            MarketStatuses.PriceChange,
-            MarketStatuses.BackOnMarket,
-            MarketStatuses.PendingSB,
+            MarketStatuses.Hold,
         };
         public static readonly IEnumerable<MarketStatuses> ActiveAndPendingListingStatuses = new[]
         {
             MarketStatuses.Active,
-            MarketStatuses.ActiveRFR,
-            MarketStatuses.ActiveOption,
-            MarketStatuses.PriceChange,
-            MarketStatuses.BackOnMarket,
+            MarketStatuses.ActiveUnderContract,
+            MarketStatuses.Hold,
             MarketStatuses.Pending,
-            MarketStatuses.PendingSB,
         };
         public static readonly IEnumerable<MarketStatuses> ExistingListingStatuses = new[]
         {
             MarketStatuses.Active,
-            MarketStatuses.ActiveRFR,
-            MarketStatuses.ActiveOption,
-            MarketStatuses.PriceChange,
-            MarketStatuses.BackOnMarket,
+            MarketStatuses.ActiveUnderContract,
+            MarketStatuses.Hold,
             MarketStatuses.Pending,
-            MarketStatuses.PendingSB,
-            MarketStatuses.Withdrawn,
+            MarketStatuses.Canceled,
         };
 
         public SaleListing(
@@ -239,7 +226,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.SaleProperty.SalesOfficeInfo = saleListingToClone.SaleProperty.SalesOfficeInfo.Clone();
 
             this.SaleProperty.ImportRoomsFromEntity(saleListingToClone.SaleProperty.Rooms);
-            this.SaleProperty.ImportHoasFromEntity(saleListingToClone.SaleProperty.ListingSaleHoas);
             this.SaleProperty.UpdateOpenHouse(saleListingToClone.SaleProperty.OpenHouses);
         }
 
@@ -248,19 +234,18 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             ListingSaleStatusFieldsInfo listingStatusInfo,
             SalePropertyValueObject salePropertyInfo,
             IEnumerable<ListingSaleRoom> roomsInfo,
-            IEnumerable<SaleListingHoa> hoasInfo,
             Guid companyId)
         {
             if (this.MlsNumber != listingInfo.MlsNumber)
             {
-                this.SaleProperty.AddListing(listingInfo, listingStatusInfo, salePropertyInfo, roomsInfo, hoasInfo, companyId);
+                this.SaleProperty.AddListing(listingInfo, listingStatusInfo, salePropertyInfo, roomsInfo, companyId);
                 return;
             }
 
             this.UpdateBaseListingInformation(listingInfo);
             this.UpdateStatusFieldsInfo(listingStatusInfo);
 
-            this.SaleProperty.ApplyMarketUpdate(salePropertyInfo, roomsInfo, hoasInfo);
+            this.SaleProperty.ApplyMarketUpdate(salePropertyInfo, roomsInfo);
             this.Unlock(allowUnlock: true);
         }
 
@@ -272,7 +257,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
             if (listAction == ListActionType.ListCompare)
             {
-                this.MlsStatus = MarketStatuses.Sold;
+                this.MlsStatus = MarketStatuses.Closed;
                 this.StatusFieldsInfo.SetSold(
                     listPrice: this.ListPrice.Value,
                     closePrice: listing.SalesPrice,
@@ -291,7 +276,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual void UpdateFromXml(XmlListingDetailResponse listing, Guid userId)
         {
-            if (listing.Price.HasValue && !PendingAndWithdrawnStatuses.Contains(this.MlsStatus))
+            if (listing.Price.HasValue && !PendingAndCanceledStatuses.Contains(this.MlsStatus))
             {
                 this.ListPrice = listing.Price;
             }

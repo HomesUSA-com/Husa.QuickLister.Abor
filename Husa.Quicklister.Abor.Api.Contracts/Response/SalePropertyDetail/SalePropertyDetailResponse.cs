@@ -22,8 +22,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
 
         public IEnumerable<RoomResponse> Rooms { get; set; }
 
-        public IEnumerable<HoaResponse> Hoas { get; set; }
-
         public IEnumerable<OpenHouseResponse> OpenHouses { get; set; }
     }
 }

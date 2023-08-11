@@ -138,7 +138,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .FilterById(listingId)
                 .FilterByCompany(currentUser)
                 .Include(x => x.SaleProperty.Rooms)
-                .Include(x => x.SaleProperty.ListingSaleHoas)
                 .Include(x => x.SaleProperty.OpenHouses)
                 .Include(x => x.SaleProperty.Community)
                 .Include(x => x.SaleProperty.Plan)
@@ -188,7 +187,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             return await this.context.ListingSale
                 .FilterByAddress(streetName, streetNumber, zipCode)
                 .Include(x => x.SaleProperty.Rooms)
-                .Include(x => x.SaleProperty.ListingSaleHoas)
                 .Include(x => x.SaleProperty.OpenHouses)
                 .Select(ListingSaleProjection.ProjectToListingSaleQueryDetail)
                 .SingleOrDefaultAsync();

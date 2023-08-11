@@ -14,6 +14,5 @@ namespace Husa.Quicklister.Abor.Application.Models.Community
         public CommunityFinancialDto FinancialSchools { get; set; }
         public CommunityShowingDto Showing { get; set; }
         public IEnumerable<OpenHouseDto> OpenHouses { get; set; }
-        public IEnumerable<CommunityHoaDto> Hoas { get; set; }
     }
 }

@@ -45,8 +45,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 State = States.Tennessee,
                 ZipCode = "75034",
                 County = Counties.Anderson,
-                LotNum = "109",
-                Block = "D",
                 Subdivision = "Fake Subdivision",
             };
 

@@ -42,9 +42,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public Counties? County { get; set; }
 
-        public string LotNum { get; set; }
-
-        public string Block { get; set; }
+        public StreetType? StreetType { get; set; }
+        public string UnitNumber { get; set; }
 
         public string Subdivision { get => this.subdivision; set => this.subdivision = value.ToTitleCase(); }
 
@@ -66,8 +65,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             importedAddressInfo.State = listing.State.ToState(isExactValue: false) ?? States.Texas;
             importedAddressInfo.ZipCode = listing.Zip;
             importedAddressInfo.County = listing.County.ToCounty(isExactValue: false);
-            importedAddressInfo.LotNum = listing.Lot;
-            importedAddressInfo.Block = listing.Block;
             importedAddressInfo.Subdivision = listing.Subdivision;
 
             return importedAddressInfo;
@@ -111,9 +108,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             yield return this.State;
             yield return this.ZipCode;
             yield return this.County;
-            yield return this.LotNum;
-            yield return this.Block;
             yield return this.Subdivision;
+            yield return this.UnitNumber;
+            yield return this.StreetType;
         }
     }
 }

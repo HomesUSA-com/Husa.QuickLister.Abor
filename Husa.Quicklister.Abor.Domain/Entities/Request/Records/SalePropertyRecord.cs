@@ -21,7 +21,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             : base()
         {
             this.Rooms = new List<RoomRecord>();
-            this.ListingSaleHoas = new List<HoaRecord>();
         }
 
         public virtual string Address { get; set; }
@@ -58,8 +57,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         public virtual ICollection<RoomRecord> Rooms { get; set; }
 
-        public virtual ICollection<HoaRecord> ListingSaleHoas { get; set; }
-
         public SalePropertyRecord CloneRecord()
         {
             var clonedRecord = (SalePropertyRecord)this.MemberwiseClone();
@@ -71,7 +68,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             clonedRecord.ShowingInfo = this.ShowingInfo.CloneRecord();
             clonedRecord.SchoolsInfo = this.SchoolsInfo.CloneRecord();
             clonedRecord.SalesOfficeInfo = this.SalesOfficeInfo.CloneRecord();
-            clonedRecord.ListingSaleHoas = this.ListingSaleHoas.Select(hoaToClone => hoaToClone.CloneRecord()).ToList();
             clonedRecord.OpenHouses = this.OpenHouses.Select(openHouseToClone => openHouseToClone.CloneRecord()).ToList();
             clonedRecord.Rooms = this.Rooms.Select(roomToClone => roomToClone.CloneRecord()).ToList();
             return clonedRecord;
@@ -134,7 +130,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             };
 
             salePropertyRecord.UpdateRooms(saleProperty.Rooms);
-            salePropertyRecord.UpdateHoas(saleProperty.ListingSaleHoas);
             salePropertyRecord.UpdateOpenHouse(saleProperty.OpenHouses);
 
             return salePropertyRecord;
@@ -158,7 +153,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             this.SchoolsInfo = SchoolRecord.CreateRecord(saleProperty.SchoolsInfo);
 
             this.UpdateRooms(saleProperty.Rooms);
-            this.UpdateHoas(saleProperty.Hoas);
             this.UpdateOpenHouse(saleProperty.OpenHouses);
         }
 
@@ -168,16 +162,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             {
                 this.Rooms = rooms
                     .Select(rooms => RoomRecord.CreateRoom(rooms))
-                    .ToList();
-            }
-        }
-
-        public virtual void UpdateHoas(ICollection<SaleListingHoa> hoas)
-        {
-            if (hoas != null && hoas.Any())
-            {
-                this.ListingSaleHoas = hoas
-                    .Select(hoa => HoaRecord.CreateHoa(hoa))
                     .ToList();
             }
         }
@@ -195,17 +179,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             yield return this.SalesOfficeInfo?.GetSummary(previousRequestPropertyEntity?.SalesOfficeInfo);
             yield return this.GetOpenHouseSummary(previousRequestPropertyEntity?.OpenHouses);
             yield return this.GetRoomSummary(previousRequestPropertyEntity?.Rooms);
-            yield return this.GetHoaSummary(previousRequestPropertyEntity?.ListingSaleHoas);
-        }
-
-        private SummarySection GetHoaSummary(IEnumerable<HoaRecord> oldHoas)
-        {
-            var section = new SummarySection
-            {
-                Name = HoaRecord.SummarySection,
-                Fields = this.ListingSaleHoas.GetSummaryByComparer<HoaRecord, ListingHoaComparer>(oldHoas),
-            };
-            return section.Fields.Any() ? section : null;
         }
 
         private SummarySection GetRoomSummary(IEnumerable<RoomRecord> oldRooms)

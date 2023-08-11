@@ -44,6 +44,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 ElementarySchool = schoolsInfo.ElementarySchool ?? throw new DomainException(nameof(schoolsInfo.ElementarySchool)),
                 MiddleSchool = schoolsInfo.MiddleSchool ?? throw new DomainException(nameof(schoolsInfo.MiddleSchool)),
                 HighSchool = schoolsInfo.HighSchool ?? throw new DomainException(nameof(schoolsInfo.HighSchool)),
+                OtherElementarySchool = schoolsInfo.OtherElementarySchool,
+                OtherMiddleSchool = schoolsInfo.OtherMiddleSchool,
+                OtherHighSchool = schoolsInfo.OtherHighSchool,
             };
         }
 

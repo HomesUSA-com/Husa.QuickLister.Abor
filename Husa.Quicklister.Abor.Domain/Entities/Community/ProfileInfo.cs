@@ -3,9 +3,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using System.Collections.Generic;
     using Husa.Extensions.Domain.Extensions;
     using Husa.Extensions.Domain.ValueObjects;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class ProfileInfo : ValueObject
+    public class ProfileInfo : ValueObject, IProvideGeocodes
     {
         private string officePhone;
         private string backupPhone;

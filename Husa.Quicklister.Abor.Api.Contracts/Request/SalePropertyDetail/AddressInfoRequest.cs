@@ -23,12 +23,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
         public string ZipCode { get; set; }
 
         public Counties? County { get; set; }
-
-        [MaxLength(5, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
-        public string LotNum { get; set; }
-
-        public string Block { get; set; }
-
+        public StreetType? StreetType { get; set; }
+        public string UnitNumber { get; set; }
         public string Subdivision { get; set; }
     }
 }

@@ -16,7 +16,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
         public UtilitiesQueryResult Utilities { get; set; }
         public DateTime? LastPhotoRequestCreationDate { get; set; }
         public Guid? LastPhotoRequestId { get; set; }
-        public IEnumerable<HoaQueryResult> Hoas { get; set; }
         public IEnumerable<OpenHousesQueryResult> OpenHouses { get; set; }
         public XmlStatus XmlStatus { get; set; }
     }

@@ -89,9 +89,22 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             var clonedFinancial = this.Clone();
             clonedFinancial.TaxRate = info.TaxRate;
             clonedFinancial.TitleCompany = info.TitleCompany;
+            clonedFinancial.AcceptableFinancing = info.AcceptableFinancing;
+            clonedFinancial.TaxExemptions = info.TaxExemptions;
+            clonedFinancial.HoaIncludes = info.HoaIncludes;
+            clonedFinancial.HasHoa = info.HasHoa;
+            clonedFinancial.HoaName = info.HoaName;
+            clonedFinancial.HoaFee = info.HoaFee;
+            clonedFinancial.BillingFrequency = info.BillingFrequency;
             clonedFinancial.HOARequirement = info.HOARequirement;
             clonedFinancial.BuyersAgentCommission = info.BuyersAgentCommission;
             clonedFinancial.BuyersAgentCommissionType = info.BuyersAgentCommissionType;
+            clonedFinancial.HasAgentBonus = info.HasAgentBonus;
+            clonedFinancial.HasBonusWithAmount = info.HasBonusWithAmount;
+            clonedFinancial.AgentBonusAmount = info.AgentBonusAmount;
+            clonedFinancial.AgentBonusAmountType = info.AgentBonusAmountType;
+            clonedFinancial.BonusExpirationDate = info.BonusExpirationDate;
+            clonedFinancial.HasBuyerIncentive = info.HasBuyerIncentive;
 
             return clonedFinancial;
         }
