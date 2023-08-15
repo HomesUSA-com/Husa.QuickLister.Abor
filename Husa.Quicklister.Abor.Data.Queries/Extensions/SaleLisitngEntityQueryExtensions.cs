@@ -255,9 +255,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             {
                 City = property.City,
                 County = property.County,
-                MlsArea = property.MlsArea,
-                Subdivision = property.Subdivision,
                 ZipCode = property.ZipCode,
+                Subdivision = property.Subdivision,
+                LotSize = property.LotSize,
+                MlsArea = property.MlsArea,
+                ConstructionStage = property.ConstructionStage,
+                LotDimension = property.LotDimension,
+                LotDescription = property.LotDescription,
+                PropertyType = property.PropertyType,
             };
         }
 
