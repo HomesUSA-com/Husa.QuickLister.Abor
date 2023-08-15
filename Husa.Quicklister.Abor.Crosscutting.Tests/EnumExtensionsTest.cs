@@ -69,8 +69,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         [InlineData(typeof(MiddleSchool))]
         [InlineData(typeof(MlsArea))]
         [InlineData(typeof(NeighborhoodAmenities))]
-        [InlineData(typeof(OtherHighSchool))]
-        [InlineData(typeof(OtherMiddleSchool))]
         [InlineData(typeof(PatioAndPorchFeatures))]
         [InlineData(typeof(PropertySubType))]
         [InlineData(typeof(RoofDescription))]

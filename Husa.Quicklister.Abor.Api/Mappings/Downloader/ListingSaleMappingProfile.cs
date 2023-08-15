@@ -121,7 +121,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForPath(dto => dto.SaleProperty.FeaturesInfo.ExteriorFeatures, config => config.MapFrom(dto => dto.ExteriorFeatures.CsvToEnum<ExteriorFeatures>(true)))
                 .ForPath(dto => dto.SaleProperty.FeaturesInfo.RoofDescription, config => config.MapFrom(dto => dto.Roof.CsvToEnum<RoofDescription>(true)))
                 .ForPath(dto => dto.SaleProperty.FeaturesInfo.Foundation, config => config.MapFrom(dto => dto.Foundation.CsvToEnum<Foundation>(true)))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.HomeFaces, config => config.MapFrom(dto => dto.HomeFaces.CsvToEnum<HomeFaces>(true)))
+                .ForPath(dto => dto.SaleProperty.FeaturesInfo.HomeFaces, config => config.MapFrom(dto => dto.HomeFaces))
                 .ForPath(dto => dto.SaleProperty.FeaturesInfo.CoolingSystem, config => config.MapFrom(dto => dto.CoolingSystemDescription.CsvToEnum<CoolingSystem>(true)))
                 .ForPath(dto => dto.SaleProperty.FeaturesInfo.WaterSewer, config => config.MapFrom(dto => dto.WaterSewer.CsvToEnum<WaterSewer>(true)))
                 .ForPath(dto => dto.SaleProperty.FeaturesInfo.NeighborhoodAmenities, config => config.MapFrom(dto => dto.NeighborhoodAmenities.CsvToEnum<NeighborhoodAmenities>(true)))

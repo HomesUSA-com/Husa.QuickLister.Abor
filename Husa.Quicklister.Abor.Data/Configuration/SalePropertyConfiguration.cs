@@ -91,12 +91,12 @@ namespace Husa.Quicklister.Abor.Data.Configuration
         private static void ConfigureFeaturesMapping(OwnedNavigationBuilder<SaleProperty, FeaturesInfo> builder)
         {
             builder.ConfigureFeature();
-            builder.Property(r => r.HomeFaces).HasColumnName(nameof(FeaturesInfo.HomeFaces)).HasEnumCollectionValue<HomeFaces>(100);
-            builder.Property(r => r.WaterBodyName).HasColumnName(nameof(FeaturesInfo.WaterBodyName)).HasEnumCollectionValue<WaterBodyName>(100);
-            builder.Property(r => r.DistanceToWaterAccess).HasColumnName(nameof(FeaturesInfo.DistanceToWaterAccess)).HasEnumCollectionValue<DistanceToWaterAccess>(100);
+            builder.Property(r => r.HomeFaces).HasColumnName(nameof(FeaturesInfo.HomeFaces)).HasEnumFieldValue<HomeFaces>(20);
+            builder.Property(r => r.WaterBodyName).HasColumnName(nameof(FeaturesInfo.WaterBodyName)).HasEnumFieldValue<WaterBodyName>(50);
+            builder.Property(r => r.DistanceToWaterAccess).HasColumnName(nameof(FeaturesInfo.DistanceToWaterAccess)).HasEnumFieldValue<DistanceToWaterAccess>(50);
             builder.Property(r => r.WaterfrontFeatures).HasColumnName(nameof(FeaturesInfo.WaterfrontFeatures)).HasEnumCollectionValue<WaterfrontFeatures>(100);
             builder.Property(r => r.GuestAccommodationsDescription).HasColumnName(nameof(FeaturesInfo.GuestAccommodationsDescription)).HasEnumCollectionValue<GuestAccommodationsDescription>(100);
-            builder.Property(r => r.UnitStyle).HasColumnName(nameof(FeaturesInfo.UnitStyle)).HasEnumFieldValue<UnitStyle>(10);
+            builder.Property(r => r.UnitStyle).HasColumnName(nameof(FeaturesInfo.UnitStyle)).HasEnumCollectionValue<UnitStyle>(100);
             builder.Property(r => r.IsNewConstruction).HasColumnName(nameof(FeaturesInfo.IsNewConstruction));
             builder.Property(r => r.PropertyDescription).HasColumnName(nameof(FeaturesInfo.PropertyDescription)).HasMaxLength(4000).IsRequired(false);
             builder.Property(r => r.GuestBedroomsTotal).HasColumnName(nameof(FeaturesInfo.GuestBedroomsTotal)).HasMaxLength(3);

@@ -50,11 +50,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
         public virtual ICollection<View> View { get; set; }
         public virtual ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
-        public virtual ICollection<HomeFaces> HomeFaces { get; set; }
-        public virtual ICollection<WaterBodyName> WaterBodyName { get; set; }
-        public virtual ICollection<DistanceToWaterAccess> DistanceToWaterAccess { get; set; }
+        public virtual HomeFaces? HomeFaces { get; set; }
+        public virtual WaterBodyName? WaterBodyName { get; set; }
+        public virtual DistanceToWaterAccess? DistanceToWaterAccess { get; set; }
         public virtual ICollection<WaterfrontFeatures> WaterfrontFeatures { get; set; }
-        public virtual UnitStyle? UnitStyle { get; set; }
+        public virtual ICollection<UnitStyle> UnitStyle { get; set; }
         public virtual ICollection<GuestAccommodationsDescription> GuestAccommodationsDescription { get; set; }
         public virtual int? GuestBedroomsTotal { get; set; }
         public virtual int? GuestFullBathsTotal { get; set; }

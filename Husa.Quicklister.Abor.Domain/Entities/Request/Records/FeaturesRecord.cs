@@ -50,11 +50,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
         public ICollection<View> View { get; set; }
         public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
-        public ICollection<HomeFaces> HomeFaces { get; set; }
-        public ICollection<WaterBodyName> WaterBodyName { get; set; }
-        public ICollection<DistanceToWaterAccess> DistanceToWaterAccess { get; set; }
+        public HomeFaces HomeFaces { get; set; }
+        public WaterBodyName WaterBodyName { get; set; }
+        public DistanceToWaterAccess DistanceToWaterAccess { get; set; }
         public ICollection<WaterfrontFeatures> WaterfrontFeatures { get; set; }
-        public UnitStyle? UnitStyle { get; set; }
+        public ICollection<UnitStyle> UnitStyle { get; set; }
         public ICollection<GuestAccommodationsDescription> GuestAccommodationsDescription { get; set; }
         public int? GuestBedroomsTotal { get; set; }
         public int? GuestFullBathsTotal { get; set; }
@@ -100,9 +100,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 PatioAndPorchFeatures = featuresInfo.PatioAndPorchFeatures,
                 View = featuresInfo.View,
                 ExteriorFeatures = featuresInfo.ExteriorFeatures,
-                HomeFaces = featuresInfo.HomeFaces,
-                WaterBodyName = featuresInfo.WaterBodyName,
-                DistanceToWaterAccess = featuresInfo.DistanceToWaterAccess,
+                HomeFaces = featuresInfo.HomeFaces ?? throw new DomainException(nameof(featuresInfo.HomeFaces)),
+                WaterBodyName = featuresInfo.WaterBodyName ?? throw new DomainException(nameof(featuresInfo.WaterBodyName)),
+                DistanceToWaterAccess = featuresInfo.DistanceToWaterAccess ?? throw new DomainException(nameof(featuresInfo.DistanceToWaterAccess)),
                 WaterfrontFeatures = featuresInfo.WaterfrontFeatures,
                 UnitStyle = featuresInfo.UnitStyle,
                 GuestAccommodationsDescription = featuresInfo.GuestAccommodationsDescription,

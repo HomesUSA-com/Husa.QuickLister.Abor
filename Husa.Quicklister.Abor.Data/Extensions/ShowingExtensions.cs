@@ -25,10 +25,10 @@ namespace Husa.Quicklister.Abor.Data.Extensions
                 .HasMaxLength(2000);
             builder.Property(r => r.ShowingRequirements)
                 .HasColumnName(nameof(IProvideShowingInfo.ShowingRequirements))
-                .HasEnumFieldValue<ShowingRequirements>(maxLength: 50);
+                .HasEnumCollectionValue<ShowingRequirements>(maxLength: 300);
             builder.Property(r => r.LockBoxType)
                 .HasColumnName(nameof(IProvideShowingInfo.LockBoxType))
-                .HasEnumFieldValue<LockBoxType>(maxLength: 50);
+                .HasEnumCollectionValue<LockBoxType>(maxLength: 300);
             builder.Property(r => r.Directions).HasColumnName(nameof(IProvideShowingInfo.Directions)).HasMaxLength(255).IsRequired(false);
         }
     }

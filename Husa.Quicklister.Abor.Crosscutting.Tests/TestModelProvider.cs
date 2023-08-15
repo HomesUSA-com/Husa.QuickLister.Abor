@@ -1323,6 +1323,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 LaundryLocation = GetEnumCollectionRandom<LaundryLocation>(),
                 IsNewConstruction = true,
                 GarageSpaces = 1,
+                HomeFaces = HomeFaces.West,
+                WaterBodyName = WaterBodyName.BeltonLake,
+                DistanceToWaterAccess = DistanceToWaterAccess.SeeRemarks,
             };
         }
 
@@ -1362,8 +1365,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 ContactPhone = communityShowingInfo.ContactPhone,
                 ShowingInstructions = communityShowingInfo.ShowingInstructions,
                 Directions = communityShowingInfo.Directions,
-                LockBoxType = communityShowingInfo.LockBoxType,
-                ShowingRequirements = ShowingRequirements.AgentOrOwnerPresent,
             };
         }
 
@@ -1411,7 +1412,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             ContactPhone = "210-222-2227",
             ShowingInstructions = "Call salesperson or come to the model home at 1234 Sample Trail.",
             Directions = "Fredericksburg Rd to Mulberry - West on Mulberry.",
-            LockBoxType = LockBoxType.Combo,
+            LockBoxType = new[] { LockBoxType.Combo },
         };
     }
 }

@@ -35,15 +35,15 @@ namespace Husa.Quicklister.Abor.Data.Extensions
 
             builder.Property(r => r.OtherElementarySchool)
                 .HasColumnName(nameof(SchoolsInfo.OtherElementarySchool))
-                .HasEnumFieldValue<OtherElementarySchool>(maxLength: 50);
+                .HasMaxLength(50);
 
             builder.Property(r => r.OtherMiddleSchool)
                 .HasColumnName(nameof(SchoolsInfo.OtherMiddleSchool))
-                .HasEnumFieldValue<OtherMiddleSchool>(maxLength: 50);
+                .HasMaxLength(50);
 
             builder.Property(r => r.OtherHighSchool)
                 .HasColumnName(nameof(SchoolsInfo.OtherHighSchool))
-                .HasEnumFieldValue<OtherHighSchool>(maxLength: 50);
+                .HasMaxLength(50);
         }
     }
 }

@@ -109,56 +109,62 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
             },
         };
 
-        public static SalePropertyDetailDto GetSalePropertyDetailDto() => new()
+        public static SalePropertyDetailDto GetSalePropertyDetailDto()
         {
-            SpacesDimensionsInfo = new()
+            return new()
             {
-                StoriesTotal = Stories.MultiLevel,
-                SqFtTotal = 1235,
-                DiningAreasTotal = 4,
-                FullBathsTotal = 3,
-                HalfBathsTotal = 1,
-                LivingAreasTotal = 1,
-                MainLevelBedroomTotal = 1,
-                OtherLevelsBedroomTotal = 0,
-            },
-            FeaturesInfo = new()
-            {
-                GarageSpaces = 1,
-                Fireplaces = 0,
-            },
-            FinancialInfo = new()
-            {
-                HOARequirement = HoaRequirement.Mandatory,
-                BuyersAgentCommission = 5,
-            },
-            ShowingInfo = new()
-            {
-                ShowingInstructions = "Call salesperson or come to the model home at 1234 Sample Trail.",
-                LockBoxType = LockBoxType.Combo,
-                ShowingRequirements = ShowingRequirements.ShowingService,
-            },
-            SchoolsInfo = new()
-            {
-                SchoolDistrict = SchoolDistrict.Holland,
-                MiddleSchool = MiddleSchool.Holland,
-                HighSchool = HighSchool.Holland,
-                ElementarySchool = ElementarySchool.Holland,
-            },
-            PropertyInfo = new()
-            {
-                ConstructionCompletionDate = new DateTime(DateTime.UtcNow.Year, 10, 4, 0, 0, 0, 0, DateTimeKind.Utc),
-                ConstructionStage = ConstructionStage.Complete,
-                ConstructionStartYear = 2023,
-                PropertyType = PropertySubType.Condominium,
-            },
-            AddressInfo = new()
-            {
-                County = Counties.Bee,
-            },
-            SalePropertyInfo = new(),
-            OpenHouses = new OpenHouseDto[] { new() },
-            Rooms = new RoomDto[] { new() },
-        };
+                SpacesDimensionsInfo = new()
+                {
+                    StoriesTotal = Stories.MultiLevel,
+                    SqFtTotal = 1235,
+                    DiningAreasTotal = 4,
+                    FullBathsTotal = 3,
+                    HalfBathsTotal = 1,
+                    LivingAreasTotal = 1,
+                    MainLevelBedroomTotal = 1,
+                    OtherLevelsBedroomTotal = 0,
+                },
+                FeaturesInfo = new()
+                {
+                    GarageSpaces = 1,
+                    Fireplaces = 0,
+                    HomeFaces = HomeFaces.West,
+                    WaterBodyName = WaterBodyName.BeltonLake,
+                    DistanceToWaterAccess = DistanceToWaterAccess.SeeRemarks,
+                },
+                FinancialInfo = new()
+                {
+                    HOARequirement = HoaRequirement.Mandatory,
+                    BuyersAgentCommission = 5,
+                },
+                ShowingInfo = new()
+                {
+                    ShowingInstructions = "Call salesperson or come to the model home at 1234 Sample Trail.",
+                    LockBoxType = new[] { LockBoxType.Combo },
+                    ShowingRequirements = new[] { ShowingRequirements.ShowingService },
+                },
+                SchoolsInfo = new()
+                {
+                    SchoolDistrict = SchoolDistrict.Holland,
+                    MiddleSchool = MiddleSchool.Holland,
+                    HighSchool = HighSchool.Holland,
+                    ElementarySchool = ElementarySchool.Holland,
+                },
+                PropertyInfo = new()
+                {
+                    ConstructionCompletionDate = new DateTime(DateTime.UtcNow.Year, 10, 4, 0, 0, 0, 0, DateTimeKind.Utc),
+                    ConstructionStage = ConstructionStage.Complete,
+                    ConstructionStartYear = 2023,
+                    PropertyType = PropertySubType.Condominium,
+                },
+                AddressInfo = new()
+                {
+                    County = Counties.Bee,
+                },
+                SalePropertyInfo = new(),
+                OpenHouses = new OpenHouseDto[] { new() },
+                Rooms = new RoomDto[] { new() },
+            };
+        }
     }
 }

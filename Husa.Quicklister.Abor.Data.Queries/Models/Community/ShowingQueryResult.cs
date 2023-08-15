@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
 {
+    using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class ShowingQueryResult
@@ -8,7 +9,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
         public string ContactPhone { get; set; }
         public string ShowingInstructions { get; set; }
         public string Directions { get; set; }
-        public LockBoxType? LockBoxType { get; set; }
-        public ShowingRequirements? ShowingRequirements { get; set; }
+        public ICollection<LockBoxType> LockBoxType { get; set; }
+        public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
 {
+    using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class ShowingDto
@@ -10,8 +11,8 @@ namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
         public string AgentPrivateRemarksAdditional { get; set; }
         public string LockBoxSerialNumber { get; set; }
         public string ShowingInstructions { get; set; }
-        public ShowingRequirements? ShowingRequirements { get; set; }
-        public LockBoxType? LockBoxType { get; set; }
+        public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
+        public ICollection<LockBoxType> LockBoxType { get; set; }
         public string RealtorContactEmail { get; set; }
         public string Directions { get; set; }
         public bool EnableOpenHouses { get; set; }

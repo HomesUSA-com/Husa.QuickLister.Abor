@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
 {
+    using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class ShowingInfoQueryResult
@@ -12,8 +13,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public string Directions { get; set; }
         public string AgentPrivateRemarksAdditional { get; set; }
         public string LockBoxSerialNumber { get; set; }
-        public ShowingRequirements ShowingRequirements { get; set; }
-        public LockBoxType LockBoxType { get; set; }
+        public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
+        public ICollection<LockBoxType> LockBoxType { get; set; }
         public bool EnableOpenHouses { get; set; }
         public bool OpenHousesAgree { get; set; }
         public bool ShowOpenHousesPending { get; set; }

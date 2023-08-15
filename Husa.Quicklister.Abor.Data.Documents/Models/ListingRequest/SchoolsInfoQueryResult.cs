@@ -12,10 +12,10 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
 
         public HighSchool HighSchool { get; set; }
 
-        public OtherElementarySchool? OtherElementarySchool { get; set; }
+        public string OtherElementarySchool { get; set; }
 
-        public OtherMiddleSchool? OtherMiddleSchool { get; set; }
+        public string OtherMiddleSchool { get; set; }
 
-        public OtherHighSchool? OtherHighSchool { get; set; }
+        public string OtherHighSchool { get; set; }
     }
 }
