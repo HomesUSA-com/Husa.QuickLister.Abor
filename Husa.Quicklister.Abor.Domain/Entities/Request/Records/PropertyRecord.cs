@@ -37,7 +37,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         public ICollection<LotDescription> LotDescription { get; set; }
 
-        public PropertySubType PropertyType { get; set; }
+        public PropertySubType? PropertyType { get; set; }
 
         public bool UpdateGeocodes { get; set; }
 
@@ -70,7 +70,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 LotDimension = propertyInfo.LotDimension,
                 LotSize = propertyInfo.LotSize,
                 LotDescription = propertyInfo.LotDescription,
-                PropertyType = propertyInfo.PropertyType ?? throw new DomainException(nameof(propertyInfo.PropertyType)),
+                PropertyType = propertyInfo.PropertyType,
                 UpdateGeocodes = propertyInfo.UpdateGeocodes,
                 Latitude = propertyInfo.Latitude,
                 Longitude = propertyInfo.Longitude,
