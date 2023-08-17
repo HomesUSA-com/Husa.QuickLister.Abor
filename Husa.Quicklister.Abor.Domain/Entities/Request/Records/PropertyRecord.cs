@@ -24,6 +24,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         [Required(AllowEmptyStrings = false)]
         public string LegalDescription { get; set; }
+
+        [Required(AllowEmptyStrings = false)]
         public string TaxId { get; set; }
         public MlsArea? MlsArea { get; set; }
         public string LotDimension { get; set; }
@@ -33,11 +35,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         public int ConstructionStartYear { get; set; }
 
+        [Required(AllowEmptyStrings = false)]
         public string TaxLot { get; set; }
 
+        [Required]
+        [MinLength(1)]
         public ICollection<LotDescription> LotDescription { get; set; }
 
-        public PropertySubType? PropertyType { get; set; }
+        public PropertySubType PropertyType { get; set; }
 
         public bool UpdateGeocodes { get; set; }
 
@@ -70,7 +75,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 LotDimension = propertyInfo.LotDimension,
                 LotSize = propertyInfo.LotSize,
                 LotDescription = propertyInfo.LotDescription,
-                PropertyType = propertyInfo.PropertyType,
+                PropertyType = propertyInfo.PropertyType ?? throw new DomainException(nameof(propertyInfo.PropertyType)),
                 UpdateGeocodes = propertyInfo.UpdateGeocodes,
                 Latitude = propertyInfo.Latitude,
                 Longitude = propertyInfo.Longitude,

@@ -6,10 +6,12 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
     using System.Linq;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Domain.Common;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using Moq;
@@ -233,6 +235,32 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             Assert.Equal(saleListingRequest.SaleProperty.FinancialInfo.HOARequirement, requestCloned.SaleProperty.FinancialInfo.HOARequirement);
             Assert.Equal(saleListingRequest.SaleProperty.ShowingInfo.ShowingInstructions, requestCloned.SaleProperty.ShowingInfo.ShowingInstructions);
             Assert.Equal(saleListingRequest.SaleProperty.SchoolsInfo.HighSchool, requestCloned.SaleProperty.SchoolsInfo.HighSchool);
+        }
+
+        [Fact]
+        public void CreatePropertyRecordCollectionFail()
+        {
+            // Arrange
+            var property = new PropertyInfo()
+            {
+                ConstructionCompletionDate = DateTime.UtcNow,
+                ConstructionStage = ConstructionStage.Complete,
+                LegalDescription = "LegalDescription",
+                TaxId = "TaxId",
+                LotSize = "LotSize",
+                ConstructionStartYear = 2023,
+                TaxLot = "TaxLot",
+                LotDescription = new List<LotDescription>(),
+                PropertyType = PropertySubType.SingleFamilyResidence,
+                UpdateGeocodes = false,
+                IsXmlManaged = false,
+            };
+
+            var propertyRecord = PropertyRecord.CreateRecord(property);
+            var errors = ValidatePropertiesAttribute.GetErrors(propertyRecord);
+
+            Assert.NotEmpty(errors);
+            Assert.Contains(errors, x => x.MemberNames.Any(name => name == nameof(property.LotDescription)));
         }
 
         private static Mock<SaleListingRequest> GetListingRequest(DateTime? creationDate)

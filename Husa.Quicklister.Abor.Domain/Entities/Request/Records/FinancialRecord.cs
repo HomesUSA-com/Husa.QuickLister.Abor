@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Domain.Common;
@@ -14,10 +15,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     public record FinancialRecord : IProvideSummary
     {
         public const string SummarySection = "Financial";
-        public int? TaxYear { get; set; }
-        public decimal? TaxRate { get; set; }
+        public int TaxYear { get; set; }
+        public decimal TaxRate { get; set; }
         public string TitleCompany { get; set; }
+
+        [Required]
+        [MinLength(1)]
         public ICollection<AcceptableFinancing> AcceptableFinancing { get; set; }
+
+        [Required]
+        [MinLength(1)]
         public ICollection<TaxExemptions> TaxExemptions { get; set; }
         public ICollection<HoaIncludes> HoaIncludes { get; set; }
         public bool HasHoa { get; set; }
@@ -52,8 +59,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 HOARequirement = financialInfo.HOARequirement ?? throw new DomainException(nameof(financialInfo.HOARequirement)),
                 BuyersAgentCommission = financialInfo.BuyersAgentCommission ?? throw new DomainException(nameof(financialInfo.BuyersAgentCommission)),
                 BuyersAgentCommissionType = financialInfo.BuyersAgentCommissionType,
-                TaxYear = financialInfo.TaxYear,
-                TaxRate = financialInfo.TaxRate,
+                TaxYear = financialInfo.TaxYear ?? throw new DomainException(nameof(financialInfo.TaxYear)),
+                TaxRate = financialInfo.TaxRate ?? throw new DomainException(nameof(financialInfo.TaxRate)),
                 TitleCompany = financialInfo.TitleCompany,
                 AcceptableFinancing = financialInfo.AcceptableFinancing,
                 TaxExemptions = financialInfo.TaxExemptions,
