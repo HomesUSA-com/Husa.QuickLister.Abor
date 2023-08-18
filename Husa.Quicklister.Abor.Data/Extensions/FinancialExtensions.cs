@@ -55,7 +55,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
             builder.Property(r => r.BillingFrequency)
                 .HasColumnName(nameof(IProvideFinancial.BillingFrequency))
                 .HasConversion<EnumFieldValueConverter<BillingFrequency>>()
-                .HasMaxLength(1);
+                .HasMaxLength(6);
 
             builder.Property(r => r.BuyersAgentCommission).HasPrecision(18, 2).HasColumnName(nameof(IProvideFinancial.BuyersAgentCommission)).HasMaxLength(6);
             builder.Property(r => r.BuyersAgentCommissionType)
