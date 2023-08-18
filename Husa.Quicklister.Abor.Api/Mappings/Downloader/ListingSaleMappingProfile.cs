@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Application.Models.Media;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class ListingSaleMappingProfile : Profile
     {

@@ -109,6 +109,39 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
             },
         };
 
+        public static FeaturesInfo GetFeaturesInfo() => new()
+        {
+            GarageSpaces = 1,
+            Fireplaces = 0,
+            HomeFaces = HomeFaces.West,
+            PropertyDescription = "PropertyDescription",
+            InteriorFeatures = new[] { InteriorFeatures.MultipleDiningAreas },
+            DistanceToWaterAccess = DistanceToWaterAccess.SeeRemarks,
+            NeighborhoodAmenities = new[] { NeighborhoodAmenities.GameRoom },
+            RestrictionsDescription = new[] { RestrictionsDescription.Environmental },
+            UtilitiesDescription = new[] { UtilitiesDescription.Solar },
+            WaterSource = new[] { WaterSource.Public },
+            WaterSewer = new[] { WaterSewer.AerobicSeptic },
+            HeatSystem = new[] { HeatingSystem.Fireplace },
+            CoolingSystem = new[] { CoolingSystem.CeilingFan },
+            Appliances = new[] { Appliances.SeeRemarks },
+            GarageDescription = new[] { GarageDescription.Tandem },
+            LaundryLocation = new[] { LaundryLocation.Kitchen },
+            Floors = new[] { Flooring.Carpet },
+            SecurityFeatures = new[] { SecurityFeatures.SecuritySystem },
+            WindowFeatures = new[] { WindowFeatures.Blinds },
+            Foundation = new[] { Foundation.Slab },
+            RoofDescription = new[] { RoofDescription.Shingle },
+            Fencing = new[] { Fencing.Block },
+            ConstructionMaterials = new[] { ConstructionMaterials.BlownInInsulation },
+            PatioAndPorchFeatures = new[] { PatioAndPorchFeatures.Deck },
+            View = new[] { View.None },
+            ExteriorFeatures = new[] { ExteriorFeatures.Balcony },
+            GuestAccommodationsDescription = new[] { GuestAccommodationsDescription.None },
+            WaterfrontFeatures = new[] { WaterfrontFeatures.LakeFront },
+            WaterBodyName = WaterBodyName.LakeBastrop,
+        };
+
         public static SalePropertyDetailDto GetSalePropertyDetailDto()
         {
             return new()
@@ -126,10 +159,11 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                 },
                 FeaturesInfo = new()
                 {
+                    PropertyDescription = "PropertyDescription",
+                    InteriorFeatures = new[] { InteriorFeatures.MultipleDiningAreas },
                     GarageSpaces = 1,
                     Fireplaces = 0,
                     HomeFaces = HomeFaces.West,
-                    WaterBodyName = WaterBodyName.BeltonLake,
                     DistanceToWaterAccess = DistanceToWaterAccess.SeeRemarks,
                     NeighborhoodAmenities = new[] { NeighborhoodAmenities.GameRoom },
                     RestrictionsDescription = new[] { RestrictionsDescription.Environmental },
@@ -151,8 +185,8 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                     PatioAndPorchFeatures = new[] { PatioAndPorchFeatures.Deck },
                     View = new[] { View.None },
                     ExteriorFeatures = new[] { ExteriorFeatures.Balcony },
-                    WaterfrontFeatures = new[] { WaterfrontFeatures.LakeFront },
                     GuestAccommodationsDescription = new[] { GuestAccommodationsDescription.None },
+                    WaterfrontFeatures = new[] { WaterfrontFeatures.None },
                 },
                 FinancialInfo = new()
                 {
@@ -189,6 +223,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                 AddressInfo = new()
                 {
                     County = Counties.Bee,
+                    StreetType = StreetType.RDS,
                 },
                 SalePropertyInfo = new(),
                 OpenHouses = new OpenHouseDto[] { new() },

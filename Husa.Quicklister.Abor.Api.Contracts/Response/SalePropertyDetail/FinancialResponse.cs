@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class FinancialResponse
     {

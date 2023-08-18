@@ -19,7 +19,7 @@
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="4.0.2" />
         <PackageReference Include="Husa.Extensions.Common" Version="3.8.2" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Domain.Enums" Version="1.0.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Domain.Enums" Version="1.1.0" />
     </ItemGroup>
 
     <ItemGroup>

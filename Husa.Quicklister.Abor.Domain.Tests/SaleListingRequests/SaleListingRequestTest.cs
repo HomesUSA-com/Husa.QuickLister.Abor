@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
+    using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
@@ -261,6 +262,41 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
 
             Assert.NotEmpty(errors);
             Assert.Contains(errors, x => x.MemberNames.Any(name => name == nameof(property.LotDescription)));
+        }
+
+        [Theory]
+        [InlineData(WaterfrontFeatures.Creek)]
+        [InlineData(WaterfrontFeatures.LakePrivileges)]
+        [InlineData(WaterfrontFeatures.WaterFront)]
+        [InlineData(WaterfrontFeatures.RiverFront)]
+        [InlineData(WaterfrontFeatures.LakeFront)]
+        [InlineData(WaterfrontFeatures.CanalFront)]
+        public void CreateFeaturesRecord_WaterBodyName_Fail(WaterfrontFeatures waterfrontFeatures)
+        {
+            // Arrange
+            var features = ListingTestProvider.GetFeaturesInfo();
+            features.WaterBodyName = null;
+            features.WaterfrontFeatures = new[] { waterfrontFeatures };
+
+            var featuresRecord = FeaturesRecord.CreateRecord(features);
+            var errors = ValidatePropertiesAttribute.GetErrors(featuresRecord);
+
+            Assert.NotEmpty(errors);
+            Assert.Contains(errors, x => x.MemberNames.Any(name => name == nameof(featuresRecord.WaterBodyName)));
+        }
+
+        [Fact]
+        public void CreateFeaturesRecord_WaterBodyName_Success()
+        {
+            // Arrange
+            var features = ListingTestProvider.GetFeaturesInfo();
+            features.WaterBodyName = null;
+            features.WaterfrontFeatures = new[] { WaterfrontFeatures.None };
+
+            var featuresRecord = FeaturesRecord.CreateRecord(features);
+            var errors = ValidatePropertiesAttribute.GetErrors(featuresRecord);
+
+            Assert.Empty(errors);
         }
 
         private static Mock<SaleListingRequest> GetListingRequest(DateTime? creationDate)

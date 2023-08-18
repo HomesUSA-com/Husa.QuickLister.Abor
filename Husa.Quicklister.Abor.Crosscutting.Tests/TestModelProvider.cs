@@ -1217,6 +1217,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             State = States.Texas,
             ZipCode = "75035",
             County = Counties.Bexar,
+            StreetType = StreetType.ANX,
         };
 
         public static PropertyInfo GetDefaultPropertyInfo() => new()
