@@ -113,6 +113,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.MlsArea = propertyInfoToClone.MlsArea;
             this.LotSize = propertyInfoToClone.LotSize;
             this.LotDescription = propertyInfoToClone.LotDescription;
+            this.PropertyType = propertyInfoToClone.PropertyType;
         }
 
         public PropertyInfo ImportAddressInfoFromCommunity(Community.Property property)
