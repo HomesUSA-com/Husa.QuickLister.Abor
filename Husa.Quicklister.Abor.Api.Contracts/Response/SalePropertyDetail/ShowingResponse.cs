@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
         public ICollection<LockBoxType> LockBoxType { get; set; }
         public string RealtorContactEmail { get; set; }
         public string Directions { get; set; }
+        public string OwnerName { get; set; }
         public bool EnableOpenHouses { get; set; }
         public bool OpenHousesAgree { get; set; }
         public bool ShowOpenHousesPending { get; set; }

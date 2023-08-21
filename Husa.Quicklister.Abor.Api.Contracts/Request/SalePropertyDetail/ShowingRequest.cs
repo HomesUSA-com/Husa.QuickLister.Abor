@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
 
         [MaxLength(1024, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string AgentPrivateRemarks { get; set; }
+        public string OwnerName { get; set; }
         public string AgentPrivateRemarksAdditional { get; set; }
         public string LockBoxSerialNumber { get; set; }
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }

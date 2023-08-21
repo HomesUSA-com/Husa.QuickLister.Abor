@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Domain.Entities.Request;
+    using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using DocumentModels = Husa.Quicklister.Abor.Data.Documents.Models;
 
@@ -85,7 +86,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<SpacesDimensionsDto, SpacesDimensionsRecord>();
 
             this.CreateMap<FeaturesDto, FeaturesRecord>();
-            this.CreateMap<FinancialDto, FinancialRecord>();
+            this.CreateMap<FinancialDto, FinancialRecord>()
+                .ForMember(dest => dest.ReadableAgentBonusAmount, config => config.MapFrom(dto => dto.AgentBonusAmount.GetCommissionAmount(dto.AgentBonusAmountType)))
+                .ForMember(dest => dest.ReadableBuyersAgentCommission, config => config.MapFrom(dto => dto.BuyersAgentCommission.GetCommissionAmount(dto.BuyersAgentCommissionType)));
             this.CreateMap<ShowingDto, ShowingRecord>();
             this.CreateMap<SchoolsDto, SchoolRecord>();
             this.CreateMap<AddressDto, AddressRecord>()

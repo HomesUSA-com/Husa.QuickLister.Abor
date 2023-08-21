@@ -128,6 +128,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                EnableOpenHouses = showing.EnableOpenHouses,
                OpenHousesAgree = showing.OpenHousesAgree,
                ShowOpenHousesPending = showing.ShowOpenHousesPending,
+               OwnerName = showing.OwnerName,
            };
 
         public static FinancialInfoQueryResult ToProjectionFinancial<T>(this T financial)

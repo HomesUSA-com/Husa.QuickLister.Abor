@@ -15,6 +15,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
     public record FinancialRecord : IProvideSummary
     {
+        private string readableAgentBonusAmount;
+        private string readableBuyersAgentCommission;
+
         public const string SummarySection = "Financial";
         public int TaxYear { get; set; }
         public decimal TaxRate { get; set; }
@@ -35,10 +38,22 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public HoaRequirement HOARequirement { get; set; }
         public decimal BuyersAgentCommission { get; set; }
         public CommissionType BuyersAgentCommissionType { get; set; }
+        public string ReadableBuyersAgentCommission
+        {
+            get { return this.readableBuyersAgentCommission ?? this.BuyersAgentCommission.GetCommissionAmount(this.BuyersAgentCommissionType); }
+            set { this.readableBuyersAgentCommission = value; }
+        }
+
         public bool HasAgentBonus { get; set; }
         public bool HasBonusWithAmount { get; set; }
         public decimal? AgentBonusAmount { get; set; }
         public CommissionType AgentBonusAmountType { get; set; }
+        public string ReadableAgentBonusAmount
+        {
+            get { return this.readableAgentBonusAmount ?? this.AgentBonusAmount.GetCommissionAmount(this.AgentBonusAmountType); }
+            set { this.readableAgentBonusAmount = value; }
+        }
+
         public DateTime? BonusExpirationDate { get; set; }
         public bool HasBuyerIncentive { get; set; }
 
@@ -76,6 +91,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 AgentBonusAmountType = financialInfo.AgentBonusAmountType,
                 BonusExpirationDate = financialInfo.BonusExpirationDate,
                 HasBuyerIncentive = financialInfo.HasBuyerIncentive,
+                ReadableAgentBonusAmount = financialInfo.AgentBonusAmount.GetCommissionAmount(financialInfo.AgentBonusAmountType),
+                ReadableBuyersAgentCommission = financialInfo.BuyersAgentCommission.GetCommissionAmount(financialInfo.BuyersAgentCommissionType),
             };
         }
 

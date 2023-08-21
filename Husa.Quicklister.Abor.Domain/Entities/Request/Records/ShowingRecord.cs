@@ -28,6 +28,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         [Required(AllowEmptyStrings = false)]
         [MaxLength(255, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string Directions { get; set; }
+        public string OwnerName { get; set; }
         public string AgentPrivateRemarksAdditional { get; set; }
         public string LockBoxSerialNumber { get; set; }
 
@@ -65,6 +66,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 ShowOpenHousesPending = showingInfo.ShowOpenHousesPending,
                 LockBoxType = showingInfo.LockBoxType,
                 ShowingRequirements = showingInfo.ShowingRequirements,
+                OwnerName = showingInfo.OwnerName,
             };
         }
 

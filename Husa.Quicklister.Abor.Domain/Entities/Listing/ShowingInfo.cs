@@ -12,6 +12,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         private string occupantPhone;
         private string contactPhone;
 
+        public ShowingInfo(string ownerName)
+            : this()
+        {
+            this.OwnerName = ownerName;
+        }
+
+        public ShowingInfo()
+        {
+        }
+
         public virtual string OccupantPhone
         {
             get { return this.occupantPhone; }
@@ -32,6 +42,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<LockBoxType> LockBoxType { get; set; }
         public virtual string RealtorContactEmail { get; set; }
         public virtual string Directions { get; set; }
+        public virtual string OwnerName { get; set; }
         public virtual bool EnableOpenHouses { get; protected set; }
         public virtual bool OpenHousesAgree { get; protected set; }
         public virtual bool ShowOpenHousesPending { get; protected set; }
@@ -80,6 +91,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             yield return this.EnableOpenHouses;
             yield return this.OpenHousesAgree;
             yield return this.ShowOpenHousesPending;
+            yield return this.OwnerName;
         }
     }
 }

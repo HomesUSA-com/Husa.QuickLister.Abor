@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public string ShowingInstructions { get; set; }
         public string RealtorContactEmail { get; set; }
         public string Directions { get; set; }
+        public string OwnerName { get; set; }
         public string AgentPrivateRemarksAdditional { get; set; }
         public string LockBoxSerialNumber { get; set; }
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }

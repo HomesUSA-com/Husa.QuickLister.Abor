@@ -44,6 +44,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.CommunityId = communityId;
             this.PropertyInfo = new(constructionCompletionDate);
             this.AddressInfo = new(streetNum, streetName, zipCode, city, state, county);
+            this.ShowingInfo = new(ownerName);
         }
 
         public SaleProperty(SalePropertyValueObject saleProperty, Guid companyId)

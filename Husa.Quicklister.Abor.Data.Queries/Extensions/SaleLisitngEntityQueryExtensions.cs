@@ -96,6 +96,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 EnableOpenHouses = showing.EnableOpenHouses,
                 OpenHousesAgree = showing.OpenHousesAgree,
                 ShowOpenHousesPending = showing.ShowOpenHousesPending,
+                OwnerName = showing.OwnerName,
             };
         }
 
