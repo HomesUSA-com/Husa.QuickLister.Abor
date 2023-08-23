@@ -665,6 +665,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.ShowingInfo.ShowingRequirements = showingInfo.ShowingRequirements;
             this.ShowingInfo.ShowingInstructions = showingInfo.ShowingInstructions;
             this.ShowingInfo.LockBoxType = showingInfo.LockBoxType;
+            this.ShowingInfo.OwnerName = showingInfo.OwnerName;
         }
 
         private void CopySpacesDimensionsData(SpacesDimensionsInfo spacesDimensions)

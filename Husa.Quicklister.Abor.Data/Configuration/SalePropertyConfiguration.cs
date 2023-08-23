@@ -121,7 +121,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.OpenHousesAgree).HasColumnName(nameof(ShowingInfo.OpenHousesAgree));
             builder.Property(r => r.ShowOpenHousesPending).HasColumnName(nameof(ShowingInfo.ShowOpenHousesPending));
             builder.Property(r => r.LockBoxSerialNumber).HasColumnName(nameof(ShowingInfo.LockBoxSerialNumber)).HasMaxLength(50);
-            builder.Property(r => r.OwnerName).HasColumnName("ShowingInfoOwnerName").HasMaxLength(100);
         }
 
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<SaleProperty, SchoolsInfo> builder)
