@@ -61,6 +61,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             clonnedShowing.ShowingRequirements = showing.ShowingRequirements;
             clonnedShowing.LockBoxType = showing.LockBoxType;
             clonnedShowing.Directions = showing.Directions;
+            clonnedShowing.OwnerName = showing.OwnerName;
 
             return clonnedShowing;
         }

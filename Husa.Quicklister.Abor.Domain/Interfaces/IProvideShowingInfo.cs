@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         string ContactPhone { get; set; }
         string ShowingInstructions { get; set; }
         string Directions { get; set; }
+        string OwnerName { get; set; }
         ICollection<LockBoxType> LockBoxType { get; set; }
         ICollection<ShowingRequirements> ShowingRequirements { get; set; }
     }

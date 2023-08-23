@@ -29,6 +29,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual string ShowingInstructions { get; set; }
         public virtual ICollection<ShowingRequirements> ShowingRequirements { get; set; }
         public virtual string Directions { get; set; }
+        public virtual string OwnerName { get; set; }
         public virtual ICollection<LockBoxType> LockBoxType { get; set; }
 
         public static CommunityShowingInfo ImportFromXml(SubdivisionResponse subdivision, CommunityShowingInfo showingInfo)
@@ -86,6 +87,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             clonedShowing.Directions = info.Directions;
             clonedShowing.ShowingRequirements = info.ShowingRequirements;
             clonedShowing.LockBoxType = info.LockBoxType;
+            clonedShowing.OwnerName = info.OwnerName;
 
             return clonedShowing;
         }
@@ -98,6 +100,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             yield return this.ShowingRequirements;
             yield return this.Directions;
             yield return this.LockBoxType;
+            yield return this.OwnerName;
         }
     }
 }

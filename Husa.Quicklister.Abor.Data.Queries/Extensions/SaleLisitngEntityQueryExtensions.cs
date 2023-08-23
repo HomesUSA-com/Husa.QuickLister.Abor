@@ -282,6 +282,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 ShowingRequirements = showing.ShowingRequirements,
                 Directions = showing.Directions,
                 LockBoxType = showing.LockBoxType,
+                OwnerName = showing.OwnerName,
             };
         }
 
