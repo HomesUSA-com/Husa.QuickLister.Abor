@@ -11,11 +11,35 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     public class FinancialInfo : ValueObject, IProvideFinancial, IProvideAgentCommission, IProvideAgentBonusCommission
     {
         private DateTime? bonusExpirationDate;
-        public int? TaxYear { get; set; }
 
+        public int? TaxYear { get; set; }
+        public bool IsMultipleTaxed { get; set; }
+        public decimal? TaxRate { get; set; }
+
+        public string TitleCompany { get; set; }
+
+        public ICollection<AcceptableFinancing> AcceptableFinancing { get; set; }
+
+        public ICollection<TaxExemptions> TaxExemptions { get; set; }
+
+        public ICollection<HoaIncludes> HoaIncludes { get; set; }
+
+        public bool HasHoa { get; set; }
+
+        public string HoaName { get; set; }
+
+        public decimal? HoaFee { get; set; }
         public bool HasMultipleHOA { get; set; }
 
         public int NumHOA { get; set; }
+
+        public BillingFrequency? BillingFrequency { get; set; }
+
+        public HoaRequirement? HOARequirement { get; set; }
+
+        public decimal? BuyersAgentCommission { get; set; }
+
+        public CommissionType BuyersAgentCommissionType { get; set; }
 
         public bool HasAgentBonus { get; set; }
 
@@ -23,7 +47,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public decimal? AgentBonusAmount { get; set; }
 
-        public virtual CommissionType AgentBonusAmountType { get; set; } = CommissionType.Amount;
+        public CommissionType AgentBonusAmountType { get; set; }
 
         public DateTime? BonusExpirationDate
         {
@@ -33,19 +57,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public bool HasBuyerIncentive { get; set; }
 
-        public virtual bool IsMultipleTaxed { get; set; }
-
-        public virtual decimal? TaxRate { get; set; }
-
-        public virtual string TitleCompany { get; set; }
-
         public virtual ICollection<ProposedTerms> ProposedTerms { get; set; }
-
-        public virtual HoaRequirement? HOARequirement { get; set; }
-
-        public virtual decimal? BuyersAgentCommission { get; set; }
-
-        public virtual CommissionType BuyersAgentCommissionType { get; set; } = CommissionType.Percent;
 
         public virtual string ReadableBuyersAgentCommission => this.BuyersAgentCommissionType == CommissionType.Percent ?
                 $"{(int)this.BuyersAgentCommission}%" :
@@ -59,10 +71,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public FinancialInfo ImportFinancialFromCommunity(CommunityFinancialInfo financial)
         {
             var clonedFinancial = this.Clone();
-            clonedFinancial.IsMultipleTaxed = financial.IsMultipleTaxed;
             clonedFinancial.TaxRate = financial.TaxRate;
             clonedFinancial.TitleCompany = financial.TitleCompany;
-            clonedFinancial.ProposedTerms = financial.ProposedTerms;
             clonedFinancial.HOARequirement = financial.HOARequirement;
             clonedFinancial.BuyersAgentCommission = financial.BuyersAgentCommission ?? clonedFinancial.BuyersAgentCommission;
             clonedFinancial.BuyersAgentCommissionType = financial.BuyersAgentCommissionType;
@@ -73,12 +83,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
             yield return this.TaxRate;
             yield return this.TaxYear;
-            yield return this.IsMultipleTaxed;
             yield return this.TitleCompany;
-            yield return this.ProposedTerms;
+            yield return this.AcceptableFinancing;
+            yield return this.TaxExemptions;
+            yield return this.HoaIncludes;
+            yield return this.HasHoa;
+            yield return this.HoaName;
+            yield return this.HoaFee;
+            yield return this.BillingFrequency;
             yield return this.HOARequirement;
-            yield return this.HasMultipleHOA;
-            yield return this.NumHOA;
             yield return this.BuyersAgentCommission;
             yield return this.BuyersAgentCommissionType;
             yield return this.HasAgentBonus;

@@ -15,9 +15,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public const string SummarySection = "Spaces and Dimensions";
         public CategoryType TypeCategory { get; set; }
 
-        [Required]
-        public int? SqFtTotal { get; set; }
-
         public SqFtSource? SqFtSource { get; set; }
 
         [Required(AllowEmptyStrings = false)]
@@ -25,20 +22,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         public ICollection<OtherParking> OtherParking { get; set; }
 
-        [Required]
-        public Stories Stories { get; set; }
-
-        [Required]
-        public int? BathsFull { get; set; }
-
-        [Required]
-        public int? BathsHalf { get; set; }
-
-        [Required]
-        public int? NumBedrooms { get; set; }
-
-        [Required]
-        public ICollection<GarageDescription> GarageDescription { get; set; }
+        public Stories StoriesTotal { get; set; }
+        public int SqFtTotal { get; set; }
+        public int DiningAreasTotal { get; set; }
+        public int? MainLevelBedroomTotal { get; set; }
+        public int? OtherLevelsBedroomTotal { get; set; }
+        public int HalfBathsTotal { get; set; }
+        public int FullBathsTotal { get; set; }
+        public int LivingAreasTotal { get; set; }
 
         public SpacesDimensionsRecord CloneRecord() => (SpacesDimensionsRecord)this.MemberwiseClone();
 
@@ -52,15 +43,18 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             return new()
             {
                 TypeCategory = spacesDimensionsInfo.TypeCategory,
-                SqFtTotal = spacesDimensionsInfo.SqFtTotal,
                 SqFtSource = spacesDimensionsInfo.SqFtSource,
                 SpecialtyRooms = spacesDimensionsInfo.SpecialtyRooms,
                 OtherParking = spacesDimensionsInfo.OtherParking,
-                Stories = spacesDimensionsInfo.Stories ?? throw new DomainException(nameof(spacesDimensionsInfo.Stories)),
-                BathsFull = spacesDimensionsInfo.BathsFull,
-                BathsHalf = spacesDimensionsInfo.BathsHalf,
-                NumBedrooms = spacesDimensionsInfo.NumBedrooms,
-                GarageDescription = spacesDimensionsInfo.GarageDescription,
+
+                StoriesTotal = spacesDimensionsInfo.StoriesTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.StoriesTotal)),
+                SqFtTotal = spacesDimensionsInfo.SqFtTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.SqFtTotal)),
+                DiningAreasTotal = spacesDimensionsInfo.DiningAreasTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.DiningAreasTotal)),
+                MainLevelBedroomTotal = spacesDimensionsInfo.MainLevelBedroomTotal,
+                OtherLevelsBedroomTotal = spacesDimensionsInfo.OtherLevelsBedroomTotal,
+                HalfBathsTotal = spacesDimensionsInfo.HalfBathsTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.HalfBathsTotal)),
+                FullBathsTotal = spacesDimensionsInfo.FullBathsTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.FullBathsTotal)),
+                LivingAreasTotal = spacesDimensionsInfo.LivingAreasTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.LivingAreasTotal)),
             };
         }
 

@@ -9,12 +9,13 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Community;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Community.CommunityDetail;
+    using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Community;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Data.Queries.Models;
@@ -34,7 +35,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.Subdivision, c => c.MapFrom(x => x.Property.Subdivision))
                 .ForMember(dto => dto.ZipCode, c => c.MapFrom(x => x.Property.ZipCode))
                 .ForMember(dto => dto.County, c => c.MapFrom(x => x.Property.County))
-                .ForMember(dto => dto.Market, c => c.MapFrom(x => MarketCode.SanAntonio))
+                .ForMember(dto => dto.Market, c => c.MapFrom(x => MarketCode.Austin))
                 .ForMember(dto => dto.Directions, c => c.MapFrom(x => x.Showing.Directions))
                 .ForMember(dto => dto.ModifiedBy, c => c.MapFrom(x => x.SysModifiedBy));
             this.CreateMap<CommunityEmployeeQueryResult, CommunityEmployeeDataQueryResponse>();
@@ -53,7 +54,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<FeaturesAndUtilitiesRequest, FeaturesAndUtilitiesDto>()
                  .ForMember(dto => dto.NeighborhoodAmenities, c => c.MapFrom(dto => dto.NeighborhoodAmenities));
             this.CreateMap<CommunityFinancialRequest, CommunityFinancialDto>();
-            this.CreateMap<CommunitySchoolsRequest, CommunitySchoolsDto>();
+            this.CreateMap<SchoolsRequest, SchoolsDto>();
             this.CreateMap<CommunityShowingRequest, CommunityShowingDto>();
             this.CreateMap<OpenHouseRequest, OpenHouseDto>();
             this.CreateMap<CommunitySalesOfficeRequest, CommunitySalesOfficeDto>();
@@ -64,20 +65,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<CommunityPropertyDto, Property>();
             this.CreateMap<CommunitySalesOfficeDto, CommunitySaleOffice>();
             this.CreateMap<FeaturesAndUtilitiesDto, Utilities>();
-            this.CreateMap<CommunitySchoolsDto, SchoolsInfo>();
+            this.CreateMap<SchoolsDto, SchoolsInfo>();
             this.CreateMap<CommunityFinancialDto, CommunityFinancialInfo>();
             this.CreateMap<CommunityShowingDto, CommunityShowingInfo>();
-
-            this.CreateMap<CommunityHoaDto, CommunityHoa>()
-                .ForMember(dto => dto.SysCreatedOn, c => c.Ignore())
-                .ForMember(dto => dto.Id, c => c.Ignore())
-                .ForMember(dto => dto.CommunitySaleId, c => c.Ignore())
-                .ForMember(dto => dto.SysCreatedBy, c => c.Ignore())
-                .ForMember(dto => dto.IsDeleted, c => c.Ignore())
-                .ForMember(dto => dto.SysModifiedOn, c => c.Ignore())
-                .ForMember(dto => dto.SysModifiedBy, c => c.Ignore())
-                .ForMember(dto => dto.SysTimestamp, c => c.Ignore())
-                .ForMember(dto => dto.CompanyId, c => c.Ignore());
 
             this.CreateMap<OpenHouseDto, CommunityOpenHouse>()
                 .ForMember(dto => dto.SysCreatedOn, c => c.Ignore())
@@ -99,7 +89,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<UtilitiesQueryResult, FeaturesAndUtilitiesResponse>()
                 .ForMember(dto => dto.NeighborhoodAmenities, c => c.MapFrom(dto => dto.NeighborhoodAmenities));
             this.CreateMap<FinancialSchoolsQueryResult, CommunityFinancialResponse>();
-            this.CreateMap<SchoolsInfoQueryResult, CommunitySchoolsResponse>();
+            this.CreateMap<SchoolsInfoQueryResult, SchoolsResponse>();
             this.CreateMap<ShowingQueryResult, CommunityShowingResponse>();
             this.CreateMap<OpenHousesQueryResult, OpenHouseResponse>();
             this.CreateMap<EmailLeadQueryResult, Api.Contracts.Response.EmailLeadResponse>();

@@ -2,7 +2,6 @@ namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
 {
     using System;
     using System.Collections.Generic;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class PropertyDto
@@ -36,5 +35,7 @@ namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
         public decimal? Longitude { get; set; }
 
         public bool IsXmlManaged { get; set; }
+
+        public PropertySubType? PropertyType { get; set; }
     }
 }

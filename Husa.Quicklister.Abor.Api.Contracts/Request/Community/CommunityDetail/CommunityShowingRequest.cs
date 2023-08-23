@@ -4,10 +4,11 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.Community.CommunityDetail
 
     public class CommunityShowingRequest
     {
-        public virtual string AltPhoneCommunity { get; set; }
-        public virtual string AgentListApptPhone { get; set; }
-        public virtual Showing? Showing { get; set; }
-        public virtual string RealtorContactEmail { get; set; }
-        public virtual string Directions { get; set; }
+        public string OccupantPhone { get; set; }
+        public string ContactPhone { get; set; }
+        public string ShowingInstructions { get; set; }
+        public string Directions { get; set; }
+        public LockBoxType? LockBoxType { get; set; }
+        public ShowingRequirements? ShowingRequirements { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Api.Mappings.Downloader.Converters
 {
     using System;
-    using System.Linq;
     using AutoMapper;
     using Husa.Downloader.Sabor.ServiceBus.Contracts;
     using Husa.Extensions.Common;
@@ -17,32 +16,21 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader.Converters
             {
                 RoomType = (RoomType)Enum.Parse(typeof(RoomType), GetRoomType(source.Type)),
                 Level = source.Level.ToEnumFromEnumMember<RoomLevel>(),
-                Length = !string.IsNullOrEmpty(source.Length) ? int.Parse(source.Length) : 0,
-                Width = !string.IsNullOrEmpty(source.Width) ? int.Parse(source.Width) : 0,
-                Features = source.Features.CsvToEnum<RoomFeatures>().ToArray(),
             };
         }
 
         private static string GetRoomType(string roomTypeSource) => roomTypeSource switch
         {
-            "BEDROO" => "Bed",
-            "BREROO" => "Breakfast",
-            "DINROO" => "Dining",
-            "FULBAT" => "FullBath",
-            "GAMROO" => "Game",
-            "HALBAT" => "HalfBath",
-            "KITCHE" => "Kitchen",
-            "STUDY" => "Study",
+            "BEDROO" => "Bedroom",
             "LIVROO" => "Living",
-            "MASBED" => "MasterBedroom",
+            "MASBED" => "PrimaryBedroom",
+            "MASBATH" => "PrimaryBathroom",
+            "HALBAT" => "Bathroom",
+            "KITCHE" => "Kitchen",
+            "DINROO" => "Dining",
+            "GAMROO" => "Game",
             "OFFICE" => "Office",
-            "STUDEN" => "Studen",
-            "UTIROO" => "Utility",
-            "ENTRY" => "Entry",
-            "FAMILY" => "Family",
-            "MASBATH" => "MasterBath",
-            "MASBEDCLO" => "MasterBedroomCloset",
-            _ => "Other",
+            _ => "Bedroom",
         };
     }
 }

@@ -328,7 +328,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             var communityQueryResult = new Mock<CommunityQueryResult>();
             communityQueryResult.SetupAllProperties();
             communityQueryResult.Object.Name = Faker.Address.UkCounty();
-            communityQueryResult.Object.Market = MarketCode.SanAntonio;
+            communityQueryResult.Object.Market = MarketCode.Austin;
             communityQueryResult.Object.City = Faker.Enum.Random<Cities>();
             communityQueryResult.Object.ZipCode = Faker.Address.ZipCode()[..5];
             communityQueryResult.Object.Builder = Faker.Company.Name();
@@ -368,7 +368,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             var planQueryResult = new Mock<PlanQueryResult>();
             planQueryResult.SetupAllProperties();
             planQueryResult.Object.Name = Faker.Address.UkCounty();
-            planQueryResult.Object.Market = MarketCode.SanAntonio;
+            planQueryResult.Object.Market = MarketCode.Austin;
             planQueryResult.Object.OwnerName = Faker.Company.Name();
             planQueryResult.Object.Id = planId ?? Guid.NewGuid();
             planQueryResult.Object.SysModifiedOn = DateTime.UtcNow;
@@ -589,14 +589,14 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Type = MediaType.Residential,
         };
 
-        public static RequestPhoto.Property GetProperty(PropertyType? type = null) => new()
+        public static RequestPhoto.Property GetProperty(PhotoService.Domain.Enums.PropertyType? type = null) => new()
         {
             Id = Guid.NewGuid(),
-            Type = type ?? PropertyType.Residential,
+            Type = type ?? PhotoService.Domain.Enums.PropertyType.Residential,
             City = Faker.Enum.Random<Cities>().ToStringFromEnumMember(),
         };
 
-        public static RequestPhoto.PhotoRequest GetPhotoRequest(PropertyType? type = null) => new()
+        public static RequestPhoto.PhotoRequest GetPhotoRequest(PhotoService.Domain.Enums.PropertyType? type = null) => new()
         {
             ExteriorOptions = new List<ExteriorOptionType>(),
             Phones = new List<RequestPhoto.Phones>(),
@@ -614,7 +614,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Status = PhotoRequestStatus.Pending,
             InteriorOptions = new List<InteriorOptionType>(),
             ServiceOptions = new List<ServiceOptionType>(),
-            CommunityInfo = type == PropertyType.Community ? new() : null,
+            CommunityInfo = type == PhotoService.Domain.Enums.PropertyType.Community ? new() : null,
             CompanyId = Guid.NewGuid(),
         };
 
@@ -683,7 +683,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             EntityId = ownerId ?? Guid.NewGuid(),
             Type = HusaNoteType.Residential,
-            MarketCode = MarketCode.SanAntonio,
+            MarketCode = MarketCode.Austin,
         };
         public static ResidentialMessage GetResidentialMessage() => new()
         {
@@ -703,13 +703,13 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Bedrooms = 4,
             Block = "26",
             Contract = "ERS",
-            ElementarySchool = "HONDO",
+            ElementarySchool = "Holland",
             EnergyFeatures = null,
             FullBaths = 1,
             GreenCertification = null,
             GreenFeatures = null,
             HalfBaths = "2",
-            HighSchool = "HONDO",
+            HighSchool = "Holland",
             ListingAgentId = "365976",
             CoolingSystemDescription = "RAMPD",
             ExteriorFeatures = "WKSHP,STRG",
@@ -722,7 +722,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Inclusions = "CLFNS,WSHCN,DRYCN,MCOVN,STVRN,REFRI,GSWTR",
             Improvements = "ALLEY,ASPHALT",
             MasterBedroom = "SPLIT",
-            NeighborhoodAmenities = NeighborhoodAmenities.ParkPlayground.ToStringFromEnumMember(),
+            NeighborhoodAmenities = NeighborhoodAmenities.Playground.ToStringFromEnumMember(),
             Occupancy = "VACNT",
             GarageDescription = "NONE",
             PrivatePoolDescription = "NONE",
@@ -738,7 +738,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             OwnerLREALREB = "NO",
             TitleCompany = "Mission Title Co.",
             Showing = "AGENT",
-            SchoolDistrict = "HONDO",
+            SchoolDistrict = "Holland",
             TaxId = "16468",
             BuilderName = "unknown",
             SaleTerms2nd = null,
@@ -764,7 +764,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             MlsArea = 3000,
             ListPrice = 199000,
             CDOM = 203,
-            City = "HONDO",
+            City = "Holland",
             Type = "RE",
             CloseDate = null,
             ContractDate = null,
@@ -788,7 +788,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Longitude = null,
             LotSize = ".3857",
             LotDimensions = "120X140",
-            MiddleSchool = "HONDO",
+            MiddleSchool = "Holland",
             Stories = "1",
             GarageSpaces = null,
             RecentRehab = null,
@@ -805,9 +805,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             ResidentialId = Guid.NewGuid(),
             Level = Faker.RandomNumber.Next(1, 10).ToString(),
-            Type = RoomType.Bed.ToString(),
-            Width = "4",
-            Length = "5",
+            Type = RoomType.PrimaryBedroom.ToString(),
             EntityOwnerType = "SaleProperty",
         };
 
@@ -874,8 +872,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             RoomType = Faker.Enum.Random<RoomType>(),
             Level = Faker.Enum.Random<RoomLevel>(),
-            Length = Faker.RandomNumber.Next(1, 20),
-            Width = Faker.RandomNumber.Next(1, 20),
         };
 
         public static IEnumerable<RoomDto> GetRoomsDtoList(int? totalElements = 3)
@@ -1098,13 +1094,12 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 SaleOffice = GetDefaultCommunitySalesOfficeInfo(),
                 Property = new()
                 {
-                    City = Cities.SanAntonio,
+                    City = Cities.Austin,
                     County = Counties.Bexar,
                 },
             };
-            community.Property.MapscoGrid = "stri";
             community.Property.ZipCode = "string";
-            community.Property.MlsArea = MlsArea.HundredOne;
+            community.Property.MlsArea = MlsArea.WE;
             return community;
         }
 
@@ -1250,7 +1245,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             StreetNumber = "1528",
             StreetName = "MULBERRY AVE",
-            City = Cities.SanAntonio,
+            City = Cities.Austin,
             State = States.Texas,
             ZipCode = "75035",
             County = Counties.Bexar,
@@ -1260,13 +1255,22 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
         public static PropertyInfo GetDefaultPropertyInfo() => new()
         {
-            MlsArea = MlsArea.HundredOne,
+            MlsArea = MlsArea.LW,
             MapscoGrid = "stri",
             ConstructionCompletionDate = new DateTime(DateTime.UtcNow.Year, 10, 4, 0, 0, 0, 0, DateTimeKind.Utc),
         };
+
         public static SpacesDimensionsInfo GetSpacesDimensionsInfo() => new()
         {
-            Stories = Stories.One,
+            StoriesTotal = Stories.One,
+            SqFtTotal = 1254,
+            DiningAreasTotal = 3,
+            HalfBathsTotal = 1,
+            FullBathsTotal = 3,
+            LivingAreasTotal = 1,
+            MainLevelBedroomTotal = 1,
+            OtherLevelsBedroomTotal = 1,
+            SqFtSource = SqFtSource.BuilderPlans,
         };
 
         public static ScrapedListingQueryResult GetScrapedListingQueryResult(
@@ -1312,9 +1316,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
         public static SchoolsInfo GetDefaultSchoolsInfo() => new()
         {
-            SchoolDistrict = SchoolDistrict.Cayuga,
-            MiddleSchool = MiddleSchool.Briesemiester,
-            ElementarySchool = ElementarySchool.Bonham,
+            SchoolDistrict = SchoolDistrict.Gause,
+            MiddleSchool = MiddleSchool.Gateway,
+            ElementarySchool = ElementarySchool.GatesvillePri,
             HighSchool = HighSchool.Canyon,
         };
 
@@ -1322,27 +1326,14 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             Fireplaces = 1,
             FireplaceDescription = GetEnumCollectionRandom<FireplaceDescription>(),
-            Accessibility = GetEnumCollectionRandom<Accessibility>(),
-            Exterior = GetEnumCollectionRandom<Exterior>(),
             NeighborhoodAmenities = GetEnumCollectionRandom<NeighborhoodAmenities>(),
-            Inclusions = GetEnumCollectionRandom<Inclusions>(),
-            Floors = GetEnumCollectionRandom<Floors>(),
+            Floors = GetEnumCollectionRandom<Flooring>(),
             ExteriorFeatures = GetEnumCollectionRandom<ExteriorFeatures>(),
             RoofDescription = GetEnumCollectionRandom<RoofDescription>(),
             Foundation = null,
             HeatSystem = null,
             CoolingSystem = GetEnumCollectionRandom<CoolingSystem>(),
-            GreenCertification = null,
-            EnergyFeatures = null,
-            GreenFeatures = null,
             WaterSewer = GetEnumCollectionRandom<WaterSewer>(),
-            SupplierElectricity = "CPS",
-            SupplierWater = "SAWS",
-            SupplierSewer = "SAWS",
-            SupplierGarbage = "city",
-            SupplierGas = null,
-            SupplierOther = null,
-            HeatingFuel = null,
         };
 
         public static FeaturesInfo GetDefaultFeaturesInfo()
@@ -1352,29 +1343,16 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             {
                 Fireplaces = defaultUtilities.Fireplaces,
                 FireplaceDescription = defaultUtilities.FireplaceDescription,
-                Accessibility = defaultUtilities.Accessibility,
-                Exterior = defaultUtilities.Exterior,
                 NeighborhoodAmenities = defaultUtilities.NeighborhoodAmenities,
-                Inclusions = defaultUtilities.Inclusions,
                 Floors = defaultUtilities.Floors,
                 ExteriorFeatures = defaultUtilities.ExteriorFeatures,
                 RoofDescription = defaultUtilities.RoofDescription,
                 Foundation = defaultUtilities.Foundation,
                 HeatSystem = defaultUtilities.HeatSystem,
                 CoolingSystem = defaultUtilities.CoolingSystem,
-                GreenCertification = defaultUtilities.GreenCertification,
-                EnergyFeatures = defaultUtilities.EnergyFeatures,
-                GreenFeatures = defaultUtilities.GreenFeatures,
                 WaterSewer = defaultUtilities.WaterSewer,
-                SupplierElectricity = defaultUtilities.SupplierElectricity,
-                SupplierWater = defaultUtilities.SupplierWater,
-                SupplierSewer = defaultUtilities.SupplierSewer,
-                SupplierGarbage = defaultUtilities.SupplierGarbage,
-                SupplierGas = defaultUtilities.SupplierGas,
-                SupplierOther = defaultUtilities.SupplierOther,
-                HeatingFuel = defaultUtilities.HeatingFuel,
                 PropertyDescription = "A diamond in the rough. This 1935 historic home in desirable Woodlawn Terrace is full of potential with with a detached apartment/garage at back. The living room boasts a fireplace with original hardwood flooring. Two bedrooms are located downstairs with a third bedroom up. There is a total of three full bathrooms (including the apartment) with plumbing for a fourth upstairs. Generous sized kitchen allows for a variety of makeover options. Out back the one bedroom apartment sits over a two car garage with additional parking to the side.  This home is close to downtown, Woodlawn Lake and ease of access to the highway. Come see it today!",
-                WindowCoverings = GetEnumCollectionRandom<WindowCoverings>(),
+                WindowCoverings = GetEnumCollectionRandom<WindowFeatures>(),
                 HasAccessibility = false,
                 HousingStyle = GetEnumCollectionRandom<HousingStyle>(),
                 HasPrivatePool = false,
@@ -1391,16 +1369,12 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return new()
             {
                 TaxYear = 2020,
-                HasMultipleHOA = false,
-                NumHOA = 0,
                 HasAgentBonus = false,
                 HasBonusWithAmount = false,
                 AgentBonusAmount = 0,
                 HasBuyerIncentive = false,
-                IsMultipleTaxed = communityFinancialInfo.IsMultipleTaxed,
                 TaxRate = communityFinancialInfo.TaxRate,
                 TitleCompany = communityFinancialInfo.TitleCompany,
-                ProposedTerms = communityFinancialInfo.ProposedTerms,
                 HOARequirement = communityFinancialInfo.HOARequirement,
                 BuyersAgentCommission = communityFinancialInfo.BuyersAgentCommission,
             };
@@ -1410,7 +1384,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             StreetNumber = "165",
             StreetName = "MULBERRY AVE",
-            SalesOfficeCity = Cities.SanAntonio,
+            SalesOfficeCity = Cities.Austin,
             StreetSuffix = "ST",
             SalesOfficeZip = "11111",
         };
@@ -1421,11 +1395,12 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return new()
             {
                 AgentPrivateRemarks = "PROPEPRTY SOLD \"AS IS\". Apartment is not included in main house square footage. Please submit offers to davidkline@cbharper.com and cc cfinley@cbharper.com. Title company is Alamo Title, Toni Altum, 950 E. Basse Rd, 78209. Please see associated documents for offer instructions and supporting paperwork.",
-                AltPhoneCommunity = communityShowingInfo.AltPhoneCommunity,
-                AgentListApptPhone = communityShowingInfo.AgentListApptPhone,
-                Showing = communityShowingInfo.Showing,
-                RealtorContactEmail = communityShowingInfo.RealtorContactEmail,
+                OccupantPhone = communityShowingInfo.OccupantPhone,
+                ContactPhone = communityShowingInfo.ContactPhone,
+                ShowingInstructions = communityShowingInfo.ShowingInstructions,
                 Directions = communityShowingInfo.Directions,
+                LockBoxType = communityShowingInfo.LockBoxType,
+                ShowingRequirements = ShowingRequirements.AgentOrOwnerPresent,
             };
         }
 
@@ -1453,28 +1428,27 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             StreetNumber = "165",
             StreetName = "MULBERRY AVE",
-            SalesOfficeCity = Cities.SanAntonio,
+            SalesOfficeCity = Cities.Austin,
             StreetSuffix = "ST",
             SalesOfficeZip = "11111",
         };
 
         private static CommunityFinancialInfo GetDefaultCommunityFinancialInfo() => new()
         {
-            IsMultipleTaxed = false,
             TaxRate = decimal.Parse("7362.26"),
             TitleCompany = "Alamo Title",
-            ProposedTerms = GetEnumCollectionRandom<ProposedTerms>(),
-            HOARequirement = HoaRequirement.None,
+            HoaIncludes = GetEnumCollectionRandom<HoaIncludes>(),
+            HOARequirement = HoaRequirement.Voluntary,
             BuyersAgentCommission = 3,
         };
 
         private static CommunityShowingInfo GetDefaultCommunityShowingInfo() => new()
         {
-            AltPhoneCommunity = null,
-            AgentListApptPhone = "210-222-2227",
-            Showing = Showing.Office,
-            RealtorContactEmail = null,
+            OccupantPhone = null,
+            ContactPhone = "210-222-2227",
+            ShowingInstructions = "Call salesperson or come to the model home at 1234 Sample Trail.",
             Directions = "Fredericksburg Rd to Mulberry - West on Mulberry.",
+            LockBoxType = LockBoxType.Combo,
         };
     }
 }

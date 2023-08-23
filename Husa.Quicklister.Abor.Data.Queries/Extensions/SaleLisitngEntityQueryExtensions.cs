@@ -21,11 +21,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 {
                     Id = r.Id,
                     Level = r.Level,
-                    Width = r.Width,
-                    Length = r.Length,
                     RoomType = r.RoomType,
                     IsDeleted = r.IsDeleted,
-                    Features = r.Features,
                 };
 
                 roomsCollection.Add(room);
@@ -103,11 +100,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             return new()
             {
                 Directions = showing.Directions,
-                Showing = showing.Showing,
-                AgentListApptPhone = showing.AgentListApptPhone,
+                ShowingInstructions = showing.ShowingInstructions,
+                ContactPhone = showing.ContactPhone,
                 AgentPrivateRemarks = showing.AgentPrivateRemarks,
-                AltPhoneCommunity = showing.AltPhoneCommunity,
-                RealtorContactEmail = showing.RealtorContactEmail,
+                OccupantPhone = showing.OccupantPhone,
                 EnableOpenHouses = showing.EnableOpenHouses,
                 OpenHousesAgree = showing.OpenHousesAgree,
                 ShowOpenHousesPending = showing.ShowOpenHousesPending,
@@ -120,15 +116,18 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             return new()
             {
                 SpecialtyRooms = spacesDimensions.SpecialtyRooms,
-                GarageDescription = spacesDimensions.GarageDescription,
                 SqFtSource = spacesDimensions.SqFtSource,
-                SqFtTotal = spacesDimensions.SqFtTotal,
-                BathsFull = spacesDimensions.BathsFull,
-                Stories = spacesDimensions.Stories,
-                BathsHalf = spacesDimensions.BathsHalf,
-                NumBedrooms = spacesDimensions.NumBedrooms,
                 OtherParking = spacesDimensions.OtherParking,
                 TypeCategory = spacesDimensions.TypeCategory,
+
+                StoriesTotal = spacesDimensions.StoriesTotal,
+                SqFtTotal = spacesDimensions.SqFtTotal,
+                DiningAreasTotal = spacesDimensions.DiningAreasTotal,
+                MainLevelBedroomTotal = spacesDimensions.MainLevelBedroomTotal,
+                OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal,
+                HalfBathsTotal = spacesDimensions.HalfBathsTotal,
+                FullBathsTotal = spacesDimensions.FullBathsTotal,
+                LivingAreasTotal = spacesDimensions.LivingAreasTotal,
             };
         }
 
@@ -145,11 +144,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 HasAgentBonus = financial.HasAgentBonus,
                 HasBonusWithAmount = financial.HasBonusWithAmount,
                 HasBuyerIncentive = financial.HasBuyerIncentive,
-                HasMultipleHOA = financial.HasMultipleHOA,
                 HOARequirement = financial.HOARequirement,
-                IsMultipleTaxed = financial.IsMultipleTaxed,
-                NumHOA = financial.NumHOA,
-                ProposedTerms = financial.ProposedTerms,
                 TaxRate = financial.TaxRate,
                 TaxYear = financial.TaxYear,
                 TitleCompany = financial.TitleCompany,
@@ -267,7 +262,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             {
                 City = property.City,
                 County = property.County,
-                MapscoGrid = property.MapscoGrid,
                 MlsArea = property.MlsArea,
                 Subdivision = property.Subdivision,
                 ZipCode = property.ZipCode,
@@ -283,11 +277,12 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
 
             return new()
             {
-                AltPhoneCommunity = showing.AltPhoneCommunity,
-                AgentListApptPhone = showing.AgentListApptPhone,
-                Showing = showing.Showing,
-                RealtorContactEmail = showing.RealtorContactEmail,
+                OccupantPhone = showing.OccupantPhone,
+                ContactPhone = showing.ContactPhone,
+                ShowingInstructions = showing.ShowingInstructions,
+                ShowingRequirements = showing.ShowingRequirements,
                 Directions = showing.Directions,
+                LockBoxType = showing.LockBoxType,
             };
         }
 
@@ -315,13 +310,24 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         {
             return new()
             {
-                IsMultipleTaxed = community.Financial.IsMultipleTaxed,
                 TaxRate = community.Financial.TaxRate,
                 TitleCompany = community.Financial.TitleCompany,
-                ProposedTerms = community.Financial.ProposedTerms,
+                AcceptableFinancing = community.Financial.AcceptableFinancing,
+                TaxExemptions = community.Financial.TaxExemptions,
+                HoaIncludes = community.Financial.HoaIncludes,
+                HasHoa = community.Financial.HasHoa,
+                HoaName = community.Financial.HoaName,
+                HoaFee = community.Financial.HoaFee,
+                BillingFrequency = community.Financial.BillingFrequency,
                 HOARequirement = community.Financial.HOARequirement,
                 BuyersAgentCommission = community.Financial.BuyersAgentCommission,
                 BuyersAgentCommissionType = community.Financial.BuyersAgentCommissionType,
+                HasAgentBonus = community.Financial.HasAgentBonus,
+                HasBonusWithAmount = community.Financial.HasBonusWithAmount,
+                AgentBonusAmount = community.Financial.AgentBonusAmount,
+                AgentBonusAmountType = community.Financial.AgentBonusAmountType,
+                BonusExpirationDate = community.Financial.BonusExpirationDate,
+                HasBuyerIncentive = community.Financial.HasBuyerIncentive,
                 Schools = community.SchoolsInfo?.ToProjectionSchoolsInfo(),
             };
         }
@@ -352,33 +358,36 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             }
 
             return new()
-                {
-                    NeighborhoodAmenities = utilities.NeighborhoodAmenities,
-                    Inclusions = utilities.Inclusions,
-                    Floors = utilities.Floors,
-                    ExteriorFeatures = utilities.ExteriorFeatures,
-                    RoofDescription = utilities.RoofDescription,
-                    Foundation = utilities.Foundation,
-                    HeatSystem = utilities.HeatSystem,
-                    CoolingSystem = utilities.CoolingSystem,
-                    GreenCertification = utilities.GreenCertification,
-                    EnergyFeatures = utilities.EnergyFeatures,
-                    GreenFeatures = utilities.GreenFeatures,
-                    WaterSewer = utilities.WaterSewer,
-                    SupplierElectricity = utilities.SupplierElectricity,
-                    SupplierWater = utilities.SupplierWater,
-                    SupplierSewer = utilities.SupplierSewer,
-                    SupplierGarbage = utilities.SupplierGarbage,
-                    SupplierGas = utilities.SupplierGas,
-                    SupplierOther = utilities.SupplierOther,
-                    HeatingFuel = utilities.HeatingFuel,
-                    Exterior = utilities.Exterior,
-                    Accessibility = utilities.Accessibility,
-                    FireplaceDescription = utilities.FireplaceDescription,
-                    Fireplaces = utilities.Fireplaces,
-                    HasAccessibility = utilities.HasAccessibility,
-                    SpecialtyRooms = utilities.SpecialtyRooms,
-                };
+            {
+                NeighborhoodAmenities = utilities.NeighborhoodAmenities,
+                RestrictionsDescription = utilities.RestrictionsDescription,
+                UtilitiesDescription = utilities.UtilitiesDescription,
+                WaterSource = utilities.WaterSource,
+                WaterSewer = utilities.WaterSewer,
+                HeatSystem = utilities.HeatSystem,
+                CoolingSystem = utilities.CoolingSystem,
+                Appliances = utilities.Appliances,
+                GarageSpaces = utilities.GarageSpaces,
+                GarageDescription = utilities.GarageDescription,
+                LaundryFeatures = utilities.LaundryFeatures,
+                LaundryLocation = utilities.LaundryLocation,
+                InteriorFeatures = utilities.InteriorFeatures,
+                KitchenFeatures = utilities.KitchenFeatures,
+                MasterBedroomFeatures = utilities.MasterBedroomFeatures,
+                WaterAccessDescription = utilities.WaterAccessDescription,
+                Fireplaces = utilities.Fireplaces,
+                FireplaceDescription = utilities.FireplaceDescription,
+                Floors = utilities.Floors,
+                SecurityFeatures = utilities.SecurityFeatures,
+                WindowFeatures = utilities.WindowFeatures,
+                Foundation = utilities.Foundation,
+                RoofDescription = utilities.RoofDescription,
+                Fencing = utilities.Fencing,
+                ConstructionMaterials = utilities.ConstructionMaterials,
+                PatioAndPorchFeatures = utilities.PatioAndPorchFeatures,
+                View = utilities.View,
+                ExteriorFeatures = utilities.ExteriorFeatures,
+            };
         }
 
         public static SchoolsInfoQueryResult ToProjectionSchoolsInfo(this SchoolsInfo schools)
@@ -394,6 +403,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 HighSchool = schools.HighSchool,
                 MiddleSchool = schools.MiddleSchool,
                 SchoolDistrict = schools.SchoolDistrict,
+                OtherElementarySchool = schools.OtherElementarySchool,
+                OtherHighSchool = schools.OtherHighSchool,
+                OtherMiddleSchool = schools.OtherMiddleSchool,
             };
         }
 

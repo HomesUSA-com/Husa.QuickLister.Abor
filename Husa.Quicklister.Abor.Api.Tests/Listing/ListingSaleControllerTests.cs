@@ -36,7 +36,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
         private readonly Mock<IListingSaleQueriesRepository> saleListingQueriesRepository = new();
         private readonly Mock<ISaleListingRequestQueriesRepository> saleListingRequestQueriesRepository = new();
         private readonly Mock<IManagementTraceQueriesRepository> managementTraceQueriesRepository = new();
-        private readonly Mock<IUploaderService> sanAntonioUploaderService = new();
+        private readonly Mock<IUploaderService> austinUploaderService = new();
         private readonly Mock<ISaleListingService> listingSaleService = new();
         private readonly Mock<ILogger<SaleListingsController>> logger = new();
         private readonly Mock<IDownloaderService> downloaderService = new();
@@ -52,7 +52,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
                 this.saleListingRequestQueriesRepository.Object,
                 this.managementTraceQueriesRepository.Object,
                 this.listingSaleService.Object,
-                this.sanAntonioUploaderService.Object,
+                this.austinUploaderService.Object,
                 this.downloaderService.Object,
                 this.logger.Object,
                 this.fixture.Mapper);
@@ -339,7 +339,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
                 InterestLevel = null,
             };
 
-            this.sanAntonioUploaderService
+            this.austinUploaderService
                 .Setup(x => x.GetReverseProspectListing(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<bool>()))
                 .ReturnsAsync(CommandResult<ReverseProspectData>.Success(trackingReverseProspect));
 
@@ -371,7 +371,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
 
             // Assert
             this.listingSaleService.Verify();
-            this.sanAntonioUploaderService.Verify(x => x.GetReverseProspectListing(It.Is<Guid>(x => x == listingId), It.IsAny<Guid>(), It.IsAny<bool>()), Times.Once);
+            this.austinUploaderService.Verify(x => x.GetReverseProspectListing(It.Is<Guid>(x => x == listingId), It.IsAny<Guid>(), It.IsAny<bool>()), Times.Once);
             Assert.NotNull(response);
         }
 
@@ -441,7 +441,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
             this.saleListingRequestQueriesRepository.Object,
             this.managementTraceQueriesRepository.Object,
             this.listingSaleService.Object,
-            this.sanAntonioUploaderService.Object,
+            this.austinUploaderService.Object,
             this.downloaderService.Object,
             this.logger.Object,
             this.fixture.Mapper);

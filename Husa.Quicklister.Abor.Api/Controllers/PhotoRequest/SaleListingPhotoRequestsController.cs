@@ -25,7 +25,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.PhotoRequest
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly)]
         public async Task<IActionResult> GetAsync([FromRoute] Guid listingId, [FromQuery] Request.PhotoRequestFilter filter)
         {
-            this.logger.LogInformation($"Starting to GET photo request for the entity {listingId}.");
+            this.logger.LogInformation("Getting photo request for the entity {listingId}.", listingId);
             var photoRequests = await this.photoService.GetAsync(listingId, filter);
             return this.Ok(photoRequests);
         }
@@ -34,7 +34,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.PhotoRequest
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid listingId, [FromRoute] Guid photoRequestId)
         {
-            this.logger.LogInformation($"Starting to get the photorequest for entity {listingId} and photoRequest Id '{photoRequestId}'");
+            this.logger.LogInformation("Getting the photo request for entity {listingId} and photoRequest Id '{photoRequestId}'", listingId, photoRequestId);
             var photoRequest = await this.photoService.GetByIdAsync(listingId, photoRequestId);
             return this.Ok(photoRequest);
         }
@@ -43,7 +43,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.PhotoRequest
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> CreateAsync([FromRoute] Guid listingId, [FromBody] Request.PhotoRequest photoRequest)
         {
-            this.logger.LogInformation($"Starting to create photorequest to entity with id {listingId}");
+            this.logger.LogInformation("Creating a photo request to entity with id {listingId}", listingId);
             await this.photoService.CreateAsync(listingId, photoRequest);
             return this.Ok();
         }
@@ -51,7 +51,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.PhotoRequest
         [HttpDelete("{photoRequestId}")]
         public async Task<IActionResult> DeleteById([FromRoute] Guid listingId, [FromRoute] Guid photoRequestId)
         {
-            this.logger.LogInformation($"Starting to Delete photorequest: {photoRequestId} from entity with id: {listingId}.");
+            this.logger.LogInformation("Deleting photo request {photoRequestId} from entity {listingId}.", photoRequestId, listingId);
             await this.photoService.DeleteByIdAsync(listingId, photoRequestId);
             return this.Ok();
         }

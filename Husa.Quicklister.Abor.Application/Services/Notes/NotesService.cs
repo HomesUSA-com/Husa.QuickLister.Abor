@@ -67,7 +67,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Notes
             var filter = new NoteFilter()
             {
                 Type = this.NoteType.ToRemoteNoteType(),
-                MarketCode = MarketCode.SanAntonio,
+                MarketCode = MarketCode.Austin,
                 EntityId = entityId,
             };
 

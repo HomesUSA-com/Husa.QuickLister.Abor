@@ -217,7 +217,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> DeleteRequestAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            this.logger.LogInformation($"Start to handle delete of listing sale request with id: {id}");
+            this.logger.LogInformation("Deleting listing request {id}", id);
             var openRequest = await this.saleRequestQueryRepository.GetListingRequestSaleAsyncOld(id, cancellationToken);
 
             if (openRequest is null)

@@ -1,42 +1,27 @@
-﻿namespace Husa.Quicklister.Abor.Domain.Enums.Domain
+namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 {
     using System.ComponentModel;
     using System.Runtime.Serialization;
 
     public enum WaterSewer
     {
-        [EnumMember(Value = "NONEWATER")]
-        [Description("None - Water")]
-        NoneWater,
-        [EnumMember(Value = "WTRSY")]
-        [Description("Water System")]
-        WaterSystem,
-        [EnumMember(Value = "SWRSY")]
-        [Description("Sewer System")]
-        SewerSystem,
-        [EnumMember(Value = "SPTIC")]
-        [Description("Septic")]
-        Septic,
-        [EnumMember(Value = "CITY")]
-        [Description("City")]
-        City,
-        [EnumMember(Value = "PRVT")]
-        [Description("Private Well")]
-        PrivateWell,
-        [EnumMember(Value = "OTHER")]
-        [Description("Other")]
-        Other,
-        [EnumMember(Value = "NONESEWER")]
-        [Description("None - Sewer")]
-        NoneSewer,
-        [EnumMember(Value = "WTRST")]
-        [Description("Water Storage")]
-        WaterStorage,
-        [EnumMember(Value = "COOPWATER")]
-        [Description("Co-op Water")]
-        CoOpWater,
-        [EnumMember(Value = "ARBSP")]
+        [EnumMember(Value = "AerobicSeptic")]
         [Description("Aerobic Septic")]
         AerobicSeptic,
+        [EnumMember(Value = "EngineeredSeptic")]
+        [Description("Engineered Septic")]
+        EngineeredSeptic,
+        [EnumMember(Value = "MUD")]
+        [Description("MUD")]
+        MUD,
+        [EnumMember(Value = "PrivateSewer")]
+        [Description("Private Sewer")]
+        PrivateSewer,
+        [EnumMember(Value = "PublicSewer")]
+        [Description("Public Sewer")]
+        PublicSewer,
+        [EnumMember(Value = "SepticTank")]
+        [Description("Septic Tank")]
+        SepticTank,
     }
 }

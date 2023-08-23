@@ -60,7 +60,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var listings = await this.quicklisterClient.SaleListing.GetAsync(filter);
 
             // Assert
-            Assert.Equal(10, listings.Count());
+            Assert.Equal(12, listings.Count());
         }
 
         [Fact]
@@ -286,7 +286,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         {
             // Arrange
             var listingId = Guid.NewGuid();
-            var marketCode = MarketCode.SanAntonio;
+            var marketCode = MarketCode.Austin;
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<HttpRequestException>(() => this.quicklisterClient.SaleListing.GetReverseProspect(listingId, marketCode));
@@ -306,7 +306,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             // Assert
             var listing = await this.quicklisterClient.SaleListing.GetByIdAsync(listingId);
             Assert.Equal(listingSaleRequest.SaleProperty.FeaturesInfo.NeighborhoodAmenities, listing.SaleProperty.FeaturesInfo.NeighborhoodAmenities);
-            Assert.Equal(listingSaleRequest.SaleProperty.SpacesDimensionsInfo.BathsFull, listing.SaleProperty.SpacesDimensionsInfo.BathsFull);
+            Assert.Equal(listingSaleRequest.SaleProperty.SpacesDimensionsInfo.FullBathsTotal, listing.SaleProperty.SpacesDimensionsInfo.FullBathsTotal);
         }
 
         [Fact]
@@ -359,7 +359,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
 
             var xmlListingDetailResponse = new XmlResponse.XmlListingDetailResponse
             {
-                Market = MarketCode.SanAntonio,
+                Market = MarketCode.Austin,
                 CompanyId = Factory.CompanyId,
                 CommunityId = Factory.CommunityId,
                 PlanId = Factory.PlanId,
@@ -367,7 +367,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 State = "TX",
                 Price = 100000,
                 SalesPrice = salesPrice,
-                City = "San Antonio",
+                City = "Austin",
                 LivingArea = "Study;FamilyRoom",
             };
             var xmlClient = this.customWebApplicationFactory.Services.GetRequiredService<IXmlClient>();
@@ -396,7 +396,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
 
             var xmlListingDetailResponse = new XmlResponse.XmlListingDetailResponse()
             {
-                Market = MarketCode.SanAntonio,
+                Market = MarketCode.Austin,
                 CompanyId = Factory.CompanyId,
                 Name = "fakeName",
                 SalesPrice = 4345355,
@@ -441,13 +441,30 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         public async Task DeleteListingAsyncSuccess()
         {
             var xmlListingId = Factory.XmlListingId;
+            var xmlListing = new XmlResponse.XmlListingDetailResponse
+            {
+                Id = Factory.XmlListingId,
+                Market = MarketCode.Austin,
+                CompanyId = Factory.CompanyId,
+            };
+            var xmlClient = this.customWebApplicationFactory.GetService<IXmlClient>();
+            var xmlResourceMock = Mock.Get(xmlClient.Listing);
+            xmlResourceMock
+                .Setup(s => s.GetByIdAsync(It.Is<Guid>(id => id == Factory.XmlListingId), It.Is<bool>(skipProfiles => !skipProfiles), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(xmlListing)
+                .Verifiable();
 
             // Act
-            var task = Task.Run(() => this.quicklisterClient.Xml.DeleteListingAsync(xmlListingId));
-            await task;
+            await this.quicklisterClient.Xml.DeleteListingAsync(xmlListingId);
 
             // Assert
-            Assert.True(task.IsCompletedSuccessfully);
+            xmlResourceMock.Verify();
+            xmlResourceMock.Verify(
+                listing => listing.ProcessListing(
+                    It.Is<Guid>(id => id == xmlListingId),
+                    It.Is<ListActionRequest>(listAction => listAction.Type == Xml.Domain.Enums.ListActionType.ListNever),
+                    It.IsAny<CancellationToken>()),
+                Times.Once);
         }
 
         [Fact]
@@ -457,7 +474,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var xmlListing = new XmlResponse.XmlListingDetailResponse
             {
                 Id = xmlListingId,
-                Market = MarketCode.SanAntonio,
+                Market = MarketCode.Austin,
                 CompanyId = Factory.CompanyId,
             };
             var xmlClient = this.customWebApplicationFactory.GetService<IXmlClient>();
@@ -480,7 +497,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var xmlListing = new XmlResponse.XmlListingDetailResponse
             {
                 Id = xmlListingId,
-                Market = MarketCode.SanAntonio,
+                Market = MarketCode.Austin,
                 CompanyId = Factory.CompanyId,
             };
             var xmlClient = this.customWebApplicationFactory.GetService<IXmlClient>();
@@ -554,7 +571,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var listingDto = new Request.ListingSaleRequest
             {
                 MlsStatus = MarketStatuses.Active,
-                City = Cities.Abilene,
+                City = Cities.LaGrange,
                 StreetNumber = "1234",
                 StreetName = Faker.Address.StreetName(),
                 ZipCode = Faker.Address.ZipCode()[..5],

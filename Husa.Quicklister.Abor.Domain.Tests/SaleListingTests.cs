@@ -338,7 +338,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var userId = Guid.NewGuid();
 
             var community = CommunityTestProvider.GetCommunityEntity(communityId);
-            community.Property.MlsArea = MlsArea.HundredOne;
+            community.Property.MlsArea = MlsArea.LW;
             var changes = new List<string> { nameof(community.Property.MlsArea) };
             community.UpdateChanges(nameof(community.Property), changes);
 

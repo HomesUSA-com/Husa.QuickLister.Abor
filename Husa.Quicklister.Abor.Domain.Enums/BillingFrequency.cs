@@ -7,15 +7,15 @@ namespace Husa.Quicklister.Abor.Domain.Enums
     {
         [EnumMember(Value = "A")]
         [Description("Annually")]
-        Annually = 0,
+        Annually,
+        [EnumMember(Value = "MN")]
+        [Description("Monthly")]
+        Monthly,
         [EnumMember(Value = "Q")]
         [Description("Quarterly")]
-        Quarterly = 1,
-        [EnumMember(Value = "M")]
-        [Description("Monthly")]
-        Monthly = 2,
-        [EnumMember(Value = "S")]
+        Quarterly,
+        [EnumMember(Value = "SEMIA")]
         [Description("Semi-Annually")]
-        SemiAnnually = 3,
+        SemiAnnually,
     }
 }

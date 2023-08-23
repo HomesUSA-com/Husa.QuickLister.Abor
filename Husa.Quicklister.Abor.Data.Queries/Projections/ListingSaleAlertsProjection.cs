@@ -13,7 +13,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
         public static Expression<Func<SaleListing, DetailAlertQueryResult>> ProjectListingSaleQueryResult() => listingSale => new()
         {
             Id = listingSale.Id,
-            MarketCode = MarketCode.SanAntonio,
+            MarketCode = MarketCode.Austin,
             MlsNumber = listingSale.MlsNumber,
             MlsStatus = listingSale.MlsStatus,
             Address = listingSale.SaleProperty.Address,

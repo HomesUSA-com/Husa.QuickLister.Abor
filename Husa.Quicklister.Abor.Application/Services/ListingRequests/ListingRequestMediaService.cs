@@ -75,7 +75,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
         {
             await this.ValidateEntityAndUserCompany(entityId);
             this.logger.LogInformation("Starting the process to send message to service bus to create media with id {entityId}", simpleMedia.EntityId);
-            simpleMedia.Market = MarketCode.SanAntonio;
+            simpleMedia.Market = MarketCode.Austin;
             simpleMedia.EntityId = entityId;
             simpleMedia.Type = MediaType;
             var mediaMessage = new MediaCreateMessage
@@ -91,7 +91,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
         {
             await this.ValidateEntityAndUserCompany(entityId);
             this.logger.LogInformation("Starting the process to send message to service bus to replace media with id {mediaId}.", simpleMedia.Id);
-            simpleMedia.Market = MarketCode.SanAntonio;
+            simpleMedia.Market = MarketCode.Austin;
             simpleMedia.EntityId = entityId;
             simpleMedia.Type = MediaType;
             var mediaMessage = new MediaReplaceMessage
@@ -107,7 +107,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
         {
             await this.ValidateEntityAndUserCompany(entityId);
             this.logger.LogInformation("Starting the process to send message to service bus to create virtual tour with id {virtualTourId}.", entityId);
-            virtualTour.Market = MarketCode.SanAntonio;
+            virtualTour.Market = MarketCode.Austin;
             virtualTour.EntityId = entityId;
             virtualTour.Type = MediaType;
             var mediaMessage = new VirtualTourCreateMessage

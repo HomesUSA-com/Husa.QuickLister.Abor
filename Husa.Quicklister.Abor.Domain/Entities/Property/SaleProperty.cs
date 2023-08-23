@@ -226,10 +226,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 var room = new ListingSaleRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level,
-                    roomDetail.Width,
-                    roomDetail.Length,
-                    roomDetail.Features);
+                    roomDetail.Level);
 
                 this.Rooms.Add(room);
             }
@@ -288,12 +285,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.FeaturesInfo = this.FeaturesInfo.ImportFeaturesFromCommunity(communitySale.Utilities);
             this.FinancialInfo = this.FinancialInfo.ImportFinancialFromCommunity(communitySale.Financial);
             this.ShowingInfo = this.ShowingInfo.ImportShowingFromCommunity(communitySale.Showing);
-            this.SpacesDimensionsInfo = this.SpacesDimensionsInfo.ImportSpacesDimensionsFromCommunity(communitySale.Utilities);
             this.AddressInfo = this.AddressInfo.ImportAddressInfoFromCommunity(communitySale.Property);
 
             this.ImportSaleOfficeFromCommunity(communitySale.SaleOffice);
             this.ImportPropertyFromCommunity(communitySale.Property);
-            this.ImportHoasFromEntity(communitySale.CommunityHoas);
             this.ImportOpenHouseFromCommunity(communitySale);
         }
 
@@ -311,11 +306,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             var propertyChanges = communitySale.GetChangedProperties(nameof(communitySale.Property));
             communitySale.Property.CopyProperties(this.AddressInfo, propertyChanges);
             communitySale.Property.CopyProperties(this.PropertyInfo, propertyChanges);
-
-            if (communitySale.Changes.Any(x => x == nameof(communitySale.CommunityHoas)))
-            {
-                this.ImportHoasFromEntity(communitySale.CommunityHoas);
-            }
         }
 
         public virtual void ImportOpenHouseFromCommunity(CommunitySale communitySale)
@@ -361,10 +351,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 var room = new ListingSaleRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level,
-                    roomDetail.Width,
-                    roomDetail.Length,
-                    roomDetail.Features);
+                    roomDetail.Level);
 
                 this.Rooms.Add(room);
             }
@@ -429,10 +416,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 var room = new ListingSaleRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level,
-                    roomDetail.Width,
-                    roomDetail.Length,
-                    roomDetail.Features);
+                    roomDetail.Level);
 
                 this.Rooms.Add(room);
             }
@@ -605,7 +589,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
         private void ImportPropertyFromCommunity(Property property)
         {
             this.PropertyInfo.MlsArea = property.MlsArea;
-            this.PropertyInfo.MapscoGrid = property.MapscoGrid;
+            this.PropertyInfo.LotDimension = property.LotDimension;
+            this.PropertyInfo.LotDescription = property.LotDescription;
+            this.PropertyInfo.LotSize = property.LotSize;
+            this.PropertyInfo.PropertyType = property.PropertyType;
         }
 
         private void ImportSaleOfficeFromCommunity(CommunitySaleOffice saleOffice)
@@ -724,7 +711,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.FinancialInfo ??= new();
             this.FinancialInfo.TaxYear = financialInfo.TaxYear;
             this.FinancialInfo.TaxRate = financialInfo.TaxRate;
-            this.FinancialInfo.IsMultipleTaxed = financialInfo.IsMultipleTaxed;
             this.FinancialInfo.TitleCompany = financialInfo.TitleCompany;
             this.FinancialInfo.ProposedTerms = financialInfo.ProposedTerms;
             this.FinancialInfo.HasMultipleHOA = financialInfo.HasMultipleHOA;
@@ -732,7 +718,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.FinancialInfo.HasAgentBonus = financialInfo.AgentBonusAmount != null;
             this.FinancialInfo.AgentBonusAmount = financialInfo.AgentBonusAmount;
             this.FinancialInfo.AgentBonusAmountType = financialInfo.AgentBonusAmountType;
-            this.FinancialInfo.HOARequirement = financialInfo.HOARequirement;
         }
 
         private void CopyShowingData(ShowingInfo showingInfo)
@@ -743,12 +728,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
 
             this.ShowingInfo ??= new();
-            this.ShowingInfo.AltPhoneCommunity = showingInfo.AltPhoneCommunity;
-            this.ShowingInfo.AgentListApptPhone = showingInfo.AgentListApptPhone;
+            this.ShowingInfo.OccupantPhone = showingInfo.OccupantPhone;
+            this.ShowingInfo.ContactPhone = showingInfo.ContactPhone;
             this.ShowingInfo.AgentPrivateRemarks = showingInfo.AgentPrivateRemarks;
             this.ShowingInfo.RealtorContactEmail = showingInfo.RealtorContactEmail;
             this.ShowingInfo.Directions = showingInfo.Directions;
-            this.ShowingInfo.Showing = showingInfo.Showing;
+            this.ShowingInfo.ShowingRequirements = showingInfo.ShowingRequirements;
+            this.ShowingInfo.ShowingInstructions = showingInfo.ShowingInstructions;
+            this.ShowingInfo.LockBoxType = showingInfo.LockBoxType;
         }
 
         private void CopySpacesDimensionsData(SpacesDimensionsInfo spacesDimensions)
@@ -759,16 +746,19 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
 
             this.SpacesDimensionsInfo ??= new();
-            this.SpacesDimensionsInfo.Stories = spacesDimensions.Stories;
-            this.SpacesDimensionsInfo.SqFtTotal = spacesDimensions.SqFtTotal;
             this.SpacesDimensionsInfo.SqFtSource = spacesDimensions.SqFtSource;
             this.SpacesDimensionsInfo.SpecialtyRooms = spacesDimensions.SpecialtyRooms;
-            this.SpacesDimensionsInfo.BathsFull = spacesDimensions.BathsFull;
-            this.SpacesDimensionsInfo.BathsHalf = spacesDimensions.BathsHalf;
-            this.SpacesDimensionsInfo.NumBedrooms = spacesDimensions.NumBedrooms;
-            this.SpacesDimensionsInfo.GarageDescription = spacesDimensions.GarageDescription;
             this.SpacesDimensionsInfo.TypeCategory = spacesDimensions.TypeCategory;
             this.SpacesDimensionsInfo.OtherParking = spacesDimensions.OtherParking;
+
+            this.SpacesDimensionsInfo.StoriesTotal = spacesDimensions.StoriesTotal;
+            this.SpacesDimensionsInfo.SqFtTotal = spacesDimensions.SqFtTotal;
+            this.SpacesDimensionsInfo.DiningAreasTotal = spacesDimensions.DiningAreasTotal;
+            this.SpacesDimensionsInfo.MainLevelBedroomTotal = spacesDimensions.MainLevelBedroomTotal;
+            this.SpacesDimensionsInfo.OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal;
+            this.SpacesDimensionsInfo.HalfBathsTotal = spacesDimensions.HalfBathsTotal;
+            this.SpacesDimensionsInfo.FullBathsTotal = spacesDimensions.FullBathsTotal;
+            this.SpacesDimensionsInfo.LivingAreasTotal = spacesDimensions.LivingAreasTotal;
         }
 
         private void CopySchoolsData(SchoolsInfo schoolsInfo)

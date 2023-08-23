@@ -56,7 +56,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to add media to community with id {communityId}", communityId);
 
-            await this.communityMediaService.Resource.CreateAsync(communityId, MarketCode.SanAntonio, media, mediaLimitAllowed: this.options.MediaAllowed.SaleCommunityMaxAllowedMedia);
+            await this.communityMediaService.Resource.CreateAsync(communityId, MarketCode.Austin, media, mediaLimitAllowed: this.options.MediaAllowed.SaleCommunityMaxAllowedMedia);
 
             return this.Ok();
         }
@@ -67,7 +67,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to replace media with id {mediaId} for entity id {communityId}", media.Id, communityId);
 
-            await this.communityMediaService.Resource.ReplaceAsync(communityId, MarketCode.SanAntonio, media);
+            await this.communityMediaService.Resource.ReplaceAsync(communityId, MarketCode.Austin, media);
 
             return this.Ok();
         }
@@ -94,7 +94,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
 
         [HttpPatch("{mediaId}")]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid communityId, [FromRoute] Guid mediaId, [FromBody] Media media)
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid communityId, [FromRoute] Guid mediaId, [FromBody] SimpleMedia media)
         {
             this.logger.LogInformation("Starting to update media for community with id {mediaId}", mediaId);
 

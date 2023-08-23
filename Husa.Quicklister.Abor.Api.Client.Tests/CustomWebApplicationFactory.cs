@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Api.Client.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Net.Http;
     using System.Security.Claims;
     using Husa.Extensions.Api.Configuration;
@@ -11,7 +10,6 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Data;
     using Husa.Quicklister.Abor.Data.Queries;
-    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -119,11 +117,6 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         {
             var community = CommunityTestProvider.GetCommunityEntity(Factory.CommunityId, companyId: Factory.CompanyId);
             community.ProfileInfo.Name = Factory.CommunityName;
-            community.CommunityHoas = new List<CommunityHoa>()
-            {
-                new CommunityHoa("Hoa name", 23, 3455, BillingFrequency.Quarterly, "www.somewebsite.com", "234456788"),
-                new CommunityHoa("Hoa name2", 1234, 3443455, BillingFrequency.Annually, "www.somewebsite2.com", "234456788"),
-            };
 
             dbContext.Community.Add(community);
 
@@ -157,7 +150,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             listingForXml.SaleProperty.AddressInfo.StreetName = "streetName";
             listingForXml.SaleProperty.AddressInfo.StreetNumber = "1234";
             listingForXml.SaleProperty.AddressInfo.ZipCode = "12345";
-            listingForXml.SaleProperty.AddressInfo.City = Cities.VanHorn;
+            listingForXml.SaleProperty.AddressInfo.City = Cities.LagoVista;
             dbContext.ListingSale.Add(listingForXml);
 
             var listingWithPhotoRequest = ListingTestProvider.GetListingEntity(listingId: Factory.ListingId, companyId: Factory.CompanyId, communityId: Factory.CommunityId, planId: Factory.PlanId, marketStatuses: MarketStatuses.Active);

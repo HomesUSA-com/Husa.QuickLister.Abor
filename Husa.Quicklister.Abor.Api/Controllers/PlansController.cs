@@ -20,7 +20,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Microsoft.Extensions.Logging;
 
     [ApiController]
-    [Route("plan")]
     [Route("plans")]
     public class PlansController : Controller
     {
@@ -47,7 +46,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery] PlanRequestFilter filter)
         {
-            this.logger.LogInformation($"Starting to get plan profiles in ABOR");
+            this.logger.LogInformation("Starting to get plan profiles in ABOR filtered by {@filters}", filter);
             var requestFilter = this.mapper.Map<PlanQueryFilter>(filter);
             var queryResponse = await this.planQueriesRepository.GetAsync(requestFilter);
             var data = this.mapper.Map<IEnumerable<PlanDataQueryResponse>>(queryResponse.Data);
@@ -58,7 +57,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly)]
         public async Task<IActionResult> GetPlanById([FromRoute] Guid planId)
         {
-            this.logger.LogInformation($"Received request to GET Plan detail with Id '{planId}'.");
+            this.logger.LogInformation("Getting the plan detail with Id '{planId}'.", planId);
 
             var plan = await this.planQueriesRepository.GetPlanById(planId);
 
@@ -71,7 +70,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> GetPlanByName([FromQuery] PlanByNameFilter filters)
         {
-            this.logger.LogInformation($"Retrieving the Plan By Name: '{filters.PlanName} from company id: {filters.CompanyId}'.");
+            this.logger.LogInformation("Retrieving the plans with the filters: {@filters}.", filters);
 
             var plan = await this.planQueriesRepository.GetPlanByByName(filters.CompanyId, filters.PlanName);
 
@@ -89,7 +88,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin)]
         public async Task<IActionResult> CreateAsync(CreatePlanRequest createPlanRequest)
         {
-            this.logger.LogInformation("Adding plan profile in ABOR with Name: {planName} and company {companyId}", createPlanRequest.Name, createPlanRequest.CompanyId);
+            this.logger.LogInformation("Adding plan profile with Name: {planName} and company {companyId}", createPlanRequest.Name, createPlanRequest.CompanyId);
             var planRequestDto = this.mapper.Map<PlanCreateDto>(createPlanRequest);
             var planId = await this.planService.CreateAsync(planRequestDto);
             return this.Ok(planId);
@@ -99,7 +98,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin)]
         public async Task<IActionResult> DeletePlanAsync([FromRoute] Guid planId, [FromQuery] bool deleteInCascade = false)
         {
-            this.logger.LogInformation($"Starting to delete the plan profile in ABOR with id {planId}");
+            this.logger.LogInformation("Deleting the plan profile with id {planId}", planId);
 
             await this.planService.DeletePlan(planId, deleteInCascade);
 
@@ -110,7 +109,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [Authorize(Roles.MLSAdministrator)]
         public async Task<IActionResult> ApprovePlanAsync(Guid planId)
         {
-            this.logger.LogInformation("Starting to approve a plan with id {planId} imported by xml", planId);
+            this.logger.LogInformation("Approving a plan with id {planId} imported by xml", planId);
             await this.planXmlService.ApprovePlan(planId);
             return this.Ok();
         }
@@ -119,7 +118,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin)]
         public async Task<IActionResult> UpdatePlanAsync([FromRoute] Guid planId, [FromBody] UpdatePlanRequest updatePlanRequest)
         {
-            this.logger.LogInformation($"Starting to update plan with id: {planId}");
+            this.logger.LogInformation("Updating plan with id: {planId}", planId);
 
             var planRequestDto = this.mapper.Map<UpdatePlanDto>(updatePlanRequest);
             await this.planService.UpdatePlanAsync(planId, planRequestDto);

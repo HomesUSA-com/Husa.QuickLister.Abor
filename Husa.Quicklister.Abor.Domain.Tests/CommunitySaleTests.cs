@@ -8,8 +8,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Domain.Extensions;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Xml.Api.Contracts.Response;
@@ -361,23 +361,22 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             BuyersAgentCommission = 3,
             BuyersAgentCommissionType = Domain.Enums.CommissionType.Percent,
             TitleCompany = Faker.Company.Name(),
-            ProposedTerms = TestModelProvider.GetEnumCollectionRandom<ProposedTerms>(),
+            HoaIncludes = TestModelProvider.GetEnumCollectionRandom<HoaIncludes>(),
         };
 
         private static SchoolsInfo SetupSchoolsInfo() => new()
         {
-            SchoolDistrict = Faker.Enum.Random<SchoolDistrict>(),
-            ElementarySchool = Faker.Enum.Random<ElementarySchool>(),
-            MiddleSchool = Faker.Enum.Random<MiddleSchool>(),
-            HighSchool = Faker.Enum.Random<HighSchool>(),
+            SchoolDistrict = SchoolDistrict.Harper,
+            ElementarySchool = ElementarySchool.Harper,
+            MiddleSchool = MiddleSchool.Harper,
+            HighSchool = HighSchool.Harper,
         };
 
         private static CommunityShowingInfo SetupShowingInfo() => new()
         {
-            AltPhoneCommunity = Faker.Phone.Number(),
-            AgentListApptPhone = Faker.Phone.Number(),
+            OccupantPhone = Faker.Phone.Number(),
+            ContactPhone = Faker.Phone.Number(),
             Directions = Faker.Lorem.Sentence(300),
-            RealtorContactEmail = Faker.Internet.Email(),
         };
     }
 }

@@ -81,18 +81,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             return new()
             {
                 TaxYear = financialInfo.TaxYear,
-                HasMultipleHOA = financialInfo.HasMultipleHOA,
-                NumHOA = financialInfo.NumHOA,
                 HasAgentBonus = financialInfo.HasAgentBonus,
                 HasBonusWithAmount = financialInfo.HasBonusWithAmount,
                 AgentBonusAmount = financialInfo.AgentBonusAmount,
                 AgentBonusAmountType = financialInfo.AgentBonusAmountType,
                 BonusExpirationDate = financialInfo.BonusExpirationDate,
                 HasBuyerIncentive = financialInfo.HasBuyerIncentive,
-                IsMultipleTaxed = financialInfo.IsMultipleTaxed,
                 TaxRate = financialInfo.TaxRate,
                 TitleCompany = financialInfo.TitleCompany,
-                ProposedTerms = financialInfo.ProposedTerms,
                 HOARequirement = financialInfo.HOARequirement ?? throw new DomainException(nameof(financialInfo.HOARequirement)),
                 BuyersAgentCommission = financialInfo.BuyersAgentCommission ?? throw new DomainException(nameof(financialInfo.BuyersAgentCommission)),
                 BuyersAgentCommissionType = financialInfo.BuyersAgentCommissionType,

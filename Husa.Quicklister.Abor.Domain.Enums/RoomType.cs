@@ -5,62 +5,98 @@ namespace Husa.Quicklister.Abor.Domain.Enums
 
     public enum RoomType
     {
-        [EnumMember(Value = "entry")]
-        [Description("Entry")]
-        Entry = 0,
-        [EnumMember(Value = "living")]
-        [Description("Living")]
-        Living = 1,
-        [EnumMember(Value = "family")]
-        [Description("Family")]
-        Family = 2,
-        [EnumMember(Value = "other")]
-        [Description("Mud Room (Other)")]
-        Other = 3,
-        [EnumMember(Value = "game")]
-        [Description("Game (Other)")]
-        Game = 4,
-        [EnumMember(Value = "media")]
-        [Description("Media (Other)")]
-        Media = 5,
-        [EnumMember(Value = "dining")]
-        [Description("Dining")]
-        Dining = 6,
-        [EnumMember(Value = "breakfast")]
-        [Description("Breakfast")]
-        Breakfast = 7,
-        [EnumMember(Value = "kitchen")]
-        [Description("Kitchen")]
-        Kitchen = 8,
-        [EnumMember(Value = "study")]
-        [Description("Study")]
-        Study = 9,
-        [EnumMember(Value = "masterBedroom")]
-        [Description("Master Bedroom")]
-        MasterBedroom = 10,
-        [EnumMember(Value = "masterBedroomCloset")]
-        [Description("Master Bedroom Closet")]
-        MasterBedroomCloset = 11,
-        [EnumMember(Value = "bed")]
+        [EnumMember(Value = "MSTRBED")]
+        [Description("Primary Bedroom")]
+        PrimaryBedroom,
+        [EnumMember(Value = "BDRM")]
         [Description("Bedroom")]
-        Bed = 12,
-        [EnumMember(Value = "masterBath")]
-        [Description("Master Bath (Other)")]
-        MasterBath = 13,
-        [EnumMember(Value = "utility")]
-        [Description("Utility")]
-        Utility = 14,
-        [EnumMember(Value = "fullBath")]
-        [Description("FullBath")]
-        FullBath = 15,
-        [EnumMember(Value = "office")]
+        Bedroom,
+        [EnumMember(Value = "MSTRBATH")]
+        [Description("Primary Bathroom")]
+        PrimaryBathroom,
+        [EnumMember(Value = "BA")]
+        [Description("Bathroom")]
+        Bathroom,
+        [EnumMember(Value = "KITCHEN")]
+        [Description("Kitchen")]
+        Kitchen,
+        [EnumMember(Value = "AKIT")]
+        [Description("Additional Kitchen")]
+        AdditionalKitchen,
+        [EnumMember(Value = "RMATR")]
+        [Description("Atrium")]
+        Atrium,
+        [EnumMember(Value = "BSMNT")]
+        [Description("Basement")]
+        Basement,
+        [EnumMember(Value = "BONUS")]
+        [Description("Bonus Room")]
+        Bonus,
+        [EnumMember(Value = "RMCNS")]
+        [Description("Conservatory")]
+        Conservatory,
+        [EnumMember(Value = "RMCGR")]
+        [Description("Converted Garage")]
+        ConvertedGarage,
+        [EnumMember(Value = "DEN")]
+        [Description("Den")]
+        Den,
+        [EnumMember(Value = "DINING")]
+        [Description("Dining Room")]
+        Dining,
+        [EnumMember(Value = "RMEXC")]
+        [Description("Exercise Room")]
+        ExerciseRoom,
+        [EnumMember(Value = "FAMILY")]
+        [Description("Family Room")]
+        FamilyRoom,
+        [EnumMember(Value = "RMFYR")]
+        [Description("Foyer")]
+        Foyer,
+        [EnumMember(Value = "GAME")]
+        [Description("Game Room")]
+        Game,
+        [EnumMember(Value = "GREAT")]
+        [Description("Great Room")]
+        GreatRoom,
+        [EnumMember(Value = "GYM")]
+        [Description("Gym")]
+        Gym,
+        [EnumMember(Value = "LAUNDRY")]
+        [Description("Laundry")]
+        Laundry,
+        [EnumMember(Value = "LIBRARY")]
+        [Description("Library")]
+        Library,
+        [EnumMember(Value = "LIVING")]
+        [Description("Living Room")]
+        Living,
+        [EnumMember(Value = "LOFT")]
+        [Description("Loft")]
+        Loft,
+        [EnumMember(Value = "MEDIA")]
+        [Description("Media Room")]
+        MediaRoom,
+        [EnumMember(Value = "OFFICE")]
         [Description("Office")]
-        Office = 16,
-        [EnumMember(Value = "student")]
-        [Description("Student")]
-        Student = 17,
-        [EnumMember(Value = "halfBath")]
-        [Description("HalfBath")]
-        HalfBath = 18,
+        Office,
+        [EnumMember(Value = "SAUNA")]
+        [Description("Sauna")]
+        Sauna,
+        [EnumMember(Value = "RMSPP")]
+        [Description("Screened Patio/Porch")]
+        ScreenedPatioPorch,
+        [EnumMember(Value = "STRG")]
+        [Description("Storage")]
+        Storage,
+        [EnumMember(Value = "RMSUN")]
+        [Description("Sun")]
+        Sun,
+        [EnumMember(Value = "WNE")]
+        [Description("Wine")]
+        Wine,
+        [EnumMember(Value = "WORKSHOP")]
+        [Description("Workshop")]
+        Workshop,
     }
 }

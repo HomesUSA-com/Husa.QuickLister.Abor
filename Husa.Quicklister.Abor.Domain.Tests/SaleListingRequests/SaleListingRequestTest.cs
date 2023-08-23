@@ -222,14 +222,16 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         {
             // Arrange
             var listing = TestModelProvider.GetListingSaleEntity(Guid.NewGuid(), true);
-            var saleListingRequest = new SaleListingRequest(listing, Guid.NewGuid());
-            saleListingRequest.RequestState = ListingRequestState.Completed;
+            var saleListingRequest = new SaleListingRequest(listing, Guid.NewGuid())
+            {
+                RequestState = ListingRequestState.Completed,
+            };
 
             var requestCloned = saleListingRequest.Clone();
             Assert.NotEqual(saleListingRequest.Id, requestCloned.Id);
             Assert.NotEqual(saleListingRequest.RequestState, requestCloned.RequestState);
             Assert.Equal(saleListingRequest.SaleProperty.FinancialInfo.HOARequirement, requestCloned.SaleProperty.FinancialInfo.HOARequirement);
-            Assert.Equal(saleListingRequest.SaleProperty.ShowingInfo.Showing, requestCloned.SaleProperty.ShowingInfo.Showing);
+            Assert.Equal(saleListingRequest.SaleProperty.ShowingInfo.ShowingInstructions, requestCloned.SaleProperty.ShowingInfo.ShowingInstructions);
             Assert.Equal(saleListingRequest.SaleProperty.SchoolsInfo.HighSchool, requestCloned.SaleProperty.SchoolsInfo.HighSchool);
         }
 

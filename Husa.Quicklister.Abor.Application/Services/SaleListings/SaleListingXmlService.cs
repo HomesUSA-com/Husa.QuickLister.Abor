@@ -254,9 +254,9 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             var xmlListing = await this.xmlClient.Listing.GetByIdAsync(xmlListingId, skipPlanAndCommunity) ?? throw new NotFoundException<XmlListingDetailResponse>(xmlListingId);
             var currentUser = this.userContextProvider.GetCurrentUser();
 
-            if (xmlListing.Market != MarketCode.SanAntonio)
+            if (xmlListing.Market != MarketCode.Austin)
             {
-                throw new DomainException($"Listing {xmlListing.Street1} is not for San Antonio market");
+                throw new DomainException($"Listing {xmlListing.Street1} is not for '{MarketCode.Austin}' market");
             }
 
             if (xmlListing.CompanyId == null)

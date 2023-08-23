@@ -88,11 +88,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var community = new CommunitySale(companyId, "community name", "Owner name");
             community.Id = communityId;
-            community.CommunityHoas = new List<CommunityHoa>()
-            {
-                new CommunityHoa("Hoa name", 23, 3455, BillingFrequency.Quarterly, "www.somewebsite.com", "234456788"),
-                new CommunityHoa("Hoa name2", 1234, 3443455, BillingFrequency.Annually, "www.somewebsite2.com", "234456788"),
-            };
 
             this.SetupCompanyDetail();
             this.SetupMlsAdministrator(userId);
@@ -140,12 +135,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var community = new CommunitySale(companyId, "community name", "Owner name");
             community.Id = communityId;
-            community.CommunityHoas = new List<CommunityHoa>()
-            {
-                new CommunityHoa("Hoa name", 23, 3455, BillingFrequency.Quarterly, "www.somewebsite.com", "234456788"),
-                new CommunityHoa("Hoa name2", 1234, 3443455, BillingFrequency.Annually, "www.somewebsite2.com", "234456788"),
-            };
-
             this.communitySaleRepository
                .Setup(x => x.GetById(It.IsAny<Guid>(), It.IsAny<bool>()))
                .ReturnsAsync(community)
@@ -183,11 +172,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var community = new CommunitySale(companyId, "community name", "Owner name");
             community.Id = communityId;
-            community.CommunityHoas = new List<CommunityHoa>()
-            {
-                new CommunityHoa("Hoa name", 23, 3455, BillingFrequency.Quarterly, "www.somewebsite.com", "234456788"),
-                new CommunityHoa("Hoa name2", 1234, 3443455, BillingFrequency.Annually, "www.somewebsite2.com", "234456788"),
-            };
 
             this.SetupUserEmployee(RoleEmployee.SalesEmployee, userId, companyId);
             this.SetupCompanyDetail();
@@ -570,7 +554,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         [Theory]
         [InlineData(ListActionType.ListNow, XmlListActionType.ListNow)]
         [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare)]
-        public async Task ProcessListingThrowsDomainExceptionWhenMarketIsNotSanAntonio(ListActionType listAction, XmlListActionType xmlListActionType)
+        public async Task ProcessListingThrowsDomainExceptionWhenMarketIsNotAustin(ListActionType listAction, XmlListActionType xmlListActionType)
         {
             // Arrange
             var xmlListingId = Guid.NewGuid();
@@ -609,7 +593,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var listingResource = new Mock<IXmlListing>();
             listingResource
                 .Setup(r => r.GetByIdAsync(It.Is<Guid>(id => id == xmlListingId), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new XmlResponse.XmlListingDetailResponse { Market = MarketCode.SanAntonio })
+                .ReturnsAsync(new XmlResponse.XmlListingDetailResponse { Market = MarketCode.Austin })
                 .Verifiable();
 
             this.xmlClient
@@ -664,7 +648,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                     CommunityId = communityId ?? Guid.NewGuid(),
                     CompanyId = companyId ?? Guid.NewGuid(),
                     PlanId = planId ?? Guid.NewGuid(),
-                    Market = MarketCode.SanAntonio,
+                    Market = MarketCode.Austin,
                 })
                 .Verifiable();
         }

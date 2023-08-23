@@ -22,6 +22,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Application.Models.Media;
@@ -37,7 +38,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<SalePropertyQueryResult, SalePropertyResponse>();
             this.CreateMap<FeaturesQueryResult, FeaturesResponse>();
             this.CreateMap<FinancialQueryResult, FinancialResponse>();
-            this.CreateMap<SchoolsInfoQueryResult, SchoolsResponse>();
             this.CreateMap<ListingShowingQueryResult, ShowingResponse>();
             this.CreateMap<AddressQueryResult, AddressInfoResponse>();
             this.CreateMap<PropertyInfoQueryResult, PropertyInfoResponse>()
@@ -59,7 +59,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                .ForMember(dest => dest.MlsNumber, config => config.MapFrom(x => x.MlsNumber))
                .ForMember(dest => dest.MlsStatus, config => config.MapFrom(x => x.MlsStatus))
                .ForMember(dest => dest.MarketModifiedOn, config => config.MapFrom(x => x.MarketModifiedOn))
-               .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.SanAntonio))
+               .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.Austin))
                .ForMember(dest => dest.CommunityId, config => config.MapFrom(x => x.CommunityId))
                .ForMember(dest => dest.PlanName, config => config.MapFrom(x => x.PlanName))
                .ForMember(dest => dest.IsCompleteHome, config => config.MapFrom(x => x.IsCompleteHome));
@@ -83,7 +83,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                .ForMember(dest => dest.MlsNumber, config => config.MapFrom(x => x.MlsNumber))
                .ForMember(dest => dest.MlsStatus, config => config.MapFrom(x => x.MlsStatus))
                .ForMember(dest => dest.MarketModifiedOn, config => config.MapFrom(x => x.MarketModifiedOn))
-               .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.SanAntonio))
+               .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.Austin))
                .ForMember(dest => dest.IsCompleteHome, config => config.MapFrom(x => x.SaleProperty.PropertyInfo.ConstructionStage == ConstructionStage.Complete))
                .ForMember(dest => dest.PlanName, config => config.MapFrom(x => x.PlanName));
 
@@ -91,7 +91,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<FeaturesRequest, FeaturesDto>()
                 .ForMember(dto => dto.IsNewConstruction, r => r.Ignore());
             this.CreateMap<FinancialRequest, FinancialDto>();
-            this.CreateMap<SchoolsRequest, SchoolsDto>();
             this.CreateMap<ShowingRequest, ShowingDto>();
             this.CreateMap<AddressInfoRequest, AddressDto>();
             this.CreateMap<PropertyInfoRequest, PropertyDto>();
@@ -121,9 +120,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<ListingSaleRequest, ListingSaleDto>();
 
-            this.CreateMap<ShowingDto, ShowingInfo>()
-                .ForMember(dest => dest.Showing, config => config.MapFrom(dto => dto.Showing));
-            this.CreateMap<SchoolsDto, SchoolsInfo>();
+            this.CreateMap<ShowingDto, ShowingInfo>();
 
             this.CreateMap<RoomDto, ListingSaleRoom>()
                 .ForMember(dto => dto.Id, c => c.MapFrom(x => x.Id))

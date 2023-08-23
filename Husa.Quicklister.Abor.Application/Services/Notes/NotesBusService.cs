@@ -39,7 +39,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Notes
         {
             var userId = this.userContextProvider.GetCurrentUserId();
             var correlationId = this.httpContextAccessor.HttpContext.TraceIdentifier;
-            note.MarketCode = MarketCode.SanAntonio;
+            note.MarketCode = MarketCode.Austin;
             var noteMessage = new NoteUpdatedMessage
             {
                 Id = noteId,
@@ -66,7 +66,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Notes
                 Description = description,
                 EntityId = entityId,
                 Type = noteType.ToRemoteNoteType(),
-                MarketCode = MarketCode.SanAntonio,
+                MarketCode = MarketCode.Austin,
             };
             var noteMessage = new NoteCreatedMessage { Note = note };
             var userId = this.userContextProvider.GetCurrentUserId();
@@ -84,7 +84,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Notes
                 Description = description,
                 EntityId = entityId,
                 Type = noteType.ToRemoteNoteType(),
-                MarketCode = MarketCode.SanAntonio,
+                MarketCode = MarketCode.Austin,
             };
             var noteMessage = new NoteUpdatedMessage
             {

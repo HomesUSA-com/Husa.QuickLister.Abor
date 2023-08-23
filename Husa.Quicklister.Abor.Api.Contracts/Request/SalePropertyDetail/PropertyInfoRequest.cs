@@ -3,7 +3,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class PropertyInfoRequest
@@ -38,5 +37,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
         public decimal? Longitude { get; set; }
 
         public bool IsXmlManaged { get; set; }
+
+        public PropertySubType? PropertyType { get; set; }
     }
 }

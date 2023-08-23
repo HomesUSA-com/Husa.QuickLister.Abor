@@ -12,11 +12,12 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Data.Documents.QueryFilters;
     using Husa.Quicklister.Abor.Data.Queries.Models;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Domain.Entities.Request;
@@ -284,7 +285,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                .ForMember(dest => dest.MlsNumber, config => config.MapFrom(x => x.MlsNumber))
                .ForMember(dest => dest.MlsStatus, config => config.MapFrom(x => x.MlsStatus))
                .ForMember(dest => dest.MarketModifiedOn, config => config.MapFrom(x => x.MarketModifiedOn))
-               .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.SanAntonio))
+               .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.Austin))
                .ForMember(dest => dest.CommunityId, config => config.MapFrom(x => x.SaleProperty.CommunityId))
                .ForMember(dest => dest.IsCompleteHome, config => config.MapFrom(x => x.SaleProperty.PropertyInfo.ConstructionStage == ConstructionStage.Complete))
                .ForMember(dest => dest.PlanName, config => config.MapFrom(x => x.SaleProperty.Plan != null ? x.SaleProperty.Plan.BasePlan.Name : null));
@@ -303,7 +304,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.OwnerName, config => config.MapFrom(x => x.SaleProperty.OwnerName))
                 .ForMember(dest => dest.CommunityId, config => config.MapFrom(x => x.SaleProperty.CommunityId))
                 .ForMember(dest => dest.Directions, config => config.MapFrom(x => x.SaleProperty.ShowingInfo.Directions))
-                .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.SanAntonio))
+                .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.Austin))
                 .ForMember(dest => dest.IsCompleteHome, config => config.MapFrom(x => x.SaleProperty.PropertyInfo.ConstructionStage == ConstructionStage.Complete))
                 .ForMember(dest => dest.State, config => config.MapFrom(x => x.SaleProperty.AddressInfo.State))
                 .ForMember(dest => dest.PlanName, config => config.MapFrom(x => x.SaleProperty.Plan != null ? x.SaleProperty.Plan.BasePlan.Name : null));

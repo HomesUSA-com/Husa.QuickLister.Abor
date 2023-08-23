@@ -78,16 +78,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Extensions
             return marketStatus.ToEnumFromEnumMember<MarketStatuses>();
         }
 
-        public static Showing? ToShowing(this string showing)
-        {
-            if (string.IsNullOrWhiteSpace(showing))
-            {
-                return null;
-            }
-
-            return showing.ToEnumFromEnumMember<Showing>();
-        }
-
         public static Stories? ToStories(this string stories)
         {
             if (string.IsNullOrWhiteSpace(stories))
@@ -138,38 +128,22 @@ namespace Husa.Quicklister.Abor.Crosscutting.Extensions
             };
         }
 
-        public static ICollection<GarageDescription> ToEntry(this GarageEntry entry, int? garageSpaces)
+        public static ICollection<GarageDescription> ToEntry(this GarageEntry entry)
         {
-            var description = GetGarageDescription(garageSpaces);
-            var feature = entry switch
+            var description = new List<GarageDescription>();
+            GarageDescription? feature = entry switch
             {
-                GarageEntry.Rear => GarageDescription.RearEntry,
-                GarageEntry.Side => GarageDescription.SideEntry,
-                _ => GarageDescription.NotApplicable,
+                GarageEntry.Rear => GarageDescription.GarageFacesRear,
+                GarageEntry.Side => GarageDescription.GarageFacesSide,
+                _ => null,
             };
 
-            if (feature != GarageDescription.NotApplicable)
+            if (feature.HasValue)
             {
-                description.Add(feature);
+                description.Add(feature.Value);
             }
 
             return description;
-        }
-
-        public static IList<GarageDescription> GetGarageDescription(int? garageSpaces)
-        {
-            if (!garageSpaces.HasValue || garageSpaces.Value <= 0)
-            {
-                return Array.Empty<GarageDescription>();
-            }
-
-            return garageSpaces.Value switch
-            {
-                1 => new[] { GarageDescription.OneCarGarage },
-                2 => new[] { GarageDescription.TwoCarGarage },
-                3 => new[] { GarageDescription.ThreeCarGarage },
-                _ => new[] { GarageDescription.FourPlusCarGarage },
-            };
         }
 
         public static IEnumerable<string> ToStringCollectionFromEnumMembers<T>(this IEnumerable<T> enumElements)

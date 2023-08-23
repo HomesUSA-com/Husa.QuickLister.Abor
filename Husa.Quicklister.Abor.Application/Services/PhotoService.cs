@@ -140,7 +140,7 @@ namespace Husa.Quicklister.Abor.Application.Services
                     Zip = property.Zip,
                     State = property.State,
                     Subdivision = property.Subdivision,
-                    MarketCode = MarketCode.SanAntonio,
+                    MarketCode = MarketCode.Austin,
                 },
                 SalesCounselor = photoRequest.SalesCounselor,
                 Assistant = photoRequest.Assistant,

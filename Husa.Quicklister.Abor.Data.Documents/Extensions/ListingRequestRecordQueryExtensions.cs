@@ -53,15 +53,18 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
             where T : SpacesDimensionsRecord => new()
             {
                 SpecialtyRooms = spacesDimensions.SpecialtyRooms,
-                GarageDescription = spacesDimensions.GarageDescription,
                 SqFtSource = spacesDimensions.SqFtSource,
-                SqFtTotal = spacesDimensions.SqFtTotal,
-                BathsFull = spacesDimensions.BathsFull,
-                Stories = spacesDimensions.Stories,
-                BathsHalf = spacesDimensions.BathsHalf,
-                NumBedrooms = spacesDimensions.NumBedrooms,
                 OtherParking = spacesDimensions.OtherParking,
                 TypeCategory = spacesDimensions.TypeCategory,
+
+                StoriesTotal = spacesDimensions.StoriesTotal,
+                SqFtTotal = spacesDimensions.SqFtTotal,
+                DiningAreasTotal = spacesDimensions.DiningAreasTotal,
+                MainLevelBedroomTotal = spacesDimensions.MainLevelBedroomTotal,
+                OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal,
+                HalfBathsTotal = spacesDimensions.HalfBathsTotal,
+                FullBathsTotal = spacesDimensions.FullBathsTotal,
+                LivingAreasTotal = spacesDimensions.LivingAreasTotal,
             };
 
         public static Models.SchoolsInfoQueryResult ToProjectionSchools<T>(this T schools)
@@ -114,10 +117,12 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
            where T : ShowingRecord => new()
            {
                Directions = showing.Directions,
-               Showing = showing.Showing,
-               AgentListApptPhone = showing.AgentListApptPhone,
+               ShowingInstructions = showing.ShowingInstructions,
+               ShowingRequirements = showing.ShowingRequirements,
+               LockBoxType = showing.LockBoxType,
+               ContactPhone = showing.ContactPhone,
                AgentPrivateRemarks = showing.AgentPrivateRemarks,
-               AltPhoneCommunity = showing.AltPhoneCommunity,
+               OccupantPhone = showing.OccupantPhone,
                RealtorContactEmail = showing.RealtorContactEmail,
                EnableOpenHouses = showing.EnableOpenHouses,
                OpenHousesAgree = showing.OpenHousesAgree,
@@ -220,11 +225,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
             {
                 Id = room.Id,
                 Level = room.Level,
-                Width = room.Width,
-                Length = room.Length,
                 RoomType = room.RoomType,
                 IsDeleted = room.IsDeleted,
-                Features = room.Features,
             });
 
         public static IEnumerable<HoaQueryResult> ToProjectionHoas<T>(this IEnumerable<T> hoas)

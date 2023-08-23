@@ -71,10 +71,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
                 var room = new PlanRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level,
-                    roomDetail.Width,
-                    roomDetail.Length,
-                    roomDetail.Features);
+                    roomDetail.Level);
 
                 this.Rooms.Add(room);
             }
@@ -89,14 +86,17 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
 
         public virtual void ImportFromListing(SaleListing listing)
         {
-            this.BasePlan.Stories = listing.SaleProperty.SpacesDimensionsInfo.Stories;
-            this.BasePlan.BathsHalf = listing.SaleProperty.SpacesDimensionsInfo.BathsHalf;
-            this.BasePlan.BathsFull = listing.SaleProperty.SpacesDimensionsInfo.BathsFull;
-            this.BasePlan.NumBedrooms = listing.SaleProperty.SpacesDimensionsInfo.NumBedrooms;
-            this.BasePlan.GarageDescription = listing.SaleProperty.SpacesDimensionsInfo.GarageDescription;
+            this.BasePlan.StoriesTotal = listing.SaleProperty.SpacesDimensionsInfo.StoriesTotal;
+            this.BasePlan.SqFtTotal = listing.SaleProperty.SpacesDimensionsInfo.SqFtTotal;
+            this.BasePlan.DiningAreasTotal = listing.SaleProperty.SpacesDimensionsInfo.DiningAreasTotal;
+            this.BasePlan.MainLevelBedroomTotal = listing.SaleProperty.SpacesDimensionsInfo.MainLevelBedroomTotal;
+            this.BasePlan.OtherLevelsBedroomTotal = listing.SaleProperty.SpacesDimensionsInfo.OtherLevelsBedroomTotal;
+            this.BasePlan.HalfBathsTotal = listing.SaleProperty.SpacesDimensionsInfo.HalfBathsTotal;
+            this.BasePlan.FullBathsTotal = listing.SaleProperty.SpacesDimensionsInfo.FullBathsTotal;
+            this.BasePlan.LivingAreasTotal = listing.SaleProperty.SpacesDimensionsInfo.LivingAreasTotal;
 
             var rooms = listing.SaleProperty.Rooms.Select(room => new PlanRoom(
-                    room.Id, room.RoomType, room.Level, room.Width, room.Length, room.Features));
+                    room.Id, room.RoomType, room.Level));
 
             this.UpdateRooms(rooms);
         }

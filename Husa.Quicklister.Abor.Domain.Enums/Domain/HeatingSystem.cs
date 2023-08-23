@@ -5,20 +5,35 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum HeatingSystem
     {
-        [EnumMember(Value = "1UNIT")]
-        [Description("1 Unit")]
-        OneUnit,
-        [EnumMember(Value = "2UNIT")]
-        [Description("2 Units")]
-        TwoUnits,
-        [EnumMember(Value = "CNTRL")]
+        [EnumMember(Value = "Ceiling")]
+        [Description("Ceiling")]
+        Ceiling,
+        [EnumMember(Value = "Central")]
         [Description("Central")]
         Central,
-        [EnumMember(Value = "ZONED")]
+        [EnumMember(Value = "Electric")]
+        [Description("Electric")]
+        Electric,
+        [EnumMember(Value = "ENERGYSTARQualifiedEquipment")]
+        [Description("ENERGY STAR Qualified Equipment")]
+        EnergyStarQualifiedEquipment,
+        [EnumMember(Value = "ExhaustFan")]
+        [Description("Exhaust Fan")]
+        ExhaustFan,
+        [EnumMember(Value = "Fireplaces")]
+        [Description("Fireplace(s)")]
+        Fireplace,
+        [EnumMember(Value = "NaturalGas")]
+        [Description("Natural Gas")]
+        NaturalGas,
+        [EnumMember(Value = "PassiveSolar")]
+        [Description("Passive Solar")]
+        PassiveSolar,
+        [EnumMember(Value = "Propane")]
+        [Description("Propane")]
+        Propane,
+        [EnumMember(Value = "Zoned")]
         [Description("Zoned")]
         Zoned,
-        [EnumMember(Value = "HTPMP")]
-        [Description("Heat Pump")]
-        HeatPump,
     }
 }

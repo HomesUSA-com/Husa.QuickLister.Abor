@@ -19,7 +19,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Quicklister.Abor.Application.Models.Office;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Crosscutting;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Application.Models.Media;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
@@ -135,7 +135,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                 saleProperty.PropertyInfo.ConstructionCompletionDate = legacyResidentialInfo.ConstructionCompletionDate;
                 saleProperty.PropertyInfo.ConstructionStage = GetConstructionStage(legacyResidentialInfo.ConstructionStage);
                 saleProperty.ShowingInfo.RealtorContactEmail = legacyResidentialInfo.EmailForRealtors;
-                saleProperty.ShowingInfo.AltPhoneCommunity = legacyResidentialInfo.OwnerAlternatePhone;
+                saleProperty.ShowingInfo.OccupantPhone = legacyResidentialInfo.OwnerAlternatePhone;
             }
 
             UserContext GetDownloaderUser() => new()

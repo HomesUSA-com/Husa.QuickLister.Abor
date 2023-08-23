@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
     using Husa.Extensions.Linq;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Microsoft.EntityFrameworkCore;
 
     public static class AlertsQueryExtensions

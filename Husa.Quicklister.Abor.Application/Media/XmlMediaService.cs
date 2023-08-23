@@ -184,7 +184,7 @@ namespace Husa.Quicklister.Abor.Application.Media
                 {
                     Id = Guid.NewGuid(),
                     EntityId = entityId,
-                    Market = MarketCode.SanAntonio,
+                    Market = MarketCode.Austin,
                     Order = mediaDto.SequencePosition,
                     Type = mediaType,
                     Title = mediaDto.Title,
@@ -203,7 +203,7 @@ namespace Husa.Quicklister.Abor.Application.Media
             {
                 Id = Guid.NewGuid(),
                 EntityId = entityId,
-                Market = MarketCode.SanAntonio,
+                Market = MarketCode.Austin,
                 Order = mediaDto.SequencePosition,
                 Type = mediaType,
                 Title = mediaDto.Title,

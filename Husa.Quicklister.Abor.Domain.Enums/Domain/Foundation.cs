@@ -1,17 +1,14 @@
-﻿namespace Husa.Quicklister.Abor.Domain.Enums.Domain
+namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 {
     using System.ComponentModel;
     using System.Runtime.Serialization;
 
     public enum Foundation
     {
-        [EnumMember(Value = "BSMNT")]
-        [Description("Basement")]
-        Basement,
-        [EnumMember(Value = "OTHER")]
-        [Description("Other")]
-        Other,
-        [EnumMember(Value = "SLAB")]
+        [EnumMember(Value = "PillarPostPier")]
+        [Description("Pillar/Post/Pier")]
+        PillarPostPier,
+        [EnumMember(Value = "Slab")]
         [Description("Slab")]
         Slab,
     }

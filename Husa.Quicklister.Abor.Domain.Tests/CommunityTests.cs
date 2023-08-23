@@ -3,8 +3,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Xunit;
 
@@ -117,7 +117,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 
             var saleOffice = new CommunityFinancialInfo()
             {
-                ProposedTerms = TestModelProvider.GetEnumCollectionRandom<ProposedTerms>(),
+                HoaIncludes = TestModelProvider.GetEnumCollectionRandom<HoaIncludes>(),
             };
 
             community.UpdateFinancial(saleOffice);
@@ -158,24 +158,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             community.UpdateShowing(saleOffice);
 
             Assert.NotEmpty(community.Changes);
-        }
-
-        [Fact]
-        public void UpdateShowingNotHasChanges()
-        {
-            // Arrange
-            var communityId = Guid.NewGuid();
-            var community = TestModelProvider.GetCommunitySaleEntity(communityId);
-            community.Showing.RealtorContactEmail = "test@test.com";
-
-            var saleOffice = new CommunityShowingInfo()
-            {
-                RealtorContactEmail = "test@test.com",
-            };
-
-            community.UpdateShowing(saleOffice);
-
-            Assert.Empty(community.Changes);
         }
     }
 }

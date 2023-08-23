@@ -27,9 +27,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
 
         public async Task<IEnumerable<AgentQueryResult>> GetAsync(AgentQueryFilter queryFilter)
         {
-            var filterOptions = !queryFilter.CompanyId.Equals(Guid.Empty) ? $"with company id {queryFilter.CompanyId}" : string.Empty;
-            this.logger.LogInformation($"Starting to get the ABOR list agents {filterOptions}");
-
+            this.logger.LogInformation("Getting the list of agents by {@filterOptions}", queryFilter);
             return await (from agent in this.context.Agent
                             join office in this.context.Office
                             on agent.AgentValue.OfficeId equals office.OfficeValue.MarketUniqueId
@@ -52,8 +50,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
 
         public async Task<AgentQueryResult> GetAgentByIdAsync(Guid agentId)
         {
-            this.logger.LogInformation($"Starting to get ABOR agent with id: {agentId}");
-
+            this.logger.LogInformation("Getting agent by id {agentId}", agentId);
             return await (from agent in this.context.Agent
                          join office in this.context.Office
                          on agent.AgentValue.OfficeId equals office.OfficeValue.MarketUniqueId

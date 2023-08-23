@@ -52,9 +52,8 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         [InlineData(typeof(ExteriorFeatures))]
         [InlineData(typeof(RoomLevel))]
         [InlineData(typeof(RoomType))]
-        [InlineData(typeof(RoomFeatures))]
         [InlineData(typeof(FireplaceDescription))]
-        [InlineData(typeof(Floors))]
+        [InlineData(typeof(Flooring))]
         [InlineData(typeof(Foundation))]
         [InlineData(typeof(GarageDescription))]
         [InlineData(typeof(GreenCertification))]
@@ -79,13 +78,12 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         [InlineData(typeof(RoofDescription))]
         [InlineData(typeof(SchoolDistrict))]
         [InlineData(typeof(SellerConcessionDescription))]
-        [InlineData(typeof(Showing))]
         [InlineData(typeof(SpecialtyRooms))]
         [InlineData(typeof(SqFtSource))]
         [InlineData(typeof(States))]
         [InlineData(typeof(Stories))]
         [InlineData(typeof(WaterSewer))]
-        [InlineData(typeof(WindowCoverings))]
+        [InlineData(typeof(WindowFeatures))]
         public void EnumHasNoDuplicates(Type enumType)
         {
             // Arrange

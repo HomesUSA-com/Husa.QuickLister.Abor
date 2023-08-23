@@ -6,11 +6,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using System.Linq;
     using Husa.Extensions.Common;
     using Husa.Extensions.Domain.ValueObjects;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class PropertyInfo : ValueObject
+    public class PropertyInfo : ValueObject, IProvideProperty
     {
         private DateTime? constructionCompletionDate;
 
@@ -47,6 +47,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public string LotSize { get; set; }
 
         public ICollection<LotDescription> LotDescription { get; set; }
+
+        public PropertySubType? PropertyType { get; set; }
 
         public ICollection<Occupancy> Occupancy { get; set; }
 
@@ -120,7 +122,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public PropertyInfo ImportAddressInfoFromCommunity(Community.Property property)
         {
             var clonnedProperty = this.Clone();
-            clonnedProperty.MapscoGrid = property.MapscoGrid;
             clonnedProperty.MlsArea = property.MlsArea;
 
             return clonnedProperty;
@@ -143,6 +144,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             yield return this.Latitude;
             yield return this.Longitude;
             yield return this.IsXmlManaged;
+            yield return this.PropertyType;
         }
     }
 }

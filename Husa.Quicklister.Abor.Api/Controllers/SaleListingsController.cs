@@ -32,7 +32,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         private readonly IListingSaleQueriesRepository listingSaleQueriesRepository;
         private readonly ISaleListingRequestQueriesRepository saleRequestQueryRepository;
         private readonly IManagementTraceQueriesRepository managementTraceQueriesRepository;
-        private readonly IUploaderService sanAntonioUploaderService;
+        private readonly IUploaderService austinUploaderService;
         private readonly IDownloaderService downloaderService;
         private readonly ISaleListingService listingSaleService;
         private readonly ILogger<SaleListingsController> logger;
@@ -43,14 +43,14 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             ISaleListingRequestQueriesRepository saleRequestQueryRepository,
             IManagementTraceQueriesRepository managementTraceQueriesRepository,
             ISaleListingService listingSaleService,
-            IUploaderService sanAntonioUploaderService,
+            IUploaderService austinUploaderService,
             IDownloaderService downloaderService,
             ILogger<SaleListingsController> logger,
             IMapper mapper)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.sanAntonioUploaderService = sanAntonioUploaderService ?? throw new ArgumentNullException(nameof(sanAntonioUploaderService));
+            this.austinUploaderService = austinUploaderService ?? throw new ArgumentNullException(nameof(austinUploaderService));
             this.listingSaleQueriesRepository = listingSaleQueriesRepository ?? throw new ArgumentNullException(nameof(listingSaleQueriesRepository));
             this.managementTraceQueriesRepository = managementTraceQueriesRepository ?? throw new ArgumentNullException(nameof(managementTraceQueriesRepository));
             this.listingSaleService = listingSaleService ?? throw new ArgumentNullException(nameof(listingSaleService));
@@ -210,7 +210,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.BadRequest(parameter);
             }
 
-            var result = await this.sanAntonioUploaderService.GetReverseProspectListing(listingId, userId, usingDatabase);
+            var result = await this.austinUploaderService.GetReverseProspectListing(listingId, userId, usingDatabase);
 
             if (result.Code == ResponseCode.Error)
             {

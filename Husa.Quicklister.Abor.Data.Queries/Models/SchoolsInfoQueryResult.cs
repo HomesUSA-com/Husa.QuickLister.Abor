@@ -8,8 +8,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
 
         public ElementarySchool? ElementarySchool { get; set; }
 
+        public OtherElementarySchool? OtherElementarySchool { get; set; }
+
         public MiddleSchool? MiddleSchool { get; set; }
 
+        public OtherMiddleSchool? OtherMiddleSchool { get; set; }
+
         public HighSchool? HighSchool { get; set; }
+
+        public OtherHighSchool? OtherHighSchool { get; set; }
     }
 }

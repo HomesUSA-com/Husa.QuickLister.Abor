@@ -9,24 +9,26 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
     public class ShowingInfo : ValueObject, IProvideShowingInfo
     {
-        private string altPhoneCommunity;
-        private string agentListApptPhone;
+        private string occupantPhone;
+        private string contactPhone;
 
-        public virtual string AltPhoneCommunity
+        public virtual string OccupantPhone
         {
-            get { return this.altPhoneCommunity.CleanPhoneValue(); }
-            set { this.altPhoneCommunity = value.CleanPhoneValue(); }
+            get { return this.occupantPhone.CleanPhoneValue(); }
+            set { this.occupantPhone = value.CleanPhoneValue(); }
         }
 
-        public virtual string AgentListApptPhone
+        public virtual string ContactPhone
         {
-            get { return this.agentListApptPhone.CleanPhoneValue(); }
-            set { this.agentListApptPhone = value.CleanPhoneValue(); }
+            get { return this.contactPhone.CleanPhoneValue(); }
+            set { this.contactPhone = value.CleanPhoneValue(); }
         }
 
         public virtual string AgentPrivateRemarks { get; set; }
 
-        public virtual Showing? Showing { get; set; }
+        public virtual string ShowingInstructions { get; set; }
+        public virtual ShowingRequirements? ShowingRequirements { get; set; }
+        public virtual LockBoxType? LockBoxType { get; set; }
 
         public virtual string RealtorContactEmail { get; set; }
 
@@ -46,10 +48,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public ShowingInfo ImportShowingFromCommunity(CommunityShowingInfo showing)
         {
             var clonnedShowing = this.Clone();
-            clonnedShowing.AltPhoneCommunity = showing.AltPhoneCommunity;
-            clonnedShowing.AgentListApptPhone = showing.AgentListApptPhone;
-            clonnedShowing.RealtorContactEmail = showing.RealtorContactEmail;
-            clonnedShowing.Showing = showing.Showing;
+            clonnedShowing.OccupantPhone = showing.OccupantPhone;
+            clonnedShowing.ContactPhone = showing.ContactPhone;
+            clonnedShowing.ShowingInstructions = showing.ShowingInstructions;
+            clonnedShowing.ShowingRequirements = showing.ShowingRequirements;
+            clonnedShowing.LockBoxType = showing.LockBoxType;
             clonnedShowing.Directions = showing.Directions;
 
             return clonnedShowing;
@@ -68,9 +71,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return this.AltPhoneCommunity;
-            yield return this.AgentListApptPhone;
-            yield return this.Showing;
+            yield return this.OccupantPhone;
+            yield return this.ContactPhone;
+            yield return this.ShowingInstructions;
+            yield return this.ShowingRequirements;
+            yield return this.LockBoxType;
             yield return this.RealtorContactEmail;
             yield return this.Directions;
             yield return this.AgentPrivateRemarks;

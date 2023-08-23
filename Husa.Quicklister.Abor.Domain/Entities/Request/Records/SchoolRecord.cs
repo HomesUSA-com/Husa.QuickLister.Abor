@@ -3,7 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.ValueObjects;
@@ -23,6 +23,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         [Required]
         public HighSchool HighSchool { get; set; }
+
+        public OtherElementarySchool? OtherElementarySchool { get; set; }
+
+        public OtherMiddleSchool? OtherMiddleSchool { get; set; }
+
+        public OtherHighSchool? OtherHighSchool { get; set; }
 
         public SchoolRecord CloneRecord() => (SchoolRecord)this.MemberwiseClone();
         public static SchoolRecord CreateRecord(SchoolsInfo schoolsInfo)

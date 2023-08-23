@@ -114,7 +114,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         {
             // Arrange
             var userId = Guid.NewGuid();
-            var market = MarketCode.SanAntonio;
+            var market = MarketCode.Austin;
             var userCompanyId = Guid.NewGuid();
             var listingId = Guid.NewGuid();
             var listing = TestModelProvider.GetListingSaleEntity(listingId, createStub: false, userCompanyId);

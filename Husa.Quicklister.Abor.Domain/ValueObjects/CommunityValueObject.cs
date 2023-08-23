@@ -2,8 +2,8 @@ namespace Husa.Quicklister.Abor.Domain.ValueObjects
 {
     using System.Collections.Generic;
     using Husa.Extensions.Domain.ValueObjects;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
 
     public class CommunityValueObject : ValueObject
     {

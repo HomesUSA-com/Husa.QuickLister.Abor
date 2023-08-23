@@ -46,7 +46,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public string Block { get; set; }
 
-        public string Subdivision { get => this.subdivision.ToTitleCase(); set => this.subdivision = value.ToTitleCase(); }
+        public string Subdivision { get => this.subdivision; set => this.subdivision = value.ToTitleCase(); }
 
         public static AddressInfo ImportFromXml(XmlListingDetailResponse listing, AddressInfo addressInfo)
         {

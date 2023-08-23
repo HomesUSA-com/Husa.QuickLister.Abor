@@ -112,7 +112,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
             Task ImportEntity<TService>(ImportProfileMessage meessage)
                 where TService : IProfileXmlService
             {
-                if (meessage.MarketCode != MarketCode.SanAntonio)
+                if (meessage.MarketCode != MarketCode.Austin)
                 {
                     return Task.CompletedTask;
                 }

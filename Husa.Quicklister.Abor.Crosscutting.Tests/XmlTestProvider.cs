@@ -46,22 +46,22 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             {
                 new()
                 {
-                    Name = SchoolDistrict.WaxahachieISD.ToStringFromEnumMember(),
+                    Name = SchoolDistrict.Gause.ToStringFromEnumMember(),
                     School = new List<SchoolResponse>
                     {
                         new()
                         {
-                            Name = ElementarySchool.MaryLouHartman.ToStringFromEnumMember(),
+                            Name = ElementarySchool.Gause.ToStringFromEnumMember(),
                             Type = SchoolType.Elementary,
                         },
                         new()
                         {
-                            Name = MiddleSchool.WheatleyEmerson.ToStringFromEnumMember(),
+                            Name = MiddleSchool.Gause.ToStringFromEnumMember(),
                             Type = SchoolType.Middle,
                         },
                         new()
                         {
-                            Name = HighSchool.Wagner.ToStringFromEnumMember(),
+                            Name = HighSchool.Harper.ToStringFromEnumMember(),
                             Type = SchoolType.High,
                         },
                     },

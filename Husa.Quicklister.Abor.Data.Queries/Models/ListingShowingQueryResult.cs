@@ -8,5 +8,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
         public bool EnableOpenHouses { get; set; }
         public bool OpenHousesAgree { get; set; }
         public bool ShowOpenHousesPending { get; set; }
+
+        public string RealtorContactEmail { get; set; }
     }
 }

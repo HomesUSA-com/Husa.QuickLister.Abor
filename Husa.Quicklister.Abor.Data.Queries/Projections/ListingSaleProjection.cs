@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public static class ListingSaleProjection
     {
@@ -28,7 +28,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             Subdivision = listingSale.SaleProperty.AddressInfo.Subdivision.ToTitleCase(),
             ZipCode = listingSale.SaleProperty.AddressInfo.ZipCode,
             OwnerName = listingSale.SaleProperty.OwnerName,
-            MarketCode = MarketCode.SanAntonio,
+            MarketCode = MarketCode.Austin,
             SysCreatedOn = listingSale.SysCreatedOn,
             SysCreatedBy = listingSale.SysCreatedBy,
             CommunityId = listingSale.SaleProperty.CommunityId.Value,
@@ -71,7 +71,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             City = listingSale.SaleProperty.AddressInfo.City,
             CompanyId = listingSale.SaleProperty.CompanyId,
             MlsStatus = listingSale.MlsStatus,
-            MarketCode = MarketCode.SanAntonio,
+            MarketCode = MarketCode.Austin,
             State = listingSale.SaleProperty.AddressInfo.State,
             StreetName = listingSale.SaleProperty.AddressInfo.StreetName,
             ZipCode = listingSale.SaleProperty.AddressInfo.ZipCode,

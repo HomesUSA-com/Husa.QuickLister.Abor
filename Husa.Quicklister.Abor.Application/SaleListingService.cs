@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Crosscutting;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
@@ -230,7 +231,7 @@ namespace Husa.Quicklister.Abor.Application
             entity.SaleProperty.UpdateFinancial(financial);
         }
 
-        public async Task UpdateSchoolsInfo(SchoolsDto schoolsDto, Guid listingId = default, SaleListing entity = null)
+        public async Task UpdateSchoolsInfo(Models.SchoolsDto schoolsDto, Guid listingId = default, SaleListing entity = null)
         {
             this.logger.LogInformation("Starting update schools information for listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);

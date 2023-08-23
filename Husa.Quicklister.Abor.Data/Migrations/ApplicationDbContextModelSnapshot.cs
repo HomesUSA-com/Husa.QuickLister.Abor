@@ -17,10 +17,13 @@ namespace Husa.Quicklister.Abor.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.16")
+                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Agent.Agent", b =>
                 {
@@ -139,77 +142,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.ToTable("HOA");
 
                     b.HasDiscriminator<string>("HoaType").IsComplete(false);
-                });
 
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Base.OpenHouse", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("(newid())");
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<TimeSpan>("EndTime")
-                        .HasMaxLength(8)
-                        .HasColumnType("time");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<bool>("Lunch")
-                        .HasMaxLength(10)
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OpenHouseType")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<bool>("Refreshments")
-                        .HasMaxLength(10)
-                        .HasColumnType("bit");
-
-                    b.Property<TimeSpan>("StartTime")
-                        .HasMaxLength(8)
-                        .HasColumnType("time");
-
-                    b.Property<Guid?>("SysCreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("SysCreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
-
-                    b.Property<Guid?>("SysModifiedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("SysModifiedOn")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime>("SysTimestamp")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("(getdate())");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique()
-                        .HasDatabaseName("IX_OpenHouse");
-
-                    b.ToTable("OpenHouse");
-
-                    b.HasDiscriminator<string>("OpenHouseType").IsComplete(false).HasValue("OpenHouse");
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Base.Room", b =>
@@ -227,17 +161,10 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("Features")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
-
-                    b.Property<int>("Length")
-                        .HasColumnType("int");
 
                     b.Property<string>("Level")
                         .IsRequired()
@@ -267,9 +194,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
-                    b.Property<int>("Width")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
@@ -279,6 +203,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.ToTable("Room");
 
                     b.HasDiscriminator<string>("EntityOwnerType").HasValue("Room");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Community.CommunityEmployee", b =>
@@ -852,40 +778,77 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.ToTable("TrackingReverseProspect");
                 });
 
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Community.CommunityHoa", b =>
+            modelBuilder.Entity("Husa.Quicklister.Extensions.Domain.Entities.Base.OpenHouse", b =>
                 {
-                    b.HasBaseType("Husa.Quicklister.Abor.Domain.Entities.Base.Hoa");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("(newid())");
 
-                    b.Property<Guid>("CommunitySaleId")
+                    b.Property<Guid>("CompanyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("CommunitySaleId");
+                    b.Property<TimeSpan>("EndTime")
+                        .HasMaxLength(8)
+                        .HasColumnType("time");
 
-                    b.HasDiscriminator().HasValue("Community");
-                });
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Community.CommunityOpenHouse", b =>
-                {
-                    b.HasBaseType("Husa.Quicklister.Abor.Domain.Entities.Base.OpenHouse");
+                    b.Property<bool>("Lunch")
+                        .HasMaxLength(10)
+                        .HasColumnType("bit");
 
-                    b.Property<Guid>("CommunityId")
+                    b.Property<string>("OpenHouseType")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<bool>("Refreshments")
+                        .HasMaxLength(10)
+                        .HasColumnType("bit");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasMaxLength(8)
+                        .HasColumnType("time");
+
+                    b.Property<Guid?>("SysCreatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("CommunityId");
+                    b.Property<DateTime>("SysCreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("(getdate())");
 
-                    b.HasDiscriminator().HasValue("Community");
-                });
-
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.ListingSaleRoom", b =>
-                {
-                    b.HasBaseType("Husa.Quicklister.Abor.Domain.Entities.Base.Room");
-
-                    b.Property<Guid>("SalePropertyId")
+                    b.Property<Guid?>("SysModifiedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("SalePropertyId");
+                    b.Property<DateTime?>("SysModifiedOn")
+                        .HasColumnType("datetime");
 
-                    b.HasDiscriminator().HasValue("SaleProperty");
+                    b.Property<DateTime>("SysTimestamp")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("(getdate())");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("IX_OpenHouse");
+
+                    b.ToTable("OpenHouse");
+
+                    b.HasDiscriminator<string>("OpenHouseType").IsComplete(false).HasValue("OpenHouse");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.SaleListingHoa", b =>
@@ -900,9 +863,9 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.HasDiscriminator().HasValue("SaleProperty");
                 });
 
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.SaleListingOpenHouse", b =>
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.ListingSaleRoom", b =>
                 {
-                    b.HasBaseType("Husa.Quicklister.Abor.Domain.Entities.Base.OpenHouse");
+                    b.HasBaseType("Husa.Quicklister.Abor.Domain.Entities.Base.Room");
 
                     b.Property<Guid>("SalePropertyId")
                         .HasColumnType("uniqueidentifier");
@@ -922,6 +885,30 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.HasIndex("PlanId");
 
                     b.HasDiscriminator().HasValue("Plan");
+                });
+
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Community.CommunityOpenHouse", b =>
+                {
+                    b.HasBaseType("Husa.Quicklister.Extensions.Domain.Entities.Base.OpenHouse");
+
+                    b.Property<Guid>("CommunityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("CommunityId");
+
+                    b.HasDiscriminator().HasValue("Community");
+                });
+
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.SaleListingOpenHouse", b =>
+                {
+                    b.HasBaseType("Husa.Quicklister.Extensions.Domain.Entities.Base.OpenHouse");
+
+                    b.Property<Guid>("SalePropertyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("SalePropertyId");
+
+                    b.HasDiscriminator().HasValue("SaleProperty");
                 });
 
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Agent.Agent", b =>
@@ -1021,6 +1008,31 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier");
 
+                            b1.Property<string>("AcceptableFinancing")
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
+                                .HasColumnName("AcceptableFinancing");
+
+                            b1.Property<decimal?>("AgentBonusAmount")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("AgentBonusAmount");
+
+                            b1.Property<string>("AgentBonusAmountType")
+                                .IsRequired()
+                                .HasMaxLength(1)
+                                .HasColumnType("nvarchar(1)")
+                                .HasColumnName("AgentBonusAmountType");
+
+                            b1.Property<string>("BillingFrequency")
+                                .HasMaxLength(1)
+                                .HasColumnType("nvarchar(1)")
+                                .HasColumnName("BillingFrequency");
+
+                            b1.Property<DateTime?>("BonusExpirationDate")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("BonusExpirationDate");
+
                             b1.Property<decimal?>("BuyersAgentCommission")
                                 .HasMaxLength(6)
                                 .HasPrecision(18, 2)
@@ -1038,13 +1050,41 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(10)")
                                 .HasColumnName("HOARequirement");
 
-                            b1.Property<bool>("IsMultipleTaxed")
-                                .HasColumnType("bit");
+                            b1.Property<bool>("HasAgentBonus")
+                                .HasColumnType("bit")
+                                .HasColumnName("HasAgentBonus");
 
-                            b1.Property<string>("ProposedTerms")
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)")
-                                .HasColumnName("ProposedTerms");
+                            b1.Property<bool>("HasBonusWithAmount")
+                                .HasColumnType("bit")
+                                .HasColumnName("HasBonusWithAmount");
+
+                            b1.Property<bool>("HasBuyerIncentive")
+                                .HasColumnType("bit")
+                                .HasColumnName("HasBuyerIncentive");
+
+                            b1.Property<bool>("HasHoa")
+                                .HasColumnType("bit")
+                                .HasColumnName("HasHoa");
+
+                            b1.Property<decimal?>("HoaFee")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("HoaFee");
+
+                            b1.Property<string>("HoaIncludes")
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
+                                .HasColumnName("HoaIncludes");
+
+                            b1.Property<string>("HoaName")
+                                .HasMaxLength(70)
+                                .HasColumnType("nvarchar(70)")
+                                .HasColumnName("HoaName");
+
+                            b1.Property<string>("TaxExemptions")
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
+                                .HasColumnName("TaxExemptions");
 
                             b1.Property<decimal?>("TaxRate")
                                 .HasPrecision(18, 2)
@@ -1064,7 +1104,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasForeignKey("CommunitySaleId");
                         });
 
-                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Listing.SchoolsInfo", "SchoolsInfo", b1 =>
+                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Base.SchoolsInfo", "SchoolsInfo", b1 =>
                         {
                             b1.Property<Guid>("CommunitySaleId")
                                 .ValueGeneratedOnAdd()
@@ -1084,6 +1124,21 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
                                 .HasColumnName("MiddleSchool");
+
+                            b1.Property<string>("OtherElementarySchool")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("OtherElementarySchool");
+
+                            b1.Property<string>("OtherHighSchool")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("OtherHighSchool");
+
+                            b1.Property<string>("OtherMiddleSchool")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("OtherMiddleSchool");
 
                             b1.Property<string>("SchoolDistrict")
                                 .HasMaxLength(50)
@@ -1147,30 +1202,35 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("AgentListApptPhone")
+                            b1.Property<string>("ContactPhone")
                                 .HasMaxLength(14)
                                 .HasColumnType("nvarchar(14)")
-                                .HasColumnName("AgentListApptPhone");
-
-                            b1.Property<string>("AltPhoneCommunity")
-                                .HasMaxLength(14)
-                                .HasColumnType("nvarchar(14)")
-                                .HasColumnName("AltPhoneCommunity");
+                                .HasColumnName("ContactPhone");
 
                             b1.Property<string>("Directions")
                                 .HasMaxLength(255)
                                 .HasColumnType("nvarchar(255)")
                                 .HasColumnName("Directions");
 
-                            b1.Property<string>("RealtorContactEmail")
-                                .HasMaxLength(255)
-                                .HasColumnType("nvarchar(255)")
-                                .HasColumnName("RealtorContactEmail");
+                            b1.Property<string>("LockBoxType")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("LockBoxType");
 
-                            b1.Property<string>("Showing")
-                                .HasMaxLength(10)
-                                .HasColumnType("nvarchar(10)")
-                                .HasColumnName("Showing");
+                            b1.Property<string>("OccupantPhone")
+                                .HasMaxLength(14)
+                                .HasColumnType("nvarchar(14)")
+                                .HasColumnName("OccupantPhone");
+
+                            b1.Property<string>("ShowingInstructions")
+                                .HasMaxLength(2000)
+                                .HasColumnType("nvarchar(2000)")
+                                .HasColumnName("ShowingInstructions");
+
+                            b1.Property<string>("ShowingRequirements")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("ShowingRequirements");
 
                             b1.HasKey("CommunitySaleId");
 
@@ -1279,24 +1339,44 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(50)")
                                 .HasColumnName("City");
 
+                            b1.Property<string>("ConstructionStage")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("ConstructionStage");
+
                             b1.Property<string>("County")
                                 .HasMaxLength(20)
                                 .HasColumnType("nvarchar(20)")
                                 .HasColumnName("County");
 
-                            b1.Property<string>("MapscoGrid")
-                                .HasMaxLength(5)
-                                .HasColumnType("nvarchar(5)")
-                                .HasColumnName("MapscoGrid");
+                            b1.Property<string>("LotDescription")
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
+                                .HasColumnName("LotDescription");
+
+                            b1.Property<string>("LotDimension")
+                                .HasMaxLength(25)
+                                .HasColumnType("nvarchar(25)")
+                                .HasColumnName("LotDimension");
+
+                            b1.Property<string>("LotSize")
+                                .HasMaxLength(25)
+                                .HasColumnType("nvarchar(25)")
+                                .HasColumnName("LotSize");
 
                             b1.Property<string>("MlsArea")
                                 .HasMaxLength(5)
                                 .HasColumnType("nvarchar(5)")
                                 .HasColumnName("MlsArea");
 
+                            b1.Property<string>("PropertyType")
+                                .HasMaxLength(32)
+                                .HasColumnType("nvarchar(32)")
+                                .HasColumnName("PropertyType");
+
                             b1.Property<string>("Subdivision")
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)")
+                                .HasMaxLength(75)
+                                .HasColumnType("nvarchar(75)")
                                 .HasColumnName("Subdivision");
 
                             b1.Property<string>("ZipCode")
@@ -1318,30 +1398,30 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("Accessibility")
-                                .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)")
-                                .HasColumnName("Accessibility");
+                            b1.Property<string>("Appliances")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("Appliances");
+
+                            b1.Property<string>("ConstructionMaterials")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("ConstructionMaterials");
 
                             b1.Property<string>("CoolingSystem")
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)")
                                 .HasColumnName("CoolingSystem");
 
-                            b1.Property<string>("EnergyFeatures")
-                                .HasMaxLength(176)
-                                .HasColumnType("nvarchar(176)")
-                                .HasColumnName("EnergyFeatures");
-
-                            b1.Property<string>("Exterior")
-                                .HasMaxLength(255)
-                                .HasColumnType("nvarchar(255)")
-                                .HasColumnName("Exterior");
-
                             b1.Property<string>("ExteriorFeatures")
-                                .HasMaxLength(500)
-                                .HasColumnType("nvarchar(500)")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
                                 .HasColumnName("ExteriorFeatures");
+
+                            b1.Property<string>("Fencing")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("Fencing");
 
                             b1.Property<string>("FireplaceDescription")
                                 .HasMaxLength(255)
@@ -1349,7 +1429,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("FireplaceDescription");
 
                             b1.Property<int?>("Fireplaces")
-                                .HasMaxLength(255)
+                                .HasMaxLength(20)
                                 .HasColumnType("int")
                                 .HasColumnName("Fireplaces");
 
@@ -1359,88 +1439,104 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("Floors");
 
                             b1.Property<string>("Foundation")
-                                .HasMaxLength(94)
-                                .HasColumnType("nvarchar(94)")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
                                 .HasColumnName("Foundation");
 
-                            b1.Property<string>("GreenCertification")
-                                .HasMaxLength(80)
-                                .HasColumnType("nvarchar(80)")
-                                .HasColumnName("GreenCertification");
+                            b1.Property<string>("GarageDescription")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("GarageDescription");
 
-                            b1.Property<string>("GreenFeatures")
-                                .HasMaxLength(90)
-                                .HasColumnType("nvarchar(90)")
-                                .HasColumnName("GreenFeatures");
-
-                            b1.Property<bool>("HasAccessibility")
-                                .HasColumnType("bit")
-                                .HasColumnName("HasAccessibility");
+                            b1.Property<int?>("GarageSpaces")
+                                .HasMaxLength(20)
+                                .HasColumnType("int")
+                                .HasColumnName("GarageSpaces");
 
                             b1.Property<string>("HeatSystem")
                                 .HasMaxLength(255)
                                 .HasColumnType("nvarchar(255)")
                                 .HasColumnName("HeatSystem");
 
-                            b1.Property<string>("HeatingFuel")
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)")
-                                .HasColumnName("HeatingFuel");
+                            b1.Property<string>("InteriorFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("InteriorFeatures");
 
-                            b1.Property<string>("Inclusions")
-                                .HasMaxLength(500)
-                                .HasColumnType("nvarchar(500)")
-                                .HasColumnName("Inclusions");
+                            b1.Property<string>("KitchenFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("KitchenFeatures");
+
+                            b1.Property<string>("LaundryFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("LaundryFeatures");
+
+                            b1.Property<string>("LaundryLocation")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("LaundryLocation");
+
+                            b1.Property<string>("MasterBedroomFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("MasterBedroomFeatures");
 
                             b1.Property<string>("NeighborhoodAmenities")
                                 .HasMaxLength(286)
                                 .HasColumnType("nvarchar(286)")
                                 .HasColumnName("NeighborhoodAmenities");
 
+                            b1.Property<string>("PatioAndPorchFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("PatioAndPorchFeatures");
+
+                            b1.Property<string>("RestrictionsDescription")
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)")
+                                .HasColumnName("RestrictionsDescription");
+
                             b1.Property<string>("RoofDescription")
-                                .HasMaxLength(145)
-                                .HasColumnType("nvarchar(145)")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
                                 .HasColumnName("RoofDescription");
 
-                            b1.Property<string>("SpecialtyRooms")
-                                .HasMaxLength(400)
-                                .HasColumnType("nvarchar(400)")
-                                .HasColumnName("SpecialtyRooms");
+                            b1.Property<string>("SecurityFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("SecurityFeatures");
 
-                            b1.Property<string>("SupplierElectricity")
-                                .HasMaxLength(60)
-                                .HasColumnType("nvarchar(60)")
-                                .HasColumnName("SupplierElectricity");
+                            b1.Property<string>("UtilitiesDescription")
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)")
+                                .HasColumnName("UtilitiesDescription");
 
-                            b1.Property<string>("SupplierGarbage")
-                                .HasMaxLength(25)
-                                .HasColumnType("nvarchar(25)")
-                                .HasColumnName("SupplierGarbage");
+                            b1.Property<string>("View")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("View");
 
-                            b1.Property<string>("SupplierGas")
-                                .HasMaxLength(25)
-                                .HasColumnType("nvarchar(25)")
-                                .HasColumnName("SupplierGas");
-
-                            b1.Property<string>("SupplierOther")
-                                .HasMaxLength(25)
-                                .HasColumnType("nvarchar(25)")
-                                .HasColumnName("SupplierOther");
-
-                            b1.Property<string>("SupplierSewer")
-                                .HasMaxLength(25)
-                                .HasColumnType("nvarchar(25)")
-                                .HasColumnName("SupplierSewer");
-
-                            b1.Property<string>("SupplierWater")
-                                .HasMaxLength(25)
-                                .HasColumnType("nvarchar(25)")
-                                .HasColumnName("SupplierWater");
+                            b1.Property<string>("WaterAccessDescription")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("WaterAccessDescription");
 
                             b1.Property<string>("WaterSewer")
                                 .HasMaxLength(255)
                                 .HasColumnType("nvarchar(255)")
                                 .HasColumnName("WaterSewer");
+
+                            b1.Property<string>("WaterSource")
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("WaterSource");
+
+                            b1.Property<string>("WindowFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("WindowFeatures");
 
                             b1.HasKey("CommunitySaleId");
 
@@ -1820,44 +1916,59 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<int?>("BathsFull")
-                                .HasMaxLength(14)
+                            b1.Property<int?>("DiningAreasTotal")
+                                .HasMaxLength(1)
                                 .HasColumnType("int")
-                                .HasColumnName("BathsFull");
+                                .HasColumnName("DiningAreasTotal");
 
-                            b1.Property<int?>("BathsHalf")
-                                .HasMaxLength(10)
+                            b1.Property<int?>("FullBathsTotal")
+                                .HasMaxLength(50)
                                 .HasColumnType("int")
-                                .HasColumnName("BathsHalf");
+                                .HasColumnName("FullBathsTotal");
 
-                            b1.Property<string>("GarageDescription")
-                                .HasMaxLength(255)
-                                .HasColumnType("nvarchar(255)")
-                                .HasColumnName("GarageDescription");
+                            b1.Property<int?>("HalfBathsTotal")
+                                .HasMaxLength(3)
+                                .HasColumnType("int")
+                                .HasColumnName("HalfBathsTotal");
 
                             b1.Property<bool>("IsNewConstruction")
                                 .HasColumnType("bit")
                                 .HasColumnName("IsNewConstruction");
+
+                            b1.Property<int?>("LivingAreasTotal")
+                                .HasMaxLength(11)
+                                .HasColumnType("int")
+                                .HasColumnName("LivingAreasTotal");
+
+                            b1.Property<int?>("MainLevelBedroomTotal")
+                                .HasMaxLength(1)
+                                .HasColumnType("int")
+                                .HasColumnName("MainLevelBedroomTotal");
 
                             b1.Property<string>("Name")
                                 .HasMaxLength(255)
                                 .HasColumnType("nvarchar(255)")
                                 .HasColumnName("Name");
 
-                            b1.Property<int?>("NumBedrooms")
-                                .HasMaxLength(255)
+                            b1.Property<int?>("OtherLevelsBedroomTotal")
+                                .HasMaxLength(1)
                                 .HasColumnType("int")
-                                .HasColumnName("NumBedrooms");
+                                .HasColumnName("OtherLevelsBedroomTotal");
 
                             b1.Property<string>("OwnerName")
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)")
                                 .HasColumnName("OwnerName");
 
-                            b1.Property<string>("Stories")
-                                .HasMaxLength(10)
-                                .HasColumnType("nvarchar(10)")
-                                .HasColumnName("Stories");
+                            b1.Property<int?>("SqFtTotal")
+                                .HasMaxLength(11)
+                                .HasColumnType("int")
+                                .HasColumnName("SqFtTotal");
+
+                            b1.Property<string>("StoriesTotal")
+                                .HasMaxLength(32)
+                                .HasColumnType("nvarchar(32)")
+                                .HasColumnName("StoriesTotal");
 
                             b1.HasKey("PlanId");
 
@@ -1991,6 +2102,16 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(200)")
                                 .HasColumnName("Accessibility");
 
+                            b1.Property<string>("Appliances")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("Appliances");
+
+                            b1.Property<string>("ConstructionMaterials")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("ConstructionMaterials");
+
                             b1.Property<string>("CoolingSystem")
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)")
@@ -2007,13 +2128,18 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("Exterior");
 
                             b1.Property<string>("ExteriorFeatures")
-                                .HasMaxLength(500)
-                                .HasColumnType("nvarchar(500)")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
                                 .HasColumnName("ExteriorFeatures");
 
+                            b1.Property<string>("Fencing")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("Fencing");
+
                             b1.Property<string>("FireplaceDescription")
-                                .HasMaxLength(256)
-                                .HasColumnType("nvarchar(256)")
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)")
                                 .HasColumnName("FireplaceDescription");
 
                             b1.Property<int?>("Fireplaces")
@@ -2027,9 +2153,19 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("Floors");
 
                             b1.Property<string>("Foundation")
-                                .HasMaxLength(94)
-                                .HasColumnType("nvarchar(94)")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
                                 .HasColumnName("Foundation");
+
+                            b1.Property<string>("GarageDescription")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("GarageDescription");
+
+                            b1.Property<int?>("GarageSpaces")
+                                .HasMaxLength(20)
+                                .HasColumnType("int")
+                                .HasColumnName("GarageSpaces");
 
                             b1.Property<string>("GreenCertification")
                                 .HasMaxLength(80)
@@ -2074,19 +2210,49 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(500)")
                                 .HasColumnName("Inclusions");
 
+                            b1.Property<string>("InteriorFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("InteriorFeatures");
+
                             b1.Property<bool>("IsNewConstruction")
                                 .HasColumnType("bit")
                                 .HasColumnName("IsNewConstruction");
+
+                            b1.Property<string>("KitchenFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("KitchenFeatures");
+
+                            b1.Property<string>("LaundryFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("LaundryFeatures");
+
+                            b1.Property<string>("LaundryLocation")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("LaundryLocation");
 
                             b1.Property<string>("LotImprovements")
                                 .HasMaxLength(359)
                                 .HasColumnType("nvarchar(359)")
                                 .HasColumnName("LotImprovements");
 
+                            b1.Property<string>("MasterBedroomFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("MasterBedroomFeatures");
+
                             b1.Property<string>("NeighborhoodAmenities")
                                 .HasMaxLength(286)
                                 .HasColumnType("nvarchar(286)")
                                 .HasColumnName("NeighborhoodAmenities");
+
+                            b1.Property<string>("PatioAndPorchFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("PatioAndPorchFeatures");
 
                             b1.Property<string>("PrivatePool")
                                 .HasMaxLength(256)
@@ -2098,10 +2264,20 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(4000)")
                                 .HasColumnName("PropertyDescription");
 
+                            b1.Property<string>("RestrictionsDescription")
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)")
+                                .HasColumnName("RestrictionsDescription");
+
                             b1.Property<string>("RoofDescription")
-                                .HasMaxLength(145)
-                                .HasColumnType("nvarchar(145)")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
                                 .HasColumnName("RoofDescription");
+
+                            b1.Property<string>("SecurityFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("SecurityFeatures");
 
                             b1.Property<string>("SupplierElectricity")
                                 .HasMaxLength(60)
@@ -2133,15 +2309,40 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(25)")
                                 .HasColumnName("SupplierWater");
 
+                            b1.Property<string>("UtilitiesDescription")
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)")
+                                .HasColumnName("UtilitiesDescription");
+
+                            b1.Property<string>("View")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("View");
+
+                            b1.Property<string>("WaterAccessDescription")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("WaterAccessDescription");
+
                             b1.Property<string>("WaterSewer")
                                 .HasMaxLength(255)
                                 .HasColumnType("nvarchar(255)")
                                 .HasColumnName("WaterSewer");
 
+                            b1.Property<string>("WaterSource")
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("WaterSource");
+
                             b1.Property<string>("WindowCoverings")
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)")
                                 .HasColumnName("WindowCoverings");
+
+                            b1.Property<string>("WindowFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("WindowFeatures");
 
                             b1.HasKey("SalePropertyId");
 
@@ -2157,6 +2358,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier");
 
+                            b1.Property<string>("AcceptableFinancing")
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
+                                .HasColumnName("AcceptableFinancing");
+
                             b1.Property<decimal?>("AgentBonusAmount")
                                 .HasPrecision(18, 2)
                                 .HasColumnType("decimal(18,2)")
@@ -2167,6 +2373,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasMaxLength(1)
                                 .HasColumnType("nvarchar(1)")
                                 .HasColumnName("AgentBonusAmountType");
+
+                            b1.Property<string>("BillingFrequency")
+                                .HasMaxLength(1)
+                                .HasColumnType("nvarchar(1)")
+                                .HasColumnName("BillingFrequency");
 
                             b1.Property<DateTime?>("BonusExpirationDate")
                                 .HasColumnType("datetime2")
@@ -2201,8 +2412,27 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("bit")
                                 .HasColumnName("HasBuyerIncentive");
 
+                            b1.Property<bool>("HasHoa")
+                                .HasColumnType("bit")
+                                .HasColumnName("HasHoa");
+
                             b1.Property<bool>("HasMultipleHOA")
                                 .HasColumnType("bit");
+
+                            b1.Property<decimal?>("HoaFee")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("HoaFee");
+
+                            b1.Property<string>("HoaIncludes")
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
+                                .HasColumnName("HoaIncludes");
+
+                            b1.Property<string>("HoaName")
+                                .HasMaxLength(70)
+                                .HasColumnType("nvarchar(70)")
+                                .HasColumnName("HoaName");
 
                             b1.Property<bool>("IsMultipleTaxed")
                                 .HasColumnType("bit")
@@ -2217,6 +2447,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)")
                                 .HasColumnName("ProposedTerms");
+
+                            b1.Property<string>("TaxExemptions")
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
+                                .HasColumnName("TaxExemptions");
 
                             b1.Property<decimal?>("TaxRate")
                                 .HasPrecision(18, 2)
@@ -2252,8 +2487,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("ConstructionCompletionDate");
 
                             b1.Property<string>("ConstructionStage")
-                                .HasMaxLength(1)
-                                .HasColumnType("nvarchar(1)")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
                                 .HasColumnName("ConstructionStage");
 
                             b1.Property<int?>("ConstructionStartYear")
@@ -2280,8 +2515,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("Longitude");
 
                             b1.Property<string>("LotDescription")
-                                .HasMaxLength(296)
-                                .HasColumnType("nvarchar(296)")
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
                                 .HasColumnName("LotDescription");
 
                             b1.Property<string>("LotDimension")
@@ -2309,6 +2544,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(255)")
                                 .HasColumnName("Occupancy");
 
+                            b1.Property<string>("PropertyType")
+                                .HasMaxLength(32)
+                                .HasColumnType("nvarchar(32)")
+                                .HasColumnName("PropertyType");
+
                             b1.Property<string>("TaxId")
                                 .HasMaxLength(25)
                                 .HasColumnType("nvarchar(25)")
@@ -2332,20 +2572,15 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("AgentListApptPhone")
-                                .HasMaxLength(14)
-                                .HasColumnType("nvarchar(14)")
-                                .HasColumnName("AgentListApptPhone");
-
                             b1.Property<string>("AgentPrivateRemarks")
                                 .HasMaxLength(1024)
                                 .HasColumnType("nvarchar(1024)")
                                 .HasColumnName("AgentPrivateRemarks");
 
-                            b1.Property<string>("AltPhoneCommunity")
+                            b1.Property<string>("ContactPhone")
                                 .HasMaxLength(14)
                                 .HasColumnType("nvarchar(14)")
-                                .HasColumnName("AltPhoneCommunity");
+                                .HasColumnName("ContactPhone");
 
                             b1.Property<string>("Directions")
                                 .HasMaxLength(255)
@@ -2355,6 +2590,16 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                             b1.Property<bool>("EnableOpenHouses")
                                 .HasColumnType("bit")
                                 .HasColumnName("EnableOpenHouses");
+
+                            b1.Property<string>("LockBoxType")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("LockBoxType");
+
+                            b1.Property<string>("OccupantPhone")
+                                .HasMaxLength(14)
+                                .HasColumnType("nvarchar(14)")
+                                .HasColumnName("OccupantPhone");
 
                             b1.Property<bool>("OpenHousesAgree")
                                 .HasColumnType("bit")
@@ -2369,10 +2614,15 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("bit")
                                 .HasColumnName("ShowOpenHousesPending");
 
-                            b1.Property<string>("Showing")
-                                .HasMaxLength(10)
-                                .HasColumnType("nvarchar(10)")
-                                .HasColumnName("Showing");
+                            b1.Property<string>("ShowingInstructions")
+                                .HasMaxLength(2000)
+                                .HasColumnType("nvarchar(2000)")
+                                .HasColumnName("ShowingInstructions");
+
+                            b1.Property<string>("ShowingRequirements")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("ShowingRequirements");
 
                             b1.HasKey("SalePropertyId");
 
@@ -2388,25 +2638,35 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<int?>("BathsFull")
+                            b1.Property<int?>("DiningAreasTotal")
                                 .HasMaxLength(1)
                                 .HasColumnType("int")
-                                .HasColumnName("BathsFull");
+                                .HasColumnName("DiningAreasTotal");
 
-                            b1.Property<int?>("BathsHalf")
+                            b1.Property<int?>("FullBathsTotal")
+                                .HasMaxLength(50)
+                                .HasColumnType("int")
+                                .HasColumnName("FullBathsTotal");
+
+                            b1.Property<int?>("HalfBathsTotal")
+                                .HasMaxLength(3)
+                                .HasColumnType("int")
+                                .HasColumnName("HalfBathsTotal");
+
+                            b1.Property<int?>("LivingAreasTotal")
+                                .HasMaxLength(11)
+                                .HasColumnType("int")
+                                .HasColumnName("LivingAreasTotal");
+
+                            b1.Property<int?>("MainLevelBedroomTotal")
                                 .HasMaxLength(1)
                                 .HasColumnType("int")
-                                .HasColumnName("BathsHalf");
+                                .HasColumnName("MainLevelBedroomTotal");
 
-                            b1.Property<string>("GarageDescription")
-                                .HasMaxLength(255)
-                                .HasColumnType("nvarchar(255)")
-                                .HasColumnName("GarageDescription");
-
-                            b1.Property<int?>("NumBedrooms")
+                            b1.Property<int?>("OtherLevelsBedroomTotal")
                                 .HasMaxLength(1)
                                 .HasColumnType("int")
-                                .HasColumnName("NumBedrooms");
+                                .HasColumnName("OtherLevelsBedroomTotal");
 
                             b1.Property<string>("OtherParking")
                                 .HasMaxLength(40)
@@ -2424,14 +2684,14 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("SqFtSource");
 
                             b1.Property<int?>("SqFtTotal")
-                                .HasMaxLength(10)
+                                .HasMaxLength(11)
                                 .HasColumnType("int")
                                 .HasColumnName("SqFtTotal");
 
-                            b1.Property<string>("Stories")
-                                .HasMaxLength(10)
-                                .HasColumnType("nvarchar(10)")
-                                .HasColumnName("Stories");
+                            b1.Property<string>("StoriesTotal")
+                                .HasMaxLength(32)
+                                .HasColumnType("nvarchar(32)")
+                                .HasColumnName("StoriesTotal");
 
                             b1.Property<string>("TypeCategory")
                                 .IsRequired()
@@ -2447,7 +2707,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasForeignKey("SalePropertyId");
                         });
 
-                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Listing.SchoolsInfo", "SchoolsInfo", b1 =>
+                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Base.SchoolsInfo", "SchoolsInfo", b1 =>
                         {
                             b1.Property<Guid>("SalePropertyId")
                                 .ValueGeneratedOnAdd()
@@ -2467,6 +2727,21 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
                                 .HasColumnName("MiddleSchool");
+
+                            b1.Property<string>("OtherElementarySchool")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("OtherElementarySchool");
+
+                            b1.Property<string>("OtherHighSchool")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("OtherHighSchool");
+
+                            b1.Property<string>("OtherMiddleSchool")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("OtherMiddleSchool");
 
                             b1.Property<string>("SchoolDistrict")
                                 .HasMaxLength(50)
@@ -2504,11 +2779,29 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Navigation("SpacesDimensionsInfo");
                 });
 
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Community.CommunityHoa", b =>
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.SaleListingHoa", b =>
                 {
-                    b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Community.CommunitySale", null)
-                        .WithMany("CommunityHoas")
-                        .HasForeignKey("CommunitySaleId")
+                    b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Property.SaleProperty", null)
+                        .WithMany("ListingSaleHoas")
+                        .HasForeignKey("SalePropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.ListingSaleRoom", b =>
+                {
+                    b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Property.SaleProperty", null)
+                        .WithMany("Rooms")
+                        .HasForeignKey("SalePropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Plan.PlanRoom", b =>
+                {
+                    b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Plan.Plan", null)
+                        .WithMany("Rooms")
+                        .HasForeignKey("PlanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -2524,24 +2817,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Navigation("Community");
                 });
 
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.ListingSaleRoom", b =>
-                {
-                    b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Property.SaleProperty", null)
-                        .WithMany("Rooms")
-                        .HasForeignKey("SalePropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.SaleListingHoa", b =>
-                {
-                    b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Property.SaleProperty", null)
-                        .WithMany("ListingSaleHoas")
-                        .HasForeignKey("SalePropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.SaleListingOpenHouse", b =>
                 {
                     b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Property.SaleProperty", "SaleProperty")
@@ -2553,19 +2828,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Navigation("SaleProperty");
                 });
 
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Plan.PlanRoom", b =>
-                {
-                    b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Plan.Plan", null)
-                        .WithMany("Rooms")
-                        .HasForeignKey("PlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Community.CommunitySale", b =>
                 {
-                    b.Navigation("CommunityHoas");
-
                     b.Navigation("Employees");
 
                     b.Navigation("OpenHouses");

@@ -5,13 +5,9 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Husa.Extensions.Linq.ValueComparer;
     using Husa.Extensions.Linq.ValueConverters;
     using Husa.Quicklister.Abor.Data.Extensions;
-    using Husa.Quicklister.Abor.Data.ValueConverters;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -50,38 +46,13 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureShowing(OwnedNavigationBuilder<CommunitySale, CommunityShowingInfo> builder)
         {
-            builder.Property(r => r.AltPhoneCommunity).HasColumnName(nameof(CommunityShowingInfo.AltPhoneCommunity)).HasMaxLength(14);
-            builder.Property(r => r.AgentListApptPhone).HasColumnName(nameof(CommunityShowingInfo.AgentListApptPhone)).HasMaxLength(14);
-            builder.Property(r => r.Showing)
-                .HasColumnName(nameof(IProvideShowingInfo.Showing))
-                .HasMaxLength(10)
-                .HasConversion<EnumFieldValueConverter<Showing>>();
-            builder.Property(r => r.RealtorContactEmail).HasColumnName(nameof(CommunityShowingInfo.RealtorContactEmail)).HasMaxLength(255);
-            builder.Property(r => r.Directions).HasColumnName(nameof(CommunityShowingInfo.Directions)).HasMaxLength(255);
+            builder.ConfigureShowing();
         }
 
         private static void ConfigureFinancial(OwnedNavigationBuilder<CommunitySale, CommunityFinancialInfo> builder)
         {
-            builder
-                .Property(r => r.TaxRate)
-                .HasColumnName(nameof(CommunityFinancialInfo.TaxRate))
-                .HasPrecision(18, 2);
-
-            builder.Property(r => r.TitleCompany).HasColumnName(nameof(CommunityFinancialInfo.TitleCompany)).HasMaxLength(45);
-            builder.Property(r => r.ProposedTerms).HasColumnName(nameof(CommunityFinancialInfo.ProposedTerms)).HasEnumCollectionValue<ProposedTerms>(100);
-            builder.Property(r => r.HOARequirement)
-                .HasColumnName(nameof(CommunityFinancialInfo.HOARequirement))
-                .HasMaxLength(10)
-                .HasConversion<EnumFieldValueConverter<HoaRequirement>>();
-
-            builder.Property(r => r.BuyersAgentCommission)
-                .HasPrecision(18, 2)
-                .HasColumnName(nameof(FinancialInfo.BuyersAgentCommission))
-                .HasMaxLength(6);
-
+            builder.ConfigureFinancial();
             builder.Ignore(p => p.ReadableBuyersAgentCommission);
-
-            builder.Property(r => r.BuyersAgentCommissionType).HasColumnName(nameof(FinancialInfo.BuyersAgentCommissionType)).HasEnumFieldValue<CommissionType>(1, isRequired: true);
         }
 
         private static void ConfigureProFile(OwnedNavigationBuilder<CommunitySale, ProfileInfo> builder)
@@ -120,80 +91,21 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureProperty(OwnedNavigationBuilder<CommunitySale, Property> builder)
         {
-            builder.Property(r => r.City)
-                .HasColumnName(nameof(Property.City))
-                .HasConversion<EnumFieldValueConverter<Cities>>()
-                .HasMaxLength(50);
-
-            builder.Property(r => r.County)
-               .HasColumnName(nameof(Property.County))
-               .HasConversion<EnumFieldValueConverter<Counties>>()
-               .HasMaxLength(20);
-
-            builder.Property(x => x.MlsArea)
-               .HasColumnName(nameof(Property.MlsArea))
-               .HasConversion<EnumFieldValueConverter<MlsArea>>()
-               .HasMaxLength(5);
-            builder.Property(x => x.MapscoGrid).HasColumnName(nameof(Property.MapscoGrid)).HasMaxLength(5);
-            builder.Property(x => x.Subdivision).HasColumnName(nameof(Property.Subdivision)).HasMaxLength(50);
+            builder.Property(r => r.City).HasColumnName(nameof(Property.City)).HasEnumFieldValue<Cities>(maxLength: 50);
+            builder.Property(r => r.County).HasColumnName(nameof(Property.County)).HasEnumFieldValue<Counties>(maxLength: 20);
+            builder.Property(x => x.Subdivision).HasColumnName(nameof(Property.Subdivision)).HasMaxLength(75);
             builder.Property(x => x.ZipCode).HasColumnName(nameof(Property.ZipCode)).HasMaxLength(12);
+            builder.ConfigureProperty();
         }
 
         private static void ConfigureUtilities(OwnedNavigationBuilder<CommunitySale, Utilities> builder)
         {
-            builder.Property(x => x.WaterSewer).HasColumnName(nameof(Utilities.WaterSewer)).HasEnumCollectionValue<WaterSewer>(255);
-            builder.Property(x => x.SupplierElectricity).HasColumnName(nameof(Utilities.SupplierElectricity)).HasMaxLength(60);
-            builder.Property(x => x.SupplierWater).HasColumnName(nameof(Utilities.SupplierWater)).HasMaxLength(25);
-            builder.Property(x => x.SupplierSewer).HasColumnName(nameof(Utilities.SupplierSewer)).HasMaxLength(25);
-            builder.Property(x => x.SupplierGarbage).HasColumnName(nameof(Utilities.SupplierGarbage)).HasMaxLength(25);
-            builder.Property(x => x.SupplierGas).HasColumnName(nameof(Utilities.SupplierGas)).HasMaxLength(25);
-            builder.Property(x => x.SupplierOther).HasColumnName(nameof(Utilities.SupplierOther)).HasMaxLength(25);
-            builder.Property(x => x.HeatingFuel).HasColumnName(nameof(Utilities.HeatingFuel)).HasEnumCollectionValue<HeatingFuel>(100);
-            builder.Property(x => x.NeighborhoodAmenities)
-             .HasColumnName(nameof(Utilities.NeighborhoodAmenities))
-             .HasMaxLength(286)
-             .IsRequired(false)
-             .HasConversion<EnumListValueConverter<NeighborhoodAmenities>>(valueComparer: new EnumCollectionValueComparer<NeighborhoodAmenities>());
-
-            builder.Property(r => r.Inclusions).HasColumnName(nameof(Utilities.Inclusions)).HasEnumCollectionValue<Inclusions>(500);
-            builder.Property(r => r.Floors).HasColumnName(nameof(Utilities.Floors)).HasEnumCollectionValue<Floors>(300);
-            builder.Property(r => r.ExteriorFeatures).HasColumnName(nameof(Utilities.ExteriorFeatures)).HasEnumCollectionValue<ExteriorFeatures>(500);
-            builder.Property(r => r.RoofDescription).HasColumnName(nameof(Utilities.RoofDescription)).HasEnumCollectionValue<RoofDescription>(145);
-            builder.Property(r => r.Foundation).HasColumnName(nameof(Utilities.Foundation)).HasEnumCollectionValue<Foundation>(94);
-            builder.Property(r => r.HeatSystem).HasColumnName(nameof(Utilities.HeatSystem)).HasEnumCollectionValue<HeatingSystem>(255);
-            builder.Property(r => r.CoolingSystem).HasColumnName(nameof(Utilities.CoolingSystem)).HasEnumCollectionValue<CoolingSystem>(100);
-            builder.Property(r => r.EnergyFeatures).HasColumnName(nameof(Utilities.EnergyFeatures)).HasEnumCollectionValue<EnergyFeatures>(176);
-            builder.Property(r => r.GreenCertification).HasColumnName(nameof(Utilities.GreenCertification)).HasEnumCollectionValue<GreenCertification>(80);
-            builder.Property(r => r.GreenFeatures).HasColumnName(nameof(Utilities.GreenFeatures)).HasEnumCollectionValue<GreenFeatures>(90);
-            builder.Property(r => r.SpecialtyRooms).HasColumnName(nameof(Utilities.SpecialtyRooms)).HasEnumCollectionValue<SpecialtyRooms>(400);
-            builder.Property(r => r.HasAccessibility).HasColumnName(nameof(Utilities.HasAccessibility));
-            builder.Property(r => r.FireplaceDescription).HasColumnName(nameof(Utilities.FireplaceDescription)).HasEnumCollectionValue<FireplaceDescription>(255);
-            builder.Property(r => r.Exterior).HasColumnName(nameof(Utilities.Exterior)).HasEnumCollectionValue<Exterior>(255);
-            builder.Property(r => r.Fireplaces).HasColumnName(nameof(Utilities.Fireplaces)).HasMaxLength(255);
-            builder.Property(r => r.Accessibility).HasColumnName(nameof(Utilities.Accessibility)).HasEnumCollectionValue<Accessibility>(maxLength: 200);
+            builder.ConfigureFeature();
         }
 
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<CommunitySale, SchoolsInfo> builder)
         {
-            builder.Property(r => r.SchoolDistrict)
-                .HasColumnName(nameof(SchoolsInfo.SchoolDistrict))
-                .HasMaxLength(50)
-                .HasConversion<EnumFieldValueConverter<SchoolDistrict>>();
-
-            builder.Property(r => r.ElementarySchool)
-                .HasColumnName(nameof(SchoolsInfo.ElementarySchool))
-                .HasMaxLength(50)
-                .HasConversion<EnumFieldValueConverter<ElementarySchool>>();
-
-            builder.Property(r => r.MiddleSchool)
-                .HasColumnName(nameof(SchoolsInfo.MiddleSchool))
-                .HasMaxLength(50)
-                .HasConversion<EnumFieldValueConverter<MiddleSchool>>();
-
-            builder.Property(r => r.HighSchool)
-                .HasColumnName(nameof(SchoolsInfo.HighSchool))
-                .HasMaxLength(50)
-                .HasConversion<EnumFieldValueConverter<HighSchool>>();
+            builder.ConfigureSchools();
         }
     }
 }

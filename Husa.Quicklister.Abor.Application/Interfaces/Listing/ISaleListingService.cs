@@ -32,7 +32,7 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
 
         Task UpdateFinancialInfo(FinancialDto financialDto, Guid listingId = default, SaleListing entity = null);
 
-        Task UpdateSchoolsInfo(SchoolsDto schoolsDto, Guid listingId = default, SaleListing entity = null);
+        Task UpdateSchoolsInfo(Models.SchoolsDto schoolsDto, Guid listingId = default, SaleListing entity = null);
 
         Task UpdateSpacesDimensionsInfo(SpacesDimensionsDto spacesDimensionsDto, Guid listingId = default, SaleListing entity = null);
 

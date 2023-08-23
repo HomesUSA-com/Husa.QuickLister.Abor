@@ -23,13 +23,10 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.SetSysProperties();
             builder.Property(r => r.Level).HasEnumFieldValue<RoomLevel>(10, isRequired: true);
             builder.Property(r => r.RoomType).IsRequired().HasConversion<string>();
-            builder.Property(r => r.Length).IsRequired();
-            builder.Property(r => r.Width).IsRequired();
             builder.Property(r => r.EntityOwnerType).HasConversion<string>().HasMaxLength(20);
             builder.HasDiscriminator(ppr => ppr.EntityOwnerType)
                 .HasValue<ListingSaleRoom>(EntityType.SaleProperty.ToString())
                 .HasValue<PlanRoom>(EntityType.Plan.ToString());
-            builder.Property(r => r.Features).HasEnumCollectionValue<RoomFeatures>(maxLength: 200);
         }
     }
 }

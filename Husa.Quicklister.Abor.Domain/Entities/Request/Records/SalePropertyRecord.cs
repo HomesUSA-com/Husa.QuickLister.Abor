@@ -91,20 +91,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             var propertyChanges = communitySale.GetChangedProperties(nameof(communitySale.Property));
             communitySale.Property.CopyProperties(this.AddressInfo, propertyChanges);
             communitySale.Property.CopyProperties(this.PropertyInfo, propertyChanges);
-
-            if (communitySale.Changes.Any(x => x == nameof(communitySale.CommunityHoas)))
-            {
-                var saleListingHoas = communitySale.CommunityHoas.Select(hoaDetail => new SaleListingHoa(
-                        this.Id,
-                        hoaDetail.Name,
-                        hoaDetail.TransferFee,
-                        hoaDetail.Fee,
-                        hoaDetail.BillingFrequency,
-                        hoaDetail.Website,
-                        hoaDetail.ContactPhone)).ToList();
-
-                this.UpdateHoas(saleListingHoas);
-            }
         }
 
         public static SalePropertyRecord CreateRecord(SaleProperty saleProperty)

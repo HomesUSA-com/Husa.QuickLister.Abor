@@ -6,11 +6,11 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
     {
         public string AgentPrivateRemarks { get; set; }
 
-        public string AltPhoneCommunity { get; set; }
+        public string OccupantPhone { get; set; }
 
-        public string AgentListApptPhone { get; set; }
+        public string ContactPhone { get; set; }
 
-        public Showing Showing { get; set; }
+        public string ShowingInstructions { get; set; }
 
         public string RealtorContactEmail { get; set; }
 
@@ -21,5 +21,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public bool OpenHousesAgree { get; set; }
 
         public bool ShowOpenHousesPending { get; set; }
+        public LockBoxType? LockBoxType { get; set; }
+        public ShowingRequirements? ShowingRequirements { get; set; }
     }
 }

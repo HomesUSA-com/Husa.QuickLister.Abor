@@ -17,7 +17,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
         }
 
-        public static MarketCode Market => MarketCode.SanAntonio;
+        public static MarketCode Market => MarketCode.Austin;
         public ScrapedListingValueObject ListingDetails { get; set; }
 
         public void UpdateInformation(ScrapedListingValueObject scrapedListingValue)

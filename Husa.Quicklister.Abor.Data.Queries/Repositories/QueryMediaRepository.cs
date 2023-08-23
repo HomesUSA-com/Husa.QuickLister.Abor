@@ -24,21 +24,21 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
         {
             var currentMedia = await this.mediaServiceClient.GetResources(currentRequestId, MediaType.ListingRequest);
             var lastestCompletedMedia = lastestCompletedRequestId != null ? await this.mediaServiceClient.GetResources((Guid)lastestCompletedRequestId, MediaType.ListingRequest) : new ResourceResponse();
-            var mediaSection = this.GetMediaSummary(currentMedia, lastestCompletedMedia);
+            var mediaSection = GetMediaSummary(currentMedia, lastestCompletedMedia);
 
             return mediaSection;
         }
 
-        private IEnumerable<SummarySection> GetMediaSummary(ResourceResponse currentResources, ResourceResponse oldResources)
+        private static IEnumerable<SummarySection> GetMediaSummary(ResourceResponse currentResources, ResourceResponse oldResources)
         {
             return new[]
             {
-                this.GetFilesSummary(currentResources.Media, oldResources.Media),
-                this.GetVirtualTourSummary(currentResources.VirtualTour, oldResources.VirtualTour),
+                GetFilesSummary(currentResources.Media, oldResources.Media),
+                GetVirtualTourSummary(currentResources.VirtualTour, oldResources.VirtualTour),
             };
         }
 
-        private SummarySection GetFilesSummary(IEnumerable<MediaDetail> currentMedia, IEnumerable<MediaDetail> oldMedia)
+        private static SummarySection GetFilesSummary(IEnumerable<MediaDetail> currentMedia, IEnumerable<MediaDetail> oldMedia)
         {
             var currentMediaIds = currentMedia != null ? currentMedia.Select(x => x.Id) : new List<Guid>();
             var oldMediaIds = oldMedia != null ? oldMedia.Select(x => x.Id) : new List<Guid>();
@@ -49,18 +49,18 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             if (currentMedia is not null)
             {
                 var newMedia = currentMedia.Where(x => !oldMediaIds.Contains(x.Id));
-                summaryFields.AddRange(this.FieldSummary(newMedia, true));
+                summaryFields.AddRange(FieldSummary(newMedia, true));
             }
 
             if (oldMedia is not null)
             {
                 var removedMedia = oldMedia.Where(x => !currentMediaIds.Contains(x.Id));
-                summaryFields.AddRange(this.FieldSummary(removedMedia, false));
+                summaryFields.AddRange(FieldSummary(removedMedia, false));
             }
 
             if (currentMedia is not null && oldMedia is not null)
             {
-                summaryFields.AddRange(this.UpdateFieldSummary(currentMedia, oldMedia));
+                summaryFields.AddRange(UpdateFieldSummary(currentMedia, oldMedia));
             }
 
             section.Fields = summaryFields;
@@ -68,7 +68,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             return section;
         }
 
-        private SummarySection GetVirtualTourSummary(IEnumerable<VirtualTourDetail> currentMedia, IEnumerable<VirtualTourDetail> oldMedia)
+        private static SummarySection GetVirtualTourSummary(IEnumerable<VirtualTourDetail> currentMedia, IEnumerable<VirtualTourDetail> oldMedia)
         {
             var currentMediaUris = currentMedia != null ? currentMedia.Select(x => x.Uri) : new List<System.Uri>();
             var oldMediaUris = oldMedia != null ? oldMedia.Select(x => x.Uri) : new List<System.Uri>();
@@ -79,18 +79,18 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             if (currentMedia is not null)
             {
                 var newMedia = currentMedia.Where(x => !oldMediaUris.Contains(x.Uri));
-                summaryFields.AddRange(this.FieldSummary(newMedia, true));
+                summaryFields.AddRange(FieldSummary(newMedia, true));
             }
 
             if (oldMedia is not null)
             {
                 var removedMedia = oldMedia.Where(x => !currentMediaUris.Contains(x.Uri));
-                summaryFields.AddRange(this.FieldSummary(removedMedia, false));
+                summaryFields.AddRange(FieldSummary(removedMedia, false));
             }
 
             if (currentMedia is not null && oldMedia is not null)
             {
-                summaryFields.AddRange(this.UpdateFieldSummary(currentMedia, oldMedia));
+                summaryFields.AddRange(UpdateFieldSummary(currentMedia, oldMedia));
             }
 
             section.Fields = summaryFields;
@@ -98,7 +98,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             return section;
         }
 
-        private IEnumerable<SummaryField> FieldSummary(IEnumerable<MediaDetail> mediaValues, bool newValues)
+        private static IEnumerable<SummaryField> FieldSummary(IEnumerable<MediaDetail> mediaValues, bool newValues)
         {
             foreach (var value in mediaValues)
             {
@@ -112,7 +112,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             }
         }
 
-        private IEnumerable<SummaryField> FieldSummary(IEnumerable<VirtualTourDetail> mediaValues, bool newValues)
+        private static IEnumerable<SummaryField> FieldSummary(IEnumerable<VirtualTourDetail> mediaValues, bool newValues)
         {
             foreach (var value in mediaValues)
             {
@@ -126,14 +126,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             }
         }
 
-        private IEnumerable<SummaryField> UpdateFieldSummary(IEnumerable<MediaDetail> currentMedia, IEnumerable<MediaDetail> oldMedia)
+        private static IEnumerable<SummaryField> UpdateFieldSummary(IEnumerable<MediaDetail> currentMedia, IEnumerable<MediaDetail> oldMedia)
         {
             var mediaValues = currentMedia.Except(oldMedia, new MediaComparer())
                 .Join(oldMedia, current => current.Id, old => old.Id, (current, old) => new { id = current.Id.ToString(), current, old });
 
             foreach (var value in mediaValues)
             {
-                var summary = this.GetChanges(value.current, value.old);
+                var summary = GetChanges(value.current, value.old);
 
                 yield return new SummaryField()
                 {
@@ -144,14 +144,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             }
         }
 
-        private IEnumerable<SummaryField> UpdateFieldSummary(IEnumerable<VirtualTourDetail> currentMedia, IEnumerable<VirtualTourDetail> oldMedia)
+        private static IEnumerable<SummaryField> UpdateFieldSummary(IEnumerable<VirtualTourDetail> currentMedia, IEnumerable<VirtualTourDetail> oldMedia)
         {
             var mediaValues = currentMedia.Except(oldMedia, new VirtualTourComparer())
                 .Join(oldMedia, current => current.Id, old => old.Id, (current, old) => new { id = current.Id.ToString(), current, old });
 
             foreach (var value in mediaValues)
             {
-                var summary = this.GetChanges(value.current, value.old);
+                var summary = GetChanges(value.current, value.old);
 
                 yield return new SummaryField()
                 {
@@ -162,7 +162,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             }
         }
 
-        private (Dictionary<string, object> NewValue, Dictionary<string, object> OldValue) GetChanges<T>(T newObject, T oldObject)
+        private static (Dictionary<string, object> NewValue, Dictionary<string, object> OldValue) GetChanges<T>(T newObject, T oldObject)
         {
             var propertiesInfo = typeof(T).GetProperties().ToList();
 

@@ -4,7 +4,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Husa.Extensions.Linq.ValueConverters;
     using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
-    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -45,7 +44,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder
                 .HasDiscriminator(s => s.HoaType)
                 .HasValue<SaleListingHoa>(EntityType.SaleProperty)
-                .HasValue<CommunityHoa>(EntityType.Community)
                 .IsComplete(false);
         }
     }

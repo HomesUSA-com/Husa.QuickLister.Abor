@@ -5,17 +5,23 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum RoomLevel
     {
-        [EnumMember(Value = "B")]
-        [Description("Basement")]
-        Basement,
-        [EnumMember(Value = "1")]
-        [Description("Main Level")]
-        MainLevel,
-        [EnumMember(Value = "2")]
-        [Description("Second Level")]
-        SecondLevel,
-        [EnumMember(Value = "3")]
-        [Description("Third Level")]
-        ThirdLevel,
+        [EnumMember(Value = "FIRST")]
+        [Description("First")]
+        First,
+        [EnumMember(Value = "LOWER")]
+        [Description("Lower")]
+        Lower,
+        [EnumMember(Value = "MAIN")]
+        [Description("Main")]
+        Main,
+        [EnumMember(Value = "SECOND")]
+        [Description("Second")]
+        Second,
+        [EnumMember(Value = "THIRD")]
+        [Description("Third")]
+        Third,
+        [EnumMember(Value = "UPPER")]
+        [Description("Upper")]
+        Upper,
     }
 }
