@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
+    using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Community;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Community;
     using Husa.Quicklister.Abor.Api.Controllers;
@@ -282,16 +283,17 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
         {
             // Arrange
             var communityId = Guid.NewGuid();
+            var newFilter = new BaseFilterRequest();
             var employees = new List<CommunityEmployeeQueryResult>();
             var dataSet = new DataSet<CommunityEmployeeQueryResult>(employees, employees.Count);
 
             this.communityQueriesRepository
-                .Setup(c => c.GetCommunityEmployees(It.Is<Guid>(x => x == communityId)))
+                .Setup(c => c.GetCommunityEmployees(It.Is<Guid>(x => x == communityId), It.IsAny<string>()))
                 .ReturnsAsync(dataSet)
                 .Verifiable();
 
             // Act
-            var result = await this.Sut.GetEmployeesAsync(communityId);
+            var result = await this.Sut.GetEmployeesAsync(communityId, newFilter);
 
             // Assert
             this.communityQueriesRepository.Verify();
@@ -308,18 +310,19 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
             var communityId = Guid.NewGuid();
             var employeeId1 = Guid.NewGuid();
             var employeeId2 = Guid.NewGuid();
+            var newFilter = new BaseFilterRequest();
             var employee1 = TestModelProvider.GetCommunityEmployeeQueryResult(employeeId1, employeeId1, "Test");
             var employee2 = TestModelProvider.GetCommunityEmployeeQueryResult(employeeId2, employeeId2, "Test");
             var employees = new List<CommunityEmployeeQueryResult>() { employee1, employee2 };
             var dataSet = new DataSet<CommunityEmployeeQueryResult>(employees, employees.Count);
 
             this.communityQueriesRepository
-                .Setup(c => c.GetCommunityEmployees(It.Is<Guid>(x => x == communityId)))
+                .Setup(c => c.GetCommunityEmployees(It.Is<Guid>(x => x == communityId), It.IsAny<string>()))
                 .ReturnsAsync(dataSet)
                 .Verifiable();
 
             // Act
-            var result = await this.Sut.GetEmployeesAsync(communityId);
+            var result = await this.Sut.GetEmployeesAsync(communityId, newFilter);
 
             // Assert
             this.communityQueriesRepository.Verify();

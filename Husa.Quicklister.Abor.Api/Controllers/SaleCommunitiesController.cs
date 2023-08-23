@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Extensions.Authorization.Filters;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
+    using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Community;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Community;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
@@ -154,10 +155,10 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
         [HttpGet("{communityId}/employees")]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly)]
-        public async Task<IActionResult> GetEmployeesAsync([FromRoute] Guid communityId)
+        public async Task<IActionResult> GetEmployeesAsync([FromRoute] Guid communityId, [FromQuery] BaseFilterRequest filter)
         {
             this.logger.LogInformation("Getting the employees for the community id {communityId}", communityId);
-            var queryResponse = await this.communityQueriesRepository.GetCommunityEmployees(communityId);
+            var queryResponse = await this.communityQueriesRepository.GetCommunityEmployees(communityId, filter.SortBy);
 
             var data = this.mapper.Map<IEnumerable<CommunityEmployeeDataQueryResponse>>(queryResponse.Data);
 
