@@ -8,10 +8,12 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>0.1.0</Version>
+        <Version>0.2.0</Version>
         <PackageReleaseNotes>
-            Release 0.1.0:
-            - Initial version of the api client
+            Release 0.2.0:
+            - Update nuget packages
+            - Update API contracts
+            - Fixed api endpoints
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
