@@ -188,6 +188,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                 ContractDate = statusField.ContractDate,
                 ExpiredDateOption = statusField.ExpiredDateOption,
                 SellerConcessionDescription = statusField.SellerConcessionDescription,
+                HasContingencyInfo = statusField.HasContingencyInfo,
                 ContingencyInfo = statusField.ContingencyInfo,
                 HasBuyerAgent = statusField.HasBuyerAgent,
                 KickOutInformation = statusField.KickOutInformation,

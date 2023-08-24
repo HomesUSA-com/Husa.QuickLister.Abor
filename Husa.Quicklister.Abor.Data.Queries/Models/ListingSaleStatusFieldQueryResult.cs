@@ -6,7 +6,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
 
     public class ListingSaleStatusFieldQueryResult : ListingStatusFieldsQueryResult
     {
-        public string ContingencyInfo { get; set; }
+        public bool HasContingencyInfo { get; set; }
+
+        public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
 
         public string SaleTerms2nd { get; set; }
 

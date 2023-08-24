@@ -14,7 +14,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     {
         public const string SummarySection = "Status Fields";
 
-        public string ContingencyInfo { get; set; }
+        public bool HasContingencyInfo { get; set; }
+
+        public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
 
         public string SaleTerms2nd { get; set; }
 
@@ -78,6 +80,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             PendingDate = statusFieldInfo.PendingDate,
             ClosedDate = statusFieldInfo.ClosedDate,
             OffMarketDate = statusFieldInfo.OffMarketDate,
+            HasContingencyInfo = statusFieldInfo.HasContingencyInfo,
         };
 
         public virtual void UpdateInformation(ListingSaleStatusFieldsInfo statusFieldInfo)
@@ -107,6 +110,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             this.PendingDate = statusFieldInfo.PendingDate;
             this.ClosedDate = statusFieldInfo.ClosedDate;
             this.OffMarketDate = statusFieldInfo.OffMarketDate;
+            this.HasContingencyInfo = statusFieldInfo.HasContingencyInfo;
         }
 
         public virtual SummarySection GetSummary<T>(T entity)
@@ -147,7 +151,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             MarketStatuses.Canceled => new string[] { nameof(CancelledOption), nameof(CancelledReason) },
             MarketStatuses.Hold => new string[] { nameof(BackOnMarketDate), nameof(OffMarketDate) },
             MarketStatuses.Pending => new string[] { nameof(ContractDate), nameof(EstimatedClosedDate), nameof(HasBuyerAgent), nameof(AgentId) },
-            MarketStatuses.ActiveUnderContract => new string[] { nameof(ContractDate), nameof(EstimatedClosedDate), nameof(HasBuyerAgent), nameof(AgentId) },
+            MarketStatuses.ActiveUnderContract => new string[]
+            {
+                nameof(PendingDate),
+                nameof(ClosedDate),
+                nameof(EstimatedClosedDate),
+                nameof(HasContingencyInfo),
+                nameof(ContingencyInfo),
+            },
             MarketStatuses.Closed => new string[]
             {
                     nameof(HowSold),

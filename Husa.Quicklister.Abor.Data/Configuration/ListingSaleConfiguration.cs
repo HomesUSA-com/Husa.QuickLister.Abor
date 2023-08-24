@@ -49,7 +49,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(f => f.ClosePrice).HasPrecision(18, 2).HasColumnName(nameof(ListingSaleStatusFieldsInfo.ClosePrice));
             builder.Property(f => f.EstimatedClosedDate).HasColumnType("datetime").HasColumnName(nameof(ListingSaleStatusFieldsInfo.EstimatedClosedDate));
             builder.Property(f => f.OffMarketDate).HasColumnType("datetime").HasColumnName(nameof(ListingSaleStatusFieldsInfo.OffMarketDate));
-            builder.Property(f => f.ContingencyInfo).HasMaxLength(100).HasColumnName(nameof(ListingSaleStatusFieldsInfo.ContingencyInfo));
             builder.Property(f => f.SaleTerms2nd).HasMaxLength(10).HasColumnName(nameof(ListingSaleStatusFieldsInfo.SaleTerms2nd));
             builder.Property(f => f.ContractDate).HasColumnType("datetime").HasColumnName(nameof(ListingSaleStatusFieldsInfo.ContractDate));
             builder.Property(f => f.ExpiredDateOption).HasColumnType("datetime").HasColumnName(nameof(ListingSaleStatusFieldsInfo.ExpiredDateOption));
@@ -59,6 +58,9 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(f => f.SellConcess).HasMaxLength(50).HasColumnName(nameof(ListingSaleStatusFieldsInfo.SellConcess));
             builder.Property(f => f.SellerConcessionDescription).HasColumnName(nameof(ListingSaleStatusFieldsInfo.SellerConcessionDescription)).HasEnumCollectionValue<SellerConcessionDescription>(300);
             builder.Property(f => f.PendingDate).HasColumnType("datetime").HasColumnName(nameof(ListingSaleStatusFieldsInfo.PendingDate));
+            builder.Property(f => f.ContingencyInfo).HasColumnName(nameof(ListingSaleStatusFieldsInfo.ContingencyInfo))
+                .HasEnumCollectionValue<ContingencyInfo>(maxLength: 100);
+            builder.Property(f => f.HasContingencyInfo).HasColumnName(nameof(ListingSaleStatusFieldsInfo.HasContingencyInfo));
         }
 
         private static void ConfigurePublishInfoMapping(OwnedNavigationBuilder<SaleListing, PublishInfo> builder)

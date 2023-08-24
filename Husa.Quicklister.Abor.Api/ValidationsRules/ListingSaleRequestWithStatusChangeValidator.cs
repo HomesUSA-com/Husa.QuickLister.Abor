@@ -32,6 +32,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
             this.ValidationsRulesForChangeStatusToCancelled();
             this.ValidationsRulesForChangeStatusToHold();
             this.ValidationsRulesForChangeStatusToClosed();
+            this.ValidationsRulesForChangeStatusToActiveUnderContract();
         }
 
         public void ValidationsRulesForChangeStatusToCancelled()
@@ -41,6 +42,17 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
                 this.RuleFor(f => f.StatusFieldsInfo.CancelledOption)
                     .NotEmpty().WithMessage(RequiredFieldMessage);
                 this.RuleFor(f => f.StatusFieldsInfo.CancelledReason)
+                    .NotEmpty().WithMessage(RequiredFieldMessage);
+            });
+        }
+
+        public void ValidationsRulesForChangeStatusToActiveUnderContract()
+        {
+            this.When(l => l.MlsStatus == MarketStatuses.ActiveUnderContract, () =>
+            {
+                this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
+                    .NotEmpty().WithMessage(RequiredFieldMessage);
+                this.RuleFor(f => f.StatusFieldsInfo.EstimatedClosedDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage);
             });
         }

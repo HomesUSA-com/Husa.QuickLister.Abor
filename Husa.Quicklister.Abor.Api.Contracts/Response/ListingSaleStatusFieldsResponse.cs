@@ -6,7 +6,9 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
 
     public class ListingSaleStatusFieldsResponse : ListingStatusFieldsResponse
     {
-        public string ContingencyInfo { get; set; }
+        public bool HasContingencyInfo { get; set; }
+
+        public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
 
         public string SaleTerms2nd { get; set; }
 

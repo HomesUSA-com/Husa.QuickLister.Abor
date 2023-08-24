@@ -7,7 +7,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
     public class ListingSaleStatusFieldsInfo : ListingStatusFieldsInfo, IProvideSaleStatusFields
     {
-        public string ContingencyInfo { get; set; }
+        public bool HasContingencyInfo { get; set; }
+
+        public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
 
         public string SaleTerms2nd { get; set; }
 
@@ -37,6 +39,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             yield return this.SellPoints;
             yield return this.SellConcess;
             yield return this.SellerConcessionDescription;
+            yield return this.HasContingencyInfo;
         }
     }
 }
