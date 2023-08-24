@@ -145,6 +145,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         private static string[] GetFieldsByMlsStatus(MarketStatuses mlsStatus) => mlsStatus switch
         {
             MarketStatuses.Canceled => new string[] { nameof(CancelledOption), nameof(CancelledReason) },
+            MarketStatuses.Hold => new string[] { nameof(BackOnMarketDate), nameof(OffMarketDate) },
             MarketStatuses.Pending => new string[] { nameof(ContractDate), nameof(EstimatedClosedDate), nameof(HasBuyerAgent), nameof(AgentId) },
             MarketStatuses.ActiveUnderContract => new string[] { nameof(ContractDate), nameof(EstimatedClosedDate), nameof(HasBuyerAgent), nameof(AgentId) },
             MarketStatuses.Closed => new string[]
