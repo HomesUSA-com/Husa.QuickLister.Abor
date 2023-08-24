@@ -103,13 +103,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 }
             }
 
-            IQueryable<CommunityEmployeeQueryResult> employeesQuery = employees.AsQueryable();
+            var employeesQuery = employees.AsQueryable().ApplySortByFields(sortBy).ToList();
 
-            employeesQuery = BaseSpecifications.ApplySortByFields(employeesQuery, sortBy);
-
-            employees = employeesQuery.ToList();
-
-            return new DataSet<CommunityEmployeeQueryResult>(employees, employees.Count);
+            return new DataSet<CommunityEmployeeQueryResult>(employeesQuery, employees.Count);
         }
 
         public async Task<CommunityDetailQueryResult> GetCommunityByName(Guid companyId, string communityName)
