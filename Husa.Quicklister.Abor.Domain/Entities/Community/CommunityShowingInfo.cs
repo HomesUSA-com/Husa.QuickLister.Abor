@@ -14,6 +14,17 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
 
         private string occupantPhone;
         private string contactPhone;
+
+        public CommunityShowingInfo(string ownerName)
+            : this()
+        {
+            this.OwnerName = ownerName;
+        }
+
+        public CommunityShowingInfo()
+        {
+        }
+
         public virtual string OccupantPhone
         {
             get { return this.occupantPhone; }
