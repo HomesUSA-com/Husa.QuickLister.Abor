@@ -150,7 +150,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         {
             MarketStatuses.Canceled => new string[] { nameof(CancelledOption), nameof(CancelledReason) },
             MarketStatuses.Hold => new string[] { nameof(BackOnMarketDate), nameof(OffMarketDate) },
-            MarketStatuses.Pending => new string[] { nameof(ContractDate), nameof(EstimatedClosedDate), nameof(HasBuyerAgent), nameof(AgentId) },
+            MarketStatuses.Pending => new string[]
+            {
+                nameof(ContractDate),
+                nameof(EstimatedClosedDate),
+                nameof(HasBuyerAgent),
+                nameof(AgentId),
+                nameof(HasContingencyInfo),
+            },
             MarketStatuses.ActiveUnderContract => new string[]
             {
                 nameof(PendingDate),
