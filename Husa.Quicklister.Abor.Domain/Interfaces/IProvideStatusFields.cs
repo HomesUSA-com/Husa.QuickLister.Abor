@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Domain.Interfaces
 {
     using System;
-    using Husa.Quicklister.Abor.Domain.Enums;
 
     public interface IProvideStatusFields
     {
@@ -12,8 +11,6 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         public DateTime? EstimatedClosedDate { get; set; }
 
         public DateTime? CancelDate { get; set; }
-
-        public CancelledOptions? CancelledOption { get; set; }
 
         public string CancelledReason { get; set; }
 

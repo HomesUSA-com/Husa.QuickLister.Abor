@@ -414,7 +414,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
 
             return new()
             {
-                CancelledOption = statusFieldsInfo.CancelledOption,
                 CancelDate = statusFieldsInfo.CancelDate,
                 CancelledReason = statusFieldsInfo.CancelledReason,
                 AgentId = statusFieldsInfo.AgentId,

@@ -3,7 +3,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using System;
     using System.Collections.Generic;
     using Husa.Extensions.Domain.ValueObjects;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Agent = Husa.Quicklister.Abor.Domain.Entities.Agent.Agent;
 
@@ -12,8 +11,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         private bool? hasBuyerAgent;
 
         public DateTime? CancelDate { get; set; }
-
-        public CancelledOptions? CancelledOption { get; set; }
 
         public string CancelledReason { get; set; }
 
@@ -56,7 +53,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return this.CancelDate;
-            yield return this.CancelledOption;
             yield return this.ClosePrice;
             yield return this.EstimatedClosedDate;
             yield return this.HasBuyerAgent;

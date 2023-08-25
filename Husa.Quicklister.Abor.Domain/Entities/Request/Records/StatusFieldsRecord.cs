@@ -35,9 +35,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public ICollection<SellerConcessionDescription> SellerConcessionDescription { get; set; }
 
         public DateTime? CancelDate { get; set; }
-
-        public CancelledOptions? CancelledOption { get; set; }
-
         public string CancelledReason { get; set; }
 
         public decimal? ClosePrice { get; set; }
@@ -70,7 +67,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             SellConcess = statusFieldInfo.SellConcess,
             SellerConcessionDescription = statusFieldInfo.SellerConcessionDescription,
             CancelDate = statusFieldInfo.CancelDate,
-            CancelledOption = statusFieldInfo.CancelledOption,
             CancelledReason = statusFieldInfo.CancelledReason,
             ClosePrice = statusFieldInfo.ClosePrice,
             EstimatedClosedDate = statusFieldInfo.EstimatedClosedDate,
@@ -100,7 +96,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             this.SellConcess = statusFieldInfo.SellConcess;
             this.SellerConcessionDescription = statusFieldInfo.SellerConcessionDescription;
             this.CancelDate = statusFieldInfo.CancelDate;
-            this.CancelledOption = statusFieldInfo.CancelledOption;
             this.CancelledReason = statusFieldInfo.CancelledReason;
             this.ClosePrice = statusFieldInfo.ClosePrice;
             this.EstimatedClosedDate = statusFieldInfo.EstimatedClosedDate;
@@ -148,7 +143,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         private static string[] GetFieldsByMlsStatus(MarketStatuses mlsStatus) => mlsStatus switch
         {
-            MarketStatuses.Canceled => new string[] { nameof(CancelledOption), nameof(CancelledReason) },
+            MarketStatuses.Canceled => new string[] { nameof(CancelledReason) },
             MarketStatuses.Hold => new string[] { nameof(BackOnMarketDate), nameof(OffMarketDate) },
             MarketStatuses.Pending => new string[]
             {

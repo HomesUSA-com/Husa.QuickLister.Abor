@@ -39,8 +39,6 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
         {
             this.When(l => l.MlsStatus == MarketStatuses.Canceled, () =>
             {
-                this.RuleFor(f => f.StatusFieldsInfo.CancelledOption)
-                    .NotEmpty().WithMessage(RequiredFieldMessage);
                 this.RuleFor(f => f.StatusFieldsInfo.CancelledReason)
                     .NotEmpty().WithMessage(RequiredFieldMessage);
             });

@@ -4,7 +4,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Husa.Extensions.Linq;
     using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -44,7 +43,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(f => f.HasBuyerAgent).HasColumnName(nameof(ListingSaleStatusFieldsInfo.HasBuyerAgent)).HasDefaultValue(false);
             builder.Property(f => f.BackOnMarketDate).HasColumnType("datetime").HasColumnName(nameof(ListingSaleStatusFieldsInfo.BackOnMarketDate));
             builder.Property(f => f.CancelledReason).HasMaxLength(300).HasColumnName(nameof(ListingSaleStatusFieldsInfo.CancelledReason));
-            builder.Property(f => f.CancelledOption).HasColumnName(nameof(ListingSaleStatusFieldsInfo.CancelledOption)).HasEnumFieldValue<CancelledOptions>(50);
             builder.Property(f => f.ClosedDate).HasColumnType("datetime").HasColumnName(nameof(ListingSaleStatusFieldsInfo.ClosedDate));
             builder.Property(f => f.ClosePrice).HasPrecision(18, 2).HasColumnName(nameof(ListingSaleStatusFieldsInfo.ClosePrice));
             builder.Property(f => f.EstimatedClosedDate).HasColumnType("datetime").HasColumnName(nameof(ListingSaleStatusFieldsInfo.EstimatedClosedDate));

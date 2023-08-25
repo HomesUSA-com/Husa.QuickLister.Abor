@@ -198,7 +198,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                 BackOnMarketDate = statusField.BackOnMarketDate,
                 CancelDate = statusField.CancelDate,
                 ClosedDate = statusField.ClosedDate,
-                CancelledOption = statusField.CancelledOption,
                 EstimatedClosedDate = statusField.EstimatedClosedDate,
                 OffMarketDate = statusField.OffMarketDate,
                 PendingDate = statusField.PendingDate,

@@ -1,14 +1,11 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Models
 {
     using System;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Interfaces;
 
     public class ListingStatusFieldsQueryResult : IProvideStatusFields
     {
         public DateTime? CancelDate { get; set; }
-
-        public CancelledOptions? CancelledOption { get; set; }
 
         public string CancelledReason { get; set; }
 

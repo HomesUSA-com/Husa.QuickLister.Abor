@@ -1,13 +1,10 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Response
 {
     using System;
-    using Husa.Quicklister.Abor.Domain.Enums;
 
     public class ListingStatusFieldsResponse
     {
         public DateTime? CancelDate { get; set; }
-
-        public CancelledOptions? CancelledOption { get; set; }
 
         public string CancelledReason { get; set; }
 
