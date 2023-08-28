@@ -22,6 +22,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 

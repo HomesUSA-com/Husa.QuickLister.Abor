@@ -6,9 +6,10 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using System.Threading.Tasks;
     using Husa.Extensions.Api.Client;
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
-    using Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest;
-    using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleRequest;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest.SaleRequest;
     using Microsoft.Extensions.Logging;
 
     public class ListingSaleRequest : IListingSaleRequest
@@ -25,7 +26,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             this.baseUri = "api/sale-listing-requests";
         }
 
-        public async Task<ListingRequestGridResponse<ListingSaleRequestQueryResponse>> GetListRequestAsync(ListingSaleRequestFilter requestFilter, CancellationToken token = default)
+        public async Task<ListingRequestGridResponse<ListingSaleRequestQueryResponse>> GetListRequestAsync(SaleListingRequestFilter requestFilter, CancellationToken token = default)
         {
             this.logger.LogInformation("Get ABOR listing sales requests with filers {@requestFilter}", requestFilter);
             var endpoint = this.baseUri

@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
 {
     using System;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
 
     public class ListingSaleBillingRequestFilter : BaseFilterRequest
     {

@@ -11,7 +11,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Extensions.Authorization.Filters;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
-    using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Community;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Community;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
@@ -19,6 +18,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Application.Models.Community;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

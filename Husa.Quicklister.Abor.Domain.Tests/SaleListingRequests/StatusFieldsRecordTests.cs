@@ -51,5 +51,87 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.PendingDate));
             Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.EstimatedClosedDate));
         }
+
+        [Fact]
+        public void GetSummary_ClosedFields_Success()
+        {
+            // Arrange
+            var statusRecord = new StatusFieldsRecord();
+            var statusInfo = new StatusFieldsRecord()
+            {
+                ContractDate = DateTime.Now,
+                PendingDate = DateTime.Now,
+                SellPoints = 1223,
+            };
+
+            // Act
+            var summary = statusRecord.GetSummary(statusInfo, MarketStatuses.Closed);
+
+            // Assert
+            Assert.Equal(2, summary.Fields.Count());
+            Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.ContractDate));
+            Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.SellPoints));
+        }
+
+        [Fact]
+        public void GetSummary_PendingFields_Success()
+        {
+            // Arrange
+            var statusRecord = new StatusFieldsRecord();
+            var statusInfo = new StatusFieldsRecord()
+            {
+                ContractDate = DateTime.Now,
+                EstimatedClosedDate = DateTime.Now,
+                SellPoints = 1223,
+            };
+
+            // Act
+            var summary = statusRecord.GetSummary(statusInfo, MarketStatuses.Pending);
+
+            // Assert
+            Assert.Equal(2, summary.Fields.Count());
+            Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.ContractDate));
+            Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.EstimatedClosedDate));
+        }
+
+        [Fact]
+        public void GetSummary_HoldFields_Success()
+        {
+            // Arrange
+            var statusRecord = new StatusFieldsRecord();
+            var statusInfo = new StatusFieldsRecord()
+            {
+                BackOnMarketDate = DateTime.Now,
+                OffMarketDate = DateTime.Now,
+                SellPoints = 1223,
+            };
+
+            // Act
+            var summary = statusRecord.GetSummary(statusInfo, MarketStatuses.Hold);
+
+            // Assert
+            Assert.Equal(2, summary.Fields.Count());
+            Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.BackOnMarketDate));
+            Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.OffMarketDate));
+        }
+
+        [Fact]
+        public void GetSummary_CanceledFields_Success()
+        {
+            // Arrange
+            var statusRecord = new StatusFieldsRecord();
+            var statusInfo = new StatusFieldsRecord()
+            {
+                BackOnMarketDate = DateTime.Now,
+                CancelledReason = "Canceled",
+            };
+
+            // Act
+            var summary = statusRecord.GetSummary(statusInfo, MarketStatuses.Canceled);
+
+            // Assert
+            Assert.Single(summary.Fields);
+            Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.CancelledReason));
+        }
     }
 }

@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Husa.CompanyServiceManager.Client" Version="1.0.0" />
+        <PackageReference Include="Husa.CompanyServiceManager.Client" Version="1.1.0" />
         <PackageReference Include="Husa.Extensions.Authorization" Version="3.1.0" />
         <PackageReference Include="Husa.Extensions.Cache" Version="3.0.0" />
         <PackageReference Include="Husa.Extensions.Common" Version="3.9.0" />

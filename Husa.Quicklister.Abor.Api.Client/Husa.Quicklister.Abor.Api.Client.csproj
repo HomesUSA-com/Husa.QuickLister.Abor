@@ -8,7 +8,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>0.3.0-dev001</Version>
+        <Version>0.3.0-dev002</Version>
         <PackageReleaseNotes>
             Release 0.3.0:
             - Update API contracts for changing status
@@ -22,7 +22,7 @@
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="4.0.2" />
         <PackageReference Include="Husa.Extensions.Common" Version="3.9.0" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Domain.Enums" Version="1.1.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="0.1.0-dev002" />
     </ItemGroup>
 
     <ItemGroup>

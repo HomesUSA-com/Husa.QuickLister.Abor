@@ -11,7 +11,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest;
-    using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleRequest;
     using Husa.Quicklister.Abor.Api.ValidationsRules;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
@@ -20,11 +19,13 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Documents.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest.SaleRequest;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    using ListingSaleRequestFilter = Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest.ListingSaleRequestFilter;
 
     [ApiController]
     [Route("sale-listing-requests")]
@@ -61,7 +62,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
         [HttpGet]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> GetListRequestAsync([FromQuery] ListingSaleRequestFilter requestFilter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetListRequestAsync([FromQuery] SaleListingRequestFilter requestFilter, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Starting to get filtered ABOR sale listings request with company id {companyId}", requestFilter.CompanyId);
             var queryFilter = this.mapper.Map<ListingSaleRequestQueryFilter>(requestFilter);

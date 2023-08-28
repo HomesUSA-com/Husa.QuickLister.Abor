@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Request.Agent
 {
     using System;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
 
     public class AgentRequestFilter : BaseFilterRequest
     {
