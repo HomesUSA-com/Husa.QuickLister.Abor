@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Api.Mappings.Downloader.Converters
 {
     using System;
+    using System.Linq;
     using AutoMapper;
     using Husa.Downloader.Sabor.ServiceBus.Contracts;
     using Husa.Extensions.Common;
@@ -16,6 +17,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader.Converters
             {
                 RoomType = (RoomType)Enum.Parse(typeof(RoomType), GetRoomType(source.Type)),
                 Level = source.Level.ToEnumFromEnumMember<RoomLevel>(),
+                Features = source.Features.CsvToEnum<RoomFeatures>().ToArray(),
             };
         }
 

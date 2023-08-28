@@ -23,6 +23,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                     Level = r.Level,
                     RoomType = r.RoomType,
                     IsDeleted = r.IsDeleted,
+                    Features = r.Features,
                 };
 
                 roomsCollection.Add(room);
@@ -46,12 +47,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 Appliances = features.Appliances,
                 GarageSpaces = features.GarageSpaces,
                 GarageDescription = features.GarageDescription,
-                LaundryFeatures = features.LaundryFeatures,
                 LaundryLocation = features.LaundryLocation,
                 InteriorFeatures = features.InteriorFeatures,
-                KitchenFeatures = features.KitchenFeatures,
-                MasterBedroomFeatures = features.MasterBedroomFeatures,
-                WaterAccessDescription = features.WaterAccessDescription,
                 Fireplaces = features.Fireplaces,
                 FireplaceDescription = features.FireplaceDescription,
                 Floors = features.Floors,
@@ -369,12 +366,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 Appliances = utilities.Appliances,
                 GarageSpaces = utilities.GarageSpaces,
                 GarageDescription = utilities.GarageDescription,
-                LaundryFeatures = utilities.LaundryFeatures,
                 LaundryLocation = utilities.LaundryLocation,
                 InteriorFeatures = utilities.InteriorFeatures,
-                KitchenFeatures = utilities.KitchenFeatures,
-                MasterBedroomFeatures = utilities.MasterBedroomFeatures,
-                WaterAccessDescription = utilities.WaterAccessDescription,
                 Fireplaces = utilities.Fireplaces,
                 FireplaceDescription = utilities.FireplaceDescription,
                 Floors = utilities.Floors,

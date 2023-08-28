@@ -119,7 +119,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         public async Task<IActionResult> UpdatePlanAsync([FromRoute] Guid planId, [FromBody] UpdatePlanRequest updatePlanRequest)
         {
             this.logger.LogInformation("Updating plan with id: {planId}", planId);
-
             var planRequestDto = this.mapper.Map<UpdatePlanDto>(updatePlanRequest);
             await this.planService.UpdatePlanAsync(planId, planRequestDto);
 

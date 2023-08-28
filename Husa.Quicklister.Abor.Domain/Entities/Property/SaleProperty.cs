@@ -224,7 +224,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 var room = new ListingSaleRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level);
+                    roomDetail.Level,
+                    roomDetail.Features);
 
                 this.Rooms.Add(room);
             }
@@ -325,7 +326,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 var room = new ListingSaleRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level);
+                    roomDetail.Level,
+                    roomDetail.Features);
 
                 this.Rooms.Add(room);
             }
@@ -373,7 +375,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 var room = new ListingSaleRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level);
+                    roomDetail.Level,
+                    roomDetail.Features);
 
                 this.Rooms.Add(room);
             }
@@ -601,12 +604,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.FeaturesInfo.Appliances = featuresInfo.Appliances;
             this.FeaturesInfo.GarageSpaces = featuresInfo.GarageSpaces;
             this.FeaturesInfo.GarageDescription = featuresInfo.GarageDescription;
-            this.FeaturesInfo.LaundryFeatures = featuresInfo.LaundryFeatures;
             this.FeaturesInfo.LaundryLocation = featuresInfo.LaundryLocation;
             this.FeaturesInfo.InteriorFeatures = featuresInfo.InteriorFeatures;
-            this.FeaturesInfo.KitchenFeatures = featuresInfo.KitchenFeatures;
-            this.FeaturesInfo.MasterBedroomFeatures = featuresInfo.MasterBedroomFeatures;
-            this.FeaturesInfo.WaterAccessDescription = featuresInfo.WaterAccessDescription;
             this.FeaturesInfo.Floors = featuresInfo.Floors;
             this.FeaturesInfo.SecurityFeatures = featuresInfo.SecurityFeatures;
             this.FeaturesInfo.WindowFeatures = featuresInfo.WindowFeatures;

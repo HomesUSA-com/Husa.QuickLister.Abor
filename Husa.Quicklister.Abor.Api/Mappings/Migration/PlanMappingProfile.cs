@@ -1,11 +1,14 @@
 namespace Husa.Quicklister.Abor.Api.Mappings.Migration
 {
     using System;
+    using System.Linq;
     using AutoMapper;
+    using Husa.Extensions.Common;
     using Husa.Migration.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using MigrationRoomType = Husa.Migration.Crosscutting.Enums.RoomType;
 
     public class PlanMappingProfile : Profile
@@ -15,6 +18,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
         public PlanMappingProfile()
         {
             this.CreateMap<RoomResponse, PlanRoom>()
+                .ForMember(dto => dto.Features, pr => pr.MapFrom(x => x.Features.CsvToEnum<RoomFeatures>(true).ToArray()))
                 .ForMember(dto => dto.IsDeleted, pr => pr.MapFrom(x => 0))
                 .ForMember(dto => dto.RoomType, pr => pr.MapFrom(x => ToRoomType(x.RoomType)))
                 .ForMember(dto => dto.Id, am => am.Ignore())

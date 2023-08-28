@@ -27,6 +27,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.HasDiscriminator(ppr => ppr.EntityOwnerType)
                 .HasValue<ListingSaleRoom>(EntityType.SaleProperty.ToString())
                 .HasValue<PlanRoom>(EntityType.Plan.ToString());
+            builder.Property(r => r.Features).HasEnumCollectionValue<RoomFeatures>(maxLength: 200);
         }
     }
 }

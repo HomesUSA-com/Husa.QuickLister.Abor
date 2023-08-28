@@ -23,12 +23,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual ICollection<Appliances> Appliances { get; set; }
         public virtual int? GarageSpaces { get; set; }
         public virtual ICollection<GarageDescription> GarageDescription { get; set; }
-        public virtual ICollection<LaundryFeatures> LaundryFeatures { get; set; }
         public virtual ICollection<LaundryLocation> LaundryLocation { get; set; }
         public virtual ICollection<InteriorFeatures> InteriorFeatures { get; set; }
-        public virtual ICollection<KitchenFeatures> KitchenFeatures { get; set; }
-        public virtual ICollection<MasterBedroomFeatures> MasterBedroomFeatures { get; set; }
-        public virtual ICollection<WaterAccessDescription> WaterAccessDescription { get; set; }
         public virtual int? Fireplaces { get; set; }
         public virtual ICollection<DomainEnums.FireplaceDescription> FireplaceDescription
         {
@@ -85,12 +81,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             clonedUtilities.Appliances = info.Appliances;
             clonedUtilities.GarageSpaces = info.GarageSpaces;
             clonedUtilities.GarageDescription = info.GarageDescription;
-            clonedUtilities.LaundryFeatures = info.LaundryFeatures;
             clonedUtilities.LaundryLocation = info.LaundryLocation;
             clonedUtilities.InteriorFeatures = info.InteriorFeatures;
-            clonedUtilities.KitchenFeatures = info.KitchenFeatures;
-            clonedUtilities.MasterBedroomFeatures = info.MasterBedroomFeatures;
-            clonedUtilities.WaterAccessDescription = info.WaterAccessDescription;
             clonedUtilities.Fireplaces = info.Fireplaces;
             clonedUtilities.FireplaceDescription = info.FireplaceDescription;
             clonedUtilities.Floors = info.Floors;
@@ -119,12 +111,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             yield return this.Appliances;
             yield return this.GarageSpaces;
             yield return this.GarageDescription;
-            yield return this.LaundryFeatures;
             yield return this.LaundryLocation;
             yield return this.InteriorFeatures;
-            yield return this.KitchenFeatures;
-            yield return this.MasterBedroomFeatures;
-            yield return this.WaterAccessDescription;
             yield return this.Fireplaces;
             yield return this.FireplaceDescription;
             yield return this.Floors;

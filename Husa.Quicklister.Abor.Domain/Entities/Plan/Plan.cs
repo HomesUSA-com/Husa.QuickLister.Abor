@@ -71,7 +71,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
                 var room = new PlanRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level);
+                    roomDetail.Level,
+                    roomDetail.Features);
 
                 this.Rooms.Add(room);
             }
@@ -96,7 +97,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
             this.BasePlan.LivingAreasTotal = listing.SaleProperty.SpacesDimensionsInfo.LivingAreasTotal;
 
             var rooms = listing.SaleProperty.Rooms.Select(room => new PlanRoom(
-                    room.Id, room.RoomType, room.Level));
+                    room.Id, room.RoomType, room.Level, room.Features));
 
             this.UpdateRooms(rooms);
         }

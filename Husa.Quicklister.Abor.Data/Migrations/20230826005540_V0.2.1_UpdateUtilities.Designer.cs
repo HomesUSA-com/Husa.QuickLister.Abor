@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230826005540_V0.2.1_UpdateUtilities")]
+    partial class V021_UpdateUtilities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1502,6 +1505,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("datetime")
                                 .HasColumnName("CancelDate");
 
+                            b1.Property<string>("CancelledOption")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("CancelledOption");
+
                             b1.Property<string>("CancelledReason")
                                 .HasMaxLength(300)
                                 .HasColumnType("nvarchar(300)")
@@ -1538,10 +1546,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("bit")
                                 .HasDefaultValue(false)
                                 .HasColumnName("HasBuyerAgent");
-
-                            b1.Property<bool>("HasContingencyInfo")
-                                .HasColumnType("bit")
-                                .HasColumnName("HasContingencyInfo");
 
                             b1.Property<string>("HowSold")
                                 .HasMaxLength(10)

@@ -40,18 +40,10 @@ namespace Husa.Quicklister.Abor.Data.Extensions
                 .HasEnumCollectionValue<Appliances>(300);
             builder.Property(r => r.GarageDescription).HasColumnName(nameof(IProvideFeature.GarageDescription))
                 .HasEnumCollectionValue<GarageDescription>(300);
-            builder.Property(r => r.LaundryFeatures).HasColumnName(nameof(IProvideFeature.LaundryFeatures))
-                .HasEnumCollectionValue<LaundryFeatures>(300);
             builder.Property(r => r.LaundryLocation).HasColumnName(nameof(IProvideFeature.LaundryLocation))
                 .HasEnumCollectionValue<LaundryLocation>(300);
             builder.Property(r => r.InteriorFeatures).HasColumnName(nameof(IProvideFeature.InteriorFeatures))
                 .HasEnumCollectionValue<InteriorFeatures>(300);
-            builder.Property(r => r.KitchenFeatures).HasColumnName(nameof(IProvideFeature.KitchenFeatures))
-                .HasEnumCollectionValue<KitchenFeatures>(300);
-            builder.Property(r => r.MasterBedroomFeatures).HasColumnName(nameof(IProvideFeature.MasterBedroomFeatures))
-                .HasEnumCollectionValue<MasterBedroomFeatures>(300);
-            builder.Property(r => r.WaterAccessDescription).HasColumnName(nameof(IProvideFeature.WaterAccessDescription))
-                .HasEnumCollectionValue<WaterAccessDescription>(300);
             builder.Property(r => r.SecurityFeatures).HasColumnName(nameof(IProvideFeature.SecurityFeatures))
                 .HasEnumCollectionValue<SecurityFeatures>(300);
             builder.Property(r => r.WindowFeatures).HasColumnName(nameof(IProvideFeature.WindowFeatures))
