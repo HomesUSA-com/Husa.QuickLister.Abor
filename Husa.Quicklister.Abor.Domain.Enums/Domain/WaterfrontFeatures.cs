@@ -5,28 +5,28 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum WaterfrontFeatures
     {
-        [EnumMember(Value = "CanalFront")]
+        [EnumMember(Value = "CNLFT")]
         [Description("Canal Front")]
         CanalFront,
-        [EnumMember(Value = "Creek")]
+        [EnumMember(Value = "CREEK")]
         [Description("Creek")]
         Creek,
-        [EnumMember(Value = "LakeFront")]
+        [EnumMember(Value = "LKEF")]
         [Description("Lake Front")]
         LakeFront,
-        [EnumMember(Value = "LakePrivileges")]
+        [EnumMember(Value = "LKPV")]
         [Description("Lake Privileges")]
         LakePrivileges,
         [EnumMember(Value = "None")]
         [Description("None")]
         None,
-        [EnumMember(Value = "Pond")]
+        [EnumMember(Value = "PD")]
         [Description("Pond")]
         Pond,
-        [EnumMember(Value = "RiverFront")]
+        [EnumMember(Value = "RIVF")]
         [Description("River Front")]
         RiverFront,
-        [EnumMember(Value = "Waterfront")]
+        [EnumMember(Value = "WTFNT")]
         [Description("Water Front")]
         WaterFront,
     }

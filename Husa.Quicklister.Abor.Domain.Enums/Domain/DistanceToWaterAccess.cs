@@ -5,19 +5,19 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum DistanceToWaterAccess
     {
-        [EnumMember(Value = "1-2 Miles")]
+        [EnumMember(Value = "Less2")]
         [Description("1-2 Miles")]
         OneTwoMiles,
-        [EnumMember(Value = "2+ Miles")]
+        [EnumMember(Value = "M2nMore")]
         [Description("2+ Miles")]
         TwoPlusMiles,
-        [EnumMember(Value = "In Subdivision")]
+        [EnumMember(Value = "INS")]
         [Description("In Subdivision")]
         InSubdivision,
-        [EnumMember(Value = "Less Than 1 Mile")]
+        [EnumMember(Value = "Less1")]
         [Description("Less Than 1 Mile")]
         LessThanOneMile,
-        [EnumMember(Value = "See Remarks")]
+        [EnumMember(Value = "SRMRKS")]
         [Description("See Remarks")]
         SeeRemarks,
     }

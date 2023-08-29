@@ -5,88 +5,88 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum ConstructionMaterials
     {
-        [EnumMember(Value = "Adobe")]
+        [EnumMember(Value = "ADB")]
         [Description("Adobe")]
         Adobe,
-        [EnumMember(Value = "Asphalt")]
+        [EnumMember(Value = "ASPHALT")]
         [Description("Asphalt")]
         Asphalt,
-        [EnumMember(Value = "AtticCrawlHatchwaysInsulated")]
+        [EnumMember(Value = "ATTINS")]
         [Description("Attic/Crawl Hatchway(s) Insulated")]
         AtticCrawlHatchwaysInsulated,
-        [EnumMember(Value = "BlownInInsulation")]
+        [EnumMember(Value = "BIINS")]
         [Description("Blown-In Insulation")]
         BlownInInsulation,
         [EnumMember(Value = "Brick")]
         [Description("Brick")]
         Brick,
-        [EnumMember(Value = "BrickVeneer")]
+        [EnumMember(Value = "BRICKV")]
         [Description("Brick Veneer")]
         BrickVeneer,
-        [EnumMember(Value = "Cedar")]
+        [EnumMember(Value = "CDR")]
         [Description("Cedar")]
         Cedar,
-        [EnumMember(Value = "ClapBoard")]
-        [Description("ClapBoard")]
+        [EnumMember(Value = "CLAPBRD")]
+        [Description("Clapboard")]
         ClapBoard,
-        [EnumMember(Value = "ConcreteBlock")]
+        [EnumMember(Value = "CNCRT")]
         [Description("Concrete")]
         Concrete,
-        [EnumMember(Value = "Frame")]
+        [EnumMember(Value = "FRAME")]
         [Description("Frame")]
         Frame,
-        [EnumMember(Value = "Glass")]
+        [EnumMember(Value = "GLASS")]
         [Description("Glass")]
         Glass,
-        [EnumMember(Value = "HardiPlankType")]
+        [EnumMember(Value = "HARDI")]
         [Description("HardiPlank Type")]
         HardiPlankType,
         [EnumMember(Value = "ICATRecessedLighting")]
         [Description("ICAT Recessed Lighting")]
         ICatRecessedLighting,
-        [EnumMember(Value = "ICFsInsulatedConcreteForms")]
+        [EnumMember(Value = "ICFCNT")]
         [Description("ICFs (Insulated Concrete Forms)")]
         InsulatedConcreteForms,
-        [EnumMember(Value = "Log")]
+        [EnumMember(Value = "LOG")]
         [Description("Log")]
         Log,
-        [EnumMember(Value = "AllSidesMasonry")]
-        [Description("Masonry - All Sides")]
+        [EnumMember(Value = "MSRYA")]
+        [Description("Masonry-All Sides")]
         MasonryAllSides,
-        [EnumMember(Value = "MasonryPartial")]
-        [Description("Masonry - Partial")]
+        [EnumMember(Value = "MSRYP")]
+        [Description("Masonry-Partial")]
         MasonryPartial,
-        [EnumMember(Value = "NaturalBuilding")]
-        [Description("Natural Building ")]
+        [EnumMember(Value = "NATBLDG")]
+        [Description("Natural Building")]
         NaturalBuilding,
-        [EnumMember(Value = "RadiantBarrier")]
+        [EnumMember(Value = "RBAR")]
         [Description("Radiant Barrier")]
         RadiantBarrier,
-        [EnumMember(Value = "RecycledBioBasedInsulation")]
+        [EnumMember(Value = "RECYBIO")]
         [Description("Recycled/Bio-Based Insulation")]
         RecycledBioBasedInsulation,
-        [EnumMember(Value = "SidingRedwood")]
-        [Description("Siding - Redwood")]
+        [EnumMember(Value = "RDWD")]
+        [Description("Siding-Redwood")]
         SidingRedwood,
-        [EnumMember(Value = "SidingWood")]
-        [Description("Siding - Wood")]
+        [EnumMember(Value = "WDSD")]
+        [Description("Siding-Wood")]
         SidingWood,
-        [EnumMember(Value = "VerticalSiding")]
+        [EnumMember(Value = "VNYL")]
         [Description("Siding-Vinyl")]
         SidingVinyl,
-        [EnumMember(Value = "SprayFoamInsulation")]
+        [EnumMember(Value = "SPFOAM")]
         [Description("Spray Foam Insulation")]
         SprayFoamInsulation,
-        [EnumMember(Value = "Stone")]
+        [EnumMember(Value = "STN")]
         [Description("Stone")]
         Stone,
-        [EnumMember(Value = "StoneVeneer")]
+        [EnumMember(Value = "STVNR")]
         [Description("Stone Veneer")]
         StoneVeneer,
-        [EnumMember(Value = "Stucco")]
+        [EnumMember(Value = "STUC")]
         [Description("Stucco")]
         Stucco,
-        [EnumMember(Value = "SyntheticStucco")]
+        [EnumMember(Value = "SYNST")]
         [Description("Synthetic Stucco")]
         SyntheticStucco,
     }
