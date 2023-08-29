@@ -5,28 +5,28 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum HomeFaces
     {
-        [EnumMember(Value = "East")]
+        [EnumMember(Value = "E")]
         [Description("East")]
         East,
-        [EnumMember(Value = "North")]
+        [EnumMember(Value = "N")]
         [Description("North")]
         North,
-        [EnumMember(Value = "Northeast")]
+        [EnumMember(Value = "NE")]
         [Description("North-East")]
         NorthEast,
-        [EnumMember(Value = "Northwest")]
+        [EnumMember(Value = "NW")]
         [Description("North-West")]
         NorthWest,
-        [EnumMember(Value = "South")]
+        [EnumMember(Value = "SOUTH")]
         [Description("South")]
         South,
-        [EnumMember(Value = "Southeast")]
+        [EnumMember(Value = "SE")]
         [Description("South-East")]
         SouthEast,
-        [EnumMember(Value = "Southwest")]
+        [EnumMember(Value = "SW")]
         [Description("South-West")]
         SouthWest,
-        [EnumMember(Value = "West")]
+        [EnumMember(Value = "WEST")]
         [Description("West")]
         West,
     }
