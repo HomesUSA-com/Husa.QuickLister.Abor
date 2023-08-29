@@ -5,28 +5,28 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum UnitStyle
     {
-        [EnumMember(Value = "1st Floor Entry")]
+        [EnumMember(Value = "1STFE")]
         [Description("1st Floor Entry")]
         FirstFloorEntry,
-        [EnumMember(Value = "2nd Floor Entry")]
+        [EnumMember(Value = "2NDFE")]
         [Description("2nd Floor Entry")]
         SecondFloorEntry,
-        [EnumMember(Value = "3rd+ Floor Entry")]
+        [EnumMember(Value = "3RDFE")]
         [Description("3rd+ Floor Entry")]
         ThirdPlusFloorEntry,
-        [EnumMember(Value = "Elevator")]
+        [EnumMember(Value = "ELVTR")]
         [Description("Elevator")]
         Elevator,
-        [EnumMember(Value = "End Unit")]
+        [EnumMember(Value = "ENDUT")]
         [Description("End Unit")]
         EndUnit,
-        [EnumMember(Value = "Entry Steps")]
+        [EnumMember(Value = "ENTST")]
         [Description("Entry Steps")]
         EntrySteps,
-        [EnumMember(Value = "Multi level Floor Plan")]
+        [EnumMember(Value = "MUFLR")]
         [Description("Multi-level Floor Plan")]
         MultilevelFloorPlan,
-        [EnumMember(Value = "Single level Floor Plan")]
+        [EnumMember(Value = "SLFPL")]
         [Description("Single-level Floor Plan")]
         SinglelevelFloorPlan,
     }

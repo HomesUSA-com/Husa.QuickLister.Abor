@@ -5,64 +5,64 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum View
     {
-        [EnumMember(Value = "Bridges")]
+        [EnumMember(Value = "BRDGE")]
         [Description("Bridge(s)")]
         Bridges,
-        [EnumMember(Value = "Canal")]
+        [EnumMember(Value = "CNAL")]
         [Description("Canal")]
         Canal,
-        [EnumMember(Value = "Canyon")]
+        [EnumMember(Value = "CNY")]
         [Description("Canyon")]
         Canyon,
-        [EnumMember(Value = "City")]
+        [EnumMember(Value = "CITY")]
         [Description("City")]
         City,
-        [EnumMember(Value = "CityLights")]
+        [EnumMember(Value = "CityLt")]
         [Description("City Lights")]
         CityLights,
-        [EnumMember(Value = "CreekStream")]
+        [EnumMember(Value = "CREEK")]
         [Description("Creek/Stream")]
         CreekStream,
-        [EnumMember(Value = "Downtown")]
+        [EnumMember(Value = "DTWN")]
         [Description("Downtown")]
         Downtown,
         [EnumMember(Value = "Garden")]
         [Description("Garden")]
         Garden,
-        [EnumMember(Value = "GolfCourse")]
+        [EnumMember(Value = "GOLFCRSE")]
         [Description("Golf Course")]
         GolfCourse,
-        [EnumMember(Value = "Hills")]
+        [EnumMember(Value = "HILCNTRY")]
         [Description("Hill Country")]
         HillCountry,
-        [EnumMember(Value = "Lake")]
+        [EnumMember(Value = "LKE")]
         [Description("Lake")]
         Lake,
-        [EnumMember(Value = "Marina")]
+        [EnumMember(Value = "MRNA")]
         [Description("Marina")]
         Marina,
-        [EnumMember(Value = "Neighborhood")]
+        [EnumMember(Value = "NEIHD")]
         [Description("Neighborhood")]
         Neighborhood,
-        [EnumMember(Value = "NONE")]
+        [EnumMember(Value = "None")]
         [Description("None")]
         None,
-        [EnumMember(Value = "Orchard")]
+        [EnumMember(Value = "ORCHD")]
         [Description("Orchard")]
         Orchard,
-        [EnumMember(Value = "Panoramic")]
+        [EnumMember(Value = "PANOR")]
         [Description("Panoramic")]
         Panoramic,
-        [EnumMember(Value = "ParkGreenbelt")]
+        [EnumMember(Value = "GRENBELT")]
         [Description("Park/Greenbelt")]
         ParkGreenbelt,
-        [EnumMember(Value = "Pasture")]
+        [EnumMember(Value = "PSTRE")]
         [Description("Pasture")]
         Pasture,
-        [EnumMember(Value = "Pond")]
+        [EnumMember(Value = "PD")]
         [Description("Pond")]
         Pond,
-        [EnumMember(Value = "Pool")]
+        [EnumMember(Value = "PL")]
         [Description("Pool")]
         Pool,
         [EnumMember(Value = "River")]
@@ -71,16 +71,16 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "Rural")]
         [Description("Rural")]
         Rural,
-        [EnumMember(Value = "Skyline")]
+        [EnumMember(Value = "SKYLN")]
         [Description("Skyline")]
         Skyline,
-        [EnumMember(Value = "TreesWoods")]
+        [EnumMember(Value = "WOODS")]
         [Description("Trees/Woods")]
         TreesWoods,
-        [EnumMember(Value = "Vineyard")]
+        [EnumMember(Value = "VNYD")]
         [Description("Vineyard")]
         Vineyard,
-        [EnumMember(Value = "Water")]
+        [EnumMember(Value = "WTR")]
         [Description("Water")]
         Water,
     }

@@ -14,7 +14,7 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "Bluff")]
         [Description("Bluff")]
         Bluff,
-        [EnumMember(Value = "City Lot")]
+        [EnumMember(Value = "CityLot")]
         [Description("City Lot")]
         CityLot,
         [EnumMember(Value = "CLCLBHS")]

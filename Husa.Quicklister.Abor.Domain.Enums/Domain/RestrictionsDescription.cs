@@ -5,52 +5,52 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum RestrictionsDescription
     {
-        [EnumMember(Value = "Adult 55+")]
+        [EnumMember(Value = "ADLT55")]
         [Description("Adult 55+")]
         Adult55,
-        [EnumMember(Value = "Adult 62+")]
+        [EnumMember(Value = "ADLT62")]
         [Description("Adult 62+")]
         Adult62,
-        [EnumMember(Value = "Building Size")]
+        [EnumMember(Value = "BLDGSZ")]
         [Description("Building Size")]
         BuildingSize,
-        [EnumMember(Value = "Building Style")]
+        [EnumMember(Value = "BLDGST")]
         [Description("Building Style")]
         BuildingStyle,
-        [EnumMember(Value = "City Restrictions")]
+        [EnumMember(Value = "CITRS")]
         [Description("City Restrictions")]
         CityRestrictions,
-        [EnumMember(Value = "Covenant")]
+        [EnumMember(Value = "CVNANT")]
         [Description("Covenant")]
         Covenant,
-        [EnumMember(Value = "Deed Restrictions")]
+        [EnumMember(Value = "DEEDRS")]
         [Description("Deed Restrictions")]
         DeedRestrictions,
-        [EnumMember(Value = "DevelopmentType")]
+        [EnumMember(Value = "DVLMPT")]
         [Description("Development Type")]
         DevelopmentType,
-        [EnumMember(Value = "Easement/R.O.W.")]
-        [Description("Easement/R.O.W.")]
+        [EnumMember(Value = "EASE")]
+        [Description("Easement")]
         EasementROW,
-        [EnumMember(Value = "Environmental")]
+        [EnumMember(Value = "ENVRO")]
         [Description("Environmental")]
         Environmental,
-        [EnumMember(Value = "Lease")]
+        [EnumMember(Value = "LEASE")]
         [Description("Lease")]
         Lease,
-        [EnumMember(Value = "Limited # Vehicles")]
+        [EnumMember(Value = "LMTDVH")]
         [Description("Limited # Vehicles")]
         LimitedVehicles,
-        [EnumMember(Value = "Livestock")]
+        [EnumMember(Value = "LVSTCK")]
         [Description("Livestock")]
         Livestock,
         [EnumMember(Value = "None")]
         [Description("None")]
         None,
-        [EnumMember(Value = "Seller Imposed")]
+        [EnumMember(Value = "SIMP")]
         [Description("Seller Imposed")]
         SellerImposed,
-        [EnumMember(Value = "Zoning")]
+        [EnumMember(Value = "ZONE")]
         [Description("Zoning")]
         Zoning,
     }

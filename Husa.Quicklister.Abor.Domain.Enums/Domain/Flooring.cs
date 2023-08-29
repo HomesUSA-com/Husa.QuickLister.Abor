@@ -5,40 +5,40 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum Flooring
     {
-        [EnumMember(Value = "Carpet")]
+        [EnumMember(Value = "CARPET")]
         [Description("Carpet")]
         Carpet,
-        [EnumMember(Value = "Concrete")]
+        [EnumMember(Value = "CNCRT")]
         [Description("Concrete")]
         Concrete,
-        [EnumMember(Value = "Laminate")]
+        [EnumMember(Value = "LAMINATE")]
         [Description("Laminate")]
         Laminate,
-        [EnumMember(Value = "Linoleum")]
+        [EnumMember(Value = "LINOLEUM")]
         [Description("Linoleum")]
         Linoleum,
-        [EnumMember(Value = "Marble")]
+        [EnumMember(Value = "MARBLE")]
         [Description("Marble")]
         Marble,
-        [EnumMember(Value = "Parquet")]
+        [EnumMember(Value = "PARQUET")]
         [Description("Parquet")]
         Parquet,
-        [EnumMember(Value = "SeeRemarks")]
+        [EnumMember(Value = "SRMRKS")]
         [Description("See Remarks")]
         SeeRemarks,
-        [EnumMember(Value = "Slate")]
+        [EnumMember(Value = "SLATE")]
         [Description("Slate")]
         Slate,
-        [EnumMember(Value = "Terrazzo")]
+        [EnumMember(Value = "TERRZ")]
         [Description("Terrazzo")]
         Terrazzo,
-        [EnumMember(Value = "Tile")]
+        [EnumMember(Value = "TLE")]
         [Description("Tile")]
         Tile,
-        [EnumMember(Value = "Vinyl")]
+        [EnumMember(Value = "VNYL")]
         [Description("Vinyl")]
         Vinyl,
-        [EnumMember(Value = "Wood")]
+        [EnumMember(Value = "WD")]
         [Description("Wood")]
         Wood,
     }
