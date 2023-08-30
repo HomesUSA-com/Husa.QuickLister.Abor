@@ -8,34 +8,34 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "Balcony")]
         [Description("Balcony")]
         Balcony,
-        [EnumMember(Value = "ExteriorSteps")]
+        [EnumMember(Value = "EXTER")]
         [Description("Exterior Steps")]
         ExteriorSteps,
-        [EnumMember(Value = "ElectricGrill")]
+        [EnumMember(Value = "EGRLL")]
         [Description("Grill-Electric")]
         GrillElectric,
-        [EnumMember(Value = "GasGrill")]
+        [EnumMember(Value = "GGRLL")]
         [Description("Grill-Gas")]
         GrillGas,
-        [EnumMember(Value = "Lighting")]
+        [EnumMember(Value = "LIGHTN")]
         [Description("Lighting")]
         Lighting,
-        [EnumMember(Value = "NoExteriorSteps")]
+        [EnumMember(Value = "NOENS")]
         [Description("No Exterior Steps")]
         NoExteriorSteps,
         [EnumMember(Value = "None")]
         [Description("None")]
         None,
-        [EnumMember(Value = "OutdoorGrill")]
+        [EnumMember(Value = "OGRLL")]
         [Description("Outdoor Grill")]
         OutdoorGrill,
-        [EnumMember(Value = "Playground")]
+        [EnumMember(Value = "PLGD")]
         [Description("Playground")]
         Playground,
-        [EnumMember(Value = "PrivateYard")]
+        [EnumMember(Value = "PVTBF")]
         [Description("Private Yard")]
         PrivateYard,
-        [EnumMember(Value = "TennisCourts")]
+        [EnumMember(Value = "TNNS")]
         [Description("Tennis Court(s)")]
         TennisCourts,
     }

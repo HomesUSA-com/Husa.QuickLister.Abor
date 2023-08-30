@@ -5,40 +5,40 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum SecurityFeatures
     {
-        [EnumMember(Value = "CarbonMonoxideDetectors")]
+        [EnumMember(Value = "CMDTR")]
         [Description("Carbon Monoxide Detector(s)")]
         CarbonMonoxideDetectors,
-        [EnumMember(Value = "FireAlarm")]
+        [EnumMember(Value = "FRAST")]
         [Description("Fire Alarm")]
         FireAlarm,
-        [EnumMember(Value = "FireSprinklerSystem")]
+        [EnumMember(Value = "FSPRK")]
         [Description("Fire Sprinkler System")]
         FireSprinklerSystem,
-        [EnumMember(Value = "GatedwithGuard")]
+        [EnumMember(Value = "GTEDGD")]
         [Description("Gated with Guard")]
         GatedwithGuard,
         [EnumMember(Value = "None")]
-        [Description("None ")]
+        [Description("None")]
         None,
         [EnumMember(Value = "Prewired")]
         [Description("Prewired")]
         Prewired,
-        [EnumMember(Value = "SecuredGarageParking")]
+        [EnumMember(Value = "SGAR")]
         [Description("Secured Garage/Parking")]
         SecuredGarageParking,
-        [EnumMember(Value = "SecuritySystem")]
+        [EnumMember(Value = "SECSYS")]
         [Description("Security System")]
         SecuritySystem,
-        [EnumMember(Value = "SecuritySystemLeased")]
+        [EnumMember(Value = "SCSYL")]
         [Description("Security System Leased")]
         SecuritySystemLeased,
-        [EnumMember(Value = "SecuritySystemOwned")]
+        [EnumMember(Value = "SCSYO")]
         [Description("Security System Owned")]
         SecuritySystemOwned,
-        [EnumMember(Value = "SeeRemarks")]
+        [EnumMember(Value = "SRMRKS")]
         [Description("See Remarks")]
         SeeRemarks,
-        [EnumMember(Value = "SmokeDetectors")]
+        [EnumMember(Value = "SMKDT")]
         [Description("Smoke Detector(s)")]
         SmokeDetectors,
     }

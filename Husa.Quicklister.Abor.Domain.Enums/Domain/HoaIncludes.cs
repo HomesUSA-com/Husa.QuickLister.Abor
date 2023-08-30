@@ -20,7 +20,7 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "INTRNT")]
         [Description("Internet")]
         Internet,
-        [EnumMember(Value = "LANDSCP")]
+        [EnumMember(Value = "LNDSP")]
         [Description("Landscaping")]
         Landscaping,
         [EnumMember(Value = "SECU")]

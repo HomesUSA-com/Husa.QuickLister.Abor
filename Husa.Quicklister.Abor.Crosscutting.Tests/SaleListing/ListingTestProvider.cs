@@ -200,7 +200,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                 ShowingInfo = new()
                 {
                     ShowingInstructions = "Call salesperson or come to the model home at 1234 Sample Trail.",
-                    LockBoxType = new[] { LockBoxType.Combo },
+                    LockBoxType = LockBoxType.Combo,
                     ShowingRequirements = new[] { ShowingRequirements.ShowingService },
                 },
                 SchoolsInfo = new()

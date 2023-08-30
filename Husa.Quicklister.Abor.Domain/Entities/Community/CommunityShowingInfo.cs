@@ -41,7 +41,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual ICollection<ShowingRequirements> ShowingRequirements { get; set; }
         public virtual string Directions { get; set; }
         public virtual string OwnerName { get; set; }
-        public virtual ICollection<LockBoxType> LockBoxType { get; set; }
+        public virtual LockBoxType? LockBoxType { get; set; }
 
         public static CommunityShowingInfo ImportFromXml(SubdivisionResponse subdivision, CommunityShowingInfo showingInfo)
         {

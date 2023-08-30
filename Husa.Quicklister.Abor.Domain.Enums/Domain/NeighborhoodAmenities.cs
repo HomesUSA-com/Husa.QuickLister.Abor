@@ -5,100 +5,100 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum NeighborhoodAmenities
     {
-        [EnumMember(Value = "Clubhouse")]
+        [EnumMember(Value = "CLUBHSE")]
         [Description("Clubhouse")]
         Clubhouse,
-        [EnumMember(Value = "CommunityMailbox")]
+        [EnumMember(Value = "CLSTRMBX")]
         [Description("Cluster Mailbox")]
         ClusterMailbox,
-        [EnumMember(Value = "CommonGroundsArea")]
+        [EnumMember(Value = "COMMAREA")]
         [Description("Common Grounds")]
         CommonGrounds,
-        [EnumMember(Value = "ControlledAccess")]
+        [EnumMember(Value = "CNTLDA")]
         [Description("Controlled Access")]
         ControlledAccess,
-        [EnumMember(Value = "Courtyard")]
+        [EnumMember(Value = "CRTYRD")]
         [Description("Courtyard")]
         Courtyard,
-        [EnumMember(Value = "Curbs")]
+        [EnumMember(Value = "CURBS")]
         [Description("Curbs")]
         Curbs,
-        [EnumMember(Value = "DogParkPlayArea")]
+        [EnumMember(Value = "DOGPRK")]
         [Description("Dog Park/Play Area")]
         DogParkPlayArea,
-        [EnumMember(Value = "Fishing")]
+        [EnumMember(Value = "FSHG")]
         [Description("Fishing")]
         Fishing,
-        [EnumMember(Value = "FitnessCenter")]
+        [EnumMember(Value = "FITCTR")]
         [Description("Fitness Center")]
         FitnessCenter,
-        [EnumMember(Value = "GameRoom")]
+        [EnumMember(Value = "GMRM")]
         [Description("Game Room")]
         GameRoom,
-        [EnumMember(Value = "Gated")]
+        [EnumMember(Value = "GTED")]
         [Description("Gated")]
         Gated,
-        [EnumMember(Value = "GolfCourse")]
+        [EnumMember(Value = "GOLFCRSE")]
         [Description("Golf Course")]
         GolfCourse,
-        [EnumMember(Value = "GoogleFiber")]
+        [EnumMember(Value = "GOGLFBR")]
         [Description("Google Fiber")]
         GoogleFiber,
-        [EnumMember(Value = "HighSpeedInternet")]
+        [EnumMember(Value = "HSPCN")]
         [Description("High Speed Internet")]
         HighSpeedInternet,
-        [EnumMember(Value = "KitchenFacilities")]
+        [EnumMember(Value = "KITCHFAC")]
         [Description("Kitchen Facilities")]
         KitchenFacilities,
-        [EnumMember(Value = "Lake")]
+        [EnumMember(Value = "LKE")]
         [Description("Lake")]
         Lake,
-        [EnumMember(Value = "MediaCenterMovieTheatre")]
+        [EnumMember(Value = "MDMVTHR")]
         [Description("Media Center/Movie Theatre")]
         MediaCenterMovieTheatre,
         [EnumMember(Value = "None")]
         [Description("None")]
         None,
-        [EnumMember(Value = "Park")]
+        [EnumMember(Value = "PARK")]
         [Description("Park")]
         Park,
-        [EnumMember(Value = "PetAmenities")]
+        [EnumMember(Value = "PETAM")]
         [Description("Pet Amenities")]
         PetAmenities,
-        [EnumMember(Value = "PicnicArea")]
+        [EnumMember(Value = "PICNIC")]
         [Description("Picnic Area")]
         PicnicArea,
-        [EnumMember(Value = "Playground")]
+        [EnumMember(Value = "PLGD")]
         [Description("Playground")]
         Playground,
-        [EnumMember(Value = "Pool")]
+        [EnumMember(Value = "PL")]
         [Description("Pool")]
         Pool,
-        [EnumMember(Value = "SeeRemarks")]
+        [EnumMember(Value = "SRMRKS")]
         [Description("See Remarks")]
         SeeRemarks,
-        [EnumMember(Value = "Sidewalks")]
+        [EnumMember(Value = "SIDWL")]
         [Description("Sidewalks")]
         Sidewalks,
-        [EnumMember(Value = "Sport CourtsFacility")]
+        [EnumMember(Value = "SPRTFAC")]
         [Description("Sport Court(s)/Facility")]
         SportCourtFacility,
-        [EnumMember(Value = "Storage")]
+        [EnumMember(Value = "STRG")]
         [Description("Storage")]
         Storage,
-        [EnumMember(Value = "StreetLights")]
+        [EnumMember(Value = "STLT")]
         [Description("Street Lights")]
         StreetLights,
-        [EnumMember(Value = "Tennis Courts")]
+        [EnumMember(Value = "TNNS")]
         [Description("Tennis Court(s)")]
         TennisCourt,
-        [EnumMember(Value = "UndergroundUtilities")]
+        [EnumMember(Value = "UDUTL")]
         [Description("Underground Utilities")]
         UndergroundUtilities,
-        [EnumMember(Value = "UVerse")]
+        [EnumMember(Value = "UVERSE")]
         [Description("U-Verse")]
         UVerse,
-        [EnumMember(Value = "TrailsPaths")]
+        [EnumMember(Value = "JPATH")]
         [Description("Walk/Bike/Hike/Jog Trails")]
         WalkBikeHikeJogTrails,
     }

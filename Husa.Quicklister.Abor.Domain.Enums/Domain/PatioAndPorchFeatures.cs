@@ -5,28 +5,28 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum PatioAndPorchFeatures
     {
-        [EnumMember(Value = "Arbor")]
+        [EnumMember(Value = "ARBOR")]
         [Description("Arbor")]
         Arbor,
-        [EnumMember(Value = "Awnings")]
+        [EnumMember(Value = "AWNG")]
         [Description("Awning(s)")]
         Awnings,
-        [EnumMember(Value = "Covered")]
+        [EnumMember(Value = "CVR")]
         [Description("Covered")]
         Covered,
         [EnumMember(Value = "Deck")]
         [Description("Deck")]
         Deck,
-        [EnumMember(Value = "Enclosed")]
+        [EnumMember(Value = "ENCLD")]
         [Description("Enclosed")]
         Enclosed,
-        [EnumMember(Value = "FrontPorch")]
+        [EnumMember(Value = "FPRCH")]
         [Description("Front Porch")]
         FrontPorch,
-        [EnumMember(Value = "GlassEnclosed")]
+        [EnumMember(Value = "GLSEN")]
         [Description("Glass Enclosed")]
         GlassEnclosed,
-        [EnumMember(Value = "MosquitoSystem")]
+        [EnumMember(Value = "MOSQ")]
         [Description("Mosquito System")]
         MosquitoSystem,
         [EnumMember(Value = "None")]
@@ -35,25 +35,25 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "Patio")]
         [Description("Patio")]
         Patio,
-        [EnumMember(Value = "Porch")]
+        [EnumMember(Value = "PCH")]
         [Description("Porch")]
         Porch,
-        [EnumMember(Value = "RearPorch")]
+        [EnumMember(Value = "RPRCH")]
         [Description("Rear Porch")]
         RearPorch,
-        [EnumMember(Value = "Screened")]
+        [EnumMember(Value = "SCRNPR")]
         [Description("Screened")]
         Screened,
-        [EnumMember(Value = "SeeRemarks")]
+        [EnumMember(Value = "SRMRKS")]
         [Description("See Remarks")]
         SeeRemarks,
-        [EnumMember(Value = "SidePorch")]
+        [EnumMember(Value = "SPCH")]
         [Description("Side Porch")]
         SidePorch,
-        [EnumMember(Value = "Terrace")]
+        [EnumMember(Value = "TERR")]
         [Description("Terrace")]
         Terrace,
-        [EnumMember(Value = "WrapAround")]
+        [EnumMember(Value = "WRAP")]
         [Description("Wrap Around")]
         WrapAround,
     }

@@ -5,40 +5,40 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum GuestAccommodationsDescription
     {
-        [EnumMember(Value = "Connected")]
+        [EnumMember(Value = "GCON")]
         [Description("Connected")]
         Connected,
-        [EnumMember(Value = "GarageApartment")]
+        [EnumMember(Value = "GGAP")]
         [Description("Garage Apartment")]
         GarageApartment,
-        [EnumMember(Value = "GuestHouse")]
+        [EnumMember(Value = "GHSE")]
         [Description("Guest House")]
         GuestHouse,
-        [EnumMember(Value = "MainLevel")]
+        [EnumMember(Value = "MAIN")]
         [Description("Main Level")]
         MainLevel,
         [EnumMember(Value = "None")]
         [Description("None")]
         None,
-        [EnumMember(Value = "NotConnected")]
+        [EnumMember(Value = "GNCN")]
         [Description("Not Connected")]
         NotConnected,
-        [EnumMember(Value = "RoomwithPrivateBath")]
+        [EnumMember(Value = "GPBT")]
         [Description("Room with Private Bath")]
         RoomWithPrivateBath,
-        [EnumMember(Value = "SeeAgent")]
+        [EnumMember(Value = "SRMRKS")]
         [Description("See Remarks")]
         SeeRemarks,
-        [EnumMember(Value = "SeparateEntrance")]
+        [EnumMember(Value = "GSEN")]
         [Description("Separate Entrance")]
         SeparateEntrance,
-        [EnumMember(Value = "SeparateKitFacilities")]
+        [EnumMember(Value = "GSKF")]
         [Description("Separate Kit Facilities")]
         SeparateKitFacilities,
-        [EnumMember(Value = "SeparateLivingQuarters")]
+        [EnumMember(Value = "GSLQ")]
         [Description("Separate Living Quarters")]
         SeparateLivingQuarters,
-        [EnumMember(Value = "SeparateUtilities")]
+        [EnumMember(Value = "GSUT")]
         [Description("Separate Utilities")]
         SeparateUtilities,
     }

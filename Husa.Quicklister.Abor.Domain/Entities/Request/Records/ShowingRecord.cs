@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Extensions;
@@ -36,9 +37,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         [MinLength(1)]
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
 
-        [Required]
-        [MinLength(1)]
-        public ICollection<LockBoxType> LockBoxType { get; set; }
+        public LockBoxType LockBoxType { get; set; }
         public bool EnableOpenHouses { get; set; }
         public bool OpenHousesAgree { get; set; }
         public bool ShowOpenHousesPending { get; set; }
@@ -64,7 +63,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 EnableOpenHouses = showingInfo.EnableOpenHouses,
                 OpenHousesAgree = showingInfo.OpenHousesAgree,
                 ShowOpenHousesPending = showingInfo.ShowOpenHousesPending,
-                LockBoxType = showingInfo.LockBoxType,
+                LockBoxType = showingInfo.LockBoxType ?? throw new DomainException(nameof(showingInfo.LockBoxType)),
                 ShowingRequirements = showingInfo.ShowingRequirements,
                 OwnerName = showingInfo.OwnerName,
             };

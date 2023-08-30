@@ -5,19 +5,19 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum LaundryLocation
     {
-        [EnumMember(Value = "Kitchen")]
+        [EnumMember(Value = "KTCH")]
         [Description("Kitchen")]
         Kitchen,
-        [EnumMember(Value = "Laundry Closet")]
+        [EnumMember(Value = "LCLST")]
         [Description("Laundry Closet")]
         LaundryCloset,
-        [EnumMember(Value = "Laundry Room")]
+        [EnumMember(Value = "LURM")]
         [Description("Laundry Room")]
         LaundryRoom,
-        [EnumMember(Value = "Main Level")]
+        [EnumMember(Value = "MAIN")]
         [Description("Main Level")]
         MainLevel,
-        [EnumMember(Value = "Upper Level")]
+        [EnumMember(Value = "UPR")]
         [Description("Upper Level")]
         UpperLevel,
     }

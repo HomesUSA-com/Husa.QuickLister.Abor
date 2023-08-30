@@ -17,7 +17,7 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "HMSTD")]
         [Description("Homestead")]
         Homestead,
-        [EnumMember(Value = "NONE")]
+        [EnumMember(Value = "None")]
         [Description("None")]
         None,
         [EnumMember(Value = "OV65E")]

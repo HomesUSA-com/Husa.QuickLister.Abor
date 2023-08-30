@@ -12,7 +12,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
         public string LockBoxSerialNumber { get; set; }
         public string ShowingInstructions { get; set; }
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
-        public ICollection<LockBoxType> LockBoxType { get; set; }
+        public LockBoxType? LockBoxType { get; set; }
         public string RealtorContactEmail { get; set; }
         public string Directions { get; set; }
         public string OwnerName { get; set; }
