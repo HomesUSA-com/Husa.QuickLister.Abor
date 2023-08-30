@@ -28,7 +28,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
                 .HasEnumCollectionValue<ShowingRequirements>(maxLength: 300);
             builder.Property(r => r.LockBoxType)
                 .HasColumnName(nameof(IProvideShowingInfo.LockBoxType))
-                .HasEnumCollectionValue<LockBoxType>(maxLength: 300);
+                .HasEnumFieldValue<LockBoxType>(maxLength: 30);
             builder.Property(r => r.Directions).HasColumnName(nameof(IProvideShowingInfo.Directions)).HasMaxLength(255).IsRequired(false);
             builder.Property(r => r.OwnerName).HasColumnName("ShowingInfoOwnerName").HasMaxLength(100);
         }

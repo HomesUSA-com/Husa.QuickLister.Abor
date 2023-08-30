@@ -8,14 +8,15 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>0.2.3</Version>
+        <Version>0.2.4</Version>
         <PackageReleaseNotes>
-            Release 0.2.3:
+            Release 0.2.4:
             - Update nuget packages
             - Update API contracts
             - Fixed api endpoints
             - Added OwnerName to community contract
             - Updated enum members
+            - Made LockBoxType a single value
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

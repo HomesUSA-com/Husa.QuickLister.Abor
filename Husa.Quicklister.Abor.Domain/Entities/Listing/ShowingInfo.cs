@@ -39,7 +39,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual string LockBoxSerialNumber { get; set; }
         public virtual string ShowingInstructions { get; set; }
         public virtual ICollection<ShowingRequirements> ShowingRequirements { get; set; }
-        public virtual ICollection<LockBoxType> LockBoxType { get; set; }
+        public virtual LockBoxType? LockBoxType { get; set; }
         public virtual string RealtorContactEmail { get; set; }
         public virtual string Directions { get; set; }
         public virtual string OwnerName { get; set; }

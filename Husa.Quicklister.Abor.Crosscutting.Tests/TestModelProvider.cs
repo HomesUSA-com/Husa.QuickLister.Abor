@@ -1366,6 +1366,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 ContactPhone = communityShowingInfo.ContactPhone,
                 ShowingInstructions = communityShowingInfo.ShowingInstructions,
                 Directions = communityShowingInfo.Directions,
+                LockBoxType = LockBoxType.None,
             };
         }
 
@@ -1413,7 +1414,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             ContactPhone = "210-222-2227",
             ShowingInstructions = "Call salesperson or come to the model home at 1234 Sample Trail.",
             Directions = "Fredericksburg Rd to Mulberry - West on Mulberry.",
-            LockBoxType = new[] { LockBoxType.Combo },
+            LockBoxType = LockBoxType.Combo,
         };
     }
 }
