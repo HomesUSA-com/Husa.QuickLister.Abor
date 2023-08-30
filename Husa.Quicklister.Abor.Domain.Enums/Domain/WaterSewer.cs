@@ -5,22 +5,22 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum WaterSewer
     {
-        [EnumMember(Value = "AerobicSeptic")]
+        [EnumMember(Value = "ASEP")]
         [Description("Aerobic Septic")]
         AerobicSeptic,
-        [EnumMember(Value = "EngineeredSeptic")]
+        [EnumMember(Value = "ENGSPT")]
         [Description("Engineered Septic")]
         EngineeredSeptic,
         [EnumMember(Value = "MUD")]
         [Description("MUD")]
         MUD,
-        [EnumMember(Value = "PrivateSewer")]
+        [EnumMember(Value = "PSWR")]
         [Description("Private Sewer")]
         PrivateSewer,
-        [EnumMember(Value = "PublicSewer")]
+        [EnumMember(Value = "PBSWR")]
         [Description("Public Sewer")]
         PublicSewer,
-        [EnumMember(Value = "SepticTank")]
+        [EnumMember(Value = "SPTNT")]
         [Description("Septic Tank")]
         SepticTank,
     }

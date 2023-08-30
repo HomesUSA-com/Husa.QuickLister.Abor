@@ -5,49 +5,49 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum UtilitiesDescription
     {
-        [EnumMember(Value = "AboveGroundUtilities")]
+        [EnumMember(Value = "ABVGRD")]
         [Description("Above Ground Utilities")]
         AboveGroundUtilities,
-        [EnumMember(Value = "CableAvailable")]
+        [EnumMember(Value = "CABLEA")]
         [Description("Cable Available")]
         CableAvailable,
-        [EnumMember(Value = "ElectricityAvailable")]
+        [EnumMember(Value = "EAVL")]
         [Description("Electricity Available")]
         ElectricityAvailable,
-        [EnumMember(Value = "InternetCable")]
+        [EnumMember(Value = "INTRNTC")]
         [Description("Internet-Cable")]
         InternetCable,
-        [EnumMember(Value = "InternetFiber")]
+        [EnumMember(Value = "INTRNTF")]
         [Description("Internet-Fiber")]
         InternetFiber,
-        [EnumMember(Value = "InternetSatelliteOther")]
+        [EnumMember(Value = "INTRNTO")]
         [Description("Internet-Satellite/Other")]
         InternetSatelliteOther,
-        [EnumMember(Value = "NaturalGasAvailable")]
+        [EnumMember(Value = "GAS")]
         [Description("Natural Gas Available")]
         NaturalGasAvailable,
-        [EnumMember(Value = "PhoneAvailable")]
+        [EnumMember(Value = "PHAV")]
         [Description("Phone Available")]
         PhoneAvailable,
-        [EnumMember(Value = "Propane")]
+        [EnumMember(Value = "PROPN")]
         [Description("Propane")]
         Propane,
-        [EnumMember(Value = "SewerAvailable")]
+        [EnumMember(Value = "SAVAL")]
         [Description("Sewer Available")]
         SewerAvailable,
-        [EnumMember(Value = "SewerConnected")]
+        [EnumMember(Value = "SCONN")]
         [Description("Sewer Connected")]
         SewerConnected,
-        [EnumMember(Value = "Solar")]
+        [EnumMember(Value = "SOLAR")]
         [Description("Solar")]
         Solar,
-        [EnumMember(Value = "UndergroundUtilities")]
+        [EnumMember(Value = "UDUTL")]
         [Description("Underground Utilities")]
         UndergroundUtilities,
-        [EnumMember(Value = "WaterAvailable")]
+        [EnumMember(Value = "WTRAV")]
         [Description("Water Available")]
         WaterAvailable,
-        [EnumMember(Value = "WaterConnected")]
+        [EnumMember(Value = "WTRCN")]
         [Description("Water Connected")]
         WaterConnected,
     }
