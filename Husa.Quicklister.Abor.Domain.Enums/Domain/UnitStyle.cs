@@ -25,9 +25,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         EntrySteps,
         [EnumMember(Value = "MUFLR")]
         [Description("Multi-level Floor Plan")]
-        MultilevelFloorPlan,
+        MultiLevelFloorPlan,
         [EnumMember(Value = "SLFPL")]
         [Description("Single-level Floor Plan")]
-        SinglelevelFloorPlan,
+        SingleLevelFloorPlan,
     }
 }
