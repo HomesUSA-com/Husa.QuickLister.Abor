@@ -8,9 +8,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>0.2.4</Version>
+        <Version>0.2.5</Version>
         <PackageReleaseNotes>
-            Release 0.2.4:
+            Release 0.2.5:
             - Update nuget packages
             - Update API contracts
             - Fixed api endpoints

@@ -8,10 +8,10 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "MUD")]
         [Description("MUD")]
         MUD,
-        [EnumMember(Value = "Private")]
+        [EnumMember(Value = "PRV")]
         [Description("Private")]
         Private,
-        [EnumMember(Value = "Public")]
+        [EnumMember(Value = "CITY")]
         [Description("Public")]
         Public,
     }
