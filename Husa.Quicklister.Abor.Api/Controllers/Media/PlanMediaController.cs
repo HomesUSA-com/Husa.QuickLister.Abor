@@ -107,7 +107,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
 
         [HttpPatch]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> UpdateResourcesAsync([FromRoute] Guid planId, [FromBody] IEnumerable<Media> media)
+        public async Task<IActionResult> UpdateResourcesAsync([FromRoute] Guid planId, [FromBody] IEnumerable<SimpleMedia> media)
         {
             this.logger.LogInformation("Starting to update {count} resources", media.Count());
 
