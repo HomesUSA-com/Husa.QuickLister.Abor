@@ -801,7 +801,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             AgentId = null,
             BackOnMarketDate = null,
-            CancelDate = null,
             CancelledReason = null,
             ClosedDate = null,
             ClosePrice = null,

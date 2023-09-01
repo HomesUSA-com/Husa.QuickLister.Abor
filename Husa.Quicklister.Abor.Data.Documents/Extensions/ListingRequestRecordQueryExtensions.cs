@@ -181,26 +181,22 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
 
             return new()
             {
-                ContractDate = statusField.ContractDate,
-                ExpiredDateOption = statusField.ExpiredDateOption,
-                SellerConcessionDescription = statusField.SellerConcessionDescription,
                 HasContingencyInfo = statusField.HasContingencyInfo,
                 ContingencyInfo = statusField.ContingencyInfo,
-                HasBuyerAgent = statusField.HasBuyerAgent,
-                KickOutInformation = statusField.KickOutInformation,
-                HowSold = statusField.HowSold,
-                SaleTerms2nd = statusField.SaleTerms2nd,
-                AgentId = statusField.AgentId,
-                BackOnMarketDate = statusField.BackOnMarketDate,
-                CancelDate = statusField.CancelDate,
+                SaleTerms = statusField.SaleTerms,
+                ContractDate = statusField.ContractDate,
+                SellConcess = statusField.SellConcess,
+                PendingDate = statusField.PendingDate,
                 ClosedDate = statusField.ClosedDate,
                 EstimatedClosedDate = statusField.EstimatedClosedDate,
-                OffMarketDate = statusField.OffMarketDate,
-                PendingDate = statusField.PendingDate,
                 CancelledReason = statusField.CancelledReason,
                 ClosePrice = statusField.ClosePrice,
-                SellConcess = statusField.SellConcess,
-                SellPoints = statusField.SellPoints,
+                AgentId = statusField.AgentId,
+                HasBuyerAgent = statusField.HasBuyerAgent,
+                HasSecondBuyerAgent = statusField.HasSecondBuyerAgent,
+                AgentIdSecond = statusField.AgentIdSecond,
+                BackOnMarketDate = statusField.BackOnMarketDate,
+                OffMarketDate = statusField.OffMarketDate,
             };
         }
 

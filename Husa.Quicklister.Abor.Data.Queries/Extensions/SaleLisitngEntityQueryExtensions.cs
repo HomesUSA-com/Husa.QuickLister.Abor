@@ -407,26 +407,22 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
 
             return new()
             {
-                CancelDate = statusFieldsInfo.CancelDate,
-                CancelledReason = statusFieldsInfo.CancelledReason,
-                AgentId = statusFieldsInfo.AgentId,
-                HasBuyerAgent = statusFieldsInfo.HasBuyerAgent,
-                BackOnMarketDate = statusFieldsInfo.BackOnMarketDate,
-                ClosedDate = statusFieldsInfo.ClosedDate,
-                ClosePrice = statusFieldsInfo.ClosePrice,
                 HasContingencyInfo = statusFieldsInfo.HasContingencyInfo,
                 ContingencyInfo = statusFieldsInfo.ContingencyInfo,
-                SaleTerms2nd = statusFieldsInfo.SaleTerms2nd,
+                SaleTerms = statusFieldsInfo.SaleTerms,
                 ContractDate = statusFieldsInfo.ContractDate,
-                EstimatedClosedDate = statusFieldsInfo.EstimatedClosedDate,
-                ExpiredDateOption = statusFieldsInfo.ExpiredDateOption,
-                KickOutInformation = statusFieldsInfo.KickOutInformation,
-                HowSold = statusFieldsInfo.HowSold,
-                SellPoints = statusFieldsInfo.SellPoints,
                 SellConcess = statusFieldsInfo.SellConcess,
-                SellerConcessionDescription = statusFieldsInfo.SellerConcessionDescription,
-                OffMarketDate = statusFieldsInfo.OffMarketDate,
                 PendingDate = statusFieldsInfo.PendingDate,
+                ClosedDate = statusFieldsInfo.ClosedDate,
+                EstimatedClosedDate = statusFieldsInfo.EstimatedClosedDate,
+                CancelledReason = statusFieldsInfo.CancelledReason,
+                ClosePrice = statusFieldsInfo.ClosePrice,
+                AgentId = statusFieldsInfo.AgentId,
+                HasBuyerAgent = statusFieldsInfo.HasBuyerAgent,
+                HasSecondBuyerAgent = statusFieldsInfo.HasSecondBuyerAgent,
+                AgentIdSecond = statusFieldsInfo.AgentIdSecond,
+                BackOnMarketDate = statusFieldsInfo.BackOnMarketDate,
+                OffMarketDate = statusFieldsInfo.OffMarketDate,
             };
         }
     }

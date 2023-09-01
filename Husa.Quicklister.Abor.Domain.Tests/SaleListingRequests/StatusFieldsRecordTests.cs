@@ -40,7 +40,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             {
                 PendingDate = DateTime.Now,
                 EstimatedClosedDate = DateTime.Now,
-                SellPoints = 1223,
+                SellConcess = "1223",
             };
 
             // Act
@@ -61,7 +61,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             {
                 ContractDate = DateTime.Now,
                 PendingDate = DateTime.Now,
-                SellPoints = 1223,
+                SellConcess = "1223",
             };
 
             // Act
@@ -69,8 +69,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
 
             // Assert
             Assert.Equal(2, summary.Fields.Count());
-            Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.ContractDate));
-            Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.SellPoints));
+            Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.PendingDate));
+            Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.SellConcess));
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             {
                 ContractDate = DateTime.Now,
                 EstimatedClosedDate = DateTime.Now,
-                SellPoints = 1223,
+                SellConcess = "1223",
             };
 
             // Act
@@ -103,7 +103,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             {
                 BackOnMarketDate = DateTime.Now,
                 OffMarketDate = DateTime.Now,
-                SellPoints = 1223,
+                SellConcess = "1223",
             };
 
             // Act

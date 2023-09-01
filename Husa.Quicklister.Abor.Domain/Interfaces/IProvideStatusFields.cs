@@ -10,8 +10,6 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
 
         public DateTime? EstimatedClosedDate { get; set; }
 
-        public DateTime? CancelDate { get; set; }
-
         public string CancelledReason { get; set; }
 
         public decimal? ClosePrice { get; set; }
@@ -19,6 +17,10 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         public Guid? AgentId { get; set; }
 
         public bool HasBuyerAgent { get; set; }
+
+        public bool HasSecondBuyerAgent { get; set; }
+
+        public Guid? AgentIdSecond { get; set; }
 
         public DateTime? BackOnMarketDate { get; set; }
 
