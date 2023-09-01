@@ -5,25 +5,25 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum LaundryFeatures
     {
-        [EnumMember(Value = "ElectricDryerHookup")]
+        [EnumMember(Value = "ELCCN")]
         [Description("Electric Dryer Hookup")]
         ElectricDryerHookup,
-        [EnumMember(Value = "GasDryerHookup")]
+        [EnumMember(Value = "GASCN")]
         [Description("Gas Dryer Hookup")]
         GasDryerHookup,
-        [EnumMember(Value = "LaundryChute")]
+        [EnumMember(Value = "CHTE")]
         [Description("Laundry Chute")]
         LaundryChute,
-        [EnumMember(Value = "Sink")]
+        [EnumMember(Value = "SINK")]
         [Description("Laundry Sink")]
         LaundrySink,
         [EnumMember(Value = "None")]
         [Description("None")]
         None,
-        [EnumMember(Value = "Stacked")]
+        [EnumMember(Value = "STCON")]
         [Description("Stackable W/D Connections")]
         StackableConnections,
-        [EnumMember(Value = "WasherHookup")]
+        [EnumMember(Value = "WSHCN")]
         [Description("Washer Hookup")]
         WasherHookup,
     }

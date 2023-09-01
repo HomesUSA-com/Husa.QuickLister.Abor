@@ -5,43 +5,43 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum WaterAccessDescription
     {
-        [EnumMember(Value = "CorianCounters")]
+        [EnumMember(Value = "CORTP")]
         [Description("Corian Counters")]
         CorianCounters,
-        [EnumMember(Value = "DoubleVanity")]
+        [EnumMember(Value = "DBVAN")]
         [Description("Double Vanity")]
         DoubleVanity,
-        [EnumMember(Value = "FullBath")]
+        [EnumMember(Value = "RFBTH")]
         [Description("Full Bath")]
         FullBath,
-        [EnumMember(Value = "GardenTubRomanTub")]
+        [EnumMember(Value = "FRGDN")]
         [Description("Garden Tub")]
         GardenTub,
-        [EnumMember(Value = "GraniteCounters")]
+        [EnumMember(Value = "GranCnt")]
         [Description("Granite Counters")]
         GraniteCounters,
-        [EnumMember(Value = "JettedTub")]
+        [EnumMember(Value = "RJTUB")]
         [Description("Jetted Tub")]
         JettedTub,
-        [EnumMember(Value = "LowFlowPlumbingFixtures")]
+        [EnumMember(Value = "LFPUM")]
         [Description("Low Flow Plumbing Fixtures")]
         LowFlowPlumbingFixtures,
-        [EnumMember(Value = "QuartzCounters")]
+        [EnumMember(Value = "QURT")]
         [Description("Quartz Counters")]
         QuartzCounters,
-        [EnumMember(Value = "SeparateShower")]
+        [EnumMember(Value = "RSSWR")]
         [Description("Separate Shower")]
         SeparateShower,
-        [EnumMember(Value = "StoneCounters")]
+        [EnumMember(Value = "STNCNT")]
         [Description("Stone Counters")]
         StoneCounters,
-        [EnumMember(Value = "TileCounters")]
+        [EnumMember(Value = "TLECNT")]
         [Description("Tile Counters")]
         TileCounters,
-        [EnumMember(Value = "TrayCeilings")]
+        [EnumMember(Value = "TRYC")]
         [Description("Tray Ceiling(s)")]
         TrayCeilings,
-        [EnumMember(Value = "VaultedCeilings")]
+        [EnumMember(Value = "VULC")]
         [Description("Vaulted Ceiling(s)")]
         VaultedCeilings,
     }
