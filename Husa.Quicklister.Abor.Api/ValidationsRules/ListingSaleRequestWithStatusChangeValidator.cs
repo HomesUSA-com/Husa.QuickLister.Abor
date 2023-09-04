@@ -76,8 +76,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
                 this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage);
                 this.RuleFor(f => f.StatusFieldsInfo.ClosedDate)
-                    .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .LessThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
+                    .NotEmpty().WithMessage(RequiredFieldMessage);
                 this.RuleFor(f => f.StatusFieldsInfo.ClosePrice)
                     .NotNull().WithMessage(RequiredFieldMessage)
                     .GreaterThan(0).WithMessage(GetErrorMessage("zero", GreaterThan));
