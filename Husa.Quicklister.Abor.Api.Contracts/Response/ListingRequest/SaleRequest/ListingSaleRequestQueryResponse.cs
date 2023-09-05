@@ -32,5 +32,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleReques
         public Guid? SysCreatedBy { get; set; }
 
         public string CreatedBy { get; set; }
+
+        public bool EnableOpenHouse { get; set; }
     }
 }

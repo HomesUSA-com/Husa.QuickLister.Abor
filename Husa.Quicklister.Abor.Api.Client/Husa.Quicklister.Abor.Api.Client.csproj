@@ -8,7 +8,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>0.3.0-dev008</Version>
+        <Version>0.3.0-dev009</Version>
         <PackageReleaseNotes>
             Release 0.3.0:
             - Update API contracts for changing status
@@ -18,6 +18,7 @@
             - Updated Husa.Quicklister.Extensions
             - Updated enum members
             - Made LockBoxType a single value
+            - Added EnableOpenHouse to the ListingSaleRequest API response contract
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

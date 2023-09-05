@@ -42,5 +42,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models
         public string Address { get; set; }
 
         public decimal ListPrice { get; set; }
+
+        public bool EnableOpenHouse { get; set; }
     }
 }
