@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230901112039_V0.4.0_UpdateOffice")]
+    partial class V040_UpdateOffice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1494,13 +1497,13 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("uniqueidentifier")
                                 .HasColumnName("AgentId");
 
-                            b1.Property<Guid?>("AgentIdSecond")
-                                .HasColumnType("uniqueidentifier")
-                                .HasColumnName("AgentIdSecond");
-
                             b1.Property<DateTime?>("BackOnMarketDate")
                                 .HasColumnType("datetime")
                                 .HasColumnName("BackOnMarketDate");
+
+                            b1.Property<DateTime?>("CancelDate")
+                                .HasColumnType("datetime")
+                                .HasColumnName("CancelDate");
 
                             b1.Property<string>("CancelledReason")
                                 .HasMaxLength(300)
@@ -1529,6 +1532,10 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("datetime")
                                 .HasColumnName("EstimatedClosedDate");
 
+                            b1.Property<DateTime?>("ExpiredDateOption")
+                                .HasColumnType("datetime")
+                                .HasColumnName("ExpiredDateOption");
+
                             b1.Property<bool>("HasBuyerAgent")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
@@ -1539,9 +1546,15 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("bit")
                                 .HasColumnName("HasContingencyInfo");
 
-                            b1.Property<bool>("HasSecondBuyerAgent")
-                                .HasColumnType("bit")
-                                .HasColumnName("HasSecondBuyerAgent");
+                            b1.Property<string>("HowSold")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("HowSold");
+
+                            b1.Property<string>("KickOutInformation")
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("KickOutInformation");
 
                             b1.Property<DateTime?>("OffMarketDate")
                                 .HasColumnType("datetime")
@@ -1551,15 +1564,25 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("datetime")
                                 .HasColumnName("PendingDate");
 
-                            b1.Property<string>("SaleTerms")
-                                .HasMaxLength(300)
-                                .HasColumnType("nvarchar(300)")
-                                .HasColumnName("SaleTerms");
+                            b1.Property<string>("SaleTerms2nd")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("SaleTerms2nd");
 
                             b1.Property<string>("SellConcess")
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
                                 .HasColumnName("SellConcess");
+
+                            b1.Property<decimal>("SellPoints")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("SellPoints");
+
+                            b1.Property<string>("SellerConcessionDescription")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("SellerConcessionDescription");
 
                             b1.HasKey("SaleListingId");
 

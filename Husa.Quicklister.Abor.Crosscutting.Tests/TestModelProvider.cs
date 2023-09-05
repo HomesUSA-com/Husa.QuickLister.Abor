@@ -865,19 +865,19 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             SaleProperty = GetSalePropertyDtoObject(),
         };
 
-        public static AgentValueObject GetAgentValueObject(string marketUniqueId) => new()
+        public static AgentValueObject GetAgentValueObject(string marketUniqueId, string officeId) => new()
         {
             FirstName = Faker.Name.First(),
             LastName = Faker.Name.Last(),
             CellPhone = Faker.Phone.Number(),
             Email = Faker.Internet.Email(),
-            OfficeId = Faker.Name.Middle(),
+            OfficeId = officeId ?? Faker.Name.Middle(),
             Status = "Active",
             MarketModified = DateTime.UtcNow.AddMinutes(-5),
             MarketUniqueId = marketUniqueId ?? Faker.RandomNumber.Next(10000, 90000).ToString(),
         };
 
-        public static Agent GetAgentEntity(string marketUniqueId = null) => new(GetAgentValueObject(marketUniqueId));
+        public static Agent GetAgentEntity(string marketUniqueId = null, string officeId = null) => new(GetAgentValueObject(marketUniqueId, officeId));
 
         public static AgentDto GetAgentDto() => new()
         {
@@ -897,10 +897,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             MarketUniqueId = marketUniqueId ?? Faker.RandomNumber.Next(10000, 90000).ToString(),
             Name = Faker.Name.First(),
-            Email = Faker.Internet.Email(),
             Address = Faker.Address.StreetAddress(),
             City = Faker.Enum.Random<Cities>(),
-            State = States.Texas,
+            StateOrProvince = Downloader.CTX.Domain.Enums.StateOrProvince.TX,
             Zip = Faker.Address.ZipCode()[..5],
             Phone = Faker.Phone.Number(),
             MarketModified = DateTime.UtcNow.AddMinutes(-5),
@@ -912,10 +911,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             MarketUniqueId = Faker.RandomNumber.Next(10000, 90000).ToString(),
             Name = Faker.Name.First(),
-            Email = Faker.Internet.Email(),
             Address = Faker.Address.StreetAddress(),
             City = Faker.Enum.Random<Cities>(),
-            State = States.Texas,
+            StateOrProvince = Downloader.CTX.Domain.Enums.StateOrProvince.TX,
             Zip = Faker.Address.ZipCode()[..5],
             Phone = Faker.Phone.Number(),
             MarketModified = DateTime.UtcNow,

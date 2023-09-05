@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Data.Specifications;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
+    using OfficeStatus = Husa.Downloader.CTX.Domain.Enums.OfficeStatus;
 
     public class AgentQueriesRepository : IAgentQueriesRepository
     {
@@ -32,7 +33,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                             join office in this.context.Office
                             on agent.AgentValue.OfficeId equals office.OfficeValue.MarketUniqueId
                             where agent.AgentValue.Status == "Active"
-                            where office.OfficeValue.Status == "Active"
+                            where office.OfficeValue.Status == OfficeStatus.Active
                             select new AgentQueryResult
                             {
                                 Id = agent.Id,
@@ -54,7 +55,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             return await (from agent in this.context.Agent
                          join office in this.context.Office
                          on agent.AgentValue.OfficeId equals office.OfficeValue.MarketUniqueId
-                         where agent.AgentValue.Status == "Active" && office.OfficeValue.Status == "Active" && agent.Id == agentId
+                         where agent.AgentValue.Status == "Active" && office.OfficeValue.Status == OfficeStatus.Active && agent.Id == agentId
                          select new AgentQueryResult
                          {
                              Id = agent.Id,

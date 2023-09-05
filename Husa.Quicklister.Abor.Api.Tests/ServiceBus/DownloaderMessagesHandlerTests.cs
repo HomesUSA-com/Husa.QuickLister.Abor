@@ -3,9 +3,8 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using System.Threading.Tasks;
-    using Husa.Downloader.Sabor.ServiceBus.Contracts;
+    using Husa.Downloader.CTX.Domain.Enums;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common;
     using Husa.PhotoService.Domain.Enums;
@@ -20,7 +19,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
     using Husa.Quicklister.Abor.Application.Models.Listing;
     using Husa.Quicklister.Abor.Application.Models.Office;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Application.Models.Media;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
@@ -30,7 +28,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
-    using DownloaderConstructionStage = Husa.Downloader.Sabor.Domain.Enums.ConstructionStage;
 
     [ExcludeFromCodeCoverage]
     [Collection(nameof(ApplicationServicesFixture))]
@@ -58,13 +55,12 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
             // Arrange
             const string loginName = "fake-agent";
             const string agentId = "122344";
-            var agentMessage = new AgentMessage
+            var agentMessage = new Downloader.Sabor.ServiceBus.Contracts.AgentMessage
             {
                 Id = Guid.NewGuid(),
                 AgentId = agentId,
                 LoginName = loginName,
             };
-
             var message = ApplicationServicesFixture.BuildBusMessage(agentMessage);
             this.subscriberMock
                 .SetupGet(s => s.Client)
@@ -88,13 +84,21 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
             // Arrange
             const string officeName = "fake-office";
             const string officeId = "122344";
-            var officeMessage = new OfficeMessage
+            var officeMessage = new Downloader.CTX.ServiceBus.Contracts.OfficeMessage
             {
                 Id = Guid.NewGuid(),
-                OfficeId = officeId,
+                Address = Faker.Address.StreetName(),
+                City = Faker.Enum.Random<Cities>().ToStringFromEnumMember(),
+                MlsId = Faker.RandomNumber.Next(99999).ToString(),
                 Name = officeName,
-                City = "Austin",
-                State = "TX",
+                OfficeKey = officeId,
+                OfficeUpdateDate = DateTime.UtcNow,
+                PhoneNumber = Faker.Phone.Number(),
+                StateOrProvince = StateOrProvince.TX,
+                Status = OfficeStatus.Active,
+                Type = OfficeType.RealEstate,
+                ZipCode = Faker.Address.ZipCode(),
+                ZipCodeExt = null,
             };
 
             var message = ApplicationServicesFixture.BuildBusMessage(officeMessage);
@@ -111,143 +115,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
             this.officeServiceMock.Verify(
                 ds => ds.ProcessDataFromDownloaderAsync(
                     It.Is<OfficeDto>(a => a.Name.Equals(officeName) && a.MarketUniqueId.Equals(officeId))),
-                Times.Once);
-        }
-
-        [Fact]
-        public async Task ProcessResidentialMessageSuccessTestAsync()
-        {
-            // Arrange
-            const string mlsNumber = "1122334455";
-            const string sellingAgent = "122344";
-            var residentialMessage = new ResidentialMessage
-            {
-                Id = Guid.NewGuid(),
-                ResidentialValue = new()
-                {
-                    MlsNumber = mlsNumber,
-                    BuilderName = "Builder Name",
-                    SellingAgent = sellingAgent,
-                    Status = MarketStatuses.ActiveUnderContract.ToStringFromEnumMember(),
-                },
-                LegacyResidentialInfo = new()
-                {
-                    ConstructionCompletionDate = DateTime.UtcNow,
-                    ConstructionStage = DownloaderConstructionStage.Complete,
-                    EmailForRealtors = "test.email@test.com",
-                    OwnerAlternatePhone = "9991116666",
-                },
-                Rooms = Array.Empty<RoomMessage>(),
-                Hoas = Array.Empty<HoaMessage>(),
-            };
-            var message = ApplicationServicesFixture.BuildBusMessage(residentialMessage);
-            this.subscriberMock
-                .SetupGet(s => s.Client)
-                .Returns(this.subscriptionClientMock.Object);
-            this.ConfigureServiceProvider();
-            var sut = this.GetSut();
-
-            // Act
-            await sut.HandleMessage(message, cancellationToken: default);
-
-            // Assert
-            this.downloaderServiceMock.Verify(
-                ds => ds.ProcessDataFromDownloaderAsync(
-                    It.Is<FullListingSaleDto>(l => l.MlsNumber.Equals(mlsNumber) && l.MlsStatus == MarketStatuses.ActiveUnderContract),
-                    It.IsAny<IEnumerable<RoomDto>>(),
-                    It.Is<string>(agentId => agentId.Equals(sellingAgent))),
-                Times.Once);
-        }
-
-        [Fact]
-        public async Task ProcessResidentialOpenHousesMessageSuccessTestAsync()
-        {
-            // Arrange
-            const string mlsNumber = "1122334455";
-            var openHouseStartingDate = new DateTime(2022, 10, 19, 8, 0, 0, DateTimeKind.Utc);
-            var openHouseMessage = new ResidentialOpenHousesMessage
-            {
-                Id = Guid.NewGuid(),
-                MlsNumber = mlsNumber,
-                OpenHouses = new List<OpenHouseMessage>
-                {
-                    new()
-                    {
-                        MlsNumber = mlsNumber,
-                        OpenHouseType = "Residential",
-                        StartTime = openHouseStartingDate,
-                        EndTime = openHouseStartingDate.AddHours(12),
-                        Lunch = true,
-                        Refreshments = true,
-                    },
-                    new()
-                    {
-                        MlsNumber = mlsNumber,
-                        OpenHouseType = "Residential",
-                        StartTime = openHouseStartingDate.AddDays(1),
-                        EndTime = openHouseStartingDate.AddHours(12).AddDays(1),
-                        Lunch = true,
-                        Refreshments = true,
-                    },
-                },
-            };
-
-            var message = ApplicationServicesFixture.BuildBusMessage(openHouseMessage);
-            this.subscriberMock
-                .SetupGet(s => s.Client)
-                .Returns(this.subscriptionClientMock.Object);
-            this.ConfigureServiceProvider();
-            var sut = this.GetSut();
-
-            // Act
-            await sut.HandleMessage(message, cancellationToken: default);
-
-            // Assert
-            this.downloaderServiceMock.Verify(
-                ds => ds.ProcessOpenHouseFromDownloaderAsync(
-                    It.Is<string>(mlsnum => mlsnum.Equals(mlsNumber)),
-                    It.Is<IEnumerable<OpenHouseDto>>(openHouses => openHouses.Any(oh => oh.StartTime == openHouseStartingDate.TimeOfDay))),
-                Times.Once);
-        }
-
-        [Fact]
-        public async Task ProcessResidentialMediaMessageSuccessTestAsync()
-        {
-            // Arrange
-            const string mlsNumber = "1122334455";
-            const string mediaTitle = "some-title";
-            var mediaId = Guid.NewGuid();
-            var mediaMessage = new ResidentialMediaMessage
-            {
-                Id = Guid.NewGuid(),
-                MlsNumber = mlsNumber,
-                Media = new List<MediaMessage>
-                {
-                    new()
-                    {
-                        MediaId = mediaId.ToString(),
-                        MlsNumber = mlsNumber,
-                        Title = mediaTitle,
-                        UploadKey = mediaId.ToString(),
-                    },
-                },
-            };
-
-            var message = ApplicationServicesFixture.BuildBusMessage(mediaMessage);
-            this.subscriberMock
-                .SetupGet(s => s.Client)
-                .Returns(this.subscriptionClientMock.Object);
-            this.ConfigureServiceProvider();
-            var sut = this.GetSut();
-
-            // Act
-            await sut.HandleMessage(message, cancellationToken: default);
-
-            // Assert
-            this.downloaderServiceMock.Verify(
-                ds => ds.ProcessMediaFromDownloaderAsync(
-                    It.Is<string>(mlsnum => mlsnum.Equals(mlsNumber)),
-                    It.Is<IEnumerable<ListingSaleMediaDto>>(media => media.Any(oh => oh.MediaId == mediaId.ToString()))),
                 Times.Once);
         }
 
