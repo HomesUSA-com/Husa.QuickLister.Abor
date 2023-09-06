@@ -14,15 +14,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
 
         public ElementarySchool? ElementarySchool { get; set; }
 
-        public OtherElementarySchool? OtherElementarySchool { get; set; }
+        public string OtherElementarySchool { get; set; }
 
         public MiddleSchool? MiddleSchool { get; set; }
 
-        public OtherMiddleSchool? OtherMiddleSchool { get; set; }
+        public string OtherMiddleSchool { get; set; }
 
         public HighSchool? HighSchool { get; set; }
 
-        public OtherHighSchool? OtherHighSchool { get; set; }
+        public string OtherHighSchool { get; set; }
 
         public static SchoolsInfo ImportFromXml(SubdivisionResponse subdivision, SchoolsInfo schoolsInfo)
         {
@@ -85,6 +85,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
             clonnedSchools.MiddleSchool = schools.MiddleSchool;
             clonnedSchools.ElementarySchool = schools.ElementarySchool;
             clonnedSchools.HighSchool = schools.HighSchool;
+            clonnedSchools.OtherElementarySchool = schools.OtherElementarySchool;
+            clonnedSchools.OtherMiddleSchool = schools.OtherMiddleSchool;
+            clonnedSchools.OtherHighSchool = schools.OtherHighSchool;
 
             return clonnedSchools;
         }
@@ -95,6 +98,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
             yield return this.MiddleSchool;
             yield return this.ElementarySchool;
             yield return this.HighSchool;
+            yield return this.OtherMiddleSchool;
+            yield return this.OtherElementarySchool;
+            yield return this.OtherHighSchool;
         }
     }
 }

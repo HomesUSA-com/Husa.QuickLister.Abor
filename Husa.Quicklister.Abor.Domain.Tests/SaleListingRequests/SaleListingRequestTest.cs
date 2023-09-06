@@ -5,11 +5,14 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
+    using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Domain.Common;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using Moq;
@@ -235,6 +238,67 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             Assert.Equal(saleListingRequest.SaleProperty.SchoolsInfo.HighSchool, requestCloned.SaleProperty.SchoolsInfo.HighSchool);
         }
 
+        [Fact]
+        public void CreatePropertyRecordCollectionFail()
+        {
+            // Arrange
+            var property = new PropertyInfo()
+            {
+                ConstructionCompletionDate = DateTime.UtcNow,
+                ConstructionStage = ConstructionStage.Complete,
+                LegalDescription = "LegalDescription",
+                TaxId = "TaxId",
+                LotSize = "LotSize",
+                ConstructionStartYear = 2023,
+                TaxLot = "TaxLot",
+                LotDescription = new List<LotDescription>(),
+                PropertyType = PropertySubType.SingleFamilyResidence,
+                UpdateGeocodes = false,
+                IsXmlManaged = false,
+            };
+
+            var propertyRecord = PropertyRecord.CreateRecord(property);
+            var errors = ValidatePropertiesAttribute.GetErrors(propertyRecord);
+
+            Assert.NotEmpty(errors);
+            Assert.Contains(errors, x => x.MemberNames.Any(name => name == nameof(property.LotDescription)));
+        }
+
+        [Theory]
+        [InlineData(WaterfrontFeatures.Creek)]
+        [InlineData(WaterfrontFeatures.LakePrivileges)]
+        [InlineData(WaterfrontFeatures.WaterFront)]
+        [InlineData(WaterfrontFeatures.RiverFront)]
+        [InlineData(WaterfrontFeatures.LakeFront)]
+        [InlineData(WaterfrontFeatures.CanalFront)]
+        public void CreateFeaturesRecord_WaterBodyName_Fail(WaterfrontFeatures waterfrontFeatures)
+        {
+            // Arrange
+            var features = ListingTestProvider.GetFeaturesInfo();
+            features.WaterBodyName = null;
+            features.WaterfrontFeatures = new[] { waterfrontFeatures };
+
+            var featuresRecord = FeaturesRecord.CreateRecord(features);
+            var errors = ValidatePropertiesAttribute.GetErrors(featuresRecord);
+
+            Assert.NotEmpty(errors);
+            Assert.Contains(errors, x => x.MemberNames.Any(name => name == nameof(featuresRecord.WaterBodyName)));
+        }
+
+        [Fact]
+        public void CreateFeaturesRecord_WaterBodyName_Success()
+        {
+            // Arrange
+            var features = ListingTestProvider.GetFeaturesInfo();
+            features.WaterBodyName = null;
+            features.WaterfrontFeatures = new[] { WaterfrontFeatures.None };
+
+            var featuresRecord = FeaturesRecord.CreateRecord(features);
+            var errors = ValidatePropertiesAttribute.GetErrors(featuresRecord);
+
+            Assert.Empty(errors);
+        }
+
         private static Mock<SaleListingRequest> GetListingRequest(DateTime? creationDate)
         {
             var creationDateTime = creationDate ?? DateTime.UtcNow;
@@ -253,7 +317,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             yield return new SummarySection { Name = PropertyRecord.SummarySection, Fields = new[] { new SummaryField { FieldName = nameof(PropertyRecord.LegalDescription), NewValue = "some-legal-description", OldValue = null } } };
             yield return new SummarySection { Name = AddressRecord.SummarySection, Fields = new[] { new SummaryField { FieldName = nameof(AddressRecord.Subdivision), NewValue = "some-subdivision", OldValue = null } } };
             yield return new SummarySection { Name = FeaturesRecord.SummarySection, Fields = new[] { new SummaryField { FieldName = nameof(FeaturesRecord.PropertyDescription), NewValue = "some-property-description", OldValue = null } } };
-            yield return new SummarySection { Name = SpacesDimensionsRecord.SummarySection, Fields = new[] { new SummaryField { FieldName = nameof(SpacesDimensionsRecord.TypeCategory), NewValue = CategoryType.SingleFamilyDetached, OldValue = null } } };
+            yield return new SummarySection { Name = SpacesDimensionsRecord.SummarySection, Fields = new[] { new SummaryField { FieldName = nameof(SpacesDimensionsRecord.StoriesTotal), NewValue = Stories.One, OldValue = null } } };
             yield return new SummarySection { Name = FinancialRecord.SummarySection, Fields = new[] { new SummaryField { FieldName = nameof(FinancialRecord.TitleCompany), NewValue = "some-title-company", OldValue = null } } };
             yield return new SummarySection { Name = SchoolRecord.SummarySection, Fields = new[] { new SummaryField { FieldName = nameof(SchoolRecord.SchoolDistrict), NewValue = "some-school-district", OldValue = null } } };
             yield return new SummarySection { Name = ShowingRecord.SummarySection, Fields = new[] { new SummaryField { FieldName = nameof(ShowingRecord.AgentPrivateRemarks), NewValue = "some-private-remarks", OldValue = null } } };

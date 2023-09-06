@@ -49,7 +49,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 Id = requestId,
                 ListPrice = 123000,
                 ZipCode = "75035",
-                MlsStatus = MarketStatuses.ActiveRFR,
+                MlsStatus = MarketStatuses.ActiveUnderContract,
             };
 
             var gridResult = new ListingRequestGridQueryResult<ListingSaleRequestQueryResult>(new[] { requestResult }, continuationToken);

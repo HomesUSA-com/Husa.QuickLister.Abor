@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using Husa.Extensions.Common.Exceptions;
@@ -15,7 +16,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         [MaxLength(1024, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string AgentPrivateRemarks { get; set; }
 
-        [MaxLength(14, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string OccupantPhone { get; set; }
 
         [MaxLength(14, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
@@ -29,14 +29,18 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         [Required(AllowEmptyStrings = false)]
         [MaxLength(255, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string Directions { get; set; }
+        public string OwnerName { get; set; }
+        public string AgentPrivateRemarksAdditional { get; set; }
+        public string LockBoxSerialNumber { get; set; }
 
-        public bool EnableOpenHouses { get; set; }
+        [Required]
+        [MinLength(1)]
+        public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
 
-        public bool OpenHousesAgree { get; set; }
-
-        public bool ShowOpenHousesPending { get; set; }
         public LockBoxType LockBoxType { get; set; }
-        public ShowingRequirements ShowingRequirements { get; set; }
+        public bool EnableOpenHouses { get; set; }
+        public bool OpenHousesAgree { get; set; }
+        public bool ShowOpenHousesPending { get; set; }
 
         public ShowingRecord CloneRecord() => (ShowingRecord)this.MemberwiseClone();
         public static ShowingRecord CreateRecord(ShowingInfo showingInfo)
@@ -48,9 +52,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
             return new()
             {
-                AgentPrivateRemarks = showingInfo.AgentPrivateRemarks,
                 OccupantPhone = showingInfo.OccupantPhone,
                 ContactPhone = showingInfo.ContactPhone,
+                AgentPrivateRemarks = showingInfo.AgentPrivateRemarks,
+                AgentPrivateRemarksAdditional = showingInfo.AgentPrivateRemarksAdditional,
+                LockBoxSerialNumber = showingInfo.LockBoxSerialNumber,
                 ShowingInstructions = showingInfo.ShowingInstructions,
                 RealtorContactEmail = showingInfo.RealtorContactEmail,
                 Directions = showingInfo.Directions,
@@ -58,7 +64,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 OpenHousesAgree = showingInfo.OpenHousesAgree,
                 ShowOpenHousesPending = showingInfo.ShowOpenHousesPending,
                 LockBoxType = showingInfo.LockBoxType ?? throw new DomainException(nameof(showingInfo.LockBoxType)),
-                ShowingRequirements = showingInfo.ShowingRequirements ?? throw new DomainException(nameof(showingInfo.ShowingRequirements)),
+                ShowingRequirements = showingInfo.ShowingRequirements,
+                OwnerName = showingInfo.OwnerName,
             };
         }
 

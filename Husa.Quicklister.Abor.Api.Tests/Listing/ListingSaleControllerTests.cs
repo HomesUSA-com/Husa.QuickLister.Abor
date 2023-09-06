@@ -62,8 +62,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
 
         [Theory]
         [InlineData(MarketStatuses.Active)]
-        [InlineData(MarketStatuses.ActiveOption)]
-        [InlineData(MarketStatuses.ActiveRFR)]
+        [InlineData(MarketStatuses.ActiveUnderContract)]
         public async Task GetListingSaleAsync_MarketStatuses_Success(MarketStatuses status)
         {
             // Arrange
@@ -105,8 +104,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
 
         [Theory]
         [InlineData(MarketStatuses.Active)]
-        [InlineData(MarketStatuses.ActiveOption)]
-        [InlineData(MarketStatuses.ActiveRFR)]
+        [InlineData(MarketStatuses.ActiveUnderContract)]
         public async Task GetListingSaleAsync_MarketStatuses_EmptySuccess(MarketStatuses status)
         {
             // Arrange

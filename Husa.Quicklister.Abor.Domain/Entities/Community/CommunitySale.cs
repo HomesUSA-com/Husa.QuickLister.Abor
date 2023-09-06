@@ -28,6 +28,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             : this()
         {
             this.ProfileInfo = new(name, ownerName);
+            this.Showing = new(ownerName);
             this.CompanyId = companyId;
         }
 

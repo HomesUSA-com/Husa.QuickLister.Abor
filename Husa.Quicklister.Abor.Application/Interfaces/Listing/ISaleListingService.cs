@@ -40,8 +40,6 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
 
         Task UpdateRooms(IEnumerable<RoomDto> roomDto, Guid listingId = default, SaleListing entity = null);
 
-        Task UpdateHoas(IEnumerable<HoaDto> hoaDto, Guid listingId = default, SaleListing entity = null);
-
         Task UpdateOpenHouse(IEnumerable<OpenHouseDto> openHouseDto, SaleListing entity = null);
 
         Task<SaleListing> GetEntity(SaleListing entity = null, Guid listingId = default);

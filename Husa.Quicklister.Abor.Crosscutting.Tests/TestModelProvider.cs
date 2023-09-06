@@ -192,7 +192,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             CompanyId = Guid.NewGuid(),
             FinancialSchools = new(),
-            Hoas = new List<CommunityHoaDto>() { new() },
             Showing = new(),
             OpenHouses = new List<OpenHouseDto> { new() },
             Profile = new(),
@@ -284,10 +283,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 PropertyInfo = new(),
                 AddressInfo = new(),
                 SalePropertyInfo = new(),
-                Hoas = new List<HoaDto>
-                {
-                    new HoaDto(),
-                },
                 OpenHouses = new List<OpenHouseDto>
                 {
                     new(),
@@ -430,16 +425,11 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
         public static SaleListingRequest GetListingSaleRequestEntity(
             Guid? id,
-            IEnumerable<ListingSaleRoom> rooms = null,
-            IEnumerable<SaleListingHoa> hoas = null)
+            IEnumerable<ListingSaleRoom> rooms = null)
         {
             var roomsRecord = rooms != null ? rooms
                     .Select(rooms => RoomRecord.CreateRoom(rooms))
                     .ToList() : new List<RoomRecord>();
-
-            var hoaRecord = hoas != null ? hoas
-                    .Select(hoas => HoaRecord.CreateHoa(hoas))
-                    .ToList() : new List<HoaRecord>();
 
             var propertyRecord = new Mock<SalePropertyRecord>();
             propertyRecord.SetupAllProperties();
@@ -452,14 +442,12 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             propertyRecord.SetupProperty(p => p.FinancialInfo, initialValue: new());
             propertyRecord.SetupProperty(p => p.SalesOfficeInfo, initialValue: new());
             propertyRecord.SetupProperty(p => p.OpenHouses, initialValue: Array.Empty<OpenHouseRecord>());
-            propertyRecord.SetupProperty(p => p.ListingSaleHoas, initialValue: hoaRecord);
             propertyRecord.SetupProperty(p => p.Rooms, initialValue: roomsRecord);
 
             propertyRecord
                 .Setup(p => p.GetSummarySections(It.IsAny<SalePropertyRecord>()))
                 .CallBase()
                 .Verifiable();
-            propertyRecord.Setup(p => p.UpdateHoas(It.IsAny<ICollection<SaleListingHoa>>())).CallBase();
             propertyRecord.Setup(p => p.UpdateRooms(It.IsAny<ICollection<ListingSaleRoom>>())).CallBase();
 
             var listingSaleRequest = new Mock<SaleListingRequest>();
@@ -848,26 +836,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             SaleProperty = GetSalePropertyDtoObject(),
         };
 
-        public static HoaDto GetHoaDto() => new()
-        {
-            Name = Faker.Name.First(),
-            BillingFrequency = Faker.Enum.Random<BillingFrequency>(),
-            Fee = Faker.RandomNumber.Next(),
-            TransferFee = Faker.RandomNumber.Next(),
-        };
-
-        public static IEnumerable<HoaDto> GetHoasDtoList(int? totalElements = 3)
-        {
-            var data = new List<HoaDto>();
-
-            for (var i = 0; i < totalElements; i++)
-            {
-                data.Add(GetHoaDto());
-            }
-
-            return data;
-        }
-
         public static RoomDto GetRoomDto() => new()
         {
             RoomType = Faker.Enum.Random<RoomType>(),
@@ -1249,15 +1217,16 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             State = States.Texas,
             ZipCode = "75035",
             County = Counties.Bexar,
-            LotNum = "47&48",
-            Block = "7",
+            StreetType = StreetType.ANX,
         };
 
         public static PropertyInfo GetDefaultPropertyInfo() => new()
         {
             MlsArea = MlsArea.LW,
-            MapscoGrid = "stri",
             ConstructionCompletionDate = new DateTime(DateTime.UtcNow.Year, 10, 4, 0, 0, 0, 0, DateTimeKind.Utc),
+            ConstructionStage = ConstructionStage.Complete,
+            ConstructionStartYear = 2023,
+            PropertyType = PropertySubType.Condominium,
         };
 
         public static SpacesDimensionsInfo GetSpacesDimensionsInfo() => new()
@@ -1270,7 +1239,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             LivingAreasTotal = 1,
             MainLevelBedroomTotal = 1,
             OtherLevelsBedroomTotal = 1,
-            SqFtSource = SqFtSource.BuilderPlans,
         };
 
         public static ScrapedListingQueryResult GetScrapedListingQueryResult(
@@ -1352,14 +1320,13 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 CoolingSystem = defaultUtilities.CoolingSystem,
                 WaterSewer = defaultUtilities.WaterSewer,
                 PropertyDescription = "A diamond in the rough. This 1935 historic home in desirable Woodlawn Terrace is full of potential with with a detached apartment/garage at back. The living room boasts a fireplace with original hardwood flooring. Two bedrooms are located downstairs with a third bedroom up. There is a total of three full bathrooms (including the apartment) with plumbing for a fourth upstairs. Generous sized kitchen allows for a variety of makeover options. Out back the one bedroom apartment sits over a two car garage with additional parking to the side.  This home is close to downtown, Woodlawn Lake and ease of access to the highway. Come see it today!",
-                WindowCoverings = GetEnumCollectionRandom<WindowFeatures>(),
-                HasAccessibility = false,
-                HousingStyle = GetEnumCollectionRandom<HousingStyle>(),
-                HasPrivatePool = false,
-                PrivatePool = GetEnumCollectionRandom<PrivatePool>(),
-                HomeFaces = null,
-                LotImprovements = GetEnumCollectionRandom<LotImprovements>(),
+                WindowFeatures = GetEnumCollectionRandom<WindowFeatures>(),
+                LaundryLocation = GetEnumCollectionRandom<LaundryLocation>(),
                 IsNewConstruction = true,
+                GarageSpaces = 1,
+                HomeFaces = HomeFaces.West,
+                WaterBodyName = WaterBodyName.BeltonLake,
+                DistanceToWaterAccess = DistanceToWaterAccess.SeeRemarks,
             };
         }
 
@@ -1399,8 +1366,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 ContactPhone = communityShowingInfo.ContactPhone,
                 ShowingInstructions = communityShowingInfo.ShowingInstructions,
                 Directions = communityShowingInfo.Directions,
-                LockBoxType = communityShowingInfo.LockBoxType,
-                ShowingRequirements = ShowingRequirements.AgentOrOwnerPresent,
+                LockBoxType = LockBoxType.None,
             };
         }
 

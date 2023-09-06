@@ -5,7 +5,6 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
     using Husa.Quicklister.Abor.Api.ValidationsRules.Extensions;
     using Husa.Quicklister.Abor.Api.ValidationsRules.SalePropertyValidations;
     using Husa.Quicklister.Abor.Crosscutting;
-    using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class SalePropertyValidator : AbstractValidator<SalePropertyDetailRequest>
     {
@@ -20,7 +19,6 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
             this.RuleFor(sp => sp.FinancialInfo).SetValidator(new FinancialValidator());
             this.RuleFor(sp => sp.ShowingInfo).SetValidator(new ShowingValidator());
             this.RuleFor(sp => sp.Rooms).ValidateListCount(1);
-            this.RuleFor(sp => sp.Hoas).NotEmpty().When(sp => sp.FinancialInfo.HOARequirement == HoaRequirement.Mandatory);
         }
     }
 }

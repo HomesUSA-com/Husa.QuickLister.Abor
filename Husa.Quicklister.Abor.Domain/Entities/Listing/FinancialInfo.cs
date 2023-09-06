@@ -7,13 +7,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class FinancialInfo : ValueObject, IProvideFinancial, IProvideAgentCommission, IProvideAgentBonusCommission
     {
         private DateTime? bonusExpirationDate;
 
         public int? TaxYear { get; set; }
-        public bool IsMultipleTaxed { get; set; }
         public decimal? TaxRate { get; set; }
 
         public string TitleCompany { get; set; }
@@ -29,9 +29,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public string HoaName { get; set; }
 
         public decimal? HoaFee { get; set; }
-        public bool HasMultipleHOA { get; set; }
-
-        public int NumHOA { get; set; }
 
         public BillingFrequency? BillingFrequency { get; set; }
 
@@ -57,8 +54,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public bool HasBuyerIncentive { get; set; }
 
-        public virtual ICollection<ProposedTerms> ProposedTerms { get; set; }
-
         public virtual string ReadableBuyersAgentCommission => this.BuyersAgentCommissionType == CommissionType.Percent ?
                 $"{(int)this.BuyersAgentCommission}%" :
                 $"${this.BuyersAgentCommission}";
@@ -73,9 +68,22 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             var clonedFinancial = this.Clone();
             clonedFinancial.TaxRate = financial.TaxRate;
             clonedFinancial.TitleCompany = financial.TitleCompany;
+            clonedFinancial.AcceptableFinancing = financial.AcceptableFinancing;
+            clonedFinancial.TaxExemptions = financial.TaxExemptions;
+            clonedFinancial.HoaIncludes = financial.HoaIncludes;
+            clonedFinancial.HasHoa = financial.HasHoa;
+            clonedFinancial.HoaName = financial.HoaName;
+            clonedFinancial.HoaFee = financial.HoaFee;
+            clonedFinancial.BillingFrequency = financial.BillingFrequency;
             clonedFinancial.HOARequirement = financial.HOARequirement;
-            clonedFinancial.BuyersAgentCommission = financial.BuyersAgentCommission ?? clonedFinancial.BuyersAgentCommission;
+            clonedFinancial.BuyersAgentCommission = financial.BuyersAgentCommission;
             clonedFinancial.BuyersAgentCommissionType = financial.BuyersAgentCommissionType;
+            clonedFinancial.HasAgentBonus = financial.HasAgentBonus;
+            clonedFinancial.HasBonusWithAmount = financial.HasBonusWithAmount;
+            clonedFinancial.AgentBonusAmount = financial.AgentBonusAmount;
+            clonedFinancial.AgentBonusAmountType = financial.AgentBonusAmountType;
+            clonedFinancial.BonusExpirationDate = financial.BonusExpirationDate;
+            clonedFinancial.HasBuyerIncentive = financial.HasBuyerIncentive;
             return clonedFinancial;
         }
 

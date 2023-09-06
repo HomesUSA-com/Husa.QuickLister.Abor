@@ -2,7 +2,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
 {
     using System;
     using System.Linq.Expressions;
-    using Husa.Extensions.Common;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
     using Husa.Quicklister.Abor.Data.Queries.Models;
@@ -25,7 +24,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             MlsStatus = listingSale.MlsStatus,
             SysModifiedOn = listingSale.SysModifiedOn,
             SysModifiedBy = listingSale.SysModifiedBy,
-            Subdivision = listingSale.SaleProperty.AddressInfo.Subdivision.ToTitleCase(),
+            Subdivision = listingSale.SaleProperty.AddressInfo.Subdivision,
             ZipCode = listingSale.SaleProperty.AddressInfo.ZipCode,
             OwnerName = listingSale.SaleProperty.OwnerName,
             MarketCode = MarketCode.Austin,

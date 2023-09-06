@@ -17,7 +17,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Community
         public CommunityFinancialResponse FinancialSchools { get; set; }
         public CommunityShowingResponse Showing { get; set; }
         public IEnumerable<OpenHouseResponse> OpenHouses { get; set; }
-        public IEnumerable<CommunityHoaResponse> Hoas { get; set; }
         public DateTime? SysModifiedOn { get; set; }
         public string CreatedBy { get; set; }
         public Guid? SysCreatedBy { get; set; }

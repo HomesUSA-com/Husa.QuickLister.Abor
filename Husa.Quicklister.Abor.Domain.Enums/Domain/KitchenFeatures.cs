@@ -5,58 +5,58 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum KitchenFeatures
     {
-        [EnumMember(Value = "BreakfastArea")]
+        [EnumMember(Value = "BRAREA")]
         [Description("Breakfast Area")]
         BreakfastArea,
-        [EnumMember(Value = "BreakfastBar")]
+        [EnumMember(Value = "BRFAR")]
         [Description("Breakfast Bar")]
         BreakfastBar,
-        [EnumMember(Value = "ButlerPantry")]
+        [EnumMember(Value = "BPANT")]
         [Description("Butler Pantry")]
         ButlerPantry,
-        [EnumMember(Value = "KitchenIsland")]
+        [EnumMember(Value = "CNISL")]
         [Description("Center Island")]
         CenterIsland,
-        [EnumMember(Value = "CorianCounters")]
+        [EnumMember(Value = "CORTP")]
         [Description("Corian Counters")]
         CorianCounters,
-        [EnumMember(Value = "DiningArea")]
+        [EnumMember(Value = "DNAR")]
         [Description("Dining Area")]
         DiningArea,
-        [EnumMember(Value = "EatInKitchen")]
+        [EnumMember(Value = "EIKT")]
         [Description("Eat In Kitchen")]
         EatInKitchen,
-        [EnumMember(Value = "GourmetKitchen")]
+        [EnumMember(Value = "GRMKT")]
         [Description("Gourmet Kitchen")]
         GourmetKitchen,
-        [EnumMember(Value = "GraniteCounters")]
+        [EnumMember(Value = "GranCnt")]
         [Description("Granite Counters")]
         GraniteCounters,
-        [EnumMember(Value = "OpentoFamilyRoom")]
+        [EnumMember(Value = "OFMRM")]
         [Description("Open to Family Room")]
         OpentoFamilyRoom,
-        [EnumMember(Value = "Pantry")]
+        [EnumMember(Value = "KPNCL")]
         [Description("Pantry")]
         Pantry,
-        [EnumMember(Value = "PlumbedforIcemaker")]
+        [EnumMember(Value = "PLMIC")]
         [Description("Plumbed for Icemaker")]
         PlumbedforIcemaker,
-        [EnumMember(Value = "QuartzCounters")]
+        [EnumMember(Value = "QURT")]
         [Description("Quartz Counters")]
         QuartzCounters,
-        [EnumMember(Value = "RecessedLighting")]
+        [EnumMember(Value = "RCSS")]
         [Description("Recessed Lighting")]
         RecessedLighting,
-        [EnumMember(Value = "StoneCounters")]
+        [EnumMember(Value = "STNCNT")]
         [Description("Stone Counters")]
         StoneCounters,
-        [EnumMember(Value = "TileCounters")]
+        [EnumMember(Value = "TLECNT")]
         [Description("Tile Counters")]
         TileCounters,
-        [EnumMember(Value = "TrayCeilings")]
+        [EnumMember(Value = "TRYC")]
         [Description("Tray Ceiling(s)")]
         TrayCeilings,
-        [EnumMember(Value = "VaultedCeilings")]
+        [EnumMember(Value = "VULC")]
         [Description("Vaulted Ceiling(s)")]
         VaultedCeilings,
     }

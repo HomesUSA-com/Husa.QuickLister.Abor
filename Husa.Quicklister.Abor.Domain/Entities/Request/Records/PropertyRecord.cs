@@ -4,6 +4,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Common.Enums;
+    using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.Common.Validations;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Extensions;
@@ -15,30 +18,41 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         [Required]
         [DataType(DataType.DateTime, ErrorMessage = "The {0} value is invalid for datetime.")]
-        public DateTime? ConstructionCompletionDate { get; set; }
+        public DateTime ConstructionCompletionDate { get; set; }
 
-        public ConstructionStage? ConstructionStage { get; set; }
-
-        [Required]
-        public int? ConstructionStartYear { get; set; }
+        public ConstructionStage ConstructionStage { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         public string LegalDescription { get; set; }
+
+        [Required(AllowEmptyStrings = false)]
         public string TaxId { get; set; }
         public MlsArea? MlsArea { get; set; }
-        public string MapscoGrid { get; set; }
         public string LotDimension { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         public string LotSize { get; set; }
-        public ICollection<LotDescription> LotDescription { get; set; }
-        public ICollection<Occupancy> Occupancy { get; set; }
-        public bool UpdateGeocodes { get; set; }
-        public decimal? Latitude { get; set; }
-        public decimal? Longitude { get; set; }
-        public bool IsXmlManaged { get; set; }
 
-        public PropertySubType? PropertyType { get; set; }
+        public int ConstructionStartYear { get; set; }
+
+        [Required(AllowEmptyStrings = false)]
+        public string TaxLot { get; set; }
+
+        [Required]
+        [MinLength(1)]
+        public ICollection<LotDescription> LotDescription { get; set; }
+
+        public PropertySubType PropertyType { get; set; }
+
+        public bool UpdateGeocodes { get; set; }
+
+        [IfRequired(nameof(UpdateGeocodes), true, OperatorType.Equal)]
+        public decimal? Latitude { get; set; }
+
+        [IfRequired(nameof(UpdateGeocodes), true, OperatorType.Equal)]
+        public decimal? Longitude { get; set; }
+
+        public bool IsXmlManaged { get; set; }
 
         public PropertyRecord CloneRecord() => (PropertyRecord)this.MemberwiseClone();
 
@@ -51,17 +65,17 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
             return new()
             {
-                ConstructionCompletionDate = propertyInfo.ConstructionCompletionDate,
-                ConstructionStage = propertyInfo.ConstructionStage,
-                ConstructionStartYear = propertyInfo.ConstructionStartYear,
+                ConstructionCompletionDate = propertyInfo.ConstructionCompletionDate ?? throw new DomainException(nameof(propertyInfo.ConstructionCompletionDate)),
+                ConstructionStage = propertyInfo.ConstructionStage ?? throw new DomainException(nameof(propertyInfo.ConstructionStage)),
+                ConstructionStartYear = propertyInfo.ConstructionStartYear ?? throw new DomainException(nameof(propertyInfo.ConstructionStartYear)),
                 LegalDescription = propertyInfo.LegalDescription,
                 TaxId = propertyInfo.TaxId,
+                TaxLot = propertyInfo.TaxLot,
                 MlsArea = propertyInfo.MlsArea,
-                MapscoGrid = propertyInfo.MapscoGrid,
                 LotDimension = propertyInfo.LotDimension,
                 LotSize = propertyInfo.LotSize,
                 LotDescription = propertyInfo.LotDescription,
-                Occupancy = propertyInfo.Occupancy,
+                PropertyType = propertyInfo.PropertyType ?? throw new DomainException(nameof(propertyInfo.PropertyType)),
                 UpdateGeocodes = propertyInfo.UpdateGeocodes,
                 Latitude = propertyInfo.Latitude,
                 Longitude = propertyInfo.Longitude,

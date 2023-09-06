@@ -33,28 +33,16 @@ namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
         public ICollection<PatioAndPorchFeatures> PatioAndPorchFeatures { get; set; }
         public ICollection<View> View { get; set; }
         public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
+        public HomeFaces? HomeFaces { get; set; }
+        public WaterBodyName? WaterBodyName { get; set; }
+        public DistanceToWaterAccess? DistanceToWaterAccess { get; set; }
+        public ICollection<WaterfrontFeatures> WaterfrontFeatures { get; set; }
+        public ICollection<UnitStyle> UnitStyle { get; set; }
+        public ICollection<GuestAccommodationsDescription> GuestAccommodationsDescription { get; set; }
+        public int? GuestBedroomsTotal { get; set; }
+        public int? GuestFullBathsTotal { get; set; }
+        public int? GuestHalfBathsTotal { get; set; }
         public string PropertyDescription { get; set; }
-        public ICollection<Inclusions> Inclusions { get; set; }
-        public ICollection<WindowFeatures> WindowCoverings { get; set; }
-        public bool HasAccessibility { get; set; }
-        public ICollection<Accessibility> Accessibility { get; set; }
-        public ICollection<HousingStyle> HousingStyle { get; set; }
-        public ICollection<Exterior> Exterior { get; set; }
-        public bool HasPrivatePool { get; set; }
-        public ICollection<PrivatePool> PrivatePool { get; set; }
-        public ICollection<HomeFaces> HomeFaces { get; set; }
-        public string SupplierElectricity { get; set; }
-        public string SupplierWater { get; set; }
-        public string SupplierGarbage { get; set; }
-        public string SupplierGas { get; set; }
-        public string SupplierSewer { get; set; }
-        public string SupplierOther { get; set; }
-        public ICollection<HeatingFuel> HeatingFuel { get; set; }
-        public ICollection<GreenCertification> GreenCertification { get; set; }
-        public ICollection<EnergyFeatures> EnergyFeatures { get; set; }
-        public ICollection<GreenFeatures> GreenFeatures { get; set; }
-        public ICollection<LotImprovements> LotImprovements { get; set; }
-
         public bool IsNewConstruction { get; set; }
     }
 }

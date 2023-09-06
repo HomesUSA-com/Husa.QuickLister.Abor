@@ -6,7 +6,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using Husa.Migration.Api.Contracts.Response.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using MigrationOpenHouseType = Husa.Migration.Crosscutting.Enums.OpenHouseType;
@@ -81,6 +80,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
             this.CreateMap<ShowingResponse, CommunityShowingInfo>()
                 .ForMember(dto => dto.ShowingRequirements, cr => cr.Ignore())
                 .ForMember(dto => dto.LockBoxType, cr => cr.Ignore())
+                .ForMember(dto => dto.OwnerName, cr => cr.Ignore())
                 .ForMember(dto => dto.OccupantPhone, cr => cr.MapFrom(x => x.AltPhoneCommunity))
                 .ForMember(dto => dto.ContactPhone, cr => cr.MapFrom(x => x.AgentListApptPhone))
                 .ForMember(dto => dto.ShowingInstructions, cr => cr.MapFrom(x => x.Showing))

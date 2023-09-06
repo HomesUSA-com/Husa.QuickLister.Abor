@@ -6,21 +6,13 @@ namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
     public class AddressDto
     {
         public string StreetNumber { get; set; }
-
         public string StreetName { get; set; }
-
         public Cities City { get; set; }
-
         public States State { get; set; }
-
         public string ZipCode { get; set; }
-
         public Counties? County { get; set; }
-
-        public string LotNum { get; set; }
-
-        public string Block { get; set; }
-
+        public StreetType? StreetType { get; set; }
+        public string UnitNumber { get; set; }
         public string Subdivision { get; set; }
 
         public string Address => $"{this.StreetNumber} {this.StreetName}";

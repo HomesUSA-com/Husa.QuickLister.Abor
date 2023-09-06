@@ -43,7 +43,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         // Temp Off Market - Back on Market (BOM) Date - Due in 7 days or Less
         public static Expression<Func<SaleListing, bool>> TempOffMarketBackOnMarketDaysOrLessExpression => listingSale =>
             !string.IsNullOrEmpty(listingSale.MlsNumber) &&
-            listingSale.MlsStatus == MarketStatuses.Withdrawn &&
+            listingSale.MlsStatus == MarketStatuses.Hold &&
             listingSale.StatusFieldsInfo.OffMarketDate.HasValue &&
             listingSale.StatusFieldsInfo.BackOnMarketDate.HasValue &&
             listingSale.StatusFieldsInfo.BackOnMarketDate.Value <= DateTime.UtcNow.AddDays(SaleListing.MaxExpirationDaysLeftInTheFuture) &&
@@ -52,7 +52,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         // Temp Off Market - Back on Market (BOM) Date - Past Due
         public static Expression<Func<SaleListing, bool>> TempOffMarketBackOnMarketExpression => listingSale =>
             !string.IsNullOrEmpty(listingSale.MlsNumber) &&
-            listingSale.MlsStatus == MarketStatuses.Withdrawn &&
+            listingSale.MlsStatus == MarketStatuses.Hold &&
             listingSale.StatusFieldsInfo.OffMarketDate.HasValue &&
             listingSale.StatusFieldsInfo.BackOnMarketDate.HasValue &&
             listingSale.StatusFieldsInfo.BackOnMarketDate.Value <= DateTime.UtcNow;
@@ -174,7 +174,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 TempOffMarketBackOnMarketDaysOrLess = alerts.Contains(AlertType.TempOffMarketBackOnMarketDaysOrLess) ?
                         groupedListings.Sum(listingSale =>
                             !string.IsNullOrEmpty(listingSale.MlsNumber) &&
-                            listingSale.MlsStatus == MarketStatuses.Withdrawn &&
+                            listingSale.MlsStatus == MarketStatuses.Hold &&
                             listingSale.StatusFieldsInfo.OffMarketDate.HasValue &&
                             listingSale.StatusFieldsInfo.BackOnMarketDate.HasValue &&
                             listingSale.StatusFieldsInfo.BackOnMarketDate.Value <= DateTime.UtcNow.AddDays(SaleListing.MaxExpirationDaysLeftInTheFuture) &&
@@ -182,7 +182,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 TempOffMarketBackOnMarket = alerts.Contains(AlertType.TempOffMarketBackOnMarket) ?
                         groupedListings.Sum(listingSale =>
                             !string.IsNullOrEmpty(listingSale.MlsNumber) &&
-                            listingSale.MlsStatus == MarketStatuses.Withdrawn &&
+                            listingSale.MlsStatus == MarketStatuses.Hold &&
                             listingSale.StatusFieldsInfo.OffMarketDate.HasValue &&
                             listingSale.StatusFieldsInfo.BackOnMarketDate.HasValue &&
                             listingSale.StatusFieldsInfo.BackOnMarketDate.Value <= DateTime.UtcNow ? 1 : 0) : 0,

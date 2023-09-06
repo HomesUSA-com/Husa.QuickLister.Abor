@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Domain.Interfaces
 {
+    using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public interface IProvideShowingInfo
@@ -8,7 +9,8 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         string ContactPhone { get; set; }
         string ShowingInstructions { get; set; }
         string Directions { get; set; }
+        string OwnerName { get; set; }
         LockBoxType? LockBoxType { get; set; }
-        ShowingRequirements? ShowingRequirements { get; set; }
+        ICollection<ShowingRequirements> ShowingRequirements { get; set; }
     }
 }

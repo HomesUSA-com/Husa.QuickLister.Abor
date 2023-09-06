@@ -62,10 +62,9 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.OfficePhone).HasColumnName(nameof(ProfileInfo.OfficePhone)).HasMaxLength(14);
             builder.Property(r => r.BackupPhone).HasColumnName(nameof(ProfileInfo.BackupPhone)).HasMaxLength(14);
             builder.Property(r => r.Fax).HasColumnName(nameof(ProfileInfo.Fax)).HasMaxLength(20);
-            builder.Property(r => r.Latitude).HasColumnName(nameof(ProfileInfo.Latitude)).HasPrecision(32, 12);
-            builder.Property(r => r.Longitude).HasColumnName(nameof(ProfileInfo.Longitude)).HasPrecision(32, 12);
             builder.Property(r => r.UseLatLong).HasColumnName(nameof(ProfileInfo.UseLatLong));
             builder.Property(r => r.EmailMailViolationsWarnings).HasColumnName(nameof(ProfileInfo.EmailMailViolationsWarnings)).HasMaxLength(60);
+            builder.ConfigureGeocodes();
         }
 
         private static void ConfigureSaleOffice(OwnedNavigationBuilder<CommunitySale, CommunitySaleOffice> builder)

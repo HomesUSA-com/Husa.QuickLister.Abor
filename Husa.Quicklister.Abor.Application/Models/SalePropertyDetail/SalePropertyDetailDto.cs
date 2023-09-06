@@ -26,8 +26,6 @@ namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
 
         public virtual IEnumerable<RoomDto> Rooms { get; set; }
 
-        public virtual IEnumerable<HoaDto> Hoas { get; set; }
-
         public virtual IEnumerable<OpenHouseDto> OpenHouses { get; set; }
     }
 }

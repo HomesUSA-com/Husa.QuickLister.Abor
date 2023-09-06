@@ -24,8 +24,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
 
         public virtual IEnumerable<RoomQueryResult> Rooms { get; set; }
 
-        public virtual IEnumerable<HoaQueryResult> Hoas { get; set; }
-
         public virtual IEnumerable<OpenHousesQueryResult> OpenHouses { get; set; }
     }
 }

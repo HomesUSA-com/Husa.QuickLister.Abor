@@ -98,13 +98,12 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                 this.Logger.LogInformation("Processing message for listing with mls number {mlsNumber}", residentialMessage.ResidentialValue.MlsNumber);
                 var listingSaleDto = this.mapper.Map<FullListingSaleDto>(residentialMessage.ResidentialValue);
                 var roomsDto = this.mapper.Map<IEnumerable<RoomDto>>(residentialMessage.Rooms);
-                var hoasDto = this.mapper.Map<IEnumerable<HoaDto>>(residentialMessage.Hoas);
 
                 SetLegacyInfo(listingSaleDto.SaleProperty, residentialMessage.LegacyResidentialInfo);
                 var sellingAgent = residentialMessage.ResidentialValue.SellingAgent;
 
                 var downloaderService = scope.ServiceProvider.GetRequiredService<IDownloaderService>();
-                return downloaderService.ProcessDataFromDownloaderAsync(listingSaleDto, roomsDto, hoasDto, sellingAgent);
+                return downloaderService.ProcessDataFromDownloaderAsync(listingSaleDto, roomsDto, sellingAgent);
             }
 
             Task ProcessResidentialOpenHouseMessage(ResidentialOpenHousesMessage openHousesMessage)

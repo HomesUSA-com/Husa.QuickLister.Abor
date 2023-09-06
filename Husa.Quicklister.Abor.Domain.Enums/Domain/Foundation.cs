@@ -5,10 +5,10 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum Foundation
     {
-        [EnumMember(Value = "PillarPostPier")]
+        [EnumMember(Value = "PIER")]
         [Description("Pillar/Post/Pier")]
         PillarPostPier,
-        [EnumMember(Value = "Slab")]
+        [EnumMember(Value = "SLAB")]
         [Description("Slab")]
         Slab,
     }

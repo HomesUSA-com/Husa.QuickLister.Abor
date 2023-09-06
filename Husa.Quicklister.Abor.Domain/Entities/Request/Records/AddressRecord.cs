@@ -34,14 +34,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public Counties County { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [MaxLength(5, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
-        public string LotNum { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
-        public string Block { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
         public string Subdivision { get => this.subdivision; set => this.subdivision = value.ToTitleCase(); }
+
+        [Required]
+        public StreetType? StreetType { get; set; }
+        public string UnitNumber { get; set; }
 
         public AddressRecord CloneRecord() => (AddressRecord)this.MemberwiseClone();
 
@@ -62,9 +59,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 State = addressInfo.State,
                 ZipCode = addressInfo.ZipCode,
                 County = addressInfo.County ?? throw new DomainException(nameof(addressInfo.County)),
-                LotNum = addressInfo.LotNum,
-                Block = addressInfo.Block,
                 Subdivision = addressInfo.Subdivision,
+                StreetType = addressInfo.StreetType ?? throw new DomainException(nameof(addressInfo.StreetType)),
+                UnitNumber = addressInfo.UnitNumber,
             };
         }
 

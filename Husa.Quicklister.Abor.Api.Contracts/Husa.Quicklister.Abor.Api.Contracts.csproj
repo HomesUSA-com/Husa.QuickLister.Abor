@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Husa.Extensions.Common" Version="3.8.2" />
+        <PackageReference Include="Husa.Extensions.Common" Version="3.9.0" />
     </ItemGroup>
 
     <ItemGroup>

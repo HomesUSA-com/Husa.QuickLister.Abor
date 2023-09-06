@@ -5,91 +5,91 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum Appliances
     {
-        [EnumMember(Value = "BarFridge")]
+        [EnumMember(Value = "BFRDG")]
         [Description("Bar Fridge")]
         BarFridge,
-        [EnumMember(Value = "BuiltInElectricOven")]
+        [EnumMember(Value = "BIEO")]
         [Description("Built-In Electric Oven")]
         BuiltInElectricOven,
-        [EnumMember(Value = "BuiltInElectricRange")]
+        [EnumMember(Value = "BIER")]
         [Description("Built-In Electric Range")]
         BuiltInElectricRange,
-        [EnumMember(Value = "BuiltInFreezer")]
+        [EnumMember(Value = "BIFRZ")]
         [Description("Built-In Freezer")]
         BuiltInFreezer,
-        [EnumMember(Value = "BuiltInGasOven")]
+        [EnumMember(Value = "BIGO")]
         [Description("Built-In Gas Oven")]
         BuiltInGasOven,
-        [EnumMember(Value = "BuiltInGasRange")]
+        [EnumMember(Value = "BIGR")]
         [Description("Built-In Gas Range")]
         BuiltInGasRange,
-        [EnumMember(Value = "BuiltInOven")]
+        [EnumMember(Value = "BIOVN")]
         [Description("Built-In Oven(s)")]
         BuiltInOven,
-        [EnumMember(Value = "BuiltInRange")]
+        [EnumMember(Value = "BIRNG")]
         [Description("Built-In Range")]
         BuiltInRange,
-        [EnumMember(Value = "BuiltInRefrigerator")]
+        [EnumMember(Value = "BIFRDG")]
         [Description("Built-In Refrigerator")]
         BuiltInRefrigerator,
-        [EnumMember(Value = "ConvectionOven")]
+        [EnumMember(Value = "CONVE")]
         [Description("Convection Oven")]
         ConvectionOven,
-        [EnumMember(Value = "Cooktop")]
+        [EnumMember(Value = "CKTP")]
         [Description("Cooktop")]
         Cooktop,
-        [EnumMember(Value = "Dishwasher")]
+        [EnumMember(Value = "DW")]
         [Description("Dishwasher")]
         Dishwasher,
-        [EnumMember(Value = "Disposal")]
+        [EnumMember(Value = "DSPSL")]
         [Description("Disposal")]
         Disposal,
-        [EnumMember(Value = "DownDraft")]
+        [EnumMember(Value = "DWNDF")]
         [Description("Down Draft")]
         DownDraft,
-        [EnumMember(Value = "Dryer")]
+        [EnumMember(Value = "DRY")]
         [Description("Dryer")]
         Dryer,
-        [EnumMember(Value = "ElectricCooktop")]
+        [EnumMember(Value = "CKTPE")]
         [Description("Electric Cooktop")]
         ElectricCooktop,
-        [EnumMember(Value = "ElectricRange")]
+        [EnumMember(Value = "ERNG")]
         [Description("Electric Range")]
         ElectricRange,
-        [EnumMember(Value = "ENERGYSTARQualifiedAppliances")]
+        [EnumMember(Value = "ENGAP")]
         [Description("ENERGY STAR Qualified Appliances")]
         EnergyStarQualifiedAppliances,
-        [EnumMember(Value = "ENERGYSTARQualifiedDishwasher")]
+        [EnumMember(Value = "EQDWSH")]
         [Description("ENERGY STAR Qualified Dishwasher")]
         EnergyStarQualifiedDishwasher,
-        [EnumMember(Value = "ENERGYSTARQualifiedDryer")]
+        [EnumMember(Value = "EQDRYR")]
         [Description("ENERGY STAR Qualified Dryer")]
         EnergyStarQualifiedDryer,
-        [EnumMember(Value = "ENERGYSTARQualifiedFreezer")]
+        [EnumMember(Value = "EQFR")]
         [Description("ENERGY STAR Qualified Freezer")]
         EnergyStarQualifiedFreezer,
-        [EnumMember(Value = "ENERGYSTARQualifiedRefrigerator")]
+        [EnumMember(Value = "EQFZ")]
         [Description("ENERGY STAR Qualified Refrigerator")]
         EnergyStarQualifiedRefrigerator,
-        [EnumMember(Value = "ENERGYSTARQualifiedWasher")]
+        [EnumMember(Value = "EQWSH")]
         [Description("ENERGY STAR Qualified Washer")]
         EnergyStarQualifiedWasher,
-        [EnumMember(Value = "ENERGYSTARQualifiedWaterHeater")]
+        [EnumMember(Value = "EQWHTR")]
         [Description("ENERGY STAR Qualified Water Heater")]
         EnergyStarQualifiedWaterHeater,
-        [EnumMember(Value = "ExhaustFan")]
+        [EnumMember(Value = "EXFEN")]
         [Description("Exhaust Fan")]
         ExhaustFan,
-        [EnumMember(Value = "GasCooktop")]
+        [EnumMember(Value = "CCKT")]
         [Description("Gas Cooktop")]
         GasCooktop,
-        [EnumMember(Value = "GasRange")]
+        [EnumMember(Value = "GRNG")]
         [Description("Gas Range")]
         GasRange,
-        [EnumMember(Value = "InstantHotWater")]
+        [EnumMember(Value = "IHWTR")]
         [Description("Instant Hot Water")]
         InstantHotWater,
-        [EnumMember(Value = "Microwave")]
+        [EnumMember(Value = "MCWOV")]
         [Description("Microwave")]
         Microwave,
         [EnumMember(Value = "None")]
@@ -98,73 +98,73 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "Oven")]
         [Description("Oven")]
         Oven,
-        [EnumMember(Value = "OvenElectric")]
+        [EnumMember(Value = "EOVN")]
         [Description("Oven Electric")]
         OvenElectric,
-        [EnumMember(Value = "OvenFreeStandingElectric")]
+        [EnumMember(Value = "FSEOV")]
         [Description("Oven Free-Standing Electric")]
         OvenFreeStandingElectric,
-        [EnumMember(Value = "OvenFreeStandingGas")]
+        [EnumMember(Value = "FSGOVN")]
         [Description("Oven Free-Standing Gas")]
         OvenFreeStandingGas,
-        [EnumMember(Value = "OvenGas")]
+        [EnumMember(Value = "GOVN")]
         [Description("Oven Gas")]
         OvenGas,
-        [EnumMember(Value = "DoubleOven")]
+        [EnumMember(Value = "DBLOV")]
         [Description("Oven-Double")]
         OvenDouble,
-        [EnumMember(Value = "PlumbedForIceMaker")]
+        [EnumMember(Value = "PICMK")]
         [Description("Plumbed For Ice Maker")]
         PlumbedForIceMaker,
         [EnumMember(Value = "Range")]
         [Description("Range")]
         Range,
-        [EnumMember(Value = "RangeFreeStandingElectric")]
+        [EnumMember(Value = "FSERN")]
         [Description("Range Free Standing Electric")]
         RangeFreeStandingElectric,
-        [EnumMember(Value = "RangeFreeStanding")]
+        [EnumMember(Value = "FSRNG")]
         [Description("Range Free-Standing")]
         RangeFreeStanding,
-        [EnumMember(Value = "RangeFreeStandingGas")]
+        [EnumMember(Value = "FSGRNG")]
         [Description("Range Free-Standing Gas")]
         RangeFreeStandingGas,
-        [EnumMember(Value = "RangeHood")]
+        [EnumMember(Value = "HOOD")]
         [Description("Range Hood")]
         RangeHood,
-        [EnumMember(Value = "Refrigerator")]
+        [EnumMember(Value = "REF")]
         [Description("Refrigerator")]
         Refrigerator,
-        [EnumMember(Value = "RefrigeratorFreeStanding")]
+        [EnumMember(Value = "FSFRDGE")]
         [Description("Refrigerator Free-Standing")]
         RefrigeratorFreeStanding,
-        [EnumMember(Value = "SeeRemarks")]
+        [EnumMember(Value = "SRMRKS")]
         [Description("See Remarks")]
         SeeRemarks,
-        [EnumMember(Value = "SelfCleaningOven")]
+        [EnumMember(Value = "SCLOV")]
         [Description("Self Cleaning Oven")]
         SelfCleaningOven,
-        [EnumMember(Value = "SolarHotWater")]
+        [EnumMember(Value = "SHTWT")]
         [Description("Solar Hot Water")]
         SolarHotWater,
-        [EnumMember(Value = "StainlessSteelAppliances")]
+        [EnumMember(Value = "SSTL")]
         [Description("Stainless Steel Appliance(s)")]
         StainlessSteelAppliance,
-        [EnumMember(Value = "TanklessWaterHeater")]
+        [EnumMember(Value = "TNKWH")]
         [Description("Tankless Water Heater")]
         TanklessWaterHeater,
-        [EnumMember(Value = "TrashCompactor")]
+        [EnumMember(Value = "TRCMP")]
         [Description("Trash Compactor")]
         TrashCompactor,
-        [EnumMember(Value = "VentedExhaustFan")]
+        [EnumMember(Value = "VXHFN")]
         [Description("Vented Exhaust Fan")]
         VentedExhaustFan,
-        [EnumMember(Value = "WasherDryer")]
+        [EnumMember(Value = "WD")]
         [Description("Washer Dryer")]
         WasherDryer,
-        [EnumMember(Value = "WaterHeaterElectric")]
+        [EnumMember(Value = "EWHTR")]
         [Description("Water Heater-Electric")]
         WaterHeaterElectric,
-        [EnumMember(Value = "WaterHeaterGas")]
+        [EnumMember(Value = "GWHTR")]
         [Description("Water Heater-Gas")]
         WaterHeaterGas,
     }

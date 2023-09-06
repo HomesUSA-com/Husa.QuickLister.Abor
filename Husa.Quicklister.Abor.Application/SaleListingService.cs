@@ -164,7 +164,6 @@ namespace Husa.Quicklister.Abor.Application
             await this.UpdateSpacesDimensionsInfo(listingDto.SaleProperty.SpacesDimensionsInfo, entity: listingSale);
             await this.UpdateRooms(listingDto.SaleProperty.Rooms, entity: listingSale);
             await this.UpdateOpenHouse(listingDto.SaleProperty.OpenHouses, entity: listingSale);
-            await this.UpdateHoas(listingDto.SaleProperty.Hoas, entity: listingSale);
 
             await this.listingSaleRepository.UpdateAsync(listingSale);
         }
@@ -267,15 +266,6 @@ namespace Husa.Quicklister.Abor.Application
             entity.SaleProperty.UpdateRooms(rooms);
         }
 
-        public async Task UpdateHoas(IEnumerable<HoaDto> hoaDto, Guid listingId = default, SaleListing entity = null)
-        {
-            this.logger.LogInformation("Starting update hoa information for listing with id {listingId}", listingId);
-            entity = await this.GetEntity(entity, listingId);
-
-            var hoas = this.mapper.Map<ICollection<SaleListingHoa>>(hoaDto);
-            entity.SaleProperty.UpdateHoas(hoas);
-        }
-
         public async Task UpdateOpenHouse(IEnumerable<OpenHouseDto> openHouseDto, SaleListing entity = null)
         {
             entity = await this.GetEntity(entity);
@@ -368,7 +358,6 @@ namespace Husa.Quicklister.Abor.Application
             await this.UpdateSpacesDimensionsInfo(listingSaleDto.SaleProperty.SpacesDimensionsInfo, entity: listingSale);
             await this.UpdateRooms(listingSaleDto.SaleProperty.Rooms, entity: listingSale);
             await this.UpdateOpenHouse(listingSaleDto.SaleProperty.OpenHouses, entity: listingSale);
-            await this.UpdateHoas(listingSaleDto.SaleProperty.Hoas, entity: listingSale);
 
             await this.listingSaleRepository.SaveChangesAsync(listingSale);
             return listingSale;

@@ -24,8 +24,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
 
         public ICollection<RoomRequest> Rooms { get; set; }
 
-        public ICollection<HoaRequest> Hoas { get; set; }
-
         public ICollection<OpenHouseRequest> OpenHouses { get; set; }
     }
 }

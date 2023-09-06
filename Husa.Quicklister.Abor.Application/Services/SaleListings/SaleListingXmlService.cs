@@ -90,7 +90,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             }
             else
             {
-                if (listing.MlsStatus == MarketStatuses.Sold)
+                if (listing.MlsStatus == MarketStatuses.Closed)
                 {
                     this.logger.LogWarning("The listing could not be updated because is an sold listing {listingId}", listing.Id);
                     return listing.Id;
@@ -124,7 +124,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 return;
             }
 
-            if (listing.MlsStatus == MarketStatuses.Sold)
+            if (listing.MlsStatus == MarketStatuses.Closed)
             {
                 this.logger.LogWarning("The listing could not be updated because is an sold listing {listingId}", listing.Id);
                 return;

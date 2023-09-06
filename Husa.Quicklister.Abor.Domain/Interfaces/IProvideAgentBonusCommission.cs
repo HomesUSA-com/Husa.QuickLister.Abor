@@ -1,6 +1,6 @@
 namespace Husa.Quicklister.Abor.Domain.Interfaces
 {
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public interface IProvideAgentBonusCommission
     {

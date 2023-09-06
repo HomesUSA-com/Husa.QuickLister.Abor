@@ -24,11 +24,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         [Required]
         public HighSchool HighSchool { get; set; }
 
-        public OtherElementarySchool? OtherElementarySchool { get; set; }
+        public string OtherElementarySchool { get; set; }
 
-        public OtherMiddleSchool? OtherMiddleSchool { get; set; }
+        public string OtherMiddleSchool { get; set; }
 
-        public OtherHighSchool? OtherHighSchool { get; set; }
+        public string OtherHighSchool { get; set; }
 
         public SchoolRecord CloneRecord() => (SchoolRecord)this.MemberwiseClone();
         public static SchoolRecord CreateRecord(SchoolsInfo schoolsInfo)
@@ -44,6 +44,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 ElementarySchool = schoolsInfo.ElementarySchool ?? throw new DomainException(nameof(schoolsInfo.ElementarySchool)),
                 MiddleSchool = schoolsInfo.MiddleSchool ?? throw new DomainException(nameof(schoolsInfo.MiddleSchool)),
                 HighSchool = schoolsInfo.HighSchool ?? throw new DomainException(nameof(schoolsInfo.HighSchool)),
+                OtherElementarySchool = schoolsInfo.OtherElementarySchool,
+                OtherMiddleSchool = schoolsInfo.OtherMiddleSchool,
+                OtherHighSchool = schoolsInfo.OtherHighSchool,
             };
         }
 

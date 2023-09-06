@@ -5,7 +5,7 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum Fencing
     {
-        [EnumMember(Value = "BackYard")]
+        [EnumMember(Value = "BKYRD")]
         [Description("Back Yard")]
         BackYard,
         [EnumMember(Value = "Block")]
@@ -14,34 +14,34 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "Brick")]
         [Description("Brick")]
         Brick,
-        [EnumMember(Value = "Gate")]
+        [EnumMember(Value = "GATE")]
         [Description("Gate")]
         Gate,
-        [EnumMember(Value = "Masonry")]
+        [EnumMember(Value = "MSRY")]
         [Description("Masonry")]
         Masonry,
         [EnumMember(Value = "None")]
         [Description("None")]
         None,
-        [EnumMember(Value = "Partial")]
+        [EnumMember(Value = "PART")]
         [Description("Partial")]
         Partial,
-        [EnumMember(Value = "Privacy")]
+        [EnumMember(Value = "PRV")]
         [Description("Privacy")]
         Privacy,
-        [EnumMember(Value = "Security")]
+        [EnumMember(Value = "SECU")]
         [Description("Security")]
         Security,
-        [EnumMember(Value = "Stone")]
+        [EnumMember(Value = "STN")]
         [Description("Stone")]
         Stone,
-        [EnumMember(Value = "Vinyl")]
+        [EnumMember(Value = "VNYL")]
         [Description("Vinyl")]
         Vinyl,
-        [EnumMember(Value = "Wood")]
+        [EnumMember(Value = "WD")]
         [Description("Wood")]
         Wood,
-        [EnumMember(Value = "WroughtIron")]
+        [EnumMember(Value = "WIRON")]
         [Description("Wrought Iron")]
         WroughtIron,
     }

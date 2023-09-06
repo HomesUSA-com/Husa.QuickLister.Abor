@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -54,7 +55,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
             builder.Property(r => r.BillingFrequency)
                 .HasColumnName(nameof(IProvideFinancial.BillingFrequency))
                 .HasConversion<EnumFieldValueConverter<BillingFrequency>>()
-                .HasMaxLength(1);
+                .HasMaxLength(6);
 
             builder.Property(r => r.BuyersAgentCommission).HasPrecision(18, 2).HasColumnName(nameof(IProvideFinancial.BuyersAgentCommission)).HasMaxLength(6);
             builder.Property(r => r.BuyersAgentCommissionType)

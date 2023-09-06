@@ -30,8 +30,6 @@ namespace Husa.Quicklister.Abor.Domain.ValueObjects
 
         public virtual ICollection<ListingSaleRoom> Rooms { get; set; }
 
-        public virtual ICollection<SaleListingHoa> Hoas { get; set; }
-
         public virtual ICollection<SaleListingOpenHouse> OpenHouses { get; set; }
 
         protected override IEnumerable<object> GetEqualityComponents()
@@ -47,7 +45,6 @@ namespace Husa.Quicklister.Abor.Domain.ValueObjects
             yield return this.SpacesDimensionsInfo;
             yield return this.FinancialInfo;
             yield return this.Rooms;
-            yield return this.Hoas;
             yield return this.OpenHouses;
         }
     }

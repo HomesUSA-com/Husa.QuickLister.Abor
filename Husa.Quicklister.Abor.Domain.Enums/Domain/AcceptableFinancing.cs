@@ -14,10 +14,10 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "FHA")]
         [Description("FHA")]
         FHA,
-        [EnumMember(Value = "FNMA")]
+        [EnumMember(Value = "FMHA")]
         [Description("FMHA (Fannie Mae)")]
         FMHA,
-        [EnumMember(Value = "OTHSE")]
+        [EnumMember(Value = "SRMRKS")]
         [Description("See Remarks")]
         SeeRemarks,
         [EnumMember(Value = "SALEL")]

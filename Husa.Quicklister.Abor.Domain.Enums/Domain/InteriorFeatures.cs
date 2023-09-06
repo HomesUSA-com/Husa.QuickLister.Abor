@@ -5,154 +5,148 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum InteriorFeatures
     {
-        [EnumMember(Value = "TwoPrimaryBath")]
+        [EnumMember(Value = "R2MBT")]
         [Description("2 Primary Bath")]
         TwoPrimaryBath,
-        [EnumMember(Value = "TwoPrimarySuites")]
+        [EnumMember(Value = "R2MST")]
         [Description("2 Primary Suites")]
         TwoPrimarySuites,
-        [EnumMember(Value = "Bar")]
+        [EnumMember(Value = "BAR")]
         [Description("Bar")]
         Bar,
-        [EnumMember(Value = "Built-inBookCases")]
+        [EnumMember(Value = "BBKCA")]
         [Description("Bookcases")]
         Bookcases,
-        [EnumMember(Value = "BreakfastBar")]
+        [EnumMember(Value = "BRFAR")]
         [Description("Breakfast Bar")]
         BreakfastBar,
-        [EnumMember(Value = "Built-in Features")]
+        [EnumMember(Value = "BIFEAT")]
         [Description("Built-in Features")]
         BuiltinFeatures,
-        [EnumMember(Value = "CeilingFans")]
+        [EnumMember(Value = "CFAN")]
         [Description("Ceiling Fan(s)")]
         CeilingFans,
-        [EnumMember(Value = "BeamedCeilings")]
+        [EnumMember(Value = "CLBM")]
         [Description("Ceiling(s)-Beamed")]
         CeilingsBeamed,
-        [EnumMember(Value = "CathedralCeilings")]
+        [EnumMember(Value = "CLCTH")]
         [Description("Ceiling(s)-Cathedral")]
         CeilingsCathedral,
-        [EnumMember(Value = "CofferedCeilings")]
+        [EnumMember(Value = "CLCFF")]
         [Description("Ceiling(s)-Coffered")]
         CeilingsCoffered,
-        [EnumMember(Value = "HighCeilings")]
+        [EnumMember(Value = "HCLG")]
         [Description("Ceiling(s)-High")]
         CeilingsHigh,
-        [EnumMember(Value = "CeilingsTray")]
+        [EnumMember(Value = "TRAY")]
         [Description("Ceiling(s)-Tray")]
         CeilingsTray,
-        [EnumMember(Value = "VaultedCeilings")]
+        [EnumMember(Value = "CLVLT")]
         [Description("Ceiling(s)-Vaulted")]
         CeilingsVaulted,
-        [EnumMember(Value = "Chandelier")]
+        [EnumMember(Value = "CHNDLR")]
         [Description("Chandelier")]
         Chandelier,
-        [EnumMember(Value = "CrownMolding")]
+        [EnumMember(Value = "CRMLD")]
         [Description("Crown Molding")]
         CrownMolding,
-        [EnumMember(Value = "DoubleVanity")]
+        [EnumMember(Value = "DBVAN")]
         [Description("Double Vanity")]
         DoubleVanity,
-        [EnumMember(Value = "DryerElectricHookup")]
+        [EnumMember(Value = "ELCCN")]
         [Description("Dryer-Electric Hookup")]
         DryerElectricHookup,
-        [EnumMember(Value = "DryerGasHookup")]
+        [EnumMember(Value = "GASCN")]
         [Description("Dryer-Gas Hookup")]
         DryerGasHookup,
-        [EnumMember(Value = "EatinKitchen")]
+        [EnumMember(Value = "EIKT")]
         [Description("Eat-in Kitchen")]
         EatinKitchen,
-        [EnumMember(Value = "EntranceFoyer")]
+        [EnumMember(Value = "ENFOYR")]
         [Description("Entrance Foyer")]
         EntranceFoyer,
-        [EnumMember(Value = "FrenchDoorsAtriumDoors")]
+        [EnumMember(Value = "FRNDR")]
         [Description("French Doors")]
         FrenchDoors,
-        [EnumMember(Value = "HighSpeedInternet")]
+        [EnumMember(Value = "HSPCN")]
         [Description("High Speed Internet")]
         HighSpeedInternet,
-        [EnumMember(Value = "HisandHersClosets")]
-        [Description("His and Hers Closets")]
-        HisandHersClosets,
-        [EnumMember(Value = "InLawFloorplan")]
+        [EnumMember(Value = "IILPL")]
         [Description("In-Law Floorplan")]
         InLawFloorplan,
-        [EnumMember(Value = "InteriorSteps")]
+        [EnumMember(Value = "INTER")]
         [Description("Interior Steps")]
         InteriorSteps,
-        [EnumMember(Value = "KitchenIsland")]
+        [EnumMember(Value = "KITIS")]
         [Description("Kitchen Island")]
         KitchenIsland,
-        [EnumMember(Value = "LowFlowPlumbingFixtures")]
+        [EnumMember(Value = "PLFX")]
         [Description("Low Flow Plumbing Fixtures")]
         LowFlowPlumbingFixtures,
-        [EnumMember(Value = "MultipleDiningAreas")]
+        [EnumMember(Value = "MDIN")]
         [Description("Multiple Dining Areas")]
         MultipleDiningAreas,
-        [EnumMember(Value = "MultipleLivingAreas")]
+        [EnumMember(Value = "MLIV")]
         [Description("Multiple Living Areas")]
         MultipleLivingAreas,
-        [EnumMember(Value = "NaturalWoodwork")]
+        [EnumMember(Value = "NWWK")]
         [Description("Natural Woodwork")]
         NaturalWoodwork,
-        [EnumMember(Value = "NoInteriorSteps")]
+        [EnumMember(Value = "NOINT")]
         [Description("No Interior Steps")]
         NoInteriorSteps,
         [EnumMember(Value = "None")]
         [Description("None")]
         None,
-        [EnumMember(Value = "OpenFloorplan")]
+        [EnumMember(Value = "Open")]
         [Description("Open Floorplan")]
         OpenFloorplan,
-        [EnumMember(Value = "Pantry")]
+        [EnumMember(Value = "PNTY")]
         [Description("Pantry")]
         Pantry,
-        [EnumMember(Value = "MainLevelMaster")]
+        [EnumMember(Value = "MSTDW")]
         [Description("Primary Bedroom on Main")]
         PrimaryBedroomonMain,
-        [EnumMember(Value = "LightingRecessed")]
+        [EnumMember(Value = "LRECE")]
         [Description("Recessed Lighting")]
         RecessedLighting,
-        [EnumMember(Value = "SeeAgent")]
+        [EnumMember(Value = "SRMRKS")]
         [Description("See Remarks")]
         SeeRemarks,
-        [EnumMember(Value = "SmartHome")]
+        [EnumMember(Value = "SMHM")]
         [Description("Smart Home")]
         SmartHome,
-        [EnumMember(Value = "SmartThermostat")]
+        [EnumMember(Value = "SMTH")]
         [Description("Smart Thermostat")]
         SmartThermostat,
-        [EnumMember(Value = "SoakingTub")]
+        [EnumMember(Value = "SOAK")]
         [Description("Soaking Tub")]
         SoakingTub,
-        [EnumMember(Value = "SolarTubes")]
+        [EnumMember(Value = "STUB")]
         [Description("Solar Tube(s)")]
         SolarTubes,
-        [EnumMember(Value = "SoundSystem")]
+        [EnumMember(Value = "SSYS")]
         [Description("Sound System")]
         SoundSystem,
-        [EnumMember(Value = "Storage")]
+        [EnumMember(Value = "STRG")]
         [Description("Storage")]
         Storage,
-        [EnumMember(Value = "TileCountertop")]
-        [Description("Tile Counters")]
-        TileCounters,
-        [EnumMember(Value = "TrackLighting")]
+        [EnumMember(Value = "TKLGH")]
         [Description("Track Lighting")]
         TrackLighting,
-        [EnumMember(Value = "WalkInClosets")]
+        [EnumMember(Value = "RWINC")]
         [Description("Walk-In Closet(s)")]
         WalkInClosets,
-        [EnumMember(Value = "WasherHookup")]
+        [EnumMember(Value = "WSHCN")]
         [Description("Washer Hookup")]
         WasherHookup,
-        [EnumMember(Value = "WaterSenseFixtures")]
+        [EnumMember(Value = "WSNFX")]
         [Description("WaterSense Fixture(s)")]
         WaterSenseFixtures,
-        [EnumMember(Value = "WiredforData")]
+        [EnumMember(Value = "WDTA")]
         [Description("Wired for Data")]
         WiredforData,
-        [EnumMember(Value = "WiredforSound")]
+        [EnumMember(Value = "WRSSD")]
         [Description("Wired for Sound")]
         WiredforSound,
     }

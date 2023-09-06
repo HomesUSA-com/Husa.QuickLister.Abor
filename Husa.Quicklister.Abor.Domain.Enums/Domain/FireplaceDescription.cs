@@ -5,67 +5,67 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum FireplaceDescription
     {
-        [EnumMember(Value = "Bathroom")]
+        [EnumMember(Value = "Bath")]
         [Description("Bathroom")]
         Bathroom,
-        [EnumMember(Value = "Bedroom")]
+        [EnumMember(Value = "BDRM")]
         [Description("Bedroom")]
         Bedroom,
-        [EnumMember(Value = "Circulating")]
+        [EnumMember(Value = "CIR")]
         [Description("Circulating")]
         Circulating,
-        [EnumMember(Value = "Decorative")]
+        [EnumMember(Value = "DECRTV")]
         [Description("Decorative")]
         Decorative,
         [EnumMember(Value = "Den")]
         [Description("Den")]
         Den,
-        [EnumMember(Value = "DoubleSided")]
+        [EnumMember(Value = "DBSD")]
         [Description("Double Sided")]
         DoubleSided,
-        [EnumMember(Value = "Electric")]
+        [EnumMember(Value = "ELEC")]
         [Description("Electric")]
         Electric,
-        [EnumMember(Value = "EPACertifiedWoodStove")]
+        [EnumMember(Value = "CWDST")]
         [Description("EPA Certified Wood Stove")]
         EPACertifiedWoodStove,
-        [EnumMember(Value = "FamilyRoom")]
+        [EnumMember(Value = "FAMRM")]
         [Description("Family Room")]
         FamilyRoom,
         [EnumMember(Value = "Gas")]
         [Description("Gas")]
         Gas,
-        [EnumMember(Value = "GasLog")]
+        [EnumMember(Value = "GLLHT")]
         [Description("Gas Log")]
         GasLog,
-        [EnumMember(Value = "GasStarter")]
+        [EnumMember(Value = "GSTR")]
         [Description("Gas Starter")]
         GasStarter,
-        [EnumMember(Value = "GreatRoom")]
+        [EnumMember(Value = "GRM")]
         [Description("Great Room")]
         GreatRoom,
-        [EnumMember(Value = "LivingRoom")]
+        [EnumMember(Value = "LIVRM")]
         [Description("Living Room")]
         LivingRoom,
-        [EnumMember(Value = "Masonry")]
+        [EnumMember(Value = "MSRY")]
         [Description("Masonry")]
         Masonry,
-        [EnumMember(Value = "Metal")]
+        [EnumMember(Value = "MTL")]
         [Description("Metal")]
         Metal,
         [EnumMember(Value = "None")]
         [Description("None")]
         None,
-        [EnumMember(Value = "Outside")]
+        [EnumMember(Value = "OUTS")]
         [Description("Outside")]
         Outside,
-        [EnumMember(Value = "SeeThrough")]
+        [EnumMember(Value = "STHRU")]
         [Description("See Through")]
         SeeThrough,
-        [EnumMember(Value = "Ventless")]
+        [EnumMember(Value = "VNLS")]
         [Description("Ventless")]
         Ventless,
-        [EnumMember(Value = "WoodBurning")]
+        [EnumMember(Value = "WDBN")]
         [Description("Wood Burning")]
         WoodBurning,
     }

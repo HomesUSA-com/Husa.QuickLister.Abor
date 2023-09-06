@@ -14,6 +14,17 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
 
         private string occupantPhone;
         private string contactPhone;
+
+        public CommunityShowingInfo(string ownerName)
+            : this()
+        {
+            this.OwnerName = ownerName;
+        }
+
+        public CommunityShowingInfo()
+        {
+        }
+
         public virtual string OccupantPhone
         {
             get { return this.occupantPhone; }
@@ -27,8 +38,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         }
 
         public virtual string ShowingInstructions { get; set; }
-        public virtual ShowingRequirements? ShowingRequirements { get; set; }
+        public virtual ICollection<ShowingRequirements> ShowingRequirements { get; set; }
         public virtual string Directions { get; set; }
+        public virtual string OwnerName { get; set; }
         public virtual LockBoxType? LockBoxType { get; set; }
 
         public static CommunityShowingInfo ImportFromXml(SubdivisionResponse subdivision, CommunityShowingInfo showingInfo)
@@ -86,6 +98,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             clonedShowing.Directions = info.Directions;
             clonedShowing.ShowingRequirements = info.ShowingRequirements;
             clonedShowing.LockBoxType = info.LockBoxType;
+            clonedShowing.OwnerName = info.OwnerName;
 
             return clonedShowing;
         }
@@ -98,6 +111,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             yield return this.ShowingRequirements;
             yield return this.Directions;
             yield return this.LockBoxType;
+            yield return this.OwnerName;
         }
     }
 }

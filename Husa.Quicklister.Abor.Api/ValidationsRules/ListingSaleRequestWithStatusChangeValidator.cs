@@ -29,15 +29,14 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
                 .IsInEnum().WithMessage("{PropertyName} value is not valid");
             this.ValidateRequestGeneration();
             this.ValidationsRulesForChangeStatusToPending();
-            this.ValidationsRulesForChangeStatusToPendingSB();
             this.ValidationsRulesForChangeStatusToCancelled();
-            this.ValidationsRulesForChangeStatusToSold();
-            this.ValidationsRulesForChangeStatusToWithdrawn();
+            this.ValidationsRulesForChangeStatusToHold();
+            this.ValidationsRulesForChangeStatusToClosed();
         }
 
         public void ValidationsRulesForChangeStatusToCancelled()
         {
-            this.When(l => l.MlsStatus == MarketStatuses.Cancelled, () =>
+            this.When(l => l.MlsStatus == MarketStatuses.Canceled, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.CancelledOption)
                     .NotEmpty().WithMessage(RequiredFieldMessage);
@@ -60,23 +59,9 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
             });
         }
 
-        public void ValidationsRulesForChangeStatusToPendingSB()
+        public void ValidationsRulesForChangeStatusToClosed()
         {
-            this.When(l => l.MlsStatus == MarketStatuses.PendingSB, () =>
-            {
-                this.RuleFor(f => f.StatusFieldsInfo.EstimatedClosedDate)
-                    .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .GreaterThanOrEqualTo(DateTime.Today).WithMessage(GetErrorMessage("today", GreaterThanOrEqualTo));
-
-                this.RuleFor(f => f.StatusFieldsInfo.ContractDate)
-                    .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .LessThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
-            });
-        }
-
-        public void ValidationsRulesForChangeStatusToSold()
-        {
-            this.When(l => l.MlsStatus == MarketStatuses.Sold, () =>
+            this.When(l => l.MlsStatus == MarketStatuses.Closed, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.ContractDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
@@ -90,9 +75,9 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
             });
         }
 
-        public void ValidationsRulesForChangeStatusToWithdrawn()
+        public void ValidationsRulesForChangeStatusToHold()
         {
-            this.When(l => l.MlsStatus == MarketStatuses.Withdrawn, () =>
+            this.When(l => l.MlsStatus == MarketStatuses.Hold, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.OffMarketDate).NotEmpty().WithMessage(RequiredFieldMessage);
                 this.RuleFor(f => f.StatusFieldsInfo.BackOnMarketDate).NotEmpty().WithMessage(RequiredFieldMessage);

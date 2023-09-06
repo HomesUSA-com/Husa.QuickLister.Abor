@@ -5,37 +5,37 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum RoofDescription
     {
-        [EnumMember(Value = "Built-Up")]
+        [EnumMember(Value = "BUILTUP")]
         [Description("Built-Up")]
         BuiltUp,
-        [EnumMember(Value = "Composition")]
+        [EnumMember(Value = "COMPSHIN")]
         [Description("Composition")]
         Composition,
         [EnumMember(Value = "Copper")]
         [Description("Copper")]
         Copper,
-        [EnumMember(Value = "FlatTile")]
+        [EnumMember(Value = "FLAT")]
         [Description("Flat Tile")]
         FlatTile,
-        [EnumMember(Value = "GreenRoof")]
+        [EnumMember(Value = "GGARDN")]
         [Description("Green Roof")]
         GreenRoof,
-        [EnumMember(Value = "Shingle")]
+        [EnumMember(Value = "WOODSHIN")]
         [Description("Shingle")]
         Shingle,
-        [EnumMember(Value = "Slate")]
+        [EnumMember(Value = "SLATE")]
         [Description("Slate")]
         Slate,
-        [EnumMember(Value = "SpanishTile")]
+        [EnumMember(Value = "STILE")]
         [Description("Spanish Tile")]
         SpanishTile,
-        [EnumMember(Value = "Synthetic")]
+        [EnumMember(Value = "SYN")]
         [Description("Synthetic")]
         Synthetic,
-        [EnumMember(Value = "Tile")]
+        [EnumMember(Value = "TLE")]
         [Description("Tile")]
         Tile,
-        [EnumMember(Value = "Wood")]
+        [EnumMember(Value = "WD")]
         [Description("Wood")]
         Wood,
     }

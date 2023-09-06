@@ -5,37 +5,37 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum MasterBedroomFeatures
     {
-        [EnumMember(Value = "CeilingFans")]
+        [EnumMember(Value = "FAN")]
         [Description("Ceiling Fan(s)")]
         CeilingFans,
-        [EnumMember(Value = "CrownMolding")]
+        [EnumMember(Value = "CRWN")]
         [Description("Crown Molding")]
         CrownMolding,
-        [EnumMember(Value = "HighCeilings")]
+        [EnumMember(Value = "HGHC")]
         [Description("High Ceilings")]
         HighCeilings,
-        [EnumMember(Value = "HisHerClosets")]
+        [EnumMember(Value = "R2CLO")]
         [Description("His Her Closets")]
         HisHerClosets,
-        [EnumMember(Value = "PrimaryBedroomSittingStudyRoom")]
+        [EnumMember(Value = "RMSIT")]
         [Description("Primary Bedroom Sitting/Study Room")]
         PrimaryBedroomSittingStudyRoom,
-        [EnumMember(Value = "RecessedLighting")]
+        [EnumMember(Value = "RCSS")]
         [Description("Recessed Lighting")]
         RecessedLighting,
-        [EnumMember(Value = "TrayCeilings")]
+        [EnumMember(Value = "TRYC")]
         [Description("Tray Ceiling(s)")]
         TrayCeilings,
-        [EnumMember(Value = "VaultedCeilings")]
+        [EnumMember(Value = "VULC")]
         [Description("Vaulted Ceiling(s)")]
         VaultedCeilings,
-        [EnumMember(Value = "WalkInClosets")]
+        [EnumMember(Value = "RWINC")]
         [Description("Walk-In Closet(s)")]
         WalkInClosets,
-        [EnumMember(Value = "WiredforData")]
+        [EnumMember(Value = "WDT")]
         [Description("Wired for Data")]
         WiredforData,
-        [EnumMember(Value = "WiredforSound")]
+        [EnumMember(Value = "WSUND")]
         [Description("Wired for Sound")]
         WiredforSound,
     }

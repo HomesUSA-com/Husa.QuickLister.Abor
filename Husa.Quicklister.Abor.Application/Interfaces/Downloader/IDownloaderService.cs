@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Downloader
 
     public interface IDownloaderService
     {
-        Task ProcessDataFromDownloaderAsync(FullListingSaleDto listingSaleDto, IEnumerable<RoomDto> roomsDto, IEnumerable<HoaDto> hoasDto, string sellingAgent);
+        Task ProcessDataFromDownloaderAsync(FullListingSaleDto listingSaleDto, IEnumerable<RoomDto> roomsDto, string sellingAgent);
 
         Task ProcessOpenHouseFromDownloaderAsync(string mlsNumber, IEnumerable<OpenHouseDto> openHousesDto);
 

@@ -8,18 +8,23 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>0.1.0</Version>
+        <Version>0.2.7</Version>
         <PackageReleaseNotes>
-            Release 0.1.0:
-            - Initial version of the api client
+            Release 0.2.7:
+            - Update nuget packages
+            - Update API contracts
+            - Fixed api endpoints
+            - Added OwnerName to community contract
+            - Updated enum members
+            - Made LockBoxType a single value
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="4.0.2" />
-        <PackageReference Include="Husa.Extensions.Common" Version="3.8.2" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Domain.Enums" Version="1.0.0" />
+        <PackageReference Include="Husa.Extensions.Common" Version="3.9.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Domain.Enums" Version="1.1.0" />
     </ItemGroup>
 
     <ItemGroup>

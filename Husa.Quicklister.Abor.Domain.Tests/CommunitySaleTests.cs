@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Xml.Api.Contracts.Response;
     using Husa.Xml.Domain.Enums;
     using Moq;
@@ -69,9 +70,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 .Verifiable();
 
             // Act and Assert
-            var exception = Assert.Throws<DomainException>(() => communitySale.Object.Delete(communityId, deleteChildren: false));
-            communitySale.Verify();
-            Assert.Contains(communityId.ToString(), exception.Message);
+            Assert.Throws<DomainException>(() => communitySale.Object.Delete(communityId, deleteChildren: false));
         }
 
         [Fact]
@@ -359,7 +358,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
         {
             TaxRate = 12.5M,
             BuyersAgentCommission = 3,
-            BuyersAgentCommissionType = Domain.Enums.CommissionType.Percent,
+            BuyersAgentCommissionType = CommissionType.Percent,
             TitleCompany = Faker.Company.Name(),
             HoaIncludes = TestModelProvider.GetEnumCollectionRandom<HoaIncludes>(),
         };

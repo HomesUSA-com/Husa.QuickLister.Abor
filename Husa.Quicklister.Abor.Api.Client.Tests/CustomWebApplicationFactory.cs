@@ -138,7 +138,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             {
                 var listing = ListingTestProvider.GetListingEntity(companyId: Factory.CompanyId, communityId: Factory.CommunityId, planId: Factory.PlanId, marketStatuses: status);
                 listing.SaleProperty.Plan = null;
-                if (status == MarketStatuses.Sold)
+                if (status == MarketStatuses.Closed)
                 {
                     listing.SaleProperty.PropertyInfo.ConstructionStage = ConstructionStage.Complete;
                 }

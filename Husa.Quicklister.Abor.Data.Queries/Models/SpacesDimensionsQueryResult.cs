@@ -1,16 +1,9 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Models
 {
-    using System.Collections.Generic;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class SpacesDimensionsQueryResult
     {
-        public CategoryType TypeCategory { get; set; }
-        public SqFtSource? SqFtSource { get; set; }
-        public ICollection<SpecialtyRooms> SpecialtyRooms { get; set; }
-        public ICollection<OtherParking> OtherParking { get; set; }
-
         public Stories? StoriesTotal { get; set; }
         public int? SqFtTotal { get; set; }
         public int? DiningAreasTotal { get; set; }
