@@ -7,7 +7,7 @@
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Common" Version="3.9.0" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Contracts" Version="0.1.0-dev002" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Contracts" Version="0.1.0" />
     </ItemGroup>
 
     <ItemGroup>
