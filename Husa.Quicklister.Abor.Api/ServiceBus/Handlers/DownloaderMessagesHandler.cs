@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Extensions.ServiceBus.Services;
     using Husa.Quicklister.Abor.Api.ServiceBus.Subscribers;
     using Husa.Quicklister.Abor.Application.Interfaces.Agent;
+    using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Office;
     using Husa.Quicklister.Abor.Application.Models.Agent;
     using Husa.Quicklister.Abor.Application.Models.Office;
@@ -56,6 +57,9 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                 case AgentMessage agentMessage:
                     await ProcessAgentMessage(agentMessage);
                     break;
+                case MediaMessage mediaMessage:
+                    await ProcessResidentialMediaMessage(mediaMessage);
+                    break;
                 default:
                     this.Logger.LogWarning("Message type not recognized for message {messageId}.", message.MessageId);
                     break;
@@ -75,6 +79,13 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                 var agentDto = this.mapper.Map<AgentDto>(agentMessage);
                 var agentService = scope.ServiceProvider.GetRequiredService<IAgentService>();
                 return agentService.ProcessDataFromDownloaderAsync(agentDto);
+            }
+
+            Task ProcessResidentialMediaMessage(MediaMessage mediaMessage)
+            {
+                this.Logger.LogInformation("Processing media for listing with id {ListingId}", mediaMessage.ListingId);
+                var mediaService = scope.ServiceProvider.GetRequiredService<IMediaService>();
+                return mediaService.ProcessData(mediaMessage.ListingId, mediaMessage.UpdatedOn);
             }
 
             UserContext GetDownloaderUser() => new()
