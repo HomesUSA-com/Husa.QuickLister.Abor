@@ -25,5 +25,9 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
         public DateTime? BackOnMarketDate { get; set; }
 
         public DateTime? OffMarketDate { get; set; }
+
+        public string AgentMarketUniqueId { get; set; }
+
+        public string SecondAgentMarketUniqueId { get; set; }
     }
 }

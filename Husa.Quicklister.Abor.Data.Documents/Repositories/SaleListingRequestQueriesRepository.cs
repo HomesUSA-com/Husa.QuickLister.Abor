@@ -131,6 +131,9 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
 
             await this.userQueriesRepository.FillUserNameAsync(queryResult);
 
+            queryResult.StatusFieldsInfo.AgentMarketUniqueId = await this.agentQueriesRepository.GetAgentUniqueMarketIdAsync(queryResult.StatusFieldsInfo.AgentId);
+            queryResult.StatusFieldsInfo.SecondAgentMarketUniqueId = await this.agentQueriesRepository.GetAgentUniqueMarketIdAsync(queryResult.StatusFieldsInfo.AgentIdSecond);
+
             return queryResult;
         }
 

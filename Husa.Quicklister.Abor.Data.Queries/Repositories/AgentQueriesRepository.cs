@@ -67,5 +67,16 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                          })
                         .SingleOrDefaultAsync();
         }
+
+        public async Task<string> GetAgentUniqueMarketIdAsync(Guid? agentId)
+        {
+            if (agentId is null || agentId == Guid.Empty)
+            {
+                return string.Empty;
+            }
+
+            var agentInfo = await this.GetAgentByIdAsync((Guid)agentId);
+            return agentInfo?.AgentId ?? string.Empty;
+        }
     }
 }
