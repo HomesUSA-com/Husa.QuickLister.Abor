@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Api.Mappings
 {
     using AutoMapper;
-    using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail;
@@ -15,7 +14,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
-    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
@@ -72,14 +70,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<DocumentModels.SummarySectionQueryResult, SummarySectionContract>();
             this.CreateMap<DocumentModels.SummaryFieldQueryResult, SummaryFieldContract>();
-            this.CreateMap<SaleListingRequest, ListingSaleRequestDetailResponse>()
-                .ForMember(dest => dest.LockedByUsername, config => config.Ignore())
-                .ForMember(dest => dest.LockedOn, config => config.Ignore())
-                .ForMember(dest => dest.LockedBy, config => config.Ignore())
-                .ForMember(dest => dest.LockedStatus, config => config.Ignore())
-                .ForMember(dest => dest.CreatedBy, config => config.Ignore())
-                .ForMember(dest => dest.ModifiedBy, config => config.Ignore())
-                .ForMember(dest => dest.IsFirstRequest, config => config.Ignore());
 
             this.CreateMap<ListingSaleStatusFieldsDto, StatusFieldsRecord>();
             this.CreateMap<ListingSalePublishInfoDto, PublishFieldsRecord>();
@@ -137,24 +127,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<DocumentModels.ListingRequest.ListingSaleRequestDetailQueryResult, ListingSaleRequestDetailResponse>();
 
-            this.CreateMap<StatusFieldsRecord, ListingSaleStatusFieldsResponse>();
-            this.CreateMap<PublishFieldsRecord, ListingSalePublishInfoResponse>();
-            this.CreateMap<SpacesDimensionsRecord, SpacesDimensionsResponse>();
-            this.CreateMap<AddressRecord, AddressInfoResponse>();
-            this.CreateMap<FeaturesRecord, FeaturesResponse>();
-            this.CreateMap<SchoolRecord, SchoolsResponse>();
-            this.CreateMap<FinancialRecord, FinancialResponse>()
-                .ForMember(dest => dest.BuyersAgentCommissionType, config => config.Ignore());
-            this.CreateMap<PropertyRecord, PropertyInfoResponse>();
-            this.CreateMap<ShowingRecord, ShowingResponse>();
-            this.CreateMap<RoomRecord, RoomResponse>();
-            this.CreateMap<OpenHouseRecord, OpenHouseResponse>();
-            this.CreateMap<SalePropertyRecord, SalePropertyDetailResponse>()
-                .ForPath(dest => dest.SalePropertyInfo.OwnerName, config => config.MapFrom(dto => dto.OwnerName))
-                .ForPath(dest => dest.SalePropertyInfo.PlanId, config => config.MapFrom(dto => dto.PlanId))
-                .ForPath(dest => dest.SalePropertyInfo.CommunityId, config => config.MapFrom(dto => dto.CommunityId))
-                .ForPath(dest => dest.SalePropertyInfo.CompanyId, config => config.MapFrom(dto => dto.CompanyId));
-
             this.CreateMap<DocumentModels.ListingRequest.ListingRequestStatusFieldsQueryResult, ListingSaleStatusFieldsResponse>();
             this.CreateMap<DocumentModels.ListingRequest.ListingRequestSalePropertyQueryResult, SalePropertyDetailResponse>();
             this.CreateMap<DocumentModels.ListingRequest.SalePropertyQueryResult, SalePropertyResponse>();
@@ -165,31 +137,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<DocumentModels.ListingRequest.FinancialInfoQueryResult, FinancialResponse>();
             this.CreateMap<DocumentModels.ListingRequest.ShowingInfoQueryResult, ShowingResponse>();
             this.CreateMap<DocumentModels.ListingRequest.SchoolsInfoQueryResult, SchoolsResponse>();
-
-            this.CreateMap<SaleProperty, SalePropertyDetailResponse>()
-                .ForMember(dest => dest.FeaturesInfo, config => config.MapFrom(dto => dto.FeaturesInfo))
-                .ForMember(dest => dest.SpacesDimensionsInfo, config => config.MapFrom(dto => dto.SpacesDimensionsInfo))
-                .ForMember(dest => dest.FinancialInfo, config => config.MapFrom(dto => dto.FinancialInfo))
-                .ForMember(dest => dest.AddressInfo, config => config.MapFrom(dto => dto.AddressInfo))
-                .ForMember(dest => dest.PropertyInfo, config => config.MapFrom(dto => dto.PropertyInfo))
-                .ForMember(dest => dest.ShowingInfo, config => config.MapFrom(dto => dto.ShowingInfo))
-                .ForMember(dest => dest.SchoolsInfo, config => config.MapFrom(dto => dto.SchoolsInfo))
-                .ForMember(dest => dest.Rooms, config => config.MapFrom(dto => dto.Rooms))
-                .ForMember(dest => dest.OpenHouses, config => config.MapFrom(dto => dto.OpenHouses))
-                .ForPath(dest => dest.SalePropertyInfo.OwnerName, config => config.MapFrom(dto => dto.OwnerName))
-                .ForPath(dest => dest.SalePropertyInfo.PlanId, config => config.MapFrom(dto => dto.PlanId))
-                .ForPath(dest => dest.SalePropertyInfo.CommunityId, config => config.MapFrom(dto => dto.CommunityId))
-                .ForPath(dest => dest.SalePropertyInfo.CompanyId, config => config.MapFrom(dto => dto.CompanyId));
-
-            this.CreateMap<SpacesDimensionsInfo, SpacesDimensionsResponse>();
-            this.CreateMap<FeaturesInfo, FeaturesResponse>();
-            this.CreateMap<FinancialInfo, FinancialResponse>();
-            this.CreateMap<ShowingInfo, ShowingResponse>();
-            this.CreateMap<SchoolsInfo, SchoolsResponse>();
-            this.CreateMap<ListingSaleRoom, RoomResponse>();
-            this.CreateMap<AddressInfo, AddressInfoResponse>();
-            this.CreateMap<PropertyInfo, PropertyInfoResponse>();
-            this.CreateMap<SaleListingOpenHouse, OpenHouseResponse>();
 
             this.CreateMap<DocumentModels.ListingSaleRequestQueryResult, ListingSaleRequestQueryResponse>();
 
@@ -249,50 +196,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.SysTimestamp, config => config.Ignore())
                 .ForMember(dest => dest.CompanyId, config => config.Ignore());
 
-            this.CreateMap<SaleListing, ListingSaleResponse>()
-               .ForMember(dest => dest.LockedByUsername, config => config.Ignore())
-               .ForMember(dest => dest.CreatedBy, config => config.Ignore())
-               .ForMember(dest => dest.ModifiedBy, config => config.Ignore())
-               .ForMember(dest => dest.StreetNum, config => config.MapFrom(x => x.SaleProperty.AddressInfo.StreetNumber))
-               .ForMember(dest => dest.Directions, config => config.MapFrom(x => x.SaleProperty.ShowingInfo.Directions))
-               .ForMember(dest => dest.StreetName, config => config.MapFrom(x => x.SaleProperty.AddressInfo.StreetName))
-               .ForMember(dest => dest.City, config => config.MapFrom(x => x.SaleProperty.AddressInfo.City))
-               .ForMember(dest => dest.County, config => config.MapFrom(x => x.SaleProperty.AddressInfo.County))
-               .ForMember(dest => dest.Subdivision, config => config.MapFrom(x => x.SaleProperty.AddressInfo.Subdivision))
-               .ForMember(dest => dest.ZipCode, config => config.MapFrom(x => x.SaleProperty.AddressInfo.ZipCode))
-               .ForMember(dest => dest.State, config => config.MapFrom(x => x.SaleProperty.AddressInfo.State))
-               .ForMember(dest => dest.ListPrice, config => config.MapFrom(x => x.ListPrice))
-               .ForMember(dest => dest.OwnerName, config => config.MapFrom(x => x.SaleProperty.OwnerName))
-               .ForMember(dest => dest.ListDate, config => config.MapFrom(x => x.ListDate))
-               .ForMember(dest => dest.MlsNumber, config => config.MapFrom(x => x.MlsNumber))
-               .ForMember(dest => dest.MlsStatus, config => config.MapFrom(x => x.MlsStatus))
-               .ForMember(dest => dest.MarketModifiedOn, config => config.MapFrom(x => x.MarketModifiedOn))
-               .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.Austin))
-               .ForMember(dest => dest.CommunityId, config => config.MapFrom(x => x.SaleProperty.CommunityId))
-               .ForMember(dest => dest.IsCompleteHome, config => config.MapFrom(x => x.SaleProperty.PropertyInfo.ConstructionStage == ConstructionStage.Complete))
-               .ForMember(dest => dest.PlanName, config => config.MapFrom(x => x.SaleProperty.Plan != null ? x.SaleProperty.Plan.BasePlan.Name : null));
-
-            this.CreateMap<SaleListing, ListingSaleDetailResponse>()
-                .ForMember(dest => dest.EmailLead, config => config.Ignore())
-                .ForMember(dest => dest.LockedByUsername, config => config.Ignore())
-                .ForMember(dest => dest.CreatedBy, config => config.Ignore())
-                .ForMember(dest => dest.ModifiedBy, config => config.Ignore())
-                .ForMember(dest => dest.StreetNum, config => config.MapFrom(x => x.SaleProperty.AddressInfo.StreetNumber))
-                .ForMember(dest => dest.StreetName, config => config.MapFrom(x => x.SaleProperty.AddressInfo.StreetName))
-                .ForMember(dest => dest.City, config => config.MapFrom(x => x.SaleProperty.AddressInfo.City))
-                .ForMember(dest => dest.County, config => config.MapFrom(x => x.SaleProperty.AddressInfo.County))
-                .ForMember(dest => dest.Subdivision, config => config.MapFrom(x => x.SaleProperty.AddressInfo.Subdivision))
-                .ForMember(dest => dest.ZipCode, config => config.MapFrom(x => x.SaleProperty.AddressInfo.ZipCode))
-                .ForMember(dest => dest.OwnerName, config => config.MapFrom(x => x.SaleProperty.OwnerName))
-                .ForMember(dest => dest.CommunityId, config => config.MapFrom(x => x.SaleProperty.CommunityId))
-                .ForMember(dest => dest.Directions, config => config.MapFrom(x => x.SaleProperty.ShowingInfo.Directions))
-                .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.Austin))
-                .ForMember(dest => dest.IsCompleteHome, config => config.MapFrom(x => x.SaleProperty.PropertyInfo.ConstructionStage == ConstructionStage.Complete))
-                .ForMember(dest => dest.State, config => config.MapFrom(x => x.SaleProperty.AddressInfo.State))
-                .ForMember(dest => dest.PlanName, config => config.MapFrom(x => x.SaleProperty.Plan != null ? x.SaleProperty.Plan.BasePlan.Name : null));
-
-            this.CreateMap<ListingStatusFieldsInfo, ListingStatusFieldsResponse>();
-            this.CreateMap<ListingSaleStatusFieldsInfo, ListingSaleStatusFieldsResponse>();
             this.CreateMap<ListingSaleStatusFieldQueryResult, ListingSaleStatusFieldsResponse>();
             this.CreateMap<DocumentModels.ListingRequest.ListingRequestPublishInfoQueryResult, ListingSalePublishInfoResponse>();
         }
