@@ -5,19 +5,19 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
 
     public enum ContingencyInfo
     {
-        [EnumMember(Value = "INSPEC")]
+        [EnumMember(Value = "INS")]
         [Description("Inspection")]
         Inspection,
-        [EnumMember(Value = "TITLE")]
+        [EnumMember(Value = "TTL")]
         [Description("Title")]
         Title,
-        [EnumMember(Value = "FINANC")]
+        [EnumMember(Value = "FIN")]
         [Description("Financing")]
         Financing,
-        [EnumMember(Value = "SEEREM")]
+        [EnumMember(Value = "RMRKS")]
         [Description("See Remarks")]
         SeeRemarks,
-        [EnumMember(Value = "APPRA")]
+        [EnumMember(Value = "APP")]
         [Description("Appraisal")]
         Appraisal,
     }
