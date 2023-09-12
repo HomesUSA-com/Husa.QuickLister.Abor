@@ -1,6 +1,5 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 {
-    using System;
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
@@ -13,8 +12,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public ICollection<SaleTerms> SaleTerms { get; set; }
 
-        public DateTime? ContractDate { get; set; }
-
         public string SellConcess { get; set; }
 
         protected override IEnumerable<object> GetEqualityComponents()
@@ -23,7 +20,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             yield return this.HasContingencyInfo;
             yield return this.ContingencyInfo;
             yield return this.SaleTerms;
-            yield return this.ContractDate;
+            yield return this.PendingDate;
             yield return this.SellConcess;
         }
     }

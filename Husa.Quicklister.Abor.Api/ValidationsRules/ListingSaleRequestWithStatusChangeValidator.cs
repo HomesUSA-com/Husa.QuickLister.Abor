@@ -63,7 +63,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
                     .NotEmpty().WithMessage(RequiredFieldMessage)
                     .GreaterThanOrEqualTo(DateTime.Today).WithMessage(GetErrorMessage("today", GreaterThanOrEqualTo));
 
-                this.RuleFor(f => f.StatusFieldsInfo.ContractDate)
+                this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
                     .LessThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
             });
