@@ -410,7 +410,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 HasContingencyInfo = statusFieldsInfo.HasContingencyInfo,
                 ContingencyInfo = statusFieldsInfo.ContingencyInfo,
                 SaleTerms = statusFieldsInfo.SaleTerms,
-                ContractDate = statusFieldsInfo.ContractDate,
                 SellConcess = statusFieldsInfo.SellConcess,
                 PendingDate = statusFieldsInfo.PendingDate,
                 ClosedDate = statusFieldsInfo.ClosedDate,

@@ -755,7 +755,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             City = "Holland",
             Type = "RE",
             CloseDate = null,
-            ContractDate = null,
             DOM = 203,
             ExpirationDate = null,
             PhotoTimestamp = DateTime.Parse("2021-09-21T00:20:05", provider: ApplicationOptions.ApplicationCultureInfo),
