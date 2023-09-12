@@ -17,7 +17,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public bool HasContingencyInfo { get; set; }
         public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
         public ICollection<SaleTerms> SaleTerms { get; set; }
-        public DateTime? ContractDate { get; set; }
         public string SellConcess { get; set; }
         public DateTime? PendingDate { get; set; }
         public DateTime? ClosedDate { get; set; }
@@ -38,7 +37,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             HasContingencyInfo = statusFieldInfo.HasContingencyInfo,
             ContingencyInfo = statusFieldInfo.ContingencyInfo,
             SaleTerms = statusFieldInfo.SaleTerms,
-            ContractDate = statusFieldInfo.ContractDate,
             SellConcess = statusFieldInfo.SellConcess,
             PendingDate = statusFieldInfo.PendingDate,
             ClosedDate = statusFieldInfo.ClosedDate,
@@ -63,7 +61,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             this.HasContingencyInfo = statusFieldInfo.HasContingencyInfo;
             this.ContingencyInfo = statusFieldInfo.ContingencyInfo;
             this.SaleTerms = statusFieldInfo.SaleTerms;
-            this.ContractDate = statusFieldInfo.ContractDate;
             this.SellConcess = statusFieldInfo.SellConcess;
             this.PendingDate = statusFieldInfo.PendingDate;
             this.ClosedDate = statusFieldInfo.ClosedDate;
@@ -117,7 +114,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             MarketStatuses.Hold => new string[] { nameof(BackOnMarketDate), nameof(OffMarketDate) },
             MarketStatuses.Pending => new string[]
             {
-                nameof(ContractDate),
+                nameof(PendingDate),
                 nameof(EstimatedClosedDate),
                 nameof(HasBuyerAgent),
                 nameof(AgentId),
