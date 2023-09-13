@@ -16,7 +16,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.MediaService.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Application.Services;
+    using Husa.Quicklister.Abor.Application.Services.Downloader;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Agent;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -84,7 +84,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         public async Task WhenCallProcessDataFromDownloaderAsyncAndListingNotExistsAndSuccess_ListingSaleIsCreatesOnDatabase()
         {
             // Arrange
-            const string sellingAgent = "some-listing-agent";
+            const string agentMarketUniqueId = "some-agent-unique-id";
             var agentId = Guid.NewGuid();
             var fullListingSaleDto = TestModelProvider.GetFullListingSaleDto();
             var roomsDto = TestModelProvider.GetRoomsDtoList();
@@ -110,11 +110,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var agent = new Mock<Agent>();
             agent.SetupGet(a => a.Id).Returns(agentId);
             this.agentRepository
-                .Setup(r => r.GetAgentByLoginName(It.Is<string>(x => x == sellingAgent)))
+                .Setup(r => r.GetAgentByMarketUniqueId(It.Is<string>(x => x == agentMarketUniqueId)))
                 .ReturnsAsync(agent.Object);
 
             // Act
-            await this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, sellingAgent);
+            await this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, agentMarketUniqueId);
 
             // Assert
             this.serviceSubscriptionClient.Verify();
@@ -127,7 +127,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         public async Task WhenCallProcessDataFromDownloaderAsynsAndListingExistsAndSuccess_ListingSaleIsUpdatedOnDatabase()
         {
             // Arrange
-            const string sellingAgent = "some-listing-agent";
+            const string agentMarketUniqueId = "some-agent-unique-id";
             var agentId = Guid.NewGuid();
             var listingSaleId = Guid.NewGuid();
             var fullListingSaleDto = TestModelProvider.GetFullListingSaleDto();
@@ -153,11 +153,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var agent = new Mock<Agent>();
             agent.SetupGet(a => a.Id).Returns(agentId);
             this.agentRepository
-                .Setup(r => r.GetAgentByLoginName(It.Is<string>(x => x == sellingAgent)))
+                .Setup(r => r.GetAgentByMarketUniqueId(It.Is<string>(x => x == agentMarketUniqueId)))
                 .ReturnsAsync(agent.Object);
 
             // Act
-            await this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, sellingAgent);
+            await this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, agentMarketUniqueId);
 
             // Assert
             this.serviceSubscriptionClient.Verify();

@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Application.Services
+namespace Husa.Quicklister.Abor.Application.Services.Downloader
 {
     using System;
     using System.Collections.Generic;
@@ -57,7 +57,7 @@ namespace Husa.Quicklister.Abor.Application.Services
         public async Task ProcessDataFromDownloaderAsync(
             FullListingSaleDto listingSaleDto,
             IEnumerable<RoomDto> roomsDto,
-            string sellingAgent)
+            string agentMarketUniqueId)
         {
             var companyName = listingSaleDto.SaleProperty.SalePropertyInfo.OwnerName;
             var companies = await this.serviceSubscriptionClient.Company.GetAsync(new()
@@ -81,7 +81,7 @@ namespace Husa.Quicklister.Abor.Application.Services
                 addressInfoDto.ZipCode);
 
             var listingStatusInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingSaleDto.StatusFieldsInfo);
-            var agent = await this.agentRepository.GetAgentByLoginName(sellingAgent);
+            var agent = await this.agentRepository.GetAgentByMarketUniqueId(agentMarketUniqueId);
             listingStatusInfo.SetStatusChangeAgent(agent);
             var listingInfo = this.mapper.Map<ListingValueObject>(listingSaleDto);
             var salePropertyInfo = this.mapper.Map<SalePropertyValueObject>(listingSaleDto.SaleProperty);

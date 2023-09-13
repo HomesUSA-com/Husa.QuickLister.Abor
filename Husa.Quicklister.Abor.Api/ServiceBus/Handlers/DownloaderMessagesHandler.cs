@@ -24,7 +24,6 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Microsoft.Extensions.Primitives;
-    using AgentMessage = Husa.Downloader.Sabor.ServiceBus.Contracts.AgentMessage;
 
     public class DownloaderMessagesHandler : MessagesHandler<DownloaderMessagesHandler>, IDownloaderMessagesHandler
     {
@@ -75,8 +74,9 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
 
             Task ProcessAgentMessage(AgentMessage agentMessage)
             {
-                this.Logger.LogInformation("Processing message for agent {agentLoginName} with id {agentId} ", agentMessage.LoginName, agentMessage.AgentId);
+                this.Logger.LogInformation("Processing message for agent {agentFullName} with id {agentId} ", agentMessage.FullName, agentMessage.EntityKey);
                 var agentDto = this.mapper.Map<AgentDto>(agentMessage);
+
                 var agentService = scope.ServiceProvider.GetRequiredService<IAgentService>();
                 return agentService.ProcessDataFromDownloaderAsync(agentDto);
             }

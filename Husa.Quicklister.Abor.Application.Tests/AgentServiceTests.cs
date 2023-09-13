@@ -3,7 +3,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
-    using Husa.Quicklister.Abor.Application.Services;
+    using Husa.Quicklister.Abor.Application.Services.Downloader;
     using Husa.Quicklister.Abor.Application.Tests.Mocks;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Agent;

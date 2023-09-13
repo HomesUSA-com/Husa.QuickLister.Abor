@@ -55,14 +55,13 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
         public async Task ProcessAgentMessageSuccessTestAsync()
         {
             // Arrange
-            const string loginName = "fake-agent";
             const string agentId = "122344";
-            var agentMessage = new Downloader.Sabor.ServiceBus.Contracts.AgentMessage
+            var agentMessage = new AgentMessage
             {
                 Id = Guid.NewGuid(),
-                AgentId = agentId,
-                LoginName = loginName,
+                EntityKey = agentId,
             };
+
             var message = ApplicationServicesFixture.BuildBusMessage(agentMessage);
             this.subscriberMock
                 .SetupGet(s => s.Client)
@@ -76,7 +75,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
             // Assert
             this.agentServiceMock.Verify(
                 ds => ds.ProcessDataFromDownloaderAsync(
-                    It.Is<AgentDto>(a => a.LoginName.Equals(loginName) && a.MarketUniqueId.Equals(agentId))),
+                    It.Is<AgentDto>(a => a.MarketUniqueId.Equals(agentId))),
                 Times.Once);
         }
 

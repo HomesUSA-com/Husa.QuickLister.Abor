@@ -53,6 +53,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using DomainEntities = Husa.Quicklister.Abor.Domain.Entities;
     using HusaNoteType = Husa.Notes.Domain.Enums.NoteType;
     using MediaRequest = Husa.MediaService.Api.Contracts.Request;
+    using MemberStatus = Husa.Downloader.CTX.Domain.Enums.MemberStatus;
     using RequestNote = Husa.Notes.Api.Contracts.Request;
     using RequestPhoto = Husa.PhotoService.Api.Contracts.Request;
     using ResponseNote = Husa.Notes.Api.Contracts.Response;
@@ -870,8 +871,8 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             LastName = Faker.Name.Last(),
             CellPhone = Faker.Phone.Number(),
             Email = Faker.Internet.Email(),
-            OfficeId = officeId ?? Faker.Name.Middle(),
-            Status = "Active",
+            OfficeId = officeId ?? Faker.RandomNumber.Next(10000, 20000).ToString(),
+            Status = MemberStatus.Active,
             MarketModified = DateTime.UtcNow.AddMinutes(-5),
             MarketUniqueId = marketUniqueId ?? Faker.RandomNumber.Next(10000, 90000).ToString(),
         };
@@ -885,7 +886,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             CellPhone = Faker.Phone.Number(),
             Email = Faker.Internet.Email(),
             OfficeId = Faker.Name.Middle(),
-            Status = "Active",
+            Status = MemberStatus.Active,
             MarketModified = DateTime.UtcNow,
         };
 

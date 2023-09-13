@@ -7,7 +7,5 @@ namespace Husa.Quicklister.Abor.Domain.Repositories
     public interface IAgentRepository : IRepository<Agent>
     {
         Task<Agent> GetAgentByMarketUniqueId(string marketUniqueId);
-
-        Task<Agent> GetAgentByLoginName(string loginName);
     }
 }

@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Application.Services
+namespace Husa.Quicklister.Abor.Application.Services.Downloader
 {
     using System;
     using System.Threading.Tasks;

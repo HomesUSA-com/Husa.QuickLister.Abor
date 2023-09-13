@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Agent
 
         protected Agent()
         {
+            this.AgentValue = new();
         }
 
         public AgentValueObject AgentValue { get; set; }

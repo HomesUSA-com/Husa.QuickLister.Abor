@@ -11,7 +11,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
-    using Husa.Quicklister.Abor.Application.Services;
+    using Husa.Quicklister.Abor.Application.Services.Downloader;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Repositories;

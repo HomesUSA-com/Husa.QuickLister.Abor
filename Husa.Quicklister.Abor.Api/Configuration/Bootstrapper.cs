@@ -42,6 +42,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Application.Media;
     using Husa.Quicklister.Abor.Application.Services;
     using Husa.Quicklister.Abor.Application.Services.Communities;
+    using Husa.Quicklister.Abor.Application.Services.Downloader;
     using Husa.Quicklister.Abor.Application.Services.ListingRequests;
     using Husa.Quicklister.Abor.Application.Services.Notes;
     using Husa.Quicklister.Abor.Application.Services.Plans;
