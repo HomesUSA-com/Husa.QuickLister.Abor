@@ -92,6 +92,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.CommunityId, oh => oh.Ignore())
                 .ForMember(dto => dto.Community, oh => oh.Ignore())
                 .ForMember(dto => dto.Id, oh => oh.Ignore())
+                .ForMember(dto => dto.Refreshments, oh => oh.Ignore())
                 .ForMember(dto => dto.SysModifiedOn, oh => oh.Ignore())
                 .ForMember(dto => dto.SysCreatedOn, oh => oh.Ignore())
                 .ForMember(dto => dto.SysModifiedBy, oh => oh.Ignore())

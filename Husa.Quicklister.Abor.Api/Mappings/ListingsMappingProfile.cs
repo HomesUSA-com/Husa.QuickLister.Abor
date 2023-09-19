@@ -24,7 +24,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
-    using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Application.Models.Media;
     using Husa.Quicklister.Extensions.Domain.Enums;

@@ -2,7 +2,6 @@ namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
 {
     using System;
     using System.Collections.Generic;
-    using Husa.Quicklister.Extensions.Application.Models;
 
     public class SalePropertyDetailDto
     {

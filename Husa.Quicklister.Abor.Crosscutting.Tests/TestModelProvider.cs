@@ -45,14 +45,13 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Application.Models;
-    using Husa.Quicklister.Extensions.Domain.Entities.Request;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using Moq;
     using DomainEntities = Husa.Quicklister.Abor.Domain.Entities;
     using HusaNoteType = Husa.Notes.Domain.Enums.NoteType;
     using MediaRequest = Husa.MediaService.Api.Contracts.Request;
+    using OpenHouseRecord = Husa.Quicklister.Abor.Domain.Entities.Request.Records.OpenHouseRecord;
     using RequestNote = Husa.Notes.Api.Contracts.Request;
     using RequestPhoto = Husa.PhotoService.Api.Contracts.Request;
     using ResponseNote = Husa.Notes.Api.Contracts.Response;
@@ -159,7 +158,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 saleProperty.SaleListings = new List<DomainEntities.Listing.SaleListing>() { listingSale };
             }
 
-            var openHouses = new List<CommunityOpenHouse>() { new CommunityOpenHouse(Guid.NewGuid(), Faker.Enum.Random<OpenHouseType>(), DateTime.UtcNow.TimeOfDay, DateTime.UtcNow.TimeOfDay, false, false) };
+            var openHouses = new List<CommunityOpenHouse>() { new CommunityOpenHouse(Guid.NewGuid(), Faker.Enum.Random<OpenHouseType>(), DateTime.UtcNow.TimeOfDay, DateTime.UtcNow.TimeOfDay, new List<Refreshments>() { }) };
 
             var communitySale = new CommunitySale(
                 companyId: companyId ?? Guid.NewGuid(),
@@ -922,8 +921,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         {
             StartTime = TimeSpan.Parse(DateTime.UtcNow.TimeOfDay.ToString(), formatProvider: ApplicationOptions.ApplicationCultureInfo),
             EndTime = TimeSpan.Parse(DateTime.UtcNow.AddHours(4).TimeOfDay.ToString(), formatProvider: ApplicationOptions.ApplicationCultureInfo),
-            Lunch = true,
-            Refreshments = false,
+            Refreshments = new List<Refreshments> { },
             Type = Faker.Enum.Random<OpenHouseType>(),
         };
 
@@ -945,7 +943,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             var endTime = TimeSpan.Parse(DateTime.UtcNow.AddHours(4).TimeOfDay.ToString(), formatProvider: ApplicationOptions.ApplicationCultureInfo);
             var type = Faker.Enum.Random<OpenHouseType>();
 
-            return new SaleListingOpenHouse(Guid.NewGuid(), type, startTime, endTime, Faker.Boolean.Random(), Faker.Boolean.Random());
+            return new SaleListingOpenHouse(Guid.NewGuid(), type, startTime, endTime, new List<Refreshments>() { });
         }
 
         public static ICollection<SaleListingOpenHouse> GetListingSaleOpenHouses(int? totalElements = 4)

@@ -931,13 +931,14 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 .Setup(x => x.ImportOpenHouseInfoFromMarket(It.IsAny<IEnumerable<SaleListingOpenHouse>>()))
                 .CallBase();
 
+            var refreshments = new List<Refreshments> { Refreshments.Beverages, Refreshments.Snacks };
+
             var openHouseInfo = new SaleListingOpenHouse(
                 propertyId,
                 type: OpenHouseType.Monday,
                 startTime: date.AddHours(8).TimeOfDay,
                 endTime: date.AddHours(18).TimeOfDay,
-                refreshments: true,
-                lunch: true);
+                refreshments: refreshments);
 
             // Act
             var isOpenHouseImported = saleProperty.Object.ImportOpenHouseInfoFromMarket(openHouses: new[] { openHouseInfo });

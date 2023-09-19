@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public SalePropertyRecord()
             : base()
         {
+            this.OpenHouses = new List<OpenHouseRecord>();
             this.Rooms = new List<RoomRecord>();
         }
 
@@ -55,7 +56,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         public virtual SalesOfficeRecord SalesOfficeInfo { get; set; }
 
+        public virtual ICollection<OpenHouseRecord> OpenHouses { get; set; }
+
         public virtual ICollection<RoomRecord> Rooms { get; set; }
+        public void UpdateOpenHouse(ICollection<SaleListingOpenHouse> openHouses)
+        {
+            if (openHouses != null && openHouses.Any())
+            {
+                this.OpenHouses = openHouses.Select(OpenHouseRecord.CreateOpenHouse).ToList();
+            }
+        }
 
         public SalePropertyRecord CloneRecord()
         {
@@ -179,6 +189,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             yield return this.SalesOfficeInfo?.GetSummary(previousRequestPropertyEntity?.SalesOfficeInfo);
             yield return this.GetOpenHouseSummary(previousRequestPropertyEntity?.OpenHouses);
             yield return this.GetRoomSummary(previousRequestPropertyEntity?.Rooms);
+        }
+
+        protected SummarySection GetOpenHouseSummary(IEnumerable<OpenHouseRecord> oldOpenHouses)
+        {
+            var section = new SummarySection
+            {
+                Name = OpenHouseRecord.SummarySection,
+                Fields = this.OpenHouses.SummaryOpenHouse(oldOpenHouses),
+            };
+            return section.Fields.Any() ? section : null;
         }
 
         private SummarySection GetRoomSummary(IEnumerable<RoomRecord> oldRooms)

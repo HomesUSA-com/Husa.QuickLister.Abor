@@ -12,13 +12,13 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
+    using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Listing;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Application.Models.Media;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;

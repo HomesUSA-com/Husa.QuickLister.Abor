@@ -2,7 +2,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
 {
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Data.Queries.Models;
-    using Husa.Quicklister.Extensions.Data.Queries.Models;
 
     public class ListingRequestSalePropertyQueryResult
     {

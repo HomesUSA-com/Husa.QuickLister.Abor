@@ -16,10 +16,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Application.Models.Community;
-    using Husa.Quicklister.Extensions.Data.Queries.Models;
-
     public class CommunityMappingProfile : Profile
     {
         public CommunityMappingProfile()
