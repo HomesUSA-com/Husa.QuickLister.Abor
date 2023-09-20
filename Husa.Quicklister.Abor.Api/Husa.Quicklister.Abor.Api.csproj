@@ -9,6 +9,7 @@
     <ItemGroup>
         <PackageReference Include="Figgle" Version="0.5.1" />
         <PackageReference Include="FluentValidation" Version="11.6.0" />
+        <PackageReference Include="Husa.Downloader.CTX.ServiceBus.Contracts" Version="1.1.0" />
         <PackageReference Include="Husa.Extensions.Api" Version="4.0.2" />
         <PackageReference Include="Husa.Extensions.Api.Cors" Version="3.0.0" />
         <PackageReference Include="Husa.Extensions.Api.Middleware" Version="1.1.0" />
@@ -16,9 +17,9 @@
         <PackageReference Include="Husa.Extensions.Common" Version="3.9.0" />
         <PackageReference Include="Husa.Extensions.EmailNotification" Version="3.1.0" />
         <PackageReference Include="Husa.Extensions.Logger.Enrichers" Version="1.0.0" />
-        <PackageReference Include="Husa.Extensions.ServiceBus" Version="4.1.0" />
+        <PackageReference Include="Husa.Extensions.ServiceBus" Version="4.7.0" />
         <PackageReference Include="Husa.Quicklister.Extensions.Crosscutting" Version="1.1.0" />
-        <PackageReference Include="Husa.CompanyServiceManager.Client" Version="1.0.0" />
+        <PackageReference Include="Husa.CompanyServiceManager.Client" Version="1.1.0" />
         <PackageReference Include="Husa.MediaService.Client" Version="1.0.1" />
         <PackageReference Include="Husa.Downloader.Sabor.ServiceBus.Contracts" Version="1.0.0" />
         <PackageReference Include="Husa.Xml.ServiceBus.Messages" Version="1.0.0" />

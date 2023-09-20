@@ -4,12 +4,12 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
-    using Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Documents.Models;
     using Husa.Quicklister.Abor.Data.Documents.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -37,7 +37,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             // Arrange
             const string continuationToken = "continuation-token";
             var requestId = Guid.NewGuid();
-            var filter = new ListingSaleRequestFilter()
+            var filter = new SaleListingRequestFilter()
             {
                 RequestState = ListingRequestState.Pending,
             };

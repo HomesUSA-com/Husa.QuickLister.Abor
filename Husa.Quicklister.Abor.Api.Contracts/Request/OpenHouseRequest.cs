@@ -1,6 +1,8 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Request
 {
     using System;
+    using System.Collections.Generic;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class OpenHouseRequest
@@ -11,8 +13,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
 
         public TimeSpan EndTime { get; set; }
 
-        public bool Refreshments { get; set; }
-
-        public bool Lunch { get; set; }
+        public ICollection<Refreshments> Refreshments { get; set; }
     }
 }

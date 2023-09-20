@@ -62,7 +62,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         [InlineData(typeof(HoaRequirement))]
         [InlineData(typeof(HomeFaces))]
         [InlineData(typeof(HoaIncludes))]
-        [InlineData(typeof(HowSold))]
+        [InlineData(typeof(SaleTerms))]
         [InlineData(typeof(Inclusions))]
         [InlineData(typeof(LotDescription))]
         [InlineData(typeof(LockBoxType))]

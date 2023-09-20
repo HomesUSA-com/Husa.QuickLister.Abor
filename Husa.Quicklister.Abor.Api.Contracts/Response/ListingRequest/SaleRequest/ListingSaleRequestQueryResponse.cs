@@ -3,8 +3,9 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleReques
     using System;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest.SaleRequest;
 
-    public class ListingSaleRequestQueryResponse
+    public class ListingSaleRequestQueryResponse : ISaleListingRequestResponse
     {
         public Guid Id { get; set; }
 
@@ -31,5 +32,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleReques
         public Guid? SysCreatedBy { get; set; }
 
         public string CreatedBy { get; set; }
+
+        public bool EnableOpenHouse { get; set; }
     }
 }

@@ -1,28 +1,33 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 {
     using System;
+    using System.Collections.Generic;
+    using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using ExtensionsOpenHouse = Husa.Quicklister.Extensions.Domain.Entities.Listing.SaleListingOpenHouse;
 
-    public class SaleListingOpenHouse : ExtensionsOpenHouse
+    public class SaleListingOpenHouse : OpenHouse
     {
         public SaleListingOpenHouse(
             Guid salePropertyId,
             OpenHouseType type,
             TimeSpan startTime,
             TimeSpan endTime,
-            bool refreshments,
-            bool lunch)
-            : base(salePropertyId, type, startTime, endTime, refreshments, lunch)
+            ICollection<Refreshments> refreshments)
+            : base(type, startTime, endTime, refreshments)
         {
+            this.SalePropertyId = salePropertyId;
+            this.OpenHouseType = EntityType.SaleProperty.ToString();
         }
 
         protected SaleListingOpenHouse()
             : base()
         {
+            this.OpenHouseType = EntityType.SaleProperty.ToString();
         }
 
+        public Guid SalePropertyId { get; set; }
         public virtual SaleProperty SaleProperty { get; set; }
 
         public SaleListingOpenHouse Clone()

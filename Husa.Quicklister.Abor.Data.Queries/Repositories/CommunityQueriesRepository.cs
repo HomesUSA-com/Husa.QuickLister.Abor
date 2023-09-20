@@ -75,7 +75,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             return community;
         }
 
-        public async Task<DataSet<CommunityEmployeeQueryResult>> GetCommunityEmployees(Guid communityId)
+        public async Task<DataSet<CommunityEmployeeQueryResult>> GetCommunityEmployees(Guid communityId, string sortBy)
         {
             this.logger.LogInformation("Getting the Community employees for the communityId: '{communityId}'", communityId);
             var employees = await this.context.CommunityEmployee
@@ -103,7 +103,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 }
             }
 
-            return new DataSet<CommunityEmployeeQueryResult>(employees, employees.Count);
+            var employeesQuery = employees.AsQueryable().ApplySortByFields(sortBy).ToList();
+
+            return new DataSet<CommunityEmployeeQueryResult>(employeesQuery, employees.Count);
         }
 
         public async Task<CommunityDetailQueryResult> GetCommunityByName(Guid companyId, string communityName)

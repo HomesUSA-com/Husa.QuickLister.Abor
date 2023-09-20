@@ -32,15 +32,25 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
             this.ValidationsRulesForChangeStatusToCancelled();
             this.ValidationsRulesForChangeStatusToHold();
             this.ValidationsRulesForChangeStatusToClosed();
+            this.ValidationsRulesForChangeStatusToActiveUnderContract();
         }
 
         public void ValidationsRulesForChangeStatusToCancelled()
         {
             this.When(l => l.MlsStatus == MarketStatuses.Canceled, () =>
             {
-                this.RuleFor(f => f.StatusFieldsInfo.CancelledOption)
-                    .NotEmpty().WithMessage(RequiredFieldMessage);
                 this.RuleFor(f => f.StatusFieldsInfo.CancelledReason)
+                    .NotEmpty().WithMessage(RequiredFieldMessage);
+            });
+        }
+
+        public void ValidationsRulesForChangeStatusToActiveUnderContract()
+        {
+            this.When(l => l.MlsStatus == MarketStatuses.ActiveUnderContract, () =>
+            {
+                this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
+                    .NotEmpty().WithMessage(RequiredFieldMessage);
+                this.RuleFor(f => f.StatusFieldsInfo.EstimatedClosedDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage);
             });
         }
@@ -53,7 +63,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
                     .NotEmpty().WithMessage(RequiredFieldMessage)
                     .GreaterThanOrEqualTo(DateTime.Today).WithMessage(GetErrorMessage("today", GreaterThanOrEqualTo));
 
-                this.RuleFor(f => f.StatusFieldsInfo.ContractDate)
+                this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
                     .LessThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
             });
@@ -63,15 +73,17 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
         {
             this.When(l => l.MlsStatus == MarketStatuses.Closed, () =>
             {
-                this.RuleFor(f => f.StatusFieldsInfo.ContractDate)
-                    .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .LessThan(f => f.StatusFieldsInfo.ClosedDate).WithMessage(GetErrorMessage("ClosedDate", LessThan));
+                this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
+                    .NotEmpty().WithMessage(RequiredFieldMessage);
                 this.RuleFor(f => f.StatusFieldsInfo.ClosedDate)
-                    .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .LessThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
+                    .NotEmpty().WithMessage(RequiredFieldMessage);
                 this.RuleFor(f => f.StatusFieldsInfo.ClosePrice)
                     .NotNull().WithMessage(RequiredFieldMessage)
                     .GreaterThan(0).WithMessage(GetErrorMessage("zero", GreaterThan));
+                this.RuleFor(f => f.StatusFieldsInfo.SellConcess)
+                    .NotEmpty().WithMessage(RequiredFieldMessage);
+                this.RuleFor(f => f.StatusFieldsInfo.SaleTerms)
+                    .NotEmpty().WithMessage(RequiredFieldMessage);
             });
         }
 

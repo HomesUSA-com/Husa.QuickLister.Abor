@@ -10,73 +10,44 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.ValueObjects;
 
-    public record StatusFieldsRecord : IProvideSummary, IProvideStatusFields
+    public record StatusFieldsRecord : IProvideSummary, IProvideStatusFields, IProvideSaleStatusFields
     {
         public const string SummarySection = "Status Fields";
 
-        public string ContingencyInfo { get; set; }
-
-        public string SaleTerms2nd { get; set; }
-
-        public DateTime? ContractDate { get; set; }
-
-        public DateTime? ExpiredDateOption { get; set; }
-
-        public string KickOutInformation { get; set; }
-
-        public HowSold? HowSold { get; set; }
-
-        public decimal SellPoints { get; set; }
-
+        public bool HasContingencyInfo { get; set; }
+        public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
+        public ICollection<SaleTerms> SaleTerms { get; set; }
         public string SellConcess { get; set; }
-
-        public ICollection<SellerConcessionDescription> SellerConcessionDescription { get; set; }
-
-        public DateTime? CancelDate { get; set; }
-
-        public CancelledOptions? CancelledOption { get; set; }
-
-        public string CancelledReason { get; set; }
-
-        public decimal? ClosePrice { get; set; }
-
-        public DateTime? EstimatedClosedDate { get; set; }
-
-        public Guid? AgentId { get; set; }
-
-        public bool HasBuyerAgent { get; set; }
-
-        public DateTime? BackOnMarketDate { get; set; }
-
         public DateTime? PendingDate { get; set; }
-
         public DateTime? ClosedDate { get; set; }
-
+        public DateTime? EstimatedClosedDate { get; set; }
+        public string CancelledReason { get; set; }
+        public decimal? ClosePrice { get; set; }
+        public Guid? AgentId { get; set; }
+        public bool HasBuyerAgent { get; set; }
+        public bool HasSecondBuyerAgent { get; set; }
+        public Guid? AgentIdSecond { get; set; }
+        public DateTime? BackOnMarketDate { get; set; }
         public DateTime? OffMarketDate { get; set; }
 
         public StatusFieldsRecord CloneRecord() => (StatusFieldsRecord)this.MemberwiseClone();
 
         public static StatusFieldsRecord CreateRecord(ListingSaleStatusFieldsInfo statusFieldInfo) => new()
         {
+            HasContingencyInfo = statusFieldInfo.HasContingencyInfo,
             ContingencyInfo = statusFieldInfo.ContingencyInfo,
-            SaleTerms2nd = statusFieldInfo.SaleTerms2nd,
-            ContractDate = statusFieldInfo.ContractDate,
-            ExpiredDateOption = statusFieldInfo.ExpiredDateOption,
-            KickOutInformation = statusFieldInfo.KickOutInformation,
-            HowSold = statusFieldInfo.HowSold,
-            SellPoints = statusFieldInfo.SellPoints,
+            SaleTerms = statusFieldInfo.SaleTerms,
             SellConcess = statusFieldInfo.SellConcess,
-            SellerConcessionDescription = statusFieldInfo.SellerConcessionDescription,
-            CancelDate = statusFieldInfo.CancelDate,
-            CancelledOption = statusFieldInfo.CancelledOption,
-            CancelledReason = statusFieldInfo.CancelledReason,
-            ClosePrice = statusFieldInfo.ClosePrice,
-            EstimatedClosedDate = statusFieldInfo.EstimatedClosedDate,
-            AgentId = statusFieldInfo.AgentId,
-            HasBuyerAgent = statusFieldInfo.HasBuyerAgent,
-            BackOnMarketDate = statusFieldInfo.BackOnMarketDate,
             PendingDate = statusFieldInfo.PendingDate,
             ClosedDate = statusFieldInfo.ClosedDate,
+            EstimatedClosedDate = statusFieldInfo.EstimatedClosedDate,
+            CancelledReason = statusFieldInfo.CancelledReason,
+            ClosePrice = statusFieldInfo.ClosePrice,
+            AgentId = statusFieldInfo.AgentId,
+            HasBuyerAgent = statusFieldInfo.HasBuyerAgent,
+            HasSecondBuyerAgent = statusFieldInfo.HasSecondBuyerAgent,
+            AgentIdSecond = statusFieldInfo.AgentIdSecond,
+            BackOnMarketDate = statusFieldInfo.BackOnMarketDate,
             OffMarketDate = statusFieldInfo.OffMarketDate,
         };
 
@@ -87,25 +58,20 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 throw new ArgumentNullException(nameof(statusFieldInfo));
             }
 
+            this.HasContingencyInfo = statusFieldInfo.HasContingencyInfo;
             this.ContingencyInfo = statusFieldInfo.ContingencyInfo;
-            this.SaleTerms2nd = statusFieldInfo.SaleTerms2nd;
-            this.ContractDate = statusFieldInfo.ContractDate;
-            this.ExpiredDateOption = statusFieldInfo.ExpiredDateOption;
-            this.KickOutInformation = statusFieldInfo.KickOutInformation;
-            this.HowSold = statusFieldInfo.HowSold;
-            this.SellPoints = statusFieldInfo.SellPoints;
+            this.SaleTerms = statusFieldInfo.SaleTerms;
             this.SellConcess = statusFieldInfo.SellConcess;
-            this.SellerConcessionDescription = statusFieldInfo.SellerConcessionDescription;
-            this.CancelDate = statusFieldInfo.CancelDate;
-            this.CancelledOption = statusFieldInfo.CancelledOption;
-            this.CancelledReason = statusFieldInfo.CancelledReason;
-            this.ClosePrice = statusFieldInfo.ClosePrice;
-            this.EstimatedClosedDate = statusFieldInfo.EstimatedClosedDate;
-            this.AgentId = statusFieldInfo.AgentId;
-            this.HasBuyerAgent = statusFieldInfo.HasBuyerAgent;
-            this.BackOnMarketDate = statusFieldInfo.BackOnMarketDate;
             this.PendingDate = statusFieldInfo.PendingDate;
             this.ClosedDate = statusFieldInfo.ClosedDate;
+            this.EstimatedClosedDate = statusFieldInfo.EstimatedClosedDate;
+            this.CancelledReason = statusFieldInfo.CancelledReason;
+            this.ClosePrice = statusFieldInfo.ClosePrice;
+            this.AgentId = statusFieldInfo.AgentId;
+            this.HasBuyerAgent = statusFieldInfo.HasBuyerAgent;
+            this.HasSecondBuyerAgent = statusFieldInfo.HasSecondBuyerAgent;
+            this.AgentIdSecond = statusFieldInfo.AgentIdSecond;
+            this.BackOnMarketDate = statusFieldInfo.BackOnMarketDate;
             this.OffMarketDate = statusFieldInfo.OffMarketDate;
         }
 
@@ -144,22 +110,36 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         private static string[] GetFieldsByMlsStatus(MarketStatuses mlsStatus) => mlsStatus switch
         {
-            MarketStatuses.Canceled => new string[] { nameof(CancelledOption), nameof(CancelledReason) },
-            MarketStatuses.Pending => new string[] { nameof(ContractDate), nameof(EstimatedClosedDate), nameof(HasBuyerAgent), nameof(AgentId) },
-            MarketStatuses.ActiveUnderContract => new string[] { nameof(ContractDate), nameof(EstimatedClosedDate), nameof(HasBuyerAgent), nameof(AgentId) },
+            MarketStatuses.Canceled => new string[] { nameof(CancelledReason) },
+            MarketStatuses.Hold => new string[] { nameof(BackOnMarketDate), nameof(OffMarketDate) },
+            MarketStatuses.Pending => new string[]
+            {
+                nameof(PendingDate),
+                nameof(EstimatedClosedDate),
+                nameof(HasBuyerAgent),
+                nameof(AgentId),
+                nameof(HasContingencyInfo),
+            },
+            MarketStatuses.ActiveUnderContract => new string[]
+            {
+                nameof(PendingDate),
+                nameof(ClosedDate),
+                nameof(EstimatedClosedDate),
+                nameof(HasContingencyInfo),
+                nameof(ContingencyInfo),
+            },
             MarketStatuses.Closed => new string[]
             {
-                    nameof(HowSold),
-                    nameof(ContractDate),
-                    nameof(ClosedDate),
-                    nameof(ClosePrice),
-                    nameof(ContingencyInfo),
-                    nameof(SaleTerms2nd),
-                    nameof(SellConcess),
-                    nameof(SellPoints),
-                    nameof(SellerConcessionDescription),
-                    nameof(HasBuyerAgent),
-                    nameof(AgentId),
+                nameof(HasContingencyInfo),
+                nameof(AgentId),
+                nameof(AgentIdSecond),
+                nameof(HasSecondBuyerAgent),
+                nameof(HasBuyerAgent),
+                nameof(PendingDate),
+                nameof(ClosedDate),
+                nameof(ClosePrice),
+                nameof(SaleTerms),
+                nameof(SellConcess),
             },
             _ => Array.Empty<string>(),
         };

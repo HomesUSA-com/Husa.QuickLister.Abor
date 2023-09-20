@@ -12,8 +12,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
         {
             var type = Faker.Enum.Random<RoomType>();
             var level = Faker.Enum.Random<RoomLevel>();
-
-            return new ListingSaleRoom(salePropertyId ?? Guid.NewGuid(), type, level);
+            return new ListingSaleRoom(salePropertyId ?? Guid.NewGuid(), type, level, new RoomFeatures[] { RoomFeatures.BreakfastArea });
         }
 
         public static ICollection<ListingSaleRoom> GetListingSaleRooms(Guid? salePropertyId = null, int? totalElements = 4)

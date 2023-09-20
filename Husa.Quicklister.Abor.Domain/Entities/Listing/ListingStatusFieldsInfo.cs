@@ -3,17 +3,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using System;
     using System.Collections.Generic;
     using Husa.Extensions.Domain.ValueObjects;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Agent = Husa.Quicklister.Abor.Domain.Entities.Agent.Agent;
 
     public class ListingStatusFieldsInfo : ValueObject, IProvideStatusFields
     {
         private bool? hasBuyerAgent;
-
-        public DateTime? CancelDate { get; set; }
-
-        public CancelledOptions? CancelledOption { get; set; }
 
         public string CancelledReason { get; set; }
 
@@ -29,11 +24,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             set => this.hasBuyerAgent = value;
         }
 
-        public DateTime? BackOnMarketDate { get; set; }
-
         public DateTime? PendingDate { get; set; }
 
         public DateTime? ClosedDate { get; set; }
+
+        public bool HasSecondBuyerAgent { get; set; }
+
+        public Guid? AgentIdSecond { get; set; }
+
+        public DateTime? BackOnMarketDate { get; set; }
 
         public DateTime? OffMarketDate { get; set; }
 
@@ -55,15 +54,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return this.CancelDate;
-            yield return this.CancelledOption;
+            yield return this.CancelledReason;
             yield return this.ClosePrice;
             yield return this.EstimatedClosedDate;
-            yield return this.HasBuyerAgent;
             yield return this.AgentId;
-            yield return this.BackOnMarketDate;
+            yield return this.HasBuyerAgent;
             yield return this.PendingDate;
             yield return this.ClosedDate;
+            yield return this.HasSecondBuyerAgent;
+            yield return this.AgentIdSecond;
+            yield return this.BackOnMarketDate;
             yield return this.OffMarketDate;
         }
     }

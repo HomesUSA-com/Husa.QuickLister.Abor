@@ -12,13 +12,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Domain.Comparers;
-    using Husa.Quicklister.Extensions.Domain.Entities.Base;
     using Husa.Quicklister.Extensions.Domain.Extensions;
-    using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
     using Husa.Xml.Api.Contracts.Response;
 
@@ -224,7 +223,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 var room = new ListingSaleRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level);
+                    roomDetail.Level,
+                    roomDetail.Features);
 
                 this.Rooms.Add(room);
             }
@@ -311,8 +311,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                     type: openHouse.Type,
                     startTime: openHouse.StartTime,
                     endTime: openHouse.EndTime,
-                    refreshments: openHouse.Refreshments,
-                    lunch: openHouse.Lunch);
+                    refreshments: openHouse.Refreshments);
 
                 this.OpenHouses.Add(listingOpenHouse);
             }
@@ -325,7 +324,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 var room = new ListingSaleRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level);
+                    roomDetail.Level,
+                    roomDetail.Features);
 
                 this.Rooms.Add(room);
             }
@@ -373,7 +373,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 var room = new ListingSaleRoom(
                     this.Id,
                     roomDetail.RoomType,
-                    roomDetail.Level);
+                    roomDetail.Level,
+                    roomDetail.Features);
 
                 this.Rooms.Add(room);
             }
@@ -601,12 +602,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.FeaturesInfo.Appliances = featuresInfo.Appliances;
             this.FeaturesInfo.GarageSpaces = featuresInfo.GarageSpaces;
             this.FeaturesInfo.GarageDescription = featuresInfo.GarageDescription;
-            this.FeaturesInfo.LaundryFeatures = featuresInfo.LaundryFeatures;
             this.FeaturesInfo.LaundryLocation = featuresInfo.LaundryLocation;
             this.FeaturesInfo.InteriorFeatures = featuresInfo.InteriorFeatures;
-            this.FeaturesInfo.KitchenFeatures = featuresInfo.KitchenFeatures;
-            this.FeaturesInfo.MasterBedroomFeatures = featuresInfo.MasterBedroomFeatures;
-            this.FeaturesInfo.WaterAccessDescription = featuresInfo.WaterAccessDescription;
             this.FeaturesInfo.Floors = featuresInfo.Floors;
             this.FeaturesInfo.SecurityFeatures = featuresInfo.SecurityFeatures;
             this.FeaturesInfo.WindowFeatures = featuresInfo.WindowFeatures;

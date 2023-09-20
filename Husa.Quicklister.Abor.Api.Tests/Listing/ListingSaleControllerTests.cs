@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.ReverseProspect.Api.Contracts.Response;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 {
     using System;
+    using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
@@ -18,6 +19,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public RoomLevel Level { get; set; }
 
         public RoomType RoomType { get; set; }
+
+        public ICollection<RoomFeatures> Features { get; set; }
 
         public string FieldType { get; set; }
 
@@ -48,6 +51,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 SalePropertyId = room.SalePropertyId,
                 Level = room.Level,
                 RoomType = room.RoomType,
+                Features = room.Features,
                 FieldType = room.FieldType,
                 Id = room.Id,
                 SysCreatedOn = room.SysCreatedOn,

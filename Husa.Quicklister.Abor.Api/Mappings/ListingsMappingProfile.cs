@@ -23,7 +23,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Extensions.Application.Models;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Application.Models.Media;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -232,8 +232,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<MediaResponse, ListingSaleMediaDto>();
 
-            this.CreateMap<Api.Contracts.Request.BaseAlertFilterRequest, BaseAlertQueryFilter>();
-            this.CreateMap<Api.Contracts.Request.BaseFilterRequest, BaseQueryFilter>();
+            this.CreateMap<BaseAlertFilterRequest, BaseAlertQueryFilter>();
+            this.CreateMap<BaseFilterRequest, BaseQueryFilter>();
             this.CreateMap<Property, PhotoRequestPropertyResponse>()
                 .ForMember(ln => ln.UnitNumber, sl => sl.Ignore());
         }

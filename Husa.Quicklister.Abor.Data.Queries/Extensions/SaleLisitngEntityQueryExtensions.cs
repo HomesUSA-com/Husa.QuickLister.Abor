@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
-    using Husa.Quicklister.Extensions.Data.Queries.Projections;
+    using OpenHousesQueryResult = Husa.Quicklister.Abor.Data.Queries.Models.OpenHousesQueryResult;
 
     public static class SaleLisitngEntityQueryExtensions
     {
@@ -23,6 +23,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                     Level = r.Level,
                     RoomType = r.RoomType,
                     IsDeleted = r.IsDeleted,
+                    Features = r.Features,
                 };
 
                 roomsCollection.Add(room);
@@ -46,12 +47,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 Appliances = features.Appliances,
                 GarageSpaces = features.GarageSpaces,
                 GarageDescription = features.GarageDescription,
-                LaundryFeatures = features.LaundryFeatures,
                 LaundryLocation = features.LaundryLocation,
                 InteriorFeatures = features.InteriorFeatures,
-                KitchenFeatures = features.KitchenFeatures,
-                MasterBedroomFeatures = features.MasterBedroomFeatures,
-                WaterAccessDescription = features.WaterAccessDescription,
                 Fireplaces = features.Fireplaces,
                 FireplaceDescription = features.FireplaceDescription,
                 Floors = features.Floors,
@@ -245,6 +242,36 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             };
         }
 
+        public static List<OpenHousesQueryResult> ToProjectionOpenHouses(this ICollection<SaleListingOpenHouse> openHouses)
+        {
+            var openHouseCollection = new List<OpenHousesQueryResult>();
+
+            if (openHouses == null)
+            {
+                return openHouseCollection;
+            }
+
+            foreach (var openH in openHouses)
+            {
+                if (openH == null)
+                {
+                    continue;
+                }
+
+                var openHouse = new OpenHousesQueryResult
+                {
+                    Type = openH.Type,
+                    EndTime = openH.EndTime,
+                    StartTime = openH.StartTime,
+                    Refreshments = openH.Refreshments,
+                };
+
+                openHouseCollection.Add(openHouse);
+            }
+
+            return openHouseCollection;
+        }
+
         public static PropertyQueryResult ToProjectionProperty(this Property property)
         {
             if (property == null)
@@ -369,12 +396,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 Appliances = utilities.Appliances,
                 GarageSpaces = utilities.GarageSpaces,
                 GarageDescription = utilities.GarageDescription,
-                LaundryFeatures = utilities.LaundryFeatures,
                 LaundryLocation = utilities.LaundryLocation,
                 InteriorFeatures = utilities.InteriorFeatures,
-                KitchenFeatures = utilities.KitchenFeatures,
-                MasterBedroomFeatures = utilities.MasterBedroomFeatures,
-                WaterAccessDescription = utilities.WaterAccessDescription,
                 Fireplaces = utilities.Fireplaces,
                 FireplaceDescription = utilities.FireplaceDescription,
                 Floors = utilities.Floors,
@@ -414,26 +437,21 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
 
             return new()
             {
-                CancelledOption = statusFieldsInfo.CancelledOption,
-                CancelDate = statusFieldsInfo.CancelDate,
+                HasContingencyInfo = statusFieldsInfo.HasContingencyInfo,
+                ContingencyInfo = statusFieldsInfo.ContingencyInfo,
+                SaleTerms = statusFieldsInfo.SaleTerms,
+                SellConcess = statusFieldsInfo.SellConcess,
+                PendingDate = statusFieldsInfo.PendingDate,
+                ClosedDate = statusFieldsInfo.ClosedDate,
+                EstimatedClosedDate = statusFieldsInfo.EstimatedClosedDate,
                 CancelledReason = statusFieldsInfo.CancelledReason,
+                ClosePrice = statusFieldsInfo.ClosePrice,
                 AgentId = statusFieldsInfo.AgentId,
                 HasBuyerAgent = statusFieldsInfo.HasBuyerAgent,
+                HasSecondBuyerAgent = statusFieldsInfo.HasSecondBuyerAgent,
+                AgentIdSecond = statusFieldsInfo.AgentIdSecond,
                 BackOnMarketDate = statusFieldsInfo.BackOnMarketDate,
-                ClosedDate = statusFieldsInfo.ClosedDate,
-                ClosePrice = statusFieldsInfo.ClosePrice,
-                ContingencyInfo = statusFieldsInfo.ContingencyInfo,
-                SaleTerms2nd = statusFieldsInfo.SaleTerms2nd,
-                ContractDate = statusFieldsInfo.ContractDate,
-                EstimatedClosedDate = statusFieldsInfo.EstimatedClosedDate,
-                ExpiredDateOption = statusFieldsInfo.ExpiredDateOption,
-                KickOutInformation = statusFieldsInfo.KickOutInformation,
-                HowSold = statusFieldsInfo.HowSold,
-                SellPoints = statusFieldsInfo.SellPoints,
-                SellConcess = statusFieldsInfo.SellConcess,
-                SellerConcessionDescription = statusFieldsInfo.SellerConcessionDescription,
                 OffMarketDate = statusFieldsInfo.OffMarketDate,
-                PendingDate = statusFieldsInfo.PendingDate,
             };
         }
     }

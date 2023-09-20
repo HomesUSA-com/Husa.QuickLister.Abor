@@ -11,5 +11,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Interfaces
         Task<IEnumerable<AgentQueryResult>> GetAsync(AgentQueryFilter queryFilter);
 
         Task<AgentQueryResult> GetAgentByIdAsync(Guid agentId);
+
+        Task<string> GetAgentUniqueMarketIdAsync(Guid? agentId);
     }
 }

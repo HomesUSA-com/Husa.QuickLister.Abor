@@ -5,7 +5,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
     using Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
-    using Husa.Quicklister.Extensions.Data.Documents.Extensions;
     using Models = Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
 
     public static class ListingRequestRecordQueryExtensions
@@ -24,6 +23,15 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                 Rooms = saleProperty.Rooms.ToProjectionRooms(),
                 OpenHouses = saleProperty.OpenHouses.ToProjectionOpenHouses(),
             };
+
+        public static IEnumerable<OpenHousesQueryResult> ToProjectionOpenHouses(this ICollection<OpenHouseRecord> openHouses)
+            => openHouses.Select(openH => new OpenHousesQueryResult
+            {
+                Type = openH.Type,
+                EndTime = openH.EndTime,
+                StartTime = openH.StartTime,
+                Refreshments = openH.Refreshments,
+            });
 
         public static AddressInfoQueryResult ToProjectionAddressInfo<T>(this T addressInfo)
             where T : AddressRecord => new()
@@ -86,12 +94,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                 Appliances = features.Appliances,
                 GarageSpaces = features.GarageSpaces,
                 GarageDescription = features.GarageDescription,
-                LaundryFeatures = features.LaundryFeatures,
                 LaundryLocation = features.LaundryLocation,
                 InteriorFeatures = features.InteriorFeatures,
-                KitchenFeatures = features.KitchenFeatures,
-                MasterBedroomFeatures = features.MasterBedroomFeatures,
-                WaterAccessDescription = features.WaterAccessDescription,
                 Floors = features.Floors,
                 SecurityFeatures = features.SecurityFeatures,
                 WindowFeatures = features.WindowFeatures,
@@ -187,26 +191,21 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
 
             return new()
             {
-                ContractDate = statusField.ContractDate,
-                ExpiredDateOption = statusField.ExpiredDateOption,
-                SellerConcessionDescription = statusField.SellerConcessionDescription,
+                HasContingencyInfo = statusField.HasContingencyInfo,
                 ContingencyInfo = statusField.ContingencyInfo,
-                HasBuyerAgent = statusField.HasBuyerAgent,
-                KickOutInformation = statusField.KickOutInformation,
-                HowSold = statusField.HowSold,
-                SaleTerms2nd = statusField.SaleTerms2nd,
-                AgentId = statusField.AgentId,
-                BackOnMarketDate = statusField.BackOnMarketDate,
-                CancelDate = statusField.CancelDate,
-                ClosedDate = statusField.ClosedDate,
-                CancelledOption = statusField.CancelledOption,
-                EstimatedClosedDate = statusField.EstimatedClosedDate,
-                OffMarketDate = statusField.OffMarketDate,
+                SaleTerms = statusField.SaleTerms,
+                SellConcess = statusField.SellConcess,
                 PendingDate = statusField.PendingDate,
+                ClosedDate = statusField.ClosedDate,
+                EstimatedClosedDate = statusField.EstimatedClosedDate,
                 CancelledReason = statusField.CancelledReason,
                 ClosePrice = statusField.ClosePrice,
-                SellConcess = statusField.SellConcess,
-                SellPoints = statusField.SellPoints,
+                AgentId = statusField.AgentId,
+                HasBuyerAgent = statusField.HasBuyerAgent,
+                HasSecondBuyerAgent = statusField.HasSecondBuyerAgent,
+                AgentIdSecond = statusField.AgentIdSecond,
+                BackOnMarketDate = statusField.BackOnMarketDate,
+                OffMarketDate = statusField.OffMarketDate,
             };
         }
 
@@ -234,6 +233,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                 Level = room.Level,
                 RoomType = room.RoomType,
                 IsDeleted = room.IsDeleted,
+                Features = room.Features,
             });
     }
 }

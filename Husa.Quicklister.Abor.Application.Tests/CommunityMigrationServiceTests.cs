@@ -18,8 +18,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Moq;
     using Xunit;
     using MigrationContracts = Husa.Migration.Api.Contracts.Response;
-    using MigrationEnums = Husa.Migration.Crosscutting.Enums;
-
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Application.Test")]
 
@@ -121,16 +119,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
                     ShowingInfo = new(),
                     UtilitiesInfo = new(),
                     SaleOffice = new(),
-                    OpenHouses = new List<MigrationContracts.OpenHouseResponse>
-                    {
-                        new()
-                        {
-                            Type = MigrationEnums.OpenHouseType.Monday,
-                            Refreshments = true,
-                            StartTime = new TimeSpan(10, 0, 0),
-                            EndTime = new TimeSpan(18, 0, 0),
-                        },
-                    },
                 };
             }
         }

@@ -1,8 +1,8 @@
 namespace Husa.Quicklister.Abor.Application.Models.Office
 {
     using System;
-    using Husa.Extensions.Common.Enums;
-    using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Downloader.CTX.Domain.Enums;
+    using Cities = Husa.Quicklister.Abor.Domain.Enums.Domain.Cities;
 
     public class OfficeDto
     {
@@ -10,24 +10,22 @@ namespace Husa.Quicklister.Abor.Application.Models.Office
 
         public string Name { get; set; }
 
-        public string Email { get; set; }
-
         public string Address { get; set; }
 
-        public Cities City { get; set; }
+        public Cities? City { get; set; }
 
-        public States? State { get; set; }
+        public StateOrProvince StateOrProvince { get; set; }
 
         public string Zip { get; set; }
 
+        public string ZipExt { get; set; }
+
         public string Phone { get; set; }
 
-        public string Fax { get; set; }
+        public OfficeStatus Status { get; set; }
 
-        public string Status { get; set; }
+        public DateTimeOffset MarketModified { get; set; }
 
-        public string LicenseNumber { get; set; }
-
-        public DateTime MarketModified { get; set; }
+        public OfficeType Type { get; set; }
     }
 }

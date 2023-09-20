@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Husa.CompanyServiceManager.Client" Version="1.0.0" />
+        <PackageReference Include="Husa.CompanyServiceManager.Client" Version="1.1.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.9" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
         <PackageReference Include="Moq" Version="4.18.4" />

@@ -18,12 +18,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public ICollection<Appliances> Appliances { get; set; }
         public int GarageSpaces { get; set; }
         public ICollection<GarageDescription> GarageDescription { get; set; }
-        public ICollection<LaundryFeatures> LaundryFeatures { get; set; }
         public ICollection<LaundryLocation> LaundryLocation { get; set; }
         public ICollection<InteriorFeatures> InteriorFeatures { get; set; }
-        public ICollection<KitchenFeatures> KitchenFeatures { get; set; }
-        public ICollection<MasterBedroomFeatures> MasterBedroomFeatures { get; set; }
-        public ICollection<WaterAccessDescription> WaterAccessDescription { get; set; }
         public ICollection<Flooring> Floors { get; set; }
         public ICollection<SecurityFeatures> SecurityFeatures { get; set; }
         public ICollection<WindowFeatures> WindowFeatures { get; set; }

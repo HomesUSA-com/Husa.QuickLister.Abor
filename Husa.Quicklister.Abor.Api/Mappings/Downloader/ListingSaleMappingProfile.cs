@@ -14,7 +14,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Application.Models.Media;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
@@ -84,13 +83,11 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForPath(dto => dto.StatusFieldsInfo.ClosePrice, config => config.MapFrom(dto => dto.SoldPrice))
                 .ForPath(dto => dto.StatusFieldsInfo.ClosedDate, config => config.MapFrom(dto => dto.CloseDate))
                 .ForPath(dto => dto.StatusFieldsInfo.PendingDate, config => config.MapFrom(dto => dto.ContractDate))
-                .ForPath(dto => dto.StatusFieldsInfo.ContingencyInfo, config => config.MapFrom(dto => dto.ContigencyInfo))
+                .ForPath(dto => dto.StatusFieldsInfo.HasContingencyInfo, config => config.MapFrom(dto => !string.IsNullOrEmpty(dto.ContigencyInfo)))
+                .ForPath(dto => dto.StatusFieldsInfo.ContingencyInfo, config => config.MapFrom(dto => dto.ContigencyInfo.CsvToEnum<ContingencyInfo>(true)))
                 .ForPath(dto => dto.StatusFieldsInfo.OffMarketDate, config => config.MapFrom(dto => dto.OffMarketDate))
-                .ForPath(dto => dto.StatusFieldsInfo.SaleTerms2nd, config => config.MapFrom(dto => dto.SaleTerms2nd))
                 .ForPath(dto => dto.StatusFieldsInfo.SellConcess, config => config.MapFrom(dto => dto.SellConcess))
-                .ForPath(dto => dto.StatusFieldsInfo.SellerConcessionDescription, config => config.MapFrom(dto => dto.SellerConcessionDescription.CsvToEnum<SellerConcessionDescription>(true)))
-                .ForPath(dto => dto.StatusFieldsInfo.SellPoints, config => config.MapFrom(dto => dto.SellPoints))
-                .ForPath(dto => dto.StatusFieldsInfo.HowSold, config => config.MapFrom(dto => dto.HowSold.ToEnumFromEnumMember<HowSold>()))
+                .ForPath(dto => dto.StatusFieldsInfo.SaleTerms, config => config.MapFrom(dto => dto.HowSold.CsvToEnum<SaleTerms>(true)))
                 .ForPath(dto => dto.SaleProperty.SalePropertyInfo.OwnerName, config => config.MapFrom(dto => dto.BuilderName))
                 .ForPath(dto => dto.SaleProperty.AddressInfo.StreetNumber, config => config.MapFrom(dto => dto.StreetNumber))
                 .ForPath(dto => dto.SaleProperty.AddressInfo.StreetName, config => config.MapFrom(dto => dto.StreetName))

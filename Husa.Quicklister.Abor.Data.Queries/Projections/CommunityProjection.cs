@@ -6,7 +6,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Extensions.Data.Queries.Projections;
 
     public static class CommunityProjection
     {

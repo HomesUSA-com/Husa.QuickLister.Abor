@@ -61,7 +61,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         [Required]
         [MinLength(1)]
         public ICollection<GarageDescription> GarageDescription { get; set; }
-        public ICollection<LaundryFeatures> LaundryFeatures { get; set; }
 
         [Required]
         [MinLength(1)]
@@ -70,9 +69,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         [Required]
         [MinLength(1)]
         public ICollection<InteriorFeatures> InteriorFeatures { get; set; }
-        public ICollection<KitchenFeatures> KitchenFeatures { get; set; }
-        public ICollection<MasterBedroomFeatures> MasterBedroomFeatures { get; set; }
-        public ICollection<WaterAccessDescription> WaterAccessDescription { get; set; }
 
         [Required]
         [MinLength(1)]
@@ -155,12 +151,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 Appliances = featuresInfo.Appliances,
                 GarageSpaces = featuresInfo.GarageSpaces ?? throw new DomainException(nameof(featuresInfo.GarageSpaces)),
                 GarageDescription = featuresInfo.GarageDescription,
-                LaundryFeatures = featuresInfo.LaundryFeatures,
                 LaundryLocation = featuresInfo.LaundryLocation,
                 InteriorFeatures = featuresInfo.InteriorFeatures,
-                KitchenFeatures = featuresInfo.KitchenFeatures,
-                MasterBedroomFeatures = featuresInfo.MasterBedroomFeatures,
-                WaterAccessDescription = featuresInfo.WaterAccessDescription,
                 Fireplaces = featuresInfo.Fireplaces ?? throw new DomainException(nameof(featuresInfo.Fireplaces)),
                 FireplaceDescription = featuresInfo.FireplaceDescription,
                 Floors = featuresInfo.Floors,
