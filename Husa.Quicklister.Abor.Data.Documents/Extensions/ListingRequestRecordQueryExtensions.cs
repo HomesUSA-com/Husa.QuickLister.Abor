@@ -5,7 +5,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
     using Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
-    using Husa.Quicklister.Extensions.Data.Documents.Extensions;
     using Models = Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
 
     public static class ListingRequestRecordQueryExtensions
@@ -24,6 +23,15 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                 Rooms = saleProperty.Rooms.ToProjectionRooms(),
                 OpenHouses = saleProperty.OpenHouses.ToProjectionOpenHouses(),
             };
+
+        public static IEnumerable<OpenHousesQueryResult> ToProjectionOpenHouses(this ICollection<OpenHouseRecord> openHouses)
+            => openHouses.Select(openH => new OpenHousesQueryResult
+            {
+                Type = openH.Type,
+                EndTime = openH.EndTime,
+                StartTime = openH.StartTime,
+                Refreshments = openH.Refreshments,
+            });
 
         public static AddressInfoQueryResult ToProjectionAddressInfo<T>(this T addressInfo)
             where T : AddressRecord => new()

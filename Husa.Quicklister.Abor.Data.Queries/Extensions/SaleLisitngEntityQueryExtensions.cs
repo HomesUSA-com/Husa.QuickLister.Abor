@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
-    using Husa.Quicklister.Extensions.Data.Queries.Projections;
+    using OpenHousesQueryResult = Husa.Quicklister.Abor.Data.Queries.Models.OpenHousesQueryResult;
 
     public static class SaleLisitngEntityQueryExtensions
     {
@@ -240,6 +240,36 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 OpenHouses = saleProperty.OpenHouses.ToProjectionOpenHouses(),
                 Rooms = saleProperty.Rooms.ToProjectionRooms(),
             };
+        }
+
+        public static List<OpenHousesQueryResult> ToProjectionOpenHouses(this ICollection<SaleListingOpenHouse> openHouses)
+        {
+            var openHouseCollection = new List<OpenHousesQueryResult>();
+
+            if (openHouses == null)
+            {
+                return openHouseCollection;
+            }
+
+            foreach (var openH in openHouses)
+            {
+                if (openH == null)
+                {
+                    continue;
+                }
+
+                var openHouse = new OpenHousesQueryResult
+                {
+                    Type = openH.Type,
+                    EndTime = openH.EndTime,
+                    StartTime = openH.StartTime,
+                    Refreshments = openH.Refreshments,
+                };
+
+                openHouseCollection.Add(openHouse);
+            }
+
+            return openHouseCollection;
         }
 
         public static PropertyQueryResult ToProjectionProperty(this Property property)

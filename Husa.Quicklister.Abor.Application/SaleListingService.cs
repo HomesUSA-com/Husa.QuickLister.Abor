@@ -21,7 +21,6 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Microsoft.Extensions.Logging;

@@ -6,10 +6,10 @@ namespace Husa.Quicklister.Abor.Data
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Office;
+    using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.ReverseProspect;
-    using Husa.Quicklister.Extensions.Domain.Entities.Base;
     using Microsoft.EntityFrameworkCore;
 
     public class ApplicationDbContext : DbContext

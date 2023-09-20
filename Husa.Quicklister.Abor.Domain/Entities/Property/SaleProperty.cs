@@ -12,13 +12,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Domain.Comparers;
-    using Husa.Quicklister.Extensions.Domain.Entities.Base;
     using Husa.Quicklister.Extensions.Domain.Extensions;
-    using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
     using Husa.Xml.Api.Contracts.Response;
 
@@ -312,8 +311,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                     type: openHouse.Type,
                     startTime: openHouse.StartTime,
                     endTime: openHouse.EndTime,
-                    refreshments: openHouse.Refreshments,
-                    lunch: openHouse.Lunch);
+                    refreshments: openHouse.Refreshments);
 
                 this.OpenHouses.Add(listingOpenHouse);
             }

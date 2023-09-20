@@ -2,7 +2,6 @@ namespace Husa.Quicklister.Abor.Application.Models.Community
 {
     using System;
     using System.Collections.Generic;
-    using Husa.Quicklister.Extensions.Application.Models;
     using ExtensionsDtos = Husa.Quicklister.Extensions.Application.Interfaces.Community.Dtos;
 
     public class CommunitySaleDto : ExtensionsDtos.ICommunity

@@ -17,8 +17,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
-    using Husa.Quicklister.Extensions.Application.Models;
-    using Husa.Quicklister.Extensions.Domain.Entities.Request;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using DocumentModels = Husa.Quicklister.Abor.Data.Documents.Models;

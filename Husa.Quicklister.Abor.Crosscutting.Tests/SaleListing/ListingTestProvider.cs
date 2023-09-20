@@ -3,13 +3,13 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
     using System;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Api.Contracts.Request;
+    using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Extensions.Application.Models;
 
     public static class ListingTestProvider
     {

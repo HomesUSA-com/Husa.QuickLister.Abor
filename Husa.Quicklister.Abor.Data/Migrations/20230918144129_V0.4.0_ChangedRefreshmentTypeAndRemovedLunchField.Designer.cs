@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230918144129_V0.4.0_ChangedRefreshmentTypeAndRemovedLunchField")]
+    partial class V040_ChangedRefreshmentTypeAndRemovedLunchField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -849,23 +852,18 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(20)")
                                 .HasColumnName("FirstName");
 
-                            b1.Property<string>("FullName")
-                                .HasMaxLength(65)
-                                .HasColumnType("nvarchar(65)")
-                                .HasColumnName("FullName");
-
-                            b1.Property<string>("HomePhone")
-                                .HasMaxLength(20)
-                                .HasColumnType("nvarchar(20)")
-                                .HasColumnName("HomePhone");
-
                             b1.Property<string>("LastName")
                                 .HasMaxLength(20)
                                 .HasColumnType("nvarchar(20)")
                                 .HasColumnName("LastName");
 
-                            b1.Property<DateTimeOffset>("MarketModified")
-                                .HasColumnType("datetimeoffset")
+                            b1.Property<string>("LoginName")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("LoginName");
+
+                            b1.Property<DateTime>("MarketModified")
+                                .HasColumnType("datetime")
                                 .HasColumnName("MarketModified");
 
                             b1.Property<string>("MarketUniqueId")
@@ -873,25 +871,20 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(10)")
                                 .HasColumnName("MarketUniqueId");
 
-                            b1.Property<string>("MiddleName")
-                                .HasMaxLength(20)
-                                .HasColumnType("nvarchar(20)")
-                                .HasColumnName("MiddleName");
-
                             b1.Property<string>("OfficeId")
                                 .HasMaxLength(10)
                                 .HasColumnType("nvarchar(10)")
                                 .HasColumnName("OfficeId");
 
-                            b1.Property<int>("Status")
+                            b1.Property<string>("OtherPhone")
                                 .HasMaxLength(20)
-                                .HasColumnType("int")
-                                .HasColumnName("Status");
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("OtherPhone");
 
-                            b1.Property<string>("Web")
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)")
-                                .HasColumnName("Web");
+                            b1.Property<string>("Status")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("Status");
 
                             b1.Property<string>("WorkPhone")
                                 .HasMaxLength(20)

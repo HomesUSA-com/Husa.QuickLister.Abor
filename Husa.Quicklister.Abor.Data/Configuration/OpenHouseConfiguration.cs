@@ -1,10 +1,12 @@
 namespace Husa.Quicklister.Abor.Data.Configuration
 {
     using System;
+    using Husa.Extensions.Linq;
     using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Extensions.Domain.Entities.Base;
+    using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -21,8 +23,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.SetSysProperties();
             builder.Property(r => r.StartTime).IsRequired().HasMaxLength(8);
             builder.Property(r => r.EndTime).IsRequired().HasMaxLength(8);
-            builder.Property(r => r.Refreshments).IsRequired().HasMaxLength(10);
-            builder.Property(r => r.Lunch).IsRequired().HasMaxLength(10);
+            builder.Property(r => r.Refreshments).IsRequired().HasEnumCollectionValue<Refreshments>(maxLength: 200);
             builder.Property(r => r.Type)
                    .HasConversion<string>()
                    .HasMaxLength(20)

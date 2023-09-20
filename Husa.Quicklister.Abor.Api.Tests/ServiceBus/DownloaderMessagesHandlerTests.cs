@@ -17,11 +17,11 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Office;
+    using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Agent;
     using Husa.Quicklister.Abor.Application.Models.Listing;
     using Husa.Quicklister.Abor.Application.Models.Office;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
-    using Husa.Quicklister.Extensions.Application.Models;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.AspNetCore.HeaderPropagation;
     using Microsoft.Azure.ServiceBus;
