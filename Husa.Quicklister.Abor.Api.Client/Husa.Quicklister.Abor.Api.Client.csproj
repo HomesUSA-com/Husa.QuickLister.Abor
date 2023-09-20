@@ -8,7 +8,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>0.4.0-dev002</Version>
+        <Version>0.4.0</Version>
         <PackageReleaseNotes>
             Release 0.4.0:
             - Added AgentMarketUniqueId(s) to ListingSaleRequest response contract
