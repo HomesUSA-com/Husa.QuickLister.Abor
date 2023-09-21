@@ -61,7 +61,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var userId = Guid.NewGuid();
             var usingDatabase = true;
             var listing = TestModelProvider.GetListingSaleEntity(listingId);
-            var trackingReverseProspect = new TrackingReverseProspect(
+            var trackingReverseProspect = new ReverseProspect(
                 listingId,
                 userId,
                 Guid.NewGuid(),
@@ -74,7 +74,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(listing);
 
             this.reverseProspectRepository
-                .Setup(x => x.AddAsync(It.IsAny<TrackingReverseProspect>()))
+                .Setup(x => x.AddAsync(It.IsAny<ReverseProspect>()))
                 .Verifiable();
 
             this.reverseProspectRepository
@@ -92,7 +92,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             // Assert
             this.saleListingRepository.Verify(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()), Times.Once);
-            this.reverseProspectRepository.Verify(sl => sl.AddAsync(It.IsAny<TrackingReverseProspect>()), Times.Once);
+            this.reverseProspectRepository.Verify(sl => sl.AddAsync(It.IsAny<ReverseProspect>()), Times.Once);
             Assert.NotEmpty(reverseProspectData.Results);
             Assert.Equal(ResponseCode.Success, reverseProspectData.Code);
         }
@@ -120,12 +120,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(listing);
 
             this.reverseProspectRepository
-                .Setup(x => x.AddAsync(It.IsAny<TrackingReverseProspect>()))
+                .Setup(x => x.AddAsync(It.IsAny<ReverseProspect>()))
                 .Verifiable();
 
             this.reverseProspectRepository
                 .Setup(x => x.GetById(It.IsAny<Guid>(), It.IsAny<bool>()))
-                .ReturnsAsync((TrackingReverseProspect)null)
+                .ReturnsAsync((ReverseProspect)null)
                 .Verifiable();
 
             this.reverseProspectClient
@@ -138,7 +138,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             // Assert
             this.saleListingRepository.Verify(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()), Times.Once);
-            this.reverseProspectRepository.Verify(sl => sl.AddAsync(It.IsAny<TrackingReverseProspect>()), Times.AtMost(2));
+            this.reverseProspectRepository.Verify(sl => sl.AddAsync(It.IsAny<ReverseProspect>()), Times.AtMost(2));
             Assert.NotEmpty(reverseProspectData.Results);
         }
 
@@ -160,12 +160,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(listing);
 
             this.reverseProspectRepository
-                .Setup(x => x.AddAsync(It.IsAny<TrackingReverseProspect>()))
+                .Setup(x => x.AddAsync(It.IsAny<ReverseProspect>()))
                 .Verifiable();
 
             this.reverseProspectRepository
                 .Setup(x => x.GetById(It.IsAny<Guid>(), It.IsAny<bool>()))
-                .ReturnsAsync((TrackingReverseProspect)null)
+                .ReturnsAsync((ReverseProspect)null)
                 .Verifiable();
 
             this.reverseProspectClient
@@ -178,7 +178,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             // Assert
             this.saleListingRepository.Verify(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()), Times.Once);
-            this.reverseProspectRepository.Verify(sl => sl.AddAsync(It.IsAny<TrackingReverseProspect>()), Times.AtMost(2));
+            this.reverseProspectRepository.Verify(sl => sl.AddAsync(It.IsAny<ReverseProspect>()), Times.AtMost(2));
             Assert.Empty(reverseProspectData.Results);
             Assert.Equal(ResponseCode.Error, reverseProspectData.Code);
         }

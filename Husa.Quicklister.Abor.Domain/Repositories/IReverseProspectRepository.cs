@@ -5,8 +5,8 @@ namespace Husa.Quicklister.Abor.Domain.Repositories
     using Husa.Extensions.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.Entities.ReverseProspect;
 
-    public interface IReverseProspectRepository : IRepository<TrackingReverseProspect>
+    public interface IReverseProspectRepository : IRepository<ReverseProspect>
     {
-        Task<TrackingReverseProspect> GetReverseProspectByTrackingId(Guid listingId);
+        Task<ReverseProspect> GetReverseProspectByTrackingId(Guid listingId);
     }
 }

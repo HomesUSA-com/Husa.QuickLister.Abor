@@ -5,9 +5,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.ReverseProspect
     using Husa.Extensions.Domain.Entities;
     using Husa.Quicklister.Abor.Domain.Enums;
 
-    public class TrackingReverseProspect : Entity
+    public class ReverseProspect : Entity
     {
-        public TrackingReverseProspect(Guid listingId, Guid userId, Guid companyId, string reportData, ReverseProspectStatus status)
+        public ReverseProspect(Guid listingId, Guid userId, Guid companyId, string reportData, ReverseProspectStatus status)
             : this()
         {
             this.ListingId = listingId;
@@ -18,7 +18,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.ReverseProspect
             this.Status = status;
         }
 
-        protected TrackingReverseProspect()
+        protected ReverseProspect()
         {
             this.Status = ReverseProspectStatus.NotYetRequested;
         }

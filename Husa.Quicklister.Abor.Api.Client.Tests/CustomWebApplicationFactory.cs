@@ -176,7 +176,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 Factory.CompanyId,
                 "\r\nMLS#\r\nAddress\r\nAgentName\r\nEmail\r\nAgentID\r\nClientPublicID\r\nSearchID\r\nLastEmailed\r\nClientInterest\r\nInitiallyRanked\r\n\r\n11560730\r\n12232  Buckaroo Ranch\r\nLovetta McAlpin\r\n\r\n598390\r\nLCEJN\r\n\r\n10/26/2021\r\nInterested\r\n",
                 ReverseProspectStatus.Available);
-            dbContext.TrackingReverseProspect.Add(trackingReverseProspect);
+            dbContext.ReverseProspect.Add(trackingReverseProspect);
             dbContext.SaveChanges();
 
             var scrapedListing = ScrapedListingTestProvider.GetScrapedListingEntity(builderName: Factory.BuilderName);
