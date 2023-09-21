@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
@@ -18,7 +19,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
-    using Response = Husa.Quicklister.Abor.Api.Contracts.Response;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Application.Test")]
@@ -26,13 +26,19 @@ namespace Husa.Quicklister.Abor.Application.Tests
     {
         private readonly Mock<IListingSaleRepository> saleListingRepository = new();
         private readonly Mock<IReverseProspectClient> reverseProspectClient = new();
+        private readonly Mock<IUserContextProvider> userContextProvider = new();
         private readonly Mock<IReverseProspectRepository> reverseProspectRepository = new();
         private readonly Mock<ILogger<UploaderService>> logger;
 
         public UploaderServiceTests(ApplicationServicesFixture fixture)
         {
             this.logger = new Mock<ILogger<UploaderService>>();
-            this.Sut = new UploaderService(this.saleListingRepository.Object, this.reverseProspectRepository.Object, this.reverseProspectClient.Object, this.logger.Object);
+            this.Sut = new UploaderService(
+                this.saleListingRepository.Object,
+                this.reverseProspectRepository.Object,
+                this.reverseProspectClient.Object,
+                this.userContextProvider.Object,
+                this.logger.Object);
         }
 
         public UploaderService Sut { get; set; }
@@ -41,7 +47,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
         public async Task GetReverseProspectListingNotFoundListing()
         {
             var listingId = Guid.Empty;
-            var userId = Guid.NewGuid();
             var usingDatabase = true;
 
             // Arrange
@@ -50,7 +55,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync((SaleListing)null);
 
             // Act && Assert
-            await Assert.ThrowsAsync<NotFoundException<SaleListing>>(() => this.Sut.GetReverseProspectListing(listingId, userId, usingDatabase));
+            await Assert.ThrowsAsync<NotFoundException<SaleListing>>(() => this.Sut.GetReverseProspectListing(listingId, usingDatabase));
             this.saleListingRepository.Verify(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()), Times.Once);
         }
 
@@ -69,6 +74,10 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 ReverseProspectStatus.Available);
 
             // Arrange
+            this.userContextProvider
+                .Setup(x => x.GetCurrentUserId())
+                .Returns(userId);
+
             this.saleListingRepository
                 .Setup(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()))
                 .ReturnsAsync(listing);
@@ -88,7 +97,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Verifiable();
 
             // Act
-            var reverseProspectData = await this.Sut.GetReverseProspectListing(listingId, userId, usingDatabase);
+            var reverseProspectData = await this.Sut.GetReverseProspectListing(listingId, usingDatabase);
 
             // Assert
             this.saleListingRepository.Verify(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()), Times.Once);
@@ -115,6 +124,10 @@ namespace Husa.Quicklister.Abor.Application.Tests
             };
 
             // Arrange
+            this.userContextProvider
+                .Setup(x => x.GetCurrentUserId())
+                .Returns(userId);
+
             this.saleListingRepository
                 .Setup(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()))
                 .ReturnsAsync(listing);
@@ -134,7 +147,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Verifiable();
 
             // Act
-            var reverseProspectData = await this.Sut.GetReverseProspectListing(listingId, userId, usingDatabase);
+            var reverseProspectData = await this.Sut.GetReverseProspectListing(listingId, usingDatabase);
 
             // Assert
             this.saleListingRepository.Verify(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()), Times.Once);
@@ -155,6 +168,10 @@ namespace Husa.Quicklister.Abor.Application.Tests
             response.Code = ResponseCode.Error;
 
             // Arrange
+            this.userContextProvider
+                .Setup(x => x.GetCurrentUserId())
+                .Returns(userId);
+
             this.saleListingRepository
                 .Setup(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()))
                 .ReturnsAsync(listing);
@@ -174,7 +191,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Verifiable();
 
             // Act
-            var reverseProspectData = await this.Sut.GetReverseProspectListing(listingId, userId, usingDatabase);
+            var reverseProspectData = await this.Sut.GetReverseProspectListing(listingId, usingDatabase);
 
             // Assert
             this.saleListingRepository.Verify(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()), Times.Once);

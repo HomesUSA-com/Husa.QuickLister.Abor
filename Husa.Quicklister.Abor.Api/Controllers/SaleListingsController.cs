@@ -8,7 +8,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.Extensions.Authorization.Enums;
-    using Husa.Extensions.Authorization.Extensions;
     using Husa.Extensions.Authorization.Filters;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
@@ -202,16 +201,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         {
             this.logger.LogInformation("Getting reverse prospect information for listing sale Id {listingId}", listingId);
 
-            var userId = this.HttpContext.User.GetUserId();
-
-            if (userId == Guid.Empty || listingId == Guid.Empty)
-            {
-                var parameter = userId == Guid.Empty ? userId : listingId;
-                this.logger.LogInformation("{parameter} Not found", parameter);
-                return this.BadRequest(parameter);
-            }
-
-            var result = await this.austinUploaderService.GetReverseProspectListing(listingId, userId, usingDatabase);
+            var result = await this.austinUploaderService.GetReverseProspectListing(listingId, usingDatabase, cancellationToken);
 
             if (result.Code == ResponseCode.Error)
             {

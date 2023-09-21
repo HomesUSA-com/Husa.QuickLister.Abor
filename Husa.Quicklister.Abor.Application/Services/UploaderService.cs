@@ -2,11 +2,14 @@ namespace Husa.Quicklister.Abor.Application.Services
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Uploader;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.ReverseProspect;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Repositories;
@@ -21,22 +24,26 @@ namespace Husa.Quicklister.Abor.Application.Services
         private readonly IListingSaleRepository listingSaleRepository;
         private readonly IReverseProspectRepository reverseProspectRepository;
         private readonly IReverseProspectClient reverseProspectClient;
+        private readonly IUserContextProvider userContextProvider;
 
         public UploaderService(
             IListingSaleRepository listingSaleRepository,
             IReverseProspectRepository reverseProspectRepository,
             IReverseProspectClient reverseProspectClient,
+            IUserContextProvider userContextProvider,
             ILogger<UploaderService> logger)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.reverseProspectRepository = reverseProspectRepository ?? throw new ArgumentNullException(nameof(reverseProspectRepository));
+            this.userContextProvider = userContextProvider ?? throw new ArgumentNullException(nameof(userContextProvider));
             this.reverseProspectClient = reverseProspectClient ?? throw new ArgumentNullException(nameof(reverseProspectClient));
             this.listingSaleRepository = listingSaleRepository ?? throw new ArgumentNullException(nameof(listingSaleRepository));
         }
 
-        public async Task<CommandResult<ReverseProspectData>> GetReverseProspectListing(Guid listingId, Guid userId, bool usingDatabase = true)
+        public async Task<CommandResult<ReverseProspectData>> GetReverseProspectListing(Guid listingId, bool usingDatabase = true, CancellationToken cancellationToken = default)
         {
-            var saleListing = await this.listingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<Domain.Entities.Listing.SaleListing>(listingId);
+            var userId = this.userContextProvider.GetCurrentUserId();
+            var saleListing = await this.listingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
             await this.reverseProspectRepository.AddAsync(new ReverseProspect(listingId, userId, saleListing.CompanyId, null, ReverseProspectStatus.Requested));
 
             var reverseProspect = usingDatabase ? await this.reverseProspectRepository.GetReverseProspectByTrackingId(listingId) : null;

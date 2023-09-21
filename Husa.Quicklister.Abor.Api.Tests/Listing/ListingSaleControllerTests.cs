@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Security.Claims;
+    using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Common.Classes;
@@ -339,7 +340,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
             };
 
             this.austinUploaderService
-                .Setup(x => x.GetReverseProspectListing(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<bool>()))
+                .Setup(x => x.GetReverseProspectListing(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(CommandResult<ReverseProspectData>.Success(trackingReverseProspect));
 
             var claims = new List<Claim>
@@ -370,7 +371,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
 
             // Assert
             this.listingSaleService.Verify();
-            this.austinUploaderService.Verify(x => x.GetReverseProspectListing(It.Is<Guid>(x => x == listingId), It.IsAny<Guid>(), It.IsAny<bool>()), Times.Once);
+            this.austinUploaderService.Verify(x => x.GetReverseProspectListing(It.Is<Guid>(x => x == listingId), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Once);
             Assert.NotNull(response);
         }
 
