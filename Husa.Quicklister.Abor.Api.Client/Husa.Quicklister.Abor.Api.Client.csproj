@@ -8,13 +8,15 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>0.4.0</Version>
+        <Version>0.4.1</Version>
         <PackageReleaseNotes>
-            Release 0.4.0:
+            Release 0.4.1:
             - Added AgentMarketUniqueId(s) to ListingSaleRequest response contract
             - Added Rooms Features to the request projection
             - Updated contigency enum
             - Removed ContractDate from ListingSaleRequest response contract
+            - Updated Open House contracts
+            - Added refreshments enum for Open House
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
