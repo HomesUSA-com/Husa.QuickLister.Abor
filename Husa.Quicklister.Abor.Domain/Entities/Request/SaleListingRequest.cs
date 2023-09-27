@@ -14,8 +14,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
 
     public class SaleListingRequest : ListingRequest
     {
-        public const string SummarySection = "MLS";
-
         public SaleListingRequest(SaleListing saleListing, Guid userId)
             : base(
                   saleListing.MlsStatus,
