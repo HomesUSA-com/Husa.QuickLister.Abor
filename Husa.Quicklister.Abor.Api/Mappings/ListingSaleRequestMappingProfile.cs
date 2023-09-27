@@ -7,7 +7,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
-    using Husa.Quicklister.Abor.Data.Documents.QueryFilters;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -17,6 +16,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
+    using Husa.Quicklister.Extensions.Data.Documents.Models;
+    using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using DocumentModels = Husa.Quicklister.Abor.Data.Documents.Models;
@@ -64,10 +65,10 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.SysTimestamp, config => config.Ignore());
 
             this.CreateMap<RequestBaseFilter, RequestBaseQueryFilter>();
-            this.CreateMap<SaleListingRequestFilter, ListingSaleRequestQueryFilter>();
+            this.CreateMap<SaleListingRequestFilter, SaleListingRequestQueryFilter>();
 
-            this.CreateMap<DocumentModels.SummarySectionQueryResult, SummarySectionContract>();
-            this.CreateMap<DocumentModels.SummaryFieldQueryResult, SummaryFieldContract>();
+            this.CreateMap<SummarySectionQueryResult, SummarySectionContract>();
+            this.CreateMap<SummaryFieldQueryResult, SummaryFieldContract>();
 
             this.CreateMap<ListingSaleStatusFieldsDto, StatusFieldsRecord>();
             this.CreateMap<ListingSalePublishInfoDto, PublishFieldsRecord>();

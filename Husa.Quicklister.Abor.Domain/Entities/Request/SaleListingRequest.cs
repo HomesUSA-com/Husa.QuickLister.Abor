@@ -83,22 +83,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
             this.SaleProperty.UpdateInformation(salePropertyValue);
         }
 
-        public virtual IEnumerable<SummarySection> GetSummary(SaleListingRequest previousRequest)
-        {
-            var summarySections = new List<SummarySection>
-            {
-                this.GenerateSummary(previousRequest),
-            };
-
-            if (previousRequest is null || !this.SaleProperty.Equals(previousRequest.SaleProperty))
-            {
-                summarySections.AddRange(this.SaleProperty.GetSummarySections(previousRequest?.SaleProperty));
-            }
-
-            summarySections.Add(this.StatusFieldsInfo.GetSummary(previousRequest?.StatusFieldsInfo, this.MlsStatus));
-
-            return summarySections.Where(summary => summary != null);
-        }
+        public override IEnumerable<SummarySection> GetSummary<TListingRequest>(TListingRequest previousRequest)
+            => this.GetSummary(previousRequest as SaleListingRequest);
 
         protected SummarySection GenerateSummary(SaleListingRequest previousRequest)
         {
@@ -127,6 +113,23 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
                 Name = SummarySection,
                 Fields = summaryFields,
             };
+        }
+
+        private IEnumerable<SummarySection> GetSummary(SaleListingRequest previousRequest)
+        {
+            var summarySections = new List<SummarySection>
+            {
+                this.GenerateSummary(previousRequest),
+            };
+
+            if (previousRequest is null || !this.SaleProperty.Equals(previousRequest.SaleProperty))
+            {
+                summarySections.AddRange(this.SaleProperty.GetSummarySections(previousRequest?.SaleProperty));
+            }
+
+            summarySections.Add(this.StatusFieldsInfo.GetSummary(previousRequest?.StatusFieldsInfo, this.MlsStatus));
+
+            return summarySections.Where(summary => summary != null);
         }
     }
 }

@@ -70,6 +70,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
                 nameof(this.SysCreatedOn),
                 nameof(this.SysCreatedBy),
                 nameof(this.SysModifiedOn),
+                nameof(this.SysTimestamp),
             });
     }
 }

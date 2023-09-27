@@ -57,6 +57,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
+    using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
+    using Husa.Quicklister.Extensions.Data.Queries.Repositories;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Husa.ReverseProspect.Api.Client;
     using Husa.Xml.Api.Client;
