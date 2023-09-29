@@ -230,25 +230,19 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
         }
 
-        public virtual bool ImportOpenHouseInfoFromMarket(IEnumerable<SaleListingOpenHouse> openHouses)
+        public virtual bool ImportOpenHouseInfoFromMarket(SaleListingOpenHouse openHouse)
         {
-            if (openHouses is null)
+            if (openHouse is null)
             {
-                throw new ArgumentNullException(nameof(openHouses));
+                throw new ArgumentNullException(nameof(openHouse));
             }
 
-            if (this.OpenHouses.Any())
+            if (!this.ShowingInfo.EnableOpenHouses)
             {
-                return false;
+                this.ShowingInfo.EnableOpenHouse();
             }
 
-            if (!openHouses.Any())
-            {
-                return false;
-            }
-
-            this.ShowingInfo.EnableOpenHouse();
-            this.UpdateOpenHouse(openHouses);
+            this.OpenHouses.Add(openHouse);
             return true;
         }
 

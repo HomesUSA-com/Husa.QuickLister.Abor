@@ -876,37 +876,12 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             saleProperty.SetupGet(sp => sp.Id).Returns(propertyId);
 
             saleProperty
-                .Setup(x => x.ImportOpenHouseInfoFromMarket(It.IsAny<List<SaleListingOpenHouse>>()))
+                .Setup(x => x.ImportOpenHouseInfoFromMarket(It.IsAny<SaleListingOpenHouse>()))
                 .CallBase()
                 .Verifiable();
 
             // Act and Assert
-            Assert.Throws<ArgumentNullException>(() => saleProperty.Object.ImportOpenHouseInfoFromMarket(openHouses: null));
-        }
-
-        [Fact]
-        public void ImportOpenHouseInfoFromMarketWhenOpenHouseDataExistsStopsProcess()
-        {
-            // Arrange
-            var propertyId = Guid.NewGuid();
-            var saleProperty = new Mock<SaleProperty>();
-            saleProperty.SetupGet(sp => sp.Id).Returns(propertyId);
-
-            var propertyOpenHouse = new Mock<SaleListingOpenHouse>();
-            saleProperty
-                .SetupGet(sp => sp.OpenHouses)
-                .Returns(new[] { propertyOpenHouse.Object });
-
-            saleProperty
-                .Setup(x => x.ImportOpenHouseInfoFromMarket(It.IsAny<List<SaleListingOpenHouse>>()))
-                .CallBase()
-                .Verifiable();
-
-            // Act
-            var isOpenHouseImported = saleProperty.Object.ImportOpenHouseInfoFromMarket(openHouses: Array.Empty<SaleListingOpenHouse>());
-
-            // Assert
-            Assert.False(isOpenHouseImported);
+            Assert.Throws<ArgumentNullException>(() => saleProperty.Object.ImportOpenHouseInfoFromMarket(openHouse: null));
         }
 
         [Fact]
@@ -928,7 +903,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 .Returns(showingInfo.Object);
 
             saleProperty
-                .Setup(x => x.ImportOpenHouseInfoFromMarket(It.IsAny<IEnumerable<SaleListingOpenHouse>>()))
+                .Setup(x => x.ImportOpenHouseInfoFromMarket(It.IsAny<SaleListingOpenHouse>()))
                 .CallBase();
 
             var refreshments = new List<Refreshments> { Refreshments.Beverages, Refreshments.Snacks };
@@ -941,7 +916,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 refreshments: refreshments);
 
             // Act
-            var isOpenHouseImported = saleProperty.Object.ImportOpenHouseInfoFromMarket(openHouses: new[] { openHouseInfo });
+            var isOpenHouseImported = saleProperty.Object.ImportOpenHouseInfoFromMarket(openHouse: openHouseInfo);
 
             // Assert
             Assert.True(isOpenHouseImported);

@@ -36,6 +36,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Notes;
     using Husa.Quicklister.Abor.Application.Interfaces.Office;
+    using Husa.Quicklister.Abor.Application.Interfaces.OpenHouse;
     using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Interfaces.Uploader;
@@ -118,6 +119,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IOfficeService, OfficeService>();
             services.AddScoped<IDownloaderService, DownloaderService>();
             services.AddScoped<IMediaService, MediaService>();
+            services.AddScoped<IOpenHouseService, OpenHouseService>();
 
             services.AddScoped<ISaleListingService, SaleListingService>();
             services.AddScoped<ISaleListingNotesService, SaleListingNotesService>();

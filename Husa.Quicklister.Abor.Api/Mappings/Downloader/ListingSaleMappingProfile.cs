@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using OpenHouseMessage = Husa.Downloader.CTX.ServiceBus.Contracts.ResidentialOpenHousesMessage;
 
     public class ListingSaleMappingProfile : Profile
     {

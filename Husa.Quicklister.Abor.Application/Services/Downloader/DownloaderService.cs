@@ -12,7 +12,6 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Listing;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Crosscutting;
@@ -104,20 +103,6 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             }
 
             await this.listingSaleRepository.SaveChangesAsync(listingSale);
-        }
-
-        public async Task ProcessOpenHouseFromDownloaderAsync(string mlsNumber, IEnumerable<OpenHouseDto> openHousesDto)
-        {
-            var saleListing = await this.listingSaleRepository.GetListingByMlsNumber(mlsNumber) ?? throw new NotFoundException<SaleListing>(mlsNumber);
-            this.logger.LogInformation("Starting to process open houses from downloader for listing sale with Mls number {mlsNumber}", mlsNumber);
-            var openHouses = this.mapper.Map<IEnumerable<SaleListingOpenHouse>>(openHousesDto);
-            if (!saleListing.SaleProperty.ImportOpenHouseInfoFromMarket(openHouses))
-            {
-                this.logger.LogInformation("The open house information for the listing with mls number {mlsNumber} was not imported", mlsNumber);
-                return;
-            }
-
-            await this.listingSaleRepository.SaveChangesAsync(saleListing);
         }
 
         public async Task ImportMediaFromMlsAsync(Guid listingId)
