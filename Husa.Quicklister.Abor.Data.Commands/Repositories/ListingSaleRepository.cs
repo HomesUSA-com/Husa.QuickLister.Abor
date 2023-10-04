@@ -99,5 +99,10 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
 
             return await query.ToListAsync();
         }
+
+        public Task<IEnumerable<SaleListing>> GetListingsByCompanyId(Guid companyId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
