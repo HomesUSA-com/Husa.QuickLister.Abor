@@ -69,7 +69,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(saleCommunity)
                 .Verifiable();
             this.saleRequestRepository
-                .Setup(sl => sl.GetLastCompletedRequestAsync(It.Is<Guid>(id => id == unlockedListingId), It.IsAny<DateTime>(), It.IsAny<CancellationToken>()))
+                .Setup(sl => sl.GetLastCompletedRequestAsync(It.Is<Guid>(id => id == unlockedListingId), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(lastListingRequest.Object)
                 .Verifiable();
             this.userContextProvider
@@ -85,11 +85,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
             // Assert
             Assert.Equal(ResponseCode.Success, result.Code);
             var objectResult = Assert.IsAssignableFrom<CommunityRequestsResponse>(result.Result);
+            Assert.Single(objectResult.CreatedListingRequestIds);
             Assert.Single(objectResult.LockedListings);
 
             this.userQueriesRepository.Verify(sl => sl.FillUsersNameAsync(It.Is<IEnumerable<IProvideQuicklisterUserInfo>>(x => x.Any(x => x.LockedBy == lockedListingBy))), Times.Once);
-            this.saleRequestRepository.Verify(sl => sl.AddListingSaleRequestAsync(It.Is<SaleListingRequest>(x => x.Id == saleListingRequestId), It.IsAny<CancellationToken>()), Times.Never);
-            this.mediaService.Verify(sl => sl.CreateMediaRequestAsync(It.Is<Guid>(x => x == unlockedListingId), It.Is<Guid>(x => x == saleListingRequestId), It.IsAny<bool>()), Times.Never);
+            this.saleRequestRepository.Verify(sl => sl.AddListingSaleRequestAsync(It.Is<SaleListingRequest>(x => x.Id == saleListingRequestId), It.IsAny<CancellationToken>()), Times.Once);
+            this.mediaService.Verify(sl => sl.CreateMediaRequestAsync(It.Is<Guid>(x => x == unlockedListingId), It.Is<Guid>(x => x == saleListingRequestId), It.IsAny<bool>()), Times.Once);
         }
 
         [Fact]

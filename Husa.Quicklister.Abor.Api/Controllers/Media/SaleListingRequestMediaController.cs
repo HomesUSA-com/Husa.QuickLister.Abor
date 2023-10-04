@@ -7,20 +7,27 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Filters;
     using Husa.MediaService.Api.Contracts.Request;
+    using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
 
     [ApiController]
     [Route("sale-listing-requests/{listingRequestId}/media")]
     public class SaleListingRequestMediaController : Controller
     {
         private readonly IListingRequestMediaService requestMediaService;
-        private readonly ILogger<SaleListingMediaController> logger;
-        public SaleListingRequestMediaController(IListingRequestMediaService requestMediaService, ILogger<SaleListingMediaController> logger)
+        private readonly ILogger<SaleListingRequestMediaController> logger;
+        private readonly ApplicationOptions options;
+        public SaleListingRequestMediaController(
+            IListingRequestMediaService requestMediaService,
+            IOptions<ApplicationOptions> options,
+            ILogger<SaleListingRequestMediaController> logger)
         {
             this.requestMediaService = requestMediaService ?? throw new ArgumentNullException(nameof(requestMediaService));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
         [HttpGet]
@@ -29,7 +36,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to get the media resources for the entity {listingRequestId}", listingRequestId);
 
-            var resource = await this.requestMediaService.GetResources(listingRequestId);
+            var resource = await this.requestMediaService.GetAsync(listingRequestId);
 
             return this.Ok(resource);
         }
@@ -40,29 +47,29 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to get the media for the entity {listingRequestId} and media Id '{mediaId}'", listingRequestId, mediaId);
 
-            var resource = await this.requestMediaService.GetById(listingRequestId, mediaId);
+            var resource = await this.requestMediaService.Resource.GetById(listingRequestId, mediaId);
 
             return this.Ok(resource);
         }
 
         [HttpPost]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> CreateAsync([FromRoute] Guid listingRequestId, [FromBody] SimpleMedia media)
+        public async Task<IActionResult> CreateAsync([FromRoute] Guid listingRequestId, [FromBody] Media media)
         {
             this.logger.LogInformation("Starting to add media to entity id {listingRequestId}", listingRequestId);
 
-            await this.requestMediaService.CreateAsync(listingRequestId, media);
+            await this.requestMediaService.Resource.CreateAsync(listingRequestId, media, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
 
             return this.Ok();
         }
 
         [HttpPut]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> ReplaceAsync([FromRoute] Guid listingRequestId, [FromBody] SimpleMedia media)
+        public async Task<IActionResult> ReplaceAsync([FromRoute] Guid listingRequestId, [FromBody] Media media)
         {
             this.logger.LogInformation("Starting to replace media with id {mediaId} for entity id {listingRequestId}", media.Id, listingRequestId);
 
-            await this.requestMediaService.ReplaceAsync(listingRequestId, media);
+            await this.requestMediaService.Resource.ReplaceAsync(listingRequestId, media);
 
             return this.Ok();
         }
@@ -73,7 +80,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to delete media with id {mediaId}", mediaId);
 
-            await this.requestMediaService.DeleteById(listingRequestId, mediaId);
+            await this.requestMediaService.Resource.DeleteByIdAsync(listingRequestId, mediaId, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
 
             return this.Ok();
         }
@@ -83,7 +90,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to delete media to the entity id {listingRequestId}", listingRequestId);
 
-            await this.requestMediaService.DeleteResources(listingRequestId);
+            await this.requestMediaService.Resource.DeleteAsync(listingRequestId);
 
             return this.Ok();
         }
@@ -94,7 +101,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to update media with id {mediaId}", mediaId);
 
-            await this.requestMediaService.UpdateAsync(listingRequestId, mediaId, media);
+            await this.requestMediaService.Resource.UpdateAsync(listingRequestId, mediaId, media);
 
             return this.Ok();
         }
@@ -105,7 +112,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to update {count} resources", media.Count());
 
-            await this.requestMediaService.UpdateResourcesAsync(listingRequestId, media);
+            await this.requestMediaService.Resource.BulkUpdateAsync(listingRequestId, media, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
 
             return this.Ok();
         }

@@ -7,7 +7,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading.Tasks;
     using Husa.Downloader.CTX.Api.Client;
     using Husa.Downloader.CTX.Api.Contracts.Response;
-    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
@@ -84,7 +83,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Verifiable();
 
             this.mediaService
-               .Setup(r => r.Resource.BulkCreateAsync(It.IsAny<Guid>(), It.IsAny<MarketCode>(), It.IsAny<IEnumerable<ListingSaleMediaDto>>(), It.IsAny<int>()))
+               .Setup(r => r.Resource.BulkCreateAsync(It.IsAny<Guid>(), It.IsAny<IEnumerable<ListingSaleMediaDto>>(), It.IsAny<int>()))
                .Verifiable();
 
             // Act

@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Azure.Messaging.ServiceBus;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Cache;
+    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Media.Interfaces;
     using Husa.MediaService.Client;
     using Husa.MediaService.Domain.Enums;
@@ -15,7 +16,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
-    public class SaleListingMediaService : MediaService<IListingSaleRepository, SaleListing>, ISaleListingMediaService
+    public class SaleListingMediaService : MediaServiceEntity<IListingSaleRepository, SaleListing>, ISaleListingMediaService
     {
         public SaleListingMediaService(
             IOptions<ServiceBusSettings> serviceBusSettings,
@@ -39,6 +40,8 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                logger)
         {
         }
+
+        public override MarketCode Market => MarketCode.Austin;
 
         public override MediaType MediaType => MediaType.Residential;
     }

@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
     using Azure.Messaging.ServiceBus;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Cache;
+    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Media.Interfaces;
     using Husa.MediaService.Client;
     using Husa.MediaService.Domain.Enums;
@@ -15,7 +16,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
-    public class PlanMediaService : MediaService<IPlanRepository, Plan>, IPlanMediaService
+    public class PlanMediaService : MediaServiceEntity<IPlanRepository, Plan>, IPlanMediaService
     {
         public PlanMediaService(
             IOptions<ServiceBusSettings> serviceBusSettings,
@@ -39,6 +40,8 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
                logger)
         {
         }
+
+        public override MarketCode Market => MarketCode.Austin;
 
         public override MediaType MediaType => MediaType.PlanProfile;
     }

@@ -11,7 +11,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Downloader.CTX.Api.Client.Interface;
     using Husa.Downloader.CTX.Api.Contracts.Response;
     using Husa.Extensions.Common.Classes;
-    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.MediaService.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
@@ -253,7 +252,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             mlsMediaResource.Verify();
             this.mediaService.Verify();
             this.mediaService.Verify(r => r.Resource.DeleteAsync(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()), Times.Once);
-            resourceMock.Verify(r => r.BulkCreateAsync(It.Is<Guid>(id => id == listingId), It.IsAny<MarketCode>(), It.IsAny<IEnumerable<ListingSaleMediaDto>>(), It.IsAny<int>()), Times.Once);
+            resourceMock.Verify(r => r.BulkCreateAsync(It.Is<Guid>(id => id == listingId), It.IsAny<IEnumerable<ListingSaleMediaDto>>(), It.IsAny<int>()), Times.Once);
         }
     }
 }

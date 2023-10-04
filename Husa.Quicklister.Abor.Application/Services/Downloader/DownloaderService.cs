@@ -123,7 +123,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             }
 
             await this.listingMediaService.Resource.DeleteAsync(listingId);
-            await this.listingMediaService.Resource.BulkCreateAsync(listingId, MarketCode.Austin, mlsMedia, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
+            await this.listingMediaService.Resource.BulkCreateAsync(listingId, mlsMedia, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
         }
     }
 }
