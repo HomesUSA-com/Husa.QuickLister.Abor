@@ -2,7 +2,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 {
     using System;
     using AutoMapper;
-    using Husa.Downloader.Sabor.Api.Contracts.Response;
+    using Husa.Downloader.CTX.Api.Contracts.Response;
     using Husa.Extensions.Common;
     using Husa.Extensions.Common.Enums;
     using Husa.Notes.Api.Contracts.Response;
@@ -230,7 +230,13 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<PublishInfo, ListingSalePublishInfoResponse>();
 
-            this.CreateMap<MediaResponse, ListingSaleMediaDto>();
+            this.CreateMap<MediaResponse, ListingSaleMediaDto>()
+                .ForMember(ls => ls.UploadKey, mr => mr.Ignore())
+                .ForMember(ls => ls.Title, mr => mr.Ignore());
+
+            this.CreateMap<MediaDetailResponse, ListingSaleMediaDto>()
+                .ForMember(ls => ls.MediaId, mr => mr.MapFrom(x => x.EntityKey))
+                .ForMember(ls => ls.UploadKey, mr => mr.Ignore());
 
             this.CreateMap<BaseAlertFilterRequest, BaseAlertQueryFilter>();
             this.CreateMap<BaseFilterRequest, BaseQueryFilter>();

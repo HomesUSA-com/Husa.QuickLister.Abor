@@ -5,7 +5,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Azure.Messaging.ServiceBus;
     using Husa.CompanyServicesManager.Api.Client;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
-    using Husa.Downloader.Sabor.Client;
+    using Husa.Downloader.CTX.Api.Client;
     using Husa.Extensions.Api;
     using Husa.Extensions.Api.Client;
     using Husa.Extensions.Api.Cors;
@@ -42,6 +42,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Application.Media;
     using Husa.Quicklister.Abor.Application.Services;
     using Husa.Quicklister.Abor.Application.Services.Communities;
+    using Husa.Quicklister.Abor.Application.Services.Downloader;
     using Husa.Quicklister.Abor.Application.Services.ListingRequests;
     using Husa.Quicklister.Abor.Application.Services.Notes;
     using Husa.Quicklister.Abor.Application.Services.Plans;
@@ -114,6 +115,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IAgentService, AgentService>();
             services.AddScoped<IOfficeService, OfficeService>();
             services.AddScoped<IDownloaderService, DownloaderService>();
+            services.AddScoped<IMediaService, MediaService>();
 
             services.AddScoped<ISaleListingService, SaleListingService>();
             services.AddScoped<ISaleListingNotesService, SaleListingNotesService>();
@@ -269,11 +271,11 @@ namespace Husa.Quicklister.Abor.Api.Configuration
                 await client.ConfigureClientAsync(provider, options.Services.CompanyServicesManager);
             }).ConfigureHeaderHandling(withTokenRequest);
 
-            services.AddHttpClient<IDownloaderSaborClient, DownloaderSaborClient>(async (provider, client) =>
+            services.AddHttpClient<IDownloaderCtxClient, DownloaderCtxClient>(async (provider, client) =>
             {
                 var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
                 await client.ConfigureClientAsync(provider, options.Services.Downloader);
-            }).AddHeaderPropagation();
+            }).ConfigureHeaderHandling(withTokenRequest);
 
             services.AddHttpClient<IPhotoServiceClient, PhotoServiceClient>(async (provider, client) =>
             {

@@ -7,16 +7,16 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
-    using Husa.Downloader.Sabor.Api.Contracts.Response;
-    using Husa.Downloader.Sabor.Client;
-    using Husa.Downloader.Sabor.Client.Interfaces;
+    using Husa.Downloader.CTX.Api.Client;
+    using Husa.Downloader.CTX.Api.Client.Interface;
+    using Husa.Downloader.CTX.Api.Contracts.Response;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.MediaService.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Application.Services;
+    using Husa.Quicklister.Abor.Application.Services.Downloader;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Agent;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -39,7 +39,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<IAgentRepository> agentRepository = new();
         private readonly Mock<ISaleListingMediaService> mediaService = new();
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
-        private readonly Mock<IDownloaderSaborClient> downloaderSaborClient = new();
+        private readonly Mock<IDownloaderCtxClient> downloaderCtxClient = new();
         private readonly Mock<ILogger<DownloaderService>> logger = new();
 
         public DownloaderServiceTests(ApplicationServicesFixture fixture)
@@ -47,7 +47,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
             this.Sut = new DownloaderService(
                 this.listingSaleRepository.Object,
-                this.downloaderSaborClient.Object,
+                this.downloaderCtxClient.Object,
                 this.mediaService.Object,
                 this.agentRepository.Object,
                 this.serviceSubscriptionClient.Object,
@@ -84,7 +84,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         public async Task WhenCallProcessDataFromDownloaderAsyncAndListingNotExistsAndSuccess_ListingSaleIsCreatesOnDatabase()
         {
             // Arrange
-            const string sellingAgent = "some-listing-agent";
+            const string agentMarketUniqueId = "some-agent-unique-id";
             var agentId = Guid.NewGuid();
             var fullListingSaleDto = TestModelProvider.GetFullListingSaleDto();
             var roomsDto = TestModelProvider.GetRoomsDtoList();
@@ -110,11 +110,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var agent = new Mock<Agent>();
             agent.SetupGet(a => a.Id).Returns(agentId);
             this.agentRepository
-                .Setup(r => r.GetAgentByLoginName(It.Is<string>(x => x == sellingAgent)))
+                .Setup(r => r.GetAgentByMarketUniqueId(It.Is<string>(x => x == agentMarketUniqueId)))
                 .ReturnsAsync(agent.Object);
 
             // Act
-            await this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, sellingAgent);
+            await this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, agentMarketUniqueId);
 
             // Assert
             this.serviceSubscriptionClient.Verify();
@@ -127,7 +127,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         public async Task WhenCallProcessDataFromDownloaderAsynsAndListingExistsAndSuccess_ListingSaleIsUpdatedOnDatabase()
         {
             // Arrange
-            const string sellingAgent = "some-listing-agent";
+            const string agentMarketUniqueId = "some-agent-unique-id";
             var agentId = Guid.NewGuid();
             var listingSaleId = Guid.NewGuid();
             var fullListingSaleDto = TestModelProvider.GetFullListingSaleDto();
@@ -153,11 +153,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var agent = new Mock<Agent>();
             agent.SetupGet(a => a.Id).Returns(agentId);
             this.agentRepository
-                .Setup(r => r.GetAgentByLoginName(It.Is<string>(x => x == sellingAgent)))
+                .Setup(r => r.GetAgentByMarketUniqueId(It.Is<string>(x => x == agentMarketUniqueId)))
                 .ReturnsAsync(agent.Object);
 
             // Act
-            await this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, sellingAgent);
+            await this.Sut.ProcessDataFromDownloaderAsync(fullListingSaleDto, roomsDto, agentMarketUniqueId);
 
             // Assert
             this.serviceSubscriptionClient.Verify();
@@ -255,95 +255,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Fact]
-        public async Task ProcessMediaFromDownloaderThrowsNotFoundExceptionWhenListingDoesNotExistAsync()
-        {
-            // Arrange
-            const string mlsNumber = "33669911";
-            this.listingSaleRepository
-                .Setup(s => s.GetListingByMlsNumber(It.Is<string>(m => m.Equals(mlsNumber))))
-                .ReturnsAsync((SaleListing)null)
-                .Verifiable();
-
-            // Act
-            var notFoundException = await Assert.ThrowsAsync<NotFoundException<SaleListing>>(() => this.Sut.ProcessMediaFromDownloaderAsync(
-                mlsNumber,
-                mediaDto: Array.Empty<ListingSaleMediaDto>()));
-
-            // Assert
-            this.listingSaleRepository.Verify();
-            Assert.Equal(mlsNumber, notFoundException.Id);
-        }
-
-        [Fact(Skip = "fail")]
-        public async Task ProcessMediaFromDownloaderNoMediaUpdatedWhenCountIsTheSameAsync()
-        {
-            // Arrange
-            const string mlsNumber = "33669911";
-            var listingId = Guid.NewGuid();
-            var mediaId = Guid.NewGuid();
-            var saleListing = new Mock<SaleListing>();
-            saleListing.SetupGet(sl => sl.Id).Returns(listingId);
-            this.listingSaleRepository
-                .Setup(s => s.GetListingByMlsNumber(It.Is<string>(m => m.Equals(mlsNumber))))
-                .ReturnsAsync(saleListing.Object)
-                .Verifiable();
-            var mediaDetail = new MediaDetail { Id = mediaId };
-            this.mediaService
-                .Setup(ms => ms.GetAsync(It.Is<Guid>(id => id == listingId)))
-                .ReturnsAsync(new ResourceResponse
-                {
-                    Media = new[] { mediaDetail },
-                })
-                .Verifiable();
-            var listingMedia = new ListingSaleMediaDto { MediaId = mediaId.ToString() };
-
-            // Act
-            await this.Sut.ProcessMediaFromDownloaderAsync(mlsNumber, mediaDto: new[] { listingMedia });
-
-            // Assert
-            this.listingSaleRepository.Verify();
-            this.mediaService.Verify();
-            this.mediaService.VerifyGet(ms => ms.Resource, Times.Never);
-        }
-
-        [Fact]
-        public async Task ProcessMediaFromDownloaderMediaUpdatedWhenCountIsNotTheSameAsync()
-        {
-            // Arrange
-            const string mlsNumber = "33669911";
-            var listingId = Guid.NewGuid();
-            var mediaId = Guid.NewGuid();
-            var saleListing = new Mock<SaleListing>();
-            saleListing.SetupGet(sl => sl.Id).Returns(listingId);
-            this.listingSaleRepository
-                .Setup(s => s.GetListingByMlsNumber(It.Is<string>(m => m.Equals(mlsNumber))))
-                .ReturnsAsync(saleListing.Object)
-                .Verifiable();
-            var mediaDetail = new MediaDetail { Id = mediaId };
-            var listingMedia = GetMediaToProcess();
-            this.mediaService
-                .Setup(ms => ms.GetAsync(It.Is<Guid>(id => id == listingId)))
-                .ReturnsAsync(new ResourceResponse
-                {
-                    Media = new[] { mediaDetail },
-                })
-                .Verifiable();
-            var resourceMock = new Mock<IResourceService>();
-            this.mediaService
-                .SetupGet(ms => ms.Resource)
-                .Returns(resourceMock.Object);
-
-            // Act
-            await this.Sut.ProcessMediaFromDownloaderAsync(mlsNumber, mediaDto: listingMedia);
-
-            // Assert
-            this.listingSaleRepository.Verify();
-            this.mediaService.VerifyGet(ms => ms.Resource, Times.AtLeast(1));
-            this.mediaService.Verify(r => r.Resource.DeleteAsync(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()), Times.Once);
-            resourceMock.Verify(r => r.BulkCreateAsync(It.Is<Guid>(id => id == listingId), It.IsAny<MarketCode>(), It.IsAny<IEnumerable<ListingSaleMediaDto>>(), It.IsAny<int>()), Times.Once);
-        }
-
-        [Fact]
         public async Task ImportMediaFromMlsThrowsNotFoundExceptionWhenListingDoesNotExistAsync()
         {
             // Arrange
@@ -380,7 +291,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(Array.Empty<MediaResponse>())
                 .Verifiable();
 
-            this.downloaderSaborClient.SetupGet(d => d.MlsMedia).Returns(mlsMediaResource.Object);
+            this.downloaderCtxClient.SetupGet(d => d.MlsMedia).Returns(mlsMediaResource.Object);
 
             // Act
             await this.Sut.ImportMediaFromMlsAsync(listingId);
@@ -411,7 +322,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(new[] { mediaResponse })
                 .Verifiable();
 
-            this.downloaderSaborClient.SetupGet(d => d.MlsMedia).Returns(mlsMediaResource.Object);
+            this.downloaderCtxClient.SetupGet(d => d.MlsMedia).Returns(mlsMediaResource.Object);
 
             var resourceMock = new Mock<IResourceService>();
             this.mediaService
@@ -432,22 +343,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.mediaService.Verify();
             this.mediaService.Verify(r => r.Resource.DeleteAsync(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()), Times.Once);
             resourceMock.Verify(r => r.BulkCreateAsync(It.Is<Guid>(id => id == listingId), It.IsAny<MarketCode>(), It.IsAny<IEnumerable<ListingSaleMediaDto>>(), It.IsAny<int>()), Times.Once);
-        }
-
-        private static IEnumerable<ListingSaleMediaDto> GetMediaToProcess(int mediaToCreate = 5)
-        {
-            for (int i = 1; i <= mediaToCreate; i++)
-            {
-                yield return new()
-                {
-                    MediaId = Guid.NewGuid().ToString(),
-                    Height = 10,
-                    Width = 10,
-                    Order = i,
-                    Title = $"Title Image {i}",
-                    Uri = "https://www.google.com/",
-                };
-            }
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Application.Services
+namespace Husa.Quicklister.Abor.Application.Services.Downloader
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Application.Services
     using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.CompanyServicesManager.Api.Contracts.Response;
-    using Husa.Downloader.Sabor.Client;
+    using Husa.Downloader.CTX.Api.Client;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
@@ -28,7 +28,7 @@ namespace Husa.Quicklister.Abor.Application.Services
         private readonly IMapper mapper;
         private readonly IListingSaleRepository listingSaleRepository;
         private readonly ILogger<DownloaderService> logger;
-        private readonly IDownloaderSaborClient downloaderSaborClient;
+        private readonly IDownloaderCtxClient downloaderCtxClient;
         private readonly ISaleListingMediaService listingMediaService;
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
         private readonly IAgentRepository agentRepository;
@@ -36,7 +36,7 @@ namespace Husa.Quicklister.Abor.Application.Services
 
         public DownloaderService(
             IListingSaleRepository listingSaleRepository,
-            IDownloaderSaborClient downloaderSaborClient,
+            IDownloaderCtxClient downloaderCtxClient,
             ISaleListingMediaService saleListingMediaService,
             IAgentRepository agentRepository,
             IServiceSubscriptionClient serviceSubscriptionClient,
@@ -44,7 +44,7 @@ namespace Husa.Quicklister.Abor.Application.Services
             IMapper mapper,
             ILogger<DownloaderService> logger)
         {
-            this.downloaderSaborClient = downloaderSaborClient ?? throw new ArgumentNullException(nameof(downloaderSaborClient));
+            this.downloaderCtxClient = downloaderCtxClient ?? throw new ArgumentNullException(nameof(downloaderCtxClient));
             this.listingMediaService = saleListingMediaService ?? throw new ArgumentNullException(nameof(saleListingMediaService));
             this.listingSaleRepository = listingSaleRepository ?? throw new ArgumentNullException(nameof(listingSaleRepository));
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
@@ -57,7 +57,7 @@ namespace Husa.Quicklister.Abor.Application.Services
         public async Task ProcessDataFromDownloaderAsync(
             FullListingSaleDto listingSaleDto,
             IEnumerable<RoomDto> roomsDto,
-            string sellingAgent)
+            string agentMarketUniqueId)
         {
             var companyName = listingSaleDto.SaleProperty.SalePropertyInfo.OwnerName;
             var companies = await this.serviceSubscriptionClient.Company.GetAsync(new()
@@ -81,7 +81,7 @@ namespace Husa.Quicklister.Abor.Application.Services
                 addressInfoDto.ZipCode);
 
             var listingStatusInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingSaleDto.StatusFieldsInfo);
-            var agent = await this.agentRepository.GetAgentByLoginName(sellingAgent);
+            var agent = await this.agentRepository.GetAgentByMarketUniqueId(agentMarketUniqueId);
             listingStatusInfo.SetStatusChangeAgent(agent);
             var listingInfo = this.mapper.Map<ListingValueObject>(listingSaleDto);
             var salePropertyInfo = this.mapper.Map<SalePropertyValueObject>(listingSaleDto.SaleProperty);
@@ -120,18 +120,11 @@ namespace Husa.Quicklister.Abor.Application.Services
             await this.listingSaleRepository.SaveChangesAsync(saleListing);
         }
 
-        public async Task ProcessMediaFromDownloaderAsync(string mlsNumber, IEnumerable<ListingSaleMediaDto> mediaDto)
-        {
-            var listingSale = await this.listingSaleRepository.GetListingByMlsNumber(mlsNumber) ?? throw new NotFoundException<SaleListing>(mlsNumber);
-            this.logger.LogInformation("Starting to process media from downloader for listing sale with Mls number {mlsNumber}", mlsNumber);
-            await this.CreateMediaAsync(listingSale.Id, mediaDto);
-        }
-
         public async Task ImportMediaFromMlsAsync(Guid listingId)
         {
             var listingSale = await this.listingSaleRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
             this.logger.LogInformation("Listing Sale service is starting to import media from ABOR market for listing with id {listingId}", listingId);
-            var mlsMedia = await this.downloaderSaborClient.MlsMedia.ImportSaleListingPhotosAsync(listingSale.MlsNumber);
+            var mlsMedia = await this.downloaderCtxClient.MlsMedia.ImportSaleListingPhotosAsync(listingSale.MlsNumber);
             var mediaDto = this.mapper.Map<IEnumerable<ListingSaleMediaDto>>(mlsMedia);
             await this.CreateMediaAsync(listingId, mediaDto);
         }

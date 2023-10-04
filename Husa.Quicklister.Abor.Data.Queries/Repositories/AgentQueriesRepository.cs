@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Husa.Downloader.CTX.Domain.Enums;
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models;
@@ -32,7 +33,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             return await (from agent in this.context.Agent
                             join office in this.context.Office
                             on agent.AgentValue.OfficeId equals office.OfficeValue.MarketUniqueId
-                            where agent.AgentValue.Status == "Active"
+                            where agent.AgentValue.Status == MemberStatus.Active
                             where office.OfficeValue.Status == OfficeStatus.Active
                             select new AgentQueryResult
                             {
@@ -40,7 +41,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                                 FirstName = agent.AgentValue.FirstName,
                                 LastName = agent.AgentValue.LastName,
                                 FullName = agent.FullName,
-                                AgentId = agent.AgentValue.LoginName,
+                                AgentId = agent.AgentValue.MarketUniqueId,
                                 CompanyName = office.OfficeValue.Name,
                             })
                             .ApplySearchByAgentQueryFilter(queryFilter)
@@ -55,14 +56,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             return await (from agent in this.context.Agent
                          join office in this.context.Office
                          on agent.AgentValue.OfficeId equals office.OfficeValue.MarketUniqueId
-                         where agent.AgentValue.Status == "Active" && office.OfficeValue.Status == OfficeStatus.Active && agent.Id == agentId
+                         where agent.AgentValue.Status == MemberStatus.Active && office.OfficeValue.Status == OfficeStatus.Active && agent.Id == agentId
                          select new AgentQueryResult
                          {
                              Id = agent.Id,
                              FirstName = agent.AgentValue.FirstName,
                              LastName = agent.AgentValue.LastName,
                              FullName = agent.FullName,
-                             AgentId = agent.AgentValue.LoginName,
+                             AgentId = agent.AgentValue.MarketUniqueId,
                              CompanyName = office.OfficeValue.Name,
                          })
                         .SingleOrDefaultAsync();

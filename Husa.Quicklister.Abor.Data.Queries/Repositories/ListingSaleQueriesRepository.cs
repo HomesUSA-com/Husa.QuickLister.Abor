@@ -98,7 +98,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             var billableListings = await query
                 .Select(ListingSaleProjection.ProjectToListingSaleBillingQueryResult)
                 .ApplySortByFields(queryFilter.SortBy)
-                .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take)
                 .ToListAsync();
 
             var companyServices = await this.serviceSubscriptionClient.Company.GetCompanyServices(queryFilter.CompanyId, new FilterServiceSubscriptionRequest());

@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Azure.Messaging.ServiceBus;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.CompanyServicesManager.Api.Contracts.Request;
-    using Husa.Downloader.Sabor.Client;
+    using Husa.Downloader.CTX.Api.Client;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.EmailNotification.Services;
     using Husa.Extensions.Media.Interfaces;
@@ -40,7 +40,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             services.AddSingleton(new Mock<IReverseProspectClient>().Object);
             services.MockServiceSubscriptionClient();
             services.MockXmlClient();
-            services.AddSingleton(new Mock<IDownloaderSaborClient>().Object);
+            services.AddSingleton(new Mock<IDownloaderCtxClient>().Object);
             services.AddSingleton(new Mock<IPhotoServiceClient>().Object);
             services.AddSingleton(new Mock<IMediaServiceClient>().Object);
             services.AddSingleton(new Mock<IBlobService>().Object);
