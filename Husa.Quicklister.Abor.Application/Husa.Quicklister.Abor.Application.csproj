@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <AssemblyName>Husa.Quicklister.Abor.Application</AssemblyName>
@@ -10,15 +10,13 @@
         <PackageReference Include="Husa.Extensions.EmailNotification" Version="3.1.0" />
         <PackageReference Include="Husa.Extensions.ServiceBus" Version="4.7.0" />
         <PackageReference Include="Husa.Extensions.Linq" Version="3.4.0" />
-        <PackageReference Include="Husa.Extensions.Media" Version="3.1.0" />
         <PackageReference Include="Husa.CompanyServiceManager.Client" Version="1.2.0" />
         <PackageReference Include="Husa.Downloader.Sabor.Api.Client" Version="1.1.0" />
-        <PackageReference Include="Husa.Migration.Api.Client" Version="1.2.0" />
         <PackageReference Include="Husa.PhotoService.Client" Version="1.1.0" />
         <PackageReference Include="Husa.PhotoService.ServiceBus.Messages" Version="1.1.0" />
         <PackageReference Include="Husa.Notes.Client" Version="1.0.0" />
         <PackageReference Include="Husa.Notes.ServiceBus.Contracts" Version="1.0.0" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Application" Version="1.4.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Application" Version="1.4.3" />
         <PackageReference Include="Husa.ReverseProspect.Api.Client" Version="1.0.0" />
         <PackageReference Include="Husa.Xml.Client" Version="1.0.0" />
         <PackageReference Include="Husa.Xml.ServiceBus.Messages" Version="1.0.0" />

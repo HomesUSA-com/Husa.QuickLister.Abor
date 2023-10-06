@@ -55,6 +55,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Migration;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
@@ -129,6 +130,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.AddScoped<ISaleListingRequestService, SaleListingRequestService>();
             services.AddScoped<IListingRequestMediaService, ListingRequestMediaService>();
+            services.AddScoped<IListingRequestMigrationService, ListingRequestMigrationService>();
 
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<IPlanPhotoService, PlanPhotoService>();

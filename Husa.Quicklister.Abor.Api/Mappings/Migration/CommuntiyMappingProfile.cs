@@ -87,12 +87,12 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.EmailLeadOther, cr => cr.MapFrom(x => x.Email3));
 
             this.CreateMap<OpenHouseResponse, CommunityOpenHouse>()
+                .ForMember(dto => dto.Refreshments, pr => pr.MapFrom(x => x.Refreshments.CsvToEnum<Refreshments>(true)))
                 .ForMember(dto => dto.OpenHouseType, oh => oh.MapFrom(x => ToOpenHouseType(x.Type)))
                 .ForMember(dto => dto.IsDeleted, oh => oh.MapFrom(x => false))
                 .ForMember(dto => dto.CommunityId, oh => oh.Ignore())
                 .ForMember(dto => dto.Community, oh => oh.Ignore())
                 .ForMember(dto => dto.Id, oh => oh.Ignore())
-                .ForMember(dto => dto.Refreshments, oh => oh.Ignore())
                 .ForMember(dto => dto.SysModifiedOn, oh => oh.Ignore())
                 .ForMember(dto => dto.SysCreatedOn, oh => oh.Ignore())
                 .ForMember(dto => dto.SysModifiedBy, oh => oh.Ignore())
