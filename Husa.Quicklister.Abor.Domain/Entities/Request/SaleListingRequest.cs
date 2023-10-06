@@ -84,16 +84,31 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
         public override IEnumerable<SummarySection> GetSummary<TListingRequest>(TListingRequest previousRequest)
             => this.GetSummary(previousRequest as SaleListingRequest);
 
+        public void UpdateLegacyInformation(Guid userId, int requestLegacyId, SaleListing listing)
+        {
+            this.LegacyId = requestLegacyId;
+            this.SysModifiedBy = userId;
+            this.SysCreatedBy = userId;
+            this.ListingSaleId = listing.Id;
+            this.CompanyId = listing.CompanyId;
+            this.SaleProperty.Id = listing.SalePropertyId;
+            this.SaleProperty.CompanyId = listing.CompanyId;
+            this.SaleProperty.CommunityId = listing.SaleProperty.CommunityId;
+            this.SaleProperty.PlanId = listing.SaleProperty.PlanId;
+            this.SaleProperty.SysCreatedOn = listing.SaleProperty.SysCreatedOn;
+            this.SaleProperty.SysTimestamp = listing.SaleProperty.SysTimestamp;
+            this.SaleProperty.SysCreatedBy = listing.SaleProperty.SysCreatedBy;
+            this.SaleProperty.Address = listing.SaleProperty.Address;
+            this.SaleProperty.SysModifiedOn = this.SysModifiedOn;
+            this.SaleProperty.SysModifiedBy = userId;
+        }
+
         protected SummarySection GenerateSummary(SaleListingRequest previousRequest)
         {
             var summaryFields = this.GetRequestSummary(previousRequest);
             if (!summaryFields.Any())
             {
-                return new()
-                {
-                    Name = SummarySection,
-                    Fields = Array.Empty<SummaryField>(),
-                };
+                return null;
             }
 
             if (!summaryFields.Any(x => x.FieldName == nameof(this.MlsStatus)))

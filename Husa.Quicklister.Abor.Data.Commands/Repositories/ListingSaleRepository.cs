@@ -100,9 +100,10 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             return await query.ToListAsync();
         }
 
-        public Task<IEnumerable<SaleListing>> GetListingsByCompanyId(Guid companyId)
+        public async Task<IEnumerable<SaleListing>> GetListingsByCompanyId(Guid companyId)
         {
-            throw new NotImplementedException();
+            var query = this.context.ListingSale.FilterNotDeleted().FilterByCompany(companyId);
+            return await query.ToListAsync();
         }
     }
 }

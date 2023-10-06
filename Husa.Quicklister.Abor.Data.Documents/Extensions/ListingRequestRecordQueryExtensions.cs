@@ -76,6 +76,9 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                 ElementarySchool = schools.ElementarySchool,
                 HighSchool = schools.HighSchool,
                 MiddleSchool = schools.MiddleSchool,
+                OtherElementarySchool = schools.OtherElementarySchool,
+                OtherHighSchool = schools.OtherHighSchool,
+                OtherMiddleSchool = schools.OtherMiddleSchool,
             };
 
         public static FeaturesInfoQueryResult ToProjectionFeatures<T>(this T features)
