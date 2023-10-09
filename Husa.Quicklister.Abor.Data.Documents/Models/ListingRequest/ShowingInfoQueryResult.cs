@@ -17,7 +17,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
         public LockBoxType LockBoxType { get; set; }
         public bool EnableOpenHouses { get; set; }
-        public bool OpenHousesAgree { get; set; }
         public bool ShowOpenHousesPending { get; set; }
     }
 }

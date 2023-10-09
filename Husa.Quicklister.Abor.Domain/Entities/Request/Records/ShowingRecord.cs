@@ -39,7 +39,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         public LockBoxType LockBoxType { get; set; }
         public bool EnableOpenHouses { get; set; }
-        public bool OpenHousesAgree { get; set; }
         public bool ShowOpenHousesPending { get; set; }
 
         public ShowingRecord CloneRecord() => (ShowingRecord)this.MemberwiseClone();
@@ -61,7 +60,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 RealtorContactEmail = showingInfo.RealtorContactEmail,
                 Directions = showingInfo.Directions,
                 EnableOpenHouses = showingInfo.EnableOpenHouses,
-                OpenHousesAgree = showingInfo.OpenHousesAgree,
                 ShowOpenHousesPending = showingInfo.ShowOpenHousesPending,
                 LockBoxType = showingInfo.LockBoxType ?? throw new DomainException(nameof(showingInfo.LockBoxType)),
                 ShowingRequirements = showingInfo.ShowingRequirements,
