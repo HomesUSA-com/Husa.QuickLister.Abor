@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231004194912_V0.6.0_RemoveOpenHousesAgreeField")]
+    partial class V060_RemoveOpenHousesAgreeField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -718,7 +721,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.ToTable("SaleProperty");
                 });
 
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.ReverseProspect.TrackingReverseProspect", b =>
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.ReverseProspect.ReverseProspect", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -768,9 +771,9 @@ namespace Husa.Quicklister.Abor.Data.Migrations
 
                     b.HasIndex("Id")
                         .IsUnique()
-                        .HasDatabaseName("IX_TrackingReverseProspect");
+                        .HasDatabaseName("IX_ReverseProspect");
 
-                    b.ToTable("TrackingReverseProspect");
+                    b.ToTable("ReverseProspect");
                 });
 
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.ListingSaleRoom", b =>
