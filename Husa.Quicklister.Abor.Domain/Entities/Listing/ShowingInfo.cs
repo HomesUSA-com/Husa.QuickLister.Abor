@@ -44,7 +44,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual string Directions { get; set; }
         public virtual string OwnerName { get; set; }
         public virtual bool EnableOpenHouses { get; protected set; }
-        public virtual bool OpenHousesAgree { get; protected set; }
         public virtual bool ShowOpenHousesPending { get; protected set; }
 
         public ShowingInfo Clone()
@@ -69,7 +68,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual void EnableOpenHouse(bool showOpenHouseWhenPending = false)
         {
             this.EnableOpenHouses = true;
-            this.OpenHousesAgree = true;
 
             if (showOpenHouseWhenPending)
             {
@@ -90,7 +88,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             yield return this.RealtorContactEmail;
             yield return this.Directions;
             yield return this.EnableOpenHouses;
-            yield return this.OpenHousesAgree;
             yield return this.ShowOpenHousesPending;
             yield return this.OwnerName;
         }
