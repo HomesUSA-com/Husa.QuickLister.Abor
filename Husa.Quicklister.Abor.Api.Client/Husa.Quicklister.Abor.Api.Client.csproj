@@ -8,7 +8,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>0.6.0-dev001</Version>
+        <Version>0.6.0-dev002</Version>
         <PackageReleaseNotes>
             Release 0.6.0:
             - Removed OpenHousesAgree field in OpenHouse
