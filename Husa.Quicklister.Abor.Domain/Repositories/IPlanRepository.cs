@@ -1,15 +1,9 @@
 namespace Husa.Quicklister.Abor.Domain.Repositories
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Husa.Extensions.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
+    using ExtensionRepository = Husa.Quicklister.Extensions.Domain.Repositories;
 
-    public interface IPlanRepository : IRepository<Plan>
+    public interface IPlanRepository : ExtensionRepository.IPlanRepository<Plan>
     {
-        Task<Plan> GetPlan(string name, Guid companyId);
-
-        Task<IEnumerable<Plan>> GetByLegacyIds(IEnumerable<Guid> legacyIds, Guid companyId);
     }
 }
