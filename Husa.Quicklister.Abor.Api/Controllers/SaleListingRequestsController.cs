@@ -167,34 +167,23 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
         [HttpPut("{id:guid}/approve")]
         [ApiAuthorization(new RoleEmployee[0])]
-        public async Task<IActionResult> ApproveRequestAsync(Guid id, CancellationToken cancellationToken = default)
+        public Task<IActionResult> ApproveRequestAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            this.logger.LogInformation("Start to handle approve of listing sale request with id {listingRequestId}", id);
-            var request = await this.saleRequestQueryRepository.GetListingSaleRequestByIdAndStatusAsync(id, ListingRequestState.Pending, cancellationToken);
-
-            if (request is null)
-            {
-                return this.BadRequest(id);
-            }
-
-            await this.saleRequestService.ChangeRequestStatus(request, ListingRequestState.Approved, cancellationToken: cancellationToken);
-            return this.Ok();
+            return this.ChangesRequestState(id, ListingRequestState.Pending, ListingRequestState.Approved, cancellationToken);
         }
 
         [HttpPut("{id:guid}/process")]
         [ApiAuthorization(new RoleEmployee[0])]
-        public async Task<IActionResult> ProcessRequestAsync(Guid id, CancellationToken cancellationToken = default)
+        public Task<IActionResult> ProcessRequestAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            this.logger.LogInformation("Start to handle processing of listing sale request with id {listingRequestId}", id);
-            var request = await this.saleRequestQueryRepository.GetListingSaleRequestByIdAndStatusAsync(id, ListingRequestState.Approved, cancellationToken);
+            return this.ChangesRequestState(id, ListingRequestState.Approved, ListingRequestState.Processing, cancellationToken);
+        }
 
-            if (request is null)
-            {
-                return this.BadRequest(id);
-            }
-
-            await this.saleRequestService.ChangeRequestStatus(request, ListingRequestState.Processing, cancellationToken: cancellationToken);
-            return this.Ok();
+        [HttpPut("{id:guid}/pending")]
+        [ApiAuthorization(new RoleEmployee[0])]
+        public Task<IActionResult> PendingRequestAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return this.ChangesRequestState(id, ListingRequestState.Processing, ListingRequestState.Pending, cancellationToken);
         }
 
         [HttpPut("{id:guid}/complete")]
@@ -228,6 +217,20 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             }
 
             await this.saleRequestService.ChangeRequestStatus(openRequest, ListingRequestState.Deleted, cancellationToken: cancellationToken);
+            return this.Ok();
+        }
+
+        private async Task<IActionResult> ChangesRequestState(Guid id, ListingRequestState formState, ListingRequestState toState, CancellationToken cancellationToken = default)
+        {
+            this.logger.LogInformation("Start to handle processing of listing sale request with id {listingRequestId}", id);
+            var request = await this.saleRequestQueryRepository.GetListingSaleRequestByIdAndStatusAsync(id, formState, cancellationToken);
+
+            if (request is null)
+            {
+                return this.BadRequest(id);
+            }
+
+            await this.saleRequestService.ChangeRequestStatus(request, toState, cancellationToken: cancellationToken);
             return this.Ok();
         }
     }
