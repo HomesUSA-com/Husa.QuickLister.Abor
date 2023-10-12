@@ -5,7 +5,6 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
-    using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Uploader;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request;
@@ -23,7 +22,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
 
         Task<Guid> CreateListing(Request.ListingSaleRequest listingSaleRequest, CancellationToken token = default);
 
-        Task<CommandResult<ReverseProspectResponse>> GetReverseProspect(Guid listingId, MarketCode marketCode, CancellationToken token = default);
+        Task<CommandResult<ReverseProspectResponse>> GetReverseProspect(Guid listingId, CancellationToken token = default);
 
         Task UpdateActionTypeAsync(Guid listingId, ActionType actionType, CancellationToken token = default);
     }

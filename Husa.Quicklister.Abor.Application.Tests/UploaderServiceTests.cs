@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
@@ -29,6 +30,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<IUserContextProvider> userContextProvider = new();
         private readonly Mock<IReverseProspectRepository> reverseProspectRepository = new();
         private readonly Mock<ILogger<UploaderService>> logger;
+        private readonly Mock<IMapper> mapper = new();
 
         public UploaderServiceTests(ApplicationServicesFixture fixture)
         {
@@ -38,7 +40,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.reverseProspectRepository.Object,
                 this.reverseProspectClient.Object,
                 this.userContextProvider.Object,
-                this.logger.Object);
+                this.logger.Object,
+                this.mapper.Object);
         }
 
         public UploaderService Sut { get; set; }
@@ -66,6 +69,10 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var userId = Guid.NewGuid();
             var usingDatabase = true;
             var listing = TestModelProvider.GetListingSaleEntity(listingId);
+            var user = TestModelProvider.GetCurrentUser(userId);
+
+            this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
+
             var trackingReverseProspect = new ReverseProspect(
                 listingId,
                 userId,
@@ -113,6 +120,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var userId = Guid.NewGuid();
             var usingDatabase = true;
             var listing = TestModelProvider.GetListingSaleEntity(listingId);
+            var user = TestModelProvider.GetCurrentUser(userId);
+
+            this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
             listing.MlsNumber = "12345678";
 
             var trackingReverseProspect = new ReverseProspectData()
@@ -142,7 +152,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Verifiable();
 
             this.reverseProspectClient
-                .Setup(x => x.ReverseProspectRequest.GetReverseProspectData(It.IsAny<string>(), It.IsAny<MarketCode>(), It.IsAny<CancellationToken>()))
+                .Setup(x => x.ReverseProspectRequest.GetAborReverseProspectData(It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(CommandResult<ReverseProspectData>.Success(trackingReverseProspect))
                 .Verifiable();
 
@@ -162,6 +172,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var userId = Guid.NewGuid();
             var usingDatabase = true;
             var listing = TestModelProvider.GetListingSaleEntity(listingId);
+            var user = TestModelProvider.GetCurrentUser(userId);
+
+            this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
             listing.MlsNumber = "12345678";
 
             var response = CommandResult<ReverseProspectData>.Error("No data Found");
@@ -186,7 +199,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Verifiable();
 
             this.reverseProspectClient
-                .Setup(x => x.ReverseProspectRequest.GetReverseProspectData(It.IsAny<string>(), It.IsAny<MarketCode>(), It.IsAny<CancellationToken>()))
+                .Setup(x => x.ReverseProspectRequest.GetAborReverseProspectData(It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response)
                 .Verifiable();
 
