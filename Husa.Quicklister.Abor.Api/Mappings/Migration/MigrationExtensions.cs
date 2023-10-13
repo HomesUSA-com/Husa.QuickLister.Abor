@@ -1,7 +1,11 @@
 namespace Husa.Quicklister.Abor.Api.Mappings.Migration
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Husa.Extensions.Common;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using MigrationBillingType = Husa.Migration.Crosscutting.Enums.BillingType;
     using MigrationOpenHouseType = Husa.Migration.Crosscutting.Enums.OpenHouseType;
@@ -9,6 +13,13 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
 
     public static class MigrationExtensions
     {
+        public static ICollection<LotDescription> ToLotDescription(this string lotDescription)
+            => lotDescription.Replace("City Lot", "CityLot").CsvToEnum<LotDescription>(true).ToList();
+        public static ICollection<AcceptableFinancing> ToAcceptableFinancing(this string acceptableFinancing)
+            => acceptableFinancing.Replace("OTHSE", "SRMRKS").CsvToEnum<AcceptableFinancing>(true).ToList();
+        public static ICollection<TaxExemptions> ToTaxExemptions(this string taxExemptions)
+            => taxExemptions.Replace("NONE", "None").CsvToEnum<TaxExemptions>(true).ToList();
+
         public static OpenHouseType ToOpenHouseType(this MigrationOpenHouseType type) => type switch
         {
             MigrationOpenHouseType.Monday => OpenHouseType.Monday,
