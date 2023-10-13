@@ -21,7 +21,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.City, pr => pr.MapFrom(x => x.City.ToEnumFromEnumMember<Cities>()))
                 .ForMember(dto => dto.County, pr => pr.MapFrom(x => x.County.ToEnumFromEnumMember<Counties>()))
                 .ForMember(dto => dto.ConstructionStage, pr => pr.MapFrom(x => x.ConstructionStage.ToEnumFromEnumMember<ConstructionStage>()))
-                .ForMember(dto => dto.LotDescription, pr => pr.MapFrom(x => x.LotDescription.CsvToEnum<LotDescription>(true)))
+                .ForMember(dto => dto.LotDescription, pr => pr.MapFrom(x => x.LotDescription.ToLotDescription()))
                 .ForMember(dto => dto.PropertyType, pr => pr.MapFrom(x => x.PropertyType.ToEnumFromEnumMember<PropertySubType>()))
                 .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(x => x.MlsArea.ToEnumFromEnumMember<MlsArea>()));
             this.CreateMap<SchoolsResponse, SchoolsInfo>()
@@ -57,8 +57,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.CoolingSystem, pr => pr.MapFrom(x => x.CoolingSystem.CsvToEnum<CoolingSystem>(true)))
                 .ForMember(dto => dto.View, pr => pr.MapFrom(x => x.ViewDescription.CsvToEnum<View>(true)));
             this.CreateMap<FinancialResponse, CommunityFinancialInfo>()
-                .ForMember(dto => dto.AcceptableFinancing, pr => pr.MapFrom(x => x.AcceptableFinancing.CsvToEnum<AcceptableFinancing>(true)))
-                .ForMember(dto => dto.TaxExemptions, pr => pr.MapFrom(x => x.TaxExemptions.CsvToEnum<TaxExemptions>(true)))
+                .ForMember(dto => dto.AcceptableFinancing, pr => pr.MapFrom(x => x.AcceptableFinancing.ToAcceptableFinancing()))
+                .ForMember(dto => dto.TaxExemptions, pr => pr.MapFrom(x => x.TaxExemptions.ToTaxExemptions()))
                 .ForMember(dto => dto.HoaIncludes, pr => pr.MapFrom(x => x.HoaIncludes.CsvToEnum<HoaIncludes>(true)))
                 .ForMember(dto => dto.BillingFrequency, pr => pr.MapFrom(x => x.BillingFrequency.ToEnumFromEnumMember<BillingFrequency>()))
                 .ForMember(dto => dto.HOARequirement, pr => pr.MapFrom(x => x.HOARequirement.ToEnumFromEnumMember<HoaRequirement>()))

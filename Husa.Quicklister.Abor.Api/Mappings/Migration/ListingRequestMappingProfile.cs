@@ -26,7 +26,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.State, pr => pr.MapFrom(x => x.State.ToEnumFromEnumMember<States>()));
             this.CreateMap<PropertyResponse, PropertyRecord>()
                 .ForMember(dto => dto.ConstructionStage, pr => pr.MapFrom(x => x.ConstructionStage.ToEnumFromEnumMember<ConstructionStage>()))
-                .ForMember(dto => dto.LotDescription, pr => pr.MapFrom(x => x.LotDescription.CsvToEnum<LotDescription>(true)))
+                .ForMember(dto => dto.LotDescription, pr => pr.MapFrom(x => x.LotDescription.ToLotDescription()))
                 .ForMember(dto => dto.PropertyType, pr => pr.MapFrom(x => x.PropertyType.ToEnumFromEnumMember<PropertySubType>()))
                 .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(x => x.MlsArea.ToEnumFromEnumMember<MlsArea>()));
             this.CreateMap<FeaturesResponse, FeaturesRecord>()
@@ -68,8 +68,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.FullBathsTotal, pr => pr.MapFrom(x => x.BathsFull))
                 .ForMember(dto => dto.StoriesTotal, pr => pr.MapFrom(x => x.Stories.ToEnumFromEnumMember<Stories>()));
             this.CreateMap<FinancialResponse, FinancialRecord>()
-                .ForMember(dto => dto.AcceptableFinancing, pr => pr.MapFrom(x => x.AcceptableFinancing.CsvToEnum<AcceptableFinancing>(true)))
-                .ForMember(dto => dto.TaxExemptions, pr => pr.MapFrom(x => x.TaxExemptions.CsvToEnum<TaxExemptions>(true)))
+                .ForMember(dto => dto.AcceptableFinancing, pr => pr.MapFrom(x => x.AcceptableFinancing.ToAcceptableFinancing()))
+                .ForMember(dto => dto.TaxExemptions, pr => pr.MapFrom(x => x.TaxExemptions.ToTaxExemptions()))
                 .ForMember(dto => dto.HoaIncludes, pr => pr.MapFrom(x => x.HoaIncludes.CsvToEnum<HoaIncludes>(true)))
                 .ForMember(dto => dto.BillingFrequency, pr => pr.MapFrom(x => x.BillingFrequency.ToEnumFromEnumMember<BillingFrequency>()))
                 .ForMember(dto => dto.HOARequirement, pr => pr.MapFrom(x => x.HOARequirement.ToEnumFromEnumMember<HoaRequirement>()))
