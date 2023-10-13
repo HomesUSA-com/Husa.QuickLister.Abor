@@ -98,7 +98,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         public void GetSummaryWhenNoPreviousRequestExistsSuccess()
         {
             // Arrange
-            const int expectedSummarySections = 9;
+            const int expectedSummarySections = 10;
             var creationDateTime = DateTime.UtcNow;
             var sut = GetListingRequest(creationDateTime);
             sut.Setup(s => s.GetSummary(It.IsAny<SaleListingRequest>())).CallBase();
@@ -132,7 +132,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         public void GetSummaryWhenNoPreviousRequestExistsWithStatusSummarySuccess()
         {
             // Arrange
-            const int expectedSummarySections = 10;
+            const int expectedSummarySections = 11;
             var creationDateTime = DateTime.UtcNow;
             var sut = GetListingRequest(creationDateTime);
             sut.Setup(s => s.GetSummary(It.IsAny<SaleListingRequest>())).CallBase();

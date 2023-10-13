@@ -103,17 +103,27 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
             this.SaleProperty.SysModifiedBy = userId;
         }
 
-        protected SummarySection GenerateSummary(SaleListingRequest previousRequest)
+        private IEnumerable<SummarySection> GetSummary(SaleListingRequest previousRequest)
         {
-            var summaryFields = this.GetRequestSummary(previousRequest);
-            if (!summaryFields.Any())
+            var summarySections = new List<SummarySection>();
+            if (previousRequest is null || !this.SaleProperty.Equals(previousRequest.SaleProperty))
             {
-                return null;
+                summarySections.AddRange(this.SaleProperty.GetSummarySections(previousRequest?.SaleProperty));
             }
 
-            if (!summaryFields.Any(x => x.FieldName == nameof(this.MlsStatus)))
+            summarySections.Add(this.StatusFieldsInfo.GetSummary(previousRequest?.StatusFieldsInfo, this.MlsStatus));
+            summarySections = summarySections.Where(summary => summary != null).ToList();
+
+            var rootFieldChanges = this.GetRequestSummary(previousRequest);
+
+            if (!summarySections.Any() && !rootFieldChanges.Any())
             {
-                summaryFields = summaryFields.Append(new()
+                return Array.Empty<SummarySection>();
+            }
+
+            if (!rootFieldChanges.Any(x => x.FieldName == nameof(this.MlsStatus)))
+            {
+                rootFieldChanges = rootFieldChanges.Append(new()
                 {
                     FieldName = nameof(this.MlsStatus),
                     NewValue = this.MlsStatus,
@@ -121,28 +131,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
                 });
             }
 
-            return new()
-            {
-                Name = SummarySection,
-                Fields = summaryFields,
-            };
-        }
-
-        private IEnumerable<SummarySection> GetSummary(SaleListingRequest previousRequest)
-        {
-            var summarySections = new List<SummarySection>
-            {
-                this.GenerateSummary(previousRequest),
-            };
-
-            if (previousRequest is null || !this.SaleProperty.Equals(previousRequest.SaleProperty))
-            {
-                summarySections.AddRange(this.SaleProperty.GetSummarySections(previousRequest?.SaleProperty));
-            }
-
-            summarySections.Add(this.StatusFieldsInfo.GetSummary(previousRequest?.StatusFieldsInfo, this.MlsStatus));
-
-            return summarySections.Where(summary => summary != null);
+            return new List<SummarySection> { new() { Name = SummarySection, Fields = rootFieldChanges } }.Concat(summarySections);
         }
     }
 }
