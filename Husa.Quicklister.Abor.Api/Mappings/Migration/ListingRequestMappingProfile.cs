@@ -91,7 +91,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.HighSchool, pr => pr.MapFrom(x => x.HighSchool.ToEnumFromEnumMember<HighSchool>()))
                 .ForMember(dto => dto.SchoolDistrict, pr => pr.MapFrom(x => x.SchoolDistrict.ToEnumFromEnumMember<SchoolDistrict>()));
             this.CreateMap<SalesOfficeResponse, SalesOfficeRecord>()
-                .ForMember(dto => dto.SalesOfficeCity, pr => pr.MapFrom(x => x.SalesOfficeCity.ToEnumFromEnumMember<Cities>()));
+                .ForMember(dto => dto.SalesOfficeCity, pr => pr.MapFrom(x => x.SalesOfficeCity.GetEnumValueFromDescription<Cities>()));
             this.CreateMap<StatusFieldsResponse, StatusFieldsRecord>()
                 .ForMember(dto => dto.ContingencyInfo, pr => pr.MapFrom(x => x.ContingencyInfo.CsvToEnum<ContingencyInfo>(true)))
                 .ForMember(dto => dto.SaleTerms, pr => pr.MapFrom(x => x.SellerConcessionDescription.CsvToEnum<SaleTerms>(true)))
