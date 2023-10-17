@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using AutoMapper;
     using Husa.Extensions.Common;
     using Husa.Extensions.Common.Enums;
+    using Husa.Extensions.Domain.Extensions;
     using Husa.Migration.Api.Contracts.Response;
     using Husa.Migration.Api.Contracts.Response.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
@@ -79,8 +80,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.BuyersAgentCommissionType, pr => pr.MapFrom(x => x.BuyersAgentCommissionType.ToEnumFromEnumMember<CommissionType>()));
             this.CreateMap<ShowingResponse, ShowingRecord>()
                 .ForMember(dto => dto.OwnerName, pr => pr.Ignore())
-                .ForMember(dto => dto.OccupantPhone, pr => pr.MapFrom(x => x.AltPhoneCommunity))
-                .ForMember(dto => dto.ContactPhone, pr => pr.MapFrom(x => x.AgentListApptPhone))
+                .ForMember(dto => dto.OccupantPhone, pr => pr.MapFrom(x => x.AltPhoneCommunity.CleanPhoneValue()))
+                .ForMember(dto => dto.ContactPhone, pr => pr.MapFrom(x => x.AgentListApptPhone.CleanPhoneValue()))
                 .ForMember(dto => dto.ShowingInstructions, pr => pr.MapFrom(x => x.Showing))
                 .ForMember(dto => dto.ShowingRequirements, pr => pr.MapFrom(x => x.ShowingRequirements.CsvToEnum<ShowingRequirements>(true)))
                 .ForMember(dto => dto.LockBoxType, pr => pr.MapFrom(x => x.LockBoxType.ToEnumFromEnumMember<LockBoxType>()));
