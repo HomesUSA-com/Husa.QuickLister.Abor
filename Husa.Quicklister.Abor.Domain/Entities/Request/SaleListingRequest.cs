@@ -14,8 +14,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
 
     public class SaleListingRequest : ListingRequest
     {
-        public const string SummarySection = "MLS";
-
         public SaleListingRequest(SaleListing saleListing, Guid userId)
             : base(
                   saleListing.MlsStatus,
@@ -83,38 +81,49 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
             this.SaleProperty.UpdateInformation(salePropertyValue);
         }
 
-        public virtual IEnumerable<SummarySection> GetSummary(SaleListingRequest previousRequest)
-        {
-            var summarySections = new List<SummarySection>
-            {
-                this.GenerateSummary(previousRequest),
-            };
+        public override IEnumerable<SummarySection> GetSummary<TListingRequest>(TListingRequest previousRequest)
+            => this.GetSummary(previousRequest as SaleListingRequest);
 
+        public void UpdateLegacyInformation(Guid userId, int requestLegacyId, SaleListing listing)
+        {
+            this.LegacyId = requestLegacyId;
+            this.SysModifiedBy = userId;
+            this.SysCreatedBy = userId;
+            this.ListingSaleId = listing.Id;
+            this.CompanyId = listing.CompanyId;
+            this.SaleProperty.Id = listing.SalePropertyId;
+            this.SaleProperty.CompanyId = listing.CompanyId;
+            this.SaleProperty.CommunityId = listing.SaleProperty.CommunityId;
+            this.SaleProperty.PlanId = listing.SaleProperty.PlanId;
+            this.SaleProperty.SysCreatedOn = listing.SaleProperty.SysCreatedOn;
+            this.SaleProperty.SysTimestamp = listing.SaleProperty.SysTimestamp;
+            this.SaleProperty.SysCreatedBy = listing.SaleProperty.SysCreatedBy;
+            this.SaleProperty.Address = listing.SaleProperty.Address;
+            this.SaleProperty.SysModifiedOn = this.SysModifiedOn;
+            this.SaleProperty.SysModifiedBy = userId;
+        }
+
+        private IEnumerable<SummarySection> GetSummary(SaleListingRequest previousRequest)
+        {
+            var summarySections = new List<SummarySection>();
             if (previousRequest is null || !this.SaleProperty.Equals(previousRequest.SaleProperty))
             {
                 summarySections.AddRange(this.SaleProperty.GetSummarySections(previousRequest?.SaleProperty));
             }
 
             summarySections.Add(this.StatusFieldsInfo.GetSummary(previousRequest?.StatusFieldsInfo, this.MlsStatus));
+            summarySections = summarySections.Where(summary => summary != null).ToList();
 
-            return summarySections.Where(summary => summary != null);
-        }
+            var rootFieldChanges = this.GetRequestSummary(previousRequest);
 
-        protected SummarySection GenerateSummary(SaleListingRequest previousRequest)
-        {
-            var summaryFields = this.GetRequestSummary(previousRequest);
-            if (!summaryFields.Any())
+            if (!summarySections.Any() && !rootFieldChanges.Any())
             {
-                return new()
-                {
-                    Name = SummarySection,
-                    Fields = Array.Empty<SummaryField>(),
-                };
+                return Array.Empty<SummarySection>();
             }
 
-            if (!summaryFields.Any(x => x.FieldName == nameof(this.MlsStatus)))
+            if (!rootFieldChanges.Any(x => x.FieldName == nameof(this.MlsStatus)))
             {
-                summaryFields = summaryFields.Append(new()
+                rootFieldChanges = rootFieldChanges.Append(new()
                 {
                     FieldName = nameof(this.MlsStatus),
                     NewValue = this.MlsStatus,
@@ -122,11 +131,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
                 });
             }
 
-            return new()
-            {
-                Name = SummarySection,
-                Fields = summaryFields,
-            };
+            return new List<SummarySection> { new() { Name = SummarySection, Fields = rootFieldChanges } }.Concat(summarySections);
         }
     }
 }

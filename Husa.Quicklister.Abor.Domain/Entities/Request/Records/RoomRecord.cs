@@ -22,8 +22,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         public ICollection<RoomFeatures> Features { get; set; }
 
-        public string FieldType { get; set; }
-
         public DateTime SysCreatedOn { get; set; }
 
         public DateTime? SysModifiedOn { get; set; }
@@ -37,6 +35,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public DateTime SysTimestamp { get; set; }
 
         public Guid CompanyId { get; set; }
+
+        public string FieldType => this.RoomType.ToString();
 
         public RoomRecord CloneRecord() => (RoomRecord)this.MemberwiseClone();
         public static RoomRecord CreateRoom(ListingSaleRoom room)
@@ -52,7 +52,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 Level = room.Level,
                 RoomType = room.RoomType,
                 Features = room.Features,
-                FieldType = room.FieldType,
                 Id = room.Id,
                 SysCreatedOn = room.SysCreatedOn,
                 SysModifiedOn = room.SysModifiedOn,

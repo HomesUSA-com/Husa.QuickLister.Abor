@@ -6,10 +6,11 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using System.Threading.Tasks;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Documents.Models;
-    using Husa.Quicklister.Abor.Data.Documents.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
+    using Husa.Quicklister.Extensions.Data.Documents.Models;
+    using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -56,7 +57,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var repository = this.customWebApplicationFactory.Services.GetRequiredService<ISaleListingRequestQueriesRepository>();
             var repositoryMock = Mock.Get(repository);
             repositoryMock
-                .Setup(repository => repository.GetListingSaleRequestsAsync(It.IsAny<ListingSaleRequestQueryFilter>(), It.IsAny<CancellationToken>()))
+                .Setup(repository => repository.GetListingSaleRequestsAsync(It.IsAny<SaleListingRequestQueryFilter>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(gridResult);
 
             // Act

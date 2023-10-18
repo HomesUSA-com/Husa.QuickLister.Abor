@@ -99,5 +99,11 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<IEnumerable<SaleListing>> GetListingsByCompanyId(Guid companyId)
+        {
+            var query = this.context.ListingSale.FilterNotDeleted().FilterByCompany(companyId);
+            return await query.ToListAsync();
+        }
     }
 }

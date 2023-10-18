@@ -54,7 +54,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             listing.SetupGet(l => l.Id).Returns(listingId);
             var saleProperty = new Mock<SaleProperty>();
             saleProperty
-                .Setup(l => l.ImportOpenHouseInfoFromMarket(It.IsAny<IEnumerable<SaleListingOpenHouse>>()))
+                .Setup(l => l.ImportOpenHouseInfoFromMarket(It.IsAny<SaleListingOpenHouse>()))
                 .Returns(true);
             listing.SetupGet(l => l.SaleProperty).Returns(saleProperty.Object);
 

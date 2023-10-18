@@ -3,9 +3,10 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models
     using System;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 
-    public class ListingSaleRequestQueryResult : IProvideQuicklisterUserInfo
+    public class ListingSaleRequestQueryResult : IProvideQuicklisterUserInfo, ISaleListingRequestQueryResult
     {
         public Guid Id { get; set; }
 

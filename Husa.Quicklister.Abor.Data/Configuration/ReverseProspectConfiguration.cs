@@ -6,9 +6,9 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public class TrackingReverseProspectConfiguration : IEntityTypeConfiguration<TrackingReverseProspect>
+    public class ReverseProspectConfiguration : IEntityTypeConfiguration<ReverseProspect>
     {
-        public void Configure(EntityTypeBuilder<TrackingReverseProspect> builder)
+        public void Configure(EntityTypeBuilder<ReverseProspect> builder)
         {
             if (builder is null)
             {
@@ -16,8 +16,8 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             }
 
             builder.SetSysProperties();
-            builder.Property(f => f.ReportData).HasColumnName(nameof(TrackingReverseProspect.ReportData));
-            builder.Property(f => f.Status).HasConversion<string>().HasColumnName(nameof(TrackingReverseProspect.Status));
+            builder.Property(f => f.ReportData).HasColumnName(nameof(ReverseProspect.ReportData));
+            builder.Property(f => f.Status).HasConversion<string>().HasColumnName(nameof(ReverseProspect.Status));
         }
     }
 }

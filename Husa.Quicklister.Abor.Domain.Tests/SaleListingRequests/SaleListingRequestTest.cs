@@ -91,8 +91,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             var summaryResult = sut.Object.GetSummary(oldCompleteRequest.Object);
 
             // Assert
-            var section = Assert.Single(summaryResult);
-            Assert.Empty(section.Fields);
+            Assert.Empty(summaryResult);
         }
 
         [Fact]

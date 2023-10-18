@@ -6,9 +6,10 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using Husa.Migration.Api.Contracts.Response.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using MigrationOpenHouseType = Husa.Migration.Crosscutting.Enums.OpenHouseType;
+    using Husa.Quicklister.Extensions.Domain.Extensions;
 
     public class CommuntiyMappingProfile : Profile
     {
@@ -17,82 +18,74 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
             this.CreateMap<ProfileResponse, ProfileInfo>()
                 .ForMember(dto => dto.OwnerName, cr => cr.Ignore());
             this.CreateMap<PropertyResponse, Property>()
-                .ForMember(dto => dto.LotSize, cr => cr.Ignore())
-                .ForMember(dto => dto.PropertyType, cr => cr.Ignore())
-                .ForMember(dto => dto.LotDimension, cr => cr.Ignore())
-                .ForMember(dto => dto.ConstructionStage, cr => cr.Ignore())
-                .ForMember(dto => dto.LotDescription, cr => cr.Ignore());
+                .ForMember(dto => dto.City, pr => pr.MapFrom(x => x.City.ToEnumFromEnumMember<Cities>()))
+                .ForMember(dto => dto.County, pr => pr.MapFrom(x => x.County.ToEnumFromEnumMember<Counties>()))
+                .ForMember(dto => dto.ConstructionStage, pr => pr.MapFrom(x => x.ConstructionStage.ToEnumFromEnumMember<ConstructionStage>()))
+                .ForMember(dto => dto.LotDescription, pr => pr.MapFrom(x => x.LotDescription.ToLotDescription()))
+                .ForMember(dto => dto.PropertyType, pr => pr.MapFrom(x => x.PropertyType.ToEnumFromEnumMember<PropertySubType>()))
+                .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(x => x.MlsArea.ToEnumFromEnumMember<MlsArea>()));
             this.CreateMap<SchoolsResponse, SchoolsInfo>()
-                .ForMember(dto => dto.ElementarySchool, cr => cr.MapFrom(x => x.SchoolName1))
-                .ForMember(dto => dto.MiddleSchool, cr => cr.MapFrom(x => x.SchoolName2))
-                .ForMember(dto => dto.HighSchool, cr => cr.MapFrom(x => x.SchoolName3))
-                .ForMember(dto => dto.OtherMiddleSchool, cr => cr.Ignore())
-                .ForMember(dto => dto.OtherHighSchool, cr => cr.Ignore())
-                .ForMember(dto => dto.OtherElementarySchool, cr => cr.Ignore());
+                .ForMember(dto => dto.ElementarySchool, pr => pr.MapFrom(x => x.ElementarySchool.ToEnumFromEnumMember<ElementarySchool>()))
+                .ForMember(dto => dto.MiddleSchool, pr => pr.MapFrom(x => x.MiddleSchool.ToEnumFromEnumMember<MiddleSchool>()))
+                .ForMember(dto => dto.HighSchool, pr => pr.MapFrom(x => x.HighSchool.ToEnumFromEnumMember<HighSchool>()))
+                .ForMember(dto => dto.SchoolDistrict, pr => pr.MapFrom(x => x.SchoolDistrict.ToEnumFromEnumMember<SchoolDistrict>()));
             this.CreateMap<UtilitiesReponse, Utilities>()
-                .ForMember(dto => dto.WaterSewer, cr => cr.MapFrom(x => x.WaterDesc.CsvToEnum<WaterSewer>(true)))
-                .ForMember(dto => dto.CoolingSystem, cr => cr.MapFrom(x => x.CoolingSystem.CsvToEnum<CoolingSystem>(true)))
-                .ForMember(dto => dto.ExteriorFeatures, cr => cr.MapFrom(x => x.ExteriorDesc.CsvToEnum<ExteriorFeatures>(true)))
-                .ForMember(dto => dto.FireplaceDescription, cr => cr.MapFrom(x => x.FireplaceDescription.CsvToEnum<FireplaceDescription>(true)))
+                .ForMember(dto => dto.WaterSource, cr => cr.MapFrom(x => x.WaterDesc.CsvToEnum<WaterSource>(true)))
+                .ForMember(dto => dto.WaterSewer, cr => cr.MapFrom(x => x.SewerDesc.CsvToEnum<WaterSewer>(true)))
                 .ForMember(dto => dto.NeighborhoodAmenities, cr => cr.MapFrom(x => x.CommonFeatures.CsvToEnum<NeighborhoodAmenities>(true)))
-                .ForMember(dto => dto.Foundation, cr => cr.MapFrom(x => x.Foundation.CsvToEnum<Foundation>(true)))
-                .ForMember(dto => dto.Floors, cr => cr.MapFrom(x => x.Floors.CsvToEnum<Flooring>(true)))
-                .ForMember(dto => dto.HeatSystem, cr => cr.MapFrom(x => x.HeatSystem.CsvToEnum<HeatingSystem>(true)))
-                .ForMember(dto => dto.RoofDescription, cr => cr.MapFrom(x => x.RoofDescription.CsvToEnum<RoofDescription>(true)))
-                .ForMember(dto => dto.WaterSource, cr => cr.Ignore())
-                .ForMember(dto => dto.RestrictionsDescription, cr => cr.Ignore())
-                .ForMember(dto => dto.UtilitiesDescription, cr => cr.Ignore())
-                .ForMember(dto => dto.GarageSpaces, cr => cr.Ignore())
-                .ForMember(dto => dto.Appliances, cr => cr.Ignore())
-                .ForMember(dto => dto.GarageDescription, cr => cr.Ignore())
-                .ForMember(dto => dto.LaundryLocation, cr => cr.Ignore())
-                .ForMember(dto => dto.InteriorFeatures, cr => cr.Ignore())
-                .ForMember(dto => dto.SecurityFeatures, cr => cr.Ignore())
-                .ForMember(dto => dto.WindowFeatures, cr => cr.Ignore())
-                .ForMember(dto => dto.Foundation, cr => cr.Ignore())
-                .ForMember(dto => dto.RoofDescription, cr => cr.Ignore())
-                .ForMember(dto => dto.Fencing, cr => cr.Ignore())
-                .ForMember(dto => dto.ConstructionMaterials, cr => cr.Ignore())
-                .ForMember(dto => dto.PatioAndPorchFeatures, cr => cr.Ignore())
-                .ForMember(dto => dto.View, cr => cr.Ignore())
-                .ForMember(dto => dto.ExteriorFeatures, cr => cr.Ignore());
+                .ForMember(dto => dto.ConstructionMaterials, cr => cr.MapFrom(x => x.Exterior.CsvToEnum<ConstructionMaterials>(true)))
+                .ForMember(dto => dto.GarageDescription, cr => cr.MapFrom(x => x.GarageDescription.CsvToEnum<GarageDescription>(true)))
+                .ForMember(dto => dto.GarageSpaces, pr => pr.MapFrom(x => x.GarageCapacity))
+                .ForMember(dto => dto.PatioAndPorchFeatures, pr => pr.MapFrom(x => x.PatioAndPorchFeatures.CsvToEnum<PatioAndPorchFeatures>(true)))
+                .ForMember(dto => dto.Fencing, pr => pr.MapFrom(x => x.FenceDescription.CsvToEnum<Fencing>(true)))
+                .ForMember(dto => dto.Foundation, pr => pr.MapFrom(x => x.Foundation.CsvToEnum<Foundation>(true)))
+                .ForMember(dto => dto.WindowFeatures, pr => pr.MapFrom(x => x.WindowCoverings.CsvToEnum<WindowFeatures>(true)))
+                .ForMember(dto => dto.SecurityFeatures, pr => pr.MapFrom(x => x.SecurityFeatures.CsvToEnum<SecurityFeatures>(true)))
+                .ForMember(dto => dto.InteriorFeatures, pr => pr.MapFrom(x => x.InteriorFeatures.CsvToEnum<InteriorFeatures>(true)))
+                .ForMember(dto => dto.LaundryLocation, pr => pr.MapFrom(x => x.LaundryLocation.CsvToEnum<LaundryLocation>(true)))
+                .ForMember(dto => dto.Appliances, pr => pr.MapFrom(x => x.Appliances.CsvToEnum<Appliances>(true)))
+                .ForMember(dto => dto.HeatSystem, pr => pr.MapFrom(x => x.HeatSystem.CsvToEnum<HeatingSystem>(true)))
+                .ForMember(dto => dto.CoolingSystem, pr => pr.MapFrom(x => x.CoolingSystem.CsvToEnum<CoolingSystem>(true)))
+                .ForMember(dto => dto.UtilitiesDescription, pr => pr.MapFrom(x => x.LotImprovements.CsvToEnum<UtilitiesDescription>(true)))
+                .ForMember(dto => dto.RestrictionsDescription, pr => pr.MapFrom(x => x.RestrictionsDescription.CsvToEnum<RestrictionsDescription>(true)))
+                .ForMember(dto => dto.Floors, pr => pr.MapFrom(x => x.Floors.CsvToEnum<Flooring>(true)))
+                .ForMember(dto => dto.FireplaceDescription, pr => pr.MapFrom(x => x.FireplaceDescription.CsvToEnum<FireplaceDescription>(true)))
+                .ForMember(dto => dto.ExteriorFeatures, pr => pr.MapFrom(x => x.ExteriorFeatures.CsvToEnum<ExteriorFeatures>(true)))
+                .ForMember(dto => dto.RoofDescription, pr => pr.MapFrom(x => x.RoofDescription.CsvToEnum<RoofDescription>(true)))
+                .ForMember(dto => dto.Foundation, pr => pr.MapFrom(x => x.Foundation.CsvToEnum<Foundation>(true)))
+                .ForMember(dto => dto.HeatSystem, pr => pr.MapFrom(x => x.HeatSystem.CsvToEnum<HeatingSystem>(true)))
+                .ForMember(dto => dto.CoolingSystem, pr => pr.MapFrom(x => x.CoolingSystem.CsvToEnum<CoolingSystem>(true)))
+                .ForMember(dto => dto.View, pr => pr.MapFrom(x => x.ViewDescription.CsvToEnum<View>(true)));
             this.CreateMap<FinancialResponse, CommunityFinancialInfo>()
-                .ForMember(dto => dto.BuyersAgentCommission, cr => cr.MapFrom(x => GetBuyersAgentCommissionNumber(x.CompBuy)))
-                .ForMember(dto => dto.BuyersAgentCommissionType, cr => cr.MapFrom(x => GetBuyersAgentCommissionType(x.CompBuy)))
-                .ForMember(dto => dto.HOARequirement, cr => cr.MapFrom(x => x.HOARequirement))
-                .ForMember(dto => dto.TaxExemptions, cr => cr.Ignore())
-                .ForMember(dto => dto.HoaIncludes, cr => cr.Ignore())
-                .ForMember(dto => dto.HoaName, cr => cr.Ignore())
-                .ForMember(dto => dto.HoaFee, cr => cr.Ignore())
-                .ForMember(dto => dto.HasHoa, cr => cr.Ignore())
-                .ForMember(dto => dto.HasAgentBonus, cr => cr.Ignore())
-                .ForMember(dto => dto.HasBonusWithAmount, cr => cr.Ignore())
-                .ForMember(dto => dto.BillingFrequency, cr => cr.Ignore())
-                .ForMember(dto => dto.BonusExpirationDate, cr => cr.Ignore())
-                .ForMember(dto => dto.AgentBonusAmount, cr => cr.Ignore())
-                .ForMember(dto => dto.AgentBonusAmountType, cr => cr.Ignore())
-                .ForMember(dto => dto.HasBuyerIncentive, cr => cr.Ignore())
-                .ForMember(dto => dto.AcceptableFinancing, cr => cr.Ignore());
+                .ForMember(dto => dto.AcceptableFinancing, pr => pr.MapFrom(x => x.AcceptableFinancing.ToAcceptableFinancing()))
+                .ForMember(dto => dto.TaxExemptions, pr => pr.MapFrom(x => x.TaxExemptions.ToTaxExemptions()))
+                .ForMember(dto => dto.HoaIncludes, pr => pr.MapFrom(x => x.HoaIncludes.CsvToEnum<HoaIncludes>(true)))
+                .ForMember(dto => dto.BillingFrequency, pr => pr.MapFrom(x => x.BillingFrequency.ToEnumFromEnumMember<BillingFrequency>()))
+                .ForMember(dto => dto.HOARequirement, pr => pr.MapFrom(x => x.HOARequirement.ToEnumFromEnumMember<HoaRequirement>()))
+                .ForMember(dto => dto.AgentBonusAmountType, pr => pr.MapFrom(x => x.AgentBonusAmountType.ToEnumFromEnumMember<CommissionType>()))
+                .ForMember(dto => dto.ReadableBuyersAgentCommission, pr => pr.MapFrom(x => x.BuyersAgentCommission.GetCommissionAmount(x.BuyersAgentCommissionType.ToEnumFromEnumMember<CommissionType>())))
+                .ForMember(dto => dto.BuyersAgentCommissionType, pr => pr.MapFrom(x => x.BuyersAgentCommissionType.ToEnumFromEnumMember<CommissionType>()));
             this.CreateMap<ShowingResponse, CommunityShowingInfo>()
-                .ForMember(dto => dto.ShowingRequirements, cr => cr.Ignore())
-                .ForMember(dto => dto.LockBoxType, cr => cr.Ignore())
-                .ForMember(dto => dto.OwnerName, cr => cr.Ignore())
-                .ForMember(dto => dto.OccupantPhone, cr => cr.MapFrom(x => x.AltPhoneCommunity))
-                .ForMember(dto => dto.ContactPhone, cr => cr.MapFrom(x => x.AgentListApptPhone))
-                .ForMember(dto => dto.ShowingInstructions, cr => cr.MapFrom(x => x.Showing))
-                .ForMember(dto => dto.Directions, cr => cr.MapFrom(x => x.Directions.Length > CommunityShowingInfo.MaxDirectionsLength ? x.Directions.Substring(CommunityShowingInfo.MaxDirectionsLength) : x.Directions));
+                .ForMember(dto => dto.OwnerName, pr => pr.Ignore())
+                .ForMember(dto => dto.OccupantPhone, pr => pr.MapFrom(x => x.AltPhoneCommunity))
+                .ForMember(dto => dto.ContactPhone, pr => pr.MapFrom(x => x.AgentListApptPhone))
+                .ForMember(dto => dto.ShowingInstructions, pr => pr.MapFrom(x => x.Showing))
+                .ForMember(dto => dto.ShowingRequirements, pr => pr.MapFrom(x => x.ShowingRequirements.CsvToEnum<ShowingRequirements>(true)))
+                .ForMember(dto => dto.LockBoxType, pr => pr.MapFrom(x => x.LockBoxType.ToEnumFromEnumMember<LockBoxType>()))
+                .ForMember(dto => dto.Directions, cr => cr.MapFrom(x => x.Directions.Length > CommunityShowingInfo.MaxDirectionsLength ? x.Directions.Substring(0, CommunityShowingInfo.MaxDirectionsLength) : x.Directions));
             this.CreateMap<EmailLeadResponse, EmailLead>()
                 .ForMember(dto => dto.EmailLeadPrincipal, cr => cr.MapFrom(x => x.Email))
                 .ForMember(dto => dto.EmailLeadSecondary, cr => cr.MapFrom(x => x.Email2))
                 .ForMember(dto => dto.EmailLeadOther, cr => cr.MapFrom(x => x.Email3));
 
             this.CreateMap<OpenHouseResponse, CommunityOpenHouse>()
-                .ForMember(dto => dto.OpenHouseType, oh => oh.MapFrom(x => ToOpenHouseType(x.Type)))
+                .ForMember(dto => dto.Refreshments, pr => pr.MapFrom(x => x.Refreshments.CsvToEnum<Refreshments>(true)))
+                .ForMember(dto => dto.Type, oh => oh.MapFrom(x => x.Type.ToOpenHouseType()))
                 .ForMember(dto => dto.IsDeleted, oh => oh.MapFrom(x => false))
+                .ForMember(dto => dto.OpenHouseType, oh => oh.Ignore())
                 .ForMember(dto => dto.CommunityId, oh => oh.Ignore())
                 .ForMember(dto => dto.Community, oh => oh.Ignore())
                 .ForMember(dto => dto.Id, oh => oh.Ignore())
-                .ForMember(dto => dto.Refreshments, oh => oh.Ignore())
                 .ForMember(dto => dto.SysModifiedOn, oh => oh.Ignore())
                 .ForMember(dto => dto.SysCreatedOn, oh => oh.Ignore())
                 .ForMember(dto => dto.SysModifiedBy, oh => oh.Ignore())
@@ -125,34 +118,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.LastPhotoRequestCreationDate, cr => cr.Ignore())
                 .ForMember(dto => dto.LastPhotoRequestId, cr => cr.Ignore())
                 .ForMember(dto => dto.SaleProperties, cr => cr.Ignore());
-        }
-
-        private static OpenHouseType ToOpenHouseType(MigrationOpenHouseType type) => type switch
-        {
-            MigrationOpenHouseType.Monday => OpenHouseType.Monday,
-            MigrationOpenHouseType.Tuesday => OpenHouseType.Tuesday,
-            MigrationOpenHouseType.Wednesday => OpenHouseType.Wednesday,
-            MigrationOpenHouseType.Thursday => OpenHouseType.Thursday,
-            MigrationOpenHouseType.Friday => OpenHouseType.Friday,
-            MigrationOpenHouseType.Saturday => OpenHouseType.Saturday,
-            MigrationOpenHouseType.Sunday => OpenHouseType.Sunday,
-            _ => OpenHouseType.Monday,
-        };
-
-        private static decimal? GetBuyersAgentCommissionNumber(string value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return null;
-            }
-
-            var newValue = value.Replace("%", string.Empty).Replace("$", string.Empty);
-            return decimal.TryParse(newValue, out var commission) ? commission : null;
-        }
-
-        private static CommissionType GetBuyersAgentCommissionType(string value)
-        {
-            return !string.IsNullOrWhiteSpace(value) && value.Contains('$') ? CommissionType.Amount : CommissionType.Percent;
         }
     }
 }

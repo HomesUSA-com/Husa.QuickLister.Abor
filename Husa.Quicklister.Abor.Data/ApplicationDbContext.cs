@@ -42,7 +42,7 @@ namespace Husa.Quicklister.Abor.Data
 
         public virtual DbSet<Office> Office { get; set; }
 
-        public virtual DbSet<TrackingReverseProspect> TrackingReverseProspect { get; set; }
+        public virtual DbSet<ReverseProspect> ReverseProspect { get; set; }
 
         public virtual DbSet<CommunityEmployee> CommunityEmployee { get; set; }
 

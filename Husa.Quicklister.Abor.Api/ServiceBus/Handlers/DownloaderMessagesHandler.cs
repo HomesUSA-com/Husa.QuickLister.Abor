@@ -14,6 +14,8 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Quicklister.Abor.Application.Interfaces.Agent;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Office;
+    using Husa.Quicklister.Abor.Application.Interfaces.OpenHouse;
+    using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Agent;
     using Husa.Quicklister.Abor.Application.Models.Office;
     using Husa.Quicklister.Abor.Crosscutting;
@@ -59,6 +61,9 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                 case MediaMessage mediaMessage:
                     await ProcessResidentialMediaMessage(mediaMessage);
                     break;
+                case ResidentialOpenHousesMessage residentialOpenHousesMessage:
+                    await ProcessResidentialOpenHouseMessage(residentialOpenHousesMessage);
+                    break;
                 default:
                     this.Logger.LogWarning("Message type not recognized for message {messageId}.", message.MessageId);
                     break;
@@ -86,6 +91,14 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                 this.Logger.LogInformation("Processing media for listing with id {ListingId}", mediaMessage.ListingId);
                 var mediaService = scope.ServiceProvider.GetRequiredService<IMediaService>();
                 return mediaService.ProcessData(mediaMessage.ListingId, mediaMessage.UpdatedOn);
+            }
+
+            Task ProcessResidentialOpenHouseMessage(ResidentialOpenHousesMessage openHousesMessage)
+            {
+                this.Logger.LogInformation("Processing open houses for listing with mls number {mlsNumber}", openHousesMessage.MlsId);
+                var openHouseDto = this.mapper.Map<OpenHouseDto>(openHousesMessage);
+                var openHouseService = scope.ServiceProvider.GetRequiredService<IOpenHouseService>();
+                return openHouseService.ProcessData(openHousesMessage.ResidentialMlsId, openHouseDto);
             }
 
             UserContext GetDownloaderUser() => new()

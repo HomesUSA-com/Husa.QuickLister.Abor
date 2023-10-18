@@ -718,7 +718,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.ToTable("SaleProperty");
                 });
 
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.ReverseProspect.TrackingReverseProspect", b =>
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.ReverseProspect.ReverseProspect", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -768,9 +768,9 @@ namespace Husa.Quicklister.Abor.Data.Migrations
 
                     b.HasIndex("Id")
                         .IsUnique()
-                        .HasDatabaseName("IX_TrackingReverseProspect");
+                        .HasDatabaseName("IX_ReverseProspect");
 
-                    b.ToTable("TrackingReverseProspect");
+                    b.ToTable("ReverseProspect");
                 });
 
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.ListingSaleRoom", b =>
@@ -2392,10 +2392,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasMaxLength(14)
                                 .HasColumnType("nvarchar(14)")
                                 .HasColumnName("OccupantPhone");
-
-                            b1.Property<bool>("OpenHousesAgree")
-                                .HasColumnType("bit")
-                                .HasColumnName("OpenHousesAgree");
 
                             b1.Property<string>("OwnerName")
                                 .HasMaxLength(100)

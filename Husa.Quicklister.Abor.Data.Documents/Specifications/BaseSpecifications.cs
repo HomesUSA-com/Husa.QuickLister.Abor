@@ -4,10 +4,10 @@ namespace Husa.Quicklister.Abor.Data.Documents.Specifications
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using Husa.Quicklister.Abor.Data.Documents.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Documents.Specifications;
     using ReflectionPropertyInfo = System.Reflection.PropertyInfo;
 
@@ -53,7 +53,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Specifications
             return sortedRecords;
         }
 
-        public static IQueryable<SaleListingRequest> FilterByQuery(this IQueryable<SaleListingRequest> records, ListingSaleRequestQueryFilter queryFilter)
+        public static IQueryable<SaleListingRequest> FilterByQuery(this IQueryable<SaleListingRequest> records, SaleListingRequestQueryFilter queryFilter)
         {
             return records.FilterByStatus(queryFilter.RequestState)
                 .FilterSaleRequestsByCompany(queryFilter.CompanyId)

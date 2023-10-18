@@ -889,7 +889,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             MarketModified = DateTime.UtcNow,
         };
 
-        public static TrackingReverseProspect GetReverseProspectTrack(Guid listingId, Guid companyId, Guid userId, bool hasReportDtata = false) =>
+        public static ReverseProspect GetReverseProspectTrack(Guid listingId, Guid companyId, Guid userId, bool hasReportDtata = false) =>
             new(listingId, userId, companyId, hasReportDtata ? "[{\"Agent\":\"Joe Corwin\", \"Email\":\"joe@joecorwin.com\", \"DateSent\":\"11/29/2021\", \"InterestLevel\":\"Interested\"}]" : null, ReverseProspectStatus.Available);
 
         public static OfficeValueObject GetOfficeValueObject(string marketUniqueId) => new()

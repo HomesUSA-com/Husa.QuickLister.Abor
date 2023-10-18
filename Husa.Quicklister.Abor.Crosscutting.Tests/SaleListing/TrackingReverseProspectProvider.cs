@@ -6,9 +6,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
 
     public static class TrackingReverseProspectProvider
     {
-        public static TrackingReverseProspect GetReverseProspectEntity(Guid listingId, Guid userId, Guid companyId, string reportData, ReverseProspectStatus status)
+        public static ReverseProspect GetReverseProspectEntity(Guid listingId, Guid userId, Guid companyId, string reportData, ReverseProspectStatus status)
         {
-            return new TrackingReverseProspect(
+            return new ReverseProspect(
                 listingId,
                 userId,
                 companyId,

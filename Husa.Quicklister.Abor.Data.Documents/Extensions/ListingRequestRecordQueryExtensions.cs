@@ -76,6 +76,9 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                 ElementarySchool = schools.ElementarySchool,
                 HighSchool = schools.HighSchool,
                 MiddleSchool = schools.MiddleSchool,
+                OtherElementarySchool = schools.OtherElementarySchool,
+                OtherHighSchool = schools.OtherHighSchool,
+                OtherMiddleSchool = schools.OtherMiddleSchool,
             };
 
         public static FeaturesInfoQueryResult ToProjectionFeatures<T>(this T features)
@@ -132,7 +135,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                RealtorContactEmail = showing.RealtorContactEmail,
                AgentPrivateRemarksAdditional = showing.AgentPrivateRemarksAdditional,
                EnableOpenHouses = showing.EnableOpenHouses,
-               OpenHousesAgree = showing.OpenHousesAgree,
                ShowOpenHousesPending = showing.ShowOpenHousesPending,
                OwnerName = showing.OwnerName,
            };
