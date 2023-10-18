@@ -1319,6 +1319,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 IsNewConstruction = true,
                 GarageSpaces = 1,
                 HomeFaces = HomeFaces.West,
+                WaterfrontFeatures = new[] { WaterfrontFeatures.LakeFront },
                 WaterBodyName = WaterBodyName.BeltonLake,
                 DistanceToWaterAccess = DistanceToWaterAccess.SeeRemarks,
             };

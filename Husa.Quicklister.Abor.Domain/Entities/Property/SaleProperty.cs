@@ -609,9 +609,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.FeaturesInfo.View = featuresInfo.View;
             this.FeaturesInfo.ExteriorFeatures = featuresInfo.ExteriorFeatures;
             this.FeaturesInfo.HomeFaces = featuresInfo.HomeFaces;
+            this.FeaturesInfo.WaterfrontFeatures = featuresInfo.WaterfrontFeatures;
             this.FeaturesInfo.WaterBodyName = featuresInfo.WaterBodyName;
             this.FeaturesInfo.DistanceToWaterAccess = featuresInfo.DistanceToWaterAccess;
-            this.FeaturesInfo.WaterfrontFeatures = featuresInfo.WaterfrontFeatures;
             this.FeaturesInfo.UnitStyle = featuresInfo.UnitStyle;
             this.FeaturesInfo.GuestAccommodationsDescription = featuresInfo.GuestAccommodationsDescription;
             this.FeaturesInfo.GuestBedroomsTotal = featuresInfo.GuestBedroomsTotal;
