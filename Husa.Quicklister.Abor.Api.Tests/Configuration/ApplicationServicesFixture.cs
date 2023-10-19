@@ -26,7 +26,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Configuration
                 },
                 MediaAllowed = new()
                 {
-                    SaleListingMaxAllowedMedia = 25,
+                    SaleListingMaxAllowedMedia = 40,
                     SaleCommunityMaxAllowedMedia = 60,
                     PlanMaxAllowedMedia = 60,
                 },

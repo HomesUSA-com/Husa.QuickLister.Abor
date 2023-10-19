@@ -24,12 +24,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 ListingRequest = new()
                 {
                     MinRequiredMedia = 4,
-                    MaxAllowedMedia = 25,
+                    MaxAllowedMedia = 40,
                 },
                 MediaAllowed = new MediaAllowedSettings()
                 {
                     PlanMaxAllowedMedia = 25,
-                    SaleListingMaxAllowedMedia = 25,
+                    SaleListingMaxAllowedMedia = 40,
                     SaleCommunityMaxAllowedMedia = 60,
                 },
             });
