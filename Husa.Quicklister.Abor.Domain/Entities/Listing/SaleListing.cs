@@ -207,7 +207,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 this.PublishInfo = new PublishInfo(actionType, userId, requestStatus);
             }
 
-            this.Lock(userId, LockedStatus.LockedBySystem);
+            if (requestStatus == MarketStatuses.Closed)
+            {
+                this.Lock(userId, LockedStatus.Closed);
+            }
+            else
+            {
+                this.Lock(userId, LockedStatus.LockedBySystem);
+            }
         }
 
         public virtual void CloneListing(SaleListing saleListingToClone)

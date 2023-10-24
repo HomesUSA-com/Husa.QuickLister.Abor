@@ -34,6 +34,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             var openHouses = this.mapper.Map<IEnumerable<CommunityOpenHouse>>(communityMigration.OpenHouses);
             community.UpdateOpenHouse(openHouses);
             community.UpdateCompanyInfo(company.Id, company.Name);
+            community.Showing.OwnerName = company.Name;
             return community;
         }
     }
