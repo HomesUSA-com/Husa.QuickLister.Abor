@@ -9,7 +9,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules.SalePropertyValidations
         public FinancialValidator()
         {
             ValidatorOptions.Global.LanguageManager.Culture = ApplicationOptions.ApplicationCultureInfo;
-            this.RuleFor(x => x.TitleCompany).NotEmpty().MaximumLength(45);
+            this.RuleFor(x => x.TitleCompany).MaximumLength(45);
             this.RuleFor(x => x.HOARequirement).NotNull();
         }
     }
