@@ -286,10 +286,9 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         {
             // Arrange
             var listingId = Guid.NewGuid();
-            var marketCode = MarketCode.Austin;
 
             // Act & Assert
-            var exception = await Assert.ThrowsAsync<HttpRequestException>(() => this.quicklisterClient.SaleListing.GetReverseProspect(listingId, marketCode));
+            var exception = await Assert.ThrowsAsync<HttpRequestException>(() => this.quicklisterClient.SaleListing.GetReverseProspect(listingId));
             Assert.Equal(HttpStatusCode.NotFound, exception.StatusCode);
         }
 

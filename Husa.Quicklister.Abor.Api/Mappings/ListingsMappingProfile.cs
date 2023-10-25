@@ -13,9 +13,11 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Notes;
     using Husa.Quicklister.Abor.Api.Contracts.Response.PhotoRequest;
+    using Husa.Quicklister.Abor.Api.Contracts.Response.ReverseProspect;
     using Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Request;
+    using Husa.Quicklister.Abor.Application.Models.ReverseProspect;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
@@ -27,6 +29,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Application.Models.Media;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.ReverseProspect.Api.Contracts.Response;
     using HusaNotesTypes = Husa.Notes.Domain.Enums.NoteType;
 
     public class ListingsMappingProfile : Profile
@@ -102,6 +105,10 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.SysCreatedOn, c => c.Ignore())
                 .ForMember(dto => dto.CreatedBy, c => c.Ignore())
                 .ForMember(dto => dto.ModifiedBy, c => c.Ignore());
+
+            this.CreateMap<ReverseProspectInformationDto, ReverseProspectInformationResponse>();
+            this.CreateMap<ReverseProspectDataDto, ReverseProspectDataResponse>();
+            this.CreateMap<ReverseProspectData, ReverseProspectDataDto>();
 
             this.CreateMap<SpacesDimensionsRequest, SpacesDimensionsDto>();
 

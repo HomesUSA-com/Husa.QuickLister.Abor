@@ -6,7 +6,6 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.Downloader.CTX.Api.Client;
-    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
@@ -56,7 +55,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             }
 
             await this.listingMediaService.Resource.DeleteAsync(listingSale.Id, dispose: false);
-            await this.listingMediaService.Resource.BulkCreateAsync(listingSale.Id, MarketCode.Austin, mediaDto, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
+            await this.listingMediaService.Resource.BulkCreateAsync(listingSale.Id, mediaDto, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
         }
     }
 }

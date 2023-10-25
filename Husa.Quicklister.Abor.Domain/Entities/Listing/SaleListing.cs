@@ -207,14 +207,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 this.PublishInfo = new PublishInfo(actionType, userId, requestStatus);
             }
 
-            if (requestStatus == MarketStatuses.Closed)
-            {
-                this.Lock(userId, LockedStatus.Closed);
-            }
-            else
-            {
-                this.Lock(userId, LockedStatus.LockedBySystem);
-            }
+            this.Lock(userId, LockedStatus.LockedBySystem);
         }
 
         public virtual void CloneListing(SaleListing saleListingToClone)
@@ -253,7 +246,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.UpdateStatusFieldsInfo(listingStatusInfo);
 
             this.SaleProperty.ApplyMarketUpdate(salePropertyInfo, roomsInfo);
-            this.Unlock(allowUnlock: true);
+
+            if (listingInfo.MlsStatus == MarketStatuses.Closed)
+            {
+                this.LockAndClose();
+            }
+            else
+            {
+                this.Unlock(allowUnlock: true);
+            }
         }
 
         public virtual void ImportFromXml(XmlListingDetailResponse listing, string companyName, ListActionType listAction, Guid userId)

@@ -6,7 +6,6 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using System.Threading.Tasks;
     using Husa.Extensions.Api.Client;
     using Husa.Extensions.Common.Classes;
-    using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Uploader;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -78,10 +77,10 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             await this.client.PutAsJsonAsync(endpoint, saleListingRequest, token);
         }
 
-        public async Task<CommandResult<ReverseProspectResponse>> GetReverseProspect(Guid listingId, MarketCode marketCode, CancellationToken token = default)
+        public async Task<CommandResult<ReverseProspectResponse>> GetReverseProspect(Guid listingId, CancellationToken token = default)
         {
             this.logger.LogInformation("Update listing with Id : {listingId}.", listingId);
-            var endpoint = $"{this.baseUri}/{listingId}/reverse-prospect?marketCode={marketCode}";
+            var endpoint = $"{this.baseUri}/{listingId}/reverse-prospect";
             var response = await this.client.GetAsync<CommandResult<ReverseProspectResponse>>(endpoint, token);
             return response;
         }

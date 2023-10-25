@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Uploader;
     using Husa.Quicklister.Abor.Application.Models;
+    using Husa.Quicklister.Abor.Application.Models.ReverseProspect;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
@@ -23,7 +24,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
-    using Husa.ReverseProspect.Api.Contracts.Response;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -331,17 +331,24 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
         {
             // Arrange
             var listingId = Guid.NewGuid();
-            var trackingReverseProspect = new ReverseProspectData()
+            var trackingReverseProspect = new ReverseProspectInformationDto()
             {
-                Agent = "test",
-                DateSent = DateTime.Now.ToString(),
-                Email = "email@domein.com",
-                InterestLevel = null,
+                RequestedDate = DateTime.UtcNow,
+                ReverseProspectData = new List<ReverseProspectDataDto>
+                {
+                    new ReverseProspectDataDto
+                    {
+                        Agent = "test",
+                        DateSent = DateTime.Now.ToString(),
+                        Email = "email@domein.com",
+                        InterestLevel = null,
+                    },
+                },
             };
 
             this.austinUploaderService
                 .Setup(x => x.GetReverseProspectListing(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(CommandResult<ReverseProspectData>.Success(trackingReverseProspect));
+                .ReturnsAsync(CommandResult<ReverseProspectInformationDto>.Success(trackingReverseProspect));
 
             var claims = new List<Claim>
             {

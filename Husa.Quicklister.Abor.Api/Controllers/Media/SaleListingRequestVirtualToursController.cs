@@ -27,7 +27,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to add Virtual tour to entity id {listingRequestId}", listingRequestId);
 
-            await this.requestMediaService.CreateVirtualTourAsync(listingRequestId, virtualTour);
+            await this.requestMediaService.VirtualTour.CreateAsync(listingRequestId, virtualTour);
 
             return this.Ok();
         }
@@ -38,7 +38,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to delete virtual tour with id {virtualTourId}", virtualTourId);
 
-            await this.requestMediaService.DeleteVirtualTourById(listingRequestId, virtualTourId);
+            await this.requestMediaService.VirtualTour.DeleteById(listingRequestId, virtualTourId);
 
             return this.Ok();
         }

@@ -6,7 +6,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Filters;
-    using Husa.Extensions.Common.Enums;
     using Husa.MediaService.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Crosscutting;
@@ -57,7 +56,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to add media to entity id {planId}", planId);
 
-            await this.planMediaService.Resource.CreateAsync(planId, MarketCode.Austin, media, mediaLimitAllowed: this.options.MediaAllowed.PlanMaxAllowedMedia);
+            await this.planMediaService.Resource.CreateAsync(planId, media, mediaLimitAllowed: this.options.MediaAllowed.PlanMaxAllowedMedia);
 
             return this.Ok();
         }
@@ -68,7 +67,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         {
             this.logger.LogInformation("Starting to replace media with id {mediaId} for entity id {planId}", media.Id, planId);
 
-            await this.planMediaService.Resource.ReplaceAsync(planId, MarketCode.Austin, media);
+            await this.planMediaService.Resource.ReplaceAsync(planId, media);
 
             return this.Ok();
         }

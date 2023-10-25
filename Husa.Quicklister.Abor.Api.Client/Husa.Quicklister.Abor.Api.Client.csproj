@@ -8,11 +8,11 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>0.5.1</Version>
+        <Version>1.0.0</Version>
         <PackageReleaseNotes>
-          Release 0.5.1:
-          - New contracts for listing requests
-          - Removed OpenHousesAgree field in OpenHouse
+            Release 0.6.0:
+            - Removed OpenHousesAgree field in OpenHouse
+            - Updated ReverseProspect endpoint
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

@@ -10,7 +10,6 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Extensions.Authorization;
     using Husa.Extensions.EmailNotification.Enums;
     using Husa.Extensions.EmailNotification.Services;
-    using Husa.MediaService.Domain.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Crosscutting;
@@ -99,7 +98,7 @@ namespace Husa.Quicklister.Abor.Application.Services
 
         protected override async Task<string> IsImageCountValidAsync(Guid saleListingId)
         {
-            var mediaCount = (await this.MediaService.GetResources(saleListingId, MediaType.Residential)).Media.Count();
+            var mediaCount = (await this.MediaService.GetListingResources(saleListingId)).Media.Count();
 
             if (mediaCount < this.options.ListingRequest.MinRequiredMedia)
             {

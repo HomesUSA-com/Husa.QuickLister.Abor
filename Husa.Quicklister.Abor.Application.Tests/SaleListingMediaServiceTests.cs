@@ -5,7 +5,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Cache;
-    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Media.Interfaces;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
@@ -114,7 +113,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
         {
             // Arrange
             var userId = Guid.NewGuid();
-            var market = MarketCode.Austin;
             var userCompanyId = Guid.NewGuid();
             var listingId = Guid.NewGuid();
             var listing = TestModelProvider.GetListingSaleEntity(listingId, createStub: false, userCompanyId);
@@ -137,7 +135,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             };
 
             // Act
-            await this.Sut.Resource.BulkCreateAsync(listingId, market, new[] { listingMedia }, 25);
+            await this.Sut.Resource.BulkCreateAsync(listingId, new[] { listingMedia }, 25);
 
             // Assert
             this.userContextProvider.Verify(r => r.GetCurrentUserId(), Times.Once);

@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleRequest;
+    using Husa.Quicklister.Abor.Api.Contracts.Response.ReverseProspect;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Uploader;
@@ -208,7 +209,9 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.BadRequest(result);
             }
 
-            return this.Ok(result.Results);
+            var response = this.mapper.Map<ReverseProspectInformationResponse>(result.Result);
+
+            return this.Ok(response);
         }
 
         [HttpPut("{listingId:guid}/mls-media")]
