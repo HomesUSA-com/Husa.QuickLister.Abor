@@ -243,7 +243,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.UpdateStatusFieldsInfo(listingStatusInfo);
             this.SaleProperty.UpdateFromMarket();
             this.SaleProperty.ApplyMarketUpdate(salePropertyInfo, new List<ListingSaleRoom>());
-            this.Unlock(allowUnlock: true);
+
+            if (listingInfo.MlsStatus == MarketStatuses.Closed)
+            {
+                this.LockAndClose();
+            }
+            else
+            {
+                this.Unlock(allowUnlock: true);
+            }
         }
 
         public virtual void ImportFromXml(XmlListingDetailResponse listing, string companyName, ListActionType listAction, Guid userId)
