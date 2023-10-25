@@ -15,8 +15,8 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ReverseProspect;
-    using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
+    using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Uploader;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
@@ -34,7 +34,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         private readonly ISaleListingRequestQueriesRepository saleRequestQueryRepository;
         private readonly IManagementTraceQueriesRepository managementTraceQueriesRepository;
         private readonly IUploaderService austinUploaderService;
-        private readonly IDownloaderService downloaderService;
+        private readonly IMediaService mediaService;
         private readonly ISaleListingService listingSaleService;
         private readonly ILogger<SaleListingsController> logger;
         private readonly IMapper mapper;
@@ -45,7 +45,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             IManagementTraceQueriesRepository managementTraceQueriesRepository,
             ISaleListingService listingSaleService,
             IUploaderService austinUploaderService,
-            IDownloaderService downloaderService,
+            IMediaService mediaService,
             ILogger<SaleListingsController> logger,
             IMapper mapper)
         {
@@ -55,7 +55,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             this.listingSaleQueriesRepository = listingSaleQueriesRepository ?? throw new ArgumentNullException(nameof(listingSaleQueriesRepository));
             this.managementTraceQueriesRepository = managementTraceQueriesRepository ?? throw new ArgumentNullException(nameof(managementTraceQueriesRepository));
             this.listingSaleService = listingSaleService ?? throw new ArgumentNullException(nameof(listingSaleService));
-            this.downloaderService = downloaderService ?? throw new ArgumentNullException(nameof(downloaderService));
+            this.mediaService = mediaService ?? throw new ArgumentNullException(nameof(mediaService));
             this.saleRequestQueryRepository = saleRequestQueryRepository ?? throw new ArgumentNullException(nameof(saleRequestQueryRepository));
         }
 
@@ -220,7 +220,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         {
             this.logger.LogInformation("Starting to import resources from market for listing with id {listingId}", listingId);
 
-            return this.downloaderService.ImportMediaFromMlsAsync(listingId);
+            return this.mediaService.ImportMediaFromMlsAsync(listingId);
         }
 
         [HttpPatch("{listingId:guid}/decline-photos")]

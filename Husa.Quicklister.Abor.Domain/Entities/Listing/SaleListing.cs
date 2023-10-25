@@ -146,10 +146,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 throw new ArgumentNullException(nameof(listingSaleStatusFields));
             }
 
-            if (this.StatusFieldsInfo != listingSaleStatusFields)
-            {
-                this.StatusFieldsInfo = listingSaleStatusFields;
-            }
+            this.CopyInformationFromValueObject(listingSaleStatusFields);
         }
 
         public virtual CommandSingleResult<SaleListingRequest, ValidationResult> GenerateRequest(Guid userId)
@@ -233,19 +230,19 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             ListingValueObject listingInfo,
             ListingSaleStatusFieldsInfo listingStatusInfo,
             SalePropertyValueObject salePropertyInfo,
-            IEnumerable<ListingSaleRoom> roomsInfo,
             Guid companyId)
         {
-            if (this.MlsNumber != listingInfo.MlsNumber)
+            if (this.MlsNumber?.Trim() != listingInfo.MlsNumber.Trim())
             {
-                this.SaleProperty.AddListing(listingInfo, listingStatusInfo, salePropertyInfo, roomsInfo, companyId);
+                this.SaleProperty.AddListing(listingInfo, listingStatusInfo, salePropertyInfo, new List<ListingSaleRoom>(), companyId);
                 return;
             }
 
+            this.isMarketUpdate = true;
             this.UpdateBaseListingInformation(listingInfo);
             this.UpdateStatusFieldsInfo(listingStatusInfo);
-
-            this.SaleProperty.ApplyMarketUpdate(salePropertyInfo, roomsInfo);
+            this.SaleProperty.UpdateFromMarket();
+            this.SaleProperty.ApplyMarketUpdate(salePropertyInfo, new List<ListingSaleRoom>());
             this.Unlock(allowUnlock: true);
         }
 
@@ -287,6 +284,30 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         }
 
         protected override void DeleteChildren(Guid userId) => throw new NotImplementedException();
+
+        protected void CopyInformationFromValueObject(ListingSaleStatusFieldsInfo listingSaleStatusFields)
+        {
+            if (!this.isMarketUpdate)
+            {
+                this.StatusFieldsInfo.EstimatedClosedDate = listingSaleStatusFields.EstimatedClosedDate;
+                this.StatusFieldsInfo.AgentId = listingSaleStatusFields.AgentId;
+                this.StatusFieldsInfo.AgentIdSecond = listingSaleStatusFields.AgentIdSecond;
+                this.StatusFieldsInfo.HasSecondBuyerAgent = listingSaleStatusFields.HasSecondBuyerAgent;
+                this.StatusFieldsInfo.HasContingencyInfo = listingSaleStatusFields.HasContingencyInfo;
+                this.StatusFieldsInfo.ContingencyInfo = listingSaleStatusFields.ContingencyInfo;
+                this.StatusFieldsInfo.SaleTerms = listingSaleStatusFields.SaleTerms;
+                this.StatusFieldsInfo.PendingDate = listingSaleStatusFields.PendingDate;
+                this.StatusFieldsInfo.CancelledReason = listingSaleStatusFields.CancelledReason;
+            }
+
+            this.StatusFieldsInfo.SellConcess = listingSaleStatusFields.SellConcess;
+            this.StatusFieldsInfo.ClosePrice = listingSaleStatusFields.ClosePrice;
+            this.StatusFieldsInfo.HasBuyerAgent = listingSaleStatusFields.HasBuyerAgent;
+            this.StatusFieldsInfo.PendingDate = listingSaleStatusFields.PendingDate;
+            this.StatusFieldsInfo.ClosedDate = listingSaleStatusFields.ClosedDate;
+            this.StatusFieldsInfo.BackOnMarketDate = listingSaleStatusFields.BackOnMarketDate;
+            this.StatusFieldsInfo.OffMarketDate = listingSaleStatusFields.OffMarketDate;
+        }
 
         protected override IEnumerable<object> GetEntityEqualityComponents()
         {

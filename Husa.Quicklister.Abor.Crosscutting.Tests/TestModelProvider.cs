@@ -5,7 +5,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using Husa.CompanyServicesManager.Api.Contracts.Response;
-    using Husa.Downloader.Sabor.ServiceBus.Contracts;
+    using Husa.Downloader.CTX.Api.Contracts.Response.Residential;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Models;
     using Husa.Extensions.Common;
@@ -58,6 +58,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using ResponseNote = Husa.Notes.Api.Contracts.Response;
     using ResponsePhoto = Husa.PhotoService.Api.Contracts.Response;
     using States = Husa.Extensions.Common.Enums.States;
+    using TrestleEnums = Husa.Downloader.CTX.Domain.Enums;
 
     public static class TestModelProvider
     {
@@ -673,127 +674,119 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Type = HusaNoteType.Residential,
             MarketCode = MarketCode.Austin,
         };
-        public static ResidentialMessage GetResidentialMessage() => new()
+
+        public static ResidentialResponse GetResidentialResponse() => new()
         {
-            ResidentialValue = GetResidentialValueMessage(),
-            Rooms = new List<RoomMessage>()
-              {
-                  GetRoomMessage(),
-                  GetRoomMessage(),
-              },
+            EntityKey = "EntityKey",
+            ListingMessage = GetListingResponse(),
+            RoomsMessage = GetRoomsMessage(),
+            FeaturesMessage = GetFeaturesMessage(),
+            FinancialMessage = GetFinancialMessage(),
+            OtherMessage = GetOtherMessage(),
+            ShowingMessage = GetShowingMessage(),
         };
 
-        public static ResidentialValueMessage GetResidentialValueMessage() => new()
+        public static ListingResponse GetListingResponse() => new()
         {
-            Accessibility = null,
-            AccessibilityDetails = "YES",
-            AdditionalParking = null,
-            Bedrooms = 4,
-            Block = "26",
-            Contract = "ERS",
-            ElementarySchool = "Holland",
-            EnergyFeatures = null,
-            FullBaths = 1,
-            GreenCertification = null,
-            GreenFeatures = null,
-            HalfBaths = "2",
-            HighSchool = "Holland",
-            ListingAgentId = "365976",
-            CoolingSystemDescription = "RAMPD",
-            ExteriorFeatures = "WKSHP,STRG",
-            Exterior = "WOOD",
-            Fireplaces = "2",
-            FireplaceDescription = "FAMRM,GASSTARTER,WDBRN",
-            Flooring = "VINYL,WOOD",
-            Foundation = "CEDAR",
-            HomeFaces = null,
-            Inclusions = "CLFNS,WSHCN,DRYCN,MCOVN,STVRN,REFRI,GSWTR",
-            Improvements = "ALLEY,ASPHALT",
-            MasterBedroom = "SPLIT",
-            NeighborhoodAmenities = NeighborhoodAmenities.Playground.ToStringFromEnumMember(),
-            Occupancy = "VACNT",
-            GarageDescription = "NONE",
-            PrivatePoolDescription = "NONE",
-            ProposedTerms = "CONV,FHA",
-            Roof = "COMP",
-            PropertyType = "SFD",
-            WaterSewer = "SWRSY",
-            WindowCoverings = "SOME",
-            County = "MEDINA",
-            TaxByMultipleCounties = "NO",
-            MultipleHOA = null,
-            Construction = "PRE-OWNED",
-            OwnerLREALREB = "NO",
-            TitleCompany = "Mission Title Co.",
-            Showing = "AGENT",
-            SchoolDistrict = "Holland",
-            TaxId = "16468",
-            BuilderName = "unknown",
-            SaleTerms2nd = null,
-            UtilitySupplierGas = "Other",
-            UtilitySupplierElectricity = "Other",
-            UtilitySupplierGarbage = null,
-            UtilitySupplierWater = null,
-            UtilitySupplierSewer = null,
-            UtilitySupplierOther = null,
-            ApptPhone = "830 931 4937",
-            ContigencyInfo = null,
-            SoldSqft = null,
-            Directions = "Centrally located in the city of Hondo, TX, 1 street south of US HWY 90 (19th St) and 1 block West of Avenue M on the CORNER  of 20th Street and Avenue N.",
-            AgentPrivateRemarks = null,
-            OwnerName = "M/M   Salazar",
-            LegalDescription = "Lots  6 and 7, Block 26, City ",
-            MapscoGrid = "3000",
-            SubAgent = "0%",
-            BuyerAgentComission = "3",
-            PreDirections = null,
-            StreetName = "1301",
-            StreetNumber = null,
-            MlsArea = 3000,
-            ListPrice = 199000,
-            CDOM = 203,
-            City = "Holland",
-            Type = "RE",
-            CloseDate = null,
-            DOM = 203,
-            ExpirationDate = null,
-            PhotoTimestamp = DateTime.Parse("2021-09-21T00:20:05", provider: ApplicationOptions.ApplicationCultureInfo),
-            MlsNumber = "1531367",
-            PropertyDescription = "Move in ready property on large corner lot with fenced back yard.  NEW Central air and heat, NEW Roof, NEW Water Heater and the main bathroom has been recently updated with a NEW bathtub/shower unit and vanity. Lots of space to make it a dreamy home for your family and it is large enough to run a boarding home, child care center, multi room tutoring site, business office, beauty salon or cafe. Lots of options in an approximately 3000 sq ft space with multi use zoning. Large storage building in backyard and circular drive entry and front entry ramp.",
-            SellingAgent = null,
-            SellingOfficeId = null,
-            SpecialtyRooms = null,
-            SoldPrice = null,
-            SquareFeet = 2650,
-            State = "TX",
-            StatusDate = DateTime.Parse("2021-11-10T16:18:23", provider: ApplicationOptions.ApplicationCultureInfo),
-            Status = "AO",
-            ResidentialUpdateDate = DateTime.Parse("2021-11-10T16:18:23", provider: ApplicationOptions.ApplicationCultureInfo),
-            ZipCode = "78861",
-            Latitude = null,
-            Lot = "6 7",
-            Longitude = null,
-            LotSize = ".3857",
-            LotDimensions = "120X140",
-            MiddleSchool = "Holland",
-            Stories = "1",
-            GarageSpaces = null,
-            RecentRehab = null,
-            Style = "RANCH",
-            SourceSqft = "D",
-            Subdivision = "HONDO",
-            TaxYear = "2021",
-            TotalTax = 5263,
-            UnitNumber = null,
-            ConstructionStartYear = "2021",
+            ListPrice = 100000,
+            ExpirationDate = DateTime.UtcNow,
+            ListDate = DateTime.UtcNow,
+            ListingType = new List<TrestleEnums.PropertyType> { TrestleEnums.PropertyType.Residential },
+            ModificationTimestamp = DateTime.UtcNow,
+            MlsId = "123456",
+            MlsStatus = TrestleEnums.MlsStatus.Active,
+            ConcessionsComments = "ConcessionsComments",
+            ClosePrice = 100000,
+            CloseDate = DateTime.UtcNow,
+            OnMarketTimestamp = DateTime.UtcNow,
+            OffMarketTimestamp = DateTime.UtcNow,
+            OwnerName = "Owner Name",
+            StreetNumber = "1234",
+            StreetName = "StreetName",
+            StreetType = TrestleEnums.StreetSuffix.Drive,
+            UnitNumber = "234",
+            City = "Belmont",
+            State = TrestleEnums.StateOrProvince.RI,
+            ZipCode = "123456",
+            County = "Aransas",
+            Subdivision = "Subdivision",
+            YearBuilt = 2023,
+            PropertySubType = new List<TrestleEnums.PropertySubType> { TrestleEnums.PropertySubType.Residential, TrestleEnums.PropertySubType.Recreation },
+            MLSAreaMajor = "2",
+            Latitude = 332.33m,
+            Longitude = 22.22m,
+            SquareFeetTotal = 300.23m,
+            FrontFaces = TrestleEnums.DirectionFaces.East,
+            PublicRemarks = "Public Remarks",
+            Directions = "Directions 123",
+            PrivateRemarks = "Private Remarks",
+            HighSchoolDistrict = "AcademyISD",
+            MiddleSchool = "Alter Learning",
+            ElementarySchool = "AdaMaeFaubion",
+            HighSchool = "Academy",
         };
 
-        public static RoomMessage GetRoomMessage() => new()
+        public static RoomsResponse GetRoomsMessage() => new()
         {
-            ResidentialId = Guid.NewGuid(),
-            Level = Faker.RandomNumber.Next(1, 10).ToString(),
-            Type = RoomType.PrimaryBedroom.ToString(),
-            EntityOwnerType = "SaleProperty",
+            NumBedrooms = 3,
+            BathroomsFull = 4,
+            BathroomsHalf = 1,
+            Fireplaces = 3,
+        };
+
+        public static FeaturesResponse GetFeaturesMessage() => new()
+        {
+            Stories = 6,
+            Foundation = new List<TrestleEnums.FoundationDetails> { TrestleEnums.FoundationDetails.Slab },
+            RoofDescription = new List<TrestleEnums.Roof> { TrestleEnums.Roof.GreenRoof },
+            Construction = new List<TrestleEnums.ConstructionMaterials> { TrestleEnums.ConstructionMaterials.Concrete },
+            FireplaceDescription = new List<TrestleEnums.FireplaceFeatures> { TrestleEnums.FireplaceFeatures.BlowerFan, TrestleEnums.FireplaceFeatures.Basement },
+            Floors = new List<TrestleEnums.Flooring> { TrestleEnums.Flooring.Granite },
+            Laundry = new List<TrestleEnums.LaundryFeatures> { TrestleEnums.LaundryFeatures.InBathroom },
+            GarageSpaces = 3.0m,
+            GarageDescription = new List<TrestleEnums.ParkingFeatures> { TrestleEnums.ParkingFeatures.Attached },
+            InteriorFeatures = new List<TrestleEnums.InteriorOrRoomFeatures> { TrestleEnums.InteriorOrRoomFeatures.AirFiltration, TrestleEnums.InteriorOrRoomFeatures.BayWindow },
+            AppliancesAndEquipment = new List<TrestleEnums.Appliances> { TrestleEnums.Appliances.BuiltIn },
+            SecurityFeatures = new List<TrestleEnums.SecurityFeatures> { TrestleEnums.SecurityFeatures.ComplexFenced },
+        };
+
+        public static FinancialResponse GetFinancialMessage() => new()
+        {
+            AcceptableFinancing = new List<TrestleEnums.ListingTerms> { TrestleEnums.ListingTerms.Cash, TrestleEnums.ListingTerms.FHA },
+            HoaRequirement = false,
+            HoaName = "HoaName",
+            HoaFeeIncludes = TrestleEnums.AssociationFeeIncludes.CableTV,
+            HoaAmount = 123.0m,
+        };
+
+        public static OtherResponse GetOtherMessage() => new()
+        {
+            AgentSell = "Agent Sell",
+            LotDescription = new List<TrestleEnums.LotFeatures> { TrestleEnums.LotFeatures.Agricultural },
+            LotSize = 200m,
+            LotDimensions = "100",
+            Fencing = new List<TrestleEnums.Fencing> { TrestleEnums.Fencing.Gate },
+            WaterAccessType = new List<TrestleEnums.WaterSource> { TrestleEnums.WaterSource.AgriculturalWell },
+            ViewFeatures = new List<TrestleEnums.ViewTrestle> { TrestleEnums.ViewTrestle.Canal },
+            ExteriorFeatures = new List<TrestleEnums.ExteriorFeatures> { TrestleEnums.ExteriorFeatures.BasketballCourt },
+            NeighborhoodAmenities = new List<TrestleEnums.CommunityFeatures> { TrestleEnums.CommunityFeatures.BicycleStorage },
+            HeatingSystem = new List<TrestleEnums.Heating> { TrestleEnums.Heating.BuildingElectric },
+            CoolingSystem = new List<TrestleEnums.Cooling> { TrestleEnums.Cooling.ReverseCycle },
+            WaterSewer = new List<TrestleEnums.Sewer> { TrestleEnums.Sewer.AssessmentUnpaid },
+            OtherUtilities = new List<TrestleEnums.Utilities> { TrestleEnums.Utilities.CableConnected },
+            WindowFeatures = new List<TrestleEnums.WindowFeatures> { TrestleEnums.WindowFeatures.Arched },
+            WaterfrontFeatures = new List<TrestleEnums.WaterfrontFeatures> { TrestleEnums.WaterfrontFeatures.Bayou },
+        };
+
+        public static ShowingResponse GetShowingMessage() => new()
+        {
+            BuyersAgentCommission = "300",
+            BuyersAgentCommissionType = new List<TrestleEnums.CompensationType> { TrestleEnums.CompensationType.Item1 },
+            LockBoxType = TrestleEnums.LockBoxType.Electronic,
+            ShowingPhone = "123951486",
+            AccessCode = "123456",
+            Showing = new List<TrestleEnums.ShowingRequirements> { TrestleEnums.ShowingRequirements.CallListingOffice, TrestleEnums.ShowingRequirements.AppointmentOnly },
+            ShowingInstructions = "ShowingInstructions",
         };
 
         public static ListingSaleStatusFieldsDto GetListingSaleStatusFieldsDto() => new()
@@ -889,8 +882,8 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             MarketModified = DateTime.UtcNow,
         };
 
-        public static ReverseProspect GetReverseProspectTrack(Guid listingId, Guid companyId, Guid userId, bool hasReportDtata = false) =>
-            new(listingId, userId, companyId, hasReportDtata ? "[{\"Agent\":\"Joe Corwin\", \"Email\":\"joe@joecorwin.com\", \"DateSent\":\"11/29/2021\", \"InterestLevel\":\"Interested\"}]" : null, ReverseProspectStatus.Available);
+        public static ReverseProspect GetReverseProspectTrack(Guid listingId, Guid companyId, Guid userId, bool hasReportData = false) =>
+            new(listingId, userId, companyId, hasReportData ? "[{\"Agent\":\"Joe Corwin\", \"Email\":\"joe@joecorwin.com\", \"DateSent\":\"11/29/2021\", \"InterestLevel\":\"Interested\"}]" : null, ReverseProspectStatus.Available);
 
         public static OfficeValueObject GetOfficeValueObject(string marketUniqueId) => new()
         {
@@ -1163,8 +1156,10 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             var employeeId = id ?? Guid.NewGuid();
             var employeeCommunityId = communityId ?? Guid.NewGuid();
             var employeeUserId = userId ?? Guid.NewGuid();
-            var employee = new CommunityEmployee(employeeId, employeeCommunityId, Guid.Empty);
-            employee.UserId = employeeUserId;
+            var employee = new CommunityEmployee(employeeId, employeeCommunityId, Guid.Empty)
+            {
+                UserId = employeeUserId,
+            };
 
             return employee;
         }

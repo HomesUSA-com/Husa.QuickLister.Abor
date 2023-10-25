@@ -6,8 +6,10 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Downloader.CTX.Api.Client;
+    using Husa.Downloader.CTX.Api.Client.Interface;
     using Husa.Downloader.CTX.Api.Contracts.Response;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.MediaService.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Services.Downloader;
@@ -18,6 +20,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
+    using MediaInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Media;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Application.Test")]
@@ -113,6 +116,97 @@ namespace Husa.Quicklister.Abor.Application.Tests
             // Assert
             this.listingSaleRepository.Verify();
             Assert.Equal(listingId, notFoundException.Id);
+        }
+
+        [Fact]
+        public async Task ImportMediaFromMlsThrowsNotFoundExceptionWhenListingDoesNotExistAsync()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            this.listingSaleRepository
+                .Setup(s => s.GetById(It.Is<Guid>(m => m.Equals(listingId)), It.IsAny<bool>()))
+                .ReturnsAsync((SaleListing)null)
+                .Verifiable();
+
+            // Act
+            var notFoundException = await Assert.ThrowsAsync<NotFoundException<SaleListing>>(() => this.Sut.ImportMediaFromMlsAsync(listingId));
+
+            // Assert
+            this.listingSaleRepository.Verify();
+            Assert.Equal(listingId, notFoundException.Id);
+        }
+
+        [Fact]
+        public async Task ImportMediaFromMlsStopsExecutionWhenNoMediaIsFoundForListingAsync()
+        {
+            // Arrange
+            const string mlsNumber = "33669911";
+            var listingId = Guid.NewGuid();
+            var saleListing = new Mock<SaleListing>();
+            saleListing.SetupGet(sl => sl.Id).Returns(listingId);
+            saleListing.SetupGet(sl => sl.MlsNumber).Returns(mlsNumber);
+            this.listingSaleRepository
+                .Setup(s => s.GetById(It.Is<Guid>(m => m.Equals(listingId)), It.IsAny<bool>()))
+                .ReturnsAsync(saleListing.Object)
+                .Verifiable();
+            var mlsMediaResource = new Mock<IMlsMedia>();
+            mlsMediaResource
+                .Setup(m => m.ImportSaleListingPhotosAsync(It.Is<string>(m => m.Equals(mlsNumber)), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Array.Empty<MediaResponse>())
+                .Verifiable();
+
+            this.downloaderCtxClient.SetupGet(d => d.MlsMedia).Returns(mlsMediaResource.Object);
+
+            // Act
+            await this.Sut.ImportMediaFromMlsAsync(listingId);
+
+            // Assert
+            this.listingSaleRepository.Verify();
+            mlsMediaResource.Verify();
+            this.mediaService.Verify(m => m.GetAsync(It.IsAny<Guid>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task ImportMediaFromMlsImportsSuccessAsync()
+        {
+            // Arrange
+            const string mlsNumber = "33669911";
+            var listingId = Guid.NewGuid();
+            var saleListing = new Mock<SaleListing>();
+            saleListing.SetupGet(sl => sl.Id).Returns(listingId);
+            saleListing.SetupGet(sl => sl.MlsNumber).Returns(mlsNumber);
+            this.listingSaleRepository
+                .Setup(s => s.GetById(It.Is<Guid>(m => m.Equals(listingId)), It.IsAny<bool>()))
+                .ReturnsAsync(saleListing.Object)
+                .Verifiable();
+            var mlsMediaResource = new Mock<IMlsMedia>();
+            var mediaResponse = new MediaResponse { MediaId = listingId.ToString(), Uri = "https://www.google.com/" };
+            mlsMediaResource
+                .Setup(m => m.ImportSaleListingPhotosAsync(It.Is<string>(m => m.Equals(mlsNumber)), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new[] { mediaResponse })
+                .Verifiable();
+
+            this.downloaderCtxClient.SetupGet(d => d.MlsMedia).Returns(mlsMediaResource.Object);
+
+            var resourceMock = new Mock<MediaInterfaces.IResourceService>();
+            this.mediaService
+                .SetupGet(ms => ms.Resource)
+                .Returns(resourceMock.Object)
+                .Verifiable();
+            var mediaDetail = new MediaDetail { Id = listingId };
+            this.mediaService
+                .Setup(m => m.GetAsync(It.Is<Guid>(id => id == listingId)))
+                .ReturnsAsync(new ResourceResponse { Media = new[] { mediaDetail } });
+
+            // Act
+            await this.Sut.ImportMediaFromMlsAsync(listingId);
+
+            // Assert
+            this.listingSaleRepository.Verify();
+            mlsMediaResource.Verify();
+            this.mediaService.Verify();
+            this.mediaService.Verify(r => r.Resource.DeleteAsync(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()), Times.Once);
+            resourceMock.Verify(r => r.BulkCreateAsync(It.Is<Guid>(id => id == listingId), It.IsAny<IEnumerable<ListingSaleMediaDto>>(), It.IsAny<int>()), Times.Once);
         }
     }
 }
