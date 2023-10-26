@@ -160,7 +160,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Extensions
         {
             if (string.IsNullOrWhiteSpace(enumValueToFind))
             {
-                throw new ArgumentException($"'{nameof(enumValueToFind)}' cannot be null or whitespace.", nameof(enumValueToFind));
+                return null;
             }
 
             var enumType = typeof(TEnum);
