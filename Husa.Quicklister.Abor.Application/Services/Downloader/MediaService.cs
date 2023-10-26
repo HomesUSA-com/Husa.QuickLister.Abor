@@ -57,5 +57,26 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             await this.listingMediaService.Resource.DeleteAsync(listingSale.Id, dispose: false);
             await this.listingMediaService.Resource.BulkCreateAsync(listingSale.Id, mediaDto, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
         }
+
+        public async Task ImportMediaFromMlsAsync(Guid listingId)
+        {
+            var listingSale = await this.listingSaleRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
+            this.logger.LogInformation("Listing Sale service is starting to import media from ABOR market for listing with id {listingId}", listingId);
+            var mlsMedia = await this.downloaderCtxClient.MlsMedia.ImportSaleListingPhotosAsync(listingSale.MlsNumber);
+            var mediaDto = this.mapper.Map<IEnumerable<ListingSaleMediaDto>>(mlsMedia);
+            await this.CreateMediaAsync(listingId, mediaDto);
+        }
+
+        private async Task CreateMediaAsync(Guid listingId, IEnumerable<ListingSaleMediaDto> mlsMedia)
+        {
+            if (!mlsMedia.Any())
+            {
+                this.logger.LogInformation("No media was found in the MLS to import for listing id {listingId}", listingId);
+                return;
+            }
+
+            await this.listingMediaService.Resource.DeleteAsync(listingId);
+            await this.listingMediaService.Resource.BulkCreateAsync(listingId, mlsMedia, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
+        }
     }
 }

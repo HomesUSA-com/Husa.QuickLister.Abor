@@ -12,8 +12,8 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Controllers;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
-    using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
+    using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Uploader;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.ReverseProspect;
@@ -41,7 +41,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
         private readonly Mock<IUploaderService> austinUploaderService = new();
         private readonly Mock<ISaleListingService> listingSaleService = new();
         private readonly Mock<ILogger<SaleListingsController>> logger = new();
-        private readonly Mock<IDownloaderService> downloaderService = new();
+        private readonly Mock<IMediaService> downloaderMediaService = new();
         private readonly Mock<HttpContext> httpContextMock = new();
 
         private readonly Guid userId = new("7c189de0-2493-44fb-b9da-30d1a6657f1c");
@@ -55,7 +55,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
                 this.managementTraceQueriesRepository.Object,
                 this.listingSaleService.Object,
                 this.austinUploaderService.Object,
-                this.downloaderService.Object,
+                this.downloaderMediaService.Object,
                 this.logger.Object,
                 this.fixture.Mapper);
         }
@@ -449,7 +449,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
             this.managementTraceQueriesRepository.Object,
             this.listingSaleService.Object,
             this.austinUploaderService.Object,
-            this.downloaderService.Object,
+            this.downloaderMediaService.Object,
             this.logger.Object,
             this.fixture.Mapper);
     }

@@ -118,7 +118,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddTransient<IValidateListingStatusChanges<ListingSaleRequestForUpdate>, ListingSaleRequestWithStatusChangeValidator>();
             services.AddScoped<IAgentService, AgentService>();
             services.AddScoped<IOfficeService, OfficeService>();
-            services.AddScoped<IDownloaderService, DownloaderService>();
+            services.AddScoped<IResidentialService, ResidentialService>();
             services.AddScoped<IMediaService, MediaService>();
             services.AddScoped<IOpenHouseService, OpenHouseService>();
 
