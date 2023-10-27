@@ -14,6 +14,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
 
     public class SaleListingRequest : ListingRequest
     {
+        private Guid? companyId;
+
         public SaleListingRequest(SaleListing saleListing, Guid userId)
             : base(
                   saleListing.MlsStatus,
@@ -28,6 +30,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
             this.SaleProperty = SalePropertyRecord.CreateRecord(saleListing.SaleProperty);
             this.PublishInfo = PublishFieldsRecord.CreateRecord(saleListing.PublishInfo);
             this.UpdateTrackValues(userId, isNewRecord: true);
+            this.CompanyId = this.SaleProperty.CompanyId;
         }
 
         protected SaleListingRequest()
@@ -49,6 +52,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
         public virtual PublishFieldsRecord PublishInfo { get; set; }
 
         public override Guid ListingId => this.ListingSaleId;
+
+        public override Guid CompanyId
+        {
+            get { return this.companyId ?? this.SaleProperty.CompanyId; }
+            set { this.companyId = value; }
+        }
 
         public virtual SaleListingRequest Clone()
         {
