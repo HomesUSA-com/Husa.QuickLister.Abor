@@ -51,6 +51,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Data;
     using Husa.Quicklister.Abor.Data.Commands.Repositories;
+    using Husa.Quicklister.Abor.Data.Documents.Repositories;
     using Husa.Quicklister.Abor.Data.Queries;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
@@ -59,6 +60,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
+    using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Repositories;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -110,6 +112,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IScrapedListingQueriesRepository, ScrapedListingQueriesRepository>();
             services.AddScoped<IQueryXmlRepository, QueryXmlRepository>();
             services.AddScoped<IManagementTraceQueriesRepository, ManagementTraceQueriesRepository>();
+            services.AddScoped<IMigrationQueryRepository, RequestMigrationQueryRepository>();
             return services;
         }
 
