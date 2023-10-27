@@ -1,11 +1,9 @@
 namespace Husa.Quicklister.Abor.Api.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
     using Husa.Quicklister.Abor.Application.Models.Listing;
-    using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Xunit;
 
@@ -23,14 +21,12 @@ namespace Husa.Quicklister.Abor.Api.Tests
         [Fact]
         public void ListingMappingTest()
         {
-            var listingSaleMessage = TestModelProvider.GetResidentialMessage();
-            var listingSaleDto = this.fixture.Mapper.Map<FullListingSaleDto>(listingSaleMessage.ResidentialValue);
-            var roomsDto = this.fixture.Mapper.Map<IEnumerable<RoomDto>>(listingSaleMessage.Rooms);
+            var residentialResponse = TestModelProvider.GetResidentialResponse();
+            var listingSaleDto = this.fixture.Mapper.Map<FullListingSaleDto>(residentialResponse);
 
             Assert.NotNull(listingSaleDto);
             Assert.NotNull(listingSaleDto.SaleProperty.FinancialInfo);
             Assert.NotNull(listingSaleDto.SaleProperty.ShowingInfo);
-            Assert.NotNull(roomsDto);
         }
     }
 }

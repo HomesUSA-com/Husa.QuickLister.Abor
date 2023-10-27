@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     public abstract class Listing : ExtensionsEntities.XmlListing
     {
         public static readonly IEnumerable<ActionType> RelistAndComparable = new[] { ActionType.Relist, ActionType.Comparable };
+        protected bool isMarketUpdate = false;
 
         protected Listing()
             : base()
@@ -55,8 +56,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         protected void CopyInformationFromValueObject(ListingValueObject listingValue)
         {
-            this.CDOM = listingValue.CDOM;
-            this.DOM = listingValue.DOM;
+            if (!this.isMarketUpdate)
+            {
+                this.CDOM = listingValue.CDOM;
+                this.DOM = listingValue.DOM;
+            }
+
             this.ListDate = listingValue.ListDate;
             this.ListPrice = listingValue.ListPrice;
             this.ListType = listingValue.ListType;

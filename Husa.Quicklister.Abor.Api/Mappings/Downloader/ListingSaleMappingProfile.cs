@@ -1,20 +1,20 @@
 namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
 {
     using System;
-    using System.Globalization;
+    using System.Linq;
     using AutoMapper;
+    using Husa.Downloader.CTX.Api.Contracts.Response.Residential;
     using Husa.Downloader.Sabor.ServiceBus.Contracts;
     using Husa.Extensions.Common;
     using Husa.Quicklister.Abor.Api.Mappings.Downloader.Converters;
+    using Husa.Quicklister.Abor.Api.Mappings.EnumTransformations;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Listing;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Domain.Enums;
     using OpenHouseMessage = Husa.Downloader.CTX.ServiceBus.Contracts.ResidentialOpenHousesMessage;
 
     public class ListingSaleMappingProfile : Profile
@@ -22,33 +22,11 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
         public ListingSaleMappingProfile()
         {
             this.MapResidentialDownloaderToListingDto();
-            this.MapResidentialDownloaderToFullListingDto();
+            this.ResidentialMessageMapping();
             this.MapFullListingDtoToListingValueObject();
             this.MapWithConverters();
 
             this.CreateMap<ListingSalePublishInfoDto, PublishInfo>();
-        }
-
-        private static CommissionType GetBuyersAgentCommissionType(string buyerAgentComission)
-        {
-            if (string.IsNullOrEmpty(buyerAgentComission))
-            {
-                return CommissionType.Percent;
-            }
-
-            return buyerAgentComission.Contains('$') ? CommissionType.Amount : CommissionType.Percent;
-        }
-
-        private static decimal? GetBuyersAgentCommission(string buyerAgentComission)
-        {
-            if (string.IsNullOrEmpty(buyerAgentComission))
-            {
-                return null;
-            }
-
-            return buyerAgentComission.Contains('$') ?
-                decimal.Parse(buyerAgentComission.Replace("$", string.Empty), CultureInfo.InvariantCulture) :
-                decimal.Parse(buyerAgentComission.Replace("%", string.Empty), CultureInfo.InvariantCulture);
         }
 
         private static DateTime? IsValidDate(DateTime? inputDate) => (inputDate <= DateTime.MinValue) ? (DateTime?)null : inputDate;
@@ -67,77 +45,185 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(dto => dto.ListType, lsm => lsm.Ignore());
         }
 
-        private void MapResidentialDownloaderToFullListingDto()
+        private void ResidentialMessageMapping()
         {
-            this.CreateMap<ResidentialValueMessage, FullListingSaleDto>()
-                .ForMember(dto => dto.DOM, config => config.MapFrom(dto => dto.DOM))
-                .ForMember(dto => dto.CDOM, config => config.MapFrom(dto => dto.CDOM))
-                .ForMember(dto => dto.ListPrice, config => config.MapFrom(dto => dto.ListPrice))
-                .ForMember(dto => dto.ListDate, config => config.MapFrom(dto => dto.ListDate))
-                .ForMember(dto => dto.ListType, config => config.MapFrom(x => x.Type.ToListType() ?? ListType.Residential))
-                .ForMember(dto => dto.MlsStatus, config => config.MapFrom(x => x.Status.ToMarketStatus() ?? MarketStatuses.Active))
-                .ForMember(dto => dto.MarketUniqueId, config => config.MapFrom(dto => dto.ListingId))
-                .ForMember(dto => dto.MarketModifiedOn, config => config.MapFrom(dto => dto.ResidentialUpdateDate))
-                .ForMember(dto => dto.MlsNumber, config => config.MapFrom(dto => dto.MlsNumber))
-                .ForPath(dto => dto.StatusFieldsInfo.ClosePrice, config => config.MapFrom(dto => dto.SoldPrice))
-                .ForPath(dto => dto.StatusFieldsInfo.ClosedDate, config => config.MapFrom(dto => dto.CloseDate))
-                .ForPath(dto => dto.StatusFieldsInfo.PendingDate, config => config.MapFrom(dto => dto.ContractDate))
-                .ForPath(dto => dto.StatusFieldsInfo.HasContingencyInfo, config => config.MapFrom(dto => !string.IsNullOrEmpty(dto.ContigencyInfo)))
-                .ForPath(dto => dto.StatusFieldsInfo.ContingencyInfo, config => config.MapFrom(dto => dto.ContigencyInfo.CsvToEnum<ContingencyInfo>(true)))
-                .ForPath(dto => dto.StatusFieldsInfo.OffMarketDate, config => config.MapFrom(dto => dto.OffMarketDate))
-                .ForPath(dto => dto.StatusFieldsInfo.SellConcess, config => config.MapFrom(dto => dto.SellConcess))
-                .ForPath(dto => dto.StatusFieldsInfo.SaleTerms, config => config.MapFrom(dto => dto.HowSold.CsvToEnum<SaleTerms>(true)))
-                .ForPath(dto => dto.SaleProperty.SalePropertyInfo.OwnerName, config => config.MapFrom(dto => dto.BuilderName))
-                .ForPath(dto => dto.SaleProperty.AddressInfo.StreetNumber, config => config.MapFrom(dto => dto.StreetNumber))
-                .ForPath(dto => dto.SaleProperty.AddressInfo.StreetName, config => config.MapFrom(dto => dto.StreetName))
-                .ForPath(dto => dto.SaleProperty.AddressInfo.City, config => config.MapFrom(dto => dto.City.ToEnumFromEnumMember<Cities>()))
-                .ForPath(dto => dto.SaleProperty.AddressInfo.State, config => config.MapFrom(dto => dto.State))
-                .ForPath(dto => dto.SaleProperty.AddressInfo.ZipCode, config => config.MapFrom(dto => dto.ZipCode))
-                .ForPath(dto => dto.SaleProperty.AddressInfo.County, config => config.MapFrom(dto => dto.County))
-                .ForPath(dto => dto.SaleProperty.AddressInfo.Subdivision, config => config.MapFrom(dto => dto.Subdivision))
-                .ForPath(dto => dto.SaleProperty.PropertyInfo.ConstructionStage, lsm => lsm.Ignore())
-                .ForPath(dto => dto.SaleProperty.PropertyInfo.ConstructionStartYear, config => config.MapFrom(x => x.ConstructionStartYear.ConstructionStartYearToIntConverter()))
-                .ForPath(dto => dto.SaleProperty.PropertyInfo.LegalDescription, config => config.MapFrom(dto => dto.LegalDescription))
-                .ForPath(dto => dto.SaleProperty.PropertyInfo.TaxId, config => config.MapFrom(dto => dto.TaxId))
-                .ForPath(dto => dto.SaleProperty.PropertyInfo.MlsArea, config => config.MapFrom(dto => (MlsArea?)dto.MlsArea))
-                .ForPath(dto => dto.SaleProperty.PropertyInfo.LotSize, config => config.MapFrom(dto => dto.LotSize))
-                .ForPath(dto => dto.SaleProperty.PropertyInfo.LotDimension, config => config.MapFrom(dto => dto.LotDimensions))
-                .ForPath(dto => dto.SaleProperty.PropertyInfo.LotDescription, config => config.MapFrom(dto => dto.LotDescription.CsvToEnum<LotDescription>(true)))
-                .ForPath(dto => dto.SaleProperty.PropertyInfo.Latitude, config => config.MapFrom(dto => dto.Latitude))
-                .ForPath(dto => dto.SaleProperty.PropertyInfo.Longitude, config => config.MapFrom(dto => dto.Longitude))
-                .ForPath(dto => dto.SaleProperty.SpacesDimensionsInfo.StoriesTotal, config => config.MapFrom(dto => dto.Stories.ToStories()))
-                .ForPath(dto => dto.SaleProperty.SpacesDimensionsInfo.SqFtTotal, config => config.MapFrom(dto => dto.SquareFeet))
-                .ForPath(dto => dto.SaleProperty.SpacesDimensionsInfo.MainLevelBedroomTotal, config => config.MapFrom(dto => dto.Bedrooms))
-                .ForPath(dto => dto.SaleProperty.SpacesDimensionsInfo.FullBathsTotal, config => config.MapFrom(dto => dto.FullBaths))
-                .ForPath(dto => dto.SaleProperty.SpacesDimensionsInfo.HalfBathsTotal, config => config.MapFrom(dto => dto.HalfBaths))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.PropertyDescription, config => config.MapFrom(dto => dto.PropertyDescription))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.Fireplaces, config => config.MapFrom(dto => dto.Fireplaces.FireplacesToIntConverter()))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.FireplaceDescription, config => config.MapFrom(dto => dto.FireplaceDescription.CsvToEnum<FireplaceDescription>(true)))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.Floors, config => config.MapFrom(dto => dto.Flooring.CsvToEnum<Flooring>(true)))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.WindowFeatures, config => config.MapFrom(dto => dto.WindowCoverings.CsvToEnum<WindowFeatures>(true)))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.ExteriorFeatures, config => config.MapFrom(dto => dto.ExteriorFeatures.CsvToEnum<ExteriorFeatures>(true)))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.RoofDescription, config => config.MapFrom(dto => dto.Roof.CsvToEnum<RoofDescription>(true)))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.Foundation, config => config.MapFrom(dto => dto.Foundation.CsvToEnum<Foundation>(true)))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.HomeFaces, config => config.MapFrom(dto => dto.HomeFaces))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.CoolingSystem, config => config.MapFrom(dto => dto.CoolingSystemDescription.CsvToEnum<CoolingSystem>(true)))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.WaterSewer, config => config.MapFrom(dto => dto.WaterSewer.CsvToEnum<WaterSewer>(true)))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.NeighborhoodAmenities, config => config.MapFrom(dto => dto.NeighborhoodAmenities.CsvToEnum<NeighborhoodAmenities>(true)))
-                .ForPath(dto => dto.SaleProperty.FeaturesInfo.IsNewConstruction, config => config.MapFrom(dto => dto.Construction == "NEW"))
-                .ForPath(dto => dto.SaleProperty.FinancialInfo.TaxRate, config => config.MapFrom(dto => dto.TotalTax))
-                .ForPath(dto => dto.SaleProperty.FinancialInfo.TaxYear, config => config.MapFrom(dto => dto.TaxYear))
-                .ForPath(dto => dto.SaleProperty.FinancialInfo.TitleCompany, config => config.MapFrom(dto => dto.TitleCompany))
-                .ForPath(dto => dto.SaleProperty.FinancialInfo.BuyersAgentCommission, config => config.MapFrom(x => GetBuyersAgentCommission(x.BuyerAgentComission)))
-                .ForPath(dto => dto.SaleProperty.FinancialInfo.BuyersAgentCommissionType, config => config.MapFrom(x => GetBuyersAgentCommissionType(x.BuyerAgentComission)))
-                .ForPath(dto => dto.SaleProperty.FinancialInfo.HOARequirement, config => config.MapFrom(dto => dto.HOAMandatory))
-                .ForPath(dto => dto.SaleProperty.ShowingInfo.ContactPhone, config => config.MapFrom(dto => dto.ApptPhone))
-                .ForPath(dto => dto.SaleProperty.ShowingInfo.AgentPrivateRemarks, config => config.MapFrom(dto => dto.AgentPrivateRemarks))
-                .ForPath(dto => dto.SaleProperty.ShowingInfo.Directions, config => config.MapFrom(dto => dto.Directions))
-                .ForPath(dto => dto.SaleProperty.ShowingInfo.ShowingInstructions, config => config.MapFrom(dto => dto.Showing))
-                .ForPath(dto => dto.SaleProperty.SchoolsInfo.SchoolDistrict, config => config.MapFrom(dto => dto.SchoolDistrict))
-                .ForPath(dto => dto.SaleProperty.SchoolsInfo.MiddleSchool, config => config.MapFrom(dto => dto.MiddleSchool))
-                .ForPath(dto => dto.SaleProperty.SchoolsInfo.ElementarySchool, config => config.MapFrom(dto => dto.ElementarySchool))
-                .ForPath(dto => dto.SaleProperty.SchoolsInfo.HighSchool, config => config.MapFrom(dto => dto.HighSchool))
-                .ForMember(dto => dto.PropertyId, lsm => lsm.Ignore());
+            this.CreateMap<ResidentialResponse, FullListingSaleDto>()
+                .ForMember(vo => vo.CDOM, dto => dto.Ignore())
+                .ForMember(vo => vo.DOM, dto => dto.Ignore())
+                .ForMember(vo => vo.ListPrice, dto => dto.MapFrom(src => src.ListingMessage.ListPrice))
+                .ForMember(vo => vo.ExpirationDate, dto => dto.MapFrom(src => src.ListingMessage.ExpirationDate))
+                .ForMember(vo => vo.ListDate, dto => dto.MapFrom(src => src.ListingMessage.ListDate))
+                .ForMember(vo => vo.ListType, dto => dto.MapFrom(src => src.ListingMessage.ListingType.FirstOrDefault().ToCtxEnum()))
+                .ForMember(vo => vo.MarketModifiedOn, dto => dto.MapFrom(src => src.ListingMessage.ModificationTimestamp.ToUtcDateTime()))
+                .ForMember(vo => vo.MarketUniqueId, dto => dto.MapFrom(src => src.ListingMessage.EntityKey))
+                .ForMember(vo => vo.MlsNumber, dto => dto.MapFrom(src => src.ListingMessage.MlsId))
+                .ForMember(vo => vo.MlsStatus, dto => dto.MapFrom(src => src.ListingMessage.MlsStatus.ToCtxEnum()))
+                .ForMember(vo => vo.PropertyId, dto => dto.Ignore())
+                .ForMember(vo => vo.SellingAgentId, dto => dto.MapFrom(src => src.OtherMessage.AgentSell))
+                .ForMember(vo => vo.StatusFieldsInfo, dto => dto.MapFrom(src => src))
+                .ForMember(vo => vo.SaleProperty, dto => dto.MapFrom(src => src));
+
+            this.CreateMap<ResidentialResponse, ListingSaleStatusFieldsDto>()
+                .ForMember(vo => vo.SellConcess, dto => dto.MapFrom(src => src.ListingMessage.ConcessionsComments))
+                .ForMember(vo => vo.ClosePrice, dto => dto.MapFrom(src => src.ListingMessage.ClosePrice))
+                .ForMember(vo => vo.EstimatedClosedDate, dto => dto.Ignore())
+                .ForMember(vo => vo.AgentId, dto => dto.Ignore())
+                .ForMember(vo => vo.AgentIdSecond, dto => dto.Ignore())
+                .ForMember(vo => vo.HasBuyerAgent, dto => dto.MapFrom(src => !string.IsNullOrEmpty(src.OtherMessage.AgentSell)))
+                .ForMember(vo => vo.HasSecondBuyerAgent, dto => dto.Ignore())
+                .ForMember(vo => vo.ClosedDate, dto => dto.MapFrom(src => src.ListingMessage.CloseDate))
+                .ForMember(vo => vo.BackOnMarketDate, dto => dto.MapFrom(src => src.ListingMessage.OnMarketTimestamp.ToUtcDateTime()))
+                .ForMember(vo => vo.OffMarketDate, dto => dto.MapFrom(src => src.ListingMessage.OffMarketTimestamp.ToUtcDateTime()))
+                .ForMember(vo => vo.HasContingencyInfo, dto => dto.Ignore())
+                .ForMember(vo => vo.ContingencyInfo, dto => dto.Ignore())
+                .ForMember(vo => vo.SaleTerms, dto => dto.Ignore())
+                .ForMember(vo => vo.PendingDate, dto => dto.Ignore())
+                .ForMember(vo => vo.CancelledReason, dto => dto.Ignore());
+
+            this.SalePropertyDetailDtoMessageMapping();
+        }
+
+        private void SalePropertyDetailDtoMessageMapping()
+        {
+            this.CreateMap<ResidentialResponse, SalePropertyDetailDto>()
+                .ForMember(vo => vo.SalePropertyInfo, dto => dto.MapFrom(src => src))
+                .ForMember(vo => vo.AddressInfo, dto => dto.MapFrom(src => src))
+                .ForMember(vo => vo.PropertyInfo, dto => dto.MapFrom(src => src))
+                .ForMember(vo => vo.SpacesDimensionsInfo, dto => dto.MapFrom(src => src))
+                .ForMember(vo => vo.FeaturesInfo, dto => dto.MapFrom(src => src))
+                .ForMember(vo => vo.FinancialInfo, dto => dto.MapFrom(src => src))
+                .ForMember(vo => vo.ShowingInfo, dto => dto.MapFrom(src => src))
+                .ForMember(vo => vo.SchoolsInfo, dto => dto.MapFrom(src => src))
+                .ForMember(vo => vo.Rooms, dto => dto.Ignore())
+                .ForMember(vo => vo.OpenHouses, dto => dto.Ignore())
+                .ForMember(vo => vo.Id, dto => dto.Ignore());
+
+            this.CreateMap<ResidentialResponse, SalePropertyDto>()
+                .ForMember(vo => vo.OwnerName, dto => dto.MapFrom(src => src.ListingMessage.OwnerName))
+                .ForMember(vo => vo.CompanyId, dto => dto.Ignore())
+                .ForMember(vo => vo.CommunityId, dto => dto.Ignore())
+                .ForMember(vo => vo.PlanId, dto => dto.Ignore());
+
+            this.CreateMap<ResidentialResponse, AddressDto>()
+                .ForMember(vo => vo.StreetNumber, dto => dto.MapFrom(src => src.ListingMessage.StreetNumber))
+                .ForMember(vo => vo.StreetName, dto => dto.MapFrom(src => src.ListingMessage.StreetName))
+                .ForMember(vo => vo.StreetType, dto => dto.MapFrom(src => src.ListingMessage.StreetType.ToCtxEnum()))
+                .ForMember(vo => vo.UnitNumber, dto => dto.MapFrom(src => src.ListingMessage.UnitNumber))
+                .ForMember(vo => vo.City, dto => dto.MapFrom(src => src.ListingMessage.City.GetEnumFromText<Cities>()))
+                .ForMember(vo => vo.State, dto => dto.MapFrom(src => src.ListingMessage.State.ToCtxEnum()))
+                .ForMember(vo => vo.ZipCode, dto => dto.MapFrom(src => src.ListingMessage.ZipCode))
+                .ForMember(vo => vo.County, dto => dto.MapFrom(src => src.ListingMessage.County.GetEnumFromText<Counties>()))
+                .ForMember(vo => vo.Subdivision, dto => dto.MapFrom(src => src.ListingMessage.Subdivision));
+
+            this.CreateMap<ResidentialResponse, PropertyDto>()
+                .ForMember(vo => vo.ConstructionStartYear, dto => dto.MapFrom(src => src.ListingMessage.YearBuilt))
+                .ForMember(vo => vo.ConstructionStage, dto => dto.Ignore())
+                .ForMember(vo => vo.ConstructionCompletionDate, dto => dto.Ignore())
+                .ForMember(vo => vo.LegalDescription, dto => dto.Ignore())
+                .ForMember(vo => vo.TaxId, dto => dto.Ignore())
+                .ForMember(vo => vo.PropertyType, dto => dto.MapFrom(src => src.ListingMessage.PropertySubType.FirstOrDefault().ToCtxEnum()))
+                .ForMember(vo => vo.MlsArea, dto => dto.MapFrom(src => src.ListingMessage.MLSAreaMajor.GetEnumFromText<MlsArea>()))
+                .ForMember(vo => vo.UpdateGeocodes, dto => dto.Ignore())
+                .ForMember(vo => vo.Latitude, dto => dto.MapFrom(src => src.ListingMessage.Latitude))
+                .ForMember(vo => vo.Longitude, dto => dto.MapFrom(src => src.ListingMessage.Longitude))
+                .ForMember(vo => vo.LotDescription, dto => dto.MapFrom(src => src.OtherMessage.LotDescription.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.LotSize, dto => dto.MapFrom(src => src.OtherMessage.LotSize.ToString()))
+                .ForMember(vo => vo.LotDimension, dto => dto.MapFrom(src => src.OtherMessage.LotDimensions))
+                .ForMember(vo => vo.TaxLot, dto => dto.Ignore())
+                .ForMember(vo => vo.IsXmlManaged, dto => dto.Ignore());
+
+            this.CreateMap<ResidentialResponse, SpacesDimensionsDto>()
+                .ForMember(vo => vo.MainLevelBedroomTotal, dto => dto.MapFrom(src => src.RoomsMessage.NumBedrooms))
+                .ForMember(vo => vo.FullBathsTotal, dto => dto.MapFrom(src => src.RoomsMessage.BathroomsFull))
+                .ForMember(vo => vo.HalfBathsTotal, dto => dto.MapFrom(src => src.RoomsMessage.BathroomsHalf))
+                .ForMember(vo => vo.DiningAreasTotal, dto => dto.Ignore())
+                .ForMember(vo => vo.LivingAreasTotal, dto => dto.Ignore())
+                .ForMember(vo => vo.OtherLevelsBedroomTotal, dto => dto.Ignore())
+                .ForMember(vo => vo.StoriesTotal, dto => dto.MapFrom(src => src.FeaturesMessage.Stories.ToStories()))
+                .ForMember(vo => vo.SqFtTotal, dto => dto.MapFrom(src => src.ListingMessage.SquareFeetTotal));
+
+            this.CreateMap<ResidentialResponse, FeaturesDto>()
+                .ForMember(vo => vo.HomeFaces, dto => dto.MapFrom(src => src.ListingMessage.FrontFaces.ToCtxEnum()))
+                .ForMember(vo => vo.Foundation, dto => dto.MapFrom(src => src.FeaturesMessage.Foundation.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.RoofDescription, dto => dto.MapFrom(src => src.FeaturesMessage.RoofDescription.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.ConstructionMaterials, dto => dto.MapFrom(src => src.FeaturesMessage.Construction.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.FireplaceDescription, dto => dto.MapFrom(src => src.FeaturesMessage.FireplaceDescription.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.Fireplaces, dto => dto.MapFrom(src => src.RoomsMessage.Fireplaces))
+                .ForMember(vo => vo.Floors, dto => dto.MapFrom(src => src.FeaturesMessage.Floors.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.LaundryLocation, dto => dto.MapFrom(src => src.FeaturesMessage.Laundry.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.GarageSpaces, dto => dto.MapFrom(src => src.FeaturesMessage.GarageSpaces))
+                .ForMember(vo => vo.GarageDescription, dto => dto.MapFrom(src => src.FeaturesMessage.GarageDescription.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.InteriorFeatures, dto => dto.MapFrom(src => src.FeaturesMessage.InteriorFeatures.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.Appliances, dto => dto.MapFrom(src => src.FeaturesMessage.AppliancesAndEquipment.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.Fencing, dto => dto.MapFrom(src => src.OtherMessage.Fencing.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.WaterSource, dto => dto.MapFrom(src => src.OtherMessage.WaterAccessType.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.WaterBodyName, dto => dto.MapFrom(src => src.ListingMessage.City.GetEnumFromText<WaterBodyName>()))
+                .ForMember(vo => vo.View, dto => dto.MapFrom(src => src.OtherMessage.ViewFeatures.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.ExteriorFeatures, dto => dto.MapFrom(src => src.OtherMessage.ExteriorFeatures.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.NeighborhoodAmenities, dto => dto.MapFrom(src => src.OtherMessage.NeighborhoodAmenities.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.HeatSystem, dto => dto.MapFrom(src => src.OtherMessage.HeatingSystem.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.CoolingSystem, dto => dto.MapFrom(src => src.OtherMessage.CoolingSystem.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.WaterSewer, dto => dto.MapFrom(src => src.OtherMessage.WaterSewer.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.UtilitiesDescription, dto => dto.MapFrom(src => src.OtherMessage.OtherUtilities.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.IsNewConstruction, dto => dto.Ignore())
+                .ForMember(vo => vo.PropertyDescription, dto => dto.MapFrom(src => src.ListingMessage.PublicRemarks))
+                .ForMember(vo => vo.RestrictionsDescription, dto => dto.Ignore())
+                .ForMember(vo => vo.SecurityFeatures, dto => dto.MapFrom(src => src.FeaturesMessage.SecurityFeatures.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.WindowFeatures, dto => dto.MapFrom(src => src.OtherMessage.WindowFeatures.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.PatioAndPorchFeatures, dto => dto.Ignore())
+                .ForMember(vo => vo.DistanceToWaterAccess, dto => dto.Ignore())
+                .ForMember(vo => vo.WaterfrontFeatures, dto => dto.MapFrom(src => src.OtherMessage.WaterfrontFeatures.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.UnitStyle, dto => dto.Ignore())
+                .ForMember(vo => vo.GuestAccommodationsDescription, dto => dto.Ignore())
+                .ForMember(vo => vo.GuestBedroomsTotal, dto => dto.Ignore())
+                .ForMember(vo => vo.GuestFullBathsTotal, dto => dto.Ignore())
+                .ForMember(vo => vo.GuestHalfBathsTotal, dto => dto.Ignore());
+
+            this.CreateMap<ResidentialResponse, FinancialDto>()
+                .ForMember(vo => vo.AcceptableFinancing, dto => dto.MapFrom(src => src.FinancialMessage.AcceptableFinancing.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.TaxExemptions, dto => dto.Ignore())
+                .ForMember(vo => vo.TaxYear, dto => dto.Ignore())
+                .ForMember(vo => vo.TaxRate, dto => dto.Ignore())
+                .ForMember(vo => vo.HOARequirement, dto => dto.MapFrom(src => src.FinancialMessage.HoaRequirement ? HoaRequirement.Mandatory : HoaRequirement.Voluntary))
+                .ForMember(vo => vo.TitleCompany, dto => dto.Ignore())
+                .ForMember(vo => vo.HoaName, dto => dto.MapFrom(src => src.FinancialMessage.HoaName))
+                .ForMember(vo => vo.HasHoa, dto => dto.Ignore())
+                .ForMember(vo => vo.HoaIncludes, dto => dto.MapFrom(src => EnumMappings.GetHoaFeeIncludes(src.FinancialMessage.HoaFeeIncludes)))
+                .ForMember(vo => vo.HoaFee, dto => dto.MapFrom(src => src.FinancialMessage.HoaAmount))
+                .ForMember(vo => vo.BuyersAgentCommission, dto => dto.MapFrom(src => src.ShowingMessage.BuyersAgentCommission.ConvertToDecimal()))
+                .ForMember(vo => vo.BuyersAgentCommissionType, dto => dto.MapFrom(src => src.ShowingMessage.BuyersAgentCommissionType.FirstOrDefault().ToCtxEnum()))
+                .ForMember(vo => vo.AgentBonusAmount, dto => dto.Ignore())
+                .ForMember(vo => vo.AgentBonusAmountType, dto => dto.Ignore())
+                .ForMember(vo => vo.HasBonusWithAmount, dto => dto.Ignore())
+                .ForMember(vo => vo.BonusExpirationDate, dto => dto.Ignore())
+                .ForMember(vo => vo.HasAgentBonus, dto => dto.Ignore())
+                .ForMember(vo => vo.HasBuyerIncentive, dto => dto.Ignore())
+                .ForMember(vo => vo.BillingFrequency, dto => dto.Ignore());
+
+            this.CreateMap<ResidentialResponse, ShowingDto>()
+                .ForMember(vo => vo.LockBoxType, dto => dto.MapFrom(src => src.ShowingMessage.LockBoxType))
+                .ForMember(vo => vo.ContactPhone, dto => dto.MapFrom(src => src.ShowingMessage.ShowingPhone))
+                .ForMember(vo => vo.OccupantPhone, dto => dto.Ignore())
+                .ForMember(vo => vo.LockBoxSerialNumber, dto => dto.MapFrom(src => src.ShowingMessage.AccessCode))
+                .ForMember(vo => vo.ShowingRequirements, dto => dto.MapFrom(src => src.ShowingMessage.Showing.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.Directions, dto => dto.MapFrom(src => src.ListingMessage.Directions))
+                .ForMember(vo => vo.ShowingInstructions, dto => dto.MapFrom(src => src.ShowingMessage.ShowingInstructions))
+                .ForMember(vo => vo.AgentPrivateRemarks, dto => dto.MapFrom(src => src.ListingMessage.PrivateRemarks))
+                .ForMember(vo => vo.OwnerName, dto => dto.MapFrom(src => src.ListingMessage.OwnerName))
+                .ForMember(vo => vo.EnableOpenHouses, dto => dto.Ignore())
+                .ForMember(vo => vo.ShowOpenHousesPending, dto => dto.Ignore())
+                .ForMember(vo => vo.AgentPrivateRemarksAdditional, dto => dto.Ignore())
+                .ForMember(vo => vo.ShowOpenHousesPending, dto => dto.Ignore())
+                .ForMember(vo => vo.RealtorContactEmail, dto => dto.Ignore());
+
+            this.CreateMap<ResidentialResponse, SchoolsDto>()
+                .ForMember(vo => vo.SchoolDistrict, dto => dto.MapFrom(src => src.ListingMessage.HighSchoolDistrict.GetEnumFromText<SchoolDistrict>()))
+                .ForMember(vo => vo.MiddleSchool, dto => dto.MapFrom(src => src.ListingMessage.MiddleSchool.GetEnumFromSchools<MiddleSchool>()))
+                .ForMember(vo => vo.ElementarySchool, dto => dto.MapFrom(src => src.ListingMessage.ElementarySchool.GetEnumFromSchools<ElementarySchool>()))
+                .ForMember(vo => vo.HighSchool, dto => dto.MapFrom(src => src.ListingMessage.HighSchool.GetEnumFromSchools<HighSchool>()))
+                .ForMember(vo => vo.OtherElementarySchool, dto => dto.Ignore())
+                .ForMember(vo => vo.OtherMiddleSchool, dto => dto.Ignore())
+                .ForMember(vo => vo.OtherHighSchool, dto => dto.Ignore());
         }
 
         private void MapFullListingDtoToListingValueObject()
