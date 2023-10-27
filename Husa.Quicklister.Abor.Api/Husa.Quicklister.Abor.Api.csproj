@@ -18,7 +18,7 @@
         <PackageReference Include="Husa.Extensions.Logger.Enrichers" Version="1.0.0" />
         <PackageReference Include="Husa.Extensions.ServiceBus" Version="4.7.0" />
         <PackageReference Include="Husa.Quicklister.Extensions.Crosscutting" Version="1.1.0" />
-        <PackageReference Include="Husa.CompanyServiceManager.Client" Version="1.2.0" />
+        <PackageReference Include="Husa.CompanyServiceManager.Client" Version="1.3.3" />
         <PackageReference Include="Husa.MediaService.Client" Version="1.0.1" />
         <PackageReference Include="Husa.Downloader.Sabor.ServiceBus.Contracts" Version="1.0.0" />
         <PackageReference Include="Husa.Xml.ServiceBus.Messages" Version="1.0.0" />

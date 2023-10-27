@@ -98,6 +98,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.AgentId, pr => pr.Ignore())
                 .ForMember(dto => dto.PendingDate, pr => pr.Ignore());
             this.CreateMap<PublishResponse, PublishFieldsRecord>()
+                .ForMember(dto => dto.PublishUser, pr => pr.Ignore())
                 .ForMember(dto => dto.PublishStatus, pr => pr.MapFrom(x => x.PublishStatus.ToEnumFromEnumMember<MarketStatuses>()))
                 .ForMember(dto => dto.PublishType, pr => pr.MapFrom(x => x.PublishType.ToActionType()));
 
