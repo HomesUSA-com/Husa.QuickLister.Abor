@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Domain.Comparers
 {
     using System.Collections.Generic;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
 
     public class OpenHouseComparer : IEqualityComparer<IProvideOpenHouseInfo>
@@ -17,10 +18,15 @@ namespace Husa.Quicklister.Abor.Domain.Comparers
                 return false;
             }
 
-            return x.Type == y.Type &&
-                   x.StartTime == y.StartTime &&
-                   x.EndTime == y.EndTime &&
-                   x.Refreshments == y.Refreshments;
+            var arePropertiesEqual = x.Type == y.Type &&
+                       x.StartTime == y.StartTime &&
+                       x.EndTime == y.EndTime;
+
+            var compareRefreshments = new HashSet<Refreshments>(x.Refreshments);
+            compareRefreshments.SymmetricExceptWith(y.Refreshments);
+            var areRefreshmentsEqual = compareRefreshments.Count == 0;
+
+            return arePropertiesEqual && areRefreshmentsEqual;
         }
 
         public int GetHashCode(IProvideOpenHouseInfo openHouse)
@@ -33,12 +39,21 @@ namespace Husa.Quicklister.Abor.Domain.Comparers
             int hashType = openHouse.Type.GetHashCode();
             int hashStartTime = openHouse.StartTime.GetHashCode();
             int hashEndTime = openHouse.EndTime.GetHashCode();
-            int hashRefreshments = openHouse.Refreshments.GetHashCode();
 
-            return hashType ^
-                   hashStartTime ^
-                   hashEndTime ^
-                   hashRefreshments;
+            if (openHouse.Refreshments != null)
+            {
+                int hashRefreshments = 0;
+                foreach (var refreshment in openHouse.Refreshments)
+                {
+                    hashRefreshments ^= refreshment.GetHashCode();
+                }
+
+                return hashType ^ hashStartTime ^ hashEndTime ^ hashRefreshments;
+            }
+            else
+            {
+                return hashType ^ hashStartTime ^ hashEndTime;
+            }
         }
     }
 }
