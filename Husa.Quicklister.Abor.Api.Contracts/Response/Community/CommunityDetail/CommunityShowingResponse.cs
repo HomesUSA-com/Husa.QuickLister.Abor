@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Community.CommunityDetail
         public string ContactPhone { get; set; }
         public string ShowingInstructions { get; set; }
         public string Directions { get; set; }
+        public ICollection<string> RealtorContactEmail { get; set; }
         public string OwnerName { get; set; }
         public LockBoxType? LockBoxType { get; set; }
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
