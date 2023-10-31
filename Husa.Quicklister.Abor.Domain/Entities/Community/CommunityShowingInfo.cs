@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
 
     public class CommunityShowingInfo : ValueObject, IProvideShowingInfo
     {
-        public const int MaxDirectionsLength = 255;
+        public const int MaxDirectionsLength = 2000;
 
         private string occupantPhone;
         private string contactPhone;

@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules.SalePropertyValidations
         {
             ValidatorOptions.Global.LanguageManager.Culture = ApplicationOptions.ApplicationCultureInfo;
             this.RuleFor(x => x.AgentPrivateRemarks).MaximumLength(1024);
-            this.RuleFor(x => x.Directions).NotEmpty().MaximumLength(255);
+            this.RuleFor(x => x.Directions).NotEmpty().MaximumLength(2000);
         }
     }
 }
