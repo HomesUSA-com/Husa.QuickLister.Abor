@@ -13,7 +13,7 @@ namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
         public string ShowingInstructions { get; set; }
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
         public LockBoxType? LockBoxType { get; set; }
-        public string RealtorContactEmail { get; set; }
+        public ICollection<string> RealtorContactEmail { get; set; }
         public string Directions { get; set; }
         public string OwnerName { get; set; }
         public bool EnableOpenHouses { get; set; }

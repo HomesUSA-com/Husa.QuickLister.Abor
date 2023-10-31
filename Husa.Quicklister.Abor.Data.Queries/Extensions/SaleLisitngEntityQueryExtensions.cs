@@ -306,6 +306,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 ContactPhone = showing.ContactPhone,
                 ShowingInstructions = showing.ShowingInstructions,
                 ShowingRequirements = showing.ShowingRequirements,
+                RealtorContactEmail = showing.RealtorContactEmail,
                 Directions = showing.Directions,
                 LockBoxType = showing.LockBoxType,
                 OwnerName = showing.OwnerName,

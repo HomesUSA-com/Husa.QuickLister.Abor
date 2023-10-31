@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
 
     public class CommunityShowingInfo : ValueObject, IProvideShowingInfo
     {
-        public const int MaxDirectionsLength = 255;
+        public const int MaxDirectionsLength = 2000;
 
         private string occupantPhone;
         private string contactPhone;
@@ -42,6 +42,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual string Directions { get; set; }
         public virtual string OwnerName { get; set; }
         public virtual LockBoxType? LockBoxType { get; set; }
+        public ICollection<string> RealtorContactEmail { get; set; }
 
         public static CommunityShowingInfo ImportFromXml(SubdivisionResponse subdivision, CommunityShowingInfo showingInfo)
         {
@@ -97,6 +98,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             clonedShowing.ShowingInstructions = info.ShowingInstructions;
             clonedShowing.Directions = info.Directions;
             clonedShowing.ShowingRequirements = info.ShowingRequirements;
+            clonedShowing.RealtorContactEmail = info.RealtorContactEmail;
             clonedShowing.LockBoxType = info.LockBoxType;
             clonedShowing.OwnerName = info.OwnerName;
 
@@ -112,6 +114,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             yield return this.Directions;
             yield return this.LockBoxType;
             yield return this.OwnerName;
+            yield return this.RealtorContactEmail;
         }
     }
 }

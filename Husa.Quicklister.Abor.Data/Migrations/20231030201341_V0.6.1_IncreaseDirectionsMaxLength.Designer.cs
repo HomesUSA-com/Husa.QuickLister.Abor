@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231030201341_V0.6.1_IncreaseDirectionsMaxLength")]
+    partial class V061_IncreaseDirectionsMaxLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1146,11 +1149,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)")
                                 .HasColumnName("ShowingInfoOwnerName");
-
-                            b1.Property<string>("RealtorContactEmail")
-                                .HasMaxLength(500)
-                                .HasColumnType("nvarchar(500)")
-                                .HasColumnName("RealtorContactEmail");
 
                             b1.Property<string>("ShowingInstructions")
                                 .HasMaxLength(2000)

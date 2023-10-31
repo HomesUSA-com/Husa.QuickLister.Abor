@@ -12,5 +12,6 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         string OwnerName { get; set; }
         LockBoxType? LockBoxType { get; set; }
         ICollection<ShowingRequirements> ShowingRequirements { get; set; }
+        public ICollection<string> RealtorContactEmail { get; set; }
     }
 }
