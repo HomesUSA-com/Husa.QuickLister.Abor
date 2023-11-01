@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     public class FeaturesInfo : ValueObject, IProvideFeature
     {
         private ICollection<FireplaceDescription> fireplaceDescription;
+        private WaterBodyName? waterBodyName;
 
         public FeaturesInfo()
         {
@@ -47,9 +48,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<View> View { get; set; }
         public virtual ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
         public virtual HomeFaces? HomeFaces { get; set; }
-        public virtual WaterBodyName? WaterBodyName { get; set; }
-        public virtual DistanceToWaterAccess? DistanceToWaterAccess { get; set; }
         public virtual ICollection<WaterfrontFeatures> WaterfrontFeatures { get; set; }
+
+        public virtual WaterBodyName? WaterBodyName
+        {
+            get { return this.waterBodyName; }
+            set { this.waterBodyName = this.WaterfrontFeatures.Contains(Enums.Domain.WaterfrontFeatures.None) ? null : value; }
+        }
+
+        public virtual DistanceToWaterAccess? DistanceToWaterAccess { get; set; }
         public virtual ICollection<UnitStyle> UnitStyle { get; set; }
         public virtual ICollection<GuestAccommodationsDescription> GuestAccommodationsDescription { get; set; }
         public virtual int? GuestBedroomsTotal { get; set; }

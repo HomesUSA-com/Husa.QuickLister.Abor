@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Husa.Downloader.CTX.Domain.Enums;
@@ -19,9 +18,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
     using Husa.Quicklister.Abor.Application.Interfaces.Office;
     using Husa.Quicklister.Abor.Application.Interfaces.OpenHouse;
     using Husa.Quicklister.Abor.Application.Models.Agent;
-    using Husa.Quicklister.Abor.Application.Models.Listing;
     using Husa.Quicklister.Abor.Application.Models.Office;
-    using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.AspNetCore.HeaderPropagation;
     using Microsoft.Azure.ServiceBus;
@@ -41,7 +38,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
         private readonly Mock<IOfficeService> officeServiceMock = new();
         private readonly Mock<IMediaService> mediaServiceMock = new();
         private readonly Mock<IOpenHouseService> openHouseMock = new();
-        private readonly Mock<IDownloaderService> downloaderServiceMock = new();
+        private readonly Mock<IResidentialService> residentialServiceMock = new();
 
         private readonly Mock<IServiceScopeFactory> serviceScopeFactoryMock = new();
         private readonly Mock<ILogger<DownloaderMessagesHandler>> loggerMock = new();
@@ -202,7 +199,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
             // Assert
             this.agentServiceMock.Verify(s => s.ProcessDataFromDownloaderAsync(It.IsAny<AgentDto>()), Times.Never);
             this.officeServiceMock.Verify(s => s.ProcessDataFromDownloaderAsync(It.IsAny<OfficeDto>()), Times.Never);
-            this.downloaderServiceMock.Verify(s => s.ProcessDataFromDownloaderAsync(It.IsAny<FullListingSaleDto>(), It.IsAny<IEnumerable<RoomDto>>(), It.IsAny<string>()), Times.Never);
+            this.residentialServiceMock.Verify(s => s.ProcessData(It.IsAny<string>()), Times.Never);
             this.subscriptionClientMock.Verify(s => s.CompleteAsync(It.Is<string>(token => string.IsNullOrEmpty(token))), Times.Once);
         }
 
@@ -212,7 +209,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
             var userProvider = new Mock<IUserProvider>();
             serviceCollection.AddSingleton(this.agentServiceMock.Object);
             serviceCollection.AddSingleton(this.officeServiceMock.Object);
-            serviceCollection.AddSingleton(this.downloaderServiceMock.Object);
+            serviceCollection.AddSingleton(this.residentialServiceMock.Object);
             serviceCollection.AddSingleton(this.mediaServiceMock.Object);
             serviceCollection.AddSingleton(this.openHouseMock.Object);
             serviceCollection.AddSingleton(userProvider.Object);

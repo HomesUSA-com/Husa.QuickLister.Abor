@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
         public string Directions { get; set; }
         public string OwnerName { get; set; }
         public LockBoxType? LockBoxType { get; set; }
+        public ICollection<string> RealtorContactEmail { get; set; }
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
     }
 }

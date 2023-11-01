@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Extensions.ServiceBus.Services;
     using Husa.Quicklister.Abor.Api.ServiceBus.Subscribers;
     using Husa.Quicklister.Abor.Application.Interfaces.Agent;
+    using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Office;
     using Husa.Quicklister.Abor.Application.Interfaces.OpenHouse;
@@ -58,6 +59,9 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                 case AgentMessage agentMessage:
                     await ProcessAgentMessage(agentMessage);
                     break;
+                case ResidentialMessage residentialMessage:
+                    await ProcessResidentialMessage(residentialMessage);
+                    break;
                 case MediaMessage mediaMessage:
                     await ProcessResidentialMediaMessage(mediaMessage);
                     break;
@@ -84,6 +88,14 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
 
                 var agentService = scope.ServiceProvider.GetRequiredService<IAgentService>();
                 return agentService.ProcessDataFromDownloaderAsync(agentDto);
+            }
+
+            Task ProcessResidentialMessage(ResidentialMessage residentialMessage)
+            {
+                this.Logger.LogInformation("Processing message for listing with mls number {mlsNumber}", residentialMessage.EntityKey);
+
+                var residentialService = scope.ServiceProvider.GetRequiredService<IResidentialService>();
+                return residentialService.ProcessData(residentialMessage.EntityKey);
             }
 
             Task ProcessResidentialMediaMessage(MediaMessage mediaMessage)

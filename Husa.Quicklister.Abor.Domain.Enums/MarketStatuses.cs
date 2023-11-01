@@ -14,7 +14,7 @@ namespace Husa.Quicklister.Abor.Domain.Enums
         [EnumMember(Value = "ActiveUnderContract")]
         [Description("Active Under Contract")]
         ActiveUnderContract,
-        [EnumMember(Value = "Withdrawn")]
+        [EnumMember(Value = "Canceled")]
         [Description("Canceled")]
         Canceled,
         [EnumMember(Value = "Closed")]

@@ -94,6 +94,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.IsNewConstruction, r => r.Ignore());
             this.CreateMap<FinancialRequest, FinancialDto>();
             this.CreateMap<ShowingRequest, ShowingDto>();
+
             this.CreateMap<AddressInfoRequest, AddressDto>();
             this.CreateMap<PropertyInfoRequest, PropertyDto>();
             this.CreateMap<RoomRequest, RoomDto>();

@@ -35,7 +35,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public string HoaName { get; set; }
         public decimal? HoaFee { get; set; }
         public BillingFrequency? BillingFrequency { get; set; }
-        public HoaRequirement HOARequirement { get; set; }
+        public HoaRequirement? HOARequirement { get; set; }
         public decimal BuyersAgentCommission { get; set; }
         public CommissionType BuyersAgentCommissionType { get; set; }
         public string ReadableBuyersAgentCommission
@@ -70,9 +70,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 throw new DomainException($"The range for Buyers Agent Commission is invalid for type {financialInfo.BuyersAgentCommissionType}");
             }
 
+            if (!financialInfo.IsValidHoa())
+            {
+                throw new DomainException(nameof(financialInfo.HOARequirement));
+            }
+
             return new()
             {
-                HOARequirement = financialInfo.HOARequirement ?? throw new DomainException(nameof(financialInfo.HOARequirement)),
+                HOARequirement = financialInfo.HOARequirement,
                 BuyersAgentCommission = financialInfo.BuyersAgentCommission ?? throw new DomainException(nameof(financialInfo.BuyersAgentCommission)),
                 BuyersAgentCommissionType = financialInfo.BuyersAgentCommissionType,
                 TaxYear = financialInfo.TaxYear ?? throw new DomainException(nameof(financialInfo.TaxYear)),

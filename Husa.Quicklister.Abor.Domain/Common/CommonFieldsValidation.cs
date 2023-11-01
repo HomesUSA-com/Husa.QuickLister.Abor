@@ -5,6 +5,11 @@ namespace Husa.Quicklister.Abor.Domain.Common
 
     public static class CommonFieldsValidation
     {
+        public static bool IsValidHoa(this IProvideFinancial financialInfo)
+        {
+            return !financialInfo.HasHoa || financialInfo.HOARequirement.HasValue;
+        }
+
         public static bool IsValidBuyersAgentCommissionRange(this IProvideAgentCommission agentCommission)
         {
             if (agentCommission.BuyersAgentCommission == null)

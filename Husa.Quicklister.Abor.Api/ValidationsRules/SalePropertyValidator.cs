@@ -16,7 +16,6 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
             this.RuleFor(sp => sp.SpacesDimensionsInfo).SetValidator(new SpacesDimensionsValidator());
             this.RuleFor(sp => sp.FeaturesInfo).SetValidator(new FeaturesValidator());
             this.RuleFor(sp => sp.SchoolsInfo).SetValidator(new SchoolValidator());
-            this.RuleFor(sp => sp.FinancialInfo).SetValidator(new FinancialValidator());
             this.RuleFor(sp => sp.ShowingInfo).SetValidator(new ShowingValidator());
             this.RuleFor(sp => sp.Rooms).ValidateListCount(1);
         }

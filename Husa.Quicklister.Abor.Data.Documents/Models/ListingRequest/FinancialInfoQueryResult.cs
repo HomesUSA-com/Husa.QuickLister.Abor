@@ -18,7 +18,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public string HoaName { get; set; }
         public decimal? HoaFee { get; set; }
         public BillingFrequency? BillingFrequency { get; set; }
-        public HoaRequirement HOARequirement { get; set; }
+        public HoaRequirement? HOARequirement { get; set; }
         public decimal BuyersAgentCommission { get; set; }
         public CommissionType BuyersAgentCommissionType { get; set; }
         public bool HasAgentBonus { get; set; }

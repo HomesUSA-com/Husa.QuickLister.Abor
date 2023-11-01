@@ -82,6 +82,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.OwnerName, pr => pr.Ignore())
                 .ForMember(dto => dto.OccupantPhone, pr => pr.MapFrom(x => x.AltPhoneCommunity.CleanPhoneValue()))
                 .ForMember(dto => dto.ContactPhone, pr => pr.MapFrom(x => x.AgentListApptPhone.CleanPhoneValue()))
+                .ForMember(dto => dto.RealtorContactEmail, pr => pr.MapFrom(x => x.RealtorContactEmail.ToCollectionFromString(";")))
                 .ForMember(dto => dto.ShowingInstructions, pr => pr.MapFrom(x => x.Showing))
                 .ForMember(dto => dto.ShowingRequirements, pr => pr.MapFrom(x => x.ShowingRequirements.CsvToEnum<ShowingRequirements>(true)))
                 .ForMember(dto => dto.LockBoxType, pr => pr.MapFrom(x => x.LockBoxType.ToEnumFromEnumMember<LockBoxType>()));
@@ -98,6 +99,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.AgentId, pr => pr.Ignore())
                 .ForMember(dto => dto.PendingDate, pr => pr.Ignore());
             this.CreateMap<PublishResponse, PublishFieldsRecord>()
+                .ForMember(dto => dto.PublishUser, pr => pr.Ignore())
                 .ForMember(dto => dto.PublishStatus, pr => pr.MapFrom(x => x.PublishStatus.ToEnumFromEnumMember<MarketStatuses>()))
                 .ForMember(dto => dto.PublishType, pr => pr.MapFrom(x => x.PublishType.ToActionType()));
 

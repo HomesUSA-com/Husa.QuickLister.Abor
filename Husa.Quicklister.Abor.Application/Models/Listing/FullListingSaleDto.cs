@@ -4,6 +4,8 @@ namespace Husa.Quicklister.Abor.Application.Models.Listing
 
     public class FullListingSaleDto : ListingDto
     {
+        public string SellingAgentId { get; set; }
+
         public ListingSaleStatusFieldsDto StatusFieldsInfo { get; set; }
 
         public SalePropertyDetailDto SaleProperty { get; set; }
