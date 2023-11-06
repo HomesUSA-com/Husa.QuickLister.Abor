@@ -19,6 +19,7 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -71,7 +72,8 @@ namespace Husa.Quicklister.Abor.Application.Services
             this.Logger.LogInformation("Service starting to update request for ABOR listing sale with Id {requestId}", request.Id);
             var saleProperty = this.Mapper.Map<SaleProperty>(listingSaleRequestDto.SaleProperty);
             request.UpdateRequestInformation(listingSaleRequestDto.ListPrice, saleProperty);
-            await this.SaleRequestRepository.UpdateListingSaleRequestAsync(request.Id.ToString(), request, cancellationToken);
+            var userId = this.UserContextProvider.GetCurrentUserId();
+            await this.SaleRequestRepository.UpdateListingSaleRequestAsync(request.Id.ToString(), request, userId, cancellationToken);
             this.Logger.LogInformation("Request update was completed for ABOR listing request with Id {requestId}", request.Id);
             return request;
         }
@@ -85,8 +87,9 @@ namespace Husa.Quicklister.Abor.Application.Services
 
             var listingRequest = await this.SaleRequestRepository.GetListingRequestByIdAsync(listingRequestId, cancellationToken);
             listingRequest.UpdateRequestInformation(listingRequestValueObject, statusFieldInfo, salePropertyInfo);
+            var userId = this.UserContextProvider.GetCurrentUserId();
 
-            await this.SaleRequestRepository.UpdateListingSaleRequestAsync(listingRequestId.ToString(), listingRequest, cancellationToken);
+            await this.SaleRequestRepository.UpdateListingSaleRequestAsync(listingRequestId.ToString(), listingRequest, userId, cancellationToken);
         }
 
         public async Task GenerateRequestFromXmlAsync(SaleListingRequest saleListingRequest, CancellationToken cancellationToken = default)
@@ -94,6 +97,12 @@ namespace Husa.Quicklister.Abor.Application.Services
             this.Logger.LogInformation("Service is starting to generate request for ABOR listing sale from xml with id {saleListingId}", saleListingRequest.ListingSaleId);
             await this.SaleRequestRepository.AddListingSaleRequestAsync(saleListingRequest, cancellationToken);
             await this.MediaService.CreateMediaRequestAsync(saleListingRequest.ListingSaleId, saleListingRequest.Id);
+        }
+
+        public async Task UpdateRequestStatus(SaleListingRequest saleListingRequest, ListingRequestState requestState, string reason = null, CancellationToken cancellationToken = default)
+        {
+            var userId = this.UserContextProvider.GetCurrentUserId();
+            await this.ChangeRequestStatus(saleListingRequest, requestState, userId, reason, cancellationToken);
         }
 
         protected override async Task<string> IsImageCountValidAsync(Guid saleListingId)

@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Request
     using System.Threading.Tasks;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Request;
 
     public interface ISaleListingRequestService : ExtensionsInterfaces.ISaleListingRequestService<SaleListingRequest>
@@ -14,5 +15,7 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Request
         Task UpdateListingRequestAsync(Guid listingRequestId, ListingSaleRequestDto listingSaleRequestDto, CancellationToken cancellationToken = default);
 
         Task GenerateRequestFromXmlAsync(SaleListingRequest saleListingRequest, CancellationToken cancellationToken = default);
+
+        Task UpdateRequestStatus(SaleListingRequest saleListingRequest, ListingRequestState requestState, string reason = null, CancellationToken cancellationToken = default);
     }
 }

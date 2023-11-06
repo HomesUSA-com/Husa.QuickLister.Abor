@@ -99,7 +99,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
             await this.Sut.PendingRequestAsync(requestId);
 
             // Assert
-            this.saleRequestService.Verify(x => x.ChangeRequestStatus(It.IsAny<SaleListingRequest>(), It.Is<ListingRequestState>(x => x == ListingRequestState.Pending), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+            this.saleRequestService.Verify(x => x.UpdateRequestStatus(It.IsAny<SaleListingRequest>(), It.Is<ListingRequestState>(x => x == ListingRequestState.Pending), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -118,7 +118,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
             await this.Sut.ProcessRequestAsync(requestId);
 
             // Assert
-            this.saleRequestService.Verify(x => x.ChangeRequestStatus(It.IsAny<SaleListingRequest>(), It.Is<ListingRequestState>(x => x == ListingRequestState.Processing), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+            this.saleRequestService.Verify(x => x.UpdateRequestStatus(It.IsAny<SaleListingRequest>(), It.Is<ListingRequestState>(x => x == ListingRequestState.Processing), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -137,7 +137,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
             await this.Sut.ApproveRequestAsync(requestId);
 
             // Assert
-            this.saleRequestService.Verify(x => x.ChangeRequestStatus(It.IsAny<SaleListingRequest>(), It.Is<ListingRequestState>(x => x == ListingRequestState.Approved), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+            this.saleRequestService.Verify(x => x.UpdateRequestStatus(It.IsAny<SaleListingRequest>(), It.Is<ListingRequestState>(x => x == ListingRequestState.Approved), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }
