@@ -100,7 +100,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             }
 
             await this.listingSaleRepository.SaveChangesAsync(listing);
-            await this.xmlClient.Listing.ProcessListing(xmlListingId, request: new() { Type = GetXmlListActionType(listAction), ImportMedia = importMedia });
+            await this.xmlClient.Listing.ProcessListing(xmlListingId, request: new() { ListingId = listing.Id, Type = GetXmlListActionType(listAction), ImportMedia = importMedia });
             return listing.Id;
         }
 
@@ -143,7 +143,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
             await this.listingSaleRepository.SaveChangesAsync(listing);
             await this.saleListingRequestService.GenerateRequestFromXmlAsync(requestResult.Result);
-            await this.xmlClient.Listing.ProcessListing(xmlListingId, request: new() { Type = XmlContract.ListActionType.ListUpdate });
+            await this.xmlClient.Listing.ProcessListing(xmlListingId, request: new() { ListingId = listing.Id, Type = XmlContract.ListActionType.ListUpdate });
         }
 
         public async Task AutoMatchListingFromXmlAsync(Guid xmlListingId)

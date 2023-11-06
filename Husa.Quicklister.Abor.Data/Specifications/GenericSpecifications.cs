@@ -47,12 +47,13 @@ namespace Husa.Quicklister.Abor.Data.Specifications
                 throw new ArgumentNullException(nameof(streetName));
             }
 
-            listings.Where(l => l.CompanyId == companyId &&
-            l.SaleProperty.AddressInfo.StreetNumber.ToString() == streetNumber);
+            listings = listings.Where(l => l.CompanyId == companyId &&
+            l.SaleProperty.AddressInfo.StreetNumber == streetNumber);
 
             if (partialMatch)
             {
-                return listings.Where(l => streetName.Contains(l.SaleProperty.AddressInfo.StreetName.Split(" ", StringSplitOptions.None)[0]) &&
+                var streetNameSplit = streetName.Split(" ");
+                return listings.Where(l => l.SaleProperty.AddressInfo.StreetName != null && l.SaleProperty.AddressInfo.StreetName.StartsWith(streetNameSplit[0]) &&
                 !l.IsManuallyManaged);
             }
 

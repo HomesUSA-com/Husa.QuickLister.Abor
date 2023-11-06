@@ -24,7 +24,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.ImportStatus, c => c.MapFrom(x => GetXmlImportStatus(x.ImportStatus)))
                 .ForMember(dto => dto.SortBy, c => c.Ignore())
                 .ForMember(dto => dto.CommunityIds, c => c.Ignore())
-                .ForMember(dto => dto.MarketCode, c => c.Ignore());
+                .ForMember(dto => dto.MarketCode, c => c.Ignore())
+                .ForMember(dto => dto.IsDiscrepancyReport, c => c.Ignore())
+                .ForMember(dto => dto.CompanyName, c => c.Ignore());
             this.CreateMap<XmlResponse.XmlListingResponse, XmlListingResponse>()
                 .ForMember(dto => dto.City, c => c.MapFrom(x => x.City.ToCity(false) ?? Cities.NotApplicable))
                 .ForMember(dto => dto.County, c => c.MapFrom(x => x.County.ToCounty(false)));
