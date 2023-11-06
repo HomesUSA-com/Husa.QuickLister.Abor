@@ -120,6 +120,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 r => r.UpdateListingSaleRequestAsync(
                     It.Is<string>(id => id == requestId.ToString()),
                     It.IsAny<SaleListingRequest>(),
+                    It.IsAny<Guid>(),
                     It.IsAny<CancellationToken>()),
                 Times.Once);
             Assert.Equal(listPrice, result.ListPrice);
