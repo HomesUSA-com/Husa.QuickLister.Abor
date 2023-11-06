@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Mocks
             this.Setup(r => r.UpdateListingSaleRequestAsync(
                 It.IsAny<string>(),
                 It.IsAny<SaleListingRequest>(),
+                It.IsAny<Guid>(),
                 It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(TestModelProvider.GetListingSaleRequestEntity(Guid.NewGuid())))
                 .Verifiable();
