@@ -48,7 +48,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
             request.StatusFieldsInfo.AgentId = await this.GetAgentIdByMarketUniqueId(legacyRequest.StatusFieldsInfo.AgentId);
             request.StatusFieldsInfo.AgentIdSecond = await this.GetAgentIdByMarketUniqueId(legacyRequest.StatusFieldsInfo.AgentIdSecond);
 
-            await this.saleListingRequestService.GenerateRequestFromMigrationAsync(request);
+            await this.saleListingRequestService.GenerateRequestFromMigrationAsync(request, currentUserId);
         }
 
         private async Task<Guid?> GetAgentIdByMarketUniqueId(string marketUniqueId)
