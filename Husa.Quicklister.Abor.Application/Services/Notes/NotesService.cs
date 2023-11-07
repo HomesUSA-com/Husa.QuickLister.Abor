@@ -15,7 +15,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Notes
     using Husa.Quicklister.Abor.Application.Extensions;
     using Husa.Quicklister.Abor.Application.Interfaces.Notes;
     using Husa.Quicklister.Abor.Application.Models;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using NoteResponse = Husa.Notes.Api.Contracts.Response.Note;

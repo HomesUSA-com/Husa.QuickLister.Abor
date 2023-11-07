@@ -15,9 +15,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
     using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
     using Husa.Xml.Api.Contracts.Response;
 

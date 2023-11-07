@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Specifications
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Domain.Entities;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 
     public static class GenericSpecifications

@@ -1,6 +1,6 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters
 {
-    using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
 
     public class CommunityQueryFilter : BaseQueryFilter
     {

@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Common;
     using Husa.Quicklister.Extensions.Domain.Extensions;

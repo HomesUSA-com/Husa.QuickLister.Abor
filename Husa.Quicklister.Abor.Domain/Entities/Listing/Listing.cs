@@ -5,9 +5,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using ExtensionsEntities = Husa.Quicklister.Extensions.Domain.Entities.Listing;
+    using ExtensionListing = Husa.Quicklister.Extensions.Domain.Entities.Listing.Listing;
 
-    public abstract class Listing : ExtensionsEntities.XmlListing
+    public abstract class Listing : ExtensionListing
     {
         public static readonly IEnumerable<ActionType> RelistAndComparable = new[] { ActionType.Relist, ActionType.Comparable };
         protected bool isMarketUpdate = false;

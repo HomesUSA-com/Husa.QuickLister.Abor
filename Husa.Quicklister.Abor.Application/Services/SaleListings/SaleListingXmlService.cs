@@ -15,8 +15,8 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
-    using Husa.Quicklister.Abor.Domain.Enums.Xml;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Request;
     using Husa.Xml.Api.Contracts.Response;

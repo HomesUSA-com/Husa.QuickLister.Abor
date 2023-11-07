@@ -25,8 +25,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Enums;
-    using Husa.Quicklister.Abor.Domain.Enums.Xml;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Request;
     using Microsoft.Extensions.Logging;

@@ -19,7 +19,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Enums.Xml;
+    using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Request;
     using Microsoft.Extensions.DependencyInjection;

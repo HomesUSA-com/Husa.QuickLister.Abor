@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters
 {
     using System;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class ListingSaleBillingQueryFilter : BaseQueryFilter
     {

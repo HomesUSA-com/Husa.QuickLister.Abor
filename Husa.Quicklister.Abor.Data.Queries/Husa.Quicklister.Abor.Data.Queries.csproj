@@ -12,7 +12,7 @@
         <PackageReference Include="Husa.MediaService.Client" Version="1.0.1" />
         <PackageReference Include="Husa.PhotoService.Client" Version="1.1.0" />
         <PackageReference Include="Husa.Notes.Client" Version="1.0.0" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Data.Queries" Version="1.3.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Data.Queries" Version="1.4.0-dev001" />
         <PackageReference Include="Husa.Xml.Client" Version="1.4.0" />
         <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
     </ItemGroup>

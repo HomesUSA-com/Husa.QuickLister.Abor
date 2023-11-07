@@ -5,8 +5,8 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Quicklister.Abor.Domain.Entities.ReverseProspect;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 

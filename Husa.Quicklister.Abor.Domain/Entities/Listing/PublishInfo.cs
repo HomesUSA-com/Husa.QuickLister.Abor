@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using System.Collections.Generic;
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class PublishInfo : ValueObject
     {

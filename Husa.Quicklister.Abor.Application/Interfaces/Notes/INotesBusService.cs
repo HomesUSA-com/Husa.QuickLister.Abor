@@ -2,7 +2,7 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Notes
 {
     using System;
     using System.Threading.Tasks;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public interface INotesBusService
     {

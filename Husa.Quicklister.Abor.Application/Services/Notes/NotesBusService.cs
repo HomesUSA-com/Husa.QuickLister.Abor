@@ -10,8 +10,8 @@ namespace Husa.Quicklister.Abor.Application.Services.Notes
     using Husa.Notes.ServiceBus.Contracts.Contracts;
     using Husa.Quicklister.Abor.Application.Extensions;
     using Husa.Quicklister.Abor.Application.Interfaces.Notes;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Crosscutting;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;

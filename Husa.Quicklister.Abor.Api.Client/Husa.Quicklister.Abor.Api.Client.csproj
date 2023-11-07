@@ -8,9 +8,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>1.3.0</Version>
+        <Version>1.4.0-dev001</Version>
         <PackageReleaseNotes>
-            Release 1.3.0:
+            Release 1.4.0:
             - Increased directions max length
             - Removed OpenHousesAgree field in OpenHouse
             - Updated ReverseProspect endpoint
@@ -22,7 +22,7 @@
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="4.0.2" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="0.3.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="0.4.0-dev001" />
     </ItemGroup>
 
     <ItemGroup>

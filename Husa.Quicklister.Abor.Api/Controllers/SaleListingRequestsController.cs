@@ -17,7 +17,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest.SaleRequest;
@@ -160,7 +159,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.BadRequest(id);
             }
 
-            await this.saleRequestService.UpdateRequestStatus(request, ListingRequestState.Returned, returnRequest.ReturnReason, cancellationToken: cancellationToken);
+            await this.saleRequestService.ChangeRequestStatus(request, ListingRequestState.Returned, returnRequest.ReturnReason, cancellationToken: cancellationToken);
             await this.listingNotesService.CreateNote(request.ListingSaleId, title: "Returned", description: returnRequest.ReturnReason);
             return this.Ok();
         }
@@ -199,7 +198,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             }
 
             await this.listingSaleService.AssignMlsNumberAsync(request.ListingSaleId, mlsNumber, request.MlsStatus, actionType);
-            await this.saleRequestService.UpdateRequestStatus(request, ListingRequestState.Completed, cancellationToken: cancellationToken);
+            await this.saleRequestService.ChangeRequestStatus(request, ListingRequestState.Completed, cancellationToken: cancellationToken);
             return this.Ok();
         }
 
@@ -216,7 +215,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.NotFound(id);
             }
 
-            await this.saleRequestService.UpdateRequestStatus(openRequest, ListingRequestState.Deleted, cancellationToken: cancellationToken);
+            await this.saleRequestService.ChangeRequestStatus(openRequest, ListingRequestState.Deleted, cancellationToken: cancellationToken);
             return this.Ok();
         }
 
@@ -230,7 +229,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.BadRequest(id);
             }
 
-            await this.saleRequestService.UpdateRequestStatus(request, toState, cancellationToken: cancellationToken);
+            await this.saleRequestService.ChangeRequestStatus(request, toState, cancellationToken: cancellationToken);
             return this.Ok();
         }
     }

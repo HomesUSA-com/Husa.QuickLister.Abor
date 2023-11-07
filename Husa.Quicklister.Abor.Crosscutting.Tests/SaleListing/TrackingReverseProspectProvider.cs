@@ -2,7 +2,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
 {
     using System;
     using Husa.Quicklister.Abor.Domain.Entities.ReverseProspect;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public static class TrackingReverseProspectProvider
     {

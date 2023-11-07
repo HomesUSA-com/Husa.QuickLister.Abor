@@ -8,8 +8,8 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Response.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Domain.Extensions;
     using Microsoft.Extensions.Logging;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Migration;
 

@@ -19,7 +19,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Mocks
                 .Verifiable();
 
             this.Setup(r => r.UpdateListingSaleRequestAsync(
-                It.IsAny<string>(),
+                It.IsAny<Guid>(),
                 It.IsAny<SaleListingRequest>(),
                 It.IsAny<Guid>(),
                 It.IsAny<CancellationToken>()))

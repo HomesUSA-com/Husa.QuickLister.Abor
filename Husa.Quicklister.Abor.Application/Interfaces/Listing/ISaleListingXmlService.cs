@@ -2,7 +2,7 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
 {
     using System;
     using System.Threading.Tasks;
-    using Husa.Quicklister.Abor.Domain.Enums.Xml;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
 
     public interface ISaleListingXmlService
     {

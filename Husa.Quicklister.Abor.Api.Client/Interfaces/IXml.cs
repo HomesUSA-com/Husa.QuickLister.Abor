@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Xml;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Xml;
-    using Husa.Quicklister.Abor.Domain.Enums.Xml;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
 
     public interface IXml
     {

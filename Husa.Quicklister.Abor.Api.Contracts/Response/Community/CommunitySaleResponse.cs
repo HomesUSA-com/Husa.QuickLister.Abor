@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Community
     using Husa.Quicklister.Abor.Api.Contracts.Response.Community.CommunityDetail;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
 
     public class CommunitySaleResponse
     {

@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
     using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Response;
     using Microsoft.Extensions.Logging;

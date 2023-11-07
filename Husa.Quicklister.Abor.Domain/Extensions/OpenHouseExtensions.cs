@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Extensions.Domain.Extensions
+namespace Husa.Quicklister.Abor.Domain.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
