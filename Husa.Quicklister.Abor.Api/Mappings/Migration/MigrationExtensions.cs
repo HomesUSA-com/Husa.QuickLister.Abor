@@ -20,6 +20,18 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
         public static ICollection<TaxExemptions> ToTaxExemptions(this string taxExemptions)
             => taxExemptions.Replace("NONE", "None").CsvToEnum<TaxExemptions>(true).ToList();
 
+        public static Cities? ToCity(this string city)
+        {
+            try
+            {
+                return string.IsNullOrWhiteSpace(city) ? null : city.GetEnumValueFromDescription<Cities>();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public static OpenHouseType ToOpenHouseType(this MigrationOpenHouseType type) => type switch
         {
             MigrationOpenHouseType.Monday => OpenHouseType.Monday,

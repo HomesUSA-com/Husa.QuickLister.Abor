@@ -94,7 +94,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.SysCreatedBy, oh => oh.Ignore())
                 .ForMember(dto => dto.SysTimestamp, oh => oh.Ignore());
             this.CreateMap<SalesOfficeResponse, CommunitySaleOffice>()
-                .ForMember(dto => dto.SalesOfficeCity, oh => oh.MapFrom(x => x.SalesOfficeCity.GetEnumValueFromDescription<Cities>()))
+                .ForMember(dto => dto.SalesOfficeCity, oh => oh.MapFrom(x => x.SalesOfficeCity.ToCity()))
                 .ForMember(dto => dto.IsSalesOffice, oh => oh.Ignore());
             this.CreateMap<CommunityResponse, CommunitySale>()
                 .ForMember(dto => dto.Property, cr => cr.MapFrom(x => x.PropertyInfo))
