@@ -1,15 +1,10 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Community
 {
-    using System.Collections.Generic;
-    using Husa.Extensions.Domain.ValueObjects;
     using Husa.Xml.Api.Contracts.Response;
+    using ExtensionEmailLead = Husa.Quicklister.Extensions.Domain.Entities.Community.EmailLead;
 
-    public class EmailLead : ValueObject
+    public class EmailLead : ExtensionEmailLead
     {
-        public string EmailLeadPrincipal { get; set; }
-        public string EmailLeadSecondary { get; set; }
-        public string EmailLeadOther { get; set; }
-
         public static EmailLead ImportFromXml(SubdivisionResponse subdivision, EmailLead emailLead)
         {
             var emailLeadInfo = new EmailLead();
@@ -77,13 +72,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public EmailLead Clone()
         {
             return (EmailLead)this.MemberwiseClone();
-        }
-
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return this.EmailLeadPrincipal;
-            yield return this.EmailLeadSecondary;
-            yield return this.EmailLeadOther;
         }
     }
 }

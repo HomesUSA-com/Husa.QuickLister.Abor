@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
 {
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Interfaces;
 
     public static class CommonFieldsValidation
     {

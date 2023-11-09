@@ -26,7 +26,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
             return importedSalesOffice;
         }
 
-        public override SalesOffice Clone()
+        public SalesOffice Clone()
         {
             return (SalesOffice)this.MemberwiseClone();
         }
