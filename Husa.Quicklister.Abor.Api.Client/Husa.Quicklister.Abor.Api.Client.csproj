@@ -8,7 +8,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>1.4.0-dev001</Version>
+        <Version>1.4.0-dev002</Version>
         <PackageReleaseNotes>
             Release 1.4.0:
             - Increased directions max length
@@ -16,6 +16,7 @@
             - Updated ReverseProspect endpoint
             - Added Realtor email fiel to Community Profile
             - Modified Realtor email field to allow multiple emails
+            - Added Open House Services and properties for Batch Upload
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
