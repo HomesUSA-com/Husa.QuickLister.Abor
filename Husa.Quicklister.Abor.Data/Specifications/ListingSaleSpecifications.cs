@@ -24,6 +24,17 @@ namespace Husa.Quicklister.Abor.Data.Specifications
             return listings;
         }
 
+        public static IQueryable<T> FilterByActiveStatus<T>(this IQueryable<T> listings)
+     where T : Listing
+        {
+            var activeStatuses = new List<MarketStatuses>()
+            {
+                MarketStatuses.Active,
+                MarketStatuses.ActiveUnderContract,
+            };
+            return listings.Where(p => activeStatuses.Contains(p.MlsStatus));
+        }
+
         public static IQueryable<T> FilterByListed<T>(this IQueryable<T> listings, ListedType? listedType)
             where T : Listing
         {
@@ -178,5 +189,7 @@ namespace Husa.Quicklister.Abor.Data.Specifications
 
             return listings.Where(filter);
         }
+
+        public static IQueryable<SaleListing> HasOpenHouse(this IQueryable<SaleListing> listings) => listings.Where(listingSale => listingSale.SaleProperty.OpenHouses.Any());
     }
 }

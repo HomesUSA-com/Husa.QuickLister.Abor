@@ -11,5 +11,6 @@ namespace Husa.Quicklister.Abor.Api.Client
         public IPlan Plan { get; }
         public IAlert Alert { get; }
         public IReport Report { get; }
+        public void AddCustomHeader(string headerName, string headerValue);
     }
 }

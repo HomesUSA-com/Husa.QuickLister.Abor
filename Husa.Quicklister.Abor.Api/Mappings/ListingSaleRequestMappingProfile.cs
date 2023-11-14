@@ -198,6 +198,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<ListingSaleStatusFieldQueryResult, ListingSaleStatusFieldsResponse>();
             this.CreateMap<DocumentModels.ListingRequest.ListingRequestPublishInfoQueryResult, ListingSalePublishInfoResponse>();
+
+            this.CreateMap<SaleListingOpenHouseQueryResult, ListingSaleOpenHouseResponse>();
         }
     }
 }

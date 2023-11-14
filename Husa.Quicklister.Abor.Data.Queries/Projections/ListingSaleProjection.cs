@@ -98,5 +98,13 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             PublishType = listingSale.PublishInfo.PublishType,
             PublishUser = listingSale.PublishInfo.PublishUser,
         };
+
+        public static Expression<Func<SaleListing, SaleListingOpenHouseQueryResult>> ProjectToSaleListingOpenHouseQueryResult => listingSale => new SaleListingOpenHouseQueryResult
+        {
+            CompanyId = listingSale.CompanyId,
+            Id = listingSale.Id,
+            MlsNumber = listingSale.MlsNumber,
+            OpenHouses = listingSale.SaleProperty.OpenHouses.ToProjectionOpenHouses(),
+        };
     }
 }
