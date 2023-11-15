@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Api.Client.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Net.Http;
     using System.Security.Claims;
     using Husa.Extensions.Api.Configuration;
@@ -10,6 +11,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Data;
     using Husa.Quicklister.Abor.Data.Queries;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -169,6 +171,22 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             listingWithInadequateRemarks.LastPhotoRequestId = Guid.NewGuid();
             listingWithInadequateRemarks.LastPhotoRequestCreationDate = DateTime.UtcNow;
             dbContext.ListingSale.Add(listingWithInadequateRemarks);
+            dbContext.SaveChanges();
+
+            var listingWithOpenHouse = ListingTestProvider.GetListingEntity(listingId: Factory.ListingWithOpenHouse, companyId: Factory.CompanyId, communityId: Factory.CommunityId, planId: Factory.PlanId, marketStatuses: MarketStatuses.Active);
+            listingWithOpenHouse.SaleProperty.Plan = null;
+            listingWithOpenHouse.MlsNumber = "123456";
+            listingWithOpenHouse.SaleProperty.OpenHouses = new List<SaleListingOpenHouse>()
+            {
+                new SaleListingOpenHouse(
+                    Guid.NewGuid(),
+                    Quicklister.Extensions.Domain.Enums.OpenHouseType.Monday,
+                    startTime: TimeSpan.FromHours(2),
+                    endTime: TimeSpan.FromHours(1),
+                    refreshments: new List<Refreshments> { Refreshments.Beverages, Refreshments.Snacks }),
+            };
+
+            dbContext.ListingSale.Add(listingWithOpenHouse);
             dbContext.SaveChanges();
 
             var trackingReverseProspect = TrackingReverseProspectProvider.GetReverseProspectEntity(
