@@ -160,7 +160,6 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             listingWithPhotoRequest.SaleProperty.Plan = null;
             listingWithPhotoRequest.SaleProperty.PropertyInfo.ConstructionCompletionDate = DateTime.UtcNow.AddDays(-1);
             listingWithPhotoRequest.MlsNumber = "123456";
-            listingWithPhotoRequest.SaleProperty.FeaturesInfo.PropertyDescription = "Property less than 100 characters";
             dbContext.ListingSale.Add(listingWithPhotoRequest);
 
             var listingWithInadequateRemarks = ListingTestProvider.GetListingEntity(listingId: Factory.ListingIdWithInadequateRemarks, companyId: Factory.CompanyId, communityId: Factory.CommunityId, planId: Factory.PlanId, marketStatuses: MarketStatuses.Active);
