@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Husa.Downloader.CTX.Api.Client" Version="1.4.0" />
+        <PackageReference Include="Husa.Downloader.CTX.Api.Client" Version="1.4.1" />
         <PackageReference Include="Husa.Extensions.EmailNotification" Version="3.1.0" />
         <PackageReference Include="Husa.Extensions.ServiceBus" Version="4.7.0" />
         <PackageReference Include="Husa.Extensions.Linq" Version="3.4.0" />

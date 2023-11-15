@@ -557,10 +557,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             {
                 this.PropertyInfo.ConstructionStage = propertyInfo.ConstructionStage;
                 this.PropertyInfo.ConstructionCompletionDate = propertyInfo.ConstructionCompletionDate;
-                this.PropertyInfo.LegalDescription = propertyInfo.LegalDescription;
-                this.PropertyInfo.TaxId = propertyInfo.TaxId;
                 this.PropertyInfo.UpdateGeocodes = propertyInfo.UpdateGeocodes;
-                this.PropertyInfo.TaxLot = propertyInfo.TaxLot;
                 this.PropertyInfo.IsXmlManaged = propertyInfo.IsXmlManaged;
             }
 
@@ -572,6 +569,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.PropertyInfo.PropertyType = propertyInfo.PropertyType;
             this.PropertyInfo.Latitude = propertyInfo.Latitude;
             this.PropertyInfo.Longitude = propertyInfo.Longitude;
+            this.PropertyInfo.TaxLot = propertyInfo.TaxLot;
+            this.PropertyInfo.LegalDescription = propertyInfo.LegalDescription;
+            this.PropertyInfo.TaxId = propertyInfo.TaxId;
         }
 
         private void CopyAddressData(AddressInfo addressInfo)
@@ -601,7 +601,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             {
                 this.FeaturesInfo.IsNewConstruction = featuresInfo.IsNewConstruction;
                 this.FeaturesInfo.RestrictionsDescription = featuresInfo.RestrictionsDescription;
-                this.FeaturesInfo.PatioAndPorchFeatures = featuresInfo.PatioAndPorchFeatures;
                 this.FeaturesInfo.DistanceToWaterAccess = featuresInfo.DistanceToWaterAccess;
                 this.FeaturesInfo.UnitStyle = featuresInfo.UnitStyle;
                 this.FeaturesInfo.GuestAccommodationsDescription = featuresInfo.GuestAccommodationsDescription;
@@ -610,6 +609,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FeaturesInfo.GuestHalfBathsTotal = featuresInfo.GuestHalfBathsTotal;
             }
 
+            this.FeaturesInfo.PatioAndPorchFeatures = featuresInfo.PatioAndPorchFeatures;
             this.FeaturesInfo.NeighborhoodAmenities = featuresInfo.NeighborhoodAmenities;
             this.FeaturesInfo.UtilitiesDescription = featuresInfo.UtilitiesDescription;
             this.FeaturesInfo.WaterSource = featuresInfo.WaterSource;
@@ -649,26 +649,26 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             if (!this.isMarketUpdate)
             {
                 this.FinancialInfo.TaxExemptions = financialInfo.TaxExemptions;
-                this.FinancialInfo.TaxYear = financialInfo.TaxYear;
                 this.FinancialInfo.TaxRate = financialInfo.TaxRate;
                 this.FinancialInfo.TitleCompany = financialInfo.TitleCompany;
-                this.FinancialInfo.HasHoa = financialInfo.HasHoa;
                 this.FinancialInfo.AgentBonusAmount = financialInfo.AgentBonusAmount;
                 this.FinancialInfo.AgentBonusAmountType = financialInfo.AgentBonusAmountType;
                 this.FinancialInfo.HasBonusWithAmount = financialInfo.HasBonusWithAmount;
                 this.FinancialInfo.BonusExpirationDate = financialInfo.BonusExpirationDate;
                 this.FinancialInfo.HasAgentBonus = financialInfo.AgentBonusAmount != null;
                 this.FinancialInfo.HasBuyerIncentive = financialInfo.HasBuyerIncentive;
-                this.FinancialInfo.BillingFrequency = financialInfo.BillingFrequency;
+                this.FinancialInfo.HOARequirement = financialInfo.HOARequirement;
             }
 
+            this.FinancialInfo.TaxYear = financialInfo.TaxYear;
             this.FinancialInfo.BuyersAgentCommission = financialInfo.BuyersAgentCommission;
             this.FinancialInfo.BuyersAgentCommissionType = financialInfo.BuyersAgentCommissionType;
             this.FinancialInfo.AcceptableFinancing = financialInfo.AcceptableFinancing;
-            this.FinancialInfo.HOARequirement = financialInfo.HOARequirement;
             this.FinancialInfo.HoaName = financialInfo.HoaName;
             this.FinancialInfo.HoaIncludes = financialInfo.HoaIncludes;
             this.FinancialInfo.HoaFee = financialInfo.HoaFee;
+            this.FinancialInfo.HasHoa = financialInfo.HasHoa;
+            this.FinancialInfo.BillingFrequency = financialInfo.BillingFrequency;
         }
 
         private void CopyShowingData(ShowingInfo showingInfo)
@@ -707,13 +707,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             {
                 this.SpacesDimensionsInfo.DiningAreasTotal = spacesDimensions.DiningAreasTotal;
                 this.SpacesDimensionsInfo.LivingAreasTotal = spacesDimensions.LivingAreasTotal;
-                this.SpacesDimensionsInfo.OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal;
             }
 
             this.SpacesDimensionsInfo ??= new();
             this.SpacesDimensionsInfo.StoriesTotal = spacesDimensions.StoriesTotal;
             this.SpacesDimensionsInfo.SqFtTotal = spacesDimensions.SqFtTotal;
             this.SpacesDimensionsInfo.MainLevelBedroomTotal = spacesDimensions.MainLevelBedroomTotal;
+            this.SpacesDimensionsInfo.OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal;
             this.SpacesDimensionsInfo.HalfBathsTotal = spacesDimensions.HalfBathsTotal;
             this.SpacesDimensionsInfo.FullBathsTotal = spacesDimensions.FullBathsTotal;
         }
