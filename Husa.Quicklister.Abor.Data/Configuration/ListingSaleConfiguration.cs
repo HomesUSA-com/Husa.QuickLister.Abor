@@ -34,6 +34,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.ToTable("ListingSale");
 
             builder.HasQueryFilter(t => !t.SaleProperty.IsDeleted);
+            builder.Property(r => r.LegacyId).HasMaxLength(100);
         }
 
         private static void ConfigureStatusFieldsMapping(OwnedNavigationBuilder<SaleListing, ListingSaleStatusFieldsInfo> builder)

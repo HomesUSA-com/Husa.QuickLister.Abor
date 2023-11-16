@@ -15,7 +15,7 @@
         <PackageReference Include="Husa.PhotoService.ServiceBus.Messages" Version="1.1.0" />
         <PackageReference Include="Husa.Notes.Client" Version="1.0.0" />
         <PackageReference Include="Husa.Notes.ServiceBus.Contracts" Version="1.0.0" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Application" Version="1.6.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Application" Version="1.6.1" />
         <PackageReference Include="Husa.ReverseProspect.Api.Client" Version="1.1.0" />
         <PackageReference Include="Husa.Xml.Client" Version="1.4.0" />
         <PackageReference Include="Husa.Xml.ServiceBus.Messages" Version="1.2.0" />

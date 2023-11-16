@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers.Migration
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Quicklister.Abor.Api.Controllers.Migration;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Migration;
     using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Microsoft.AspNetCore.Mvc;
@@ -19,18 +20,20 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers.Migration
     {
         private readonly Mock<ILogger<LegacyListingController>> logger = new();
         private readonly Mock<IMigrationQueryRepository> migrationQueryRepository = new();
+        private readonly Mock<ISaleListingMigrationService> listingMigrationService = new();
 
         public LegacyListingControllerTests()
         {
             this.Sut = new LegacyListingController(
                 this.migrationQueryRepository.Object,
+                this.listingMigrationService.Object,
                 this.logger.Object);
         }
 
         public LegacyListingController Sut { get; set; }
 
         [Fact]
-        public async Task PendingRequestAsync_Success()
+        public async Task GetLockedListings_Success()
         {
             // Arrange
             var companyId = Guid.NewGuid();
@@ -46,7 +49,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers.Migration
                 .Verifiable();
 
             // Act
-            var actionResult = await this.Sut.GetListings(companyId, toModifiedOn);
+            var actionResult = await this.Sut.GetLockedListings(companyId, toModifiedOn);
 
             // Assert
             var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(actionResult);
