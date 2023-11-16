@@ -134,6 +134,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ISaleListingRequestService, SaleListingRequestService>();
             services.AddScoped<IListingRequestMediaService, ListingRequestMediaService>();
             services.AddScoped<IListingRequestMigrationService, ListingRequestMigrationService>();
+            services.AddScoped<ISaleListingMigrationService, SaleListingMigrationService>();
 
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<IPlanPhotoService, PlanPhotoService>();

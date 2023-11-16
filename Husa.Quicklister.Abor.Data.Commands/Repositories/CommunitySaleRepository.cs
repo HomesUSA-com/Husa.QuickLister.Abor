@@ -42,6 +42,13 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
                 .ToListAsync();
         }
 
+        public async Task<Guid?> GetIdByLegacyId(Guid legacyId)
+        {
+            this.logger.LogInformation("Starting to get the Community by legacy id {legacyId}", legacyId);
+            var community = await this.context.Community.FirstOrDefaultAsync(p => p.LegacyId.HasValue && p.LegacyId.Value == legacyId);
+            return community?.Id;
+        }
+
         public bool IsCommunityEmployee(Guid userId, Guid communityId)
         {
             this.logger.LogInformation("Checking if user {userId} is a employee of community {communityId}", userId, communityId);

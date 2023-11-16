@@ -98,14 +98,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<AddressInfoRequest, AddressDto>();
             this.CreateMap<PropertyInfoRequest, PropertyDto>();
             this.CreateMap<RoomRequest, RoomDto>();
-            this.CreateMap<ListingRequest, ListingDto>()
-                .ForMember(dto => dto.LockedStatus, c => c.Ignore())
-                .ForMember(dto => dto.LockedBy, c => c.Ignore())
-                .ForMember(dto => dto.LockedOn, c => c.Ignore())
-                .ForMember(dto => dto.SysModifiedOn, c => c.Ignore())
-                .ForMember(dto => dto.SysCreatedOn, c => c.Ignore())
-                .ForMember(dto => dto.CreatedBy, c => c.Ignore())
-                .ForMember(dto => dto.ModifiedBy, c => c.Ignore());
+            this.CreateMap<ListingRequest, ListingDto>();
 
             this.CreateMap<ReverseProspectInformationDto, ReverseProspectInformationResponse>();
             this.CreateMap<ReverseProspectDataDto, ReverseProspectDataResponse>();
@@ -115,16 +108,10 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<SalePropertyDetailRequest, SalePropertyDetailDto>()
                 .ForMember(dto => dto.Id, c => c.Ignore());
-            this.CreateMap<ListingSaleDetailRequest, SaleListingDto>()
-                .ForMember(dto => dto.LockedStatus, c => c.Ignore())
-                .ForMember(dto => dto.LockedBy, c => c.Ignore())
-                .ForMember(dto => dto.LockedOn, c => c.Ignore())
-                .ForMember(dto => dto.SysModifiedOn, c => c.Ignore())
-                .ForMember(dto => dto.SysCreatedOn, c => c.Ignore())
-                .ForMember(dto => dto.CreatedBy, c => c.Ignore())
-                .ForMember(dto => dto.ModifiedBy, c => c.Ignore());
+            this.CreateMap<ListingSaleDetailRequest, SaleListingDto>();
 
-            this.CreateMap<ListingSaleRequest, ListingSaleDto>();
+            this.CreateMap<ListingSaleRequest, ListingSaleDto>()
+                .ForMember(dto => dto.LegacyId, c => c.Ignore());
 
             this.CreateMap<ShowingDto, ShowingInfo>();
 
@@ -152,25 +139,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.SysModifiedBy, c => c.Ignore())
                 .ForMember(dto => dto.SysTimestamp, c => c.Ignore())
                 .ForMember(dto => dto.CompanyId, c => c.Ignore());
-
-            this.CreateMap<SaleListingDto, Listing>()
-                .ForMember(dto => dto.CDOM, c => c.Ignore())
-                .ForMember(dto => dto.XmlListingId, c => c.Ignore())
-                .ForMember(dto => dto.XmlDiscrepancyListingId, c => c.Ignore())
-                .ForMember(dto => dto.DOM, c => c.Ignore())
-                .ForMember(dto => dto.MarketUniqueId, c => c.Ignore())
-                .ForMember(dto => dto.SysCreatedOn, c => c.Ignore())
-                .ForMember(dto => dto.SysCreatedBy, c => c.Ignore())
-                .ForMember(dto => dto.IsDeleted, c => c.Ignore())
-                .ForMember(dto => dto.SysModifiedOn, c => c.Ignore())
-                .ForMember(dto => dto.SysModifiedBy, c => c.Ignore())
-                .ForMember(dto => dto.SysTimestamp, c => c.Ignore())
-                .ForMember(dto => dto.CompanyId, c => c.Ignore())
-                .ForMember(dto => dto.LastPhotoRequestCreationDate, c => c.Ignore())
-                .ForMember(dto => dto.LastPhotoRequestId, c => c.Ignore())
-                .ForMember(dto => dto.IsPhotosDeclined, c => c.Ignore())
-                .ForMember(dto => dto.PhotosDeclinedBy, c => c.Ignore())
-                .ForMember(dto => dto.PhotosDeclinedOn, c => c.Ignore());
 
             this.CreateMap<SpacesDimensionsDto, SpacesDimensionsInfo>();
 

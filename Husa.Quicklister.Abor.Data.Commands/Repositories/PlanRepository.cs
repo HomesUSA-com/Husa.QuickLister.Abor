@@ -32,5 +32,12 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
                 .Where(p => p.LegacyId.HasValue && legacyIds.Contains(p.LegacyId.Value) && p.CompanyId == companyId)
                 .ToListAsync();
         }
+
+        public async Task<Guid?> GetIdByLegacyId(Guid legacyId)
+        {
+            this.logger.LogInformation("Starting to get the Plan by legacy id {legacyId}", legacyId);
+            var plan = await this.context.Plan.FirstOrDefaultAsync(p => p.LegacyId.HasValue && p.LegacyId.Value == legacyId);
+            return plan?.Id;
+        }
     }
 }
