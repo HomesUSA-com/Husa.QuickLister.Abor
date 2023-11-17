@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Application.Services.Plans;
@@ -23,6 +24,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     {
         private readonly Mock<IPlanRepository> planSaleRepository = new();
         private readonly Mock<ILogger<PlanXmlService>> logger = new();
+        private readonly Mock<IUserContextProvider> userContextProvider = new();
         private readonly Mock<IXmlClient> xmlClient = new();
 
         public PlanXmlServiceTests()
@@ -33,6 +35,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.Sut = new PlanXmlService(
                 this.xmlClient.Object,
                 this.planSaleRepository.Object,
+                this.userContextProvider.Object,
                 this.logger.Object);
         }
 

@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using System.Collections.Generic;
     using Husa.Extensions.Domain.Extensions;
     using Husa.Extensions.Domain.ValueObjects;
+    using Husa.Quicklister.Abor.Domain.Attributes;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
@@ -41,6 +42,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<ShowingRequirements> ShowingRequirements { get; set; }
         public virtual LockBoxType? LockBoxType { get; set; }
         public virtual ICollection<string> RealtorContactEmail { get; set; }
+        [XmlPropertyUpdate]
         public virtual string Directions { get; set; }
         public virtual string OwnerName { get; set; }
         public virtual bool EnableOpenHouses { get; protected set; }

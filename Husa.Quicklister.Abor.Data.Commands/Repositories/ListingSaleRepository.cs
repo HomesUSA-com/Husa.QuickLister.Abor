@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Quicklister.Abor.Data.Specifications;
+    using Husa.Quicklister.Abor.Domain.Attributes;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
@@ -100,10 +101,60 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             return await query.ToListAsync();
         }
 
+        public bool HasXmlChanges(SaleListing entity)
+        {
+            if (entity == null)
+            {
+                this.logger.LogError("{parameterName} entity must not be nulll {entityType}", nameof(entity), typeof(SaleListing).Name);
+                throw new ArgumentNullException(nameof(entity), $"{nameof(entity)} entity must not be nulll {typeof(SaleListing).Name}");
+            }
+
+            this.context.ChangeTracker.DetectChanges();
+
+            var entry = this.context.Entry(entity);
+
+            if (entry.State != EntityState.Modified)
+            {
+                return false;
+            }
+
+            var decoratedProperties = this.GetDecoratedProperties(typeof(SaleListing));
+
+            var modifiedProperties = entry.Properties
+                .Where(p => p.IsModified)
+                .Select(p => p.Metadata.Name);
+
+            return decoratedProperties.Intersect(modifiedProperties).Any();
+        }
+
         public async Task<IEnumerable<SaleListing>> GetListingsByCompanyId(Guid companyId)
         {
             var query = this.context.ListingSale.FilterNotDeleted().FilterByCompany(companyId);
             return await query.ToListAsync();
+        }
+
+        private List<string> GetDecoratedProperties(Type type, string prefix = "")
+        {
+            var decoratedProperties = new List<string>();
+
+            foreach (var property in type.GetProperties())
+            {
+                var fullName = string.IsNullOrEmpty(prefix) ? property.Name : $"{prefix}.{property.Name}";
+
+                if (Attribute.IsDefined(property, typeof(XmlPropertyUpdateAttribute)))
+                {
+                    decoratedProperties.Add(fullName);
+                }
+
+                if (property.PropertyType.Namespace == "System" || property.PropertyType.IsGenericType)
+                {
+                    continue;
+                }
+
+                decoratedProperties.AddRange(this.GetDecoratedProperties(property.PropertyType, fullName));
+            }
+
+            return decoratedProperties;
         }
     }
 }

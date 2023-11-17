@@ -40,11 +40,11 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Interfaces.Uploader;
-    using Husa.Quicklister.Abor.Application.Media;
     using Husa.Quicklister.Abor.Application.Services;
     using Husa.Quicklister.Abor.Application.Services.Communities;
     using Husa.Quicklister.Abor.Application.Services.Downloader;
     using Husa.Quicklister.Abor.Application.Services.ListingRequests;
+    using Husa.Quicklister.Abor.Application.Services.Media;
     using Husa.Quicklister.Abor.Application.Services.Notes;
     using Husa.Quicklister.Abor.Application.Services.Plans;
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
@@ -152,7 +152,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IUploaderService, UploaderService>();
             services.AddScoped<INotesBusService, NotesBusService>();
             services.AddScoped<IXmlMediaService, XmlMediaService>();
-            services.AddScoped<IMediaMessagingService, MediaMessagingService>();
             services.AddScoped<IBlobService, BlobService>();
 
             return services;

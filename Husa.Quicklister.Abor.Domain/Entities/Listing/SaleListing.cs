@@ -274,12 +274,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.Lock(userId, LockedStatus.LockedNotSubmitted);
         }
 
-        public virtual void MatchFromXml(Guid xmlListingId, Guid userId)
-        {
-            this.XmlDiscrepancyListingId = xmlListingId;
-            this.Lock(userId, LockedStatus.LockedBySystem);
-        }
-
         public virtual void UpdateFromXml(XmlListingDetailResponse listing, Guid userId)
         {
             if (listing.Price.HasValue && !PendingAndCanceledStatuses.Contains(this.MlsStatus))

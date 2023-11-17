@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 {
     using System;
     using System.Collections.Generic;
+    using Husa.Quicklister.Abor.Domain.Attributes;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -21,6 +22,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual int? DOM { get; set; }
 
+        [XmlPropertyUpdate]
         public virtual decimal? ListPrice { get; set; }
 
         public virtual ListType ListType { get; protected set; }
@@ -29,9 +31,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual string MarketUniqueId { get; set; }
 
+        [XmlPropertyUpdate]
         public virtual MarketStatuses MlsStatus { get; set; }
 
-        public virtual Guid? XmlDiscrepancyListingId { get; set; }
+        public override Guid? XmlDiscrepancyListingId { get; set; }
 
         public virtual void UpdateBaseListingInfo(
             ListType listType,

@@ -1,14 +1,8 @@
 namespace Husa.Quicklister.Abor.Application.Interfaces.Media
 {
-    using System;
-    using System.Threading.Tasks;
+    using XmlMediaInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Media;
 
-    public interface IXmlMediaService
+    public interface IXmlMediaService : XmlMediaInterfaces.IXmlMediaService
     {
-        public Task ImportPlanMedia(Guid xmlPlanId);
-
-        public Task ImportSubdivisionMedia(Guid xmlSubdivisionId);
-
-        public Task ImportListingMedia(Guid xmlListingId, bool checkMediaLimit = false, bool useServiceBus = true);
     }
 }
