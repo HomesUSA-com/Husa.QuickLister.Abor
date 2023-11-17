@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.Common.Classes;
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Response;
     using Husa.Migration.Crosscutting.Enums;
@@ -17,6 +18,8 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
+    using CompanyRequest = Husa.CompanyServicesManager.Api.Contracts.Request;
+    using CompanyResponse = Husa.CompanyServicesManager.Api.Contracts.Response;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Application.Test")]
@@ -66,6 +69,9 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
             this.migrationClient
                 .Setup(m => m.ListingRequests.GetAsync(It.Is<MigrationMarketType>(x => x == MigrationMarketType.Austin), It.IsAny<int?>(), It.Is<string>(value => value == mlsNumber), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new[] { migrationRequest });
+            this.serviceSubscriptionClient
+                .Setup(m => m.User.GetAsync(It.IsAny<CompanyRequest.UserRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataSet<CompanyResponse.User>(Array.Empty<CompanyResponse.User>(), 0));
 
             var sut = this.GetSut();
 

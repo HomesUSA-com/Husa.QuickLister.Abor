@@ -66,7 +66,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
             this.CreateMap<ResidentialResponse, ListingSaleStatusFieldsDto>()
                 .ForMember(vo => vo.SellConcess, dto => dto.MapFrom(src => src.ListingMessage.ConcessionsComments))
                 .ForMember(vo => vo.ClosePrice, dto => dto.MapFrom(src => src.ListingMessage.ClosePrice))
-                .ForMember(vo => vo.EstimatedClosedDate, dto => dto.Ignore())
+                .ForMember(vo => vo.EstimatedClosedDate, dto => dto.MapFrom(src => src.ListingMessage.CloseDate))
                 .ForMember(vo => vo.AgentId, dto => dto.Ignore())
                 .ForMember(vo => vo.AgentIdSecond, dto => dto.Ignore())
                 .ForMember(vo => vo.HasBuyerAgent, dto => dto.MapFrom(src => !string.IsNullOrEmpty(src.OtherMessage.AgentSell)))
@@ -77,7 +77,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.HasContingencyInfo, dto => dto.Ignore())
                 .ForMember(vo => vo.ContingencyInfo, dto => dto.Ignore())
                 .ForMember(vo => vo.SaleTerms, dto => dto.Ignore())
-                .ForMember(vo => vo.PendingDate, dto => dto.Ignore())
+                .ForMember(vo => vo.PendingDate, dto => dto.MapFrom(src => src.ListingMessage.PurchaseContractDate))
                 .ForMember(vo => vo.CancelledReason, dto => dto.Ignore());
 
             this.SalePropertyDetailDtoMessageMapping();
@@ -119,8 +119,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.ConstructionStartYear, dto => dto.MapFrom(src => src.ListingMessage.YearBuilt))
                 .ForMember(vo => vo.ConstructionStage, dto => dto.Ignore())
                 .ForMember(vo => vo.ConstructionCompletionDate, dto => dto.Ignore())
-                .ForMember(vo => vo.LegalDescription, dto => dto.Ignore())
-                .ForMember(vo => vo.TaxId, dto => dto.Ignore())
+                .ForMember(vo => vo.LegalDescription, dto => dto.MapFrom(src => src.ListingMessage.LegalDescription))
+                .ForMember(vo => vo.TaxId, dto => dto.MapFrom(src => src.ListingMessage.PropertyId))
                 .ForMember(vo => vo.PropertyType, dto => dto.MapFrom(src => src.ListingMessage.PropertySubType.FirstOrDefault().ToCtxEnum()))
                 .ForMember(vo => vo.MlsArea, dto => dto.MapFrom(src => src.ListingMessage.MLSAreaMajor.GetEnumFromText<MlsArea>()))
                 .ForMember(vo => vo.UpdateGeocodes, dto => dto.Ignore())
@@ -129,16 +129,16 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.LotDescription, dto => dto.MapFrom(src => src.OtherMessage.LotDescription.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.LotSize, dto => dto.MapFrom(src => src.OtherMessage.LotSize.ToString()))
                 .ForMember(vo => vo.LotDimension, dto => dto.MapFrom(src => src.OtherMessage.LotDimensions))
-                .ForMember(vo => vo.TaxLot, dto => dto.Ignore())
+                .ForMember(vo => vo.TaxLot, dto => dto.MapFrom(src => src.FinancialMessage.TaxLot))
                 .ForMember(vo => vo.IsXmlManaged, dto => dto.Ignore());
 
             this.CreateMap<ResidentialResponse, SpacesDimensionsDto>()
-                .ForMember(vo => vo.MainLevelBedroomTotal, dto => dto.MapFrom(src => src.RoomsMessage.NumBedrooms))
+                .ForMember(vo => vo.MainLevelBedroomTotal, dto => dto.MapFrom(src => src.RoomsMessage.MainLevelBedrooms))
                 .ForMember(vo => vo.FullBathsTotal, dto => dto.MapFrom(src => src.RoomsMessage.BathroomsFull))
                 .ForMember(vo => vo.HalfBathsTotal, dto => dto.MapFrom(src => src.RoomsMessage.BathroomsHalf))
                 .ForMember(vo => vo.DiningAreasTotal, dto => dto.Ignore())
                 .ForMember(vo => vo.LivingAreasTotal, dto => dto.Ignore())
-                .ForMember(vo => vo.OtherLevelsBedroomTotal, dto => dto.Ignore())
+                .ForMember(vo => vo.OtherLevelsBedroomTotal, dto => dto.MapFrom(src => src.RoomsMessage.NumBedrooms - src.RoomsMessage.MainLevelBedrooms))
                 .ForMember(vo => vo.StoriesTotal, dto => dto.MapFrom(src => src.FeaturesMessage.Stories.ToStories()))
                 .ForMember(vo => vo.SqFtTotal, dto => dto.MapFrom(src => src.ListingMessage.SquareFeetTotal));
 
@@ -153,6 +153,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.LaundryLocation, dto => dto.MapFrom(src => src.FeaturesMessage.Laundry.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.GarageSpaces, dto => dto.MapFrom(src => src.FeaturesMessage.GarageSpaces))
                 .ForMember(vo => vo.GarageDescription, dto => dto.MapFrom(src => src.FeaturesMessage.GarageDescription.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.PatioAndPorchFeatures, dto => dto.MapFrom(src => src.FeaturesMessage.PatioAndPorchFeatures.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.InteriorFeatures, dto => dto.MapFrom(src => src.FeaturesMessage.InteriorFeatures.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.Appliances, dto => dto.MapFrom(src => src.FeaturesMessage.AppliancesAndEquipment.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.Fencing, dto => dto.MapFrom(src => src.OtherMessage.Fencing.Select(x => x.ToCtxEnum()).Where(y => y != null)))
@@ -182,12 +183,12 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
             this.CreateMap<ResidentialResponse, FinancialDto>()
                 .ForMember(vo => vo.AcceptableFinancing, dto => dto.MapFrom(src => src.FinancialMessage.AcceptableFinancing.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.TaxExemptions, dto => dto.Ignore())
-                .ForMember(vo => vo.TaxYear, dto => dto.Ignore())
+                .ForMember(vo => vo.TaxYear, dto => dto.MapFrom(src => src.FinancialMessage.TaxYear))
                 .ForMember(vo => vo.TaxRate, dto => dto.Ignore())
-                .ForMember(vo => vo.HOARequirement, dto => dto.MapFrom(src => src.FinancialMessage.HoaRequirement ? HoaRequirement.Mandatory : HoaRequirement.Voluntary))
+                .ForMember(vo => vo.HOARequirement, dto => dto.Ignore())
                 .ForMember(vo => vo.TitleCompany, dto => dto.Ignore())
                 .ForMember(vo => vo.HoaName, dto => dto.MapFrom(src => src.FinancialMessage.HoaName))
-                .ForMember(vo => vo.HasHoa, dto => dto.Ignore())
+                .ForMember(vo => vo.HasHoa, dto => dto.MapFrom(src => src.FinancialMessage.HoaRequirement))
                 .ForMember(vo => vo.HoaIncludes, dto => dto.MapFrom(src => EnumMappings.GetHoaFeeIncludes(src.FinancialMessage.HoaFeeIncludes)))
                 .ForMember(vo => vo.HoaFee, dto => dto.MapFrom(src => src.FinancialMessage.HoaAmount))
                 .ForMember(vo => vo.BuyersAgentCommission, dto => dto.MapFrom(src => src.ShowingMessage.BuyersAgentCommission.ConvertToDecimal()))
@@ -198,10 +199,10 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.BonusExpirationDate, dto => dto.Ignore())
                 .ForMember(vo => vo.HasAgentBonus, dto => dto.Ignore())
                 .ForMember(vo => vo.HasBuyerIncentive, dto => dto.Ignore())
-                .ForMember(vo => vo.BillingFrequency, dto => dto.Ignore());
+                .ForMember(vo => vo.BillingFrequency, dto => dto.MapFrom(src => src.FinancialMessage.HoaFeeFrequency.ToCtxEnum()));
 
             this.CreateMap<ResidentialResponse, ShowingDto>()
-                .ForMember(vo => vo.LockBoxType, dto => dto.MapFrom(src => src.ShowingMessage.LockBoxType))
+                .ForMember(vo => vo.LockBoxType, dto => dto.MapFrom(src => src.ShowingMessage.LockBoxType.ToCtxEnum()))
                 .ForMember(vo => vo.ContactPhone, dto => dto.MapFrom(src => src.ShowingMessage.ShowingPhone))
                 .ForMember(vo => vo.OccupantPhone, dto => dto.Ignore())
                 .ForMember(vo => vo.LockBoxSerialNumber, dto => dto.MapFrom(src => src.ShowingMessage.AccessCode))

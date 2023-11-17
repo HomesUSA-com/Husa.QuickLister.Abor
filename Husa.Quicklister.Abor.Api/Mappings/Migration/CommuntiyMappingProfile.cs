@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using Husa.Extensions.Common;
     using Husa.Migration.Api.Contracts.Response;
     using Husa.Migration.Api.Contracts.Response.Community;
+    using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -73,7 +74,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.RealtorContactEmail, pr => pr.MapFrom(x => x.RealtorContactEmail.ToCollectionFromString(";")))
                 .ForMember(dto => dto.ShowingRequirements, pr => pr.MapFrom(x => x.ShowingRequirements.CsvToEnum<ShowingRequirements>(true)))
                 .ForMember(dto => dto.LockBoxType, pr => pr.MapFrom(x => x.LockBoxType.ToEnumFromEnumMember<LockBoxType>()))
-                .ForMember(dto => dto.Directions, cr => cr.MapFrom(x => x.Directions.Length > CommunityShowingInfo.MaxDirectionsLength ? x.Directions.Substring(0, CommunityShowingInfo.MaxDirectionsLength) : x.Directions));
+                .ForMember(dto => dto.Directions, cr => cr.MapFrom(x => x.Directions.GetSubstring(CommunityShowingInfo.MaxDirectionsLength)));
             this.CreateMap<EmailLeadResponse, EmailLead>()
                 .ForMember(dto => dto.EmailLeadPrincipal, cr => cr.MapFrom(x => x.Email))
                 .ForMember(dto => dto.EmailLeadSecondary, cr => cr.MapFrom(x => x.Email2))

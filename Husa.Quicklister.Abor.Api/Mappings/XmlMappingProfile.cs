@@ -40,7 +40,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.County, c => c.MapFrom(x => x.County.ToCounty(false)))
                 .ForMember(dto => dto.ConstructionCompletionDate, c => c.Ignore())
                 .ForMember(dto => dto.ListingIdToImport, c => c.Ignore())
-                .ForMember(dto => dto.IsManuallyManaged, c => c.Ignore());
+                .ForMember(dto => dto.IsManuallyManaged, c => c.Ignore())
+                .ForMember(dto => dto.LegacyId, c => c.Ignore());
 
             this.CreateMap<ManagementTraceQueryResult, XmlManagementResponse>();
         }

@@ -14,6 +14,9 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
     public class SalePropertyConfiguration : IEntityTypeConfiguration<SaleProperty>
     {
+        public const int LegalDescriptionLength = 60;
+        public const int TaxIdLength = 25;
+
         public void Configure(EntityTypeBuilder<SaleProperty> builder)
         {
             if (builder is null)
@@ -45,8 +48,8 @@ namespace Husa.Quicklister.Abor.Data.Configuration
         {
             builder.Property(x => x.ConstructionCompletionDate).HasColumnName(nameof(PropertyInfo.ConstructionCompletionDate)).IsRequired(false);
             builder.Property(r => r.ConstructionStartYear).HasColumnName(nameof(PropertyInfo.ConstructionStartYear)).IsRequired(false);
-            builder.Property(r => r.LegalDescription).HasColumnName(nameof(PropertyInfo.LegalDescription)).HasMaxLength(60).IsRequired(false);
-            builder.Property(r => r.TaxId).HasColumnName(nameof(PropertyInfo.TaxId)).HasMaxLength(25);
+            builder.Property(r => r.LegalDescription).HasColumnName(nameof(PropertyInfo.LegalDescription)).HasMaxLength(LegalDescriptionLength).IsRequired(false);
+            builder.Property(r => r.TaxId).HasColumnName(nameof(PropertyInfo.TaxId)).HasMaxLength(TaxIdLength);
             builder.Property(r => r.TaxLot).HasColumnName(nameof(PropertyInfo.TaxLot)).HasMaxLength(25);
             builder.Property(r => r.IsXmlManaged).HasColumnName(nameof(PropertyInfo.IsXmlManaged));
             builder.Property(r => r.UpdateGeocodes).HasColumnName(nameof(PropertyInfo.UpdateGeocodes));

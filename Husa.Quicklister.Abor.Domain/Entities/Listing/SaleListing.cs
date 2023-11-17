@@ -292,17 +292,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
             if (!this.isMarketUpdate)
             {
-                this.StatusFieldsInfo.EstimatedClosedDate = listingSaleStatusFields.EstimatedClosedDate;
                 this.StatusFieldsInfo.AgentId = listingSaleStatusFields.AgentId;
                 this.StatusFieldsInfo.AgentIdSecond = listingSaleStatusFields.AgentIdSecond;
                 this.StatusFieldsInfo.HasSecondBuyerAgent = listingSaleStatusFields.HasSecondBuyerAgent;
                 this.StatusFieldsInfo.HasContingencyInfo = listingSaleStatusFields.HasContingencyInfo;
                 this.StatusFieldsInfo.ContingencyInfo = listingSaleStatusFields.ContingencyInfo;
                 this.StatusFieldsInfo.SaleTerms = listingSaleStatusFields.SaleTerms;
-                this.StatusFieldsInfo.PendingDate = listingSaleStatusFields.PendingDate;
                 this.StatusFieldsInfo.CancelledReason = listingSaleStatusFields.CancelledReason;
             }
 
+            this.StatusFieldsInfo.EstimatedClosedDate = listingSaleStatusFields.EstimatedClosedDate;
             this.StatusFieldsInfo.SellConcess = listingSaleStatusFields.SellConcess;
             this.StatusFieldsInfo.ClosePrice = listingSaleStatusFields.ClosePrice;
             this.StatusFieldsInfo.HasBuyerAgent = listingSaleStatusFields.HasBuyerAgent;

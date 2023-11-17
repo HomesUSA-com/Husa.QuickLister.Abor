@@ -118,7 +118,10 @@ namespace Husa.Quicklister.Abor.Application
                 company.Name,
                 listingSale.CommunityId,
                 listingSale.PlanId,
-                listingSale.IsManuallyManaged);
+                listingSale.IsManuallyManaged)
+            {
+                LegacyId = listingSale.LegacyId,
+            };
 
             if (importFromListing)
             {

@@ -415,7 +415,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.ParkingFeatures.DriveThrough => GarageDescription.DriveThrough,
             Trestle.ParkingFeatures.Driveway => GarageDescription.Driveway,
             Trestle.ParkingFeatures.ElectricGate => GarageDescription.ElectricGate,
-            Trestle.ParkingFeatures.Garage => GarageDescription.Garage,
             Trestle.ParkingFeatures.GarageDoorOpener => GarageDescription.GarageDoorOpener,
             Trestle.ParkingFeatures.GarageFacesFront => GarageDescription.GarageFacesFront,
             Trestle.ParkingFeatures.GarageFacesRear => GarageDescription.GarageFacesRear,
@@ -429,6 +428,26 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.ParkingFeatures.SideBySide => GarageDescription.SideBySide,
             Trestle.ParkingFeatures.Storage => GarageDescription.Storage,
             Trestle.ParkingFeatures.Tandem => GarageDescription.Tandem,
+            _ => null,
+        };
+        public static PatioAndPorchFeatures? ToCtxEnum(this Trestle.PatioAndPorchFeatures value) => value switch
+        {
+            Trestle.PatioAndPorchFeatures.Awnings => PatioAndPorchFeatures.Awnings,
+            Trestle.PatioAndPorchFeatures.Covered => PatioAndPorchFeatures.Covered,
+            Trestle.PatioAndPorchFeatures.Deck => PatioAndPorchFeatures.Deck,
+            Trestle.PatioAndPorchFeatures.Enclosed => PatioAndPorchFeatures.Enclosed,
+            Trestle.PatioAndPorchFeatures.FrontPorch => PatioAndPorchFeatures.FrontPorch,
+            Trestle.PatioAndPorchFeatures.GlassEnclosed => PatioAndPorchFeatures.GlassEnclosed,
+            Trestle.PatioAndPorchFeatures.MosquitoSystem => PatioAndPorchFeatures.MosquitoSystem,
+            Trestle.PatioAndPorchFeatures.None => PatioAndPorchFeatures.None,
+            Trestle.PatioAndPorchFeatures.Patio => PatioAndPorchFeatures.Patio,
+            Trestle.PatioAndPorchFeatures.Porch => PatioAndPorchFeatures.Porch,
+            Trestle.PatioAndPorchFeatures.RearPorch => PatioAndPorchFeatures.RearPorch,
+            Trestle.PatioAndPorchFeatures.Screened => PatioAndPorchFeatures.Screened,
+            Trestle.PatioAndPorchFeatures.SeeRemarks => PatioAndPorchFeatures.SeeRemarks,
+            Trestle.PatioAndPorchFeatures.SidePorch => PatioAndPorchFeatures.SidePorch,
+            Trestle.PatioAndPorchFeatures.Terrace => PatioAndPorchFeatures.Terrace,
+            Trestle.PatioAndPorchFeatures.WrapAround => PatioAndPorchFeatures.WrapAround,
             _ => null,
         };
 
@@ -720,6 +739,25 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
         {
             Trestle.CompensationType.Item => CommissionType.Amount,
             Trestle.CompensationType.Item1 => CommissionType.Percent,
+            _ => null,
+        };
+
+        public static BillingFrequency? ToCtxEnum(this Trestle.FeeFrequency value) => value switch
+        {
+            Trestle.FeeFrequency.Annually => BillingFrequency.Annually,
+            Trestle.FeeFrequency.Monthly => BillingFrequency.Monthly,
+            Trestle.FeeFrequency.Quarterly => BillingFrequency.Quarterly,
+            Trestle.FeeFrequency.SemiAnnually => BillingFrequency.SemiAnnually,
+            _ => null,
+        };
+
+        public static LockBoxType? ToCtxEnum(this Trestle.LockBoxType value) => value switch
+        {
+            Trestle.LockBoxType.Combo => LockBoxType.Combo,
+            Trestle.LockBoxType.Electronic or
+            Trestle.LockBoxType.Supra => LockBoxType.Supra,
+            Trestle.LockBoxType.None => LockBoxType.None,
+            Trestle.LockBoxType.SeeRemarks => LockBoxType.SeeRemarks,
             _ => null,
         };
 

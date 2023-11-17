@@ -73,10 +73,18 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
 
         public async Task<SaleListing> GetListingByMlsNumber(string mlsNumber)
         {
-            this.logger.LogInformation("Starting to get ABOR list sale by locations - mls number: {mlsNumber}", mlsNumber);
+            this.logger.LogInformation("Starting to get ABOR list sale by mls number: {mlsNumber}", mlsNumber);
             return await this.context.ListingSale
                  .Include(x => x.SaleProperty)
                  .FirstOrDefaultAsync(x => !x.IsDeleted && x.MlsNumber == mlsNumber);
+        }
+
+        public async Task<SaleListing> GetListingByLegacyId(int legacyId)
+        {
+            this.logger.LogInformation("Starting to get ABOR list sale by legacy id: {legacyId}", legacyId);
+            return await this.context.ListingSale
+                 .Include(x => x.SaleProperty)
+                 .FirstOrDefaultAsync(x => !x.IsDeleted && x.LegacyId == legacyId);
         }
 
         public async Task<IEnumerable<SaleListing>> GetAutmaticMatchingListingsAsync(
