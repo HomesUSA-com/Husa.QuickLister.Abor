@@ -204,7 +204,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             var query = this.context.ListingSale
                 .FilterNotDeleted()
                 .FilterByCompany(currentUser)
-                .FilterByActiveStatus()
+                .FilterByActiveAndPendingWithShowOpenHousesPendingActive()
                 .HasOpenHouse();
             var total = await query.CountAsync();
             var data = await query.Select(ListingSaleProjection.ProjectToSaleListingOpenHouseQueryResult)
