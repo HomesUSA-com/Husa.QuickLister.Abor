@@ -63,7 +63,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.BackupPhone).HasColumnName(nameof(ProfileInfo.BackupPhone)).HasMaxLength(14);
             builder.Property(r => r.Fax).HasColumnName(nameof(ProfileInfo.Fax)).HasMaxLength(20);
             builder.Property(r => r.UseLatLong).HasColumnName(nameof(ProfileInfo.UseLatLong));
-            builder.Property(r => r.EmailMailViolationsWarnings).HasColumnName(nameof(ProfileInfo.EmailMailViolationsWarnings)).HasMaxLength(60);
+            builder.Property(r => r.EmailMailViolationsWarnings).HasColumnName(nameof(ProfileInfo.EmailMailViolationsWarnings)).HasMaxLength(500);
             builder.ConfigureGeocodes();
         }
 
