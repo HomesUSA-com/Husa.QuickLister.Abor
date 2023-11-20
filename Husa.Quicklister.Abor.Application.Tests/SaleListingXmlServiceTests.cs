@@ -72,8 +72,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private SaleListingXmlService Sut { get; set; }
 
         [Theory]
-        [InlineData(ListActionType.ListNow, XmlListActionType.ListNow, Skip = "incoming version fix this test")]
-        [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare, Skip = "incoming version fix this test")]
+        [InlineData(ListActionType.ListNow, XmlListActionType.ListNow)]
+        [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare)]
         public async Task ProcessListingAsync_AsMlsAdministrator_Success(ListActionType actionType, XmlListActionType xmlListActionType)
         {
             // Arrange
@@ -115,8 +115,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Theory]
-        [InlineData(ListActionType.ListNow, XmlListActionType.ListNow, Skip = "incoming version fix this test")]
-        [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare, Skip = "incoming version fix this test")]
+        [InlineData(ListActionType.ListNow, XmlListActionType.ListNow)]
+        [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare)]
         public async Task ProcessListingAsync_AsCompanyAdmin_Success(ListActionType actionType, XmlListActionType xmlListActionType)
         {
             // Arrange
@@ -156,8 +156,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Theory]
-        [InlineData(ListActionType.ListNow, XmlListActionType.ListNow, Skip = "incoming version fix this test")]
-        [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare, Skip = "incoming version fix this test")]
+        [InlineData(ListActionType.ListNow, XmlListActionType.ListNow)]
+        [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare)]
         public async Task ProcessListingAsync_AsCommunityEmployee_Success(ListActionType actionType, XmlListActionType xmlListActionType)
         {
             // Arrange
@@ -201,8 +201,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Theory]
-        [InlineData(ListActionType.ListNow, Skip = "incoming version fix this test")]
-        [InlineData(ListActionType.ListCompare, Skip = "incoming version fix this test")]
+        [InlineData(ListActionType.ListNow)]
+        [InlineData(ListActionType.ListCompare)]
         public async Task ProcessListingAsync_AsCommunityEmployee_Fail(ListActionType actionType)
         {
             // Arrange
@@ -222,7 +222,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             await Assert.ThrowsAsync<InvalidOperationException>(() => this.Sut.ProcessListingAsync(xmlListingId, actionType));
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task DeleteListingAsyncSuccess()
         {
             // Arrange
@@ -242,7 +242,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 Times.Once);
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task ListLaterAsyncSuccess()
         {
             // Arrange
@@ -283,7 +283,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             await Assert.ThrowsAsync<NotFoundException<SaleListing>>(() => this.Sut.UpdateListingFromXmlAsync(xmlListingId));
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task AtuoMatchAsyncNotMatchFails()
         {
             // Arrange
@@ -309,7 +309,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 Times.Once);
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task AtuoMatchAsyncMatchSuccess()
         {
             // Arrange
@@ -344,7 +344,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 Times.Once);
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task AtuoMatchAsyncPartialMatchSuccess()
         {
             // Arrange
@@ -405,7 +405,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             await Assert.ThrowsAsync<NotFoundException<SaleListing>>(() => this.Sut.UpdateListingFromXmlAsync(xmlListingId));
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task UpdateListingAsyncWithoutRequestSuccess()
         {
             // Arrange
@@ -445,7 +445,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.listingSaleRepository.Verify(x => x.GetListingByXmlListingId(It.Is<Guid>(r => r == xmlListingId)), Times.Once);
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task UpdateListingAsyncNotUpdated()
         {
             // Arrange
@@ -475,7 +475,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.listingSaleRepository.Verify(x => x.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Never);
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task UpdateListingAsyncWithRequestSuccess()
         {
             // Arrange
@@ -517,7 +517,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 Times.Once);
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task UpdateListingAsyncWithRequestGeneratedSuccess()
         {
             // Arrange
@@ -539,6 +539,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.saleListingRequestService
                .Setup(x => x.HasOpenRequest(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                .ReturnsAsync(false)
+               .Verifiable();
+
+            this.listingSaleRepository
+               .Setup(x => x.HasXmlChanges(It.IsAny<SaleListing>()))
+               .Returns(true)
                .Verifiable();
 
             this.saleListingRequestService

@@ -352,7 +352,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             Assert.NotNull(result);
         }
 
-        [Theory(Skip = "incoming version fix this test")]
+        [Theory]
         [ClassData(typeof(DataGenerator))]
         public async Task ProcessListingAsyncSuccess(ListActionType actionType, decimal? salesPrice)
         {
@@ -427,7 +427,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             Assert.Equal(HttpStatusCode.NotFound, exception.StatusCode);
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task ListLaterAsyncSuccess()
         {
             var xmlListingId = Factory.XmlListingId;
@@ -441,7 +441,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             Assert.True(task.IsCompletedSuccessfully);
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task DeleteListingAsyncSuccess()
         {
             var xmlListingId = Factory.XmlListingId;
@@ -471,7 +471,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 Times.Once);
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task RestoreListingAsyncSuccess()
         {
             var xmlListingId = Guid.NewGuid();
@@ -494,7 +494,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             xmlResourceMock.Verify(r => r.RestoreListing(It.Is<Guid>(id => id == xmlListingId), It.IsAny<CancellationToken>()), Times.Once);
         }
 
-        [Fact(Skip = "incoming version fix this test")]
+        [Fact]
         public async Task DeleteXmlListingAsyncSuccess()
         {
             var xmlListingId = Guid.NewGuid();
