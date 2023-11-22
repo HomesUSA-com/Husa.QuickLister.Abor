@@ -21,5 +21,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Interfaces
         Task<DataSet<ListingSaleBillingQueryResult>> GetBillableListingsAsync(ListingSaleBillingQueryFilter queryFilter);
 
         Task<Property> GetListingPhotoProperty(Guid listingId, Guid propertyId, CancellationToken cancellationToken);
+
+        Task<DataSet<SaleListingOpenHouseQueryResult>> GetListingsWithOpenHouse(BaseQueryFilter queryFilter);
     }
 }

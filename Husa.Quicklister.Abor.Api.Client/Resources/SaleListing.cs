@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Uploader;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Microsoft.Extensions.Logging;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request;
     using Response = Husa.Quicklister.Abor.Api.Contracts.Response;
@@ -61,6 +62,16 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             }
 
             var response = await this.client.GetAsync<Response.ListingSaleDetailResponse>(endpoint, token);
+            return response;
+        }
+
+        public async Task<DataSet<Response.ListingSaleOpenHouseResponse>> GetListingsWithOpenHouse(BaseFilterRequest filters, CancellationToken token = default)
+        {
+            this.logger.LogInformation("Getting listings with Open House with the filter {@filter}", filters);
+            var endpoint = $"{this.baseUri}/open-house"
+                .AddQueryString("skip", filters.Skip)
+                .AddQueryString("take", filters.Take);
+            var response = await this.client.GetAsync<DataSet<Response.ListingSaleOpenHouseResponse>>(endpoint, token);
             return response;
         }
 
