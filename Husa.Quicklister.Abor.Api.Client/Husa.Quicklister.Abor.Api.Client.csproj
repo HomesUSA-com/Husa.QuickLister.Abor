@@ -8,7 +8,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>1.4.0-dev002</Version>
+        <Version>1.4.0-dev003</Version>
         <PackageReleaseNotes>
             Release 1.4.0:
             - Increased directions max length
