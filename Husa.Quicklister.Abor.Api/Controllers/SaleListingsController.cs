@@ -89,6 +89,17 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             return this.Ok(result);
         }
 
+        [HttpGet("open-house")]
+        public async Task<IActionResult> GetListingsWithOpenHouseAsync([FromQuery] BaseFilterRequest filters)
+        {
+            this.logger.LogInformation("Retrieving listings with open house with the following filters: {filters}", filters);
+            var requestFilter = this.mapper.Map<BaseQueryFilter>(filters);
+            var listingsSaleResult = await this.listingSaleQueriesRepository.GetListingsWithOpenHouse(requestFilter);
+            var data = this.mapper.Map<IEnumerable<ListingSaleOpenHouseResponse>>(listingsSaleResult.Data);
+            this.logger.LogInformation("Found '{listingCount}' listings with Open House", data.Count());
+            return this.Ok(new DataSet<ListingSaleOpenHouseResponse>(data, listingsSaleResult.Total));
+        }
+
         [HttpGet("{listingId:guid}")]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly)]
         public async Task<IActionResult> GetListing([FromRoute] Guid listingId)

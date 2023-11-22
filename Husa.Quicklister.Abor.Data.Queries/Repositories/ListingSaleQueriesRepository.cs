@@ -197,6 +197,25 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             return await this.photoServiceClient.Property.GetPropertyByIdAsync(propertyId, cancellationToken);
         }
 
+        public async Task<DataSet<SaleListingOpenHouseQueryResult>> GetListingsWithOpenHouse(BaseQueryFilter queryFilter)
+        {
+            this.logger.LogInformation("Starting to get listings with Open House");
+            var currentUser = this.userContext.GetCurrentUser();
+
+            var query = this.context.ListingSale
+                .FilterNotDeleted()
+                .FilterByCompany(currentUser)
+                .FilterByActiveAndPendingWithShowOpenHousesPendingActive()
+                .HasOpenHouse();
+            var total = await query.CountAsync();
+            var data = await query.Select(ListingSaleProjection.ProjectToSaleListingOpenHouseQueryResult)
+                 .ApplySortByFields(queryFilter.SortBy)
+                 .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take)
+                 .ToListAsync();
+
+            return new DataSet<SaleListingOpenHouseQueryResult>(data, total);
+        }
+
         private static ServiceCode GetServiceCode(ActionType? actionType) => actionType switch
         {
             ActionType.Relist => ServiceCode.Relist,

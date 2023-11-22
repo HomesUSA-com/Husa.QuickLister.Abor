@@ -443,6 +443,48 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
             Assert.NotEmpty(dataSet.Data);
         }
 
+        [Fact]
+        public async Task GetListingsWithOpenHouse_Success()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var requestFilter = new BaseFilterRequest { Skip = 0, Take = 100 };
+            var queryResponse = new SaleListingOpenHouseQueryResult
+            {
+                Id = listingId,
+                CompanyId = Guid.NewGuid(),
+                MlsNumber = Faker.Lorem.Sentence(),
+                OpenHouses = new List<OpenHousesQueryResult>()
+                {
+                    new OpenHousesQueryResult
+                    {
+                        EndTime = TimeSpan.FromHours(5),
+                        StartTime = TimeSpan.FromHours(6),
+                        Type = Extensions.Domain.Enums.OpenHouseType.Monday,
+                    },
+                },
+            };
+
+            var response = new DataSet<SaleListingOpenHouseQueryResult>(
+                data: new[] { queryResponse },
+                total: 1);
+
+            this.saleListingQueriesRepository
+                .Setup(u => u.GetListingsWithOpenHouse(It.IsAny<BaseQueryFilter>()))
+                .ReturnsAsync(response)
+                .Verifiable();
+
+            // Act
+            var result = await this.Sut.GetListingsWithOpenHouseAsync(requestFilter);
+
+            // Assert
+            Assert.NotNull(result);
+            var okResult = Assert.IsAssignableFrom<OkObjectResult>(result);
+            Assert.Equal(200, okResult.StatusCode);
+            var dataSet = Assert.IsAssignableFrom<DataSet<ListingSaleOpenHouseResponse>>(okResult.Value);
+            Assert.NotEmpty(dataSet.Data);
+        }
+
         private SaleListingsController GetSut() => new(
             this.saleListingQueriesRepository.Object,
             this.saleListingRequestQueriesRepository.Object,
