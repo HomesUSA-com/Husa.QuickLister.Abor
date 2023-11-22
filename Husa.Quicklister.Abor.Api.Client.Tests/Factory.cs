@@ -32,6 +32,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
 
         private static Guid listingIdWithInadequateRemarks;
 
+        private static Guid listingWithOpenHouseId;
+
         public static Guid UserId
         {
             get
@@ -172,6 +174,19 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 }
 
                 return communityAwaitingApprovalId;
+            }
+        }
+
+        public static Guid ListingWithOpenHouse
+        {
+            get
+            {
+                if (listingWithOpenHouseId == Guid.Empty)
+                {
+                    listingWithOpenHouseId = Guid.NewGuid();
+                }
+
+                return listingWithOpenHouseId;
             }
         }
 
