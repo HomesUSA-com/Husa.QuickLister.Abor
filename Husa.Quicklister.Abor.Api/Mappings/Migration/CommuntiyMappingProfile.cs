@@ -17,7 +17,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
         public CommuntiyMappingProfile()
         {
             this.CreateMap<ProfileResponse, ProfileInfo>()
-                .ForMember(dto => dto.OwnerName, cr => cr.Ignore());
+                .ForMember(dto => dto.OwnerName, cr => cr.Ignore())
+                .ForMember(dto => dto.EmailMailViolationsWarnings, cr => cr.MapFrom(x => x.EmailMailViolationsWarnings.ToCollectionFromString(";")));
             this.CreateMap<PropertyResponse, Property>()
                 .ForMember(dto => dto.City, pr => pr.MapFrom(x => x.City.ToEnumFromEnumMember<Cities>()))
                 .ForMember(dto => dto.County, pr => pr.MapFrom(x => x.County.ToEnumFromEnumMember<Counties>()))
