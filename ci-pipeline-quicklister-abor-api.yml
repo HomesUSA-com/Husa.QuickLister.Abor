@@ -32,6 +32,9 @@ steps:
       sonar.exclusions=**/obj/**,**/*.dll,*.Data/Migrations/**
       sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/**/coverage.opencover.xml
       sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
+- task: NuGetAuthenticate@1
+  inputs:
+   forceReinstallCredentialProvider: true      
 - task: DotNetCoreCLI@2
   displayName: 'dotnet restore'
   inputs:
