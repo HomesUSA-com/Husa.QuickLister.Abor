@@ -1,5 +1,7 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
 {
+    using System.Collections.Generic;
+
     public class ProfileQueryResult
     {
         public string Name { get; set; }
@@ -18,7 +20,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
 
         public decimal? Longitude { get; set; }
 
-        public string EmailMailViolationsWarnings { get; set; }
+        public ICollection<string> EmailMailViolationsWarnings { get; set; }
 
         public SalesOfficeQueryResult SalesOffice { get; set; }
 
