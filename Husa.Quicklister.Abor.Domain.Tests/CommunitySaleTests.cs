@@ -333,7 +333,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             BackupPhone = Faker.Phone.Number(),
             Fax = Faker.Phone.Number(),
             OfficePhone = Faker.Phone.Number(),
-            EmailMailViolationsWarnings = Faker.Internet.Email(),
+            EmailMailViolationsWarnings = new[] { Faker.Internet.Email() },
         };
 
         private static CommunitySaleOffice SetupSalesOffice() => new()

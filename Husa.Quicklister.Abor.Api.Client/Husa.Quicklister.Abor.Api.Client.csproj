@@ -17,6 +17,7 @@
             - Added Realtor email fiel to Community Profile
             - Modified Realtor email field to allow multiple emails
             - Added Open House Services and properties for Batch Upload
+            - Changed EmailViolationWarning type and length
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
