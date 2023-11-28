@@ -1,5 +1,7 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Request.Community.CommunityDetail
 {
+    using System.Collections.Generic;
+
     public class CommunityProfileRequest
     {
         public string Name { get; set; }
@@ -18,7 +20,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.Community.CommunityDetail
 
         public decimal? Longitude { get; set; }
 
-        public string EmailMailViolationsWarnings { get; set; }
+        public ICollection<string> EmailMailViolationsWarnings { get; set; }
 
         public CommunitySalesOfficeRequest SalesOffice { get; set; }
 

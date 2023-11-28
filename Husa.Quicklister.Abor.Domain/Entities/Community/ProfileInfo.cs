@@ -45,7 +45,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
 
         public decimal? Longitude { get; set; }
 
-        public string EmailMailViolationsWarnings { get; set; }
+        public ICollection<string> EmailMailViolationsWarnings { get; set; }
 
         public static ProfileInfo ImportFromXml(SubdivisionResponse subdivision, string companyName, ProfileInfo profile)
         {
