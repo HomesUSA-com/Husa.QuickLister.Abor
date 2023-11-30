@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
     {
         public int Skip { get; set; } = 0;
 
-        [Range(1, 10)]
+        [Range(1, 20)]
         public int Take { get; set; } = 10;
 
         public string SearchBy { get; set; }
