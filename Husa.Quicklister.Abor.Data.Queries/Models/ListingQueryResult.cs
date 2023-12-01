@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
 
         public DateTime? ExpirationDate { get; set; }
 
+        public string UnitNumber { get; set; }
         public DateTime? ListDate { get; set; }
 
         public ListType ListType { get; set; }

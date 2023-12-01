@@ -25,6 +25,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
             var saleProperty = new SaleProperty(
                 Faker.Address.StreetName(),
                 Faker.RandomNumber.Next(1, 100).ToString(),
+                Faker.RandomNumber.Next(1, 10).ToString(),
                 Faker.Enum.Random<Cities>(),
                 Faker.Enum.Random<States>(),
                 Faker.Address.ZipCode()[..5],
@@ -58,6 +59,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                 marketStatuses ?? MarketStatuses.Active,
                 Faker.Address.StreetName(),
                 Faker.RandomNumber.Next(1, 100).ToString(),
+                Faker.RandomNumber.Next(1, 10).ToString(),
                 Faker.Enum.Random<Cities>(),
                 Faker.Enum.Random<States>(),
                 Faker.Address.ZipCode()[..5],

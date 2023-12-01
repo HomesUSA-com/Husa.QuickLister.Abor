@@ -28,6 +28,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
 
         public States? State { get; set; }
 
+        public string UnitNumber { get; set; }
+
         [Required(AllowEmptyStrings = false)]
         [StringLength(5, ErrorMessage = "The {0} value must be 5 characters.")]
         public string ZipCode { get; set; }
