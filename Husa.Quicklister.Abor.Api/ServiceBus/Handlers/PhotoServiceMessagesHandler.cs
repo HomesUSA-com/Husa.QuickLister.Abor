@@ -13,8 +13,8 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Quicklister.Abor.Api.ServiceBus.Subscribers;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Application.Interfaces.PhotoRequest;
     using Husa.Quicklister.Abor.Application.Interfaces.Plan;
+    using Husa.Quicklister.Extensions.Application.Interfaces;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.AspNetCore.HeaderPropagation;
     using Microsoft.Azure.ServiceBus;

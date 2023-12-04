@@ -78,9 +78,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
             }
         }
 
-        public virtual void Migrate(Guid legacyId, BasePlan basePlan, IEnumerable<PlanRoom> rooms)
+        public virtual void Migrate(int legacyId, BasePlan basePlan, IEnumerable<PlanRoom> rooms)
         {
-            this.LegacyId = legacyId;
+            this.LegacyProfileId = legacyId;
             this.UpdateBasePlanInformation(basePlan);
             this.UpdateRooms(rooms);
         }
