@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Application.Services.Media
 {
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
@@ -32,5 +33,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Media
             : base(xmlClient, mediaService, traceIdProvider, planRepository, communitySaleRepository, listingSaleRepository, userContextProvider, logger)
         {
         }
+
+        protected override MarketCode MarketCode => MarketCode.Austin;
     }
 }

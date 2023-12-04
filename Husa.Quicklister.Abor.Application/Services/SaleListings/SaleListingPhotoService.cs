@@ -1,13 +1,10 @@
 namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 {
-    using System;
-    using System.Threading.Tasks;
     using Azure.Messaging.ServiceBus;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
-    using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.Common.Enums;
     using Husa.PhotoService.Api.Client.Interfaces;
-    using Husa.PhotoService.Domain.Enums;
     using Husa.PhotoService.ServiceBus.Messages.Contracts;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -16,9 +13,9 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using Request = Husa.PhotoService.Api.Contracts.Request;
+    using PhotoExtensions = Husa.Quicklister.Extensions.Application.Services.PhotoServices;
 
-    public class SaleListingPhotoService : PhotoService<IListingSaleRepository, SaleListing>, ISaleListingPhotoService
+    public class SaleListingPhotoService : PhotoExtensions.SaleListingPhotoService<SaleListing, IListingSaleRepository>, ISaleListingPhotoService
     {
         public SaleListingPhotoService(
             IOptions<ServiceBusSettings> serviceBusSettings,
@@ -31,8 +28,8 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             ILogger<SaleListingPhotoService> logger)
          : base(
                serviceBusSettings,
-               photoClient,
                userContextProvider,
+               photoClient,
                busClient,
                traceIdProvider,
                listingSaleRepository,
@@ -41,21 +38,12 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
         {
         }
 
-        public override PropertyType PropertyType => PropertyType.Residential;
+        public override MarketCode MarketCode => MarketCode.Austin;
 
-        public async override Task AssignLatestPhotoRequest(Guid entityId, Guid photorequestId, DateTime creationDate)
+        protected override void SetCustomValuesToPropertyBusMessage(SaleListing entity, PropertyBusMessage message)
         {
-            var entity = await this.EntityRepository.GetById(entityId, filterByCompany: false) ?? throw new NotFoundException<SaleListing>(entityId);
-            entity.SetLastPhotoRequestInfo(photorequestId, creationDate);
-            await this.EntityRepository.SaveChangesAsync(entity);
-        }
-
-        public async override Task<PhotoRequestBusMessage> GetPhotoRequestMessage(Guid entityId, Request.PhotoRequest photoRequest)
-        {
-            var entity = await this.EntityRepository.GetById(entityId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(entityId);
-            var message = await base.GetPhotoRequestMessage(entityId, photoRequest);
-            message.Property.PlanName = entity.SaleProperty.PlanId.HasValue ? entity.SaleProperty.Plan.BasePlan.Name : null;
-            return message;
+            base.SetCustomValuesToPropertyBusMessage(entity, message);
+            message.PlanName = entity.SaleProperty.PlanId.HasValue ? entity.SaleProperty.Plan.BasePlan.Name : null;
         }
     }
 }

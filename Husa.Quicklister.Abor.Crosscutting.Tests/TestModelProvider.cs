@@ -965,6 +965,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return new SaleProperty(
                 addressInfo.StreetName,
                 addressInfo.StreetNumber,
+                addressInfo.UnitNumber,
                 addressInfo.City,
                 addressInfo.State,
                 addressInfo.ZipCode,
@@ -1073,6 +1074,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             var saleProperty = new SaleProperty(
                 addressInfo.StreetName,
                 addressInfo.StreetNumber,
+                addressInfo.UnitNumber,
                 addressInfo.City,
                 addressInfo.State,
                 addressInfo.ZipCode,

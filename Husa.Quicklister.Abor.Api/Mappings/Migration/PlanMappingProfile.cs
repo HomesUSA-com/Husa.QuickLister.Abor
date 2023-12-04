@@ -1,14 +1,11 @@
 namespace Husa.Quicklister.Abor.Api.Mappings.Migration
 {
-    using System;
     using AutoMapper;
     using Husa.Extensions.Common;
     using Husa.Migration.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using MigrationRoomType = Husa.Migration.Crosscutting.Enums.RoomType;
 
     public class PlanMappingProfile : Profile
     {
@@ -37,8 +34,5 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.FullBathsTotal, pr => pr.MapFrom(x => x.FullBath))
                 .ForMember(dto => dto.OwnerName, pr => pr.Ignore());
         }
-
-        public static RoomType ToRoomType(MigrationRoomType type) =>
-            Enum.TryParse(type.ToString(), out RoomType roomType) ? roomType : RoomType.PrimaryBathroom;
     }
 }
