@@ -13,7 +13,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     {
         public const string SummarySection = "Showing";
 
-        [MaxLength(1024, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
+        [MaxLength(1000, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string AgentPrivateRemarks { get; set; }
 
         public string OccupantPhone { get; set; }
@@ -30,6 +30,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         [MaxLength(2000, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string Directions { get; set; }
         public string OwnerName { get; set; }
+
+        [MaxLength(1000, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string AgentPrivateRemarksAdditional { get; set; }
         public string LockBoxSerialNumber { get; set; }
 
