@@ -96,12 +96,12 @@ namespace Husa.Quicklister.Abor.Application
         public async Task<CommandResult<SaleListing>> QuickCreateAsync(ListingSaleDto listingSale, bool importFromListing)
         {
             this.logger.LogInformation("ABOR Listing Sale Service starting create listing with Address : {StreetNumber} {StreetName}", listingSale.StreetNumber, listingSale.StreetName);
-            var listing = await this.listingSaleRepository.GetListing(listingSale.StreetNumber, listingSale.StreetName, listingSale.City, listingSale.ZipCode);
+            var listing = await this.listingSaleRepository.GetListing(listingSale.StreetNumber, listingSale.StreetName, listingSale.City, listingSale.ZipCode, listingSale.UnitNumber);
 
             if (listing is not null)
             {
                 this.logger.LogInformation("listing {address} already exists!", listing.SaleProperty.AddressInfo.FormalAddress);
-                return CommandResult<SaleListing>.Error($"listing {listing.SaleProperty.AddressInfo.FormalAddress} already exists!");
+                return CommandResult<SaleListing>.Error($"listing {listing.SaleProperty.AddressInfo.FormalAddress} already exists!", listing);
             }
 
             var company = await this.serviceSubscriptionClient.Company.GetCompany(listingSale.CompanyId);

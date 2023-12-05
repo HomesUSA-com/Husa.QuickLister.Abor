@@ -19,6 +19,7 @@
             - Added Open House Services and properties for Batch Upload
             - Changed EmailViolationWarning type and length
             - Added UnitNumber to Residential listing Creation
+            - increased maximum number of characters agent private remarks field
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

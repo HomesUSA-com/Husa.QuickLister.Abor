@@ -118,8 +118,8 @@ namespace Husa.Quicklister.Abor.Data.Configuration
         {
             builder.ConfigureShowing();
             builder.Property(r => r.RealtorContactEmail).HasColumnName(nameof(ShowingInfo.RealtorContactEmail)).HasMaxLength(255);
-            builder.Property(r => r.AgentPrivateRemarks).HasColumnName(nameof(ShowingInfo.AgentPrivateRemarks)).HasMaxLength(1024);
-            builder.Property(r => r.AgentPrivateRemarksAdditional).HasColumnName(nameof(ShowingInfo.AgentPrivateRemarksAdditional)).HasMaxLength(1024);
+            builder.Property(r => r.AgentPrivateRemarks).HasColumnName(nameof(ShowingInfo.AgentPrivateRemarks)).HasMaxLength(1000);
+            builder.Property(r => r.AgentPrivateRemarksAdditional).HasColumnName(nameof(ShowingInfo.AgentPrivateRemarksAdditional)).HasMaxLength(1000);
             builder.Property(r => r.EnableOpenHouses).HasColumnName(nameof(ShowingInfo.EnableOpenHouses));
             builder.Property(r => r.ShowOpenHousesPending).HasColumnName(nameof(ShowingInfo.ShowOpenHousesPending));
             builder.Property(r => r.LockBoxSerialNumber).HasColumnName(nameof(ShowingInfo.LockBoxSerialNumber)).HasMaxLength(50);
