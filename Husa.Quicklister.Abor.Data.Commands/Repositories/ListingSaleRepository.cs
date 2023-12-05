@@ -39,10 +39,10 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
                  .FirstOrDefaultAsync();
         }
 
-        public async Task<SaleListing> GetListing(string streetNumber, string streetName, Cities city, string zipcode)
+        public async Task<SaleListing> GetListing(string streetNumber, string streetName, Cities city, string zipcode, string unitNumber = null)
         {
             this.logger.LogInformation("Starting to get the Sale listing with streetNumber: {streetNumber} streetName: {streetName} and zipcode: {zipcode}", streetNumber, streetName, zipcode);
-            return await this.context.ListingSale
+            var query = this.context.ListingSale
                 .Include(x => x.SaleProperty.Rooms)
                 .Include(x => x.SaleProperty.OpenHouses)
                 .Where(l => l.SaleProperty.AddressInfo.StreetName == streetName &&
@@ -50,8 +50,13 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
                             l.SaleProperty.AddressInfo.ZipCode == zipcode &&
                             l.SaleProperty.AddressInfo.City == city &&
                             this.openStatuses.Contains(l.MlsStatus) &&
-                            !l.IsDeleted)
-                .FirstOrDefaultAsync();
+                            !l.IsDeleted);
+            if (!string.IsNullOrEmpty(unitNumber))
+            {
+                query = query.Where(l => l.SaleProperty.AddressInfo.UnitNumber == unitNumber);
+            }
+
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<SaleListing> GetListingByXmlListingId(Guid xmlListingId)
