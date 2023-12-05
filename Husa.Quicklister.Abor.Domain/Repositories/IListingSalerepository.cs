@@ -8,7 +8,7 @@ namespace Husa.Quicklister.Abor.Domain.Repositories
 
     public interface IListingSaleRepository : ISaleListingRepository<SaleListing>
     {
-        Task<SaleListing> GetListing(string streetNumber, string streetName, Cities city, string zipcode);
+        Task<SaleListing> GetListing(string streetNumber, string streetName, Cities city, string zipcode, string unitNumber = null);
 
         Task<SaleListing> GetListingByMlsNumber(Guid listingId, string mlsNumber);
         bool HasXmlChanges(SaleListing entity);
