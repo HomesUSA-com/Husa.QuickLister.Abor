@@ -21,6 +21,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Husa.Quicklister.Abor.Domain\Husa.Quicklister.Abor.Domain.csproj" />
+        <ProjectReference Include="..\Husa.Quicklister.Abor.ServiceBus.Contracts\Husa.Quicklister.Abor.ServiceBus.Contracts.csproj" />
     </ItemGroup>
 
     <ItemGroup>

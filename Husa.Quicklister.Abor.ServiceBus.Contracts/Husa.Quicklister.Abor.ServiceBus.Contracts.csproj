@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <AssemblyName>Husa.Quicklister.Abor.ServiceBus.Contracts</AssemblyName>
+      <RootNamespace>Husa.Quicklister.Abor.ServiceBus.Contracts</RootNamespace>
+      <Description>Husa Quicklister Abor Service Bus Contracts</Description>
+      <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+      <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+      <PackageDescription>Husa Quicklister Abor Service Bus Contracts</PackageDescription>
+      <PackageId>Husa.Quicklister.Abor.ServiceBus.Contracts</PackageId>
+      <Version>1.0.0-dev001</Version>
+      <PackageReleaseNotes>
+          Release 1.0.0:
+          - Initial Release
+      </PackageReleaseNotes>
+      <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Husa.Extensions.ServiceBus" Version="4.7.0" />
+  </ItemGroup>
+
+  <Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
+      <ItemGroup>
+          <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+      </ItemGroup>
+  </Target>
+
+</Project>

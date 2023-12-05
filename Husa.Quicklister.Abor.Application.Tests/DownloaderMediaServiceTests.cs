@@ -6,21 +6,22 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Downloader.CTX.Api.Client;
-    using Husa.Downloader.CTX.Api.Client.Interface;
     using Husa.Downloader.CTX.Api.Contracts.Response;
+    using Husa.Extensions.Authorization;
+    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.MediaService.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Services.Downloader;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Abor.ServiceBus.Contracts;
     using Husa.Quicklister.Extensions.Application.Models.Media;
+    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
-    using MediaInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Media;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Application.Test")]
@@ -31,6 +32,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<ISaleListingMediaService> mediaService = new();
         private readonly Mock<ILogger<MediaService>> logger = new();
         private readonly Mock<IDownloaderCtxClient> downloaderCtxClient = new();
+        private readonly Mock<IImportMlsMediaMessagingService> saleListingMediaMessagingService = new();
+        private readonly Mock<IUserContextProvider> userContext = new();
+        private readonly Mock<IProvideTraceId> provideTraceId = new();
 
         public DownloaderMediaServiceTests(ApplicationServicesFixture fixture)
         {
@@ -39,6 +43,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.listingSaleRepository.Object,
                 this.mediaService.Object,
                 this.downloaderCtxClient.Object,
+                this.saleListingMediaMessagingService.Object,
+                this.userContext.Object,
+                this.provideTraceId.Object,
                 this.fixture.Options.Object,
                 this.fixture.Mapper,
                 this.logger.Object);
@@ -137,41 +144,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Fact]
-        public async Task ImportMediaFromMlsStopsExecutionWhenNoMediaIsFoundForListingAsync()
-        {
-            // Arrange
-            const string mlsNumber = "33669911";
-            var listingId = Guid.NewGuid();
-            var saleListing = new Mock<SaleListing>();
-            saleListing.SetupGet(sl => sl.Id).Returns(listingId);
-            saleListing.SetupGet(sl => sl.MlsNumber).Returns(mlsNumber);
-            this.listingSaleRepository
-                .Setup(s => s.GetById(It.Is<Guid>(m => m.Equals(listingId)), It.IsAny<bool>()))
-                .ReturnsAsync(saleListing.Object)
-                .Verifiable();
-            var mlsMediaResource = new Mock<IMlsMedia>();
-            mlsMediaResource
-                .Setup(m => m.ImportSaleListingPhotosAsync(It.Is<string>(m => m.Equals(mlsNumber)), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Array.Empty<MediaResponse>())
-                .Verifiable();
-
-            this.downloaderCtxClient.SetupGet(d => d.MlsMedia).Returns(mlsMediaResource.Object);
-
-            // Act
-            await this.Sut.ImportMediaFromMlsAsync(listingId);
-
-            // Assert
-            this.listingSaleRepository.Verify();
-            mlsMediaResource.Verify();
-            this.mediaService.Verify(m => m.GetAsync(It.IsAny<Guid>()), Times.Never);
-        }
-
-        [Fact]
         public async Task ImportMediaFromMlsImportsSuccessAsync()
         {
             // Arrange
             const string mlsNumber = "33669911";
             var listingId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
             var saleListing = new Mock<SaleListing>();
             saleListing.SetupGet(sl => sl.Id).Returns(listingId);
             saleListing.SetupGet(sl => sl.MlsNumber).Returns(mlsNumber);
@@ -179,34 +157,24 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Setup(s => s.GetById(It.Is<Guid>(m => m.Equals(listingId)), It.IsAny<bool>()))
                 .ReturnsAsync(saleListing.Object)
                 .Verifiable();
-            var mlsMediaResource = new Mock<IMlsMedia>();
-            var mediaResponse = new MediaResponse { MediaId = listingId.ToString(), Uri = "https://www.google.com/" };
-            mlsMediaResource
-                .Setup(m => m.ImportSaleListingPhotosAsync(It.Is<string>(m => m.Equals(mlsNumber)), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new[] { mediaResponse })
-                .Verifiable();
-
-            this.downloaderCtxClient.SetupGet(d => d.MlsMedia).Returns(mlsMediaResource.Object);
-
-            var resourceMock = new Mock<MediaInterfaces.IResourceService>();
-            this.mediaService
-                .SetupGet(ms => ms.Resource)
-                .Returns(resourceMock.Object)
-                .Verifiable();
-            var mediaDetail = new MediaDetail { Id = listingId };
-            this.mediaService
-                .Setup(m => m.GetAsync(It.Is<Guid>(id => id == listingId)))
-                .ReturnsAsync(new ResourceResponse { Media = new[] { mediaDetail } });
+            this.userContext
+                .Setup(s => s.GetCurrentUserId())
+                .Returns(userId);
 
             // Act
             await this.Sut.ImportMediaFromMlsAsync(listingId);
 
             // Assert
             this.listingSaleRepository.Verify();
-            mlsMediaResource.Verify();
-            this.mediaService.Verify();
-            this.mediaService.Verify(r => r.Resource.DeleteAsync(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()), Times.Once);
-            resourceMock.Verify(r => r.BulkCreateAsync(It.Is<Guid>(id => id == listingId), It.IsAny<IEnumerable<ListingSaleMediaDto>>(), It.IsAny<int>()), Times.Once);
+            this.saleListingMediaMessagingService.Verify(
+                x => x.SendMessage(
+                    It.IsAny<IEnumerable<ImportMediaMessage>>(),
+                    It.Is<string>(
+                        m => m.Equals(userId.ToString())),
+                    It.Is<MarketCode>(m => m.Equals(MarketCode.Austin)),
+                    It.IsAny<string>(),
+                    It.Is<bool>(m => m.Equals(true))),
+                Times.Once);
         }
     }
 }
