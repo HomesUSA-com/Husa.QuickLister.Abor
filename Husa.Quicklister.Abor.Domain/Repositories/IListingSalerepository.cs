@@ -11,7 +11,7 @@ namespace Husa.Quicklister.Abor.Domain.Repositories
     {
         Task<SaleListing> GetListingByLocationAsync(string mlsNumber, string streetNumber, string streetName, string zip);
 
-        Task<SaleListing> GetListing(string streetNumber, string streetName, Cities city, string zipcode);
+        Task<SaleListing> GetListing(string streetNumber, string streetName, Cities city, string zipcode, string unitNumber = null);
 
         Task<SaleListing> GetListingByMlsNumber(Guid listingId, string mlsNumber);
 
