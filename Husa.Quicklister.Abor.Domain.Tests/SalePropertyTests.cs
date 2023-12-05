@@ -512,6 +512,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var sut = new SaleProperty(
                 addressInfo.StreetName,
                 addressInfo.StreetNumber,
+                addressInfo.UnitNumber,
                 addressInfo.City,
                 addressInfo.State,
                 addressInfo.ZipCode,

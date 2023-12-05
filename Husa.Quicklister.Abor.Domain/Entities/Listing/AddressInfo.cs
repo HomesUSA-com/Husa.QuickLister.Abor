@@ -12,7 +12,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     {
         private string subdivision;
 
-        public AddressInfo(string streetNum, string streetName, string zipCode, Cities city, States state, Counties? county)
+        public AddressInfo(string streetNum, string streetName, string unitNumber, string zipCode, Cities city, States state, Counties? county)
         {
             this.City = city;
             this.State = state;
@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.ZipCode = zipCode;
             this.StreetName = streetName;
             this.StreetNumber = streetNum;
+            this.UnitNumber = unitNumber;
         }
 
         public AddressInfo()

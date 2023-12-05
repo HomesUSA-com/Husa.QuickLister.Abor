@@ -109,6 +109,7 @@ namespace Husa.Quicklister.Abor.Application
                 listingSale.MlsStatus,
                 listingSale.StreetName,
                 listingSale.StreetNumber,
+                listingSale.UnitNumber,
                 listingSale.City,
                 listingSale.State,
                 listingSale.ZipCode,

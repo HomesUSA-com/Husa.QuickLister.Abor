@@ -73,6 +73,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 MarketStatuses mlsStatus,
                 string streetName,
                 string streetNum,
+                string unitNumber,
                 Cities city,
                 States state,
                 string zipCode,
@@ -87,7 +88,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
             this.CompanyId = companyId;
             this.MlsStatus = mlsStatus;
-            this.SaleProperty = new(streetName, streetNum, city, state, zipCode, county, constructionCompletionDate, companyId, ownerName, communityId, planId);
+            this.SaleProperty = new(streetName, streetNum, unitNumber, city, state, zipCode, county, constructionCompletionDate, companyId, ownerName, communityId, planId);
             this.IsManuallyManaged = manuallyManaged;
         }
 

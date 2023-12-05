@@ -18,6 +18,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
 
         public MarketStatuses MlsStatus { get; set; }
 
+        public string UnitNumber { get; set; }
+
         public DateTime? SysModifiedOn { get; set; }
 
         public DateTime? MarketModifiedOn { get; set; }
