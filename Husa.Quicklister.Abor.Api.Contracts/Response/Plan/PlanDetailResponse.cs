@@ -3,7 +3,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Plan
     using System;
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
 
     public class PlanDetailResponse
     {

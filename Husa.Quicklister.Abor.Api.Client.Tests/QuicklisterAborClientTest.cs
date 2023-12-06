@@ -19,7 +19,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Enums.Xml;
+    using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Request;
     using Microsoft.Extensions.DependencyInjection;
@@ -367,8 +368,11 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 State = "TX",
                 Price = 100000,
                 SalesPrice = salesPrice,
-                City = "Austin",
+                City = "Houston",
                 LivingArea = "Study;FamilyRoom",
+                Stories = 2,
+                Baths = 2,
+                Bedrooms = 2,
             };
             var xmlClient = this.customWebApplicationFactory.Services.GetRequiredService<IXmlClient>();
             var xmlResourceMock = Mock.Get(xmlClient.Listing);

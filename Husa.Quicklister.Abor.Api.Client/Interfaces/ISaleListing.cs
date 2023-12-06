@@ -6,8 +6,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Uploader;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request;
     using Response = Husa.Quicklister.Abor.Api.Contracts.Response;
 

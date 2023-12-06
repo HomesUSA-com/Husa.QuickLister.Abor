@@ -2,12 +2,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 {
     using System;
     using System.Collections.Generic;
+    using Husa.Quicklister.Abor.Domain.Attributes;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using ExtensionsEntities = Husa.Quicklister.Extensions.Domain.Entities.Listing;
+    using ExtensionListing = Husa.Quicklister.Extensions.Domain.Entities.Listing.Listing;
 
-    public abstract class Listing : ExtensionsEntities.XmlListing
+    public abstract class Listing : ExtensionListing
     {
         public static readonly IEnumerable<ActionType> RelistAndComparable = new[] { ActionType.Relist, ActionType.Comparable };
         protected bool isMarketUpdate = false;
@@ -21,6 +22,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual int? DOM { get; set; }
 
+        [XmlPropertyUpdate]
         public virtual decimal? ListPrice { get; set; }
 
         public virtual ListType ListType { get; protected set; }
@@ -29,9 +31,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual string MarketUniqueId { get; set; }
 
+        [XmlPropertyUpdate]
         public virtual MarketStatuses MlsStatus { get; set; }
 
-        public virtual Guid? XmlDiscrepancyListingId { get; set; }
+        public override Guid? XmlDiscrepancyListingId { get; set; }
 
         public virtual void UpdateBaseListingInfo(
             ListType listType,

@@ -25,8 +25,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Enums;
-    using Husa.Quicklister.Abor.Domain.Enums.Xml;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Request;
     using Microsoft.Extensions.Logging;
@@ -57,16 +57,16 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.xmlClient.SetupGet(x => x.Listing).Returns(xmlListingClientMock.Object);
 
             this.Sut = new(
-                this.fixture.Mapper,
                 this.xmlClient.Object,
-                this.companyClient.Object,
                 this.listingSaleRepository.Object,
-                this.listingSaleService.Object,
                 this.communitySaleRepository.Object,
-                this.saleListingRequestService.Object,
                 this.contextProvider.Object,
+                this.logger.Object,
                 this.xmlMediaService.Object,
-                this.logger.Object);
+                this.listingSaleService.Object,
+                this.saleListingRequestService.Object,
+                this.companyClient.Object,
+                this.fixture.Mapper);
         }
 
         private SaleListingXmlService Sut { get; set; }
@@ -432,7 +432,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                .Verifiable();
 
             this.xmlMediaService
-               .Setup(x => x.ImportListingMedia(xmlListingId, false, true))
+               .Setup(x => x.ImportListingMedia(xmlListingId, false, true, this.fixture.Options.Object.Value.MediaAllowed.SaleListingMaxAllowedMedia))
                .Verifiable();
 
             this.companyClient
@@ -467,7 +467,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                .Verifiable();
 
             this.xmlMediaService
-               .Setup(x => x.ImportListingMedia(xmlListingId, false, true))
+               .Setup(x => x.ImportListingMedia(xmlListingId, false, true, this.fixture.Options.Object.Value.MediaAllowed.SaleListingMaxAllowedMedia))
                .Verifiable();
 
             // Act and Assert
@@ -501,7 +501,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                .Verifiable();
 
             this.xmlMediaService
-               .Setup(x => x.ImportListingMedia(xmlListingId, false, true))
+               .Setup(x => x.ImportListingMedia(xmlListingId, false, true, this.fixture.Options.Object.Value.MediaAllowed.SaleListingMaxAllowedMedia))
                .Verifiable();
 
             // Act
@@ -539,6 +539,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.saleListingRequestService
                .Setup(x => x.HasOpenRequest(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                .ReturnsAsync(false)
+               .Verifiable();
+
+            this.listingSaleRepository
+               .Setup(x => x.HasXmlChanges(It.IsAny<SaleListing>()))
+               .Returns(true)
                .Verifiable();
 
             this.saleListingRequestService

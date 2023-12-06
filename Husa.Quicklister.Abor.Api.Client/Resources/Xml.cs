@@ -8,7 +8,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Xml;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Xml;
-    using Husa.Quicklister.Abor.Domain.Enums.Xml;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Microsoft.Extensions.Logging;
 
     public class Xml : IXml

@@ -118,7 +118,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             Assert.NotNull(result);
             this.saleRequestRepository.Verify(
                 r => r.UpdateListingSaleRequestAsync(
-                    It.Is<string>(id => id == requestId.ToString()),
+                    It.Is<Guid>(id => id == requestId),
                     It.IsAny<SaleListingRequest>(),
                     It.IsAny<Guid>(),
                     It.IsAny<CancellationToken>()),

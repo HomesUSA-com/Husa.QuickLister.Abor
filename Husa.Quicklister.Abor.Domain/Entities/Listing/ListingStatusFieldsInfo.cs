@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using System;
     using System.Collections.Generic;
     using Husa.Extensions.Domain.ValueObjects;
+    using Husa.Quicklister.Abor.Domain.Attributes;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Agent = Husa.Quicklister.Abor.Domain.Entities.Agent.Agent;
 
@@ -12,8 +13,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public string CancelledReason { get; set; }
 
+        [XmlPropertyUpdate]
         public decimal? ClosePrice { get; set; }
 
+        [XmlPropertyUpdate]
         public DateTime? EstimatedClosedDate { get; set; }
 
         public Guid? AgentId { get; set; }
@@ -26,6 +29,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public DateTime? PendingDate { get; set; }
 
+        [XmlPropertyUpdate]
         public DateTime? ClosedDate { get; set; }
 
         public bool HasSecondBuyerAgent { get; set; }

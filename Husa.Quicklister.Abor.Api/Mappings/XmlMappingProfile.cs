@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.Xml;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Enums.Xml;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using XmlImportStatus = Husa.Xml.Domain.Enums.ImportStatus;
     using XmlRequest = Husa.Xml.Api.Contracts.Request;
     using XmlResponse = Husa.Xml.Api.Contracts.Response;

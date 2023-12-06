@@ -6,10 +6,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
     using Husa.Quicklister.Abor.Domain.Comparers;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
-    using Husa.Quicklister.Extensions.Domain.Enums;
-    using ExtensionsEntities = Husa.Quicklister.Extensions.Domain.Entities.Plan;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
+    using ExtensionPlan = Husa.Quicklister.Extensions.Domain.Entities.Plan.Plan;
 
-    public class Plan : ExtensionsEntities.XmlPlan
+    public class Plan : ExtensionPlan
     {
         public Plan(Guid companyId, string name, string ownerName, XmlStatus xmlStatus)
             : this(companyId, name, ownerName)
@@ -78,9 +78,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
             }
         }
 
-        public virtual void Migrate(Guid legacyId, BasePlan basePlan, IEnumerable<PlanRoom> rooms)
+        public virtual void Migrate(int legacyId, BasePlan basePlan, IEnumerable<PlanRoom> rooms)
         {
-            this.LegacyId = legacyId;
+            this.LegacyProfileId = legacyId;
             this.UpdateBasePlanInformation(basePlan);
             this.UpdateRooms(rooms);
         }

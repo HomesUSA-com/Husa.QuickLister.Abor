@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Application.Extensions
 {
     using System;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using RemoteNoteType = Husa.Notes.Domain.Enums.NoteType;
 
     public static class NotesExtensions

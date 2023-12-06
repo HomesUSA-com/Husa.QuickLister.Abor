@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Alerts
     using System.Collections.Generic;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 
     public class DetailAlertQueryResult : IProvideQuicklisterUserInfo

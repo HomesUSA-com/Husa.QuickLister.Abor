@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Request.Plan
 {
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
-    using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
 
     public class PlanRequestFilter : BaseFilterRequest
     {

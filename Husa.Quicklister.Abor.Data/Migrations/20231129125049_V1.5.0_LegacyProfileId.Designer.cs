@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231129125049_V1.5.0_LegacyProfileId")]
+    partial class V150_LegacyProfileId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2370,13 +2373,13 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("AgentPrivateRemarks")
-                                .HasMaxLength(1000)
-                                .HasColumnType("nvarchar(1000)")
+                                .HasMaxLength(1024)
+                                .HasColumnType("nvarchar(1024)")
                                 .HasColumnName("AgentPrivateRemarks");
 
                             b1.Property<string>("AgentPrivateRemarksAdditional")
-                                .HasMaxLength(1000)
-                                .HasColumnType("nvarchar(1000)")
+                                .HasMaxLength(1024)
+                                .HasColumnType("nvarchar(1024)")
                                 .HasColumnName("AgentPrivateRemarksAdditional");
 
                             b1.Property<string>("ContactPhone")

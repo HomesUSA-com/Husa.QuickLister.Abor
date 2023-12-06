@@ -7,10 +7,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading.Tasks;
     using Azure.Messaging.ServiceBus;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
-    using Husa.Extensions.Common.Exceptions;
     using Husa.PhotoService.Api.Client.Interfaces;
-    using Husa.Quicklister.Abor.Application.Interfaces.PhotoRequest;
-    using Husa.Quicklister.Abor.Crosscutting.Tests;
+    using Husa.Quicklister.Extensions.Application.Interfaces;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Moq;
     using Xunit;
@@ -40,71 +38,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         public TPhotoService Sut { get; set; }
-
-        [Fact]
-        public async Task CreateAsyc_MessageSent_Success()
-        {
-            // Arrange
-            var entityId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
-            var photoRequest = TestModelProvider.GetPhotoRequest(this.Sut.PropertyType);
-            this.SetupValidEntityAndUser(entityId, userId);
-            var company = TestModelProvider.GetCompanyDetail(photoRequest.CompanyId);
-            company.PhotographyServiceInfo = new()
-            {
-                PhotographyServicesEnabled = true,
-            };
-
-            this.serviceSubscriptionClient
-                .Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(company)
-                .Verifiable();
-
-            // Act
-            await this.Sut.CreateAsync(entityId, photoRequest);
-
-            // Assert
-            this.client.Verify(t => t.CreateSender(ApplicationServicesFixture.TestTopicName), Times.Once);
-            this.sender.Verify(t => t.SendMessagesAsync(It.IsAny<ServiceBusMessageBatch>(), It.IsAny<CancellationToken>()), Times.Once);
-        }
-
-        [Fact]
-        public async Task CreateAsyc_MessageSent_Error()
-        {
-            // Arrange
-            var entityId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
-            var photoRequest = TestModelProvider.GetPhotoRequest(this.Sut.PropertyType);
-            this.SetupValidEntityAndUser(entityId, userId);
-            var company = TestModelProvider.GetCompanyDetail(photoRequest.CompanyId);
-            company.PhotographyServiceInfo = new()
-            {
-                PhotographyServicesEnabled = false,
-            };
-
-            this.serviceSubscriptionClient
-                .Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(company)
-                .Verifiable();
-
-            // Act and Assert
-            await Assert.ThrowsAsync<DomainException>(() => this.Sut.CreateAsync(entityId, photoRequest));
-            this.sender.Verify(t => t.SendMessagesAsync(It.IsAny<ServiceBusMessageBatch>(), It.IsAny<CancellationToken>()), Times.Never);
-        }
-
-        [Fact]
-        public async Task DeleteById_MessageSent_Success()
-        {
-            var photoRequestId = Guid.NewGuid();
-            var entityId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
-
-            this.SetupValidEntityAndUser(entityId, userId);
-            await this.Sut.DeleteByIdAsync(entityId, photoRequestId);
-
-            this.client.Verify(t => t.CreateSender(ApplicationServicesFixture.TestTopicName), Times.Once);
-            this.sender.Verify(t => t.SendMessagesAsync(It.IsAny<ServiceBusMessageBatch>(), It.IsAny<CancellationToken>()), Times.Once);
-        }
 
         protected async Task SetupAssignLatestPhotoRequest(Guid entityId)
         {

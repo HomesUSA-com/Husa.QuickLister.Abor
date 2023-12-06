@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
+    using Husa.Extensions.Common;
     using Husa.Extensions.Common.Enums;
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Response.SaleListing;
@@ -14,10 +15,12 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Migration;
+    using PhotoRequest = Husa.PhotoService.Api.Contracts.Request;
 
-    public class SaleListingMigrationService : ExtensionsServices.SaleListingMigrationService<SaleListing, IListingSaleRepository, ICommunitySaleRepository, IPlanRepository>
+    public class SaleListingMigrationService : ExtensionsServices.SaleListingMigrationService<SaleListing, IListingSaleRepository, ICommunitySaleRepository, IPlanRepository, ISaleListingPhotoService>
     {
         private readonly IMapper mapper;
         private readonly ISaleListingService saleListingService;
@@ -31,9 +34,10 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             IAgentRepository agentRepository,
             IPlanRepository planRepository,
             ICommunitySaleRepository communityRepository,
+            ISaleListingPhotoService photoService,
             ILogger<SaleListingMigrationService> logger,
             IMapper mapper)
-            : base(listingRepository, serviceSubscriptionClient, migrationClient, communityRepository, planRepository, logger)
+            : base(listingRepository, serviceSubscriptionClient, migrationClient, communityRepository, planRepository, photoService, logger)
         {
             this.saleListingService = saleListingService ?? throw new ArgumentNullException(nameof(saleListingService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -79,6 +83,24 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             }
 
             return null;
+        }
+
+        protected override PhotoRequest.Property GetPhotoRequestProperty(SaleListing listing)
+        {
+            return new PhotoRequest.Property()
+            {
+                Id = listing.Id,
+                MlsNumber = listing.MlsNumber,
+                Type = PhotoService.Domain.Enums.PropertyType.Residential,
+                StreetName = listing.SaleProperty.AddressInfo.StreetName,
+                StreetNum = listing.SaleProperty.AddressInfo.StreetNumber,
+                UnitNumber = listing.SaleProperty.AddressInfo.UnitNumber,
+                StreetType = listing.SaleProperty.AddressInfo.StreetType.GetEnumDescription(),
+                Zip = listing.SaleProperty.AddressInfo.ZipCode,
+                City = listing.SaleProperty.AddressInfo.City.ToString(),
+                ReadableCity = listing.SaleProperty.AddressInfo.ReadableCity,
+                Subdivision = listing.SaleProperty.AddressInfo.Subdivision,
+            };
         }
 
         private async Task<Guid?> GetAgentIdByMarketUniqueId(string marketUniqueId)

@@ -10,10 +10,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
     using Husa.MediaService.Api.Contracts.Request;
-    using Husa.MediaService.ServiceBus.Messages;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Application.Interfaces.Media;
-    using Husa.Quicklister.Abor.Application.Media;
+    using Husa.Quicklister.Abor.Application.Services.Media;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -37,15 +35,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<ICommunitySaleRepository> communitySaleRepository = new();
         private readonly Mock<IListingSaleRepository> listingSaleRepository = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
-        private readonly Mock<IMediaMessagingService> mediaMessagingService = new();
         private readonly Mock<IProvideTraceId> traceIdProvider = new();
         private readonly Mock<ISaleListingMediaService> mediaService = new();
         private readonly Mock<ILogger<XmlMediaService>> logger = new();
-        private readonly ApplicationServicesFixture fixture;
 
         public XmlMediaServiceTests(ApplicationServicesFixture fixture)
         {
-            this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
         }
 
         [Fact]
@@ -63,16 +58,14 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.xmlClient.SetupGet(c => c.Subdivision).Returns(subdivisionResource.Object).Verifiable();
 
             var sut = new XmlMediaService(
-                this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
-                this.mediaService.Object,
-                this.fixture.Options.Object,
-                this.logger.Object);
+               this.xmlClient.Object,
+               this.mediaService.Object,
+               this.planRepository.Object,
+               this.communitySaleRepository.Object,
+               this.listingSaleRepository.Object,
+               this.userContextProvider.Object,
+               this.traceIdProvider.Object,
+               this.logger.Object);
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<HttpRequestException>(() => sut.ImportSubdivisionMedia(xmlSubdivisionId));
@@ -95,16 +88,14 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.xmlClient.SetupGet(c => c.Subdivision).Returns(subdivisionResource.Object).Verifiable();
 
             var sut = new XmlMediaService(
-                this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
-                this.mediaService.Object,
-                this.fixture.Options.Object,
-                this.logger.Object);
+               this.xmlClient.Object,
+               this.mediaService.Object,
+               this.planRepository.Object,
+               this.communitySaleRepository.Object,
+               this.listingSaleRepository.Object,
+               this.userContextProvider.Object,
+               this.traceIdProvider.Object,
+               this.logger.Object);
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<DomainException>(() => sut.ImportSubdivisionMedia(xmlSubdivisionId));
@@ -134,14 +125,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var sut = new XmlMediaService(
                 this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
                 this.mediaService.Object,
-                this.fixture.Options.Object,
+                this.planRepository.Object,
+                this.communitySaleRepository.Object,
+                this.listingSaleRepository.Object,
+                this.userContextProvider.Object,
+                this.traceIdProvider.Object,
                 this.logger.Object);
 
             // Act & Assert
@@ -184,29 +173,19 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(community.Object);
 
             var sut = new XmlMediaService(
-                this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
-                this.mediaService.Object,
-                this.fixture.Options.Object,
-                this.logger.Object);
+               this.xmlClient.Object,
+               this.mediaService.Object,
+               this.planRepository.Object,
+               this.communitySaleRepository.Object,
+               this.listingSaleRepository.Object,
+               this.userContextProvider.Object,
+               this.traceIdProvider.Object,
+               this.logger.Object);
 
             // Act
             await sut.ImportSubdivisionMedia(xmlSubdivisionId);
 
             // Assert
-            this.mediaMessagingService
-                .Verify(
-                    c => c.SendMessage(
-                        It.IsAny<IEnumerable<MediaCreateMessage>>(),
-                        It.IsAny<string>(),
-                        It.IsAny<string>(),
-                        It.IsAny<bool>()),
-                    Times.Never);
             this.userContextProvider.Verify(c => c.GetCurrentUserId(), Times.Never);
             this.traceIdProvider.VerifyGet(tp => tp.TraceId, Times.Never);
             this.xmlClient.Verify();
@@ -252,32 +231,22 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(community.Object);
             this.userContextProvider.Setup(c => c.GetCurrentUserId()).Returns(userId).Verifiable();
             this.traceIdProvider.SetupGet(tp => tp.TraceId).Returns(traceId).Verifiable();
-            this.mediaMessagingService
-                .Setup(c => c.SendMessage(
-                    It.IsAny<IEnumerable<MediaCreateMessage>>(),
-                    It.Is<string>(id => id == userId.ToString()),
-                    It.Is<string>(correlationId => correlationId == traceId),
-                    It.Is<bool>(dispose => dispose)))
-                .Verifiable();
 
             var sut = new XmlMediaService(
-                this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
-                this.mediaService.Object,
-                this.fixture.Options.Object,
-                this.logger.Object);
+               this.xmlClient.Object,
+               this.mediaService.Object,
+               this.planRepository.Object,
+               this.communitySaleRepository.Object,
+               this.listingSaleRepository.Object,
+               this.userContextProvider.Object,
+               this.traceIdProvider.Object,
+               this.logger.Object);
 
             // Act
             await sut.ImportSubdivisionMedia(xmlSubdivisionId);
 
             // Assert
             this.traceIdProvider.Verify();
-            this.mediaMessagingService.Verify();
             this.userContextProvider.Verify();
             this.xmlClient.Verify();
             subdivisionResource.Verify();
@@ -305,16 +274,14 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.xmlClient.SetupGet(c => c.Plan).Returns(planResource.Object).Verifiable();
 
             var sut = new XmlMediaService(
-                this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
-                this.mediaService.Object,
-                this.fixture.Options.Object,
-                this.logger.Object);
+               this.xmlClient.Object,
+               this.mediaService.Object,
+               this.planRepository.Object,
+               this.communitySaleRepository.Object,
+               this.listingSaleRepository.Object,
+               this.userContextProvider.Object,
+               this.traceIdProvider.Object,
+               this.logger.Object);
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<HttpRequestException>(() => sut.ImportPlanMedia(xmlPlanId));
@@ -337,16 +304,14 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.xmlClient.SetupGet(c => c.Plan).Returns(planResource.Object).Verifiable();
 
             var sut = new XmlMediaService(
-                this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
-                this.mediaService.Object,
-                this.fixture.Options.Object,
-                this.logger.Object);
+               this.xmlClient.Object,
+               this.mediaService.Object,
+               this.planRepository.Object,
+               this.communitySaleRepository.Object,
+               this.listingSaleRepository.Object,
+               this.userContextProvider.Object,
+               this.traceIdProvider.Object,
+               this.logger.Object);
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<DomainException>(() => sut.ImportPlanMedia(xmlPlanId));
@@ -376,14 +341,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var sut = new XmlMediaService(
                 this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
                 this.mediaService.Object,
-                this.fixture.Options.Object,
+                this.planRepository.Object,
+                this.communitySaleRepository.Object,
+                this.listingSaleRepository.Object,
+                this.userContextProvider.Object,
+                this.traceIdProvider.Object,
                 this.logger.Object);
 
             // Act & Assert
@@ -426,29 +389,19 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(plan.Object);
 
             var sut = new XmlMediaService(
-                this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
-                this.mediaService.Object,
-                this.fixture.Options.Object,
-                this.logger.Object);
+               this.xmlClient.Object,
+               this.mediaService.Object,
+               this.planRepository.Object,
+               this.communitySaleRepository.Object,
+               this.listingSaleRepository.Object,
+               this.userContextProvider.Object,
+               this.traceIdProvider.Object,
+               this.logger.Object);
 
             // Act
             await sut.ImportPlanMedia(xmlPlanId);
 
             // Assert
-            this.mediaMessagingService
-                .Verify(
-                    c => c.SendMessage(
-                        It.IsAny<IEnumerable<MediaCreateMessage>>(),
-                        It.IsAny<string>(),
-                        It.IsAny<string>(),
-                        It.IsAny<bool>()),
-                    Times.Never);
             this.userContextProvider.Verify(c => c.GetCurrentUserId(), Times.Never);
             this.traceIdProvider.VerifyGet(tp => tp.TraceId, Times.Never);
             this.xmlClient.Verify();
@@ -494,32 +447,22 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(plan.Object);
             this.userContextProvider.Setup(c => c.GetCurrentUserId()).Returns(userId).Verifiable();
             this.traceIdProvider.SetupGet(tp => tp.TraceId).Returns(traceId).Verifiable();
-            this.mediaMessagingService
-                .Setup(c => c.SendMessage(
-                    It.IsAny<IEnumerable<MediaCreateMessage>>(),
-                    It.Is<string>(id => id == userId.ToString()),
-                    It.Is<string>(correlationId => correlationId == traceId),
-                    It.Is<bool>(dispose => dispose)))
-                .Verifiable();
 
             var sut = new XmlMediaService(
-                this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
-                this.mediaService.Object,
-                this.fixture.Options.Object,
-                this.logger.Object);
+               this.xmlClient.Object,
+               this.mediaService.Object,
+               this.planRepository.Object,
+               this.communitySaleRepository.Object,
+               this.listingSaleRepository.Object,
+               this.userContextProvider.Object,
+               this.traceIdProvider.Object,
+               this.logger.Object);
 
             // Act
             await sut.ImportPlanMedia(xmlPlanId);
 
             // Assert
             this.traceIdProvider.Verify();
-            this.mediaMessagingService.Verify();
             this.userContextProvider.Verify();
             this.xmlClient.Verify();
             planResource.Verify();
@@ -539,16 +482,14 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var xmlListingId = Guid.NewGuid();
 
             var sut = new XmlMediaService(
-                this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
-                this.mediaService.Object,
-                this.fixture.Options.Object,
-                this.logger.Object);
+               this.xmlClient.Object,
+               this.mediaService.Object,
+               this.planRepository.Object,
+               this.communitySaleRepository.Object,
+               this.listingSaleRepository.Object,
+               this.userContextProvider.Object,
+               this.traceIdProvider.Object,
+               this.logger.Object);
 
             // Act & Assert
             await Assert.ThrowsAsync<DomainException>(() => sut.ImportListingMedia(xmlListingId));
@@ -579,28 +520,18 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var sut = new XmlMediaService(
                 this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
                 this.mediaService.Object,
-                this.fixture.Options.Object,
+                this.planRepository.Object,
+                this.communitySaleRepository.Object,
+                this.listingSaleRepository.Object,
+                this.userContextProvider.Object,
+                this.traceIdProvider.Object,
                 this.logger.Object);
 
             // Act
             await sut.ImportListingMedia(xmlListingId);
 
             // Assert
-            this.mediaMessagingService
-                .Verify(
-                    c => c.SendMessage(
-                        It.IsAny<IEnumerable<MediaCreateMessage>>(),
-                        It.IsAny<string>(),
-                        It.IsAny<string>(),
-                        It.IsAny<bool>()),
-                    Times.Never);
             this.userContextProvider.Verify(c => c.GetCurrentUserId(), Times.Never);
             this.traceIdProvider.VerifyGet(tp => tp.TraceId, Times.Never);
             this.xmlClient.Verify();
@@ -642,29 +573,19 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(listing.Object);
 
             var sut = new XmlMediaService(
-                this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
-                this.mediaService.Object,
-                this.fixture.Options.Object,
-                this.logger.Object);
+               this.xmlClient.Object,
+               this.mediaService.Object,
+               this.planRepository.Object,
+               this.communitySaleRepository.Object,
+               this.listingSaleRepository.Object,
+               this.userContextProvider.Object,
+               this.traceIdProvider.Object,
+               this.logger.Object);
 
             // Act
-            await sut.ImportListingMedia(xmlListingId, checkMediaLimit: true);
+            await sut.ImportListingMedia(xmlListingId, checkMediaLimit: true, maxImagesAllowed: 45);
 
             // Assert
-            this.mediaMessagingService
-                .Verify(
-                    c => c.SendMessage(
-                        It.IsAny<IEnumerable<MediaCreateMessage>>(),
-                        It.IsAny<string>(),
-                        It.IsAny<string>(),
-                        It.IsAny<bool>()),
-                    Times.Once);
             this.userContextProvider.Verify(c => c.GetCurrentUserId(), Times.Once);
             this.traceIdProvider.VerifyGet(tp => tp.TraceId, Times.Once);
             this.xmlClient.Verify();
@@ -703,32 +624,22 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(listing);
             this.userContextProvider.Setup(c => c.GetCurrentUserId()).Returns(userId).Verifiable();
             this.traceIdProvider.SetupGet(tp => tp.TraceId).Returns(traceId).Verifiable();
-            this.mediaMessagingService
-                .Setup(c => c.SendMessage(
-                    It.IsAny<IEnumerable<MediaCreateMessage>>(),
-                    It.Is<string>(id => id == userId.ToString()),
-                    It.Is<string>(correlationId => correlationId == traceId),
-                    It.Is<bool>(dispose => dispose)))
-                .Verifiable();
 
             var sut = new XmlMediaService(
-                this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
-                this.mediaService.Object,
-                this.fixture.Options.Object,
-                this.logger.Object);
+               this.xmlClient.Object,
+               this.mediaService.Object,
+               this.planRepository.Object,
+               this.communitySaleRepository.Object,
+               this.listingSaleRepository.Object,
+               this.userContextProvider.Object,
+               this.traceIdProvider.Object,
+               this.logger.Object);
 
             // Act
             await sut.ImportListingMedia(xmlListingId);
 
             // Assert
             this.traceIdProvider.Verify();
-            this.mediaMessagingService.Verify();
             this.userContextProvider.Verify();
             this.xmlClient.Verify();
             listingResource.Verify();
@@ -768,16 +679,14 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Verifiable();
 
             var sut = new XmlMediaService(
-                this.xmlClient.Object,
-                this.communitySaleRepository.Object,
-                this.planRepository.Object,
-                this.userContextProvider.Object,
-                this.mediaMessagingService.Object,
-                this.listingSaleRepository.Object,
-                this.traceIdProvider.Object,
-                this.mediaService.Object,
-                this.fixture.Options.Object,
-                this.logger.Object);
+               this.xmlClient.Object,
+               this.mediaService.Object,
+               this.planRepository.Object,
+               this.communitySaleRepository.Object,
+               this.listingSaleRepository.Object,
+               this.userContextProvider.Object,
+               this.traceIdProvider.Object,
+               this.logger.Object);
 
             // Act
             await sut.ImportListingMedia(xmlListingId, checkMediaLimit: false, useServiceBus: false);

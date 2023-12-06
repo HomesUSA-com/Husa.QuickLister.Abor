@@ -6,8 +6,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using System.Linq;
     using Husa.Extensions.Common;
     using Husa.Extensions.Domain.ValueObjects;
+    using Husa.Quicklister.Abor.Domain.Attributes;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
     public class PropertyInfo : ValueObject, IProvideProperty, IProvideGeocodes
@@ -23,6 +25,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
         }
 
+        [XmlPropertyUpdate]
         [DataType(DataType.DateTime, ErrorMessage = "The {0} value is invalid for datetime.")]
         public DateTime? ConstructionCompletionDate
         {
@@ -34,6 +37,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public int? ConstructionStartYear { get; set; }
 
+        [XmlPropertyUpdate]
         public string LegalDescription { get; set; }
 
         public string TaxId { get; set; }

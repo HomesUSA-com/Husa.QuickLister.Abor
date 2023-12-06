@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Application.Services.Communities;
@@ -25,6 +26,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     {
         private readonly Mock<ICommunitySaleRepository> communitySaleRepository = new();
         private readonly Mock<ILogger<CommunityXmlService>> logger = new();
+        private readonly Mock<IUserContextProvider> userContextProvider = new();
         private readonly Mock<IXmlClient> xmlClient = new();
         private readonly ITestOutputHelper outputHelper;
 
@@ -36,6 +38,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.Sut = new CommunityXmlService(
                 this.xmlClient.Object,
                 this.communitySaleRepository.Object,
+                this.userContextProvider.Object,
                 this.logger.Object);
             this.outputHelper = outputHelper ?? throw new ArgumentNullException(nameof(outputHelper));
         }

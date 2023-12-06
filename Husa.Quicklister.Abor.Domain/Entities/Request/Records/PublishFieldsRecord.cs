@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using System;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public record PublishFieldsRecord
     {

@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public interface ISaleListingService
     {

@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Data.Extensions
 {
     using System;
-    using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -4,13 +4,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.Common.Validations;
     using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Extensions;
+    using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.ValueObjects;
 
     public record FinancialRecord : IProvideSummary
@@ -30,12 +33,20 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         [Required]
         [MinLength(1)]
         public ICollection<TaxExemptions> TaxExemptions { get; set; }
-        public ICollection<HoaIncludes> HoaIncludes { get; set; }
         public bool HasHoa { get; set; }
-        public string HoaName { get; set; }
-        public decimal? HoaFee { get; set; }
-        public BillingFrequency? BillingFrequency { get; set; }
         public HoaRequirement? HOARequirement { get; set; }
+
+        [IfRequired(nameof(HOARequirement), HoaRequirement.Mandatory, OperatorType.Equal)]
+        public ICollection<HoaIncludes> HoaIncludes { get; set; }
+
+        [IfRequired(nameof(HOARequirement), HoaRequirement.Mandatory, OperatorType.Equal)]
+        public string HoaName { get; set; }
+
+        [IfRequired(nameof(HOARequirement), HoaRequirement.Mandatory, OperatorType.Equal)]
+        public decimal? HoaFee { get; set; }
+
+        [IfRequired(nameof(HOARequirement), HoaRequirement.Mandatory, OperatorType.Equal)]
+        public BillingFrequency? BillingFrequency { get; set; }
         public decimal BuyersAgentCommission { get; set; }
         public CommissionType BuyersAgentCommissionType { get; set; }
         public string ReadableBuyersAgentCommission

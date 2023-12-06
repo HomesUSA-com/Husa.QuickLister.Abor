@@ -78,7 +78,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
             await sut.MigrateByMlsNumber(mlsNumber);
 
             this.agentRepository.Verify(r => r.GetAgentByMarketUniqueId(It.IsAny<string>()), Times.Never);
-            this.saleListingRequestService.Verify(r => r.GenerateRequestFromMigrationAsync(It.Is<SaleListingRequest>(x => x.MlsNumber == mlsNumber), It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Once);
+            this.saleListingRequestService.Verify(r => r.GenerateRequestFromMigrationAsync(It.Is<SaleListingRequest>(x => x.MlsNumber == mlsNumber), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         private ListingRequestMigrationService GetSut()

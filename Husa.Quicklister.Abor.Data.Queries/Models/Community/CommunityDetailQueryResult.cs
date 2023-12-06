@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
     using System;
     using System.Collections.Generic;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
 
     public class CommunityDetailQueryResult : BaseQueryResult
     {

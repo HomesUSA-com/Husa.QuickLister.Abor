@@ -2,7 +2,7 @@ namespace Husa.Quicklister.Abor.Application.Models
 {
     using System;
     using Husa.Quicklister.Abor.Application.Models.ReverseProspect;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class UploadResponse
     {

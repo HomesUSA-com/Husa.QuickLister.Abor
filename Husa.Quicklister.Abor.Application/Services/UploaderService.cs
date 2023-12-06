@@ -12,8 +12,8 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Application.Interfaces.Uploader;
     using Husa.Quicklister.Abor.Application.Models.ReverseProspect;
     using Husa.Quicklister.Abor.Domain.Entities.ReverseProspect;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.ReverseProspect.Api.Client;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;

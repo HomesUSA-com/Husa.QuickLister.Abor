@@ -14,15 +14,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using Husa.Quicklister.Extensions.Domain.Extensions;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Communities;
     using Husa.Xml.Api.Contracts.Response;
-    using ExtensionsXmlCommunity = Husa.Quicklister.Extensions.Domain.Entities.Community.XmlCommunity;
+    using ExtensionCommunity = Husa.Quicklister.Extensions.Domain.Entities.Community.Community;
 
-    public class CommunitySale : ExtensionsXmlCommunity, IEntityOpenHouse<CommunityOpenHouse>, ICommunityEmployee<CommunityEmployee>, ISaleCommunity<SaleListing>
+    public class CommunitySale : ExtensionCommunity, IEntityOpenHouse<CommunityOpenHouse>, ICommunityEmployee<CommunityEmployee>, ISaleCommunity<SaleListing>
     {
         public CommunitySale(Guid companyId, string name, string ownerName)
             : this()
