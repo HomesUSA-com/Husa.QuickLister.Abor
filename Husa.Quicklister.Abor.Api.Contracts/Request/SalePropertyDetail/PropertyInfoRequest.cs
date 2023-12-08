@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
 
         public int? ConstructionStartYear { get; set; }
 
+        [MaxLength(255, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string LegalDescription { get; set; }
 
         public string TaxId { get; set; }
