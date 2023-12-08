@@ -145,7 +145,8 @@ namespace Husa.Quicklister.Abor.Application
                 listingAddress.StreetNumber,
                 listingAddress.StreetName,
                 listingAddress.City,
-                listingAddress.ZipCode);
+                listingAddress.ZipCode,
+                listingAddress.UnitNumber);
 
             if (listing is not null && listing.Id != listingSale.Id)
             {
