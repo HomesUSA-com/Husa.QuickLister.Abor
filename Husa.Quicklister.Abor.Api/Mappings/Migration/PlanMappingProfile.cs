@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
             this.CreateMap<RoomResponse, PlanRoom>()
                 .ForMember(dto => dto.Features, pr => pr.MapFrom(x => x.Features.CsvToEnum<RoomFeatures>(true)))
                 .ForMember(dto => dto.RoomType, pr => pr.MapFrom(x => x.RoomType.ToRoomType()))
+                .ForMember(dto => dto.Level, pr => pr.MapFrom(x => x.Level.ToEnumFromEnumMember<RoomLevel>()))
                 .ForMember(dto => dto.IsDeleted, pr => pr.MapFrom(x => 0))
                 .ForMember(dto => dto.Id, am => am.Ignore())
                 .ForMember(dto => dto.SysModifiedOn, am => am.Ignore())

@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     {
         public const int LegalDescriptionLength = 6000;
         public const int TaxIdLength = 50;
+        public const int AgentPrivateRemarksLength = 1000;
 
         public void Configure(EntityTypeBuilder<SaleProperty> builder)
         {
@@ -118,7 +119,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
         {
             builder.ConfigureShowing();
             builder.Property(r => r.RealtorContactEmail).HasColumnName(nameof(ShowingInfo.RealtorContactEmail)).HasMaxLength(255);
-            builder.Property(r => r.AgentPrivateRemarks).HasColumnName(nameof(ShowingInfo.AgentPrivateRemarks)).HasMaxLength(1000);
+            builder.Property(r => r.AgentPrivateRemarks).HasColumnName(nameof(ShowingInfo.AgentPrivateRemarks)).HasMaxLength(AgentPrivateRemarksLength);
             builder.Property(r => r.AgentPrivateRemarksAdditional).HasColumnName(nameof(ShowingInfo.AgentPrivateRemarksAdditional)).HasMaxLength(1000);
             builder.Property(r => r.EnableOpenHouses).HasColumnName(nameof(ShowingInfo.EnableOpenHouses));
             builder.Property(r => r.ShowOpenHousesPending).HasColumnName(nameof(ShowingInfo.ShowOpenHousesPending));
