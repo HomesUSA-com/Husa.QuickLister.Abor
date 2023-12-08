@@ -84,7 +84,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.RealtorContactEmail, pr => pr.MapFrom(x => x.RealtorContactEmail.ToCollectionFromString(";")))
                 .ForMember(dto => dto.ShowingInstructions, pr => pr.MapFrom(x => x.Showing))
                 .ForMember(dto => dto.ShowingRequirements, pr => pr.MapFrom(x => x.ShowingRequirements.CsvToEnum<ShowingRequirements>(true)))
-                .ForMember(dto => dto.LockBoxType, pr => pr.MapFrom(x => x.LockBoxType.ToEnumFromEnumMember<LockBoxType>()));
+                .ForMember(dto => dto.LockBoxType, pr => pr.MapFrom(x => x.LockBoxType.ToEnumFromEnumMember<LockBoxType>()))
+                .ForMember(dto => dto.AgentPrivateRemarks, cr => cr.MapFrom(x => x.AgentPrivateRemarks.GetSubstring(SalePropertyConfiguration.AgentPrivateRemarksLength)));
             this.CreateMap<SchoolsResponse, SchoolsDto>()
                 .ForMember(dto => dto.ElementarySchool, pr => pr.MapFrom(x => x.ElementarySchool.ToEnumFromEnumMember<ElementarySchool>()))
                 .ForMember(dto => dto.MiddleSchool, pr => pr.MapFrom(x => x.MiddleSchool.ToEnumFromEnumMember<MiddleSchool>()))
@@ -118,6 +119,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
             this.CreateMap<RoomResponse, RoomDto>()
                 .ForMember(dto => dto.Features, pr => pr.MapFrom(x => x.Features.CsvToEnum<RoomFeatures>(true)))
                 .ForMember(dto => dto.RoomType, pr => pr.MapFrom(x => x.RoomType.ToRoomType()))
+                .ForMember(dto => dto.Level, pr => pr.MapFrom(x => x.Level.ToEnumFromEnumMember<RoomLevel>()))
                 .ForMember(dto => dto.Id, pr => pr.Ignore());
         }
     }
