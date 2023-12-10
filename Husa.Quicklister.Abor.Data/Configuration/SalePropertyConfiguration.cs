@@ -14,7 +14,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
     public class SalePropertyConfiguration : IEntityTypeConfiguration<SaleProperty>
     {
-        public const int LegalDescriptionLength = 6000;
+        public const int LegalDescriptionLength = 255;
         public const int TaxIdLength = 50;
         public const int AgentPrivateRemarksLength = 1000;
 
