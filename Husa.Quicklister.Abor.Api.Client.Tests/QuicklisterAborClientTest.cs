@@ -28,7 +28,6 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Moq;
     using Xunit;
     using BaseFilterRequest = Husa.Quicklister.Extensions.Api.Contracts.Request.BaseFilterRequest;
-    using CommunityRequest = Husa.Quicklister.Abor.Api.Contracts.Request.Community;
     using PlanRequest = Husa.Quicklister.Abor.Api.Contracts.Request.Plan;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request;
     using Response = Husa.CompanyServicesManager.Api.Contracts.Response;

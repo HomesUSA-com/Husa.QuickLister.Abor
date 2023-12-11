@@ -6,6 +6,8 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.Downloader.CTX.Api.Client;
+    using Husa.Extensions.Authorization;
+    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
@@ -13,6 +15,8 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Models.Media;
+    using Husa.Quicklister.Extensions.Crosscutting.Providers;
+    using Husa.Quicklister.Extensions.ServiceBus.Contracts;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
@@ -22,6 +26,9 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
         private readonly IListingSaleRepository listingSaleRepository;
         private readonly ISaleListingMediaService listingMediaService;
         private readonly IDownloaderCtxClient downloaderCtxClient;
+        private readonly IImportMlsMediaMessagingService saleListingMediaMessagingService;
+        private readonly IUserContextProvider userContextProvider;
+        private readonly IProvideTraceId traceIdProvider;
         private readonly ApplicationOptions options;
         private readonly ILogger<MediaService> logger;
 
@@ -29,6 +36,9 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             IListingSaleRepository listingSaleRepository,
             ISaleListingMediaService saleListingMediaService,
             IDownloaderCtxClient downloaderCtxClient,
+            IImportMlsMediaMessagingService mediaMessagingService,
+            IUserContextProvider userContextProvider,
+            IProvideTraceId traceIdProvider,
             IOptions<ApplicationOptions> options,
             IMapper mapper,
             ILogger<MediaService> logger)
@@ -36,6 +46,9 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             this.listingMediaService = saleListingMediaService ?? throw new ArgumentNullException(nameof(saleListingMediaService));
             this.listingSaleRepository = listingSaleRepository ?? throw new ArgumentNullException(nameof(listingSaleRepository));
             this.downloaderCtxClient = downloaderCtxClient ?? throw new ArgumentNullException(nameof(downloaderCtxClient));
+            this.saleListingMediaMessagingService = mediaMessagingService ?? throw new ArgumentNullException(nameof(mediaMessagingService));
+            this.userContextProvider = userContextProvider ?? throw new ArgumentNullException(nameof(userContextProvider));
+            this.traceIdProvider = traceIdProvider ?? throw new ArgumentNullException(nameof(traceIdProvider));
             this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -62,21 +75,15 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
         {
             var listingSale = await this.listingSaleRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
             this.logger.LogInformation("Listing Sale service is starting to import media from ABOR market for listing with id {listingId}", listingId);
-            var mlsMedia = await this.downloaderCtxClient.MlsMedia.ImportSaleListingPhotosAsync(listingSale.MlsNumber);
-            var mediaDto = this.mapper.Map<IEnumerable<ListingSaleMediaDto>>(mlsMedia);
-            await this.CreateMediaAsync(listingId, mediaDto);
-        }
-
-        private async Task CreateMediaAsync(Guid listingId, IEnumerable<ListingSaleMediaDto> mlsMedia)
-        {
-            if (!mlsMedia.Any())
+            var message = new ImportMlsMediaMessage()
             {
-                this.logger.LogInformation("No media was found in the MLS to import for listing id {listingId}", listingId);
-                return;
-            }
-
-            await this.listingMediaService.Resource.DeleteAsync(listingId);
-            await this.listingMediaService.Resource.BulkCreateAsync(listingId, mlsMedia, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
+                Id = Guid.NewGuid(),
+                MlsId = listingSale.MlsNumber,
+                EntityId = listingSale.Id,
+                MediaLimit = this.options.MediaAllowed.SaleListingMaxAllowedMedia,
+            };
+            var userId = this.userContextProvider.GetCurrentUserId();
+            await this.saleListingMediaMessagingService.SendMessage(new List<ImportMlsMediaMessage>() { message }, userId.ToString(), MarketCode.Austin, this.traceIdProvider.TraceId);
         }
     }
 }
