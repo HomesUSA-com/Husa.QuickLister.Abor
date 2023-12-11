@@ -16,9 +16,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Abor.ServiceBus.Contracts;
     using Husa.Quicklister.Extensions.Application.Models.Media;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
+    using Husa.Quicklister.Extensions.ServiceBus.Contracts;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
@@ -168,7 +168,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.listingSaleRepository.Verify();
             this.saleListingMediaMessagingService.Verify(
                 x => x.SendMessage(
-                    It.IsAny<IEnumerable<ImportMediaMessage>>(),
+                    It.IsAny<IEnumerable<ImportMlsMediaMessage>>(),
                     It.Is<string>(
                         m => m.Equals(userId.ToString())),
                     It.Is<MarketCode>(m => m.Equals(MarketCode.Austin)),
