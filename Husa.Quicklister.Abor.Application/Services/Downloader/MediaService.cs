@@ -14,9 +14,9 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Abor.ServiceBus.Contracts;
     using Husa.Quicklister.Extensions.Application.Models.Media;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
+    using Husa.Quicklister.Extensions.ServiceBus.Contracts;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
@@ -75,7 +75,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
         {
             var listingSale = await this.listingSaleRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
             this.logger.LogInformation("Listing Sale service is starting to import media from ABOR market for listing with id {listingId}", listingId);
-            var message = new ImportMediaMessage()
+            var message = new ImportMlsMediaMessage()
             {
                 Id = Guid.NewGuid(),
                 MlsId = listingSale.MlsNumber,
@@ -83,7 +83,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
                 MediaLimit = this.options.MediaAllowed.SaleListingMaxAllowedMedia,
             };
             var userId = this.userContextProvider.GetCurrentUserId();
-            await this.saleListingMediaMessagingService.SendMessage(new List<ImportMediaMessage>() { message }, userId.ToString(), MarketCode.Austin, this.traceIdProvider.TraceId);
+            await this.saleListingMediaMessagingService.SendMessage(new List<ImportMlsMediaMessage>() { message }, userId.ToString(), MarketCode.Austin, this.traceIdProvider.TraceId);
         }
     }
 }
