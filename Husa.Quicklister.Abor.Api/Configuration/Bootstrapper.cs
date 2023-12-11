@@ -153,6 +153,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IUploaderService, UploaderService>();
             services.AddScoped<INotesBusService, NotesBusService>();
             services.AddScoped<IXmlMediaService, XmlMediaService>();
+            services.AddScoped<IImportMlsMediaMessagingService, ImportMlsMediaMessagingService>();
             services.AddScoped<IBlobService, BlobService>();
 
             return services;
