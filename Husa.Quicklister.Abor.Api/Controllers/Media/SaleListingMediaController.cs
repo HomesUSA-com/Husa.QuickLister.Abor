@@ -31,7 +31,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         }
 
         [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly)]
         public async Task<IActionResult> GetResources([FromRoute] Guid listingId)
         {
             this.logger.LogInformation("Starting to get the media resources for the entity {listingId}", listingId);
