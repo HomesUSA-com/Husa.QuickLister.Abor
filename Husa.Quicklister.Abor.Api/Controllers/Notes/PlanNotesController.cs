@@ -31,7 +31,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Notes
         }
 
         [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly)]
         public async Task<IActionResult> GetNotes([FromRoute] Guid planId)
         {
             this.logger.LogInformation("Getting the note resources for the plan {planId}", planId);
