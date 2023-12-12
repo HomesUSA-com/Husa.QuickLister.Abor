@@ -101,7 +101,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet("{listingId:guid}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly)]
         public async Task<IActionResult> GetListing([FromRoute] Guid listingId)
         {
             this.logger.LogInformation("Received request to GET sale listing with Id '{listingId}'.", listingId);
