@@ -19,7 +19,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader.Converters
                 StartTime = source.StartTime.Value.TimeOfDay,
                 EndTime = source.EndTime.Value.TimeOfDay,
                 Type = (OpenHouseType)Enum.Parse(typeof(OpenHouseType), source.StartTime.Value.ToString("dddd", ApplicationOptions.ApplicationCultureInfo)),
-                Refreshments = source.Refreshments.Split(",").Select(x => x.GetEnumValueFromDescription<Refreshments>()).ToList(),
+                Refreshments = source.Refreshments?.Split(",").Select(x => x.GetEnumValueFromDescription<Refreshments>()).ToList(),
             };
         }
     }
