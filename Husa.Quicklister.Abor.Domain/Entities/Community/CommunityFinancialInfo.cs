@@ -54,8 +54,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public bool HasBuyerIncentive { get; set; }
 
         public virtual string ReadableBuyersAgentCommission => this.BuyersAgentCommissionType == CommissionType.Percent ?
-                $"{this.BuyersAgentCommission}%" :
-                $"${(int)this.BuyersAgentCommission}";
+                $"{this.BuyersAgentCommission ?? 0}%" :
+                $"${(int)(this.BuyersAgentCommission ?? 0)}";
 
         public static CommunityFinancialInfo ImportFromXml(SubdivisionResponse subdivision, CommunityFinancialInfo financialInfo)
         {

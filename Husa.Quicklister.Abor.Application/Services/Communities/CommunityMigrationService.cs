@@ -9,9 +9,11 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Response.Community;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Microsoft.Extensions.Logging;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Migration;
     using PhotoRequest = Husa.PhotoService.Api.Contracts.Request;
@@ -53,6 +55,24 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
                 City = community.Property.City.ToString(),
                 ReadableCity = community.Property.City.GetEnumDescription(),
             };
+        }
+
+        protected override void UpdateCommunity(CommunitySale community, CommunityResponse communityMigration)
+        {
+            var communityInfo = new CommunityValueObject
+            {
+                PropertyInfo = this.mapper.Map<Property>(communityMigration.PropertyInfo),
+                ProfileInfo = this.mapper.Map<ProfileInfo>(communityMigration.ProfileInfo),
+                SalesOfficeInfo = this.mapper.Map<CommunitySaleOffice>(communityMigration.SaleOffice),
+                EmailLeadInfo = this.mapper.Map<Husa.Quicklister.Abor.Domain.Entities.Community.EmailLead>(communityMigration.EmailLeads),
+                UtilitiesInfo = this.mapper.Map<Utilities>(communityMigration.UtilitiesInfo),
+                FinancialInfo = this.mapper.Map<CommunityFinancialInfo>(communityMigration.FinancialInfo),
+                SchoolsInfo = this.mapper.Map<SchoolsInfo>(communityMigration.SchoolsInfo),
+                ShowingInfo = this.mapper.Map<CommunityShowingInfo>(communityMigration.ShowingInfo),
+            };
+            var openHouses = this.mapper.Map<IEnumerable<CommunityOpenHouse>>(communityMigration.OpenHouses);
+
+            community.Update(communityInfo, openHouses);
         }
     }
 }

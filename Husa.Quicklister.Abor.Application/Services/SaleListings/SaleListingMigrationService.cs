@@ -4,7 +4,6 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
-    using Husa.Extensions.Common;
     using Husa.Extensions.Common.Enums;
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Response.SaleListing;
@@ -95,7 +94,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 StreetName = listing.SaleProperty.AddressInfo.StreetName,
                 StreetNum = listing.SaleProperty.AddressInfo.StreetNumber,
                 UnitNumber = listing.SaleProperty.AddressInfo.UnitNumber,
-                StreetType = listing.SaleProperty.AddressInfo.StreetType.GetEnumDescription(),
+                StreetType = listing.SaleProperty.AddressInfo.StreetType?.ToString(),
                 Zip = listing.SaleProperty.AddressInfo.ZipCode,
                 City = listing.SaleProperty.AddressInfo.City.ToString(),
                 ReadableCity = listing.SaleProperty.AddressInfo.ReadableCity,
