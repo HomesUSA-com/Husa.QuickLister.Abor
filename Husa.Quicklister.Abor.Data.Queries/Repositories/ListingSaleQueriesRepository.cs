@@ -90,7 +90,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .FilterNotDeleted()
                 .FilterByBillingType(queryFilter.ActionType)
                 .FilterByCompany(queryFilter.CompanyId)
-                .FilterBySearch(queryFilter.SearchBy)
                 .FilterByBillingDate(queryFilter.From, queryFilter.To);
 
             var total = await query.CountAsync();
