@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
     using Husa.Quicklister.Abor.Data.Documents.Projections;
     using Husa.Quicklister.Abor.Data.Documents.Specifications;
+    using Husa.Quicklister.Abor.Data.Queries.Extensions;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
@@ -128,7 +129,10 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
 
             await this.userQueriesRepository.FillUsersNameAsync(billableListings.Data);
 
-            return billableListings;
+            var listingsFilteredBySearch = billableListings.Data.FilterBySearch(queryFilter.SearchBy);
+            var total = listingsFilteredBySearch.Count();
+
+            return new(listingsFilteredBySearch, total);
         }
 
         protected override IQueryable<ListingRequestForSummaryQueryResult<SaleListingRequest>> FilterByFieldChange(IQueryable<ListingRequestForSummaryQueryResult<SaleListingRequest>> requests, RequestFieldChange fieldChange)
