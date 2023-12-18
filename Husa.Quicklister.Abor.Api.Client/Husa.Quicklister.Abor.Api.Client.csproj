@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <AssemblyName>Husa.Quicklister.Abor.Api.Client</AssemblyName>
@@ -8,9 +8,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>1.4.2</Version>
+        <Version>1.5.0</Version>
         <PackageReleaseNotes>
-            Release 1.4.2:
+            Release 1.5.0:
             - Increased directions max length
             - Removed OpenHousesAgree field in OpenHouse
             - Updated ReverseProspect endpoint
@@ -21,14 +21,14 @@
             - Added UnitNumber to Residential listing Creation
             - increased maximum number of characters agent private remarks field
             - increased maximum number of characters legal description field
-            
+
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="4.0.2" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="0.4.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="0.4.1" />
     </ItemGroup>
 
     <ItemGroup>

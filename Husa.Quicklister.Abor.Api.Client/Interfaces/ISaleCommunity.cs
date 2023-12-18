@@ -4,10 +4,11 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using CommunityExtension = Husa.Quicklister.Extensions.Api.Client.Interfaces.ISaleCommunity;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request.Community;
     using Response = Husa.Quicklister.Abor.Api.Contracts.Response.Community;
 
-    public interface ISaleCommunity
+    public interface ISaleCommunity : CommunityExtension
     {
         Task<Guid> CreateCommunity(Request.CreateCommunityRequest communityRequest, CancellationToken token = default);
 

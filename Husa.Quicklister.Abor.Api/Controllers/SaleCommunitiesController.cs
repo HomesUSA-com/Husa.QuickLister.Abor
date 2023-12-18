@@ -19,6 +19,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -160,9 +161,9 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             this.logger.LogInformation("Getting the employees for the community id {communityId}", communityId);
             var queryResponse = await this.communityQueriesRepository.GetCommunityEmployees(communityId, filter.SortBy);
 
-            var data = this.mapper.Map<IEnumerable<CommunityEmployeeDataQueryResponse>>(queryResponse.Data);
+            var data = this.mapper.Map<IEnumerable<CommunityEmployeeResponse>>(queryResponse.Data);
 
-            return this.Ok(new DataSet<CommunityEmployeeDataQueryResponse>(data, queryResponse.Total));
+            return this.Ok(new DataSet<CommunityEmployeeResponse>(data, queryResponse.Total));
         }
 
         [HttpPost("{communityId}/employees")]
