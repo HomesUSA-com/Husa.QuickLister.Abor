@@ -7,9 +7,9 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using Husa.Extensions.Api.Client;
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
-    using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.Alert;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
 
     public class Alert : IAlert

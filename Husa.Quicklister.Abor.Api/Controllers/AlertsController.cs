@@ -6,11 +6,11 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.Extensions.Common.Classes;
-    using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.Alert;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 

@@ -17,6 +17,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -299,7 +300,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
             this.communityQueriesRepository.Verify();
             Assert.NotNull(result);
             var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(result);
-            var employeeResult = Assert.IsAssignableFrom<DataSet<CommunityEmployeeDataQueryResponse>>(okObjectResult.Value);
+            var employeeResult = Assert.IsAssignableFrom<DataSet<CommunityEmployeeResponse>>(okObjectResult.Value);
             Assert.Empty(employeeResult.Data);
         }
 
@@ -328,7 +329,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
             this.communityQueriesRepository.Verify();
             Assert.NotNull(result);
             var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(result);
-            var employeeResult = Assert.IsAssignableFrom<DataSet<CommunityEmployeeDataQueryResponse>>(okObjectResult.Value);
+            var employeeResult = Assert.IsAssignableFrom<DataSet<CommunityEmployeeResponse>>(okObjectResult.Value);
             Assert.Equal(2, employeeResult.Total);
         }
 

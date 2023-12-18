@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     public class CommunityMappingProfile : Profile
     {
@@ -35,7 +36,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.Market, c => c.MapFrom(x => MarketCode.Austin))
                 .ForMember(dto => dto.Directions, c => c.MapFrom(x => x.Showing.Directions))
                 .ForMember(dto => dto.ModifiedBy, c => c.MapFrom(x => x.SysModifiedBy));
-            this.CreateMap<CommunityEmployeeQueryResult, CommunityEmployeeDataQueryResponse>();
+            this.CreateMap<CommunityEmployeeQueryResult, CommunityEmployeeResponse>();
 
             this.CreateMap<CreateCommunityRequest, CommunitySaleCreateDto>();
 

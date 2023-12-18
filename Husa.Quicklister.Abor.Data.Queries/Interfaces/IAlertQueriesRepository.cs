@@ -5,7 +5,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Interfaces
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Data.Queries.Models.Alerts;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public interface IAlertQueriesRepository
     {

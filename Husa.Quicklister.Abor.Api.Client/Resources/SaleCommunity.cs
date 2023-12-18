@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Community;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Community;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
     using Microsoft.Extensions.Logging;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request.Community;
 
@@ -90,6 +91,15 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
         {
             this.logger.LogInformation("Get community with Id: {communityId} and information from listing {listingId}", communityId, listingId);
             return await this.client.GetAsync<CommunitySaleResponse>($"{this.baseUri}/{communityId}/sale-listings/{listingId}", token);
+        }
+
+        public async Task<DataSet<CommunityEmployeeResponse>> GetEmployeesAsync(Guid communityId, CancellationToken token = default)
+        {
+            this.logger.LogInformation("Start to get the employees for the community id {communityId}", communityId);
+            var endpoint = $"{this.baseUri}/{communityId}/employees";
+            var response = await this.client.GetAsync<DataSet<CommunityEmployeeResponse>>(endpoint, token);
+
+            return response;
         }
     }
 }
