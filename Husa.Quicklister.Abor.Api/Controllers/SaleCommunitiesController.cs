@@ -167,7 +167,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPost("{communityId}/employees")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.SalesEmployeeReadonly)]
         public async Task<IActionResult> AddEmployeesAsync([FromRoute] Guid communityId, CommunityEmployeesRequest employees)
         {
             this.logger.LogInformation("Creating employees to the community id {communityId}", communityId);
@@ -188,7 +188,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpDelete("{communityId}/employees")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.SalesEmployeeReadonly)]
         public async Task<IActionResult> DeleteEmployeesAsync([FromRoute] Guid communityId, CommunityEmployeesDeleteRequest employees)
         {
             this.logger.LogInformation("Start to delete employees to the community id {communityId}", communityId);

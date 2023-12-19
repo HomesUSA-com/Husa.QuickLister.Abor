@@ -138,6 +138,51 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
             this.saleListingQueriesRepository.Verify();
         }
 
+        [Theory]
+        [InlineData(MarketStatuses.Active)]
+        public async Task GeListingSaleAsyncSalesEmployyeReadOnlySuccess(MarketStatuses status)
+        {
+            // Arrange
+            var listingId1 = Guid.NewGuid();
+            var listingId2 = Guid.NewGuid();
+            var communityId = Guid.NewGuid();
+            var listing1 = TestModelProvider.GetListingSaleQueryResult(listingId1);
+            listing1.CommunityId = communityId;
+            var listing2 = TestModelProvider.GetListingSaleQueryResult(listingId2);
+            listing2.CommunityId = communityId;
+            var currentUserId = Guid.NewGuid();
+            var currentUser = TestModelProvider.GetCurrentUser(userId: currentUserId, userRole: UserRole.User);
+            currentUser.EmployeeRole = RoleEmployee.SalesEmployeeReadonly;
+            var listingSaleResponse = new List<ListingSaleQueryResult>()
+            {
+                listing1,
+                listing2,
+            };
+            var filter = new ListingSaleRequestFilter
+            {
+                MlsStatus = new List<MarketStatuses> { status },
+                SearchBy = string.Empty,
+                Skip = 0,
+                Take = 100,
+                CommunityId = communityId,
+            };
+            var dataSet = new DataSet<ListingSaleQueryResult>(listingSaleResponse, listingSaleResponse.Count);
+            this.saleListingQueriesRepository
+            .Setup(m => m.GetAsync(It.IsAny<ListingQueryFilter>()))
+            .ReturnsAsync(dataSet)
+            .Verifiable();
+
+            // Act
+            var actionResult = await this.Sut.GetAsync(filter);
+
+            // Assert
+            var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(actionResult);
+            var result = Assert.IsAssignableFrom<DataSet<ListingSaleResponse>>(okObjectResult.Value);
+            Assert.NotEmpty(result.Data);
+            Assert.Equal(2, result.Total);
+            this.saleListingQueriesRepository.Verify();
+        }
+
         [Fact]
         public async Task GetListing_ListingNotFound_Error()
         {

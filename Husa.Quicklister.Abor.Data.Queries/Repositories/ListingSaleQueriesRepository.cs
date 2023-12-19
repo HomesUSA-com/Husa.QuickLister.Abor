@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.CompanyServicesManager.Api.Contracts.Request;
     using Husa.CompanyServicesManager.Domain.Enums;
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
     using Husa.PhotoService.Api.Client.Interfaces;
@@ -59,10 +60,28 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             this.logger.LogInformation("Starting to get the ABOR List Sales in Status : {mlsStatus}", queryFilter.MlsStatus);
             var currentUser = this.userContext.GetCurrentUser();
 
+            var communityIds = new List<Guid>();
+            if (queryFilter.CommunityId.HasValue)
+            {
+                communityIds = new List<Guid> { queryFilter.CommunityId.Value };
+            }
+
+            if (currentUser.EmployeeRole == RoleEmployee.SalesEmployeeReadonly && !queryFilter.CommunityId.HasValue)
+            {
+                communityIds = await this.context.CommunityEmployee
+                   .Where(e => !e.IsDeleted && e.UserId == currentUser.Id)
+                   .Select(ce => ce.CommunityId)
+                   .ToListAsync();
+                if (!communityIds.Any())
+                {
+                    return new DataSet<ListingSaleQueryResult>(new List<ListingSaleQueryResult>() { }, 0);
+                }
+            }
+
             var query = this.context.ListingSale
                 .FilterNotDeleted()
                 .FilterByCompany(currentUser)
-                .FilterByCommunity(queryFilter.CommunityId)
+                .FilterByCommunities(communityIds)
                 .FilterByPlan(queryFilter.PlanId)
                 .FilterByStatus(queryFilter.MlsStatus)
                 .FilterByListed(queryFilter.ListedType)
