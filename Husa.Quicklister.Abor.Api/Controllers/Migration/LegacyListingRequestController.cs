@@ -22,7 +22,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Migration
 
         [HttpPut]
         [Authorize(Roles.MLSAdministrator)]
-        public async Task<ActionResult> MigrateFromV1([FromQuery] Guid? companyId = null, [FromQuery] string mlsNumber = null)
+        public async Task<ActionResult> MigrateFromV1([FromQuery] Guid? companyId = null, [FromQuery] string mlsNumber = null, [FromQuery] DateTime? fromDate = null)
         {
             this.logger.LogInformation("Migrate listingRequest from v1 related to company {companyId}.", companyId);
             if (!string.IsNullOrWhiteSpace(mlsNumber))
@@ -31,7 +31,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Migration
             }
             else if (companyId.HasValue)
             {
-                await this.requestMigrationService.MigrateByCompanyId(companyId.Value);
+                await this.requestMigrationService.MigrateByCompanyId(companyId.Value, fromDate: fromDate);
             }
 
             return this.Ok();
