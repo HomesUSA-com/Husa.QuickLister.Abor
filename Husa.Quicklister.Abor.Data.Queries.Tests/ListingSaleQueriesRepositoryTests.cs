@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.Community;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
+    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -46,6 +47,57 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
                     FindEmailLeads = true,
                 },
             });
+        }
+
+        [Fact]
+        public async Task GetAsync_AsSalesEmployeeReadonly_Success()
+        {
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var user = TestModelProvider.GetCurrentUser(userRole: UserRole.User, companyId: companyId);
+            user.EmployeeRole = RoleEmployee.SalesEmployeeReadonly;
+            this.userContext.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
+            var communityId = Guid.NewGuid();
+            var listingId = Guid.NewGuid();
+            var listing = ListingTestProvider.GetListingEntity(listingId, companyId: companyId, communityId: communityId);
+            var community = CommunityTestProvider.GetCommunityEntity(communityId: communityId, companyId: companyId);
+            var sut = this.GetInMemoryRepository(
+                new List<SaleListing> { listing },
+                new List<CommunitySale> { community });
+            var filter = new ListingQueryFilter()
+            {
+                CommunityId = communityId,
+            };
+
+            // Act
+            var result = await sut.GetAsync(filter);
+
+            // Assert
+            Assert.Single(result.Data);
+        }
+
+        [Fact]
+        public async Task GetAsync_AsSalesEmployeeReadonly_WithoutCommunityId_Success()
+        {
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var user = TestModelProvider.GetCurrentUser(userRole: UserRole.User, companyId: companyId);
+            user.EmployeeRole = RoleEmployee.SalesEmployeeReadonly;
+            this.userContext.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
+            var communityId = Guid.NewGuid();
+            var listingId = Guid.NewGuid();
+            var listing = ListingTestProvider.GetListingEntity(listingId, companyId: companyId, communityId: communityId);
+            var community = CommunityTestProvider.GetCommunityEntity(communityId: communityId, companyId: companyId);
+            community.Employees.Add(new CommunityEmployee(user.Id, communityId, companyId));
+            var sut = this.GetInMemoryRepository(
+                new List<SaleListing> { listing },
+                new List<CommunitySale> { community });
+
+            // Act
+            var result = await sut.GetAsync(new ListingQueryFilter());
+
+            // Assert
+            Assert.Single(result.Data);
         }
 
         [Fact]
