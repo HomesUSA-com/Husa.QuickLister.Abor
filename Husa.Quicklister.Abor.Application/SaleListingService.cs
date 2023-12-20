@@ -38,6 +38,7 @@ namespace Husa.Quicklister.Abor.Application
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
         private readonly IUserContextProvider userContextProvider;
         private readonly ISaleListingMediaService listingMediaService;
+        private readonly ISaleListingPhotoService saleListingPhotoService;
         private readonly FeatureFlags featureFlags;
 
         public SaleListingService(
@@ -48,6 +49,7 @@ namespace Husa.Quicklister.Abor.Application
             IServiceSubscriptionClient serviceSubscriptionClient,
             IUserContextProvider userContextProvider,
             ISaleListingMediaService listingMediaService,
+            ISaleListingPhotoService saleListingPhotoService,
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<SaleListingService> logger)
@@ -60,6 +62,7 @@ namespace Husa.Quicklister.Abor.Application
             this.userContextProvider = userContextProvider ?? throw new ArgumentNullException(nameof(userContextProvider));
             this.listingMediaService = listingMediaService ?? throw new ArgumentNullException(nameof(listingMediaService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.saleListingPhotoService = saleListingPhotoService ?? throw new ArgumentNullException(nameof(saleListingPhotoService));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
         }
@@ -333,7 +336,13 @@ namespace Husa.Quicklister.Abor.Application
                 throw new DomainException($"Duplicate MLS # {mlsNumber}. It is already assigned to {listingWithMlsNumber.SaleProperty.AddressInfo.FormalAddress}");
             }
 
+            var mlsNumberWasEmpty = string.IsNullOrWhiteSpace(listingSale.MlsNumber);
             listingSale.CompleteListingRequest(mlsNumber, this.userContextProvider.GetCurrentUserId(), requestStatus, actionType, this.featureFlags.IsDownloaderEnabled);
+
+            if (mlsNumberWasEmpty && !listingSale.LastPhotoRequestCreationDate.HasValue)
+            {
+                await this.saleListingPhotoService.SendUpdatePropertiesMessages(new[] { listingSale });
+            }
 
             await this.listingSaleRepository.SaveChangesAsync(listingSale);
         }
