@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Data.Commands.Repositories
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
@@ -23,14 +22,6 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             return await this.context.Plan
                 .Where(p => p.BasePlan.Name == name && p.CompanyId == companyId)
                 .SingleOrDefaultAsync();
-        }
-
-        public async Task<IEnumerable<Plan>> GetByLegacyIds(IEnumerable<Guid> legacyIds, Guid companyId)
-        {
-            this.logger.LogInformation("Starting to get the Plan by legacy ids and companyId: {companyId}", companyId);
-            return await this.context.Plan
-                .Where(p => p.LegacyId.HasValue && legacyIds.Contains(p.LegacyId.Value) && p.CompanyId == companyId)
-                .ToListAsync();
         }
 
         public async Task<Guid?> GetIdByLegacyId(Guid legacyId)

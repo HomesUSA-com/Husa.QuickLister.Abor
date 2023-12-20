@@ -38,6 +38,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
         private readonly Mock<ILogger<SaleListingService>> logger = new();
         private readonly Mock<ISaleListingMediaService> listingMediaService = new();
+        private readonly Mock<ISaleListingPhotoService> saleListingPhotoService = new();
 
         public ListingSaleServiceTests(ApplicationServicesFixture fixture)
         {
@@ -50,6 +51,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.serviceSubscriptionClient.Object,
                 this.userContextProvider.Object,
                 this.listingMediaService.Object,
+                this.saleListingPhotoService.Object,
                 this.fixture.Options.Object,
                 this.fixture.Mapper,
                 this.logger.Object);

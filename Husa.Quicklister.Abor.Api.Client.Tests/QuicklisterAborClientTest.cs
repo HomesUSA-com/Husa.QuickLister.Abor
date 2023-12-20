@@ -19,6 +19,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.Alert;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
@@ -121,7 +122,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         public async Task AlertGetAsyncSuccess(AlertType alertType, int expectedAlertCount)
         {
             // Arrange
-            var filter = new Request.BaseAlertFilterRequest()
+            var filter = new BaseAlertFilterRequest()
             {
                 Skip = 0,
                 Take = 10,
@@ -138,7 +139,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         public async Task AlertGetCompletedHomesWithoutPhotoRequestAsyncSuccess()
         {
             // Arrange
-            var filter = new Request.BaseAlertFilterRequest()
+            var filter = new BaseAlertFilterRequest()
             {
                 Skip = 0,
                 Take = 10,

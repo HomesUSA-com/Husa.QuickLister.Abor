@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using Husa.PhotoService.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;

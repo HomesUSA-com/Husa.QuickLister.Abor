@@ -67,7 +67,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
                 PublishInfo = new(),
             };
             this.migrationClient
-                .Setup(m => m.ListingRequests.GetAsync(It.Is<MigrationMarketType>(x => x == MigrationMarketType.Austin), It.IsAny<int?>(), It.Is<string>(value => value == mlsNumber), It.IsAny<CancellationToken>()))
+                .Setup(m => m.ListingRequests.GetAsync(It.Is<MigrationMarketType>(x => x == MigrationMarketType.Austin), It.IsAny<int?>(), It.Is<string>(value => value == mlsNumber), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new[] { migrationRequest });
             this.serviceSubscriptionClient
                 .Setup(m => m.User.GetAsync(It.IsAny<CompanyRequest.UserRequest>(), It.IsAny<CancellationToken>()))

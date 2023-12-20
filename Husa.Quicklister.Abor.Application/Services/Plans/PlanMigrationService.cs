@@ -44,6 +44,14 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
             return plan;
         }
 
+        protected override void UpdatePlan(Plan plan, PlanResponse planMigration)
+        {
+            var basePlan = this.mapper.Map<BasePlan>(planMigration);
+            basePlan.OwnerName = plan.BasePlan.OwnerName;
+            var rooms = this.mapper.Map<IEnumerable<PlanRoom>>(planMigration.Rooms);
+            plan.Migrate(planMigration.Id, basePlan, rooms);
+        }
+
         protected override void UpdatePhotoRequestProperty(PhotoRequest.Property property, Plan plan)
         {
             property.PlanName = plan.BasePlan.Name;

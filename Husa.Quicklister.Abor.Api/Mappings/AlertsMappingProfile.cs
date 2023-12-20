@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using AutoMapper;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Data.Queries.Models.Alerts;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response;
 
     public class AlertsMappingProfile : Profile
     {

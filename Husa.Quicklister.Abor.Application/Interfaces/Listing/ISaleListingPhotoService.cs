@@ -1,8 +1,9 @@
 namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
 {
-    using Husa.Quicklister.Extensions.Application.Interfaces;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using ExtensionInterface = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
 
-    public interface ISaleListingPhotoService : IPhotoService
+    public interface ISaleListingPhotoService : ExtensionInterface.ISaleListingPhotoService<SaleListing>
     {
     }
 }

@@ -1,17 +1,9 @@
 namespace Husa.Quicklister.Abor.Api.Client.Interfaces
 {
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Husa.Extensions.Common.Classes;
-    using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
-    using Husa.Quicklister.Abor.Domain.Enums;
+    using QlExtension = Husa.Quicklister.Extensions.Api.Client.Interfaces;
 
-    public interface IAlert
+    public interface IAlert : QlExtension.IAlert<AlertDetailResponse>
     {
-        Task<DataSet<AlertDetailResponse>> GetAsync(AlertType alertType, BaseAlertFilterRequest filters, CancellationToken token = default);
-
-        Task<int> GetAlertTotal(IEnumerable<AlertType> alerts, CancellationToken token = default);
     }
 }
