@@ -16,7 +16,7 @@ namespace Husa.Quicklister.Abor.Data.Specifications
         public static IQueryable<T> FilterByStatus<T>(this IQueryable<T> listings, IEnumerable<MarketStatuses> marketStatus)
             where T : Listing
         {
-            if (marketStatus.Any())
+            if (marketStatus != null && marketStatus.Any())
             {
                 return listings.Where(p => marketStatus.Contains(p.MlsStatus));
             }
@@ -65,12 +65,12 @@ namespace Husa.Quicklister.Abor.Data.Specifications
             return listings.Where(p => p.MlsStatus != MarketStatuses.Closed);
         }
 
-        public static IQueryable<T> FilterByCommunity<T>(this IQueryable<T> listings, Guid? communityId)
-            where T : SaleListing
+        public static IQueryable<T> FilterByCommunities<T>(this IQueryable<T> listings, ICollection<Guid> communityIds)
+           where T : SaleListing
         {
-            if (communityId.HasValue && communityId != Guid.Empty)
+            if (communityIds != null && communityIds.Any())
             {
-                return listings.Where(p => p.SaleProperty.CommunityId == communityId);
+                return listings.Where(p => communityIds.Contains((Guid)p.SaleProperty.CommunityId));
             }
 
             return listings;
