@@ -15,8 +15,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
 
         public string OwnerName { get; set; }
 
-        public DateTime? EstimatedClosedDate { get; set; }
-
         public string ModifiedBy { get; set; }
 
         public DateTime? ExpirationDate { get; set; }
