@@ -66,7 +66,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 communityIds = new List<Guid> { queryFilter.CommunityId.Value };
             }
 
-            if (currentUser.EmployeeRole == RoleEmployee.SalesEmployeeReadonly && !queryFilter.CommunityId.HasValue)
+            if (currentUser.EmployeeRole == RoleEmployee.SalesEmployeeReadonly && !queryFilter.CommunityId.HasValue && !queryFilter.PlanId.HasValue)
             {
                 communityIds = await this.context.CommunityEmployee
                    .Where(e => !e.IsDeleted && e.UserId == currentUser.Id)
