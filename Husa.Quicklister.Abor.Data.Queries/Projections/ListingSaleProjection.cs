@@ -34,6 +34,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             IsCompleteHome = listingSale.SaleProperty.PropertyInfo.ConstructionStage == ConstructionStage.Complete,
             Directions = listingSale.SaleProperty.ShowingInfo.Directions,
             PlanName = listingSale.SaleProperty.Plan != null ? listingSale.SaleProperty.Plan.BasePlan.Name : null,
+            UnitNumber = listingSale.SaleProperty.AddressInfo.UnitNumber,
         };
 
         public static Expression<Func<SaleListing, ListingSaleQueryDetailResult>> ProjectToListingSaleQueryDetail => listingSale => new ListingSaleQueryDetailResult
