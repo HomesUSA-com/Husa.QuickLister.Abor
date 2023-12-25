@@ -129,6 +129,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual SaleProperty SaleProperty { get; set; }
 
+        public virtual InvoiceInfo InvoiceInfo { get; set; }
+
         public virtual ListingSaleStatusFieldsInfo StatusFieldsInfo { get; set; }
 
         public virtual PublishInfo PublishInfo { get; set; }
@@ -273,6 +275,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
             this.SaleProperty.ImportFromXml(listing, companyName);
             this.Lock(userId, LockedStatus.LockedNotSubmitted);
+        }
+
+        public virtual void UpdateInvoiceData(Guid userId, string invoiceId, string docNumber, DateTime createdDate)
+        {
+            this.InvoiceInfo = new InvoiceInfo(userId, invoiceId, docNumber, createdDate);
         }
 
         public virtual void UpdateFromXml(XmlListingDetailResponse listing, Guid userId)

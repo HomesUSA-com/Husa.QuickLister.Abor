@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Crosscutting
 {
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
+    using Husa.Extensions.Quickbooks.Models;
 
     public class ApplicationOptions
     {
@@ -23,5 +24,7 @@ namespace Husa.Quicklister.Abor.Crosscutting
         public MediaAllowedSettings MediaAllowed { get; set; }
 
         public DownloaderAuthenticationOptions DownloaderConfiguration { get; set; }
+
+        public InvoiceSettings InvoiceSettings { get; set; }
     }
 }
