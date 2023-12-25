@@ -123,6 +123,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
             this.StatusFieldsInfo = new();
             this.PublishInfo = new();
+            this.InvoiceInfo = new();
         }
 
         public virtual Guid SalePropertyId { get; set; }
