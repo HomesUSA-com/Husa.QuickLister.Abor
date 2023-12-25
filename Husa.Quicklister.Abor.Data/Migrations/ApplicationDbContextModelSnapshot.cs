@@ -1506,6 +1506,37 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Listing.InvoiceInfo", "InvoiceInfo", b1 =>
+                        {
+                            b1.Property<Guid>("SaleListingId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("DocNumber")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("DocNumber");
+
+                            b1.Property<string>("InvoiceId")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("InvoiceId");
+
+                            b1.Property<Guid?>("InvoiceRequestedBy")
+                                .HasColumnType("uniqueidentifier")
+                                .HasColumnName("InvoiceRequestedBy");
+
+                            b1.Property<DateTime?>("InvoiceRequestedOn")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("InvoiceRequestedOn");
+
+                            b1.HasKey("SaleListingId");
+
+                            b1.ToTable("ListingSale");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SaleListingId");
+                        });
+
                     b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Listing.ListingSaleStatusFieldsInfo", "StatusFieldsInfo", b1 =>
                         {
                             b1.Property<Guid>("SaleListingId")
@@ -1616,6 +1647,9 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("SaleListingId");
                         });
+
+                    b.Navigation("InvoiceInfo")
+                        .IsRequired();
 
                     b.Navigation("PublishInfo")
                         .IsRequired();

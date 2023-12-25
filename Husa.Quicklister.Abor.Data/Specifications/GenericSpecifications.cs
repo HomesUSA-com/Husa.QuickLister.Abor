@@ -115,5 +115,11 @@ namespace Husa.Quicklister.Abor.Data.Specifications
                 ? query.Where(p => p.XmlStatus == xmlStatus)
                 : query.Where(p => p.XmlStatus == XmlStatus.Approved || p.XmlStatus == XmlStatus.NotFromXml);
         }
+
+        public static IQueryable<T> FilterByInvoice<T>(this IQueryable<T> listings)
+            where T : SaleListing
+        {
+            return listings.Where(l => string.IsNullOrEmpty(l.InvoiceInfo.InvoiceId));
+        }
     }
 }
