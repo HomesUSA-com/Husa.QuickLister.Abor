@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Api
     using Husa.Extensions.EmailNotification;
     using Husa.Extensions.Logger.Enrichers;
     using Husa.Extensions.Media.Extensions;
+    using Husa.Extensions.Quickbooks.Extensions;
     using Husa.Quicklister.Abor.Api.Configuration;
     using Husa.Quicklister.Abor.Api.Middlewares;
     using Microsoft.AspNetCore.Builder;
@@ -51,6 +52,9 @@ namespace Husa.Quicklister.Abor.Api
                 .AddQueriesRepositories()
                 .AddCommonRepositories()
                 .AddListingRequestsRepositories();
+
+            services
+                .ConfigureRefitClient(this.Configuration);
 
             services
                 .RegisterAutoMapper()

@@ -6,9 +6,12 @@ namespace Husa.Quicklister.Abor.Api.Tests
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
+    using Husa.Extensions.Quickbooks.Models.Invoice;
     using Husa.Quicklister.Abor.Api.Contracts.Request;
+    using Husa.Quicklister.Abor.Api.Contracts.Request.Reports;
     using Husa.Quicklister.Abor.Api.Controllers;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
+    using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models;
@@ -24,16 +27,19 @@ namespace Husa.Quicklister.Abor.Api.Tests
     {
         private readonly ApplicationServicesFixture fixture;
         private readonly Mock<ISaleListingRequestQueriesRepository> saleListingRequestQueriesRepository;
-        private readonly Mock<ILogger<SaleListingsController>> logger;
+        private readonly Mock<ILogger<BillsController>> logger;
+        private readonly Mock<ISaleListingBillService> saleListingBillService;
 
         public BillsControllerTests(ApplicationServicesFixture fixture)
         {
             this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
             this.saleListingRequestQueriesRepository = new Mock<ISaleListingRequestQueriesRepository>();
-            this.logger = new Mock<ILogger<SaleListingsController>>();
+            this.saleListingBillService = new Mock<ISaleListingBillService>();
+            this.logger = new Mock<ILogger<BillsController>>();
             this.Sut = new BillsController(
                 this.saleListingRequestQueriesRepository.Object,
                 this.logger.Object,
+                this.saleListingBillService.Object,
                 this.fixture.Mapper);
         }
 
@@ -115,6 +121,41 @@ namespace Husa.Quicklister.Abor.Api.Tests
             var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(actionResult);
             var result = Assert.IsAssignableFrom<DataSet<ListingSaleBillingQueryResult>>(okObjectResult.Value);
             Assert.Empty(result.Data);
+            this.saleListingRequestQueriesRepository.Verify();
+        }
+
+        [Fact]
+        public async Task CreateInvoiceAsyncSuccess()
+        {
+            // Arrange
+            var invoiceId = "234";
+            var companyId = Guid.NewGuid();
+            var listingIds = new List<Guid>()
+            {
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+            };
+            var invoiceRequest = new InvoiceRequest()
+            {
+                CompanyId = companyId,
+                ListingIds = listingIds,
+                StartDate = DateTime.UtcNow.AddMonths(-1),
+                EndDate = DateTime.UtcNow,
+            };
+            var invoiceResult = CommandSingleResult<string, string>.Success(invoiceId);
+            this.saleListingBillService
+            .Setup(m => m.ProcessInvoice(It.IsAny<InvoiceDto>()))
+            .ReturnsAsync(invoiceResult)
+            .Verifiable();
+
+            // Act
+            var actionResult = await this.Sut.CreateInvoice(invoiceRequest);
+
+            // Assert
+            var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(actionResult);
+            Assert.NotNull(okObjectResult.Value);
+            Assert.Equal(invoiceId, okObjectResult.Value);
             this.saleListingRequestQueriesRepository.Verify();
         }
     }

@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
     public class ListingSaleConfiguration : IEntityTypeConfiguration<SaleListing>
     {
+        private const int InvoiceMaxLength = 20;
         public void Configure(EntityTypeBuilder<SaleListing> builder)
         {
             if (builder is null)
@@ -24,6 +25,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.SetListingProperties();
             builder.OwnsOne(sf => sf.StatusFieldsInfo, ConfigureStatusFieldsMapping);
             builder.OwnsOne(sf => sf.PublishInfo, ConfigurePublishInfoMapping).Navigation(e => e.PublishInfo).IsRequired();
+            builder.OwnsOne(sf => sf.InvoiceInfo, ConfigureInvoiceInfoMapping).Navigation(e => e.InvoiceInfo).IsRequired();
             builder.Property(f => f.LastPhotoRequestCreationDate).HasColumnType("datetime");
             builder.Ignore(p => p.IsInMls);
             builder
@@ -63,6 +65,14 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.PublishUser).HasColumnName(nameof(PublishInfo.PublishUser)).IsRequired(false);
             builder.Property(r => r.PublishStatus).HasColumnName(nameof(PublishInfo.PublishStatus)).HasConversion<string>().HasMaxLength(20).IsRequired(false);
             builder.Property(r => r.PublishDate).HasColumnName(nameof(PublishInfo.PublishDate)).IsRequired(false);
+        }
+
+        private static void ConfigureInvoiceInfoMapping(OwnedNavigationBuilder<SaleListing, InvoiceInfo> builder)
+        {
+            builder.Property(r => r.InvoiceId).HasColumnName(nameof(InvoiceInfo.InvoiceId)).HasMaxLength(InvoiceMaxLength);
+            builder.Property(r => r.DocNumber).HasColumnName(nameof(InvoiceInfo.DocNumber)).HasMaxLength(InvoiceMaxLength);
+            builder.Property(r => r.InvoiceRequestedBy).HasColumnName(nameof(InvoiceInfo.InvoiceRequestedBy));
+            builder.Property(r => r.InvoiceRequestedOn).HasColumnName(nameof(InvoiceInfo.InvoiceRequestedOn));
         }
     }
 }
