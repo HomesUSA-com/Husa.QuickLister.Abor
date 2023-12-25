@@ -74,10 +74,10 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                     ListingId = listing.Id,
                     MlsNumber = listing.MlsNumber,
                     Subdivision = listing.SaleProperty.AddressInfo.Subdivision,
-                    ListDate = listing.ListDate,
+                    ListDate = listing.ListDate ?? DateTime.UtcNow,
                     MarketStatus = listing.MlsStatus.ToString(),
                     PublishType = listing.PublishInfo.PublishType.Value.ToString(),
-                    Market = MarketCode.SanAntonio,
+                    Market = MarketCode.Austin,
                     StreetName = listing.SaleProperty.AddressInfo.StreetName,
                     StreetNum = listing.SaleProperty.AddressInfo.StreetNumber,
                 };
