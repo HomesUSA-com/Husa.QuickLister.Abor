@@ -5,9 +5,11 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Downloader.CTX.Api.Contracts.Response;
     using Husa.Extensions.Common;
     using Husa.Extensions.Common.Enums;
+    using Husa.Extensions.Quickbooks.Models.Invoice;
     using Husa.Notes.Api.Contracts.Response;
     using Husa.PhotoService.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Request;
+    using Husa.Quicklister.Abor.Api.Contracts.Request.Reports;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
@@ -38,6 +40,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
         {
             this.CreateMap<Api.Contracts.Request.ListingSaleRequestFilter, ListingQueryFilter>();
             this.CreateMap<Api.Contracts.Request.ListingSaleBillingRequestFilter, ListingSaleBillingQueryFilter>();
+            this.CreateMap<InvoiceRequest, InvoiceDto>();
             this.CreateMap<SalePropertyQueryResult, SalePropertyResponse>();
             this.CreateMap<FeaturesQueryResult, FeaturesResponse>();
             this.CreateMap<FinancialQueryResult, FinancialResponse>();
@@ -95,7 +98,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<FinancialRequest, FinancialDto>();
             this.CreateMap<ShowingRequest, ShowingDto>();
 
-            this.CreateMap<AddressInfoRequest, AddressDto>();
+            this.CreateMap<AddressInfoRequest, Application.Models.SalePropertyDetail.AddressDto>();
             this.CreateMap<PropertyInfoRequest, PropertyDto>();
             this.CreateMap<RoomRequest, RoomDto>();
             this.CreateMap<ListingRequest, ListingDto>();
@@ -174,7 +177,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<FinancialDto, FinancialInfo>();
             this.CreateMap<FeaturesDto, FeaturesInfo>();
-            this.CreateMap<AddressDto, AddressInfo>()
+            this.CreateMap<Application.Models.SalePropertyDetail.AddressDto, AddressInfo>()
                 .ForMember(dto => dto.City, c => c.MapFrom(src => src.City))
                 .ForMember(dto => dto.State, c => c.MapFrom(src => src.State));
 

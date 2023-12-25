@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Application.Tests
 {
     using AutoMapper;
+    using Husa.Extensions.Quickbooks.Models;
     using Husa.Quicklister.Abor.Api.Configuration;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Extensions.Crosscutting;
@@ -31,6 +32,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
                     PlanMaxAllowedMedia = 25,
                     SaleListingMaxAllowedMedia = 40,
                     SaleCommunityMaxAllowedMedia = 60,
+                },
+                InvoiceSettings = new InvoiceSettings()
+                {
+                    ClassRefId = "3",
+                    SalesItemLineId = "24355666",
+                    ServiceURL = "www.url.com",
                 },
             });
 
