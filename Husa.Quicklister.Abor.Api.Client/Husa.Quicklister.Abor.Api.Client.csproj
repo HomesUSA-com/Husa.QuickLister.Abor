@@ -21,6 +21,7 @@
             - Added UnitNumber to Residential listing Creation
             - increased maximum number of characters agent private remarks field
             - increased maximum number of characters legal description field
+            - Quickbooks service added
 
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
