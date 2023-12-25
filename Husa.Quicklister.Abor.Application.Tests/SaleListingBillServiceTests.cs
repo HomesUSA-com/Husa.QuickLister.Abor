@@ -28,7 +28,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Response = Husa.CompanyServicesManager.Api.Contracts.Response;
 
     [ExcludeFromCodeCoverage]
-    [Collection("Husa.Quicklister.Har.Application.Test")]
+    [Collection("Husa.Quicklister.Abor.Application.Test")]
     public class SaleListingBillServiceTests
     {
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient;
