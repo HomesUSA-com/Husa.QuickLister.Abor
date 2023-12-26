@@ -45,5 +45,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models
         public decimal ListPrice { get; set; }
 
         public bool EnableOpenHouse { get; set; }
+
+        public string UnitNumber { get; set; }
     }
 }
