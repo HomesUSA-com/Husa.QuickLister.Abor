@@ -8,9 +8,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>1.5.2</Version>
+        <Version>1.5.3</Version>
         <PackageReleaseNotes>
-            Release 1.5.1:
+            Release 1.5.3:
             - Increased directions max length
             - Removed OpenHousesAgree field in OpenHouse
             - Updated ReverseProspect endpoint
@@ -22,6 +22,7 @@
             - increased maximum number of characters agent private remarks field
             - increased maximum number of characters legal description field
             - Quickbooks service added
+            - unitNumber added to residential listing request
 
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
