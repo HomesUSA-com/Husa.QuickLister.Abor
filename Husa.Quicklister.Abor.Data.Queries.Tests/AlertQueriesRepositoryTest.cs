@@ -1,21 +1,23 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Models;
     using Husa.PhotoService.Api.Client.Interfaces;
-    using Husa.Quicklister.Abor.Data.Queries.Extensions;
+    using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Storage;
     using Microsoft.Extensions.Logging;
     using Moq;
-    using Serilog;
     using Xunit;
 
     [ExcludeFromCodeCoverage]
@@ -23,43 +25,35 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
 
     public class AlertQueriesRepositoryTest
     {
-        private const string Connectionstring = "add-db-connection-string";
-
         private readonly Mock<IUserRepository> userQueriesRepository = new();
         private readonly Mock<IPhotoServiceClient> photoService = new();
         private readonly Mock<IUserContextProvider> userContex = new();
         private readonly Mock<ILogger<AlertQueriesRepository>> logger = new();
+        public AlertQueriesRepositoryTest()
+        {
+            this.userContex.Setup(u => u.GetCurrentUser()).Returns(GetRealUser());
+        }
 
-        [Fact(Skip = "This test is only meant for debugging purposes and avoid launching the whole app to test a single query")]
-        public async Task GetAlertsSuccess()
+        [Theory]
+        [InlineData(AlertType.NotListedInMls)]
+        [InlineData(AlertType.OrphanListings)]
+        public async Task GetAsync_Success(AlertType alertType)
         {
             // Arrange
-            Log.Logger = new LoggerConfiguration().WriteTo.Debug().CreateBootstrapLogger();
-            var loggerFactory = new LoggerFactory();
-            loggerFactory.AddSerilog(Log.Logger);
-            this.userContex.Setup(u => u.GetCurrentUser()).Returns(GetRealUser());
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder
-                .UseLazyLoadingProxies()
-                .UseSqlServer(Connectionstring, b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.GetName().Name))
-                .EnableSensitiveDataLogging()
-                .UseLoggerFactory(loggerFactory);
-
-            using var context = new ApplicationQueriesDbContext(optionsBuilder.Options);
-            var sut = new AlertQueriesRepository(
-                context,
-                this.userQueriesRepository.Object,
-                this.photoService.Object,
-                this.logger.Object,
-                this.userContex.Object);
-
-            var alertTypes = Enum.GetValues<AlertType>().Except(AlertsQueryExtensions.AlertsWithCustomQueries);
+            var listings = new SaleListing[]
+            {
+                ListingTestProvider.GetListingEntity(),
+                ListingTestProvider.GetListingEntity(),
+            };
+            var sut = this.GetInMemoryRepository(listings);
+            var filter = new BaseAlertQueryFilter();
 
             // Act
-            var total = await sut.GetTotal(alertTypes);
+            var result = await sut.GetAsync(alertType, filter);
 
             // Assert
-            Assert.NotEqual(0, total);
+            Assert.Equal(listings.Length, result.Total);
+            Assert.NotEmpty(result.Data);
         }
 
         /// <summary>
@@ -73,8 +67,24 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
             Email = "freddy@homesusa.com",
             Name = "Freddy Zambrano",
             UserRole = UserRole.MLSAdministrator,
-            CompanyId = new Guid("2cdd4a1e-7c90-4a04-8cb1-2c39853c5a32"),
-            EmployeeRole = RoleEmployee.CompanyAdmin,
         };
+
+        private AlertQueriesRepository GetInMemoryRepository(IEnumerable<SaleListing> listings)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot());
+            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+            dbContext.Database.EnsureDeleted();
+            dbContext.Database.EnsureCreated();
+            dbContext.ListingSale.AddRange(listings);
+            dbContext.SaveChanges();
+
+            var queriesDbContext = new ApplicationQueriesDbContext(optionsBuilder.Options);
+            return new AlertQueriesRepository(
+                queriesDbContext,
+                this.userQueriesRepository.Object,
+                this.photoService.Object,
+                this.logger.Object,
+                this.userContex.Object);
+        }
     }
 }

@@ -115,7 +115,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPut("{planId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> UpdatePlanAsync([FromRoute] Guid planId, [FromBody] UpdatePlanRequest updatePlanRequest)
         {
             this.logger.LogInformation("Updating plan with id: {planId}", planId);

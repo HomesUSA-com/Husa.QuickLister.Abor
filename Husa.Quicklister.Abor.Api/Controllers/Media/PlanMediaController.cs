@@ -51,7 +51,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         }
 
         [HttpPost]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> CreateAsync([FromRoute] Guid planId, [FromBody] Media media)
         {
             this.logger.LogInformation("Starting to add media to entity id {planId}", planId);
@@ -73,7 +73,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         }
 
         [HttpDelete("{mediaId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> DeleteResource([FromRoute] Guid planId, [FromRoute] Guid mediaId)
         {
             this.logger.LogInformation("Starting to delete media with id {mediaId}", mediaId);
@@ -94,7 +94,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         }
 
         [HttpPatch("{mediaId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid planId, [FromRoute] Guid mediaId, [FromBody] SimpleMedia media)
         {
             this.logger.LogInformation("Starting to update media with id {mediaId}", mediaId);

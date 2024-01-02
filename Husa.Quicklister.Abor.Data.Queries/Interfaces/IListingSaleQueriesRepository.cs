@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Interfaces
     using Husa.PhotoService.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
 
     public interface IListingSaleQueriesRepository
     {

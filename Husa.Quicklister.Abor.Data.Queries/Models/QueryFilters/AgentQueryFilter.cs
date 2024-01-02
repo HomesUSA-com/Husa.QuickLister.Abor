@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters
 {
     using System;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
 
     public class AgentQueryFilter : BaseQueryFilter
     {

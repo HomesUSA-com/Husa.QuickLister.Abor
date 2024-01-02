@@ -4,8 +4,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
-    using Husa.Quicklister.Abor.Api.Contracts.Request.Xml;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Xml;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.Xml;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
 
     public interface IXml

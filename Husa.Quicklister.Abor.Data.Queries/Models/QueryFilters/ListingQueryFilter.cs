@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters
     using System;
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class ListingQueryFilter : BaseQueryFilter
