@@ -30,6 +30,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Alert;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Application.Models.Media;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.ReverseProspect.Api.Contracts.Response;
     using HusaNotesTypes = Husa.Notes.Domain.Enums.NoteType;

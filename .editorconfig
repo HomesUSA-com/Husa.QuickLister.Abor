@@ -62,3 +62,6 @@ dotnet_diagnostic.S1133.severity = suggestion
 
 # S6602: "Find" method should be used instead of the "FirstOrDefault" extension
 dotnet_diagnostic.S6602.severity = suggestion
+
+# S2094: Remove this empty class, write its code or make it an "interface".
+dotnet_diagnostic.S2094.severity = suggestion

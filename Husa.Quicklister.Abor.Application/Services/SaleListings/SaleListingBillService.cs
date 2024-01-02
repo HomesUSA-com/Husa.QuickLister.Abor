@@ -23,6 +23,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     {
         private readonly IListingSaleRepository listingSaleRepository;
         private readonly ILogger<SaleListingBillService> logger;
+
         public SaleListingBillService(
             IOptions<ApplicationOptions> options,
             IServiceSubscriptionClient serviceSubscriptionClient,
@@ -36,6 +37,8 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             this.listingSaleRepository = listingSaleRepository ?? throw new ArgumentNullException(nameof(listingSaleRepository));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
+
+        protected override MarketCode MarketCode => MarketCode.Austin;
 
         public override async Task<IEnumerable<SaleListing>> GetListings(IEnumerable<Guid> listingIds, Guid companyId)
         {
@@ -77,7 +80,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                     ListDate = listing.ListDate ?? DateTime.UtcNow,
                     MarketStatus = listing.MlsStatus.ToString(),
                     PublishType = listing.PublishInfo.PublishType.Value.ToString(),
-                    Market = MarketCode.Austin,
+                    Market = this.MarketCode,
                     StreetName = listing.SaleProperty.AddressInfo.StreetName,
                     StreetNum = listing.SaleProperty.AddressInfo.StreetNumber,
                 };
