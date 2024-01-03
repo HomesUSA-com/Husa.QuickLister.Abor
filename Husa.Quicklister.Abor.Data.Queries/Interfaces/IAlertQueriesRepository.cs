@@ -1,15 +1,10 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Interfaces
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Data.Queries.Models.Alerts;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
-    using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums;
+    using AlertExtension = Husa.Quicklister.Extensions.Data.Queries.Interfaces;
 
-    public interface IAlertQueriesRepository
+    public interface IAlertQueriesRepository : AlertExtension.IAlertQueriesRepository<DetailAlertQueryResult, MarketStatuses>
     {
-        Task<DataSet<DetailAlertQueryResult>> GetAsync(AlertType alertType, BaseAlertQueryFilter filter);
-        Task<int> GetTotal(IEnumerable<AlertType> alerts);
     }
 }

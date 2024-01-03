@@ -1,17 +1,15 @@
 namespace Husa.Quicklister.Abor.Api.Mappings
 {
-    using System;
     using AutoMapper;
-    using Husa.Quicklister.Abor.Api.Contracts.Request.Xml;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Xml;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Data.Queries.Models;
-    using Husa.Quicklister.Abor.Data.Queries.Models.Xml;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
-    using XmlImportStatus = Husa.Xml.Domain.Enums.ImportStatus;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.Xml;
+    using Husa.Quicklister.Extensions.Data.Queries.Extensions;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.Xml;
     using XmlRequest = Husa.Xml.Api.Contracts.Request;
     using XmlResponse = Husa.Xml.Api.Contracts.Response;
 
@@ -21,7 +19,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
         {
             this.CreateMap<XmlListingFilterRequest, XmlListingQueryFilter>();
             this.CreateMap<XmlListingQueryFilter, XmlRequest.ListingRequestFilter>()
-                .ForMember(dto => dto.ImportStatus, c => c.MapFrom(x => GetXmlImportStatus(x.ImportStatus)))
+                .ForMember(dto => dto.ImportStatus, c => c.MapFrom(x => x.ImportStatus.GetXmlImportStatus()))
                 .ForMember(dto => dto.SortBy, c => c.Ignore())
                 .ForMember(dto => dto.CommunityIds, c => c.Ignore())
                 .ForMember(dto => dto.MarketCode, c => c.Ignore())
@@ -46,13 +44,5 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<ManagementTraceQueryResult, XmlManagementResponse>();
         }
-
-        private static XmlImportStatus GetXmlImportStatus(ImportStatus status) => status switch
-        {
-            ImportStatus.Imported => XmlImportStatus.Imported,
-            ImportStatus.Deleted => XmlImportStatus.Deleted,
-            ImportStatus.Available => XmlImportStatus.Available,
-            _ => throw new ArgumentOutOfRangeException(nameof(status)),
-        };
     }
 }

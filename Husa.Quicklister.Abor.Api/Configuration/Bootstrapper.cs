@@ -62,7 +62,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
-    using Husa.Quicklister.Extensions.Data.Queries.Repositories;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Husa.ReverseProspect.Api.Client;
     using Husa.Xml.Api.Client;
@@ -74,7 +73,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
     using Microsoft.OpenApi.Models;
-
+    using RepositoryExtensions = Husa.Quicklister.Extensions.Data.Queries.Repositories;
     public static class Bootstrapper
     {
         public static IServiceCollection BindOptions(this IServiceCollection services)
@@ -106,7 +105,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IListingSaleQueriesRepository, ListingSaleQueriesRepository>();
             services.AddScoped<ICommunityQueriesRepository, CommunityQueriesRepository>();
             services.AddScoped<IPlanQueriesRepository, PlanQueriesRepository>();
-            services.AddScoped<IQueryMediaRepository, QueryMediaRepository>();
+            services.AddScoped<IQueryMediaRepository, RepositoryExtensions.QueryMediaRepository>();
             services.AddScoped<IAgentQueriesRepository, AgentQueriesRepository>();
             services.AddScoped<IAlertQueriesRepository, AlertQueriesRepository>();
             services.AddScoped<IScrapedListingQueriesRepository, ScrapedListingQueriesRepository>();

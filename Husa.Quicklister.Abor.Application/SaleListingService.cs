@@ -339,7 +339,7 @@ namespace Husa.Quicklister.Abor.Application
             var mlsNumberWasEmpty = string.IsNullOrWhiteSpace(listingSale.MlsNumber);
             listingSale.CompleteListingRequest(mlsNumber, this.userContextProvider.GetCurrentUserId(), requestStatus, actionType, this.featureFlags.IsDownloaderEnabled);
 
-            if (mlsNumberWasEmpty && !listingSale.LastPhotoRequestCreationDate.HasValue)
+            if (mlsNumberWasEmpty && listingSale.LastPhotoRequestCreationDate.HasValue)
             {
                 await this.saleListingPhotoService.SendUpdatePropertiesMessages(new[] { listingSale });
             }

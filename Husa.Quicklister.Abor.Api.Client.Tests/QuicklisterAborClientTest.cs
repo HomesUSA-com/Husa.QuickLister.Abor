@@ -13,13 +13,13 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.CompanyServicesManager.Api.Contracts.Request;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
-    using Husa.Quicklister.Abor.Api.Contracts.Request.Xml;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Alert;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.Xml;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;

@@ -7,10 +7,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Data.Queries.Models.Alerts;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.Alerts;
 
     public static class ListingSaleAlertsProjection
     {
-        public static Expression<Func<SaleListing, DetailAlertQueryResult>> ProjectListingSaleQueryResult() => listingSale => new()
+        public static Expression<Func<SaleListing, DetailAlertQueryResult>> ProjectListingSaleQueryResult => listingSale => new()
         {
             Id = listingSale.Id,
             MarketCode = MarketCode.Austin,

@@ -23,7 +23,6 @@
             - increased maximum number of characters legal description field
             - Quickbooks service added
             - unitNumber added to residential listing request
-
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
