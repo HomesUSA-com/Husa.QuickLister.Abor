@@ -26,17 +26,15 @@ namespace Husa.Quicklister.Abor.Application
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using CompanyServiceSubscriptionFilter = Husa.CompanyServicesManager.Api.Contracts.Request.FilterServiceSubscriptionRequest;
+    using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
 
-    public class SaleListingService : ISaleListingService
+    public class SaleListingService : ExtensionsServices.SaleListingService<SaleListing, IListingSaleRepository>, ISaleListingService
     {
         private readonly IMapper mapper;
         private readonly ISaleListingRequestRepository saleRequestRepository;
-        private readonly IListingSaleRepository listingSaleRepository;
         private readonly ICommunitySaleRepository communitySaleRepository;
         private readonly IPlanRepository planRepository;
-        private readonly ILogger<SaleListingService> logger;
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
-        private readonly IUserContextProvider userContextProvider;
         private readonly ISaleListingMediaService listingMediaService;
         private readonly ISaleListingPhotoService saleListingPhotoService;
         private readonly FeatureFlags featureFlags;
@@ -53,17 +51,15 @@ namespace Husa.Quicklister.Abor.Application
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<SaleListingService> logger)
+             : base(listingSaleRepository, logger, userContextProvider)
         {
             this.saleRequestRepository = saleRequestRepository ?? throw new ArgumentNullException(nameof(saleRequestRepository));
-            this.listingSaleRepository = listingSaleRepository ?? throw new ArgumentNullException(nameof(listingSaleRepository));
             this.communitySaleRepository = communitySaleRepository ?? throw new ArgumentNullException(nameof(communitySaleRepository));
             this.planRepository = planRepository ?? throw new ArgumentNullException(nameof(planRepository));
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
-            this.userContextProvider = userContextProvider ?? throw new ArgumentNullException(nameof(userContextProvider));
             this.listingMediaService = listingMediaService ?? throw new ArgumentNullException(nameof(listingMediaService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.saleListingPhotoService = saleListingPhotoService ?? throw new ArgumentNullException(nameof(saleListingPhotoService));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
         }
 
@@ -85,25 +81,25 @@ namespace Husa.Quicklister.Abor.Application
                 return CommandSingleResult<Guid, string>.Error(commandResult.Message);
             }
 
-            var listingResult = await this.listingSaleRepository.AddAsync(commandResult.Result);
+            var listingResult = await this.ListingSaleRepository.AddAsync(commandResult.Result);
             if (importFromListing)
             {
                 await this.listingMediaService.CopyMediaAsync(listingSale.ListingIdToImport.Value, listingResult.Id);
             }
 
-            this.logger.LogInformation("ABOR Listing Sale successfully created Id: {listingId}", listingResult.Id);
+            this.Logger.LogInformation("ABOR Listing Sale successfully created Id: {listingId}", listingResult.Id);
 
             return CommandSingleResult<Guid, string>.Success(listingResult.Id);
         }
 
         public async Task<CommandResult<SaleListing>> QuickCreateAsync(ListingSaleDto listingSale, bool importFromListing)
         {
-            this.logger.LogInformation("ABOR Listing Sale Service starting create listing with Address : {StreetNumber} {StreetName}", listingSale.StreetNumber, listingSale.StreetName);
-            var listing = await this.listingSaleRepository.GetListing(listingSale.StreetNumber, listingSale.StreetName, listingSale.City, listingSale.ZipCode, listingSale.UnitNumber);
+            this.Logger.LogInformation("ABOR Listing Sale Service starting create listing with Address : {StreetNumber} {StreetName}", listingSale.StreetNumber, listingSale.StreetName);
+            var listing = await this.ListingSaleRepository.GetListing(listingSale.StreetNumber, listingSale.StreetName, listingSale.City, listingSale.ZipCode, listingSale.UnitNumber);
 
             if (listing is not null)
             {
-                this.logger.LogInformation("listing {address} already exists!", listing.SaleProperty.AddressInfo.FormalAddress);
+                this.Logger.LogInformation("listing {address} already exists!", listing.SaleProperty.AddressInfo.FormalAddress);
                 return CommandResult<SaleListing>.Error($"listing {listing.SaleProperty.AddressInfo.FormalAddress} already exists!", listing);
             }
 
@@ -141,10 +137,10 @@ namespace Husa.Quicklister.Abor.Application
 
         public async Task UpdateListing(Guid listingId, SaleListingDto listingDto)
         {
-            this.logger.LogInformation("Starting update sale listing with id {listingId}", listingId);
-            var listingSale = await this.listingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            this.Logger.LogInformation("Starting update sale listing with id {listingId}", listingId);
+            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
             var listingAddress = listingDto.SaleProperty.AddressInfo;
-            var listing = await this.listingSaleRepository.GetListing(
+            var listing = await this.ListingSaleRepository.GetListing(
                 listingAddress.StreetNumber,
                 listingAddress.StreetName,
                 listingAddress.City,
@@ -153,7 +149,7 @@ namespace Husa.Quicklister.Abor.Application
 
             if (listing is not null && listing.Id != listingSale.Id)
             {
-                this.logger.LogInformation("{address} already exists!", listing.SaleProperty.AddressInfo.FormalAddress);
+                this.Logger.LogInformation("{address} already exists!", listing.SaleProperty.AddressInfo.FormalAddress);
                 throw new InvalidOperationException($"{listing.SaleProperty.AddressInfo.FormalAddress} already exists!");
             }
 
@@ -172,22 +168,22 @@ namespace Husa.Quicklister.Abor.Application
             await this.UpdateRooms(listingDto.SaleProperty.Rooms, entity: listingSale);
             await this.UpdateOpenHouse(listingDto.SaleProperty.OpenHouses, entity: listingSale);
 
-            await this.listingSaleRepository.UpdateAsync(listingSale);
+            await this.ListingSaleRepository.UpdateAsync(listingSale);
         }
 
         public async Task DeleteListing(Guid listingId)
         {
-            this.logger.LogInformation("Starting delete sale listing with id {listingId}", listingId);
-            var listingSale = await this.listingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
-            listingSale.Delete(this.userContextProvider.GetCurrentUserId(), false);
-            await this.listingSaleRepository.SaveChangesAsync(listingSale);
+            this.Logger.LogInformation("Starting delete sale listing with id {listingId}", listingId);
+            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            listingSale.Delete(this.UserContextProvider.GetCurrentUserId(), false);
+            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
         }
 
         public async Task UpdateBaseListingInfo(SaleListingDto saleListingDto, Guid listingId = default, SaleListing entity = null)
         {
-            this.logger.LogInformation("Starting update base sale listing with id {listingId}", listingId);
+            this.Logger.LogInformation("Starting update base sale listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
-            var currentUser = this.userContextProvider.GetCurrentUser();
+            var currentUser = this.UserContextProvider.GetCurrentUser();
 
             entity.UpdateBaseListingInfo(
                 saleListingDto.ListType,
@@ -203,7 +199,7 @@ namespace Husa.Quicklister.Abor.Application
 
         public async Task UpdatePropertyInfo(PropertyDto propertyDto, Guid listingId = default, SaleListing entity = null)
         {
-            this.logger.LogInformation("Starting update property information for listing with id {listingId}", listingId);
+            this.Logger.LogInformation("Starting update property information for listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
 
             var property = this.mapper.Map<PropertyInfo>(propertyDto);
@@ -212,7 +208,7 @@ namespace Husa.Quicklister.Abor.Application
 
         public async Task UpdateAddressInfo(AddressDto addressDto, Guid listingId = default, SaleListing entity = null)
         {
-            this.logger.LogInformation("Starting update address information for listing with id {listingId}", listingId);
+            this.Logger.LogInformation("Starting update address information for listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
 
             var address = this.mapper.Map<AddressInfo>(addressDto);
@@ -221,7 +217,7 @@ namespace Husa.Quicklister.Abor.Application
 
         public async Task UpdateFeaturesInfo(FeaturesDto featuresDto, Guid listingId = default, SaleListing entity = null)
         {
-            this.logger.LogInformation("Starting update features information for listing with id {listingId}", listingId);
+            this.Logger.LogInformation("Starting update features information for listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
 
             var features = this.mapper.Map<FeaturesInfo>(featuresDto);
@@ -230,7 +226,7 @@ namespace Husa.Quicklister.Abor.Application
 
         public async Task UpdateFinancialInfo(FinancialDto financialDto, Guid listingId = default, SaleListing entity = null)
         {
-            this.logger.LogInformation("Starting update financial information for listing with id {listingId}", listingId);
+            this.Logger.LogInformation("Starting update financial information for listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
 
             var financial = this.mapper.Map<FinancialInfo>(financialDto);
@@ -239,7 +235,7 @@ namespace Husa.Quicklister.Abor.Application
 
         public async Task UpdateSchoolsInfo(Models.SchoolsDto schoolsDto, Guid listingId = default, SaleListing entity = null)
         {
-            this.logger.LogInformation("Starting update schools information for listing with id {listingId}", listingId);
+            this.Logger.LogInformation("Starting update schools information for listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
 
             var schools = this.mapper.Map<SchoolsInfo>(schoolsDto);
@@ -248,7 +244,7 @@ namespace Husa.Quicklister.Abor.Application
 
         public async Task UpdateSpacesDimensionsInfo(SpacesDimensionsDto spacesDimensionsDto, Guid listingId = default, SaleListing entity = null)
         {
-            this.logger.LogInformation("Starting update spaces and dimensions  information for listing with id {listingId}", listingId);
+            this.Logger.LogInformation("Starting update spaces and dimensions  information for listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
 
             var spacesDimensions = this.mapper.Map<SpacesDimensionsInfo>(spacesDimensionsDto);
@@ -257,7 +253,7 @@ namespace Husa.Quicklister.Abor.Application
 
         public async Task UpdateShowingInfo(ShowingDto showingDto, Guid listingId = default, SaleListing entity = null)
         {
-            this.logger.LogInformation("Starting update showing information for listing with id {listingId}", listingId);
+            this.Logger.LogInformation("Starting update showing information for listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
 
             var showing = this.mapper.Map<ShowingInfo>(showingDto);
@@ -266,7 +262,7 @@ namespace Husa.Quicklister.Abor.Application
 
         public async Task UpdateRooms(IEnumerable<RoomDto> roomDto, Guid listingId = default, SaleListing entity = null)
         {
-            this.logger.LogInformation("Starting rooms information for listing with id {listingId}", listingId);
+            this.Logger.LogInformation("Starting rooms information for listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
 
             var rooms = this.mapper.Map<ICollection<ListingSaleRoom>>(roomDto);
@@ -276,7 +272,7 @@ namespace Husa.Quicklister.Abor.Application
         public async Task UpdateOpenHouse(IEnumerable<OpenHouseDto> openHouseDto, SaleListing entity = null)
         {
             entity = await this.GetEntity(entity);
-            this.logger.LogInformation("Starting update open house information for listing with id {listingId}", entity.Id);
+            this.Logger.LogInformation("Starting update open house information for listing with id {listingId}", entity.Id);
 
             var openHouses = this.mapper.Map<ICollection<SaleListingOpenHouse>>(openHouseDto);
             entity.SaleProperty.UpdateOpenHouse(openHouses);
@@ -289,33 +285,33 @@ namespace Husa.Quicklister.Abor.Application
                 return entity;
             }
 
-            return await this.listingSaleRepository.GetById(listingId, filterByCompany: true);
+            return await this.ListingSaleRepository.GetById(listingId, filterByCompany: true);
         }
 
         public async Task ChangeCommunity(Guid listingId, Guid communityId)
         {
-            var listingSale = await this.listingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
             var community = await this.communitySaleRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
 
             if (listingSale.SaleProperty.CompanyId != community.CompanyId)
             {
-                this.logger.LogInformation("The selected Community with id: {communityId} was not found for the company id: '{CompanyId}'", communityId, community.CompanyId);
+                this.Logger.LogInformation("The selected Community with id: {communityId} was not found for the company id: '{CompanyId}'", communityId, community.CompanyId);
                 throw new NotFoundException<CommunitySale>(communityId);
             }
 
             listingSale.SaleProperty.CommunityId = communityId;
 
-            await this.listingSaleRepository.SaveChangesAsync(listingSale);
+            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
         }
 
         public async Task ChangePlan(Guid listingId, Guid planId, bool updateRooms = false)
         {
-            var listingSale = await this.listingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
             var plan = await this.planRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
 
             if (listingSale.SaleProperty.CompanyId != plan.CompanyId)
             {
-                this.logger.LogInformation("The selected Plan with id: {planId} was not found for the company id: '{companyId}'", planId, plan.CompanyId);
+                this.Logger.LogInformation("The selected Plan with id: {planId} was not found for the company id: '{companyId}'", planId, plan.CompanyId);
                 throw new NotFoundException<Plan>(planId);
             }
 
@@ -323,13 +319,13 @@ namespace Husa.Quicklister.Abor.Application
 
             listingSale.SaleProperty.PlanId = planId;
 
-            await this.listingSaleRepository.SaveChangesAsync(listingSale);
+            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
         }
 
         public async Task AssignMlsNumberAsync(Guid listingId, string mlsNumber, MarketStatuses requestStatus, ActionType actionType)
         {
-            var listingSale = await this.listingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
-            var listingWithMlsNumber = await this.listingSaleRepository.GetListingByMlsNumber(listingId, mlsNumber);
+            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listingWithMlsNumber = await this.ListingSaleRepository.GetListingByMlsNumber(listingId, mlsNumber);
 
             if (listingWithMlsNumber is not null)
             {
@@ -337,19 +333,19 @@ namespace Husa.Quicklister.Abor.Application
             }
 
             var mlsNumberWasEmpty = string.IsNullOrWhiteSpace(listingSale.MlsNumber);
-            listingSale.CompleteListingRequest(mlsNumber, this.userContextProvider.GetCurrentUserId(), requestStatus, actionType, this.featureFlags.IsDownloaderEnabled);
+            listingSale.CompleteListingRequest(mlsNumber, this.UserContextProvider.GetCurrentUserId(), requestStatus, actionType, this.featureFlags.IsDownloaderEnabled);
 
             if (mlsNumberWasEmpty && listingSale.LastPhotoRequestCreationDate.HasValue)
             {
                 await this.saleListingPhotoService.SendUpdatePropertiesMessages(new[] { listingSale });
             }
 
-            await this.listingSaleRepository.SaveChangesAsync(listingSale);
+            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
         }
 
         public async Task<SaleListing> SaveListingChanges(Guid listingId, ListingSaleRequestDto listingSaleDto)
         {
-            var listingSale = await this.listingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
 
             var statusFieldsInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingSaleDto.StatusFieldsInfo);
 
@@ -360,7 +356,7 @@ namespace Husa.Quicklister.Abor.Application
                 listingSaleDto.ListDate,
                 listingSaleDto.MlsStatus,
                 LockedStatus.LockedNotSubmitted,
-                this.userContextProvider.GetCurrentUserId());
+                this.UserContextProvider.GetCurrentUserId());
             listingSale.UpdateStatusFieldsInfo(statusFieldsInfo);
             await this.UpdatePropertyInfo(listingSaleDto.SaleProperty.PropertyInfo, entity: listingSale);
             await this.UpdateAddressInfo(listingSaleDto.SaleProperty.AddressInfo, entity: listingSale);
@@ -372,19 +368,19 @@ namespace Husa.Quicklister.Abor.Application
             await this.UpdateRooms(listingSaleDto.SaleProperty.Rooms, entity: listingSale);
             await this.UpdateOpenHouse(listingSaleDto.SaleProperty.OpenHouses, entity: listingSale);
 
-            await this.listingSaleRepository.SaveChangesAsync(listingSale);
+            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
             return listingSale;
         }
 
         public async Task<CommandResult<string>> UnlockListing(Guid listingId, CancellationToken cancellationToken = default)
         {
-            this.logger.LogInformation("Trying to unlock Listing sale with id {listingId}.", listingId);
-            var listingSale = await this.listingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            this.Logger.LogInformation("Trying to unlock Listing sale with id {listingId}.", listingId);
+            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
 
-            var currentUser = this.userContextProvider.GetCurrentUser();
+            var currentUser = this.UserContextProvider.GetCurrentUser();
             if (!listingSale.CanUnlock(currentUser))
             {
-                this.logger.LogInformation("Listing sale {listingId} cannot be unlocked.", listingId);
+                this.Logger.LogInformation("Listing sale {listingId} cannot be unlocked.", listingId);
                 throw new DomainException($"Listing sale {listingId} cannot be unlocked.");
             }
 
@@ -392,36 +388,36 @@ namespace Husa.Quicklister.Abor.Application
 
             if (!currentUser.IsMLSAdministrator && existingRequest)
             {
-                this.logger.LogInformation("The sale listing {listingId} has an open request, cannot be unlocked.", listingId);
+                this.Logger.LogInformation("The sale listing {listingId} has an open request, cannot be unlocked.", listingId);
                 return CommandResult<string>.Error($"The sale listing {listingId} has an open request, cannot be unlocked.");
             }
 
             listingSale.Unlock(this.featureFlags.AllowManualListingUnlock);
-            await this.listingSaleRepository.SaveChangesAsync(listingSale);
+            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
             return CommandResult<string>.Success($"Unlocked listing sale with id {listingId}.");
         }
 
         public async Task LockListingByUser(Guid listingId)
         {
-            var listingSale = await this.listingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
 
-            listingSale.LockByUser(this.userContextProvider.GetCurrentUserId());
-            await this.listingSaleRepository.SaveChangesAsync(listingSale);
+            listingSale.LockByUser(this.UserContextProvider.GetCurrentUserId());
+            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
         }
 
         public async Task DeclinePhotos(Guid listingId, CancellationToken cancellationToken = default)
         {
-            var listingSale = await this.listingSaleRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
-            var currentUser = this.userContextProvider.GetCurrentUser();
+            var listingSale = await this.ListingSaleRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
+            var currentUser = this.UserContextProvider.GetCurrentUser();
             listingSale.DeclinePhotos(currentUser.Id);
-            await this.listingSaleRepository.SaveChangesAsync(listingSale);
+            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
         }
 
         public async Task UpdateActionTypeAsync(Guid listingId, ActionType actionType, CancellationToken cancellationToken = default)
         {
-            var listing = await this.listingSaleRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listing = await this.ListingSaleRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
             listing.UpdateActionType(actionType);
-            await this.listingSaleRepository.SaveChangesAsync(listing);
+            await this.ListingSaleRepository.SaveChangesAsync(listing);
         }
 
         private async Task ImportDataFromCommunityAndPlan(SaleListing listingSaleEntity, ListingSaleDto listingSale)
@@ -436,18 +432,18 @@ namespace Husa.Quicklister.Abor.Application
 
         private async Task ImportDataFromListingAsync(SaleListing listingSaleEntity, Guid listingIdToImport)
         {
-            var listing = await this.listingSaleRepository.GetById(listingIdToImport) ?? throw new NotFoundException<SaleListing>(listingIdToImport);
+            var listing = await this.ListingSaleRepository.GetById(listingIdToImport) ?? throw new NotFoundException<SaleListing>(listingIdToImport);
             listingSaleEntity.CloneListing(listing);
         }
 
         private async Task ImportCommunityDataAsync(SaleListing listingSale, Guid? fromCommunityId)
         {
             var communityId = fromCommunityId ?? throw new ArgumentNullException(nameof(fromCommunityId));
-            this.logger.LogInformation("Starting import data from community with id: {communityId} to sale listing with id: {listingId}", communityId, listingSale.Id);
+            this.Logger.LogInformation("Starting import data from community with id: {communityId} to sale listing with id: {listingId}", communityId, listingSale.Id);
             var communitySale = await this.communitySaleRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
             if (listingSale.SaleProperty.CompanyId != communitySale.CompanyId)
             {
-                this.logger.LogInformation("The selected Community with id: {communityId} was not found for the company id: '{companyId}'", communityId, communitySale.CompanyId);
+                this.Logger.LogInformation("The selected Community with id: {communityId} was not found for the company id: '{companyId}'", communityId, communitySale.CompanyId);
                 throw new NotFoundException<CommunitySale>(communityId);
             }
 
@@ -456,12 +452,12 @@ namespace Husa.Quicklister.Abor.Application
 
         private async Task ImportPlanDataAsync(SaleListing listingSale, Guid planId)
         {
-            this.logger.LogInformation("Starting import data from plan with id: {planId} to sale listing with id: {listingId}", planId, listingSale.Id);
+            this.Logger.LogInformation("Starting import data from plan with id: {planId} to sale listing with id: {listingId}", planId, listingSale.Id);
             var plan = await this.planRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
 
             if (listingSale.SaleProperty.CompanyId != plan.CompanyId)
             {
-                this.logger.LogInformation("The selected Plan with id: {planId} was not found for the company id: '{companyId}'", planId, plan.CompanyId);
+                this.Logger.LogInformation("The selected Plan with id: {planId} was not found for the company id: '{companyId}'", planId, plan.CompanyId);
                 throw new NotFoundException<Plan>(planId);
             }
 

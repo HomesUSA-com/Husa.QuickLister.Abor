@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
+    using Husa.Extensions.Api.Configuration;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Filters;
     using Husa.Extensions.Common.Classes;
@@ -24,6 +25,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
@@ -201,6 +203,25 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
             var queryResponse = await this.listingSaleService.UnlockListing(listingId, cancellationToken);
 
+            if (queryResponse.Code == ResponseCode.Error)
+            {
+                return this.BadRequest(queryResponse);
+            }
+
+            return this.Ok();
+        }
+
+        [HttpPut("{listingId:guid}/close")]
+        [Authorize(Roles.MLSAdministrator)]
+        public async Task<IActionResult> CloseListing(Guid listingId, CancellationToken cancellationToken = default)
+        {
+            this.logger.LogInformation("Start to close listing sale Id {listingId}", listingId);
+            if (listingId == Guid.Empty)
+            {
+                return this.BadRequest(listingId);
+            }
+
+            var queryResponse = await this.listingSaleService.CloseListing(listingId);
             if (queryResponse.Code == ResponseCode.Error)
             {
                 return this.BadRequest(queryResponse);
