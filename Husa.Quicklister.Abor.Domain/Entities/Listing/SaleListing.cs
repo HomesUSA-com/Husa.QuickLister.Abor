@@ -14,6 +14,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Attributes;
+    using Husa.Quicklister.Extensions.Domain.Entities.Listing;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Quicklister.Extensions.Domain.Extensions;
@@ -140,6 +142,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual ICollection<ManagementTrace> ManagementTraces { get; set; }
 
+        [IgnoreXmlProperty]
+        public virtual XmlRequestError XmlRequestError { get; set; }
+
         public virtual bool IsInMarket => !string.IsNullOrEmpty(this.MlsNumber);
 
         public virtual bool IsExisting => ExistingListingStatuses.Contains(this.MlsStatus);
@@ -158,8 +163,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual CommandSingleResult<SaleListingRequest, ValidationResult> GenerateRequest(Guid userId)
         {
-            var request = new SaleListingRequest(saleListing: this, userId);
-            return this.AddRequest(request, userId);
+            try
+            {
+                var request = new SaleListingRequest(saleListing: this, userId);
+                return this.AddRequest(request, userId);
+            }
+            catch (Exception ex)
+            {
+                this.LockUnsubmitted(userId);
+                return CommandSingleResult<SaleListingRequest, ValidationResult>.Error(new ValidationResult(ex.Message));
+            }
         }
 
         public virtual CommandSingleResult<SaleListingRequest, ValidationResult> GenerateRequestFromCommunity(SaleListingRequest lastCompletedRequest, Guid userId)

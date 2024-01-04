@@ -1,8 +1,8 @@
 namespace Husa.Quicklister.Abor.Data.Configuration
 {
     using System;
-    using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.ReverseProspect;
+    using Husa.Quicklister.Extensions.Data.Extensions;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
