@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Husa.Quicklister.Extensions.Data" Version="0.2.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Data" Version="0.3.0" />
         <PackageReference Include="Husa.Extensions.Authorization" Version="3.2.0" />
         <PackageReference Include="Husa.Extensions.Cache" Version="3.0.0" />
         <PackageReference Include="Husa.Extensions.Linq" Version="3.4.0" />

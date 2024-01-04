@@ -6,13 +6,13 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Quicklister.Abor.Data.Specifications;
-    using Husa.Quicklister.Abor.Domain.Attributes;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
+    using HusaXmlExtensions = Husa.Quicklister.Extensions.Data.Extensions.XmlExtensions;
 
     public class ListingSaleRepository : Repository<SaleListing>, IListingSaleRepository
     {
@@ -131,7 +131,7 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
                 return false;
             }
 
-            var decoratedProperties = this.GetDecoratedProperties(typeof(SaleListing));
+            var decoratedProperties = HusaXmlExtensions.GetDecoratedProperties(typeof(SaleListing));
 
             var modifiedProperties = entry.Properties
                 .Where(p => p.IsModified)
@@ -146,28 +146,31 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             return await query.ToListAsync();
         }
 
-        private List<string> GetDecoratedProperties(Type type, string prefix = "")
+        public async Task AddXmlRequestError(Guid listingId, string errorMessage)
         {
-            var decoratedProperties = new List<string>();
+            var error = this.context.XmlRequestError.FirstOrDefault(error => error.ListingId == listingId);
 
-            foreach (var property in type.GetProperties())
+            if (error == null)
             {
-                var fullName = string.IsNullOrEmpty(prefix) ? property.Name : $"{prefix}.{property.Name}";
-
-                if (Attribute.IsDefined(property, typeof(XmlPropertyUpdateAttribute)))
-                {
-                    decoratedProperties.Add(fullName);
-                }
-
-                if (property.PropertyType.Namespace == "System" || property.PropertyType.IsGenericType)
-                {
-                    continue;
-                }
-
-                decoratedProperties.AddRange(this.GetDecoratedProperties(property.PropertyType, fullName));
+                error = new XmlRequestError(listingId, errorMessage);
+                this.context.XmlRequestError.Add(error);
+            }
+            else
+            {
+                error.UpdateErrorMessage(errorMessage);
             }
 
-            return decoratedProperties;
+            await this.SaveChangesAsync();
+        }
+
+        public async Task DeleteXmlRequestError(Guid listingId)
+        {
+            var error = this.context.XmlRequestError.FirstOrDefault(error => error.ListingId == listingId);
+            if (error != null)
+            {
+                this.context.XmlRequestError.Remove(error);
+                await this.SaveChangesAsync();
+            }
         }
     }
 }

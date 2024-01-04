@@ -6,9 +6,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using System.Linq;
     using Husa.Extensions.Common;
     using Husa.Extensions.Domain.ValueObjects;
-    using Husa.Quicklister.Abor.Domain.Attributes;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Extensions.Domain.Attributes;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 

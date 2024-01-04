@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Domain.Interfaces
 {
     using System;
-    using Husa.Quicklister.Abor.Domain.Attributes;
+    using Husa.Quicklister.Extensions.Domain.Attributes;
 
     public interface IProvideStatusFields
     {
