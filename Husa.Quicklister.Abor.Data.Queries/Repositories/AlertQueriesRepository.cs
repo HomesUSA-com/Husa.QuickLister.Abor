@@ -82,15 +82,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
 
         protected override Task<DataSet<DetailAlertQueryResult>> GetXmlListingUpdatedWithoutRequestAsync(BaseAlertQueryFilter filter)
         {
-            Func<SaleListing, XmlRequestError, SaleListing> returnListingWithError = (listing, error) =>
-            {
-                listing.XmlRequestError = error;
-                return listing;
-            };
-
             var query = this.GetSaleListingAlerts(filter.SearchBy)
-                .Join(this.context.XmlRequestError, listing => listing.Id, error => error.ListingId, (listing, error) => returnListingWithError(listing, error));
-
+               .Join(this.context.XmlRequestError, listing => listing.Id, error => error.ListingId, (listing, error) => listing)
+               .Include(x => x.XmlRequestError);
             return this.ToDetailAlertQueryResultDataSet(query, filter);
         }
 
