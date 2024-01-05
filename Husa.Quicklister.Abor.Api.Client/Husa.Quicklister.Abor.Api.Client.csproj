@@ -8,28 +8,17 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>1.5.3</Version>
+        <Version>1.6.0</Version>
         <PackageReleaseNotes>
-            Release 1.5.3:
-            - Increased directions max length
-            - Removed OpenHousesAgree field in OpenHouse
-            - Updated ReverseProspect endpoint
-            - Added Realtor email fiel to Community Profile
-            - Modified Realtor email field to allow multiple emails
-            - Added Open House Services and properties for Batch Upload
-            - Changed EmailViolationWarning type and length
-            - Added UnitNumber to Residential listing Creation
-            - increased maximum number of characters agent private remarks field
-            - increased maximum number of characters legal description field
-            - Quickbooks service added
-            - unitNumber added to residential listing request
+            Release 1.6.0:
+            - Updated Husa.Quicklister.Extensions.Api.Client
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="4.0.2" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="0.4.2" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="0.5.0" />
     </ItemGroup>
 
     <ItemGroup>
