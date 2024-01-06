@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Api
     using Husa.Extensions.Quickbooks.Extensions;
     using Husa.Quicklister.Abor.Api.Configuration;
     using Husa.Quicklister.Abor.Api.Middlewares;
+    using Husa.Quicklister.Extensions.Application.Configuration;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -54,7 +55,8 @@ namespace Husa.Quicklister.Abor.Api
                 .AddListingRequestsRepositories();
 
             services
-                .ConfigureRefitClient(this.Configuration);
+                .ConfigureRefitClient()
+                .ConfigureInvoiceClient(this.Configuration);
 
             services
                 .RegisterAutoMapper()
