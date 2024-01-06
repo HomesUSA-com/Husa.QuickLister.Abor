@@ -19,7 +19,7 @@
         <PackageReference Include="Husa.Downloader.Sabor.Api.Client" Version="1.1.0" />
         <PackageReference Include="Husa.Notes.Client" Version="1.0.0" />
         <PackageReference Include="Husa.Notes.ServiceBus.Contracts" Version="1.0.0" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Application" Version="1.9.6" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Application" Version="1.9.7" />
         <PackageReference Include="Husa.Quicklister.Extensions.ServiceBus.Contracts" Version="1.0.0" />
         <PackageReference Include="Husa.ReverseProspect.Api.Client" Version="1.1.0" />
         <PackageReference Include="Husa.Xml.ServiceBus.Messages" Version="1.2.0" />
