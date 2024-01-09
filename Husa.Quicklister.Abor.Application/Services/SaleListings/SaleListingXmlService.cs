@@ -131,15 +131,16 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             if (this.ListingSaleRepository.HasXmlChanges(listing) || newMediaFromXml.Any())
             {
                 await this.xmlMediaService.ImportListingMedia(xmlListingId, checkMediaLimit: true, useServiceBus: false);
+                await this.ListingSaleRepository.SaveChangesAsync(listing);
                 var requestResult = listing.GenerateRequest(currentUser.Id);
-                if (requestResult.Errors.Any())
+                if (!requestResult.Errors.Any())
+                {
+                    await this.saleListingRequestService.GenerateRequestFromXmlAsync(requestResult.Result);
+                }
+                else
                 {
                     this.Logger.LogWarning("The listing request could not be created due to the following: {@errors}", requestResult.Errors);
-                    return;
                 }
-
-                await this.ListingSaleRepository.SaveChangesAsync(listing);
-                await this.saleListingRequestService.GenerateRequestFromXmlAsync(requestResult.Result);
             }
 
             await this.XmlClient.Listing.ProcessListing(xmlListingId, request: new() { ListingId = listing.Id, Type = XmlContract.ListActionType.ListUpdate });

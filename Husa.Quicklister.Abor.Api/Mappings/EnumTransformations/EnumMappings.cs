@@ -38,7 +38,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.MlsStatus.ActiveUnderContract => MarketStatuses.ActiveUnderContract,
             Trestle.MlsStatus.Canceled => MarketStatuses.Canceled,
             Trestle.MlsStatus.Closed => MarketStatuses.Closed,
-            Trestle.MlsStatus.Hold => MarketStatuses.Hold,
+            Trestle.MlsStatus.Hold or
+            Trestle.MlsStatus.Withdrawn => MarketStatuses.Hold,
             Trestle.MlsStatus.Pending => MarketStatuses.Pending,
             _ => throw new ArgumentException("Invalid MlsStatus value.", nameof(value)),
         };
