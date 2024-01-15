@@ -23,7 +23,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         [XmlPropertyUpdate]
         public virtual decimal? ListPrice { get; set; }
 
-        public virtual ListType ListType { get; protected set; }
+        public virtual ListType ListType { get; protected set; } = ListType.Residential;
 
         public virtual DateTime? MarketModifiedOn { get; set; }
 
