@@ -144,6 +144,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual bool IsExisting => ExistingListingStatuses.Contains(this.MlsStatus);
 
+        public override bool IsSold => throw new NotImplementedException();
+
         public virtual void UpdateStatusFieldsInfo(ListingSaleStatusFieldsInfo listingSaleStatusFields)
         {
             if (listingSaleStatusFields is null)
