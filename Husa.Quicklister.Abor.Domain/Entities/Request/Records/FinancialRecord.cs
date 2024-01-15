@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Common.Validations;
+    using Husa.Extensions.Domain.Validations;
     using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -65,6 +66,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
             set { this.readableAgentBonusAmount = value; }
         }
 
+        [TodayOrAfterAttribute]
         public DateTime? BonusExpirationDate { get; set; }
         public bool HasBuyerIncentive { get; set; }
 
