@@ -54,6 +54,7 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
 
         Task<CommandResult<string>> UnlockListing(Guid listingId, CancellationToken cancellationToken = default);
 
+        Task<CommandResult<string>> CloseListing(Guid listingId);
         Task LockListingByUser(Guid listingId);
 
         Task DeclinePhotos(Guid listingId, CancellationToken cancellationToken = default);

@@ -354,6 +354,26 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
         }
 
         [Fact]
+        public async Task CloseListingCompleteSuccess()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var expectedResponse = CommandResult<string>.Success("some-message");
+            var sut = this.GetSut();
+            this.listingSaleService
+                .Setup(ls => ls.CloseListing(It.Is<Guid>(id => id == listingId)))
+                .ReturnsAsync(expectedResponse)
+                .Verifiable();
+
+            // Act
+            await sut.CloseListing(listingId);
+
+            // Assert
+            this.listingSaleService.Verify();
+            this.listingSaleService.Verify(x => x.CloseListing(It.Is<Guid>(x => x == listingId)), Times.Once);
+        }
+
+        [Fact]
         public async Task DeclinePhotosAsync_Complete_Success()
         {
             // Arrange

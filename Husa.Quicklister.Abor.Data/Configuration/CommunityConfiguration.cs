@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Data.Extensions;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;

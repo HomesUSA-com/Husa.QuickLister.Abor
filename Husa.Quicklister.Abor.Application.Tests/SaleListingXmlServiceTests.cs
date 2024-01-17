@@ -529,31 +529,34 @@ namespace Husa.Quicklister.Abor.Application.Tests
             saleListing.XmlListingId = xmlListingId;
             saleListing.MlsNumber = "123345";
 
-            this.SetupGetXmlListingById(xmlListingId);
-
-            this.listingSaleRepository
-               .Setup(x => x.GetListingByXmlListingId(It.IsAny<Guid>()))
-               .ReturnsAsync(saleListing)
-               .Verifiable();
-
-            this.saleListingRequestService
-               .Setup(x => x.HasOpenRequest(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-               .ReturnsAsync(false)
-               .Verifiable();
-
-            this.listingSaleRepository
-               .Setup(x => x.HasXmlChanges(It.IsAny<SaleListing>()))
-               .Returns(true)
-               .Verifiable();
-
-            this.saleListingRequestService
-               .Setup(x => x.GenerateRequestFromXmlAsync(It.IsAny<SaleListingRequest>(), It.IsAny<CancellationToken>()))
-               .Verifiable();
+            this.SetupServicesToUpdateListingFromXml(saleListing);
 
             // Act and Assert
             await this.Sut.UpdateListingFromXmlAsync(xmlListingId);
             this.listingSaleRepository.Verify(x => x.GetListingByXmlListingId(It.Is<Guid>(r => r == xmlListingId)), Times.Once);
             this.saleListingRequestService.Verify(x => x.GenerateRequestFromXmlAsync(It.IsAny<SaleListingRequest>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task UpdateListingAsynErrorsCreatingRequestSuccess()
+        {
+            // Arrange
+            var xmlListingId = Guid.NewGuid();
+            var listingId = Guid.NewGuid();
+            var companyId = Guid.NewGuid();
+            this.SetupMlsAdministrator();
+            var saleListingMock = TestModelProvider.GetListingSaleEntityMock(listingId, true, companyId, generateRequest: false);
+            saleListingMock.Setup(c => c.GenerateRequest(It.IsAny<Guid>()))
+                .Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Error(new ValidationResult[] { new("error") }))
+                .Verifiable();
+            saleListingMock.Setup(x => x.XmlListingId).Returns(xmlListingId);
+            saleListingMock.Setup(x => x.MlsNumber).Returns("123345");
+
+            this.SetupServicesToUpdateListingFromXml(saleListingMock.Object);
+
+            // Act and Assert
+            await this.Sut.UpdateListingFromXmlAsync(xmlListingId);
+            this.saleListingRequestService.Verify(x => x.GenerateRequestFromXmlAsync(It.IsAny<SaleListingRequest>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Theory]
@@ -710,6 +713,30 @@ namespace Husa.Quicklister.Abor.Application.Tests
                     It.IsAny<ListingSaleDto>(),
                     It.Is<bool>(importFromListing => !importFromListing)))
                 .ReturnsAsync(commandResult);
+        }
+
+        private void SetupServicesToUpdateListingFromXml(SaleListing listing)
+        {
+            this.SetupGetXmlListingById(listing.XmlListingId.Value);
+
+            this.listingSaleRepository
+               .Setup(x => x.GetListingByXmlListingId(It.IsAny<Guid>()))
+               .ReturnsAsync(listing)
+               .Verifiable();
+
+            this.saleListingRequestService
+               .Setup(x => x.HasOpenRequest(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(false)
+               .Verifiable();
+
+            this.listingSaleRepository
+               .Setup(x => x.HasXmlChanges(It.IsAny<SaleListing>()))
+               .Returns(true)
+               .Verifiable();
+
+            this.saleListingRequestService
+               .Setup(x => x.GenerateRequestFromXmlAsync(It.IsAny<SaleListingRequest>(), It.IsAny<CancellationToken>()))
+               .Verifiable();
         }
     }
 }

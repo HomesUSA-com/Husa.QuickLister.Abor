@@ -80,6 +80,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             return this.ToDetailAlertQueryResultDataSet(query, filter);
         }
 
+        protected override Task<DataSet<DetailAlertQueryResult>> GetXmlListingUpdatedWithoutRequestAsync(BaseAlertQueryFilter filter)
+        {
+            var query = this.GetSaleListingAlerts(filter.SearchBy)
+               .Join(this.context.XmlRequestError, listing => listing.Id, error => error.ListingId, (listing, error) => listing)
+               .Include(x => x.XmlRequestError);
+            return this.ToDetailAlertQueryResultDataSet(query, filter);
+        }
+
         protected override IQueryable<SaleListing> FilterByCommunityEmployee(IQueryable<SaleListing> query)
         {
             var currentUser = this.UserContext.GetCurrentUser();

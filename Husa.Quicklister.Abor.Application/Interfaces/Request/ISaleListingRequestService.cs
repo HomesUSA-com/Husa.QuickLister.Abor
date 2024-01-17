@@ -12,7 +12,5 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Request
         Task<SaleListingRequest> UpdateRequestAsync(SaleListingRequest request, ListingSaleRequestDto listingSaleRequestDto, CancellationToken cancellationToken = default);
 
         Task UpdateListingRequestAsync(Guid listingRequestId, ListingSaleRequestDto listingSaleRequestDto, CancellationToken cancellationToken = default);
-
-        Task GenerateRequestFromXmlAsync(SaleListingRequest saleListingRequest, CancellationToken cancellationToken = default);
     }
 }

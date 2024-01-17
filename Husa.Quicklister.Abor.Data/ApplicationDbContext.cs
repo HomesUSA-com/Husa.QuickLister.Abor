@@ -50,6 +50,8 @@ namespace Husa.Quicklister.Abor.Data
 
         public virtual DbSet<ManagementTrace> ManagementTrace { get; set; }
 
+        public virtual DbSet<XmlRequestError> XmlRequestError { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

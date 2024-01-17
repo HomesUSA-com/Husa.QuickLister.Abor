@@ -3,9 +3,9 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using System;
     using Husa.Downloader.CTX.Domain.Enums;
     using Husa.Extensions.Linq;
-    using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Office;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Data.Extensions;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.EntityFrameworkCore.Storage.ValueConversion;

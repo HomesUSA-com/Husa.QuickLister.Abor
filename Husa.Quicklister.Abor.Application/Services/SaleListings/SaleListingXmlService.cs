@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Extensions;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
@@ -94,7 +95,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             }
 
             await this.ListingSaleRepository.SaveChangesAsync(listing);
-            await this.XmlClient.Listing.ProcessListing(xmlListingId, request: new() { ListingId = listing.Id, Type = GetXmlListActionType(listAction), ImportMedia = importMedia });
+            await this.XmlClient.Listing.ProcessListing(xmlListingId, request: new() { ListingId = listing.Id, Type = listAction.ToXmlListActionType(), ImportMedia = importMedia });
             return listing.Id;
         }
 
@@ -140,28 +141,13 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 else
                 {
                     this.Logger.LogWarning("The listing request could not be created due to the following: {@errors}", requestResult.Errors);
+                    var errors = string.Join(", ", requestResult.Errors.Select(x => x.ErrorMessage));
+                    await this.ListingSaleRepository.AddXmlRequestError(listing.Id, $"The listing request could not be created due to the following: {errors}");
+                    return;
                 }
             }
 
             await this.XmlClient.Listing.ProcessListing(xmlListingId, request: new() { ListingId = listing.Id, Type = XmlContract.ListActionType.ListUpdate });
         }
-
-        public override XmlContract.MatchStatus GetXmlMatchStatus(MatchStatus type) => type switch
-        {
-            MatchStatus.Matched => XmlContract.MatchStatus.Matched,
-            MatchStatus.NotMatched => XmlContract.MatchStatus.NotMatched,
-            MatchStatus.AwaitingMatch => XmlContract.MatchStatus.AwaitingMatch,
-            _ => throw new ArgumentOutOfRangeException(nameof(type)),
-        };
-
-        private static XmlContract.ListActionType GetXmlListActionType(ListActionType type) => type switch
-        {
-            ListActionType.ListNow => XmlContract.ListActionType.ListNow,
-            ListActionType.ListCompare => XmlContract.ListActionType.ListCompare,
-            ListActionType.ListLater => XmlContract.ListActionType.ListLater,
-            ListActionType.ListNever => XmlContract.ListActionType.ListNever,
-            ListActionType.ListUpdate => XmlContract.ListActionType.ListUpdate,
-            _ => throw new ArgumentOutOfRangeException(nameof(type)),
-        };
     }
 }

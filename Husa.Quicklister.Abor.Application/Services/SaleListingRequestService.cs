@@ -91,13 +91,6 @@ namespace Husa.Quicklister.Abor.Application.Services
             await this.SaleRequestRepository.UpdateListingSaleRequestAsync(listingRequestId, listingRequest, userId, cancellationToken);
         }
 
-        public async Task GenerateRequestFromXmlAsync(SaleListingRequest saleListingRequest, CancellationToken cancellationToken = default)
-        {
-            this.Logger.LogInformation("Service is starting to generate request for ABOR listing sale from xml with id {saleListingId}", saleListingRequest.ListingSaleId);
-            await this.SaleRequestRepository.AddListingSaleRequestAsync(saleListingRequest, cancellationToken);
-            await this.MediaService.CreateMediaRequestAsync(saleListingRequest.ListingSaleId, saleListingRequest.Id);
-        }
-
         protected override async Task<string> IsImageCountValidAsync(Guid saleListingId)
         {
             var mediaCount = (await this.MediaService.GetListingResources(saleListingId)).Media.Count();
