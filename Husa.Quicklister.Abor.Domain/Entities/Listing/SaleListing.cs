@@ -15,7 +15,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Attributes;
-    using Husa.Quicklister.Extensions.Domain.Entities.Listing;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Quicklister.Extensions.Domain.Extensions;
@@ -149,7 +148,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual bool IsExisting => ExistingListingStatuses.Contains(this.MlsStatus);
 
-        public override bool IsSold => this.MlsStatus == MarketStatuses.Closed;
+        public override bool HasStatusToBeClosed => this.MlsStatus == MarketStatuses.Closed || this.MlsStatus == MarketStatuses.Canceled;
 
         public virtual void UpdateStatusFieldsInfo(ListingSaleStatusFieldsInfo listingSaleStatusFields)
         {
