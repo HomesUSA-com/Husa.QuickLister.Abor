@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
     public class SalePropertyConfiguration : IEntityTypeConfiguration<SaleProperty>
     {
+        public const int PropertyDescriptionLength = 4000;
         public const int LegalDescriptionLength = 255;
         public const int TaxIdLength = 50;
         public const int AgentPrivateRemarksLength = 4000;
@@ -103,7 +104,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.GuestAccommodationsDescription).HasColumnName(nameof(FeaturesInfo.GuestAccommodationsDescription)).HasEnumCollectionValue<GuestAccommodationsDescription>(100);
             builder.Property(r => r.UnitStyle).HasColumnName(nameof(FeaturesInfo.UnitStyle)).HasEnumCollectionValue<UnitStyle>(100);
             builder.Property(r => r.IsNewConstruction).HasColumnName(nameof(FeaturesInfo.IsNewConstruction));
-            builder.Property(r => r.PropertyDescription).HasColumnName(nameof(FeaturesInfo.PropertyDescription)).HasMaxLength(4000).IsRequired(false);
+            builder.Property(r => r.PropertyDescription).HasColumnName(nameof(FeaturesInfo.PropertyDescription)).HasMaxLength(PropertyDescriptionLength).IsRequired(false);
             builder.Property(r => r.GuestBedroomsTotal).HasColumnName(nameof(FeaturesInfo.GuestBedroomsTotal)).HasMaxLength(3);
             builder.Property(r => r.GuestHalfBathsTotal).HasColumnName(nameof(FeaturesInfo.GuestHalfBathsTotal)).HasMaxLength(3);
             builder.Property(r => r.GuestFullBathsTotal).HasColumnName(nameof(FeaturesInfo.GuestFullBathsTotal)).HasMaxLength(3);

@@ -1,15 +1,19 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 {
     using System.Collections.Generic;
+    using Husa.Extensions.Domain.Extensions;
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Extensions.Crosscutting.Extensions;
     using Husa.Xml.Api.Contracts.Response;
 
     public class FeaturesInfo : ValueObject, IProvideFeature
     {
+        private static readonly string RemoveKeyword = "MLS Number";
+        private static readonly int PropertyDescriptionLength = 4000;
         private ICollection<FireplaceDescription> fireplaceDescription;
         private WaterBodyName? waterBodyName;
 
@@ -73,7 +77,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 importedFeatures = features.Clone();
             }
 
-            importedFeatures.PropertyDescription = listing.Description;
+            importedFeatures.PropertyDescription = listing.Description
+                .GetSubstring(PropertyDescriptionLength)
+                    .CleanAfterKeyword(RemoveKeyword);
             return importedFeatures;
         }
 
@@ -81,7 +87,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
             if (!string.IsNullOrEmpty(listing.Description))
             {
-                this.PropertyDescription = listing.Description;
+                this.PropertyDescription = listing.Description
+                    .GetSubstring(PropertyDescriptionLength)
+                    .CleanAfterKeyword(RemoveKeyword);
             }
         }
 
