@@ -35,6 +35,7 @@ namespace Husa.Quicklister.Abor.Api
                 .AddServiceBusOptions()
                 .BindIdentitySettings();
 
+            services.AddLocalization();
             services.AddApplicationInsightsTelemetry();
 
             services.AddApplicationServices()
@@ -89,7 +90,7 @@ namespace Husa.Quicklister.Abor.Api
             app.UseAuthentication();
             app.UseAuthorization();
             app.ConfigureCors();
-            app.ConfigureLocalization();
+            app.ConfigureCultureAndLocalization();
 
             app.MigrateDatabase();
         }
