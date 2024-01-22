@@ -67,7 +67,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Xml.Api.Client;
     using Husa.Xml.Api.Client.Interface;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Localization;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -349,21 +348,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddSingleton<IXmlSubscriber, XmlSubscriber>();
 
             return services;
-        }
-
-        public static void ConfigureLocalization(this IApplicationBuilder app)
-        {
-            var localizationOptions = new RequestLocalizationOptions()
-            {
-                SupportedCultures = new[] { ApplicationOptions.ApplicationCultureInfo },
-                SupportedUICultures = new[] { ApplicationOptions.ApplicationCultureInfo },
-                DefaultRequestCulture = new RequestCulture(ApplicationOptions.ApplicationCultureInfo),
-                FallBackToParentCultures = false,
-                FallBackToParentUICultures = false,
-                RequestCultureProviders = null,
-            };
-
-            app.UseRequestLocalization(localizationOptions);
         }
 
         private static IServiceCollection BindApplicationSettings(this IServiceCollection services)

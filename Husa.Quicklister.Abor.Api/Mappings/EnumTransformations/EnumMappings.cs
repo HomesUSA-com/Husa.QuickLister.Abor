@@ -36,7 +36,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
         {
             Trestle.MlsStatus.Active => MarketStatuses.Active,
             Trestle.MlsStatus.ActiveUnderContract => MarketStatuses.ActiveUnderContract,
-            Trestle.MlsStatus.Canceled => MarketStatuses.Canceled,
+            Trestle.MlsStatus.Canceled or
+            Trestle.MlsStatus.Withdrawn => MarketStatuses.Canceled,
             Trestle.MlsStatus.Closed => MarketStatuses.Closed,
             Trestle.MlsStatus.Hold => MarketStatuses.Hold,
             Trestle.MlsStatus.Pending => MarketStatuses.Pending,

@@ -25,6 +25,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 .BindOptions()
                 .ConfigureServiceBusOptions();
 
+            services.AddLocalization();
+
             services
                 .AddCommandRepositories()
                 .AddQueriesRepositories()
@@ -55,7 +57,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.ConfigureLocalization();
+            app.ConfigureCultureAndLocalization();
             app.ConfigureCors();
         }
     }
