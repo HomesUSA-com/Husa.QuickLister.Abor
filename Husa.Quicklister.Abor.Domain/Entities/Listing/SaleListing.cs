@@ -320,7 +320,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 this.StatusFieldsInfo.HasSecondBuyerAgent = listingSaleStatusFields.HasSecondBuyerAgent;
                 this.StatusFieldsInfo.HasContingencyInfo = listingSaleStatusFields.HasContingencyInfo;
                 this.StatusFieldsInfo.ContingencyInfo = listingSaleStatusFields.ContingencyInfo;
-                this.StatusFieldsInfo.SaleTerms = listingSaleStatusFields.SaleTerms;
                 this.StatusFieldsInfo.CancelledReason = listingSaleStatusFields.CancelledReason;
             }
 
@@ -332,6 +331,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.StatusFieldsInfo.ClosedDate = listingSaleStatusFields.ClosedDate;
             this.StatusFieldsInfo.BackOnMarketDate = listingSaleStatusFields.BackOnMarketDate;
             this.StatusFieldsInfo.OffMarketDate = listingSaleStatusFields.OffMarketDate;
+            this.StatusFieldsInfo.SaleTerms = listingSaleStatusFields.SaleTerms;
         }
 
         protected override IEnumerable<object> GetEntityEqualityComponents()
