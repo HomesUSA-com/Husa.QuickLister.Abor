@@ -76,7 +76,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.OffMarketDate, dto => dto.MapFrom(src => src.ListingMessage.OffMarketTimestamp.ToUtcDateTime()))
                 .ForMember(vo => vo.HasContingencyInfo, dto => dto.Ignore())
                 .ForMember(vo => vo.ContingencyInfo, dto => dto.Ignore())
-                .ForMember(vo => vo.SaleTerms, dto => dto.Ignore())
+                .ForMember(vo => vo.SaleTerms, dto => dto.MapFrom(src => src.ShowingMessage.SoldTerms.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.PendingDate, dto => dto.MapFrom(src => src.ListingMessage.PurchaseContractDate))
                 .ForMember(vo => vo.CancelledReason, dto => dto.Ignore());
 

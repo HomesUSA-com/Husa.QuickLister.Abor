@@ -823,6 +823,17 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
+        public static SaleTerms? ToCtxEnum(this Trestle.BuyerFinancing value) => value switch
+        {
+            Trestle.BuyerFinancing.Cash => SaleTerms.Cash,
+            Trestle.BuyerFinancing.TexasVet => SaleTerms.TexasVet,
+            Trestle.BuyerFinancing.Conventional => SaleTerms.Conventional,
+            Trestle.BuyerFinancing.USDA => SaleTerms.UsdaEligible,
+            Trestle.BuyerFinancing.FHA => SaleTerms.FHA,
+            Trestle.BuyerFinancing.VA => SaleTerms.VA,
+            _ => null,
+        };
+
         public static IEnumerable<HoaIncludes> GetHoaFeeIncludes(Trestle.AssociationFeeIncludes hoaFeeIncludes)
         {
             var hoaFeeIncludesDescription = hoaFeeIncludes.ToCtxEnum();
