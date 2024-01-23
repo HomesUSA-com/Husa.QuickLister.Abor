@@ -44,7 +44,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                     var photoService = ResolvePhotoService(scope, photoCreated.Type);
                     if (photoService != null)
                     {
-                        this.Logger.LogInformation("Message notifying a new photo request was created", message.MessageId);
+                        this.Logger.LogInformation("Message notifying a new photo request was created");
                         await photoService.AssignLatestPhotoRequest(photoCreated.PropertyId, photoCreated.Id, photoCreated.SysCreatedOn);
                     }
 

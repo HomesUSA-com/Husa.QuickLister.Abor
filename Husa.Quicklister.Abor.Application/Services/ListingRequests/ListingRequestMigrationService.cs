@@ -19,6 +19,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
     {
         private readonly IMapper mapper;
         private readonly ISaleListingRequestService saleListingRequestService;
+        private readonly ISaleListingRequestRepository saleListingRequestRepository;
         private readonly IAgentRepository agentRepository;
 
         public ListingRequestMigrationService(
@@ -26,6 +27,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
             IMigrationClient migrationClient,
             IServiceSubscriptionClient serviceSubscriptionClient,
             ISaleListingRequestService saleListingRequestService,
+            ISaleListingRequestRepository saleListingRequestRepository,
             IUserContextProvider userContextProvider,
             IAgentRepository agentRepository,
             ILogger<ListingRequestMigrationService> logger,
@@ -35,12 +37,19 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
             this.saleListingRequestService = saleListingRequestService ?? throw new ArgumentNullException(nameof(saleListingRequestService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.agentRepository = agentRepository ?? throw new ArgumentNullException(nameof(agentRepository));
+            this.saleListingRequestRepository = saleListingRequestRepository ?? throw new ArgumentNullException(nameof(saleListingRequestRepository));
         }
 
         protected override MigrationMarketType MigrationMarket => MigrationMarketType.Austin;
 
-        protected override async Task GenerateRequestAsync(Guid currentUserId, SaleListing listing, SaleListingRequestResponse legacyRequest)
+        protected override async Task GenerateRequestAsync(Guid currentUserId, SaleListing listing, SaleListingRequestResponse legacyRequest, bool updateRequest = false)
         {
+            if (!updateRequest &&
+                (await this.saleListingRequestRepository.GetListingRequestByLegacyIdAsync(legacyRequest.LegacyListingRequestId)) != null)
+            {
+                return;
+            }
+
             var request = this.mapper.Map<SaleListingRequest>(legacyRequest);
             request.Id = Guid.NewGuid();
             request.UpdateLegacyInformation(currentUserId, legacyRequest.LegacyListingRequestId, listing);

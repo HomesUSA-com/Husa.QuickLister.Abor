@@ -5,12 +5,13 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Data.Configuration;
+    using Husa.Quicklister.Extensions.Domain.Entities.Listing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     public class ListingSaleConfiguration : IEntityTypeConfiguration<SaleListing>
     {
-        private const int InvoiceMaxLength = 20;
         public void Configure(EntityTypeBuilder<SaleListing> builder)
         {
             if (builder is null)
@@ -69,10 +70,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureInvoiceInfoMapping(OwnedNavigationBuilder<SaleListing, InvoiceInfo> builder)
         {
-            builder.Property(r => r.InvoiceId).HasColumnName(nameof(InvoiceInfo.InvoiceId)).HasMaxLength(InvoiceMaxLength);
-            builder.Property(r => r.DocNumber).HasColumnName(nameof(InvoiceInfo.DocNumber)).HasMaxLength(InvoiceMaxLength);
-            builder.Property(r => r.InvoiceRequestedBy).HasColumnName(nameof(InvoiceInfo.InvoiceRequestedBy));
-            builder.Property(r => r.InvoiceRequestedOn).HasColumnName(nameof(InvoiceInfo.InvoiceRequestedOn));
+            builder.ConfigureInvoiceInfo();
         }
     }
 }
