@@ -15,13 +15,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Attributes;
+    using Husa.Quicklister.Extensions.Domain.Entities.Listing;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class SaleListing : Listing, ISaleListing<SaleProperty>, ISaleListingRequest<SaleListingRequest>
+    public class SaleListing : Listing, ISaleListing<SaleProperty>, ISaleListingRequest<SaleListingRequest>, IListingInvoiceInfo
     {
         public const int YearsInThePast = -2;
         public const int MaxExpirationDaysInTheFuture = 10;
@@ -320,7 +321,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 this.StatusFieldsInfo.HasSecondBuyerAgent = listingSaleStatusFields.HasSecondBuyerAgent;
                 this.StatusFieldsInfo.HasContingencyInfo = listingSaleStatusFields.HasContingencyInfo;
                 this.StatusFieldsInfo.ContingencyInfo = listingSaleStatusFields.ContingencyInfo;
-                this.StatusFieldsInfo.SaleTerms = listingSaleStatusFields.SaleTerms;
                 this.StatusFieldsInfo.CancelledReason = listingSaleStatusFields.CancelledReason;
             }
 
@@ -332,6 +332,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.StatusFieldsInfo.ClosedDate = listingSaleStatusFields.ClosedDate;
             this.StatusFieldsInfo.BackOnMarketDate = listingSaleStatusFields.BackOnMarketDate;
             this.StatusFieldsInfo.OffMarketDate = listingSaleStatusFields.OffMarketDate;
+            this.StatusFieldsInfo.SaleTerms = listingSaleStatusFields.SaleTerms;
         }
 
         protected override IEnumerable<object> GetEntityEqualityComponents()

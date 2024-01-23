@@ -31,10 +31,10 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Migration
 
         [HttpPut]
         [Authorize(Roles.MLSAdministrator)]
-        public async Task<ActionResult> GetListings([FromQuery][Required] Guid companyId, [FromQuery] string mlsNumber = null, [FromQuery] bool createListing = false, [FromQuery] MarketStatuses? mlsStatus = null)
+        public async Task<ActionResult> GetListings([FromQuery][Required] Guid companyId, [FromQuery] string mlsNumber = null, [FromQuery] bool createListing = false, [FromQuery] bool updateListing = false, [FromQuery] MarketStatuses? mlsStatus = null)
         {
             this.logger.LogInformation("Migrate listings from v1 related to company {companyId}.", companyId);
-            await this.listingMigrationService.MigrateListings(companyId, mlsNumber, mlsStatus?.ToStringFromEnumMember(), createListing: createListing);
+            await this.listingMigrationService.MigrateListings(companyId, mlsNumber, mlsStatus?.ToStringFromEnumMember(), createListing: createListing, updateListing: updateListing);
             return this.Ok();
         }
 

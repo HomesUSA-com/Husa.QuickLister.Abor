@@ -210,10 +210,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<PublishInfo, ListingSalePublishInfoResponse>();
 
-            this.CreateMap<MediaResponse, ListingSaleMediaDto>()
-                .ForMember(ls => ls.UploadKey, mr => mr.Ignore())
-                .ForMember(ls => ls.Title, mr => mr.Ignore());
-
             this.CreateMap<MediaDetailResponse, ListingSaleMediaDto>()
                 .ForMember(ls => ls.MediaId, mr => mr.MapFrom(x => x.EntityKey))
                 .ForMember(ls => ls.UploadKey, mr => mr.Ignore());

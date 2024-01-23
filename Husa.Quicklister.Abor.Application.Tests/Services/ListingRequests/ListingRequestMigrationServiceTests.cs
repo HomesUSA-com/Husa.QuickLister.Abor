@@ -33,6 +33,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
         private readonly Mock<ISaleListingRequestService> saleListingRequestService = new();
         private readonly Mock<ILogger<ListingRequestMigrationService>> logger = new();
         private readonly Mock<IAgentRepository> agentRepository = new();
+        private readonly Mock<ISaleListingRequestRepository> saleListingRequestRepository = new();
 
         public ListingRequestMigrationServiceTests(ApplicationServicesFixture fixture)
         {
@@ -48,24 +49,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
             listing.MlsNumber = mlsNumber;
             this.listingRepository.Setup(r => r.GetListingByMlsNumber(It.Is<string>(value => value == mlsNumber))).ReturnsAsync(listing).Verifiable();
 
-            var migrationRequest = new SaleListingRequestResponse()
-            {
-                MlsNumber = mlsNumber,
-                SaleProperty = new()
-                {
-                    OwnerName = "OwnerName",
-                    AddressInfo = new(),
-                    SpacesDimensionsInfo = new(),
-                    FinancialInfo = new(),
-                    FeaturesInfo = new(),
-                    PropertyInfo = new(),
-                    SchoolsInfo = new(),
-                    SalesOfficeInfo = new(),
-                    ShowingInfo = new(),
-                },
-                StatusFieldsInfo = new(),
-                PublishInfo = new(),
-            };
+            var migrationRequest = GetSaleListingRequestResponse(mlsNumber);
             this.migrationClient
                 .Setup(m => m.ListingRequests.GetAsync(It.Is<MigrationMarketType>(x => x == MigrationMarketType.Austin), It.IsAny<int?>(), It.Is<string>(value => value == mlsNumber), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new[] { migrationRequest });
@@ -81,12 +65,62 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
             this.saleListingRequestService.Verify(r => r.GenerateRequestFromMigrationAsync(It.Is<SaleListingRequest>(x => x.MlsNumber == mlsNumber), It.IsAny<CancellationToken>()), Times.Once);
         }
 
+        [Fact]
+        public async Task MigrateByMlsNumber_UpdateRequestAsFalse()
+        {
+            var mlsNumber = "1062023";
+            var legacyRequestId = 32;
+            var listing = ListingTestProvider.GetListingEntity();
+            listing.MlsNumber = mlsNumber;
+            this.listingRepository.Setup(r => r.GetListingByMlsNumber(It.Is<string>(value => value == mlsNumber))).ReturnsAsync(listing).Verifiable();
+
+            var migrationRequest = GetSaleListingRequestResponse(mlsNumber);
+            this.migrationClient
+                .Setup(m => m.ListingRequests.GetAsync(It.Is<MigrationMarketType>(x => x == MigrationMarketType.Houston), It.IsAny<int?>(), It.Is<string>(value => value == mlsNumber), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new[] { migrationRequest });
+
+            var listingRequest = new Mock<SaleListingRequest>();
+            this.saleListingRequestRepository
+                .Setup(m => m.GetListingRequestByLegacyIdAsync(It.Is<int>(x => x == legacyRequestId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(listingRequest.Object);
+
+            var sut = this.GetSut();
+
+            await sut.MigrateByMlsNumber(mlsNumber, updateRequest: false);
+
+            this.saleListingRequestService.Verify(
+                r => r.GenerateRequestFromMigrationAsync(
+                    It.Is<SaleListingRequest>(x => x.MlsNumber == mlsNumber),
+                    It.IsAny<CancellationToken>()),
+                Times.Never);
+        }
+
+        private static SaleListingRequestResponse GetSaleListingRequestResponse(string mlsNumber) => new()
+        {
+            MlsNumber = mlsNumber,
+            SaleProperty = new()
+            {
+                OwnerName = "OwnerName",
+                AddressInfo = new(),
+                SpacesDimensionsInfo = new(),
+                FinancialInfo = new(),
+                FeaturesInfo = new(),
+                PropertyInfo = new(),
+                SchoolsInfo = new(),
+                SalesOfficeInfo = new(),
+                ShowingInfo = new(),
+            },
+            StatusFieldsInfo = new(),
+            PublishInfo = new(),
+        };
+
         private ListingRequestMigrationService GetSut()
             => new(
                 this.listingRepository.Object,
                 this.migrationClient.Object,
                 this.serviceSubscriptionClient.Object,
                 this.saleListingRequestService.Object,
+                this.saleListingRequestRepository.Object,
                 this.userContextProvider.Object,
                 this.agentRepository.Object,
                 this.logger.Object,
