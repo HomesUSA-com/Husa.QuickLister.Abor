@@ -48,8 +48,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
         private void ResidentialMessageMapping()
         {
             this.CreateMap<ResidentialResponse, FullListingSaleDto>()
-                .ForMember(vo => vo.CDOM, dto => dto.Ignore())
-                .ForMember(vo => vo.DOM, dto => dto.Ignore())
+                .ForMember(vo => vo.CDOM, dto => dto.MapFrom(src => src.OtherMessage.CDOM))
+                .ForMember(vo => vo.DOM, dto => dto.MapFrom(src => src.ListingMessage.DOM))
                 .ForMember(vo => vo.ListPrice, dto => dto.MapFrom(src => src.ListingMessage.ListPrice))
                 .ForMember(vo => vo.ExpirationDate, dto => dto.MapFrom(src => src.ListingMessage.ExpirationDate))
                 .ForMember(vo => vo.ListDate, dto => dto.MapFrom(src => src.ListingMessage.ListDate))
@@ -64,7 +64,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.SaleProperty, dto => dto.MapFrom(src => src));
 
             this.CreateMap<ResidentialResponse, ListingSaleStatusFieldsDto>()
-                .ForMember(vo => vo.SellConcess, dto => dto.MapFrom(src => src.ListingMessage.ConcessionsComments))
+                .ForMember(vo => vo.SellConcess, dto => dto.MapFrom(src => src.ListingMessage.ConcessionsAmount))
                 .ForMember(vo => vo.ClosePrice, dto => dto.MapFrom(src => src.ListingMessage.ClosePrice))
                 .ForMember(vo => vo.EstimatedClosedDate, dto => dto.MapFrom(src => src.ListingMessage.CloseDate))
                 .ForMember(vo => vo.AgentId, dto => dto.Ignore())
@@ -77,7 +77,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.HasContingencyInfo, dto => dto.Ignore())
                 .ForMember(vo => vo.ContingencyInfo, dto => dto.Ignore())
                 .ForMember(vo => vo.SaleTerms, dto => dto.MapFrom(src => src.ShowingMessage.SoldTerms.Select(x => x.ToCtxEnum()).Where(y => y != null)))
-                .ForMember(vo => vo.PendingDate, dto => dto.MapFrom(src => src.ListingMessage.PurchaseContractDate))
+                .ForMember(vo => vo.PendingDate, dto => dto.MapFrom(src => src.ListingMessage.PendingDate.ToUtcDateTime()))
                 .ForMember(vo => vo.CancelledReason, dto => dto.Ignore());
 
             this.SalePropertyDetailDtoMessageMapping();

@@ -55,12 +55,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         protected void CopyInformationFromValueObject(ListingValueObject listingValue)
         {
-            if (!this.isMarketUpdate)
-            {
-                this.CDOM = listingValue.CDOM;
-                this.DOM = listingValue.DOM;
-            }
-
+            this.CDOM = listingValue.CDOM;
+            this.DOM = listingValue.DOM;
             this.ListDate = listingValue.ListDate;
             this.ExpirationDate = listingValue.ExpirationDate;
             this.ListPrice = listingValue.ListPrice;
