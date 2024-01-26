@@ -16,9 +16,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests.Authentication
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
-            ISystemClock clock,
             MockAuthenticationUser mockedAuthenticationUser)
-            : base(options, logger, encoder, clock)
+            : base(options, logger, encoder)
         {
             this.mockedAuthenticationUser = mockedAuthenticationUser;
         }
