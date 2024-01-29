@@ -38,5 +38,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
         public decimal? Longitude { get; set; }
 
         public bool IsXmlManaged { get; set; }
+
+        public ICollection<FemaFloodPlain> FemaFloodPlain { get; set; }
     }
 }
