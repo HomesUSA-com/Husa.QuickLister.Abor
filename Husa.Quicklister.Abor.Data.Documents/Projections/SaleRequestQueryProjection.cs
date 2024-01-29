@@ -27,6 +27,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
                 SysCreatedBy = listingRequest.SysCreatedBy,
                 EnableOpenHouse = listingRequest.SaleProperty.ShowingInfo.EnableOpenHouses,
                 UnitNumber = listingRequest.SaleProperty.AddressInfo.UnitNumber,
+                UpdateGeocodes = listingRequest.SaleProperty.PropertyInfo.UpdateGeocodes,
             };
 
         public static Expression<Func<SaleListingRequest, ListingSaleRequestDetailQueryResult>> ProjectionToListingSaleRequestDetailQueryResult =>

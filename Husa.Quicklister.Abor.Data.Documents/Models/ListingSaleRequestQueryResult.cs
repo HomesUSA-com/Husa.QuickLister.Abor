@@ -47,5 +47,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models
         public bool EnableOpenHouse { get; set; }
 
         public string UnitNumber { get; set; }
+
+        public bool UpdateGeocodes { get; set; }
     }
 }
