@@ -56,6 +56,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.TaxLot).HasColumnName(nameof(PropertyInfo.TaxLot)).HasMaxLength(25);
             builder.Property(r => r.IsXmlManaged).HasColumnName(nameof(PropertyInfo.IsXmlManaged));
             builder.Property(r => r.UpdateGeocodes).HasColumnName(nameof(PropertyInfo.UpdateGeocodes));
+            builder.Property(r => r.FemaFloodPlain).HasColumnName(nameof(PropertyInfo.FemaFloodPlain)).HasEnumCollectionValue<FemaFloodPlain>(25);
 
             builder.ConfigureProperty();
             builder.ConfigureGeocodes();

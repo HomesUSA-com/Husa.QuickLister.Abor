@@ -130,7 +130,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.LotSize, dto => dto.MapFrom(src => src.OtherMessage.LotSize.ToString()))
                 .ForMember(vo => vo.LotDimension, dto => dto.MapFrom(src => src.OtherMessage.LotDimensions))
                 .ForMember(vo => vo.TaxLot, dto => dto.MapFrom(src => src.FinancialMessage.TaxLot))
-                .ForMember(vo => vo.IsXmlManaged, dto => dto.Ignore());
+                .ForMember(vo => vo.IsXmlManaged, dto => dto.Ignore())
+                .ForMember(vo => vo.FemaFloodPlain, dto => dto.Ignore());
 
             this.CreateMap<ResidentialResponse, SpacesDimensionsDto>()
                 .ForMember(vo => vo.MainLevelBedroomTotal, dto => dto.MapFrom(src => src.RoomsMessage.MainLevelBedrooms))
