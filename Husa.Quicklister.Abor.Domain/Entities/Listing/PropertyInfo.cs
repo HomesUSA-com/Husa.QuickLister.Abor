@@ -62,6 +62,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public bool IsXmlManaged { get; set; }
 
+        public ICollection<FemaFloodPlain> FemaFloodPlain { get; set; }
+
         public static PropertyInfo ImportFromXml(XmlListingDetailResponse listing, PropertyInfo propertyInfo)
         {
             var importedPropertyInfo = new PropertyInfo();
@@ -145,6 +147,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             yield return this.Latitude;
             yield return this.Longitude;
             yield return this.IsXmlManaged;
+            yield return this.FemaFloodPlain;
         }
     }
 }

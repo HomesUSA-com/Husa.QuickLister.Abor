@@ -8,11 +8,10 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>1.6.1</Version>
+        <Version>1.6.2</Version>
         <PackageReleaseNotes>
-            Release 1.6.1:
-            - Updated Husa.Quicklister.Extensions.Api.Client
-            - Added UpdateGeocodes in contract
+            Release 1.6.2:
+            - Add FEMA Flood Plain field
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

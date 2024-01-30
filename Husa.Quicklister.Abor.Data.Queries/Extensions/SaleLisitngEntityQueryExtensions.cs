@@ -221,6 +221,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 Latitude = propertyInfo.Latitude,
                 Longitude = propertyInfo.Longitude,
                 IsXmlManaged = propertyInfo.IsXmlManaged,
+                FemaFloodPlain = propertyInfo.FemaFloodPlain,
             };
         }
 

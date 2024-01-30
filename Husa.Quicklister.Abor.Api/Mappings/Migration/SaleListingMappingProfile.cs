@@ -30,7 +30,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.LegalDescription, pr => pr.MapFrom(x => x.LegalDescription.GetSubstring(SalePropertyConfiguration.LegalDescriptionLength)))
                 .ForMember(dto => dto.TaxId, pr => pr.MapFrom(x => x.TaxId.GetSubstring(SalePropertyConfiguration.TaxIdLength)))
                 .ForMember(dto => dto.PropertyType, pr => pr.MapFrom(x => x.PropertyType.ToEnumFromEnumMember<PropertySubType>()))
-                .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(x => x.MlsArea.ToEnumFromEnumMember<MlsArea>()));
+                .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(x => x.MlsArea.ToEnumFromEnumMember<MlsArea>()))
+                .ForMember(dto => dto.FemaFloodPlain, pr => pr.Ignore());
             this.CreateMap<FeaturesResponse, FeaturesDto>()
                 .ForMember(dto => dto.GarageDescription, pr => pr.Ignore())
                 .ForMember(dto => dto.GarageSpaces, pr => pr.MapFrom(x => x.GarageCapacity))
