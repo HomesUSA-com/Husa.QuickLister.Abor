@@ -56,6 +56,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         public bool IsXmlManaged { get; set; }
 
+        public ICollection<FemaFloodPlain> FemaFloodPlain { get; set; }
+
         public PropertyRecord CloneRecord() => (PropertyRecord)this.MemberwiseClone();
 
         public static PropertyRecord CreateRecord(PropertyInfo propertyInfo)
@@ -82,6 +84,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 Latitude = propertyInfo.Latitude,
                 Longitude = propertyInfo.Longitude,
                 IsXmlManaged = propertyInfo.IsXmlManaged,
+                FemaFloodPlain = propertyInfo.FemaFloodPlain,
             };
         }
 
