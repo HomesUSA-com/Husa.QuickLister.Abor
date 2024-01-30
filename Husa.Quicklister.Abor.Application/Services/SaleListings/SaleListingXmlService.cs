@@ -134,16 +134,16 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             if (this.ListingSaleRepository.HasXmlChanges(listing))
             {
                 var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value) ?? throw new NotFoundException<CompanyDetail>(xmlListing.CompanyId.Value);
-                bool shouldProcessNewMedia = !companyDetail.SettingInfo.StopXMLMediaSyncOfExistingListings;
+                var shouldProcessNewMedia = !companyDetail.SettingInfo.StopXMLMediaSyncOfExistingListings;
                 IEnumerable<ImageResponse> newMediaFromXml = null;
+
                 if (shouldProcessNewMedia)
                 {
                     newMediaFromXml = await this.XmlClient.Listing.Media(xmlListingId, excludeImported: true);
-                }
-
-                if (shouldProcessNewMedia && newMediaFromXml != null && newMediaFromXml.Any())
-                {
-                    await this.xmlMediaService.ImportListingMedia(xmlListingId, checkMediaLimit: true, useServiceBus: false);
+                    if (newMediaFromXml != null && newMediaFromXml.Any())
+                    {
+                        await this.xmlMediaService.ImportListingMedia(xmlListingId, checkMediaLimit: true, useServiceBus: false);
+                    }
                 }
 
                 await this.ListingSaleRepository.SaveChangesAsync(listing);
