@@ -10,7 +10,7 @@
         <PackageReference Include="Husa.Extensions.Authorization" Version="3.2.0" />
         <PackageReference Include="Husa.Extensions.Common" Version="3.10.0" />
         <PackageReference Include="Husa.Extensions.Domain" Version="2.1.0" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Domain" Version="1.10.4" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Domain" Version="1.10.5" />
     </ItemGroup>
 
     <ItemGroup>

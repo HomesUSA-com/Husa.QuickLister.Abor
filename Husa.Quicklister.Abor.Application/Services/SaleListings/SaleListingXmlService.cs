@@ -1,10 +1,12 @@
 namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
+    using Husa.CompanyServicesManager.Api.Contracts.Response;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
@@ -19,6 +21,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Extensions.Application.Extensions;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
+    using Husa.Xml.Api.Contracts.Response;
     using Microsoft.Extensions.Logging;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
     using XmlContract = Husa.Xml.Domain.Enums;
@@ -67,6 +70,8 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
             var importMedia = false;
             var listing = await this.ListingSaleRepository.GetListingByLocationAsync(null, xmlListing.StreetNum, xmlListing.StreetName, xmlListing.Zip);
+            var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value);
+
             if (listing == null)
             {
                 var listingSaleDto = this.mapper.Map<ListingSaleDto>(xmlListing);
@@ -80,7 +85,6 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 listing = quickCreateResult.Results.Single();
                 this.ListingSaleRepository.Attach(listing);
                 importMedia = true;
-                var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value);
                 listing.ImportFromXml(xmlListing, companyName: companyDetail.Name, listAction, currentUser.Id);
             }
             else
@@ -95,7 +99,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             }
 
             await this.ListingSaleRepository.SaveChangesAsync(listing);
-            await this.XmlClient.Listing.ProcessListing(xmlListingId, request: new() { ListingId = listing.Id, Type = listAction.ToXmlListActionType(), ImportMedia = importMedia });
+            await this.XmlClient.Listing.ProcessListing(xmlListingId, request: new() { ListingId = listing.Id, Type = listAction.ToXmlListActionType(), ImportMedia = importMedia || !companyDetail.SettingInfo.StopXMLMediaSyncOfExistingListings });
             return listing.Id;
         }
 
@@ -127,11 +131,21 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
             listing.UpdateFromXml(xmlListing, currentUser.Id);
 
-            var newMediaFromXml = await this.XmlClient.Listing.Media(xmlListingId, excludeImported: true);
-
-            if (this.ListingSaleRepository.HasXmlChanges(listing) || newMediaFromXml.Any())
+            if (this.ListingSaleRepository.HasXmlChanges(listing))
             {
-                await this.xmlMediaService.ImportListingMedia(xmlListingId, checkMediaLimit: true, useServiceBus: false);
+                var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value) ?? throw new NotFoundException<CompanyDetail>(xmlListing.CompanyId.Value);
+                bool shouldProcessNewMedia = !companyDetail.SettingInfo.StopXMLMediaSyncOfExistingListings;
+                IEnumerable<ImageResponse> newMediaFromXml = null;
+                if (shouldProcessNewMedia)
+                {
+                    newMediaFromXml = await this.XmlClient.Listing.Media(xmlListingId, excludeImported: true);
+                }
+
+                if (shouldProcessNewMedia && newMediaFromXml != null && newMediaFromXml.Any())
+                {
+                    await this.xmlMediaService.ImportListingMedia(xmlListingId, checkMediaLimit: true, useServiceBus: false);
+                }
+
                 await this.ListingSaleRepository.SaveChangesAsync(listing);
                 var requestResult = listing.GenerateRequest(currentUser.Id);
                 if (!requestResult.Errors.Any())
