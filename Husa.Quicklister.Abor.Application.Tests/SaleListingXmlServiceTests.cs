@@ -530,6 +530,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             saleListing.MlsNumber = "123345";
 
             this.SetupServicesToUpdateListingFromXml(saleListing);
+            this.SetupCompanyDetail();
 
             // Act and Assert
             await this.Sut.UpdateListingFromXmlAsync(xmlListingId);
@@ -553,6 +554,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             saleListingMock.Setup(x => x.MlsNumber).Returns("123345");
 
             this.SetupServicesToUpdateListingFromXml(saleListingMock.Object);
+            this.SetupCompanyDetail();
 
             // Act and Assert
             await this.Sut.UpdateListingFromXmlAsync(xmlListingId);
@@ -700,6 +702,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(new CompanyDetail
                 {
                     Name = "fakeName",
+                    SettingInfo = new(),
                 })
                 .Verifiable();
         }
