@@ -10,7 +10,11 @@
         <Company>HomesUSA.com, Inc.</Company>
         <Copyright>Copyright © 2021 HomesUSA.com, Inc. All rights reserved.</Copyright>
         <Product>Builder Force Listings</Product>
+<<<<<<< HEAD
         <Version>1.9.0</Version>
+=======
+        <Version>1.8.7</Version>
+>>>>>>> bugfix/HRP-5634
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://bitbucket.org/homesusa/husa.quicklister.abor</RepositoryUrl>
         <PackageTags>QL; Listings; Quicklister; Abor; Lister; Quick Lister; Quick;</PackageTags>
