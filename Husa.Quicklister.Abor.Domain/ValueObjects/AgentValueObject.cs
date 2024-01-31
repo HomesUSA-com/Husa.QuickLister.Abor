@@ -34,6 +34,7 @@
         public string Web { get; set; }
 
         public DateTimeOffset MarketModified { get; set; }
+        public string MemberStateLicense { get; set; }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
@@ -52,6 +53,7 @@
             yield return this.Fax;
             yield return this.HomePhone;
             yield return this.MarketModified;
+            yield return this.MemberStateLicense;
         }
     }
 }
