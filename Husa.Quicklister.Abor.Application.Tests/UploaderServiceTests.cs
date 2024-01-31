@@ -152,7 +152,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Verifiable();
 
             this.reverseProspectClient
-                .Setup(x => x.ReverseProspectRequest.GetAborReverseProspectData(It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .Setup(x => x.ReverseProspectRequest.GetReverseProspectData(It.IsAny<MarketCode>(), It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(CommandResult<ReverseProspectData>.Success(trackingReverseProspect))
                 .Verifiable();
 
@@ -199,7 +199,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Verifiable();
 
             this.reverseProspectClient
-                .Setup(x => x.ReverseProspectRequest.GetAborReverseProspectData(It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .Setup(x => x.ReverseProspectRequest.GetReverseProspectData(It.IsAny<MarketCode>(), It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response)
                 .Verifiable();
 

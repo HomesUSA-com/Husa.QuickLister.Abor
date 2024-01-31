@@ -38,5 +38,6 @@ namespace Husa.Quicklister.Abor.Application.Models.Agent
         public MemberMlsSecurityClass MlsSecurityClass { get; set; }
 
         public DateTime SysModified { get; set; }
+        public string MemberStateLicense { get; set; }
     }
 }
