@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models;
+    using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -23,6 +24,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Response;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
     using XmlContract = Husa.Xml.Domain.Enums;
 
@@ -34,6 +36,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     {
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
         private readonly IMapper mapper;
+        private readonly ApplicationOptions options;
         private readonly ISaleListingService listingSaleService;
         private readonly ISaleListingRequestService saleListingRequestService;
         private readonly IXmlMediaService xmlMediaService;
@@ -48,6 +51,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             ISaleListingService listingSaleService,
             ISaleListingRequestService saleListingRequestService,
             IServiceSubscriptionClient serviceSubscriptionClient,
+            IOptions<ApplicationOptions> options,
             IMapper mapper)
             : base(listingSaleRepository, communityRepository, userContextProvider, xmlClient, logger)
         {
@@ -56,6 +60,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             this.saleListingRequestService = saleListingRequestService ?? throw new ArgumentNullException(nameof(saleListingRequestService));
             this.xmlMediaService = xmlMediaService ?? throw new ArgumentNullException(nameof(xmlMediaService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
         public async Task<Guid> ProcessListingAsync(Guid xmlListingId, ListActionType listAction)
@@ -142,7 +147,11 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                     newMediaFromXml = await this.XmlClient.Listing.Media(xmlListingId, excludeImported: true);
                     if (newMediaFromXml != null && newMediaFromXml.Any())
                     {
-                        await this.xmlMediaService.ImportListingMedia(xmlListingId, checkMediaLimit: true, useServiceBus: false);
+                        await this.xmlMediaService.ImportListingMedia(
+                            xmlListingId,
+                            checkMediaLimit: true,
+                            maxImagesAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia,
+                            useServiceBus: false);
                     }
                 }
 

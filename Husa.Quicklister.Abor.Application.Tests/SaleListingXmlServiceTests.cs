@@ -66,6 +66,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.listingSaleService.Object,
                 this.saleListingRequestService.Object,
                 this.companyClient.Object,
+                this.fixture.Options.Object,
                 this.fixture.Mapper);
         }
 
