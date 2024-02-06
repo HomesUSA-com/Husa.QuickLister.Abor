@@ -8,11 +8,12 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.0.0</Version>
+        <Version>2.0.1</Version>
         <PackageReleaseNotes>
-            Release 2.0.0:
+            Release 2.0.1:
             - Upgrade to .NET8
             - Add FEMA Flood Plain field
+            - Fix FEMA Flood Plain returning empty
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
