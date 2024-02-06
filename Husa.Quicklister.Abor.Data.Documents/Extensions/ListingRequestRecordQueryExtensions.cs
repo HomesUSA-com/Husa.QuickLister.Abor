@@ -181,6 +181,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                UpdateGeocodes = property.UpdateGeocodes,
                TaxLot = property.TaxLot,
                PropertyType = property.PropertyType,
+               FemaFloodPlain = property.FemaFloodPlain,
            };
 
         public static ListingRequestStatusFieldsQueryResult ToProjectionListingSaleRequestStatusFieldsQueryResult<T>(this T statusField)
