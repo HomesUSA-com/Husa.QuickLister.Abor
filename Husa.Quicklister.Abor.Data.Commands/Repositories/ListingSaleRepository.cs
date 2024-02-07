@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Data.Specifications;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using HusaXmlExtensions = Husa.Quicklister.Extensions.Data.Extensions.XmlExtensions;
