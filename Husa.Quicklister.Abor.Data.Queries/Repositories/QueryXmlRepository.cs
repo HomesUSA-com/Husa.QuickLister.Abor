@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using AutoMapper;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Enums;
-    using Husa.Quicklister.Abor.Data.Specifications;
+    using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
     using RepositoryExtensions = Husa.Quicklister.Extensions.Data.Queries.Repositories.QueryXmlRepository;

@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Migration.Api.Client;
+    using Husa.Migration.Api.Contracts.Request;
     using Husa.Migration.Api.Contracts.Response;
     using Husa.Migration.Crosscutting.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
@@ -51,7 +52,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
 
             var migrationRequest = GetSaleListingRequestResponse(mlsNumber);
             this.migrationClient
-                .Setup(m => m.ListingRequests.GetAsync(It.Is<MigrationMarketType>(x => x == MigrationMarketType.Austin), It.IsAny<int?>(), It.Is<string>(value => value == mlsNumber), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+                .Setup(m => m.ListingRequests.GetAsync(It.Is<ListingRequestFilter>(filter => filter.Market == MigrationMarketType.Austin && filter.MlsNumber == mlsNumber), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new[] { migrationRequest });
             this.serviceSubscriptionClient
                 .Setup(m => m.User.GetAsync(It.IsAny<CompanyRequest.UserRequest>(), It.IsAny<CancellationToken>()))
@@ -59,7 +60,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
 
             var sut = this.GetSut();
 
-            await sut.MigrateByMlsNumber(mlsNumber);
+            await sut.MigrateByMlsNumber(mlsNumber, new());
 
             this.agentRepository.Verify(r => r.GetAgentByMarketUniqueId(It.IsAny<string>()), Times.Never);
             this.saleListingRequestService.Verify(r => r.GenerateRequestFromMigrationAsync(It.Is<SaleListingRequest>(x => x.MlsNumber == mlsNumber), It.IsAny<CancellationToken>()), Times.Once);
@@ -74,9 +75,9 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
             listing.MlsNumber = mlsNumber;
             this.listingRepository.Setup(r => r.GetListingByMlsNumber(It.Is<string>(value => value == mlsNumber))).ReturnsAsync(listing).Verifiable();
 
-            var migrationRequest = GetSaleListingRequestResponse(mlsNumber);
+            var migrationRequest = GetSaleListingRequestResponse(mlsNumber, legacyRequestId);
             this.migrationClient
-                .Setup(m => m.ListingRequests.GetAsync(It.Is<MigrationMarketType>(x => x == MigrationMarketType.Houston), It.IsAny<int?>(), It.Is<string>(value => value == mlsNumber), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+                .Setup(m => m.ListingRequests.GetAsync(It.Is<ListingRequestFilter>(filter => filter.Market == MigrationMarketType.Austin && filter.MlsNumber == mlsNumber), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new[] { migrationRequest });
 
             var listingRequest = new Mock<SaleListingRequest>();
@@ -86,7 +87,10 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
 
             var sut = this.GetSut();
 
-            await sut.MigrateByMlsNumber(mlsNumber, updateRequest: false);
+            await sut.MigrateByMlsNumber(mlsNumber, new()
+            {
+                UpdateRequest = false,
+            });
 
             this.saleListingRequestService.Verify(
                 r => r.GenerateRequestFromMigrationAsync(
@@ -95,24 +99,37 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
                 Times.Never);
         }
 
-        private static SaleListingRequestResponse GetSaleListingRequestResponse(string mlsNumber) => new()
+        private static SaleListingRequestResponse GetSaleListingRequestResponse(string mlsNumber, int? legacyRequestId = null)
         {
-            MlsNumber = mlsNumber,
-            SaleProperty = new()
+            var request = new SaleListingRequestResponse()
             {
-                OwnerName = "OwnerName",
-                AddressInfo = new(),
-                SpacesDimensionsInfo = new(),
-                FinancialInfo = new(),
-                FeaturesInfo = new(),
-                PropertyInfo = new(),
-                SchoolsInfo = new(),
-                SalesOfficeInfo = new(),
-                ShowingInfo = new(),
-            },
-            StatusFieldsInfo = new(),
-            PublishInfo = new(),
-        };
+                MlsNumber = mlsNumber,
+                SaleProperty = new()
+                {
+                    OwnerName = "OwnerName",
+                    AddressInfo = new(),
+                    SpacesDimensionsInfo = new(),
+                    FinancialInfo = new(),
+                    FeaturesInfo = new(),
+                    PropertyInfo = new(),
+                    SchoolsInfo = new(),
+                    SalesOfficeInfo = new(),
+                    ShowingInfo = new(),
+                },
+                StatusFieldsInfo = new(),
+                PublishInfo = new()
+                {
+                    PublishUserEmail = "test@homesusa.com",
+                },
+            };
+
+            if (legacyRequestId.HasValue)
+            {
+                request.LegacyListingRequestId = legacyRequestId.Value;
+            }
+
+            return request;
+        }
 
         private ListingRequestMigrationService GetSut()
             => new(

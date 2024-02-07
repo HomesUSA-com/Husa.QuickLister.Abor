@@ -8,7 +8,7 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Domain.Entities;
     using Husa.Extensions.Domain.Repositories;
-    using Husa.Quicklister.Abor.Data.Specifications;
+    using Husa.Quicklister.Extensions.Data.Specifications;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 

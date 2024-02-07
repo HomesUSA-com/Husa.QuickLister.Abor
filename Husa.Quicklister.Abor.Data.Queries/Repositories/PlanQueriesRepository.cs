@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.Linq.Specifications;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.Plan;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
@@ -13,6 +14,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
+    using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -55,7 +57,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
 
             var data = await query.Select(PlanProjection.ProjectionToPlanQueryResult)
                 .ApplySortByFields(queryFilter.SortBy)
-                .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take)
+                .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take, queryFilter.IsForDownloading)
                 .ToListAsync();
 
             await this.userQueriesRepository.FillUsersNameAsync(data);
