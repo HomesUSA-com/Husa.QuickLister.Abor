@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Data.Specifications;
+    using Husa.Quicklister.Extensions.Data.Specifications;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
@@ -50,8 +51,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                               Variance = (int?)((listing.ListingDetails.Price > 0 && listing.ListingDetails.ListPrice > 0) ?
                                             listing.ListingDetails.Price - listing.ListingDetails.ListPrice : null),
                           })
+                          .ApplySortByNotProjectedFields(queryFilter.SortBy)
                           .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take)
-                          .ApplySortByFields(queryFilter.SortBy)
                           .ToListAsync();
         }
     }

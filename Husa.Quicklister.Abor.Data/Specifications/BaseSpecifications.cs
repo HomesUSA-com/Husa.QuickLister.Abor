@@ -15,17 +15,7 @@ namespace Husa.Quicklister.Abor.Data.Specifications
             return x => !x.IsDeleted;
         }
 
-        public static IQueryable<T> ApplyPaginationFilter<T>(this IQueryable<T> records, int skip, int take)
-        {
-            if (skip < 0 || take < 1)
-            {
-                return records;
-            }
-
-            return records.Skip(skip * take).Take(take);
-        }
-
-        public static IOrderedQueryable<T> ApplySortByFields<T>(this IQueryable<T> records, string orderQueryString)
+        public static IOrderedQueryable<T> ApplySortByNotProjectedFields<T>(this IQueryable<T> records, string orderQueryString)
         {
             if (string.IsNullOrEmpty(orderQueryString))
             {

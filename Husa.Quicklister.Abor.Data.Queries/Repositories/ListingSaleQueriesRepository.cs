@@ -22,6 +22,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.EntityFrameworkCore;
@@ -96,7 +97,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             var total = await query.CountAsync();
             var data = await query.Select(ListingSaleProjection.ProjectToListingSaleQueryResult)
                  .ApplySortByFields(queryFilter.SortBy)
-                 .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take)
+                 .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take, queryFilter.IsForDownloading)
                  .ToListAsync();
 
             return new DataSet<ListingSaleQueryResult>(data, total);
@@ -117,7 +118,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             var total = await query.CountAsync();
             var billableListings = await query
                 .Select(ListingSaleProjection.ProjectToListingSaleBillingQueryResult)
-                .ApplySortByFields(queryFilter.SortBy)
+                .ApplySortByNotProjectedFields(queryFilter.SortBy)
                 .ToListAsync();
 
             var companyServices = await this.serviceSubscriptionClient.Company.GetCompanyServices(queryFilter.CompanyId, new FilterServiceSubscriptionRequest());
@@ -229,7 +230,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .HasOpenHouse();
             var total = await query.CountAsync();
             var data = await query.Select(ListingSaleProjection.ProjectToSaleListingOpenHouseQueryResult)
-                 .ApplySortByFields(queryFilter.SortBy)
+                 .ApplySortByNotProjectedFields(queryFilter.SortBy)
                  .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take)
                  .ToListAsync();
 
