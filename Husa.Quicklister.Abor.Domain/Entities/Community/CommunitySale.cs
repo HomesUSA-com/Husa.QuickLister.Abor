@@ -193,7 +193,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public void AddOpenHouses<T>(IEnumerable<T> openHouses)
             where T : OpenHouse
         {
-            foreach (var openHouseDetail in openHouses)
+            var filteredOpenHouses = openHouses
+            .GroupBy(o => o.Type)
+            .Select(group => group.Last())
+            .ToList();
+            foreach (var openHouseDetail in filteredOpenHouses)
             {
                 var openHouse = new CommunityOpenHouse(
                     this.Id,
