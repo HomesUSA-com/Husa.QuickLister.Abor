@@ -51,6 +51,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         {
             // Arrange
             const string entityKey = "some-entity-key";
+            const bool processFullListing = true;
             var residentialResponse = TestModelProvider.GetResidentialResponse();
 
             this.downloaderCtxClient.Setup(s => s.Residential.GetByIdAsync(
@@ -66,7 +67,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             .Verifiable();
 
             // Act
-            var notFoundException = await Assert.ThrowsAsync<NotFoundException<Response.Company>>(() => this.Sut.ProcessData(entityKey));
+            var notFoundException = await Assert.ThrowsAsync<NotFoundException<Response.Company>>(() => this.Sut.ProcessData(entityKey, processFullListing));
 
             // Assert
             this.serviceSubscriptionClient.Verify();
@@ -79,6 +80,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             // Arrange
             const string agentMarketUniqueId = "some-agent-unique-id";
             const string entityKey = "some-entity-key";
+            const bool processFullListing = true;
             var residentialResponse = TestModelProvider.GetResidentialResponse();
             var agentId = Guid.NewGuid();
             var mlsNumber = Faker.RandomNumber.Next(10000, 19000).ToString();
@@ -116,7 +118,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(agent.Object);
 
             // Act
-            await this.Sut.ProcessData(entityKey);
+            await this.Sut.ProcessData(entityKey, processFullListing);
 
             // Assert
             this.serviceSubscriptionClient.Verify();
@@ -130,6 +132,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         {
             // Arrange
             const string entityKey = "some-entity-key";
+            const bool processFullListing = true;
             const string agentMarketUniqueId = "some-agent-unique-id";
             var agentId = Guid.NewGuid();
             var listingSaleId = Guid.NewGuid();
@@ -168,7 +171,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(agent.Object);
 
             // Act
-            await this.Sut.ProcessData(entityKey);
+            await this.Sut.ProcessData(entityKey, processFullListing);
 
             // Assert
             this.serviceSubscriptionClient.Verify();
