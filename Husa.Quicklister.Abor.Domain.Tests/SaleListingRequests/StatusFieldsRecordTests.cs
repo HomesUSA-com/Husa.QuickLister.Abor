@@ -79,7 +79,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             var statusRecord = new StatusFieldsRecord();
             var statusInfo = new StatusFieldsRecord()
             {
-                EstimatedClosedDate = DateTime.Now,
+                EstimatedClosedDate = DateTime.Now.AddDays(1),
                 PendingDate = DateTime.Now,
                 SellConcess = "1223",
             };
