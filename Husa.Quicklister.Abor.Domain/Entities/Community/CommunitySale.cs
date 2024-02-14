@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Husa.CompanyServicesManager.Domain.Enums;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Common.Exceptions;
@@ -21,6 +22,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Communities;
     using Husa.Xml.Api.Contracts.Response;
+    using CompanyExtensions = Husa.CompanyServicesManager.Api.Contracts.Response;
     using ExtensionCommunity = Husa.Quicklister.Extensions.Domain.Entities.Community.Community;
 
     public class CommunitySale : ExtensionCommunity, IEntityOpenHouse<CommunityOpenHouse>, ICommunityEmployee<CommunityEmployee>, ISaleCommunity<SaleListing>
@@ -362,6 +364,18 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             {
                 this.Property.County = county.Value;
             }
+        }
+
+        public virtual void UpdateCompanyEmailLeads(IEnumerable<CompanyExtensions.EmailLead> emailLeads)
+        {
+            if (emailLeads is null || !emailLeads.Any())
+            {
+                return;
+            }
+
+            this.EmailLead.EmailLeadPrincipal = emailLeads.Where(x => x.EmailPriority == EmailPriority.One && x.EntityType == EmailEntityType.Sale).Select(x => x.Email).FirstOrDefault();
+            this.EmailLead.EmailLeadSecondary = emailLeads.Where(x => x.EmailPriority == EmailPriority.Two && x.EntityType == EmailEntityType.Sale).Select(x => x.Email).FirstOrDefault();
+            this.EmailLead.EmailLeadOther = emailLeads.Where(x => x.EmailPriority == EmailPriority.Three && x.EntityType == EmailEntityType.Sale).Select(x => x.Email).FirstOrDefault();
         }
 
         public virtual void Update(
