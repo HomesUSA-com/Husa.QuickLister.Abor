@@ -51,6 +51,7 @@ namespace Husa.Quicklister.Abor.Application
             var company = await this.serviceSubscriptionClient.Company.GetCompany(communitySaleDto.CompanyId);
             var community = new CommunitySale(company.Id, communitySaleDto.Name, company.Name);
             community.UpdateAddressInfo(communitySaleDto.City, communitySaleDto.County);
+            community.UpdateCompanyEmailLeads(company.EmailLeads);
             if (user is not null && user.EmployeeRole == RoleEmployee.SalesEmployee)
             {
                 community.AddCommunityEmployee(user.Id);

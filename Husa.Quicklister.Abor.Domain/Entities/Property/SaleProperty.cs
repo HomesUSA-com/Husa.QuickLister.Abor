@@ -300,7 +300,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
         public virtual void AddOpenHouses<T>(IEnumerable<T> openHouses)
             where T : OpenHouse
         {
-            foreach (var openHouse in openHouses)
+            var filteredOpenHouses = openHouses
+            .GroupBy(o => o.Type)
+            .Select(group => group.Last())
+            .ToList();
+            foreach (var openHouse in filteredOpenHouses)
             {
                 var listingOpenHouse = new SaleListingOpenHouse(
                     salePropertyId: this.Id,
