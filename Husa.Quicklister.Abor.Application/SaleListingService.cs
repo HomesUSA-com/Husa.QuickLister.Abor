@@ -97,7 +97,7 @@ namespace Husa.Quicklister.Abor.Application
             this.Logger.LogInformation("ABOR Listing Sale Service starting create listing with Address : {StreetNumber} {StreetName}", listingSale.StreetNumber, listingSale.StreetName);
             var listing = await this.ListingSaleRepository.GetListing(listingSale.StreetNumber, listingSale.StreetName, listingSale.City, listingSale.ZipCode, listingSale.UnitNumber);
 
-            if (listing is not null)
+            if (listing is not null && listing.MlsStatus != MarketStatuses.Canceled)
             {
                 this.Logger.LogInformation("listing {address} already exists!", listing.SaleProperty.AddressInfo.FormalAddress);
                 return CommandResult<SaleListing>.Error($"listing {listing.SaleProperty.AddressInfo.FormalAddress} already exists!", listing);
@@ -138,21 +138,21 @@ namespace Husa.Quicklister.Abor.Application
         public async Task UpdateListing(Guid listingId, SaleListingDto listingDto)
         {
             this.Logger.LogInformation("Starting update sale listing with id {listingId}", listingId);
-            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
             var listingAddress = listingDto.SaleProperty.AddressInfo;
-            var listing = await this.ListingSaleRepository.GetListing(
+            var existingListing = await this.ListingSaleRepository.GetListing(
                 listingAddress.StreetNumber,
                 listingAddress.StreetName,
                 listingAddress.City,
                 listingAddress.ZipCode,
                 listingAddress.UnitNumber);
 
-            if (listing is not null && listing.Id != listingSale.Id)
+            if (existingListing is not null && existingListing.Id != listingId && existingListing.MlsStatus != MarketStatuses.Canceled)
             {
-                this.Logger.LogInformation("{address} already exists!", listing.SaleProperty.AddressInfo.FormalAddress);
-                throw new InvalidOperationException($"{listing.SaleProperty.AddressInfo.FormalAddress} already exists!");
+                this.Logger.LogInformation("{address} already exists!", existingListing.SaleProperty.AddressInfo.FormalAddress);
+                throw new InvalidOperationException($"{existingListing.SaleProperty.AddressInfo.FormalAddress} already exists!");
             }
 
+            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
             await this.UpdateBaseListingInfo(listingDto, Guid.Empty, listingSale);
 
             var statusFieldsInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingDto.StatusFieldsInfo);
