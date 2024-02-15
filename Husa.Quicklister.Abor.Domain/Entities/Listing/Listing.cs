@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     public abstract class Listing : ExtensionListing
     {
         protected bool isMarketUpdate = false;
+        protected bool processFullListing = true;
 
         protected Listing()
             : base()
@@ -55,15 +56,19 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         protected void CopyInformationFromValueObject(ListingValueObject listingValue)
         {
-            this.CDOM = listingValue.CDOM;
-            this.DOM = listingValue.DOM;
-            this.ListDate = listingValue.ListDate;
-            this.ExpirationDate = listingValue.ExpirationDate;
-            this.ListPrice = listingValue.ListPrice;
-            this.ListType = listingValue.ListType;
-            this.MarketModifiedOn = listingValue.MarketModifiedOn;
-            this.MlsNumber = listingValue.MlsNumber;
+            if (this.processFullListing)
+            {
+                this.CDOM = listingValue.CDOM;
+                this.DOM = listingValue.DOM;
+                this.ExpirationDate = listingValue.ExpirationDate;
+                this.ListType = listingValue.ListType;
+                this.MarketModifiedOn = listingValue.MarketModifiedOn;
+                this.MlsNumber = listingValue.MlsNumber;
+                this.ListDate = listingValue.ListDate;
+            }
+
             this.MlsStatus = listingValue.MlsStatus;
+            this.ListPrice = listingValue.ListPrice;
         }
     }
 }
