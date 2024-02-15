@@ -250,7 +250,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             ListingValueObject listingInfo,
             ListingSaleStatusFieldsInfo listingStatusInfo,
             SalePropertyValueObject salePropertyInfo,
-            Guid companyId)
+            Guid companyId,
+            bool processFullListing)
         {
             if (this.MlsNumber?.Trim() != listingInfo.MlsNumber.Trim())
             {
@@ -259,12 +260,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             }
 
             this.isMarketUpdate = true;
+            this.processFullListing = processFullListing;
             this.UpdateBaseListingInformation(listingInfo);
             this.UpdateStatusFieldsInfo(listingStatusInfo);
-            this.SaleProperty.UpdateFromMarket();
+            this.SaleProperty.UpdateFromMarket(processFullListing);
             this.SaleProperty.ApplyMarketUpdate(salePropertyInfo, new List<ListingSaleRoom>());
 
-            if (listingInfo.MlsStatus == MarketStatuses.Closed)
+            if (listingInfo.MlsStatus == MarketStatuses.Closed || listingInfo.MlsStatus == MarketStatuses.Canceled)
             {
                 this.LockAndClose();
             }
@@ -324,15 +326,19 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 this.StatusFieldsInfo.CancelledReason = listingSaleStatusFields.CancelledReason;
             }
 
+            if (this.processFullListing)
+            {
+                this.StatusFieldsInfo.SellConcess = listingSaleStatusFields.SellConcess;
+                this.StatusFieldsInfo.ClosePrice = listingSaleStatusFields.ClosePrice;
+                this.StatusFieldsInfo.HasBuyerAgent = listingSaleStatusFields.HasBuyerAgent;
+                this.StatusFieldsInfo.PendingDate = listingSaleStatusFields.PendingDate;
+                this.StatusFieldsInfo.ClosedDate = listingSaleStatusFields.ClosedDate;
+                this.StatusFieldsInfo.BackOnMarketDate = listingSaleStatusFields.BackOnMarketDate;
+                this.StatusFieldsInfo.OffMarketDate = listingSaleStatusFields.OffMarketDate;
+                this.StatusFieldsInfo.SaleTerms = listingSaleStatusFields.SaleTerms;
+            }
+
             this.StatusFieldsInfo.EstimatedClosedDate = listingSaleStatusFields.EstimatedClosedDate;
-            this.StatusFieldsInfo.SellConcess = listingSaleStatusFields.SellConcess;
-            this.StatusFieldsInfo.ClosePrice = listingSaleStatusFields.ClosePrice;
-            this.StatusFieldsInfo.HasBuyerAgent = listingSaleStatusFields.HasBuyerAgent;
-            this.StatusFieldsInfo.PendingDate = listingSaleStatusFields.PendingDate;
-            this.StatusFieldsInfo.ClosedDate = listingSaleStatusFields.ClosedDate;
-            this.StatusFieldsInfo.BackOnMarketDate = listingSaleStatusFields.BackOnMarketDate;
-            this.StatusFieldsInfo.OffMarketDate = listingSaleStatusFields.OffMarketDate;
-            this.StatusFieldsInfo.SaleTerms = listingSaleStatusFields.SaleTerms;
         }
 
         protected override IEnumerable<object> GetEntityEqualityComponents()

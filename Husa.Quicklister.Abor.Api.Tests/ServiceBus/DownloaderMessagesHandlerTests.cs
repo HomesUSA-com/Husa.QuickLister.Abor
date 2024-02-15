@@ -199,7 +199,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
             // Assert
             this.agentServiceMock.Verify(s => s.ProcessDataFromDownloaderAsync(It.IsAny<AgentDto>()), Times.Never);
             this.officeServiceMock.Verify(s => s.ProcessDataFromDownloaderAsync(It.IsAny<OfficeDto>()), Times.Never);
-            this.residentialServiceMock.Verify(s => s.ProcessData(It.IsAny<string>()), Times.Never);
+            this.residentialServiceMock.Verify(s => s.ProcessData(It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
             this.subscriptionClientMock.Verify(s => s.CompleteAsync(It.Is<string>(token => string.IsNullOrEmpty(token))), Times.Once);
         }
 

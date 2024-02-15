@@ -4,6 +4,6 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Downloader
 
     public interface IResidentialService
     {
-        Task ProcessData(string entityKey);
+        Task ProcessData(string entityKey, bool processFullListing);
     }
 }

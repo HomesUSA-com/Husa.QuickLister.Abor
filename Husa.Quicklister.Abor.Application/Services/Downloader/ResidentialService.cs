@@ -41,7 +41,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task ProcessData(string entityKey)
+        public async Task ProcessData(string entityKey, bool processFullListing)
         {
             var residential = await this.downloaderClient.Residential.GetByIdAsync(entityKey);
             var residentialDto = this.mapper.Map<FullListingSaleDto>(residential);
@@ -85,7 +85,8 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
                     listingInfo,
                     listingStatusInfo,
                     salePropertyInfo,
-                    companyId: company.Id);
+                    companyId: company.Id,
+                    processFullListing);
             }
 
             await this.listingSaleRepository.SaveChangesAsync(listingSale);

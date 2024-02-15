@@ -95,7 +95,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                 this.Logger.LogInformation("Processing message for listing with mls number {mlsNumber}", residentialMessage.EntityKey);
 
                 var residentialService = scope.ServiceProvider.GetRequiredService<IResidentialService>();
-                return residentialService.ProcessData(residentialMessage.EntityKey);
+                return residentialService.ProcessData(residentialMessage.EntityKey, residentialMessage.ProcessFullListing);
             }
 
             Task ProcessResidentialMediaMessage(MediaMessage mediaMessage)
