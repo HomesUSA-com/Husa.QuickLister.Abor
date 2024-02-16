@@ -485,7 +485,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
         public void UpdateFromXml(XmlListingDetailResponse listing)
         {
             this.PropertyInfo.UpdateFromXml(listing);
-            this.SpacesDimensionsInfo.UpdateFromXml(listing);
             this.FeaturesInfo.UpdateFromXml(listing);
         }
 
