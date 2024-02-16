@@ -4,11 +4,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Husa.Extensions.Linq.Specifications;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Data.Specifications;
-    using Husa.Quicklister.Extensions.Data.Specifications;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 

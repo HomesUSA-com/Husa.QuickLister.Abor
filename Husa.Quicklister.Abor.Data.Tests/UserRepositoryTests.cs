@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
+    using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.CompanyServicesManager.Api.Contracts.Request;
     using Husa.Extensions.Cache;
@@ -23,22 +24,21 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
         private readonly Mock<ICache> cache = new();
 
         [Fact]
-        public void GetUsersById_NoUserId_Success()
+        public async Task GetUsersById_NoUserId_Success()
         {
             // Arrange
             var userIds = new List<Guid>();
             var sut = this.GetSut();
 
             // Act
-            var users = sut.GetUsersById(userIds);
+            var users = await sut.GetUsersById(userIds);
 
             // Assert
-            Assert.NotNull(users);
-            Assert.Empty(users.Result);
+            Assert.Empty(users);
         }
 
         [Fact]
-        public void GetUsersById_EmptyChache_Success()
+        public async Task GetUsersById_EmptyChache_Success()
         {
             // Arrange
             var userId1 = Guid.NewGuid();
@@ -55,13 +55,12 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
             var sut = this.GetSut();
 
             // Act
-            var users = sut.GetUsersById(userIds);
+            var users = await sut.GetUsersById(userIds);
 
             // Assert
-            Assert.NotNull(users);
-            Assert.NotEmpty(users.Result);
+            Assert.NotEmpty(users);
             this.serviceSubscriptionClient.Verify(ss => ss.User.GetAsync(It.IsAny<UserRequest>(), It.IsAny<CancellationToken>()), Times.Once);
-            var result = Assert.IsAssignableFrom<IEnumerable<User>>(users.Result);
+            var result = Assert.IsAssignableFrom<IEnumerable<User>>(users);
             Assert.Contains(result, u => u.Id == userId1);
         }
 

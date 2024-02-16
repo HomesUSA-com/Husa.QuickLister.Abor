@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Linq;
     using System.Threading.Tasks;
     using Husa.Downloader.CTX.Domain.Enums;
+    using Husa.Extensions.Linq.Specifications;
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models;
@@ -46,8 +47,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                                 MemberStateLicense = agent.AgentValue.MemberStateLicense,
                             })
                             .ApplySearchByAgentQueryFilter(queryFilter)
-                            .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take)
                             .ApplySortByFields(queryFilter.SortBy)
+                            .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take)
                             .ToListAsync();
         }
 

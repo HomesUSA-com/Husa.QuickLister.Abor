@@ -40,34 +40,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             return importedSpacesDimensions;
         }
 
-        public virtual void UpdateFromXml(XmlListingDetailResponse listing)
-        {
-            if (listing.Sqft.HasValue)
-            {
-                this.SqFtTotal = listing.Sqft;
-            }
-
-            if (listing.Stories.HasValue)
-            {
-                this.StoriesTotal = listing.Stories.ToStories();
-            }
-
-            if (listing.HalfBaths.HasValue)
-            {
-                this.HalfBathsTotal = listing.HalfBaths;
-            }
-
-            if (listing.Baths.HasValue)
-            {
-                this.FullBathsTotal = listing.Baths;
-            }
-
-            if (listing.Bedrooms.HasValue)
-            {
-                this.MainLevelBedroomTotal = listing.Bedrooms;
-            }
-        }
-
         public SpacesDimensionsInfo Clone()
         {
             return (SpacesDimensionsInfo)this.MemberwiseClone();

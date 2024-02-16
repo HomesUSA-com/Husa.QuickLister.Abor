@@ -1,12 +1,16 @@
 namespace Husa.Quicklister.Abor.Domain.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using Husa.CompanyServicesManager.Domain.Enums;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Xunit;
+    using CompanyExtensions = Husa.CompanyServicesManager.Api.Contracts.Response;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Husa.Quicklister.Abor.Domain.Test")]
@@ -88,6 +92,57 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             community.UpdateSalesOffice(saleOffice);
 
             Assert.Empty(community.Changes);
+        }
+
+        [Fact]
+        public void UpdateCompanyEmailLeadsWhenEmailLeadsIsNull()
+        {
+            // Arrange
+            var communityId = Guid.NewGuid();
+            var community = TestModelProvider.GetCommunitySaleEntity(communityId);
+
+            // Act
+            var exception = Record.Exception(() => community.UpdateCompanyEmailLeads(null));
+
+            // Assert
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        public void UpdateCompanyEmailLeadsWhenEmailLeadsIsEmpty()
+        {
+            // Arrange
+            var communityId = Guid.NewGuid();
+            var community = TestModelProvider.GetCommunitySaleEntity(communityId);
+            var emailLeads = Enumerable.Empty<CompanyExtensions.EmailLead>();
+
+            // Act
+            var exception = Record.Exception(() => community.UpdateCompanyEmailLeads(emailLeads));
+
+            // Assert
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        public void UpdateCompanyEmailLeadsWhenEmailLeadsWithValidEmailLeads()
+        {
+            // Arrange
+            var communityId = Guid.NewGuid();
+            var community = TestModelProvider.GetCommunitySaleEntity(communityId);
+            var emailLeads = new List<CompanyExtensions.EmailLead>
+            {
+                new CompanyExtensions.EmailLead { EmailPriority = EmailPriority.One, EntityType = EmailEntityType.Sale, Email = "principal@example.com" },
+                new CompanyExtensions.EmailLead { EmailPriority = EmailPriority.Two, EntityType = EmailEntityType.Sale, Email = "secondary@example.com" },
+                new CompanyExtensions.EmailLead { EmailPriority = EmailPriority.Three, EntityType = EmailEntityType.Sale, Email = "other@example.com" },
+            };
+
+            // Act
+            community.UpdateCompanyEmailLeads(emailLeads);
+
+            // Assert
+            Assert.Equal("principal@example.com", community.EmailLead.EmailLeadPrincipal);
+            Assert.Equal("secondary@example.com", community.EmailLead.EmailLeadSecondary);
+            Assert.Equal("other@example.com", community.EmailLead.EmailLeadOther);
         }
 
         [Fact]

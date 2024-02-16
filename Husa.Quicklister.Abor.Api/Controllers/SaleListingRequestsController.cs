@@ -168,21 +168,21 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(new RoleEmployee[0])]
         public Task<IActionResult> ApproveRequestAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return this.ChangesRequestState(id, ListingRequestState.Pending, ListingRequestState.Approved, cancellationToken);
+            return this.ChangesRequestState(id, ListingRequestState.Approved, cancellationToken);
         }
 
         [HttpPut("{id:guid}/process")]
         [ApiAuthorization(new RoleEmployee[0])]
         public Task<IActionResult> ProcessRequestAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return this.ChangesRequestState(id, ListingRequestState.Approved, ListingRequestState.Processing, cancellationToken);
+            return this.ChangesRequestState(id, ListingRequestState.Processing, cancellationToken);
         }
 
         [HttpPut("{id:guid}/pending")]
         [ApiAuthorization(new RoleEmployee[0])]
         public Task<IActionResult> PendingRequestAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return this.ChangesRequestState(id, ListingRequestState.Processing, ListingRequestState.Pending, cancellationToken);
+            return this.ChangesRequestState(id, ListingRequestState.Pending, cancellationToken);
         }
 
         [HttpPut("{id:guid}/complete")]
@@ -204,32 +204,15 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
         [HttpDelete("{id:guid}")]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> DeleteRequestAsync(Guid id, CancellationToken cancellationToken = default)
+        public Task<IActionResult> DeleteRequestAsync(Guid id, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Deleting listing request {id}", id);
-            var openRequest = await this.saleRequestQueryRepository.GetListingRequestSaleAsyncOld(id, cancellationToken);
-
-            if (openRequest is null)
-            {
-                this.logger.LogInformation("Listing sale request with {id} was not found.", id);
-                return this.NotFound(id);
-            }
-
-            await this.saleRequestService.ChangeRequestStatus(openRequest, ListingRequestState.Deleted, cancellationToken: cancellationToken);
-            return this.Ok();
+            return this.ChangesRequestState(id, ListingRequestState.Deleted, cancellationToken);
         }
 
-        private async Task<IActionResult> ChangesRequestState(Guid id, ListingRequestState formState, ListingRequestState toState, CancellationToken cancellationToken = default)
+        private async Task<IActionResult> ChangesRequestState(Guid id, ListingRequestState toState, CancellationToken cancellationToken = default)
         {
-            this.logger.LogInformation("Start to handle processing of listing sale request with id {listingRequestId}", id);
-            var request = await this.saleRequestQueryRepository.GetListingSaleRequestByIdAndStatusAsync(id, formState, cancellationToken);
-
-            if (request is null)
-            {
-                return this.BadRequest(id);
-            }
-
-            await this.saleRequestService.ChangeRequestStatus(request, toState, cancellationToken: cancellationToken);
+            await this.saleRequestService.ChangeRequestStatus(id, toState, cancellationToken: cancellationToken);
             return this.Ok();
         }
     }

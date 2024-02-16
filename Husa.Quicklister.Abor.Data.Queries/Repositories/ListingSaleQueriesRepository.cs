@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.Linq.Specifications;
     using Husa.PhotoService.Api.Client.Interfaces;
     using Husa.PhotoService.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Crosscutting;

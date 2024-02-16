@@ -14,10 +14,13 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
+    using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
+    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
@@ -233,6 +236,61 @@ namespace Husa.Quicklister.Abor.Application.Tests
             // Act and Assert
             await Assert.ThrowsAsync<NotFoundException<SaleListing>>(() => this.Sut.CreateAsync(listingSaleDto));
             this.listingSaleRepository.Verify(x => x.GetById(It.IsAny<Guid>(), It.IsAny<bool>()), Times.Once);
+        }
+
+        [Theory]
+        [InlineData(MarketStatuses.Active)]
+        [InlineData(MarketStatuses.ActiveUnderContract)]
+        [InlineData(MarketStatuses.Pending)]
+        [InlineData(MarketStatuses.Hold)]
+        [InlineData(MarketStatuses.Closed)]
+        public async Task QuickCreateAsync_ThereIsAvailableListingWithSameAddress_Exception(MarketStatuses existingListingStatus)
+        {
+            // Arrange
+            var listingSale = TestModelProvider.GetListingSaleEntity(Guid.NewGuid(), true);
+            listingSale.MlsStatus = existingListingStatus;
+            var listingSaleDto = new ListingSaleDto()
+            {
+                StreetNumber = listingSale.SaleProperty.AddressInfo.StreetNumber,
+                StreetName = listingSale.SaleProperty.AddressInfo.StreetName,
+                ZipCode = listingSale.SaleProperty.AddressInfo.ZipCode,
+                City = listingSale.SaleProperty.AddressInfo.City,
+                UnitNumber = listingSale.SaleProperty.AddressInfo.UnitNumber,
+            };
+            this.listingSaleRepository
+                .Setup(c => c.GetListing(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Cities>(), It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(listingSale)
+                .Verifiable();
+            var result = await this.Sut.QuickCreateAsync(listingSaleDto, false);
+
+            // Act & Assert
+            Assert.Equal(ResponseCode.Error, result.Code);
+        }
+
+        [Theory]
+        [InlineData(MarketStatuses.Active)]
+        [InlineData(MarketStatuses.ActiveUnderContract)]
+        [InlineData(MarketStatuses.Pending)]
+        [InlineData(MarketStatuses.Hold)]
+        [InlineData(MarketStatuses.Closed)]
+        public async Task UpdateListing_ThereIsAvailableListingWithSameAddress_Exception(MarketStatuses existingListingStatus)
+        {
+            // Arrange
+            var listingSale = TestModelProvider.GetListingSaleEntity(Guid.NewGuid(), true);
+            listingSale.MlsStatus = existingListingStatus;
+            var listingSaleDto = TestModelProvider.GetSaleListingDto();
+            listingSaleDto.SaleProperty.AddressInfo.StreetNumber = listingSale.SaleProperty.AddressInfo.StreetNumber;
+            listingSaleDto.SaleProperty.AddressInfo.StreetName = listingSale.SaleProperty.AddressInfo.StreetName;
+            listingSaleDto.SaleProperty.AddressInfo.ZipCode = listingSale.SaleProperty.AddressInfo.ZipCode;
+            listingSaleDto.SaleProperty.AddressInfo.City = listingSale.SaleProperty.AddressInfo.City;
+            listingSaleDto.SaleProperty.AddressInfo.UnitNumber = listingSale.SaleProperty.AddressInfo.UnitNumber;
+            this.listingSaleRepository
+                .Setup(c => c.GetListing(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Cities>(), It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(listingSale)
+                .Verifiable();
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(() => this.Sut.UpdateListing(Guid.NewGuid(), listingSaleDto));
         }
 
         [Fact]

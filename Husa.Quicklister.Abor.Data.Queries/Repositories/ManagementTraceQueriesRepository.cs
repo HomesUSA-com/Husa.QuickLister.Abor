@@ -4,9 +4,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Linq;
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
+    using Husa.Extensions.Linq.Specifications;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models;
-    using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.EntityFrameworkCore;
