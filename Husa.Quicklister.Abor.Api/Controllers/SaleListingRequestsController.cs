@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using FluentValidation.Results;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Filters;
+    using Husa.Extensions.Common;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest;
@@ -133,9 +134,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
             var result = await this.saleRequestService.CreateRequestAsync(saleListingId, cancellationToken);
 
-            return result.Code == ResponseCode.Error ?
-                this.BadRequest(result) :
-                this.Ok(result.Result);
+            return this.ToActionResult(result);
         }
 
         [HttpPut("{id:guid}")]
