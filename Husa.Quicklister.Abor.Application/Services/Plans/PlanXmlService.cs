@@ -4,9 +4,9 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Response;

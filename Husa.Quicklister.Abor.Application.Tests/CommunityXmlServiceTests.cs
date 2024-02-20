@@ -7,11 +7,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Application.Services.Communities;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Domain.Enums;
     using Microsoft.Extensions.Logging;

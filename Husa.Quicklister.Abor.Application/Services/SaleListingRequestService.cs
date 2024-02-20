@@ -72,7 +72,7 @@ namespace Husa.Quicklister.Abor.Application.Services
             var saleProperty = this.Mapper.Map<SaleProperty>(listingSaleRequestDto.SaleProperty);
             request.UpdateRequestInformation(listingSaleRequestDto.ListPrice, saleProperty);
             var userId = this.UserContextProvider.GetCurrentUserId();
-            await this.SaleRequestRepository.UpdateListingSaleRequestAsync(request.Id, request, userId, cancellationToken);
+            await this.SaleRequestRepository.UpdateDocumentAsync(request.Id, request, userId, cancellationToken);
             this.Logger.LogInformation("Request update was completed for ABOR listing request with Id {requestId}", request.Id);
             return request;
         }
@@ -84,11 +84,11 @@ namespace Husa.Quicklister.Abor.Application.Services
             var statusFieldInfo = this.Mapper.Map<ListingSaleStatusFieldsInfo>(listingSaleRequestDto.StatusFieldsInfo);
             var salePropertyInfo = this.Mapper.Map<SalePropertyValueObject>(listingSaleRequestDto.SaleProperty);
 
-            var listingRequest = await this.SaleRequestRepository.GetListingRequestByIdAsync(listingRequestId, cancellationToken);
+            var listingRequest = await this.SaleRequestRepository.GetByIdAsync(listingRequestId, cancellationToken);
             listingRequest.UpdateRequestInformation(listingRequestValueObject, statusFieldInfo, salePropertyInfo);
             var userId = this.UserContextProvider.GetCurrentUserId();
 
-            await this.SaleRequestRepository.UpdateListingSaleRequestAsync(listingRequestId, listingRequest, userId, cancellationToken);
+            await this.SaleRequestRepository.UpdateDocumentAsync(listingRequestId, listingRequest, userId, cancellationToken);
         }
 
         protected override async Task<string> IsImageCountValidAsync(Guid saleListingId)
