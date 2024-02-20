@@ -89,7 +89,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             Assert.Single(objectResult.LockedListings);
 
             this.userQueriesRepository.Verify(sl => sl.FillUsersNameAsync(It.Is<IEnumerable<IProvideQuicklisterUserInfo>>(x => x.Any(x => x.LockedBy == lockedListingBy))), Times.Once);
-            this.saleRequestRepository.Verify(sl => sl.AddListingSaleRequestAsync(It.Is<SaleListingRequest>(x => x.Id == saleListingRequestId), It.IsAny<CancellationToken>()), Times.Once);
+            this.saleRequestRepository.Verify(sl => sl.AddDocumentAsync(It.Is<SaleListingRequest>(x => x.Id == saleListingRequestId), It.IsAny<CancellationToken>()), Times.Once);
             this.mediaService.Verify(sl => sl.CreateMediaRequestAsync(It.Is<Guid>(x => x == unlockedListingId), It.Is<Guid>(x => x == saleListingRequestId), It.IsAny<bool>()), Times.Once);
         }
 
@@ -117,7 +117,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             // Assert
             Assert.NotNull(result);
             this.saleRequestRepository.Verify(
-                r => r.UpdateListingSaleRequestAsync(
+                r => r.UpdateDocumentAsync(
                     It.Is<Guid>(id => id == requestId),
                     It.IsAny<SaleListingRequest>(),
                     It.IsAny<Guid>(),
@@ -161,7 +161,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var saleListingRequest = new Mock<SaleListingRequest>();
 
             saleListingRequest.SetupGet(sl => sl.Id).Returns(requestId).Verifiable();
-            saleListingRequest.SetupGet(sl => sl.ListingId).Returns(listingId).Verifiable();
+            saleListingRequest.SetupGet(sl => sl.EntityId).Returns(listingId).Verifiable();
             saleListingRequest.SetupGet(sl => sl.ListingSaleId).Returns(listingId).Verifiable();
             saleListingRequest.SetupGet(sl => sl.CompanyId).Returns(companyId).Verifiable();
 

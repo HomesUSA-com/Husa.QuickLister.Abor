@@ -12,13 +12,13 @@ namespace Husa.Quicklister.Abor.Application.Tests.Mocks
     {
         public ListingSaleRequestRepositoryMock()
         {
-            this.Setup(r => r.AddListingSaleRequestAsync(
+            this.Setup(r => r.AddDocumentAsync(
                 It.IsAny<SaleListingRequest>(),
                 It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(TestModelProvider.GetListingSaleRequestObject(Guid.NewGuid())))
                 .Verifiable();
 
-            this.Setup(r => r.UpdateListingSaleRequestAsync(
+            this.Setup(r => r.UpdateDocumentAsync(
                 It.IsAny<Guid>(),
                 It.IsAny<SaleListingRequest>(),
                 It.IsAny<Guid>(),

@@ -298,6 +298,36 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             Assert.Empty(errors);
         }
 
+        [Fact]
+        public void CreateFeaturesRecord_GarageDescriptionNull_GarageSpacesZero_Success()
+        {
+            // Arrange
+            var features = ListingTestProvider.GetFeaturesInfo();
+            features.GarageDescription = null;
+            features.GarageSpaces = 0;
+
+            var featuresRecord = FeaturesRecord.CreateRecord(features);
+            var errors = ValidatePropertiesAttribute.GetErrors(featuresRecord);
+
+            Assert.Empty(errors);
+        }
+
+        [Theory]
+        [InlineData(new GarageDescription[0])]
+        [InlineData(null)]
+        public void CreateFeaturesRecord_GarageDescriptionNull_GarageSpacesGreaterThanZero_Fail(ICollection<GarageDescription> garageDescription)
+        {
+            // Arrange
+            var features = ListingTestProvider.GetFeaturesInfo();
+            features.GarageDescription = garageDescription;
+            features.GarageSpaces = 1;
+
+            var featuresRecord = FeaturesRecord.CreateRecord(features);
+            var errors = ValidatePropertiesAttribute.GetErrors(featuresRecord);
+
+            Assert.NotEmpty(errors);
+        }
+
         private static Mock<SaleListingRequest> GetListingRequest(DateTime? creationDate)
         {
             var creationDateTime = creationDate ?? DateTime.UtcNow;

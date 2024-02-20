@@ -1,8 +1,8 @@
 namespace Husa.Quicklister.Abor.Data.Documents.Repositories
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
@@ -59,9 +59,11 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
             this.userQueriesRepository = userQueriesRepository ?? throw new ArgumentNullException(nameof(userQueriesRepository));
         }
 
+        public override Expression<Func<SaleListingRequest, ListingSaleRequestQueryResult>> QueryResultProjection => SaleRequestQueryProjection.ProjectionToRequestSale;
+
         public async Task<ListingSaleRequestDetailQueryResult> GetListingRequestSaleAsync(Guid requestId, CancellationToken cancellationToken = default)
         {
-            var query = this.SaleContainer
+            var query = this.DbContainer
                 .GetItemLinqQueryable<SaleListingRequest>()
                 .FilterById(requestId);
 
@@ -73,8 +75,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
 
             var requestEntity = (await queryIterator.ReadNextAsync(cancellationToken)).SingleOrDefault() ?? throw new NotFoundException<SaleListingRequest>(requestId);
             var queryResult = requestEntity.ToListingSaleRequestDetailQueryResult();
-            var saleListing = await this.listingSaleQueriesRepository.GetListing(requestEntity.ListingSaleId) ?? throw new NotFoundException<SaleListing>(requestEntity.ListingSaleId);
-            queryResult.IsFirstRequest = await this.CheckIsFirstListingRequestAsync(requestEntity.ListingSaleId, cancellationToken);
+            var saleListing = await this.listingSaleQueriesRepository.GetListing(requestEntity.EntityId) ?? throw new NotFoundException<SaleListing>(requestEntity.EntityId);
+            queryResult.IsFirstRequest = await this.CheckIsFirstListingRequestAsync(requestEntity.EntityId, cancellationToken);
             if (saleListing.LockedStatus == LockedStatus.LockedBySystem)
             {
                 queryResult.LockedByUsername = UserConstants.LockedBySystemLabel;
@@ -99,19 +101,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
 
             return queryResult;
         }
-
-        public override Task<ListingRequestGridQueryResult<ListingSaleRequestQueryResult>> GetListingSaleRequestsAsync(SaleListingRequestQueryFilter queryFilter, CancellationToken cancellationToken = default)
-        {
-            if (queryFilter.RequestFieldChange.HasValue)
-            {
-                return this.GetRequestsByFieldChangeAsync(queryFilter.RequestFieldChange.Value, SaleRequestQueryProjection.ProjectionToRequestSale, cancellationToken);
-            }
-
-            return this.GetListingSaleRequestsAsync(queryFilter, SaleRequestQueryProjection.ProjectionToRequestSale, cancellationToken);
-        }
-
-        public override Task<IEnumerable<ListingSaleRequestQueryResult>> GetRequestsByListingSaleIdAsync(Guid listingSaleId, CancellationToken cancellationToken = default)
-            => this.GetRequestsByListingSaleIdAsync(listingSaleId, SaleRequestQueryProjection.ProjectionToRequestSale, cancellationToken);
 
         public async Task<DataSet<ListingSaleBillingQueryResult>> GetBillableListingsAsync(ListingSaleBillingQueryFilter queryFilter, CancellationToken cancellationToken = default)
         {

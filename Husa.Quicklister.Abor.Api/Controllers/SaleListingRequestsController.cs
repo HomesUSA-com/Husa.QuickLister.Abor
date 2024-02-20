@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using FluentValidation.Results;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Filters;
+    using Husa.Extensions.Common;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest;
@@ -18,8 +19,8 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
-    using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest.SaleRequest;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -65,10 +66,10 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         {
             this.logger.LogInformation("Starting to get filtered ABOR sale listings request with company id {companyId}", requestFilter.CompanyId);
             var queryFilter = this.mapper.Map<SaleListingRequestQueryFilter>(requestFilter);
-            var queryResponse = await this.saleRequestQueryRepository.GetListingSaleRequestsAsync(queryFilter, cancellationToken);
+            var queryResponse = await this.saleRequestQueryRepository.GetAsync(queryFilter, cancellationToken);
             await this.userQueriesRepository.FillUsersNameAsync(queryResponse.Data);
             var data = this.mapper.Map<IEnumerable<ListingSaleRequestQueryResponse>>(queryResponse.Data);
-            return this.Ok(new ListingRequestGridResponse<ListingSaleRequestQueryResponse>(data, queryResponse.Total, queryResponse.ContinuationToken, queryFilter.ContinuationToken, queryFilter.CurrentToken));
+            return this.Ok(new DocumentGridResponse<ListingSaleRequestQueryResponse>(data, queryResponse.Total, queryResponse.ContinuationToken, queryFilter.ContinuationToken, queryFilter.CurrentToken));
         }
 
         [HttpGet("{id:guid}")]
@@ -92,7 +93,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         public async Task<IActionResult> GetRequestSummaryAsync(Guid id, CancellationToken cancellationToken)
         {
             this.logger.LogInformation("Start to handle summary of sale listing request with {listingRequestId}", id);
-            var queryResponse = await this.saleRequestQueryRepository.GetListingRequestSummaryAsync(id, cancellationToken);
+            var queryResponse = await this.saleRequestQueryRepository.GetSummaryAsync(id, cancellationToken);
 
             if (queryResponse is null)
             {
@@ -133,9 +134,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
             var result = await this.saleRequestService.CreateRequestAsync(saleListingId, cancellationToken);
 
-            return result.Code == ResponseCode.Error ?
-                this.BadRequest(result) :
-                this.Ok(result.Result);
+            return this.ToActionResult(result);
         }
 
         [HttpPut("{id:guid}")]

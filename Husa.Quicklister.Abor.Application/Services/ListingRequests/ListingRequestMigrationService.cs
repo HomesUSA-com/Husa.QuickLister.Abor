@@ -45,7 +45,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
         protected override async Task GenerateRequestAsync(Guid currentUserId, SaleListing listing, SaleListingRequestResponse legacyRequest, bool updateRequest = false)
         {
             if (!updateRequest &&
-                (await this.saleListingRequestRepository.GetListingRequestByLegacyIdAsync(legacyRequest.LegacyListingRequestId)) != null)
+                (await this.saleListingRequestRepository.GetByLegacyIdAsync(legacyRequest.LegacyListingRequestId)) != null)
             {
                 return;
             }

@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Microsoft.Extensions.Logging;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Communities;
 
@@ -24,10 +25,12 @@ namespace Husa.Quicklister.Abor.Application
         CommunityEmployee>, ISaleCommunityService
     {
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
+        private readonly ICommunityHistoryService communityHistoryService;
         private readonly IMapper mapper;
 
         public SaleCommunityService(
             ICommunitySaleRepository communitySaleRepository,
+            ICommunityHistoryService communityHistoryService,
             IServiceSubscriptionClient serviceSubscriptionClient,
             IUserContextProvider userContextProvider,
             IMapper mapper,
@@ -35,6 +38,7 @@ namespace Husa.Quicklister.Abor.Application
             : base(communitySaleRepository, userContextProvider, logger)
         {
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
+            this.communityHistoryService = communityHistoryService ?? throw new ArgumentNullException(nameof(communityHistoryService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -59,6 +63,7 @@ namespace Husa.Quicklister.Abor.Application
 
             this.CommunitySaleRepository.Attach(community);
             await this.CommunitySaleRepository.SaveChangesAsync();
+            await this.communityHistoryService.CreateRecordAsync(community.Id);
             return CommandSingleResult<Guid, string>.Success(community.Id);
         }
 
@@ -91,6 +96,7 @@ namespace Husa.Quicklister.Abor.Application
             community.Update(communityInfo, communityOpenHouses);
 
             await this.CommunitySaleRepository.SaveChangesAsync();
+            await this.communityHistoryService.CreateRecordAsync(communityId);
         }
     }
 }
