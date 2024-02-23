@@ -22,7 +22,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         [MaxLength(14, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string ContactPhone { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
         public string ShowingInstructions { get; set; }
 
         public ICollection<string> RealtorContactEmail { get; set; }

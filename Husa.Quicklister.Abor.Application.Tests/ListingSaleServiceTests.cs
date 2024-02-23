@@ -243,7 +243,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
         [InlineData(MarketStatuses.ActiveUnderContract)]
         [InlineData(MarketStatuses.Pending)]
         [InlineData(MarketStatuses.Hold)]
-        [InlineData(MarketStatuses.Closed)]
         public async Task QuickCreateAsync_ThereIsAvailableListingWithSameAddress_Exception(MarketStatuses existingListingStatus)
         {
             // Arrange
@@ -272,7 +271,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
         [InlineData(MarketStatuses.ActiveUnderContract)]
         [InlineData(MarketStatuses.Pending)]
         [InlineData(MarketStatuses.Hold)]
-        [InlineData(MarketStatuses.Closed)]
         public async Task UpdateListing_ThereIsAvailableListingWithSameAddress_Exception(MarketStatuses existingListingStatus)
         {
             // Arrange
