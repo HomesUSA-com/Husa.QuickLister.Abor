@@ -60,7 +60,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public int GarageSpaces { get; set; }
 
         [IfRequired(nameof(GarageSpaces), 0, OperatorType.GreaterThan)]
-        [MinLength(1)]
         public ICollection<GarageDescription> GarageDescription { get; set; }
 
         [Required]
