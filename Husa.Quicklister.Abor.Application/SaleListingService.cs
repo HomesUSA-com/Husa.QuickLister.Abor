@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Application
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -63,6 +64,8 @@ namespace Husa.Quicklister.Abor.Application
             this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
         }
 
+        private IEnumerable<MarketStatuses> StatusesThatAllowDuplicates => new[] { MarketStatuses.Canceled, MarketStatuses.Closed };
+
         public async Task<CommandSingleResult<Guid, string>> CreateAsync(ListingSaleDto listingSale)
         {
             var companyServices = await this.serviceSubscriptionClient.Company.GetCompanyServices(
@@ -97,7 +100,7 @@ namespace Husa.Quicklister.Abor.Application
             this.Logger.LogInformation("ABOR Listing Sale Service starting create listing with Address : {StreetNumber} {StreetName}", listingSale.StreetNumber, listingSale.StreetName);
             var listing = await this.ListingSaleRepository.GetListing(listingSale.StreetNumber, listingSale.StreetName, listingSale.City, listingSale.ZipCode, listingSale.UnitNumber);
 
-            if (listing is not null && listing.MlsStatus != MarketStatuses.Canceled)
+            if (listing is not null && !this.StatusesThatAllowDuplicates.Contains(listing.MlsStatus))
             {
                 this.Logger.LogInformation("listing {address} already exists!", listing.SaleProperty.AddressInfo.FormalAddress);
                 return CommandResult<SaleListing>.Error($"listing {listing.SaleProperty.AddressInfo.FormalAddress} already exists!", listing);
@@ -146,7 +149,7 @@ namespace Husa.Quicklister.Abor.Application
                 listingAddress.ZipCode,
                 listingAddress.UnitNumber);
 
-            if (existingListing is not null && existingListing.Id != listingId && existingListing.MlsStatus != MarketStatuses.Canceled)
+            if (existingListing is not null && existingListing.Id != listingId && !this.StatusesThatAllowDuplicates.Contains(existingListing.MlsStatus))
             {
                 this.Logger.LogInformation("{address} already exists!", existingListing.SaleProperty.AddressInfo.FormalAddress);
                 throw new InvalidOperationException($"{existingListing.SaleProperty.AddressInfo.FormalAddress} already exists!");

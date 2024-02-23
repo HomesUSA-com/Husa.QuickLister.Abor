@@ -16,7 +16,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
-    using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest.SaleRequest;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response;
     using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -64,11 +64,11 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
                 new(),
                 new(),
             };
-            var requestsResult = new ListingRequestGridQueryResult<ListingSaleRequestQueryResult>(requests, null);
+            var requestsResult = new DocumentGridQueryResult<ListingSaleRequestQueryResult>(requests, null);
             requestsResult.Total = requests.Count;
 
             this.saleRequestQueryRepository
-                .Setup(u => u.GetListingSaleRequestsAsync(It.IsAny<SaleListingRequestQueryFilter>(), It.IsAny<CancellationToken>()))
+                .Setup(u => u.GetAsync(It.IsAny<SaleListingRequestQueryFilter>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(requestsResult)
                 .Verifiable();
 
@@ -78,7 +78,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
             // Assert
             Assert.NotNull(actionResult);
             var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(actionResult);
-            var result = Assert.IsAssignableFrom<ListingRequestGridResponse<ListingSaleRequestQueryResponse>>(okObjectResult.Value);
+            var result = Assert.IsAssignableFrom<DocumentGridResponse<ListingSaleRequestQueryResponse>>(okObjectResult.Value);
             Assert.Equal(2, result.Data.Count());
         }
 

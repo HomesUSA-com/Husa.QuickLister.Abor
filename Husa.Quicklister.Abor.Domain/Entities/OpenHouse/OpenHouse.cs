@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.OpenHouse
 
     public class OpenHouse : Entity, IProvideType, AborIProvideOpenHouseInfo
     {
-        protected OpenHouse(
+        public OpenHouse(
           OpenHouseTypeEnum type,
           TimeSpan startTime,
           TimeSpan endTime,

@@ -10,12 +10,12 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Extensions.ServiceBus.Extensions;
     using Husa.Extensions.ServiceBus.Services;
     using Husa.Quicklister.Abor.Api.ServiceBus.Subscribers;
-    using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
-    using Husa.Quicklister.Abor.Application.Interfaces.Plan;
-    using Husa.Quicklister.Abor.Application.Interfaces.Xml;
     using Husa.Quicklister.Abor.Crosscutting;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
+    using Husa.Quicklister.Extensions.Application.Interfaces.XmlCommon;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Husa.Xml.ServiceBus.Messages;
     using Husa.Xml.ServiceBus.Messages.Messages;
@@ -110,7 +110,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
             }
 
             Task ImportEntity<TService>(ImportProfileMessage meessage)
-                where TService : IProfileXmlService
+                where TService : IXmlCommon
             {
                 if (meessage.MarketCode != MarketCode.Austin)
                 {

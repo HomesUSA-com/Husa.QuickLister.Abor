@@ -82,7 +82,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
 
             var listingRequest = new Mock<SaleListingRequest>();
             this.saleListingRequestRepository
-                .Setup(m => m.GetListingRequestByLegacyIdAsync(It.Is<int>(x => x == legacyRequestId), It.IsAny<CancellationToken>()))
+                .Setup(m => m.GetByLegacyIdAsync(It.Is<int>(x => x == legacyRequestId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(listingRequest.Object);
 
             var sut = this.GetSut();

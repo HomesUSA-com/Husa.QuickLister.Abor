@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Extensions.Api.Cors;
     using Husa.Extensions.Logger.Enrichers;
     using Husa.Quicklister.Abor.Api.Configuration;
+    using Husa.Quicklister.Extensions.Data.Documents.Configuration;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -31,7 +32,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 .AddCommandRepositories()
                 .AddQueriesRepositories()
                 .AddCommonRepositories()
-                .AddListingRequestsRepositories();
+                .AddListingRequestsRepositories()
+                .AddCosmosRepositories();
 
             services
                 .ControllerConfiguration(this.Configuration)

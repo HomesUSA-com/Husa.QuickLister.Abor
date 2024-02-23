@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Api
     using Husa.Quicklister.Abor.Api.Configuration;
     using Husa.Quicklister.Abor.Api.Middlewares;
     using Husa.Quicklister.Extensions.Application.Configuration;
+    using Husa.Quicklister.Extensions.Data.Documents.Configuration;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -53,7 +54,8 @@ namespace Husa.Quicklister.Abor.Api
                 .AddCommandRepositories()
                 .AddQueriesRepositories()
                 .AddCommonRepositories()
-                .AddListingRequestsRepositories();
+                .AddListingRequestsRepositories()
+                .AddCosmosRepositories();
 
             services
                 .ConfigureRefitClient()

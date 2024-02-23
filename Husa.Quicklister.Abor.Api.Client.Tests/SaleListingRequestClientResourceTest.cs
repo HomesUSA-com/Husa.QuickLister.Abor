@@ -53,11 +53,11 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 MlsStatus = MarketStatuses.ActiveUnderContract,
             };
 
-            var gridResult = new ListingRequestGridQueryResult<ListingSaleRequestQueryResult>(new[] { requestResult }, continuationToken);
+            var gridResult = new DocumentGridQueryResult<ListingSaleRequestQueryResult>(new[] { requestResult }, continuationToken);
             var repository = this.customWebApplicationFactory.Services.GetRequiredService<ISaleListingRequestQueriesRepository>();
             var repositoryMock = Mock.Get(repository);
             repositoryMock
-                .Setup(repository => repository.GetListingSaleRequestsAsync(It.IsAny<SaleListingRequestQueryFilter>(), It.IsAny<CancellationToken>()))
+                .Setup(repository => repository.GetAsync(It.IsAny<SaleListingRequestQueryFilter>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(gridResult);
 
             // Act
