@@ -17,6 +17,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules.SalePropertyValidations
             this.RuleFor(sp => sp.HeatSystem).NotEmpty();
             this.RuleFor(sp => sp.CoolingSystem).NotEmpty();
             this.RuleFor(sp => sp.NeighborhoodAmenities).NotEmpty();
+            this.RuleFor(sp => sp.GarageDescription).NotEmpty().When(x => x.GarageSpaces > 0);
         }
     }
 }
