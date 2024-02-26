@@ -25,7 +25,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             oldAddressInfo.State = States.SouthDakota;
 
             // Act
-            var result = SummaryExtensions.GetFieldSummary(addressInfo, oldAddressInfo, true, filteredFields);
+            var result = SummaryExtensions.GetFieldSummary(addressInfo, oldAddressInfo, excludeFields: filteredFields);
 
             // Assert
             Assert.NotNull(result);

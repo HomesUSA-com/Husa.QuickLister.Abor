@@ -32,7 +32,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 .AddCommandRepositories()
                 .AddQueriesRepositories()
                 .AddCommonRepositories()
-                .AddListingRequestsRepositories()
+                .AddCosmosClientAndService()
                 .AddCosmosRepositories();
 
             services
