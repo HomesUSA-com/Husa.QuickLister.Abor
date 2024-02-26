@@ -129,7 +129,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             if (!requestValidations.IsValid)
             {
                 var errors = CommandResult<ValidationFailure>.Error("Request could not be created. Please check required fields.", requestValidations.Errors);
-                return this.BadRequest(errors);
+                return this.ToActionResult(errors);
             }
 
             var result = await this.saleRequestService.CreateRequestAsync(saleListingId, cancellationToken);
