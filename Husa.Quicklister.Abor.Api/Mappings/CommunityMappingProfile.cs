@@ -16,8 +16,12 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
     using Husa.Quicklister.Extensions.Application.Models.Community;
+    using Husa.Quicklister.Extensions.Data.Documents.Models;
+    using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
+
     public class CommunityMappingProfile : Profile
     {
         public CommunityMappingProfile()
@@ -97,6 +101,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<SalesOfficeQueryResult, CommunitySalesOfficeResponse>()
                 .ForMember(dto => dto.SalesOfficeCity, c => c.MapFrom(dto => dto.SalesOfficeCity.HasValue ? dto.SalesOfficeCity.Value.ToStringFromEnumMember(false) : null));
+
+            this.CreateMap<CommunityHistoryFilter, CommunityHistoryQueryFilter>();
+            this.CreateMap<CommunityHistoryQueryResult, CommunityHistoryQueryResponse>();
         }
     }
 }

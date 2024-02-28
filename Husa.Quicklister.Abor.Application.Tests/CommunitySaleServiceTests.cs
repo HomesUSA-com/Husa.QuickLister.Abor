@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -22,21 +23,18 @@ namespace Husa.Quicklister.Abor.Application.Tests
     [Collection("Husa.Quicklister.Abor.Application.Test")]
     public class CommunitySaleServiceTests
     {
-        private readonly Mock<ICommunitySaleRepository> communitySaleRepository;
-        private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient;
-        private readonly Mock<IUserContextProvider> userContextProvider;
-        private readonly Mock<IMapper> mapper;
-        private readonly Mock<ILogger<SaleCommunityService>> logger;
+        private readonly Mock<ICommunitySaleRepository> communitySaleRepository = new();
+        private readonly Mock<ICommunityHistoryService> communityHistoryService = new();
+        private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
+        private readonly Mock<IUserContextProvider> userContextProvider = new();
+        private readonly Mock<IMapper> mapper = new();
+        private readonly Mock<ILogger<SaleCommunityService>> logger = new();
 
         public CommunitySaleServiceTests()
         {
-            this.logger = new Mock<ILogger<SaleCommunityService>>();
-            this.mapper = new Mock<IMapper>();
-            this.communitySaleRepository = new Mock<ICommunitySaleRepository>();
-            this.serviceSubscriptionClient = new Mock<IServiceSubscriptionClient>();
-            this.userContextProvider = new Mock<IUserContextProvider>();
             this.Sut = new SaleCommunityService(
                 this.communitySaleRepository.Object,
+                this.communityHistoryService.Object,
                 this.serviceSubscriptionClient.Object,
                 this.userContextProvider.Object,
                 this.mapper.Object,

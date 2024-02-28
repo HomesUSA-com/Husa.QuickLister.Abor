@@ -18,6 +18,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;

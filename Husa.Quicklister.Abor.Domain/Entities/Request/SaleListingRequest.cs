@@ -51,7 +51,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
 
         public virtual PublishFieldsRecord PublishInfo { get; set; }
 
-        public override Guid ListingId => this.ListingSaleId;
+        public override Guid EntityId => this.ListingSaleId;
 
         public override Guid CompanyId
         {

@@ -25,7 +25,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using CompanyExtensions = Husa.CompanyServicesManager.Api.Contracts.Response;
     using ExtensionCommunity = Husa.Quicklister.Extensions.Domain.Entities.Community.Community;
 
-    public class CommunitySale : ExtensionCommunity, IEntityOpenHouse<CommunityOpenHouse>, ICommunityEmployee<CommunityEmployee>, ISaleCommunity<SaleListing>
+    public class CommunitySale : ExtensionCommunity, IEntityOpenHouse<CommunityOpenHouse>, ICommunityEmployee<CommunityEmployee>, ISaleCommunity<SaleListing>, IProvideCommunityHistory<CommunityHistory>
     {
         public CommunitySale(Guid companyId, string name, string ownerName)
             : this()
@@ -396,6 +396,23 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             this.UpdateSchools(schools: communityInfo.SchoolsInfo);
             this.UpdateShowing(showing: communityInfo.ShowingInfo);
             this.UpdateOpenHouse(openHouses: communityOpenHouses);
+        }
+
+        public CommunityHistory GenerateRecord()
+        {
+            var record = new CommunityHistory(this.Id)
+            {
+                ProfileInfo = this.ProfileInfo.Clone(),
+                EmailLead = this.EmailLead.Clone(),
+                Financial = this.Financial.Clone(),
+                Showing = this.Showing.Clone(),
+                Property = this.Property.Clone(),
+                Utilities = this.Utilities.Clone(),
+                SchoolsInfo = this.SchoolsInfo.Clone(),
+                SaleOffice = this.SaleOffice,
+            };
+            record.ImportOpenHouse<CommunityOpenHouse, OpenHouse, CommunityHistory>(this.OpenHouses);
+            return record;
         }
 
         protected override void DeleteChildren(Guid userId)

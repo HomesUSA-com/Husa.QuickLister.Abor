@@ -8,8 +8,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
-    using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest.SaleRequest;
     using Microsoft.Extensions.Logging;
 
     public class ListingSaleRequest : IListingSaleRequest
@@ -26,7 +26,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             this.baseUri = "api/sale-listing-requests";
         }
 
-        public async Task<ListingRequestGridResponse<ListingSaleRequestQueryResponse>> GetListRequestAsync(SaleListingRequestFilter requestFilter, CancellationToken token = default)
+        public async Task<DocumentGridResponse<ListingSaleRequestQueryResponse>> GetListRequestAsync(SaleListingRequestFilter requestFilter, CancellationToken token = default)
         {
             this.logger.LogInformation("Get ABOR listing sales requests with filers {@requestFilter}", requestFilter);
             var endpoint = this.baseUri
@@ -39,7 +39,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
                 .AddQueryString("currentToken", requestFilter.CurrentToken)
                 .AddQueryString("isPrint", requestFilter.IsPrint);
 
-            return await this.client.GetAsync<ListingRequestGridResponse<ListingSaleRequestQueryResponse>>(endpoint, token);
+            return await this.client.GetAsync<DocumentGridResponse<ListingSaleRequestQueryResponse>>(endpoint, token);
         }
 
         public async Task<ListingSaleRequestDetailResponse> GetListRequestSaleByIdAsync(Guid id, CancellationToken token = default)
