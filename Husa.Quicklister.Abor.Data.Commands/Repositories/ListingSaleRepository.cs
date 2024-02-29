@@ -30,14 +30,19 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
         {
         }
 
-        public async Task<SaleListing> GetListingByLocationAsync(string mlsNumber, string streetNumber, string streetName, string zip)
+        public async Task<SaleListing> GetListingByLocationAsync(string mlsNumber, string streetNumber, string streetName, string zip, string unitNumber = null)
         {
             this.logger.LogInformation("Starting to get ABOR list sale by locations - mls number: {mlsNumber}, address: {streetNumber} {streetName}, zip: {zip}", mlsNumber, streetNumber, streetName, zip);
             var query = this.context.ListingSale.Include(x => x.SaleProperty).Where(x => !x.IsDeleted);
             var saleListing = !string.IsNullOrEmpty(mlsNumber) ? await query.Where(x => x.MlsNumber == mlsNumber).FirstOrDefaultAsync() : null;
+            query = query.Where(x => x.SaleProperty.AddressInfo.StreetNumber == streetNumber && x.SaleProperty.AddressInfo.StreetName == streetName && x.SaleProperty.AddressInfo.ZipCode == zip);
 
-            return saleListing ?? await query.Where(x => x.SaleProperty.AddressInfo.StreetNumber == streetNumber && x.SaleProperty.AddressInfo.StreetName == streetName && x.SaleProperty.AddressInfo.ZipCode == zip)
-                 .FirstOrDefaultAsync();
+            if (!string.IsNullOrEmpty(unitNumber))
+            {
+                query = query.Where(l => l.SaleProperty.AddressInfo.UnitNumber == unitNumber);
+            }
+
+            return saleListing ?? await query.FirstOrDefaultAsync();
         }
 
         public async Task<SaleListing> GetListing(string streetNumber, string streetName, Cities city, string zipcode, string unitNumber = null)

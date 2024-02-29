@@ -62,11 +62,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 this.DOM = listingValue.DOM;
                 this.ExpirationDate = listingValue.ExpirationDate;
                 this.ListType = listingValue.ListType;
-                this.MarketModifiedOn = listingValue.MarketModifiedOn;
                 this.MlsNumber = listingValue.MlsNumber;
                 this.ListDate = listingValue.ListDate;
             }
 
+            this.MarketModifiedOn = listingValue.MarketModifiedOn;
             this.MlsStatus = listingValue.MlsStatus;
             this.ListPrice = listingValue.ListPrice;
         }
