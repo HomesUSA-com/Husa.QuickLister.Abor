@@ -72,6 +72,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             };
             var openHouses = this.mapper.Map<IEnumerable<CommunityOpenHouse>>(communityMigration.OpenHouses);
 
+            communityInfo.ProfileInfo.OwnerName = community.ProfileInfo.OwnerName;
             community.Update(communityInfo, openHouses);
         }
     }
