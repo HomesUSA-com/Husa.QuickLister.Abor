@@ -95,13 +95,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.IsManuallyManaged = manuallyManaged;
         }
 
-        public SaleListing(ListingValueObject listingInfo, ListingSaleStatusFieldsInfo statusFieldsInfo, SalePropertyValueObject salePropertyInfo, Guid companyId)
+        public SaleListing(ListingValueObject listingInfo, ListingSaleStatusFieldsInfo statusFieldsInfo, SalePropertyValueObject salePropertyInfo, Guid companyId, bool isManuallyManaged = false)
             : this()
         {
             this.CompanyId = companyId;
             this.StatusFieldsInfo = statusFieldsInfo;
             this.SaleProperty = new(salePropertyInfo, companyId);
             this.SalePropertyId = listingInfo.PropertyId;
+            this.IsManuallyManaged = isManuallyManaged;
             this.CopyInformationFromValueObject(listingInfo);
         }
 

@@ -66,7 +66,8 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
                 residentialDto.MlsNumber,
                 residentialDto.SaleProperty.AddressInfo.StreetNumber,
                 residentialDto.SaleProperty.AddressInfo.StreetName,
-                residentialDto.SaleProperty.AddressInfo.ZipCode);
+                residentialDto.SaleProperty.AddressInfo.ZipCode,
+                residentialDto.SaleProperty.AddressInfo.UnitNumber);
 
             var listingStatusInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(residentialDto.StatusFieldsInfo);
             var agent = await this.agentRepository.GetAgentByMarketUniqueId(residentialDto.SellingAgentId);
@@ -76,7 +77,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
 
             if (listingSale is null)
             {
-                listingSale = new SaleListing(listingInfo, listingStatusInfo, salePropertyInfo, company.Id);
+                listingSale = new SaleListing(listingInfo, listingStatusInfo, salePropertyInfo, company.Id, true);
                 this.listingSaleRepository.Attach(listingSale);
             }
             else
