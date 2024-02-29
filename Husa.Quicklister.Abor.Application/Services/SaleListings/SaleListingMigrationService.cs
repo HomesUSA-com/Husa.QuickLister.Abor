@@ -65,9 +65,10 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             listingDto.StatusFieldsInfo.AgentIdSecond = await this.GetAgentIdByMarketUniqueId(legacyListing.StatusFieldsInfo.AgentIdSecond);
 
             await this.saleListingService.UpdateListing(listing.Id, listingDto);
-            if (!string.IsNullOrWhiteSpace(listingDto.MlsNumber))
+            if (string.IsNullOrWhiteSpace(listing.MlsNumber) && !string.IsNullOrWhiteSpace(listingDto.MlsNumber))
             {
                 await this.saleListingService.AssignMlsNumberAsync(listing.Id, listingDto.MlsNumber, listingDto.MlsStatus, ActionType.NewListing);
+                await this.saleListingService.UnlockListing(listing.Id);
             }
         }
 
