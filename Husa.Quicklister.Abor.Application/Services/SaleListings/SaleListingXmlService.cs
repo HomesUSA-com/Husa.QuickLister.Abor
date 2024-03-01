@@ -41,6 +41,12 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
         private readonly ISaleListingRequestService saleListingRequestService;
         private readonly IXmlMediaService xmlMediaService;
 
+        private readonly IEnumerable<MarketStatuses> notAlowedStatusForRequest = new[]
+        {
+            MarketStatuses.Closed,
+            MarketStatuses.Canceled,
+        };
+
         public SaleListingXmlService(
             IXmlClient xmlClient,
             IListingSaleRepository listingSaleRepository,
@@ -128,9 +134,9 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 return;
             }
 
-            if (listing.MlsStatus == MarketStatuses.Closed)
+            if (this.notAlowedStatusForRequest.Contains(listing.MlsStatus))
             {
-                this.Logger.LogWarning("The listing could not be updated because is an sold listing {listingId}", listing.Id);
+                this.Logger.LogWarning("The listing could not be updated because is an {listing.MlsStatus} listing {listingId}", listing.MlsStatus.ToString(), listing.Id);
                 return;
             }
 
