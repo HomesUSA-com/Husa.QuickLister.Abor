@@ -107,6 +107,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                     It.Is<string>(x => x == mlsNumber),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
+                    It.IsAny<string>(),
                     It.IsAny<string>()))
                 .ReturnsAsync((SaleListing)null)
                 .Verifiable();
@@ -158,6 +159,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.listingSaleRepository.Setup(
                 r => r.GetListingByLocationAsync(
                     It.Is<string>(x => x == mlsNumber),
+                    It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))

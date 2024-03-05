@@ -30,7 +30,7 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
         {
         }
 
-        public async Task<SaleListing> GetListingByLocationAsync(string mlsNumber, string streetNumber, string streetName, string zip)
+        public async Task<SaleListing> GetListingByLocationAsync(string mlsNumber, string streetNumber, string streetName, string zip, string unitNumber = null)
         {
             this.logger.LogInformation("Starting to get ABOR list sale by locations - mls number: {mlsNumber}, address: {streetNumber} {streetName}, zip: {zip}", mlsNumber, streetNumber, streetName, zip);
             var query = this.context.ListingSale.Include(x => x.SaleProperty).Where(x => !x.IsDeleted);
