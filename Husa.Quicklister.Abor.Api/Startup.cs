@@ -54,7 +54,7 @@ namespace Husa.Quicklister.Abor.Api
                 .AddCommandRepositories()
                 .AddQueriesRepositories()
                 .AddCommonRepositories()
-                .AddListingRequestsRepositories()
+                .AddCosmosClientAndService()
                 .AddCosmosRepositories();
 
             services

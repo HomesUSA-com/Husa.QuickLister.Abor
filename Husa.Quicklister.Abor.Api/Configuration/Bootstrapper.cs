@@ -112,6 +112,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IQueryXmlRepository, QueryXmlRepository>();
             services.AddScoped<IManagementTraceQueriesRepository, ManagementTraceQueriesRepository>();
             services.AddScoped<IMigrationQueryRepository, RequestMigrationQueryRepository>();
+            services.AddScoped<IUserCacheRepository, RepositoryExtensions.UserCacheRepository>();
             return services;
         }
 
