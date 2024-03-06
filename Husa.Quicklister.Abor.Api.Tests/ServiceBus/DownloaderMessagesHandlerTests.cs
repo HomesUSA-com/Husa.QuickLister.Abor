@@ -16,7 +16,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Office;
-    using Husa.Quicklister.Abor.Application.Interfaces.OpenHouse;
     using Husa.Quicklister.Abor.Application.Models.Agent;
     using Husa.Quicklister.Abor.Application.Models.Office;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
@@ -37,7 +36,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
         private readonly Mock<IAgentService> agentServiceMock = new();
         private readonly Mock<IOfficeService> officeServiceMock = new();
         private readonly Mock<IMediaService> mediaServiceMock = new();
-        private readonly Mock<IOpenHouseService> openHouseMock = new();
         private readonly Mock<IResidentialService> residentialServiceMock = new();
 
         private readonly Mock<IServiceScopeFactory> serviceScopeFactoryMock = new();
@@ -143,34 +141,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
         }
 
         [Fact]
-        public async Task ProcessOpenHouseMessageSuccessTestAsync()
-        {
-            // Arrange
-            var mlsId = "123456";
-            var openHouseMessage = new ResidentialOpenHousesMessage
-            {
-                EndTime = DateTime.UtcNow,
-                StartTime = DateTime.UtcNow,
-                Refreshments = "Snacks",
-                ResidentialMlsId = mlsId,
-            };
-
-            var message = ApplicationServicesFixture.BuildBusMessage(openHouseMessage);
-            this.subscriberMock
-                .SetupGet(s => s.Client)
-                .Returns(this.subscriptionClientMock.Object);
-            var sut = this.GetSut();
-            this.ConfigureServiceProvider();
-
-            // Act
-            await sut.HandleMessage(message, cancellationToken: default);
-
-            // Assert
-            this.openHouseMock.Verify(
-                ds => ds.ProcessData(It.Is<string>(a => a == mlsId), It.IsAny<Application.Models.OpenHouseDto>()), Times.Once);
-        }
-
-        [Fact]
         public async Task ProcessUnmanagedMessageTypeIsIgnoredCorrectlyTestAsync()
         {
             // Arrange
@@ -211,7 +181,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
             serviceCollection.AddSingleton(this.officeServiceMock.Object);
             serviceCollection.AddSingleton(this.residentialServiceMock.Object);
             serviceCollection.AddSingleton(this.mediaServiceMock.Object);
-            serviceCollection.AddSingleton(this.openHouseMock.Object);
             serviceCollection.AddSingleton(userProvider.Object);
             serviceCollection.AddSingleton(new HeaderPropagationValues());
 

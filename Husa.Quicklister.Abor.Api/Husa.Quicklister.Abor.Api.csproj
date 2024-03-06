@@ -9,7 +9,7 @@
     <ItemGroup>
         <PackageReference Include="Figgle" Version="0.5.1" />
         <PackageReference Include="FluentValidation" Version="11.9.0" />
-        <PackageReference Include="Husa.Downloader.CTX.ServiceBus.Contracts" Version="2.0.1" />
+        <PackageReference Include="Husa.Downloader.CTX.ServiceBus.Contracts" Version="2.0.2" />
         <PackageReference Include="Husa.Extensions.Api" Version="5.0.1" />
         <PackageReference Include="Husa.Extensions.Api.Cors" Version="3.0.0" />
         <PackageReference Include="Husa.Extensions.Api.Middleware" Version="1.1.0" />
