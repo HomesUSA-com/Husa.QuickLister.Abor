@@ -3,14 +3,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Threading;
     using System.Threading.Tasks;
-    using Husa.CompanyServicesManager.Api.Client.Interfaces;
-    using Husa.CompanyServicesManager.Api.Contracts.Request;
-    using Husa.Extensions.Cache;
-    using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
+    using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
     using Moq;
     using Xunit;
     using User = Husa.CompanyServicesManager.Api.Contracts.Response.User;
@@ -20,8 +16,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
 
     public class UserRepositoryTests
     {
-        private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
-        private readonly Mock<ICache> cache = new();
+        private readonly Mock<IUserCacheRepository> userCacheRepository = new();
 
         [Fact]
         public async Task GetUsersById_NoUserId_Success()
@@ -47,11 +42,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
             var user1 = TestModelProvider.GetUser(userId1);
             var user2 = TestModelProvider.GetUser(userId2);
             var userReturned = new List<User>() { user1, user2 };
-            var dataSetQueryResult = new DataSet<User>(userReturned, 2);
 
-            this.serviceSubscriptionClient
-                .Setup(s => s.User.GetAsync(It.IsAny<UserRequest>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(dataSetQueryResult);
+            this.userCacheRepository
+                .Setup(s => s.GetUsers(It.IsAny<IEnumerable<Guid>>()))
+                .ReturnsAsync(userReturned);
             var sut = this.GetSut();
 
             // Act
@@ -59,11 +53,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
 
             // Assert
             Assert.NotEmpty(users);
-            this.serviceSubscriptionClient.Verify(ss => ss.User.GetAsync(It.IsAny<UserRequest>(), It.IsAny<CancellationToken>()), Times.Once);
             var result = Assert.IsAssignableFrom<IEnumerable<User>>(users);
             Assert.Contains(result, u => u.Id == userId1);
         }
 
-        private UserRepository GetSut() => new(this.cache.Object, this.serviceSubscriptionClient.Object);
+        private UserRepository GetSut() => new(this.userCacheRepository.Object);
     }
 }
