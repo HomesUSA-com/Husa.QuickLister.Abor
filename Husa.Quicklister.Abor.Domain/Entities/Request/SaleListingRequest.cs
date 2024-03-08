@@ -41,8 +41,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
             this.PublishInfo = new();
         }
 
-        public virtual Guid ListingSaleId { get; set; }
-
         [Required]
         [ValidateProperties]
         public virtual SalePropertyRecord SaleProperty { get; set; }
@@ -50,8 +48,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
         public virtual StatusFieldsRecord StatusFieldsInfo { get; set; }
 
         public virtual PublishFieldsRecord PublishInfo { get; set; }
-
-        public override Guid EntityId => this.ListingSaleId;
 
         public override Guid CompanyId
         {
