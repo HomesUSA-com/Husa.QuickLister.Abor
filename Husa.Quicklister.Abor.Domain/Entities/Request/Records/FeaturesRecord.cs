@@ -28,6 +28,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         [Required]
         [MinLength(1)]
+        [MaxLength(20)]
         public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
 
         [Required]
