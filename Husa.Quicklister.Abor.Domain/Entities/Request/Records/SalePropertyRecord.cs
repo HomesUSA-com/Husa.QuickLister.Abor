@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Comparers;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -14,7 +15,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Request;
-    using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using ExtensionsRecord = Husa.Quicklister.Extensions.Domain.Entities.Request.Records.SalePropertyRecord;
 
     public record SalePropertyRecord : ExtensionsRecord, IProvideSummary, ISalePropertyRecord<CommunitySale>

@@ -3,12 +3,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Husa.Extensions.Document.Extensions;
+    using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Comparers;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Extensions;
-    using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using ExtensionsCommunity = Husa.Quicklister.Extensions.Domain.Entities.Community.CommunityHistory;
 
     public class CommunityHistory : ExtensionsCommunity, IEntityOpenHouse<OpenHouse>

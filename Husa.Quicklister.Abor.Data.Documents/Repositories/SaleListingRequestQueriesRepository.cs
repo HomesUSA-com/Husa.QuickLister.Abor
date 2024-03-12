@@ -7,6 +7,10 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.Document.Interfaces;
+    using Husa.Extensions.Document.Models;
+    using Husa.Extensions.Document.Specifications;
+    using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Documents.Models;
@@ -21,14 +25,11 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
     using Husa.Quicklister.Extensions.Crosscutting;
-    using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
-    using Husa.Quicklister.Extensions.Data.Documents.Specifications;
     using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using Microsoft.Azure.Cosmos;
     using Microsoft.Extensions.Options;
     using ExtensionRepositories = Husa.Quicklister.Extensions.Data.Documents.Repositories;

@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.CompanyServicesManager.Api.Contracts.Request;
     using Husa.Downloader.CTX.Api.Client;
     using Husa.Extensions.Common.Classes;
+    using Husa.Extensions.Document.Interfaces;
     using Husa.Extensions.EmailNotification.Services;
     using Husa.Extensions.Media.Interfaces;
     using Husa.MediaService.Client;
@@ -19,7 +20,6 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Extensions.Application.Interfaces.Media;
-    using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.ReverseProspect.Api.Client;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Request;

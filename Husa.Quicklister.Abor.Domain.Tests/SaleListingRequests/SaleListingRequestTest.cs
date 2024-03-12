@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
@@ -14,7 +15,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Common;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using Moq;
     using Xunit;
 

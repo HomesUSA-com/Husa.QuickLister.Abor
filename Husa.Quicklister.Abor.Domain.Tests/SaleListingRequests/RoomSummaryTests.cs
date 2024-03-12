@@ -4,11 +4,11 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
-    using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using Xunit;
 
     [ExcludeFromCodeCoverage]

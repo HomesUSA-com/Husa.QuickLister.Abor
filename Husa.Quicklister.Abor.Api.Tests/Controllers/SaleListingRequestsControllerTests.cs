@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Husa.Extensions.Document.Models;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleRequest;
     using Husa.Quicklister.Abor.Api.Controllers;
@@ -17,7 +18,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
     using Husa.Quicklister.Abor.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;
-    using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
