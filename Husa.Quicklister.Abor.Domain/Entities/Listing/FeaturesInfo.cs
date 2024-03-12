@@ -12,7 +12,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
     public class FeaturesInfo : ValueObject, IProvideFeature
     {
-        private static readonly string RemoveKeyword = "MLS Number";
+        private static readonly string RemoveKeyword = "MLS Num";
         private static readonly int PropertyDescriptionLength = 4000;
         private ICollection<FireplaceDescription> fireplaceDescription;
         private WaterBodyName? waterBodyName;
