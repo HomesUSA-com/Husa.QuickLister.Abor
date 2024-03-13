@@ -56,14 +56,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             var summarySections = new List<SummarySection>()
             {
                 this.GetRootSummary(previousCommunity),
-                this.ProfileInfo.GetSummarySection(previousCommunity.ProfileInfo, nameof(this.ProfileInfo), isInnerSummary: true),
-                this.SaleOffice.GetSummarySection(previousCommunity.SaleOffice, nameof(this.SaleOffice), isInnerSummary: true),
-                this.EmailLead.GetSummarySection(previousCommunity.EmailLead, nameof(this.EmailLead), isInnerSummary: true),
-                this.Financial.GetSummarySection(previousCommunity.Financial, nameof(this.Financial), isInnerSummary: true),
-                this.Showing.GetSummarySection(previousCommunity.Showing, nameof(this.Showing), isInnerSummary: true),
-                this.Property.GetSummarySection(previousCommunity.Property, nameof(this.Property), isInnerSummary: true),
-                this.Utilities.GetSummarySection(previousCommunity.Utilities, nameof(this.Utilities), isInnerSummary: true),
-                this.SchoolsInfo.GetSummarySection(previousCommunity.SchoolsInfo, nameof(this.SchoolsInfo), isInnerSummary: true),
+                this.ProfileInfo.GetSummarySection(previousCommunity.ProfileInfo, nameof(this.ProfileInfo)),
+                this.SaleOffice.GetSummarySection(previousCommunity.SaleOffice, nameof(this.SaleOffice)),
+                this.EmailLead.GetSummarySection(previousCommunity.EmailLead, nameof(this.EmailLead)),
+                this.Financial.GetSummarySection(previousCommunity.Financial, nameof(this.Financial)),
+                this.Showing.GetSummarySection(previousCommunity.Showing, nameof(this.Showing)),
+                this.Property.GetSummarySection(previousCommunity.Property, nameof(this.Property)),
+                this.Utilities.GetSummarySection(previousCommunity.Utilities, nameof(this.Utilities)),
+                this.SchoolsInfo.GetSummarySection(previousCommunity.SchoolsInfo, nameof(this.SchoolsInfo)),
             };
 
             var openHouseSummaryFields = this.OpenHouses.GetSummaryByComparer<OpenHouse, OpenHouseComparer>(previousCommunity.OpenHouses);

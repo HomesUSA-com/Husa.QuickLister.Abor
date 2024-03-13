@@ -2,7 +2,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Common.Validations;
@@ -182,19 +181,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         public virtual SummarySection GetSummary<T>(T entity)
             where T : class
-        {
-            var summaryFields = SummaryExtensions.GetFieldSummary(this, entity, isInnerSummary: true);
-
-            if (!summaryFields.Any())
-            {
-                return null;
-            }
-
-            return new()
-            {
-                Name = SummarySection,
-                Fields = summaryFields,
-            };
-        }
+        => this.GetSummarySection(entity, sectionName: SummarySection);
     }
 }

@@ -24,7 +24,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
         {
             try
             {
-                return string.IsNullOrWhiteSpace(city) ? null : city.GetEnumValueFromDescription<Cities>();
+                return string.IsNullOrWhiteSpace(city) ? null : city.GetEnumValueFromDescription<Cities>(true);
             }
             catch
             {

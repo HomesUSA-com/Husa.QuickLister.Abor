@@ -74,9 +74,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
             importedPropertyInfo.Latitude = listing.Latitude != null ? listing.Latitude : importedPropertyInfo.Latitude;
             importedPropertyInfo.Longitude = listing.Longitude != null ? listing.Longitude : importedPropertyInfo.Longitude;
-            importedPropertyInfo.ConstructionCompletionDate = listing.Day;
             importedPropertyInfo.LotDescription = listing.LegalDescLot.CsvToEnum<LotDescription>().ToArray();
             importedPropertyInfo.IsXmlManaged = true;
+
+            if (listing.Day.HasValue)
+            {
+                importedPropertyInfo.ConstructionCompletionDate = listing.Day;
+                importedPropertyInfo.ConstructionStage = listing.Day.Value.Date > DateTime.UtcNow.Date ? Enums.Domain.ConstructionStage.Incomplete : Enums.Domain.ConstructionStage.Complete;
+            }
 
             return importedPropertyInfo;
         }

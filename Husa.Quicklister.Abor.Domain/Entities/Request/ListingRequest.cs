@@ -60,7 +60,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
         }
 
         public virtual IEnumerable<SummaryField> GetRequestSummary(ListingRequest oldObject) => SummaryExtensions.GetFieldSummary(
-            this, oldObject, isInnerSummary: true, filterFields: new string[]
+            this, oldObject, excludeFields: new string[]
             {
                 nameof(this.Id),
                 nameof(this.MlsNumber),
