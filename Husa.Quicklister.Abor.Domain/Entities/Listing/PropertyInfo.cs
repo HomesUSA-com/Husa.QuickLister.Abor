@@ -104,6 +104,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             if (listing.Day.HasValue)
             {
                 this.ConstructionCompletionDate = listing.Day;
+                this.ConstructionStage = listing.Day.Value.Date > DateTime.UtcNow.Date ? Enums.Domain.ConstructionStage.Incomplete : Enums.Domain.ConstructionStage.Complete;
             }
 
             if (!string.IsNullOrEmpty(listing.LegalDescLot))
