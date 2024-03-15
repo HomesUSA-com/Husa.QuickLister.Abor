@@ -20,7 +20,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
         {
             this.CreateMap<AddressResponse, AddressRecord>()
                 .ForMember(dto => dto.FormalAddress, pr => pr.Ignore())
-                .ForMember(dto => dto.City, pr => pr.MapFrom(x => x.City.ToEnumFromEnumMember<Cities>()))
+                .ForMember(dto => dto.City, pr => pr.MapFrom(x => x.City.ToCity()))
                 .ForMember(dto => dto.ReadableCity, pr => pr.MapFrom(x => x.City.ToEnumFromEnumMember<Cities>().GetEnumDescription()))
                 .ForMember(dto => dto.County, pr => pr.MapFrom(x => x.County.ToEnumFromEnumMember<Counties>()))
                 .ForMember(dto => dto.UnitNumber, pr => pr.MapFrom(x => x.UnitNum))
@@ -30,7 +30,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.LotDescription, pr => pr.MapFrom(x => x.LotDescription.ToLotDescription()))
                 .ForMember(dto => dto.PropertyType, pr => pr.MapFrom(x => x.PropertyType.ToEnumFromEnumMember<PropertySubType>()))
                 .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(x => x.MlsArea.ToEnumFromEnumMember<MlsArea>()))
-                .ForMember(dto => dto.FemaFloodPlain, pr => pr.Ignore());
+                .ForMember(dto => dto.FemaFloodPlain, pr => pr.MapFrom(x => x.FemaFloodPlain.CsvToEnum<FemaFloodPlain>(true)));
             this.CreateMap<FeaturesResponse, FeaturesRecord>()
                 .ForMember(dto => dto.GarageDescription, pr => pr.Ignore())
                 .ForMember(dto => dto.GarageSpaces, pr => pr.MapFrom(x => x.GarageCapacity))
