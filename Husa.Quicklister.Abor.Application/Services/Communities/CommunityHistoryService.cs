@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Application.Services.Communities
 {
     using Husa.Extensions.Authorization;
+    using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Microsoft.Extensions.Logging;
@@ -10,7 +11,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
         CommunitySale,
         CommunityHistory,
         ICommunitySaleRepository,
-        ICommunityHistoryRepository>
+        ICommunityHistoryRepository>, ICommunityHistoryService
     {
         public CommunityHistoryService(
             ICommunitySaleRepository saleCommunityRepository,

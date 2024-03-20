@@ -55,7 +55,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Application.Interfaces.Migration;
     using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
@@ -73,7 +72,9 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
     using Microsoft.OpenApi.Models;
+    using InterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using RepositoryExtensions = Husa.Quicklister.Extensions.Data.Queries.Repositories;
+
     public static class Bootstrapper
     {
         public static IServiceCollection BindOptions(this IServiceCollection services)
@@ -145,8 +146,9 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.AddScoped<ISaleCommunityService, SaleCommunityService>();
             services.AddScoped<ICommunityPhotoService, CommunityPhotoService>();
-            services.AddScoped<ICommunityXmlService, CommunityXmlService>();
+            services.AddScoped<InterfaceExtensions.ICommunityXmlService, CommunityXmlService>();
             services.AddScoped<ICommunityMigrationService, CommunityMigrationService>();
+            services.AddScoped<ICommunityHistoryMigrationService, CommunityHistoryMigrationService>();
             services.AddScoped<ICommunityMediaService, CommunityMediaService>();
             services.AddScoped<ICommunityNotesService, CommunityNotesService>();
 

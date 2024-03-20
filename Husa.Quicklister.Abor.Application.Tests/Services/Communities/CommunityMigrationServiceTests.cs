@@ -61,7 +61,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
             await this.Sut.MigrateByCompanyId(companyId, createCommunity: true);
 
             // Assert
-            this.communityRepository.Verify(r => r.Attach(It.Is<IEnumerable<CommunitySale>>(x => x.Count() == communitysReponse.Count())), Times.Once);
+            this.communityRepository.Verify(r => r.Attach(It.IsAny<CommunitySale>()), Times.Exactly(communitysReponse.Count()));
             this.communityRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
         }
 
@@ -98,7 +98,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
             {
                 yield return new()
                 {
-                    Id = num,
+                    LegacyCommunityId = num,
                     ProfileInfo = new()
                     {
                         Name = $"Community {num}",

@@ -15,15 +15,17 @@ namespace Husa.Quicklister.Abor.Domain.Entities.OpenHouse
           TimeSpan startTime,
           TimeSpan endTime,
           ICollection<Refreshments> refreshments)
+            : this()
         {
             this.Type = type;
             this.StartTime = startTime;
             this.EndTime = endTime;
-            this.Refreshments = refreshments;
+            this.Refreshments = refreshments ?? new List<Refreshments>();
         }
 
         protected OpenHouse()
         {
+            this.Refreshments = new List<Refreshments>();
         }
 
         public OpenHouseTypeEnum Type { get; set; }
