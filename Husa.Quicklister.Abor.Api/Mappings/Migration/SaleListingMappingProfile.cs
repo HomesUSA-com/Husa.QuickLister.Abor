@@ -112,7 +112,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.Id, pr => pr.Ignore())
                 .ForMember(dto => dto.ListType, pr => pr.Ignore())
                 .ForMember(dto => dto.MarketModifiedOn, pr => pr.Ignore())
-                .ForMember(dto => dto.IsManuallyManaged, pr => pr.Ignore());
+                .ForMember(dto => dto.IsManuallyManaged, pr => pr.MapFrom(x => !x.IsXmlManaged));
 
             this.CreateMap<OpenHouseResponse, OpenHouseDto>()
                 .ForMember(dto => dto.Refreshments, pr => pr.MapFrom(x => x.Refreshments.CsvToEnum<Refreshments>(true)))
