@@ -12,9 +12,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Extensions;
 
-    public class CommuntiyMappingProfile : Profile
+    public class CommunityMappingProfile : Profile
     {
-        public CommuntiyMappingProfile()
+        public CommunityMappingProfile()
         {
             this.CreateMap<ProfileResponse, ProfileInfo>()
                 .ForMember(dto => dto.OwnerName, cr => cr.Ignore())
@@ -104,11 +104,11 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.Financial, cr => cr.MapFrom(x => x.FinancialInfo))
                 .ForMember(dto => dto.Showing, cr => cr.MapFrom(x => x.ShowingInfo))
                 .ForMember(dto => dto.EmailLead, cr => cr.MapFrom(x => x.EmailLeads))
-                .ForMember(dto => dto.LegacyId, cr => cr.MapFrom(x => x.CommunityGuid))
-                .ForMember(dto => dto.LegacyProfileId, cr => cr.MapFrom(x => x.Id))
+                .ForMember(dto => dto.LegacyProfileId, cr => cr.MapFrom(x => x.LegacyCommunityId))
                 .ForMember(dto => dto.IsDeleted, cr => cr.MapFrom(x => false))
                 .ForMember(dto => dto.CommunityType, cr => cr.MapFrom(x => CommunityType.SaleCommunity))
                 .ForMember(dto => dto.Id, cr => cr.Ignore())
+                .ForMember(dto => dto.LegacyId, cr => cr.Ignore())
                 .ForMember(dto => dto.OpenHouses, cr => cr.Ignore())
                 .ForMember(dto => dto.SysModifiedOn, cr => cr.Ignore())
                 .ForMember(dto => dto.SysCreatedOn, cr => cr.Ignore())

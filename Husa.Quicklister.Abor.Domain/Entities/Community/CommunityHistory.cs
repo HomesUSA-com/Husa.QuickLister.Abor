@@ -13,6 +13,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
 
     public class CommunityHistory : ExtensionsCommunity, IEntityOpenHouse<OpenHouse>
     {
+        public CommunityHistory()
+            : base()
+        {
+            this.OpenHouses = new List<OpenHouse>();
+        }
+
         public CommunityHistory(Guid communityId)
             : base(communityId)
         {
