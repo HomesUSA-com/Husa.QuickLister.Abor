@@ -156,6 +156,7 @@ namespace Husa.Quicklister.Abor.Application
             }
 
             var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            var company = await this.serviceSubscriptionClient.Company.GetCompany(listingSale.CompanyId) ?? throw new NotFoundException<SaleListing>(listingSale.CompanyId);
             await this.UpdateBaseListingInfo(listingDto, Guid.Empty, listingSale);
 
             var statusFieldsInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingDto.StatusFieldsInfo);
@@ -167,7 +168,7 @@ namespace Husa.Quicklister.Abor.Application
             await this.UpdateSchoolsInfo(listingDto.SaleProperty.SchoolsInfo, entity: listingSale);
             await this.UpdateFeaturesInfo(listingDto.SaleProperty.FeaturesInfo, entity: listingSale);
             await this.UpdateFinancialInfo(listingDto.SaleProperty.FinancialInfo, entity: listingSale);
-            await this.UpdateSpacesDimensionsInfo(listingDto.SaleProperty.SpacesDimensionsInfo, entity: listingSale);
+            await this.UpdateSpacesDimensionsInfo(listingDto.SaleProperty.SpacesDimensionsInfo, entity: listingSale, isBlockedSquareFootage: company.MlsInfo.BlockSquareFootage);
             await this.UpdateRooms(listingDto.SaleProperty.Rooms, entity: listingSale);
             await this.UpdateOpenHouse(listingDto.SaleProperty.OpenHouses, entity: listingSale);
 
@@ -245,13 +246,13 @@ namespace Husa.Quicklister.Abor.Application
             entity.SaleProperty.UpdateSchools(schools);
         }
 
-        public async Task UpdateSpacesDimensionsInfo(SpacesDimensionsDto spacesDimensionsDto, Guid listingId = default, SaleListing entity = null)
+        public async Task UpdateSpacesDimensionsInfo(SpacesDimensionsDto spacesDimensionsDto, Guid listingId = default, SaleListing entity = null, bool isBlockedSquareFootage = false)
         {
             this.Logger.LogInformation("Starting update spaces and dimensions  information for listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
 
             var spacesDimensions = this.mapper.Map<SpacesDimensionsInfo>(spacesDimensionsDto);
-            entity.SaleProperty.UpdateSpacesDimensions(spacesDimensions);
+            entity.SaleProperty.UpdateSpacesDimensions(spacesDimensions, !isBlockedSquareFootage || this.UserContextProvider.GetCurrentUser().IsMLSAdministrator);
         }
 
         public async Task UpdateShowingInfo(ShowingDto showingDto, Guid listingId = default, SaleListing entity = null)
