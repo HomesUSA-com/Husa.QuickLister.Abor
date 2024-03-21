@@ -525,10 +525,14 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return plan;
         }
 
-        public static CompanyDetail GetCompanyDetail(Guid? companyId = null) => new()
+        public static CompanyDetail GetCompanyDetail(Guid? companyId = null, bool blockSquareFootage = false) => new()
         {
             Id = companyId ?? Guid.NewGuid(),
             Name = Faker.Company.Name(),
+            MlsInfo = new()
+            {
+                BlockSquareFootage = blockSquareFootage,
+            },
         };
 
         public static MediaDetail GetMediaDetail(Guid? mediaId = null) => new()

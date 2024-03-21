@@ -34,7 +34,7 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
 
         Task UpdateSchoolsInfo(Models.SchoolsDto schoolsDto, Guid listingId = default, SaleListing entity = null);
 
-        Task UpdateSpacesDimensionsInfo(SpacesDimensionsDto spacesDimensionsDto, Guid listingId = default, SaleListing entity = null);
+        Task UpdateSpacesDimensionsInfo(SpacesDimensionsDto spacesDimensionsDto, Guid listingId = default, SaleListing entity = null, bool isBlockedSquareFootage = false);
 
         Task UpdateShowingInfo(ShowingDto showingDto, Guid listingId = default, SaleListing entity = null);
 
