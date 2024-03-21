@@ -298,9 +298,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var userId = Guid.NewGuid();
             var companyId = Guid.NewGuid();
             var listingId = Guid.NewGuid();
-            var listingSale = TestModelProvider.GetListingSaleEntity(listingId, true);
+            var listingSale = TestModelProvider.GetListingSaleEntity(listingId, true, companyId);
             var listingSaleDto = TestModelProvider.GetSaleListingDto();
-            var user = TestModelProvider.GetCurrentUser(userId, companyId);
+            var user = TestModelProvider.GetCurrentUser(userId, companyId, userRole: UserRole.MLSAdministrator);
 
             this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
 
@@ -308,6 +308,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => filterByCompany)))
                 .ReturnsAsync(listingSale)
                 .Verifiable();
+
+            this.SetupSubscriptionClientCompany(companyId, blockSquareFootage: true);
 
             // Act
             await this.Sut.UpdateListing(listingId, listingSaleDto);
@@ -815,9 +817,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 Times.Once);
         }
 
-        private void SetupSubscriptionClientCompany(Guid companyId, ServiceCode? service = null)
+        private void SetupSubscriptionClientCompany(Guid companyId, ServiceCode? service = null, bool blockSquareFootage = false)
         {
-            var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
+            var companyDetail = TestModelProvider.GetCompanyDetail(companyId, blockSquareFootage: blockSquareFootage);
             this.serviceSubscriptionClient
                 .Setup(c => c.Company.GetCompany(companyId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(companyDetail);
