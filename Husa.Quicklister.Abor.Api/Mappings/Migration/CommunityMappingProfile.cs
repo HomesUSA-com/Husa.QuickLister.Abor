@@ -57,11 +57,11 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.Foundation, pr => pr.MapFrom(x => x.Foundation.CsvToEnum<Foundation>(true)))
                 .ForMember(dto => dto.HeatSystem, pr => pr.MapFrom(x => x.HeatSystem.CsvToEnum<HeatingSystem>(true)))
                 .ForMember(dto => dto.CoolingSystem, pr => pr.MapFrom(x => x.CoolingSystem.CsvToEnum<CoolingSystem>(true)))
-                .ForMember(dto => dto.View, pr => pr.MapFrom(x => x.ViewDescription.CsvToEnum<View>(true)));
+                .ForMember(dto => dto.View, pr => pr.MapFrom(x => x.ViewDescription.ToView()));
             this.CreateMap<FinancialResponse, CommunityFinancialInfo>()
                 .ForMember(dto => dto.AcceptableFinancing, pr => pr.MapFrom(x => x.AcceptableFinancing.ToAcceptableFinancing()))
                 .ForMember(dto => dto.TaxExemptions, pr => pr.MapFrom(x => x.TaxExemptions.ToTaxExemptions()))
-                .ForMember(dto => dto.HoaIncludes, pr => pr.MapFrom(x => x.HoaIncludes.CsvToEnum<HoaIncludes>(true)))
+                .ForMember(dto => dto.HoaIncludes, pr => pr.MapFrom(x => x.HoaIncludes.ToHoaIncludes()))
                 .ForMember(dto => dto.BillingFrequency, pr => pr.MapFrom(x => x.BillingFrequency.ToEnumFromEnumMember<BillingFrequency>()))
                 .ForMember(dto => dto.HOARequirement, pr => pr.MapFrom(x => x.HOARequirement.ToEnumFromEnumMember<HoaRequirement>()))
                 .ForMember(dto => dto.AgentBonusAmountType, pr => pr.MapFrom(x => x.AgentBonusAmountType.ToEnumFromEnumMember<CommissionType>()))

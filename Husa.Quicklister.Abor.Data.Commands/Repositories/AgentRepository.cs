@@ -19,5 +19,12 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             this.logger.LogInformation("Starting to get agent with Uid {marketUniqueId}", marketUniqueId);
             return this.context.Agent.SingleOrDefaultAsync(x => x.AgentValue.MarketUniqueId == marketUniqueId);
         }
+
+        public Task<Agent> GetAgentByMemberStateLicense(string input)
+        {
+            var newId = input.Length > 0 && input[0] != '0' ? input.PadLeft(input.Length + 1, '0') : input;
+            this.logger.LogInformation("Starting to get agent with Uid {marketUniqueId}", newId);
+            return this.context.Agent.FirstOrDefaultAsync(x => x.AgentValue.MemberStateLicense == newId);
+        }
     }
 }

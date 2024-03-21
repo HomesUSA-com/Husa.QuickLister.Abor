@@ -60,6 +60,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             PublishInfo = listingSale.PublishInfo.ToProjectionPublishInfo(),
             EmailLead = listingSale.SaleProperty.Community.EmailLead.ToProjectionEmailLead(),
             XmlListingId = listingSale.XmlListingId,
+            XmlDiscrepancyListingId = listingSale.XmlDiscrepancyListingId,
             Directions = listingSale.SaleProperty.ShowingInfo.Directions,
             OwnerName = listingSale.SaleProperty.OwnerName,
             PlanName = listingSale.SaleProperty.Plan != null ? listingSale.SaleProperty.Plan.BasePlan.Name : null,
