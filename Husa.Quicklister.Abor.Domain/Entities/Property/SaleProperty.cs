@@ -199,7 +199,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
         }
 
-        public virtual void UpdateSpacesDimensions(SpacesDimensionsInfo spacesDimensions)
+        public virtual void UpdateSpacesDimensions(SpacesDimensionsInfo spacesDimensions, bool updateSquareFootage = false)
         {
             if (spacesDimensions is null)
             {
@@ -208,7 +208,18 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
             if (this.SpacesDimensionsInfo != spacesDimensions)
             {
-                this.SpacesDimensionsInfo = spacesDimensions;
+                this.SpacesDimensionsInfo.DiningAreasTotal = spacesDimensions.DiningAreasTotal;
+                this.SpacesDimensionsInfo.FullBathsTotal = spacesDimensions.FullBathsTotal;
+                this.SpacesDimensionsInfo.HalfBathsTotal = spacesDimensions.HalfBathsTotal;
+                this.SpacesDimensionsInfo.StoriesTotal = spacesDimensions.StoriesTotal;
+                this.SpacesDimensionsInfo.MainLevelBedroomTotal = spacesDimensions.MainLevelBedroomTotal;
+                this.SpacesDimensionsInfo.OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal;
+                this.SpacesDimensionsInfo.LivingAreasTotal = spacesDimensions.LivingAreasTotal;
+
+                if (updateSquareFootage)
+                {
+                    this.SpacesDimensionsInfo.SqFtTotal = spacesDimensions.SqFtTotal;
+                }
             }
         }
 

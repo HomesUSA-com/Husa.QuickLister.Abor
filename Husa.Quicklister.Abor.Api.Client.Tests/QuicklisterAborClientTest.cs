@@ -301,6 +301,11 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var listingId = Factory.ListingId;
             var listingSaleRequest = ListingTestProvider.GetListingSaleDetailRequest();
 
+            var companyResponse = new Response.CompanyDetail() { Id = Factory.CompanyId, Name = "fakeName", MlsInfo = new() { BlockSquareFootage = true } };
+            var companyClient = this.customWebApplicationFactory.Services.GetRequiredService<IServiceSubscriptionClient>();
+            var companyResourceMock = Mock.Get(companyClient.Company);
+            companyResourceMock.Setup(c => c.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyResponse);
+
             // Act
             await this.quicklisterAborClient.SaleListing.UpdateListing(listingId, listingSaleRequest);
 
