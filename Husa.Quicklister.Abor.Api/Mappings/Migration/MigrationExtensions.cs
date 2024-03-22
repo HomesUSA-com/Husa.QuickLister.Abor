@@ -24,6 +24,20 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
         public static ICollection<View> ToView(this string value)
             => value.Replace("NONE", "None").CsvToEnum<View>(true).ToList();
 
+        public static MarketStatuses ToMarketStatuses(this string value)
+            => value.Replace("Withdrawn", "Canceled").ToEnumFromEnumMember<MarketStatuses>();
+
+        public static ICollection<FemaFloodPlain> ToFemaFloodPlain(this string value)
+            => value.Replace("S", "SRMRKS").CsvToEnum<FemaFloodPlain>(true).ToList();
+
+        public static ICollection<FireplaceDescription> ToFireplaceDescription(this string value)
+            => value
+            .Replace("FBTHR", "Bath")
+            .Replace("FBDRM", "BDRM")
+            .Replace("FLVRM", "LIVRM")
+            .Replace("WDBRN", "WDBN")
+            .CsvToEnum<FireplaceDescription>(true).ToList();
+
         public static Cities? ToCity(this string city)
         {
             try
