@@ -91,7 +91,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                .ForMember(dest => dest.MarketModifiedOn, config => config.MapFrom(x => x.MarketModifiedOn))
                .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.Austin))
                .ForMember(dest => dest.IsCompleteHome, config => config.MapFrom(x => x.SaleProperty.PropertyInfo.ConstructionStage == ConstructionStage.Complete))
-               .ForMember(dest => dest.PlanName, config => config.MapFrom(x => x.PlanName));
+               .ForMember(dest => dest.PlanName, config => config.MapFrom(x => x.PlanName))
+               .ForMember(dest => dest.XmlListingId, config => config.MapFrom(x => x.XmlListingId == null || x.XmlListingId == Guid.Empty ? x.XmlDiscrepancyListingId : x.XmlListingId));
 
             this.CreateMap<SalePropertyRequest, SalePropertyDto>();
             this.CreateMap<FeaturesRequest, FeaturesDto>()

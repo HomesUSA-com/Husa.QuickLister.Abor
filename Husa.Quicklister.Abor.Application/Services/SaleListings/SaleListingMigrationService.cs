@@ -110,7 +110,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 return null;
             }
 
-            var agent = await this.agentRepository.GetAgentByMarketUniqueId(marketUniqueId);
+            var agent = await this.agentRepository.GetAgentByMemberStateLicense(marketUniqueId);
 
             return agent?.Id;
         }

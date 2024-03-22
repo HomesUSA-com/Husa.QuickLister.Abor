@@ -34,5 +34,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
         public bool IsManuallyManaged { get; set; }
 
         public Guid? XmlListingId { get; set; }
+
+        public Guid? XmlDiscrepancyListingId { get; set; }
     }
 }
