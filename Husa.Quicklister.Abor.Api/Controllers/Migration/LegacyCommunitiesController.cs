@@ -23,17 +23,16 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Migration
 
         [HttpPut]
         [Authorize(Roles.MLSAdministrator)]
-        public async Task<ActionResult> MigrateFromV1([FromQuery][Required] Guid companyId, [FromQuery] bool? createCommunity, [FromQuery] bool? updateCommunity, [FromQuery] int? legacyCommunityId = null)
+        public async Task<ActionResult> MigrateFromV1([FromQuery][Required] Guid companyId, [FromQuery] bool? createCommunity, [FromQuery] bool? updateCommunity, [FromQuery] int? legacyCommunityId = null, [FromQuery] DateTime? fromDate = null)
         {
             this.logger.LogInformation("Migrate communitys from v1 related to company {companyId}.", companyId);
-            if (legacyCommunityId.HasValue)
+            await this.communityMigrationService.MigrateAsync(companyId, new()
             {
-                await this.communityMigrationService.MigrateById(companyId, legacyCommunityId.Value, createCommunity: createCommunity ?? false, updateCommunity: updateCommunity ?? false);
-            }
-            else
-            {
-                await this.communityMigrationService.MigrateByCompanyId(companyId, createCommunity: createCommunity ?? false, updateCommunity: updateCommunity ?? false);
-            }
+                LegacyEntityId = legacyCommunityId,
+                CreateEntity = createCommunity ?? false,
+                UpdateEntity = updateCommunity ?? false,
+                FromDate = fromDate,
+            });
 
             return this.Ok();
         }

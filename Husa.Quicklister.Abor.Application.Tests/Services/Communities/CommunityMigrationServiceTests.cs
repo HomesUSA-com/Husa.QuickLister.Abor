@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Migration.Api.Client;
+    using Husa.Migration.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Application.Services.Communities;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
@@ -55,10 +56,13 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
                 .ReturnsAsync(companyDetail);
 
             var communitysReponse = MigrationCommunitiesResponse(20);
-            this.migrationClient.Setup(m => m.Communities.GetByCompanyIdAsync(legacyCompanyId, It.IsAny<CancellationToken>())).ReturnsAsync(communitysReponse).Verifiable();
+            this.migrationClient.Setup(m => m.Communities.GetAsync(It.Is<ProfileFilter>(x => x.CompanyId == legacyCompanyId), It.IsAny<CancellationToken>())).ReturnsAsync(communitysReponse).Verifiable();
 
             // Act
-            await this.Sut.MigrateByCompanyId(companyId, createCommunity: true);
+            await this.Sut.MigrateAsync(companyId, new()
+            {
+                CreateEntity = true,
+            });
 
             // Assert
             this.communityRepository.Verify(r => r.Attach(It.IsAny<CommunitySale>()), Times.Exactly(communitysReponse.Count()));
@@ -78,7 +82,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
                 .ReturnsAsync(companyDetail);
 
             var communitysReponse = MigrationCommunitiesResponse(20);
-            this.migrationClient.Setup(m => m.Communities.GetByCompanyIdAsync(legacyCompanyId, It.IsAny<CancellationToken>())).ReturnsAsync(communitysReponse).Verifiable();
+            this.migrationClient.Setup(m => m.Communities.GetAsync(It.Is<ProfileFilter>(x => x.CompanyId == legacyCompanyId), It.IsAny<CancellationToken>())).ReturnsAsync(communitysReponse).Verifiable();
 
             var communityId = Guid.NewGuid();
             var community = CommunityTestProvider.GetCommunityEntity(communityId);
@@ -86,7 +90,10 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
             this.communityRepository.Setup(x => x.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>())).ReturnsAsync(community);
 
             // Act
-            await this.Sut.MigrateByCompanyId(companyId, updateCommunity: true);
+            await this.Sut.MigrateAsync(companyId, new()
+            {
+                UpdateEntity = true,
+            });
 
             // Assert
             this.communityRepository.Verify(r => r.SaveChangesAsync(), Times.Once);

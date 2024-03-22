@@ -31,7 +31,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.TaxId, pr => pr.MapFrom(x => x.TaxId.GetSubstring(SalePropertyConfiguration.TaxIdLength)))
                 .ForMember(dto => dto.PropertyType, pr => pr.MapFrom(x => x.PropertyType.ToEnumFromEnumMember<PropertySubType>()))
                 .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(x => x.MlsArea.ToEnumFromEnumMember<MlsArea>()))
-                .ForMember(dto => dto.FemaFloodPlain, pr => pr.MapFrom(x => x.FemaFloodPlain.CsvToEnum<FemaFloodPlain>(true)));
+                .ForMember(dto => dto.FemaFloodPlain, pr => pr.MapFrom(x => x.FemaFloodPlain.ToFemaFloodPlain()));
             this.CreateMap<FeaturesResponse, FeaturesDto>()
                 .ForMember(dto => dto.GarageDescription, pr => pr.Ignore())
                 .ForMember(dto => dto.GarageSpaces, pr => pr.MapFrom(x => x.GarageCapacity))
@@ -51,7 +51,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.UtilitiesDescription, pr => pr.MapFrom(x => x.LotImprovements.CsvToEnum<UtilitiesDescription>(true)))
                 .ForMember(dto => dto.RestrictionsDescription, pr => pr.MapFrom(x => x.RestrictionsDescription.CsvToEnum<RestrictionsDescription>(true)))
                 .ForMember(dto => dto.Floors, pr => pr.MapFrom(x => x.Floors.CsvToEnum<Flooring>(true)))
-                .ForMember(dto => dto.FireplaceDescription, pr => pr.MapFrom(x => x.FireplaceDescription.CsvToEnum<FireplaceDescription>(true)))
+                .ForMember(dto => dto.FireplaceDescription, pr => pr.MapFrom(x => x.FireplaceDescription.ToFireplaceDescription()))
                 .ForMember(dto => dto.HomeFaces, pr => pr.MapFrom(x => x.HomeFaces.ToEnumFromEnumMember<HomeFaces>()))
                 .ForMember(dto => dto.NeighborhoodAmenities, pr => pr.MapFrom(x => x.NeighborhoodAmenities.CsvToEnum<NeighborhoodAmenities>(true)))
                 .ForMember(dto => dto.ExteriorFeatures, pr => pr.MapFrom(x => x.ExteriorFeatures.CsvToEnum<ExteriorFeatures>(true)))
@@ -107,7 +107,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 });
 
             this.CreateMap<SaleListingResponse, SaleListingDto>()
-                .ForMember(dto => dto.MlsStatus, pr => pr.MapFrom(x => x.MlsStatus.ToEnumFromEnumMember<MarketStatuses>()))
+                .ForMember(dto => dto.MlsStatus, pr => pr.MapFrom(x => x.MlsStatus.ToMarketStatuses()))
                 .ForMember(dto => dto.SaleProperty, pr => pr.MapFrom(x => x.SaleProperty))
                 .ForMember(dto => dto.Id, pr => pr.Ignore())
                 .ForMember(dto => dto.ListType, pr => pr.Ignore())

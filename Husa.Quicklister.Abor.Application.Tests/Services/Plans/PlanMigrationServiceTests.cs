@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Migration.Api.Client;
+    using Husa.Migration.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Application.Services.Plans;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
@@ -55,10 +56,13 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
                 .ReturnsAsync(companyDetail);
 
             var plansReponse = MigrationPlansResponse(20);
-            this.migrationClient.Setup(m => m.Plans.GetByCompanyIdAsync(legacyCompanyId, It.IsAny<CancellationToken>())).ReturnsAsync(plansReponse).Verifiable();
+            this.migrationClient.Setup(m => m.Plans.GetAsync(It.Is<ProfileFilter>(x => x.CompanyId == legacyCompanyId), It.IsAny<CancellationToken>())).ReturnsAsync(plansReponse).Verifiable();
 
             // Act
-            await this.Sut.MigrateByCompanyId(companyId, createPlan: true);
+            await this.Sut.MigrateAsync(companyId, new()
+            {
+                CreateEntity = true,
+            });
 
             // Assert
             this.planRepository.Verify(r => r.Attach(It.Is<IEnumerable<Plan>>(x => x.Count() == plansReponse.Count())), Times.Once);
@@ -78,7 +82,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
                 .ReturnsAsync(companyDetail);
 
             var plansReponse = MigrationPlansResponse(20);
-            this.migrationClient.Setup(m => m.Plans.GetByCompanyIdAsync(legacyCompanyId, It.IsAny<CancellationToken>())).ReturnsAsync(plansReponse).Verifiable();
+            this.migrationClient.Setup(m => m.Plans.GetAsync(It.Is<ProfileFilter>(x => x.CompanyId == legacyCompanyId), It.IsAny<CancellationToken>())).ReturnsAsync(plansReponse).Verifiable();
 
             var planId = Guid.NewGuid();
             var plan = PlanTestProvider.GetPlanEntity(planId);
@@ -86,7 +90,10 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
             this.planRepository.Setup(x => x.GetById(It.Is<Guid>(id => id == planId), It.IsAny<bool>())).ReturnsAsync(plan);
 
             // Act
-            await this.Sut.MigrateByCompanyId(companyId, updatePlan: true);
+            await this.Sut.MigrateAsync(companyId, new()
+            {
+                UpdateEntity = true,
+            });
 
             // Assert
             this.planRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
