@@ -48,6 +48,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models
 
         public string UnitNumber { get; set; }
 
+        public StreetType? StreetType { get; set; }
+
         public bool UpdateGeocodes { get; set; }
     }
 }

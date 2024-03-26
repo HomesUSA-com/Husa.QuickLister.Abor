@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Api.Mappings
 {
     using AutoMapper;
+    using Husa.Extensions.Common;
     using Husa.Extensions.Document.Models;
     using Husa.Extensions.Document.QueryFilters;
     using Husa.Extensions.Document.ValueObjects;
@@ -138,7 +139,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<DocumentModels.ListingRequest.ShowingInfoQueryResult, ShowingResponse>();
             this.CreateMap<DocumentModels.ListingRequest.SchoolsInfoQueryResult, SchoolsResponse>();
 
-            this.CreateMap<DocumentModels.ListingSaleRequestQueryResult, ListingSaleRequestQueryResponse>();
+            this.CreateMap<DocumentModels.ListingSaleRequestQueryResult, ListingSaleRequestQueryResponse>()
+                .ForMember(dest => dest.StreetType, config => config.MapFrom(dto => dto.StreetType.GetValueOrDefault().ToStringFromEnumMember(false)));
 
             this.CreateMap<SummaryField, SummaryFieldContract>();
             this.CreateMap<SummarySection, SummarySectionContract>();
