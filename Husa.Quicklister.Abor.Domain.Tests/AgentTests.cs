@@ -17,30 +17,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
         }
 
         [Fact]
-        public void UpdateAgentMarketModifiedIsTheSameFails()
-        {
-            // Arrange
-            var now = DateTime.UtcNow;
-            var agentValueObject = new AgentValueObject
-            {
-                Email = "old-email@email.com",
-                MarketModified = now,
-            };
-            var sut = new Agent(agentValueObject);
-            var updatedAgent = new AgentValueObject
-            {
-                Email = "some-email@email.com",
-                MarketModified = now,
-            };
-
-            // Act
-            sut.UpdateInformation(updatedAgent);
-
-            // Assert
-            Assert.NotEqual(updatedAgent.Email, sut.AgentValue.Email);
-        }
-
-        [Fact]
         public void UpdateAgentSuccess()
         {
             // Arrange

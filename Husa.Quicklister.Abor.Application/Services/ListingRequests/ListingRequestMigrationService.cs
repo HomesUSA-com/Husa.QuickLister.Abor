@@ -72,7 +72,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
                 return null;
             }
 
-            var agent = await this.agentRepository.GetAgentByMarketUniqueId(marketUniqueId);
+            var agent = await this.agentRepository.GetAgentByMlsId(marketUniqueId);
 
             return agent?.Id;
         }
