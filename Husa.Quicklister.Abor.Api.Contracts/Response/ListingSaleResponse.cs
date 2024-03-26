@@ -28,6 +28,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
 
         public string StreetName { get; set; }
 
+        public string StreetType { get; set; }
+
         public Cities City { get; set; }
 
         public Counties? County { get; set; }
