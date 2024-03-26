@@ -35,6 +35,7 @@
 
         public DateTimeOffset MarketModified { get; set; }
         public string MemberStateLicense { get; set; }
+        public string MlsId { get; set; }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {

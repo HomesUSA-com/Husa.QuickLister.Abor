@@ -9,5 +9,7 @@ namespace Husa.Quicklister.Abor.Domain.Repositories
         Task<Agent> GetAgentByMarketUniqueId(string marketUniqueId);
 
         Task<Agent> GetAgentByMemberStateLicense(string input);
+
+        Task<Agent> GetAgentByMlsId(string mlsId);
     }
 }

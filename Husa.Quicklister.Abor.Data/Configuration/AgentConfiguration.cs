@@ -37,6 +37,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(f => f.Fax).HasMaxLength(20).HasColumnName(nameof(AgentValueObject.Fax));
             builder.Property(f => f.HomePhone).HasMaxLength(20).HasColumnName(nameof(AgentValueObject.HomePhone));
             builder.Property(f => f.MarketModified).HasColumnType("datetimeoffset").HasColumnName(nameof(AgentValueObject.MarketModified));
+            builder.Property(f => f.MlsId).HasMaxLength(50).HasColumnName(nameof(AgentValueObject.MlsId));
         }
     }
 }

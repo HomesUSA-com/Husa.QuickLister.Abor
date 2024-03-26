@@ -45,6 +45,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                                 AgentId = agent.AgentValue.MarketUniqueId,
                                 CompanyName = office.OfficeValue.Name,
                                 MemberStateLicense = agent.AgentValue.MemberStateLicense,
+                                MlsId = agent.AgentValue.MlsId,
                             })
                             .ApplySearchByAgentQueryFilter(queryFilter)
                             .ApplySortByFields(queryFilter.SortBy)
@@ -68,6 +69,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                              AgentId = agent.AgentValue.MarketUniqueId,
                              CompanyName = office.OfficeValue.Name,
                              MemberStateLicense = agent.AgentValue.MemberStateLicense,
+                             MlsId = agent.AgentValue.MlsId,
                          })
                         .SingleOrDefaultAsync();
         }
