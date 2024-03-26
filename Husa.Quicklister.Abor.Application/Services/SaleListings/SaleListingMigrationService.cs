@@ -64,12 +64,28 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             listingDto.StatusFieldsInfo.AgentId = await this.GetAgentIdByMarketUniqueId(legacyListing.StatusFieldsInfo.AgentId);
             listingDto.StatusFieldsInfo.AgentIdSecond = await this.GetAgentIdByMarketUniqueId(legacyListing.StatusFieldsInfo.AgentIdSecond);
 
+            if (listingDto.SaleProperty.PropertyInfo.ConstructionCompletionDate == null)
+            {
+                listingDto.SaleProperty.PropertyInfo.ConstructionCompletionDate = listing.SaleProperty.PropertyInfo.ConstructionCompletionDate;
+            }
+
+            if (listingDto.SaleProperty.PropertyInfo.ConstructionStage == null)
+            {
+                listingDto.SaleProperty.PropertyInfo.ConstructionStage = listing.SaleProperty.PropertyInfo.ConstructionStage;
+            }
+
+            if (listingDto.SaleProperty.PropertyInfo.ConstructionStartYear == null)
+            {
+                listingDto.SaleProperty.PropertyInfo.ConstructionStartYear = listing.SaleProperty.PropertyInfo.ConstructionStartYear;
+            }
+
             await this.saleListingService.UpdateListing(listing.Id, listingDto);
             if (string.IsNullOrWhiteSpace(listing.MlsNumber) && !string.IsNullOrWhiteSpace(listingDto.MlsNumber))
             {
                 await this.saleListingService.AssignMlsNumberAsync(listing.Id, listingDto.MlsNumber, listingDto.MlsStatus, ActionType.NewListing);
-                await this.saleListingService.UnlockListing(listing.Id);
             }
+
+            await this.saleListingService.UnlockListing(listing.Id);
         }
 
         protected async override Task<Guid?> CreateListing(Guid companyId, SaleListingResponse legacyListing)
@@ -110,7 +126,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 return null;
             }
 
-            var agent = await this.agentRepository.GetAgentByMemberStateLicense(marketUniqueId);
+            var agent = await this.agentRepository.GetAgentByMlsId(marketUniqueId);
 
             return agent?.Id;
         }

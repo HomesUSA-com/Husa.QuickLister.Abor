@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
 
         public string CompanyName { get; set; }
         public string MemberStateLicense { get; set; }
+        public string MlsId { get; set; }
 
         public string SummaryValue => $"{this.AgentId} - {this.FullName} - {this.CompanyName}";
     }

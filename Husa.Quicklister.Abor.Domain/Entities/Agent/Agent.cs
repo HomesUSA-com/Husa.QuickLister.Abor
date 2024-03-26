@@ -23,11 +23,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Agent
 
         public void UpdateInformation(AgentValueObject agentValue)
         {
-            if (agentValue.MarketModified <= this.AgentValue.MarketModified)
-            {
-                return;
-            }
-
             if (this.AgentValue == agentValue)
             {
                 return;

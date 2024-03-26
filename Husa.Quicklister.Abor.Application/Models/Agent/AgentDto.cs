@@ -39,5 +39,6 @@ namespace Husa.Quicklister.Abor.Application.Models.Agent
 
         public DateTime SysModified { get; set; }
         public string MemberStateLicense { get; set; }
+        public string MlsId { get; set; }
     }
 }

@@ -16,5 +16,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Agent
 
         public string CompanyName { get; set; }
         public string MemberStateLicense { get; set; }
+        public string MlsId { get; set; }
     }
 }
