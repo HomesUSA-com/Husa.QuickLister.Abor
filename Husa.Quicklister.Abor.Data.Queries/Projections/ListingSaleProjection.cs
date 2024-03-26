@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             MlsNumber = listingSale.MlsNumber,
             StreetName = listingSale.SaleProperty.AddressInfo.StreetName,
             StreetNum = listingSale.SaleProperty.AddressInfo.StreetNumber,
+            StreetType = listingSale.SaleProperty.AddressInfo.StreetType,
             City = listingSale.SaleProperty.AddressInfo.City,
             County = listingSale.SaleProperty.AddressInfo.County,
             ListDate = listingSale.ListDate,
