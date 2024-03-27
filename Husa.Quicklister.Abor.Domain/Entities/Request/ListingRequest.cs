@@ -3,10 +3,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Husa.Extensions.Document.Extensions;
+    using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Domain.Extensions;
-    using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using ExtensionsEntities = Husa.Quicklister.Extensions.Domain.Entities.Request;
 
     public abstract class ListingRequest : ExtensionsEntities.ListingRequest

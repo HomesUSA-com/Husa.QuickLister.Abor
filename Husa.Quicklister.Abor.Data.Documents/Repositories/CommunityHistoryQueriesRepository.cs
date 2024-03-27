@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Data.Documents.Repositories
 {
+    using Husa.Extensions.Document.Interfaces;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Data.Documents.Interfaces;

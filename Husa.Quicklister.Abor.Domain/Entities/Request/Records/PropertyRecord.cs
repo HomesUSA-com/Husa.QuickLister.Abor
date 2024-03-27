@@ -6,11 +6,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Common.Validations;
+    using Husa.Extensions.Document.Extensions;
+    using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
-    using Husa.Quicklister.Extensions.Domain.ValueObjects;
 
     public record PropertyRecord : IProvideSummary
     {

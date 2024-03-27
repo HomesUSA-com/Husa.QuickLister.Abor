@@ -37,6 +37,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleReques
 
         public string UnitNumber { get; set; }
 
+        public string StreetType { get; set; }
+
         public bool UpdateGeocodes { get; set; }
     }
 }

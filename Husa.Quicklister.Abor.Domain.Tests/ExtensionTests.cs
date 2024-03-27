@@ -4,10 +4,10 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Husa.Extensions.Common.Enums;
+    using Husa.Extensions.Document.Extensions;
+    using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Extensions.Domain.Extensions;
-    using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using Xunit;
 
     [ExcludeFromCodeCoverage]

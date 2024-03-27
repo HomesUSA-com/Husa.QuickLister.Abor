@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using Husa.Extensions.Common;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
+    using Husa.Extensions.Document.ValueObjects;
     using Husa.MediaService.Api.Contracts.Request;
     using Husa.MediaService.Api.Contracts.Response;
     using Husa.MediaService.Domain.Enums;
@@ -46,7 +47,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using Moq;
     using DomainEntities = Husa.Quicklister.Abor.Domain.Entities;
     using HusaNoteType = Husa.Notes.Domain.Enums.NoteType;

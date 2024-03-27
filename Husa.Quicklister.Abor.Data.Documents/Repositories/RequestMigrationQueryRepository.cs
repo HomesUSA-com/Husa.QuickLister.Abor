@@ -6,11 +6,11 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
+    using Husa.Extensions.Document.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Extensions.Crosscutting;
-    using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Data.Documents.Projections;
     using Husa.Quicklister.Extensions.Data.Specifications;

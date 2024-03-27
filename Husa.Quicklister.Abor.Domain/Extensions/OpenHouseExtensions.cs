@@ -2,11 +2,11 @@ namespace Husa.Quicklister.Abor.Domain.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Comparers;
     using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
     using Husa.Quicklister.Abor.Domain.Interfaces;
-    using Husa.Quicklister.Extensions.Domain.ValueObjects;
 
     public static class OpenHouseExtensions
     {

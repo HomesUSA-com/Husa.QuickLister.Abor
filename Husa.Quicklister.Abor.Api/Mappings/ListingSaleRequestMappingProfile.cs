@@ -1,6 +1,10 @@
 namespace Husa.Quicklister.Abor.Api.Mappings
 {
     using AutoMapper;
+    using Husa.Extensions.Common;
+    using Husa.Extensions.Document.Models;
+    using Husa.Extensions.Document.QueryFilters;
+    using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail;
@@ -16,10 +20,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
-    using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Extensions;
-    using Husa.Quicklister.Extensions.Domain.ValueObjects;
     using DocumentModels = Husa.Quicklister.Abor.Data.Documents.Models;
 
     public class ListingSaleRequestMappingProfile : Profile
@@ -137,7 +139,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<DocumentModels.ListingRequest.ShowingInfoQueryResult, ShowingResponse>();
             this.CreateMap<DocumentModels.ListingRequest.SchoolsInfoQueryResult, SchoolsResponse>();
 
-            this.CreateMap<DocumentModels.ListingSaleRequestQueryResult, ListingSaleRequestQueryResponse>();
+            this.CreateMap<DocumentModels.ListingSaleRequestQueryResult, ListingSaleRequestQueryResponse>()
+                .ForMember(dest => dest.StreetType, config => config.MapFrom(dto => dto.StreetType.GetValueOrDefault().ToStringFromEnumMember(false)));
 
             this.CreateMap<SummaryField, SummaryFieldContract>();
             this.CreateMap<SummarySection, SummarySectionContract>();
