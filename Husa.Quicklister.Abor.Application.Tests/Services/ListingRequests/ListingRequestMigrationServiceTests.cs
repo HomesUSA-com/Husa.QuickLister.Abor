@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
     using Husa.Migration.Api.Contracts.Request;
     using Husa.Migration.Api.Contracts.Response;
     using Husa.Migration.Crosscutting.Enums;
+    using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Services.ListingRequests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
@@ -35,6 +36,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
         private readonly Mock<ILogger<ListingRequestMigrationService>> logger = new();
         private readonly Mock<IAgentRepository> agentRepository = new();
         private readonly Mock<ISaleListingRequestRepository> saleListingRequestRepository = new();
+        private readonly Mock<ISaleListingMigrationService> listingMigrationService = new();
 
         public ListingRequestMigrationServiceTests(ApplicationServicesFixture fixture)
         {
@@ -140,6 +142,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
                 this.saleListingRequestRepository.Object,
                 this.userContextProvider.Object,
                 this.agentRepository.Object,
+                this.listingMigrationService.Object,
                 this.logger.Object,
                 this.fixture.Mapper);
     }

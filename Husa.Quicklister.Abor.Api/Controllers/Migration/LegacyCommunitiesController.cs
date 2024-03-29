@@ -4,7 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Migration
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using Husa.Extensions.Api.Configuration;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Migration;
+    using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;

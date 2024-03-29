@@ -32,6 +32,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
         private readonly Mock<ICommunitySaleRepository> communityRepository = new();
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
+        private readonly Mock<ICommunityMigrationService> communityMigrationService = new();
         private readonly Mock<IMigrationClient> migrationClient = new();
         private readonly Mock<ILogger<CommunityHistoryMigrationService>> logger = new();
 
@@ -44,6 +45,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
                 this.serviceSubscriptionClient.Object,
                 this.userContextProvider.Object,
                 this.migrationClient.Object,
+                this.communityMigrationService.Object,
                 this.logger.Object,
                 fixture.Mapper);
         }
@@ -73,6 +75,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
                 .ReturnsAsync(new DataSet<CompanyResponse.User>(Array.Empty<CompanyResponse.User>(), 0));
 
             var community = new CommunitySale(companyId, "comNmae", "company") { Id = communityId };
+            community.UpdateTrackValues(Guid.NewGuid());
             this.communityRepository.Setup(x => x.GetById(communityId, It.IsAny<bool>())).ReturnsAsync(community);
 
             // Act
@@ -106,6 +109,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
                     ShowingInfo = new(),
                     UtilitiesInfo = new(),
                     SaleOffice = new(),
+                    SysModifiedOn = DateTime.Now.AddDays(1),
                 };
             }
         }
