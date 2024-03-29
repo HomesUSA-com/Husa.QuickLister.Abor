@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
         private readonly IMapper mapper;
         private readonly ICommunityHistoryService communityHistoryService;
         private readonly ICommunityHistoryRepository communityHistoryRepository;
+        private readonly ICommunityMigrationService communityMigrationService;
 
         public CommunityHistoryMigrationService(
             ICommunityHistoryService communityHistoryService,
@@ -28,12 +29,14 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             IServiceSubscriptionClient serviceSubscriptionClient,
             IUserContextProvider userContextProvider,
             IMigrationClient migrationClient,
+            ICommunityMigrationService communityMigrationService,
             ILogger<CommunityHistoryMigrationService> logger,
             IMapper mapper)
             : base(communityRepository, serviceSubscriptionClient, userContextProvider, migrationClient, logger)
         {
             this.communityHistoryService = communityHistoryService ?? throw new ArgumentNullException(nameof(communityHistoryService));
             this.communityHistoryRepository = communityHistoryRepository ?? throw new ArgumentNullException(nameof(communityHistoryRepository));
+            this.communityMigrationService = communityMigrationService ?? throw new ArgumentNullException(nameof(communityMigrationService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -70,6 +73,16 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             }
 
             await this.communityHistoryService.AddRecordAsync(record);
+            await this.UpdateCommunityInformation(community, legacyRequest);
+        }
+
+        protected async Task UpdateCommunityInformation(CommunitySale community, CommunityHistoryResponse legacyRecord)
+        {
+            if (legacyRecord.SysModifiedOn > community.SysModifiedOn)
+            {
+                this.communityMigrationService.UpdateCommunity(community, legacyRecord);
+                await this.CommunityRepository.SaveChangesAsync(community);
+            }
         }
     }
 }
