@@ -18,7 +18,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Migration;
     using PhotoRequest = Husa.PhotoService.Api.Contracts.Request;
 
-    public class CommunityMigrationService : ExtensionsServices.CommunityMigrationService<CommunitySale, ICommunitySaleRepository, ICommunityPhotoService>
+    public class CommunityMigrationService : ExtensionsServices.CommunityMigrationService<CommunitySale, ICommunitySaleRepository, ICommunityPhotoService>, ICommunityMigrationService
     {
         private readonly IMapper mapper;
 
@@ -32,6 +32,25 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             : base(communityRepository, migrationClient, serviceSubscriptionClient, photoService, logger)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        }
+
+        public override void UpdateCommunity(CommunitySale community, CommunityResponse communityMigration)
+        {
+            var communityInfo = new CommunityValueObject
+            {
+                PropertyInfo = this.mapper.Map<Property>(communityMigration.PropertyInfo),
+                ProfileInfo = this.mapper.Map<ProfileInfo>(communityMigration.ProfileInfo),
+                SalesOfficeInfo = this.mapper.Map<CommunitySaleOffice>(communityMigration.SaleOffice),
+                EmailLeadInfo = this.mapper.Map<Husa.Quicklister.Abor.Domain.Entities.Community.EmailLead>(communityMigration.EmailLeads),
+                UtilitiesInfo = this.mapper.Map<Utilities>(communityMigration.UtilitiesInfo),
+                FinancialInfo = this.mapper.Map<CommunityFinancialInfo>(communityMigration.FinancialInfo),
+                SchoolsInfo = this.mapper.Map<SchoolsInfo>(communityMigration.SchoolsInfo),
+                ShowingInfo = this.mapper.Map<CommunityShowingInfo>(communityMigration.ShowingInfo),
+            };
+            var openHouses = this.mapper.Map<IEnumerable<CommunityOpenHouse>>(communityMigration.OpenHouses);
+
+            communityInfo.ProfileInfo.OwnerName = community.ProfileInfo.OwnerName;
+            community.Update(communityInfo, openHouses);
         }
 
         protected override CommunitySale CreateCommunity(CompanyDetail company, CommunityResponse communityMigration)
@@ -55,25 +74,6 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
                 City = community.Property.City.ToString(),
                 ReadableCity = community.Property.City.GetEnumDescription(),
             };
-        }
-
-        protected override void UpdateCommunity(CommunitySale community, CommunityResponse communityMigration)
-        {
-            var communityInfo = new CommunityValueObject
-            {
-                PropertyInfo = this.mapper.Map<Property>(communityMigration.PropertyInfo),
-                ProfileInfo = this.mapper.Map<ProfileInfo>(communityMigration.ProfileInfo),
-                SalesOfficeInfo = this.mapper.Map<CommunitySaleOffice>(communityMigration.SaleOffice),
-                EmailLeadInfo = this.mapper.Map<Husa.Quicklister.Abor.Domain.Entities.Community.EmailLead>(communityMigration.EmailLeads),
-                UtilitiesInfo = this.mapper.Map<Utilities>(communityMigration.UtilitiesInfo),
-                FinancialInfo = this.mapper.Map<CommunityFinancialInfo>(communityMigration.FinancialInfo),
-                SchoolsInfo = this.mapper.Map<SchoolsInfo>(communityMigration.SchoolsInfo),
-                ShowingInfo = this.mapper.Map<CommunityShowingInfo>(communityMigration.ShowingInfo),
-            };
-            var openHouses = this.mapper.Map<IEnumerable<CommunityOpenHouse>>(communityMigration.OpenHouses);
-
-            communityInfo.ProfileInfo.OwnerName = community.ProfileInfo.OwnerName;
-            community.Update(communityInfo, openHouses);
         }
     }
 }

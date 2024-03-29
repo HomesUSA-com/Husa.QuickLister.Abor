@@ -86,7 +86,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
 
             var communityId = Guid.NewGuid();
             var community = CommunityTestProvider.GetCommunityEntity(communityId);
-            this.communityRepository.Setup(x => x.GetIdByLegacyId(It.IsAny<Guid>())).ReturnsAsync(communityId);
+            this.communityRepository.Setup(x => x.GetIdByLegacyId(It.IsAny<int>())).ReturnsAsync(communityId);
             this.communityRepository.Setup(x => x.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>())).ReturnsAsync(community);
 
             // Act
