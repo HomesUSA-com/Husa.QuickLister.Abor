@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers.Migration
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Quicklister.Abor.Api.Controllers.Migration;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Migration;
+    using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Microsoft.AspNetCore.Mvc;

@@ -19,7 +19,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Migration;
     using PhotoRequest = Husa.PhotoService.Api.Contracts.Request;
 
-    public class SaleListingMigrationService : ExtensionsServices.SaleListingMigrationService<SaleListing, IListingSaleRepository, ICommunitySaleRepository, IPlanRepository, ISaleListingPhotoService>
+    public class SaleListingMigrationService : ExtensionsServices.SaleListingMigrationService<SaleListing, IListingSaleRepository, ICommunitySaleRepository, IPlanRepository, ISaleListingPhotoService>, ISaleListingMigrationService
     {
         private readonly IMapper mapper;
         private readonly ISaleListingService saleListingService;
@@ -45,13 +45,12 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
         protected override MigrationMarketType MigrationMarket => MigrationMarketType.Austin;
 
-        protected async override Task UpdateListing(SaleListing listing, SaleListingResponse legacyListing)
+        public async override Task UpdateListing(SaleListing listing, SaleListingResponse legacyListing)
         {
             var listingDto = this.mapper.Map<SaleListingDto>(legacyListing);
             listingDto.Id = listing.Id;
             listingDto.ListType = listing.ListType;
             listingDto.MarketModifiedOn = listing.MarketModifiedOn;
-            listingDto.IsManuallyManaged = listing.IsManuallyManaged;
             listingDto.SaleProperty.Id = listing.SaleProperty.Id;
             listingDto.SaleProperty.SalePropertyInfo.OwnerName = listing.SaleProperty.OwnerName;
             listingDto.SaleProperty.SalePropertyInfo.CompanyId = listing.SaleProperty.CompanyId;
@@ -77,6 +76,11 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             if (listingDto.SaleProperty.PropertyInfo.ConstructionStartYear == null)
             {
                 listingDto.SaleProperty.PropertyInfo.ConstructionStartYear = listing.SaleProperty.PropertyInfo.ConstructionStartYear;
+            }
+
+            if (listingDto.ExpirationDate == null)
+            {
+                listingDto.ExpirationDate = listing.ExpirationDate;
             }
 
             await this.saleListingService.UpdateListing(listing.Id, listingDto);
