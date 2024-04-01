@@ -67,6 +67,11 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
             request.SysModifiedBy = usersIds.SysModifiedBy ?? request.SysModifiedBy;
             request.PublishInfo.PublishUser = usersIds.PublishUserId ?? request.PublishInfo.PublishUser;
 
+            if (!request.PublishInfo.PublishType.HasValue)
+            {
+                request.PublishInfo.PublishType = listing.PublishInfo.PublishType;
+            }
+
             await this.saleListingRequestService.GenerateRequestFromMigrationAsync(request);
             await this.UpdateListingInformation(listing, legacyRequest);
         }

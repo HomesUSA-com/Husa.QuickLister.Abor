@@ -56,10 +56,10 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Migration
 
         [HttpPut("photo")]
         [Authorize(Roles.MLSAdministrator)]
-        public async Task<ActionResult> MigratePhotoRequests([FromQuery][Required] Guid companyId)
+        public async Task<ActionResult> MigratePhotoRequests([FromQuery][Required] Guid companyId, [FromQuery] DateTime? fromDate = null)
         {
             this.logger.LogInformation("Migrate residential photo requests from v1 related to company {companyId}", companyId);
-            await this.listingMigrationService.MigratePhotoRequests(companyId);
+            await this.listingMigrationService.MigratePhotoRequests(companyId, fromDate);
             return this.Ok();
         }
     }
