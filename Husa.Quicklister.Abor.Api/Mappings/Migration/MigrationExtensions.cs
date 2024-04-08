@@ -19,6 +19,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
             => acceptableFinancing.Replace("OTHSE", "SRMRKS").Replace("FNMA", "FMHA").CsvToEnum<AcceptableFinancing>(true).ToList();
         public static ICollection<TaxExemptions> ToTaxExemptions(this string taxExemptions)
             => taxExemptions.Replace("NONE", "None").CsvToEnum<TaxExemptions>(true).ToList();
+        public static LockBoxType ToLockBoxType(this string value)
+            => value.Replace("NONE", "None").ToEnumFromEnumMember<LockBoxType>();
+
         public static ICollection<HoaIncludes> ToHoaIncludes(this string value)
             => value.Replace("LANDSCP", "LNDSP").CsvToEnum<HoaIncludes>(true).ToList();
         public static ICollection<View> ToView(this string value)
