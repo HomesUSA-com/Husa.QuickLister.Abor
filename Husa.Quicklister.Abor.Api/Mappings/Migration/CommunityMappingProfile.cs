@@ -66,7 +66,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.HOARequirement, pr => pr.MapFrom(x => x.HOARequirement.ToEnumFromEnumMember<HoaRequirement>()))
                 .ForMember(dto => dto.AgentBonusAmountType, pr => pr.MapFrom(x => x.AgentBonusAmountType.ToEnumFromEnumMember<CommissionType>()))
                 .ForMember(dto => dto.ReadableBuyersAgentCommission, pr => pr.MapFrom(x => x.BuyersAgentCommission.GetCommissionAmount(x.BuyersAgentCommissionType.ToEnumFromEnumMember<CommissionType>())))
-                .ForMember(dto => dto.BuyersAgentCommissionType, pr => pr.MapFrom(x => x.BuyersAgentCommissionType.ToEnumFromEnumMember<CommissionType>()));
+                .ForMember(dto => dto.BuyersAgentCommissionType, pr => pr.MapFrom(x => x.BuyersAgentCommissionType.ToEnumFromEnumMember<CommissionType>()))
+                .ForMember(dto => dto.BonusExpirationDate, pr => pr.MapFrom(x => x.HasBonusWithAmount ? x.BonusExpirationDate : null));
             this.CreateMap<ShowingResponse, CommunityShowingInfo>()
                 .ForMember(dto => dto.OwnerName, pr => pr.Ignore())
                 .ForMember(dto => dto.OccupantPhone, pr => pr.MapFrom(x => x.AltPhoneCommunity))
@@ -74,7 +75,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.ShowingInstructions, pr => pr.MapFrom(x => x.Showing))
                 .ForMember(dto => dto.RealtorContactEmail, pr => pr.MapFrom(x => x.RealtorContactEmail.ToCollectionFromString(";")))
                 .ForMember(dto => dto.ShowingRequirements, pr => pr.MapFrom(x => x.ShowingRequirements.CsvToEnum<ShowingRequirements>(true)))
-                .ForMember(dto => dto.LockBoxType, pr => pr.MapFrom(x => x.LockBoxType.ToEnumFromEnumMember<LockBoxType>()))
+                .ForMember(dto => dto.LockBoxType, pr => pr.MapFrom(x => x.LockBoxType.ToLockBoxType()))
                 .ForMember(dto => dto.Directions, cr => cr.MapFrom(x => x.Directions.GetSubstring(CommunityShowingInfo.MaxDirectionsLength)));
             this.CreateMap<EmailLeadResponse, EmailLead>()
                 .ForMember(dto => dto.EmailLeadPrincipal, cr => cr.MapFrom(x => x.Email))
