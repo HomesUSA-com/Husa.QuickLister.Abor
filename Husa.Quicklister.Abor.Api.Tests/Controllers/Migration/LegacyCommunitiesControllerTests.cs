@@ -30,5 +30,22 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers.Migration
             // Assert
             Assert.IsType<OkResult>(result);
         }
+
+        [Fact]
+        public async Task MigrateEmployeesFromV1_ReturnsOk()
+        {
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var fromDate = DateTime.Now;
+            var loggerMock = new Mock<ILogger<LegacyCommunitiesController>>();
+            var communityMigrationServiceMock = new Mock<ICommunityMigrationService>();
+            var controller = new LegacyCommunitiesController(communityMigrationServiceMock.Object, loggerMock.Object);
+
+            // Act
+            var result = await controller.MigrateEmployees(companyId, null, fromDate);
+
+            // Assert
+            Assert.IsType<OkResult>(result);
+        }
     }
 }

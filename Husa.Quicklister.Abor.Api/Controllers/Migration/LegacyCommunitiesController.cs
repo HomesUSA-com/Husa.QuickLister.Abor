@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Migration
     {
         private readonly ICommunityMigrationService communityMigrationService;
         private readonly ILogger<LegacyCommunitiesController> logger;
+
         public LegacyCommunitiesController(ICommunityMigrationService communityMigrationService, ILogger<LegacyCommunitiesController> logger)
         {
             this.communityMigrationService = communityMigrationService ?? throw new ArgumentNullException(nameof(communityMigrationService));
@@ -34,6 +35,15 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Migration
                 FromDate = fromDate,
             });
 
+            return this.Ok();
+        }
+
+        [HttpPut("employees")]
+        [Authorize(Roles.MLSAdministrator)]
+        public async Task<ActionResult> MigrateEmployees([FromQuery] Guid? companyId = null, [FromQuery] Guid? communityId = null, [FromQuery] DateTime? fromDate = null)
+        {
+            this.logger.LogInformation("Migrate community photo requests from v1 related to company {companyId}", companyId);
+            await this.communityMigrationService.MigrateEmployees(communityId, companyId, fromDate);
             return this.Ok();
         }
 

@@ -18,7 +18,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Migration;
     using PhotoRequest = Husa.PhotoService.Api.Contracts.Request;
 
-    public class CommunityMigrationService : ExtensionsServices.CommunityMigrationService<CommunitySale, ICommunitySaleRepository, ICommunityPhotoService>, ICommunityMigrationService
+    public class CommunityMigrationService : ExtensionsServices.CommunityMigrationService<CommunitySale, ICommunitySaleRepository, ISaleCommunityService, ICommunityPhotoService>, ICommunityMigrationService
     {
         private readonly IMapper mapper;
 
@@ -27,9 +27,10 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             IMigrationClient migrationClient,
             IServiceSubscriptionClient serviceSubscriptionClient,
             ICommunityPhotoService photoService,
+            ISaleCommunityService communityService,
             ILogger<CommunityMigrationService> logger,
             IMapper mapper)
-            : base(communityRepository, migrationClient, serviceSubscriptionClient, photoService, logger)
+            : base(communityRepository, migrationClient, serviceSubscriptionClient, photoService, communityService, logger)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }

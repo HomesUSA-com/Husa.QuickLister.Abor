@@ -29,6 +29,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
         private readonly Mock<IMigrationClient> migrationClient = new();
         private readonly Mock<ICommunityPhotoService> photoService = new();
+        private readonly Mock<ISaleCommunityService> communityService = new();
 
         public CommunityMigrationServiceTests(ApplicationServicesFixture fixture)
         {
@@ -37,6 +38,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
                 this.migrationClient.Object,
                 this.serviceSubscriptionClient.Object,
                 this.photoService.Object,
+                this.communityService.Object,
                 this.logger.Object,
                 fixture.Mapper);
         }
