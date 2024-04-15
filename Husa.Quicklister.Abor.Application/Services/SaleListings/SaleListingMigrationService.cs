@@ -45,7 +45,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
         protected override MigrationMarketType MigrationMarket => MigrationMarketType.Austin;
 
-        public async override Task UpdateListing(SaleListing listing, SaleListingResponse legacyListing, bool migrateFullListing = true)
+        public async override Task UpdateListing(SaleListing listing, SaleListingResponse legacyListing)
         {
             var listingDto = this.mapper.Map<SaleListingDto>(legacyListing);
             listingDto.Id = listing.Id;
