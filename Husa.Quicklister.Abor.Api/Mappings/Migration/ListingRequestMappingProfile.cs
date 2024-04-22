@@ -117,6 +117,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.PlanId, pr => pr.Ignore())
                 .ForMember(dto => dto.PlanName, pr => pr.Ignore())
                 .ForMember(dto => dto.CommunityId, pr => pr.Ignore())
+                .ForMember(dto => dto.PlanName, pr => pr.Ignore())
                 .AfterMap((src, dest) =>
                 {
                     dest.FeaturesInfo.GarageDescription = src.SpacesDimensionsInfo.GarageDescription.CsvToEnum<GarageDescription>(true).ToList();

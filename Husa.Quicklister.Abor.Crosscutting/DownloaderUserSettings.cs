@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Crosscutting
 {
     using System;
+    using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Models;
 
     public class DownloaderUserSettings
@@ -15,12 +16,15 @@ namespace Husa.Quicklister.Abor.Crosscutting
 
         public bool MLSAdministrator { get; set; }
 
+        public UserRole UserRole { get; set; }
+
         public UserContext GetDownloaderUser() => new()
         {
             Email = this.Email,
             Name = this.Name,
             Id = this.Id,
             IsMLSAdministrator = this.MLSAdministrator,
+            UserRole = this.UserRole,
         };
     }
 }

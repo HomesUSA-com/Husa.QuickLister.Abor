@@ -19,9 +19,9 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
 
         Task<CommandResult<SaleListing>> QuickCreateAsync(QuickCreateListingDto listingSale, bool importFromListing);
 
-        Task UpdateListing(Guid listingId, SaleListingDto listingDto);
+        Task UpdateListing(Guid listingId, SaleListingDto listingDto, bool migrateFullListing = true);
 
-        Task UpdateBaseListingInfo(SaleListingDto saleListingDto, Guid listingId = default, SaleListing entity = null);
+        Task UpdateBaseListingInfo(SaleListingDto saleListingDto, Guid listingId = default, SaleListing entity = null, bool migrateFullListing = true);
 
         Task UpdatePropertyInfo(PropertyDto propertyDto, Guid listingId = default, SaleListing entity = null);
 

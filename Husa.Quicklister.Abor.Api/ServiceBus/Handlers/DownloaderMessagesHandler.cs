@@ -1,15 +1,13 @@
 namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.Downloader.CTX.ServiceBus.Contracts;
-    using Husa.Extensions.Authorization;
-    using Husa.Extensions.Authorization.Models;
     using Husa.Extensions.ServiceBus.Extensions;
     using Husa.Extensions.ServiceBus.Services;
+    using Husa.Quicklister.Abor.Api.ServiceBus.Helpers;
     using Husa.Quicklister.Abor.Api.ServiceBus.Subscribers;
     using Husa.Quicklister.Abor.Application.Interfaces.Agent;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
@@ -18,13 +16,10 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Quicklister.Abor.Application.Models.Agent;
     using Husa.Quicklister.Abor.Application.Models.Office;
     using Husa.Quicklister.Abor.Crosscutting;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
-    using Microsoft.AspNetCore.HeaderPropagation;
     using Microsoft.Azure.ServiceBus;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using Microsoft.Extensions.Primitives;
 
     public class DownloaderMessagesHandler : MessagesHandler<DownloaderMessagesHandler>, IDownloaderMessagesHandler
     {
@@ -45,8 +40,8 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
 
         public override async Task ProcessMessageAsync(Message message, IServiceScope scope, CancellationToken cancellationToken)
         {
-            ConfigureUserAgent();
-            ConfigureContext();
+            HandlerHelper.ConfigureUserAgent(scope);
+            HandlerHelper.ConfigureContext(message, this.downloaderUserOptions, scope);
             this.Logger.LogDebug("Deserializing message {messageId}.", message.MessageId);
             var receivedMessage = message.DeserializeMessage();
             switch (receivedMessage)
@@ -98,31 +93,6 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                 this.Logger.LogInformation("Processing media for listing with id {ListingId}", mediaMessage.ListingId);
                 var mediaService = scope.ServiceProvider.GetRequiredService<IMediaService>();
                 return mediaService.ProcessData(mediaMessage.ListingId, mediaMessage.UpdatedOn);
-            }
-
-            UserContext GetDownloaderUser() => new()
-            {
-                Email = this.downloaderUserOptions.Email,
-                Name = this.downloaderUserOptions.Name,
-                Id = this.downloaderUserOptions.Id,
-                IsMLSAdministrator = this.downloaderUserOptions.MLSAdministrator,
-            };
-
-            void ConfigureContext()
-            {
-                var userProvider = scope.ServiceProvider.GetRequiredService<IUserProvider>();
-                userProvider.SetCurrentUser(GetDownloaderUser());
-                var configureTraceId = scope.ServiceProvider.GetRequiredService<IConfigureTraceId>();
-                configureTraceId.SetTraceId(message.MessageId);
-            }
-
-            void ConfigureUserAgent()
-            {
-                var headerPropagationValues = scope.ServiceProvider.GetRequiredService<HeaderPropagationValues>();
-                headerPropagationValues.Headers = new Dictionary<string, StringValues>(StringComparer.OrdinalIgnoreCase)
-                {
-                    { "User-Agent", "background-service" },
-                };
             }
         }
     }

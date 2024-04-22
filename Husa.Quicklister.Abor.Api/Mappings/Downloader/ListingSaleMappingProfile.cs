@@ -189,7 +189,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.TitleCompany, dto => dto.Ignore())
                 .ForMember(vo => vo.HoaName, dto => dto.MapFrom(src => src.FinancialMessage.HoaName))
                 .ForMember(vo => vo.HasHoa, dto => dto.MapFrom(src => src.FinancialMessage.HoaRequirement))
-                .ForMember(vo => vo.HoaIncludes, dto => dto.MapFrom(src => EnumMappings.GetHoaFeeIncludes(src.FinancialMessage.HoaFeeIncludes)))
+                .ForMember(vo => vo.HoaIncludes, dto => dto.MapFrom(src => src.FinancialMessage.HoaFeeIncludes.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.HoaFee, dto => dto.MapFrom(src => src.FinancialMessage.HoaAmount))
                 .ForMember(vo => vo.BuyersAgentCommission, dto => dto.MapFrom(src => src.ShowingMessage.BuyersAgentCommission.ConvertToDecimal()))
                 .ForMember(vo => vo.BuyersAgentCommissionType, dto => dto.MapFrom(src => src.ShowingMessage.BuyersAgentCommissionType.FirstOrDefault().ToCtxEnum()))

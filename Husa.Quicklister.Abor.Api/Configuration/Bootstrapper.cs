@@ -359,6 +359,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddSingleton<IPhotoServiceSubscriber, PhotoServiceSubscriber>();
             services.AddSingleton<IXmlMessagesHandler, XmlMessagesHandler>();
             services.AddSingleton<IXmlSubscriber, XmlSubscriber>();
+            services.AddSingleton<IMigrationMessagesHandler, MigrationMessagesHandler>();
+            services.AddSingleton<IMigrationSubscriber, MigrationSubscriber>();
 
             return services;
         }

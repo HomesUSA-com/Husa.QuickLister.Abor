@@ -758,7 +758,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             AcceptableFinancing = new List<TrestleEnums.ListingTerms> { TrestleEnums.ListingTerms.Cash, TrestleEnums.ListingTerms.FHA },
             HoaRequirement = false,
             HoaName = "HoaName",
-            HoaFeeIncludes = TrestleEnums.AssociationFeeIncludes.CableTV,
+            HoaFeeIncludes = new List<TrestleEnums.AssociationFeeIncludes> { TrestleEnums.AssociationFeeIncludes.CableTV },
             HoaAmount = 123.0m,
         };
 

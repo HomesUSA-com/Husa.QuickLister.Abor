@@ -119,6 +119,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.PlanId, config => config.Ignore())
                 .ForMember(dest => dest.CommunityId, config => config.Ignore())
                 .ForMember(dest => dest.Address, config => config.Ignore())
+                .ForMember(dest => dest.PlanName, config => config.Ignore())
                 .ForMember(dest => dest.SysCreatedBy, config => config.Ignore())
                 .ForMember(dest => dest.SysCreatedOn, config => config.Ignore())
                 .ForMember(dest => dest.SysModifiedBy, config => config.Ignore())

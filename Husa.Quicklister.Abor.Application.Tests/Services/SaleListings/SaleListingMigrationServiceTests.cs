@@ -30,6 +30,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
     public class SaleListingMigrationServiceTests
     {
         private readonly ApplicationServicesFixture fixture;
+        private readonly IOptions<ServiceBusSettings> serviceBusSettings;
         private readonly Mock<IListingSaleRepository> listingRepository = new();
         private readonly Mock<IMigrationClient> migrationClient = new();
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
@@ -40,7 +41,6 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
         private readonly Mock<ICommunitySaleRepository> communityRepository = new();
         private readonly Mock<ISaleListingPhotoService> photoService = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
-        private readonly IOptions<ServiceBusSettings> serviceBusSettings;
         private readonly Mock<IProvideTraceId> traceIdProvider = new();
         private readonly Mock<ServiceBusClient> busClient = new();
 

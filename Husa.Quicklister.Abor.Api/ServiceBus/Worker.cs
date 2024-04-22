@@ -13,12 +13,16 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
 
     public class Worker : IHostedService
     {
+        private const string RegisterHandlerMsg = "Registering handler client: {subscriber}";
+        private const string CloseSubscriptionClientMsg = "Closing subcription client connection of {subscriber}";
         private readonly IPhotoServiceSubscriber photoSubscriber;
         private readonly IPhotoServiceMessagesHandler photoMessagesHandler;
         private readonly IDownloaderSubscriber downloaderSubscriber;
         private readonly IDownloaderMessagesHandler downloaderMessagesHandler;
         private readonly IXmlSubscriber xmlSubscriber;
         private readonly IXmlMessagesHandler xmlMessagesHandler;
+        private readonly IMigrationSubscriber migrationSubscriber;
+        private readonly IMigrationMessagesHandler migrationMessagesHandler;
         private readonly FeatureFlags featureFlags;
         private readonly ILogger<Worker> logger;
 
@@ -29,6 +33,8 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
             IDownloaderMessagesHandler downloaderMessagesHandler,
             IXmlSubscriber xmlSubscriber,
             IXmlMessagesHandler xmlMessagesHandler,
+            IMigrationSubscriber migrationSubscriber,
+            IMigrationMessagesHandler migrationMessagesHandler,
             IOptions<ApplicationOptions> options,
             ILogger<Worker> logger)
         {
@@ -40,24 +46,29 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
             this.photoMessagesHandler = photoMessagesHandler ?? throw new ArgumentNullException(nameof(photoMessagesHandler));
             this.xmlSubscriber = xmlSubscriber ?? throw new ArgumentNullException(nameof(xmlSubscriber));
             this.xmlMessagesHandler = xmlMessagesHandler ?? throw new ArgumentNullException(nameof(xmlMessagesHandler));
+            this.migrationSubscriber = migrationSubscriber ?? throw new ArgumentNullException(nameof(migrationSubscriber));
+            this.migrationMessagesHandler = migrationMessagesHandler ?? throw new ArgumentNullException(nameof(migrationMessagesHandler));
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             try
             {
-                this.logger.LogInformation("Registering handler client: {subscriber}", nameof(this.photoMessagesHandler));
+                this.logger.LogInformation(RegisterHandlerMsg, nameof(this.photoMessagesHandler));
                 this.photoSubscriber.ConfigureClient(this.photoMessagesHandler);
+
+                this.logger.LogInformation(RegisterHandlerMsg, nameof(this.migrationMessagesHandler));
+                this.migrationSubscriber.ConfigureClient(this.migrationMessagesHandler);
 
                 if (this.featureFlags.IsDownloaderEnabled)
                 {
-                    this.logger.LogInformation("Registering handler client: {subscriber}", nameof(this.downloaderSubscriber));
+                    this.logger.LogInformation(RegisterHandlerMsg, nameof(this.downloaderSubscriber));
                     this.downloaderSubscriber.ConfigureClient(this.downloaderMessagesHandler);
                 }
 
                 if (this.featureFlags.IsXmlBusHandlerEnabled)
                 {
-                    this.logger.LogInformation("Registering handler client: {subscriber}", nameof(this.xmlMessagesHandler));
+                    this.logger.LogInformation(RegisterHandlerMsg, nameof(this.xmlMessagesHandler));
                     this.xmlSubscriber.ConfigureClient(this.xmlMessagesHandler);
                 }
             }
@@ -72,18 +83,21 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Closing subcription client connection of {subscriber}", nameof(this.photoSubscriber));
+            this.logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.photoSubscriber));
             await this.photoSubscriber.CloseClient();
+
+            this.logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.migrationSubscriber));
+            await this.migrationSubscriber.CloseClient();
 
             if (this.featureFlags.IsDownloaderEnabled)
             {
-                this.logger.LogInformation("Closing subcription client connection of {subscriber}", nameof(this.downloaderSubscriber));
+                this.logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.downloaderSubscriber));
                 await this.downloaderSubscriber.CloseClient();
             }
 
             if (this.featureFlags.IsXmlBusHandlerEnabled)
             {
-                this.logger.LogInformation("Closing subcription client connection of {subscriber}", nameof(this.xmlSubscriber));
+                this.logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.xmlSubscriber));
                 await this.xmlSubscriber.CloseClient();
             }
         }

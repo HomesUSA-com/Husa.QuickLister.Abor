@@ -325,6 +325,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 this.StatusFieldsInfo.HasContingencyInfo = listingSaleStatusFields.HasContingencyInfo;
                 this.StatusFieldsInfo.ContingencyInfo = listingSaleStatusFields.ContingencyInfo;
                 this.StatusFieldsInfo.CancelledReason = listingSaleStatusFields.CancelledReason;
+
+                if (!this.migrateFullListing)
+                {
+                    return;
+                }
             }
 
             if (this.processFullListing)

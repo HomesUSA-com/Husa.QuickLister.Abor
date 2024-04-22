@@ -23,6 +23,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -138,7 +139,7 @@ namespace Husa.Quicklister.Abor.Application
             return CommandResult<SaleListing>.Success(listingSaleEntity);
         }
 
-        public async Task UpdateListing(Guid listingId, SaleListingDto listingDto)
+        public async Task UpdateListing(Guid listingId, SaleListingDto listingDto, bool migrateFullListing = true)
         {
             this.Logger.LogInformation("Starting update sale listing with id {listingId}", listingId);
             var listingAddress = listingDto.SaleProperty.AddressInfo;
@@ -157,38 +158,51 @@ namespace Husa.Quicklister.Abor.Application
 
             var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
             var company = await this.serviceSubscriptionClient.Company.GetCompany(listingSale.CompanyId) ?? throw new NotFoundException<SaleListing>(listingSale.CompanyId);
-            await this.UpdateBaseListingInfo(listingDto, Guid.Empty, listingSale);
+            await this.UpdateBaseListingInfo(listingDto, Guid.Empty, listingSale, migrateFullListing);
 
             var statusFieldsInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingDto.StatusFieldsInfo);
+            listingSale.SetMigrateFullListing(migrateFullListing);
             listingSale.UpdateStatusFieldsInfo(statusFieldsInfo);
 
-            await this.UpdatePropertyInfo(listingDto.SaleProperty.PropertyInfo, entity: listingSale);
-            await this.UpdateAddressInfo(listingDto.SaleProperty.AddressInfo, entity: listingSale);
-            await this.UpdateShowingInfo(listingDto.SaleProperty.ShowingInfo, entity: listingSale);
-            await this.UpdateSchoolsInfo(listingDto.SaleProperty.SchoolsInfo, entity: listingSale);
-            await this.UpdateFeaturesInfo(listingDto.SaleProperty.FeaturesInfo, entity: listingSale);
-            await this.UpdateFinancialInfo(listingDto.SaleProperty.FinancialInfo, entity: listingSale);
-            await this.UpdateSpacesDimensionsInfo(listingDto.SaleProperty.SpacesDimensionsInfo, entity: listingSale, isBlockedSquareFootage: company.MlsInfo.BlockSquareFootage);
+            if (!migrateFullListing)
+            {
+                var salepropertyInfo = this.mapper.Map<SalePropertyValueObject>(listingDto.SaleProperty);
+                listingSale.SaleProperty.FillSalesPropertyInformation(salepropertyInfo);
+            }
+            else
+            {
+                await this.UpdatePropertyInfo(listingDto.SaleProperty.PropertyInfo, entity: listingSale);
+                await this.UpdateAddressInfo(listingDto.SaleProperty.AddressInfo, entity: listingSale);
+                await this.UpdateShowingInfo(listingDto.SaleProperty.ShowingInfo, entity: listingSale);
+                await this.UpdateSchoolsInfo(listingDto.SaleProperty.SchoolsInfo, entity: listingSale);
+                await this.UpdateFeaturesInfo(listingDto.SaleProperty.FeaturesInfo, entity: listingSale);
+                await this.UpdateFinancialInfo(listingDto.SaleProperty.FinancialInfo, entity: listingSale);
+                await this.UpdateSpacesDimensionsInfo(listingDto.SaleProperty.SpacesDimensionsInfo, entity: listingSale, isBlockedSquareFootage: company.MlsInfo.BlockSquareFootage);
+            }
+
             await this.UpdateRooms(listingDto.SaleProperty.Rooms, entity: listingSale);
             await this.UpdateOpenHouse(listingDto.SaleProperty.OpenHouses, entity: listingSale);
 
             await this.ListingRepository.UpdateAsync(listingSale);
         }
 
-        public async Task UpdateBaseListingInfo(SaleListingDto saleListingDto, Guid listingId = default, SaleListing entity = null)
+        public async Task UpdateBaseListingInfo(SaleListingDto saleListingDto, Guid listingId = default, SaleListing entity = null, bool migrateFullListing = true)
         {
             this.Logger.LogInformation("Starting update base sale listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
             var currentUser = this.UserContextProvider.GetCurrentUser();
 
-            entity.UpdateBaseListingInfo(
-                saleListingDto.ListType,
-                saleListingDto.ListPrice,
-                saleListingDto.ExpirationDate,
-                saleListingDto.ListDate,
-                saleListingDto.MlsStatus,
-                LockedStatus.LockedNotSubmitted,
-                currentUser.Id);
+            if (migrateFullListing)
+            {
+                entity.UpdateBaseListingInfo(
+                    saleListingDto.ListType,
+                    saleListingDto.ListPrice,
+                    saleListingDto.ExpirationDate,
+                    saleListingDto.ListDate,
+                    saleListingDto.MlsStatus,
+                    LockedStatus.LockedNotSubmitted,
+                    currentUser.Id);
+            }
 
             entity.UpdateManuallyManagement(saleListingDto.IsManuallyManaged);
         }

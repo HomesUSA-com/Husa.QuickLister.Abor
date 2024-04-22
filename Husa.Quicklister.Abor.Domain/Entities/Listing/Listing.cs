@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     {
         protected bool isMarketUpdate = false;
         protected bool processFullListing = true;
+        protected bool migrateFullListing = true;
 
         protected Listing()
             : base()
@@ -32,6 +33,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         [XmlPropertyUpdate]
         public virtual MarketStatuses MlsStatus { get; set; }
+
+        public virtual void SetMigrateFullListing(bool migrateFullListing)
+        {
+            this.migrateFullListing = migrateFullListing;
+        }
 
         public virtual void UpdateBaseListingInfo(
             ListType listType,

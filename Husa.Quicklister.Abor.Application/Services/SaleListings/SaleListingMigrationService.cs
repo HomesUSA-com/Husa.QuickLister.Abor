@@ -92,7 +92,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 listingDto.ExpirationDate = listing.ExpirationDate;
             }
 
-            await this.saleListingService.UpdateListing(listing.Id, listingDto);
+            await this.saleListingService.UpdateListing(listing.Id, listingDto, migrateFullListing);
             if (string.IsNullOrWhiteSpace(listing.MlsNumber) && !string.IsNullOrWhiteSpace(listingDto.MlsNumber))
             {
                 await this.saleListingService.AssignMlsNumberAsync(listing.Id, listingDto.MlsNumber, listingDto.MlsStatus, ActionType.NewListing);

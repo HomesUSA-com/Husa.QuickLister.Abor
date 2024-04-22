@@ -286,7 +286,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
 
             // Assert
             Assert.NotNull(result);
-            this.listingSaleService.Verify(x => x.UpdateListing(listingId, It.IsAny<SaleListingDto>()), Times.Once);
+            this.listingSaleService.Verify(x => x.UpdateListing(listingId, It.IsAny<SaleListingDto>(), It.IsAny<bool>()), Times.Once);
         }
 
         [Fact]
