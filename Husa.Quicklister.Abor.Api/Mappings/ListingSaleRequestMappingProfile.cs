@@ -124,6 +124,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.SysModifiedBy, config => config.Ignore())
                 .ForMember(dest => dest.SysModifiedOn, config => config.Ignore())
                 .ForMember(dest => dest.IsDeleted, config => config.Ignore())
+                .ForMember(dest => dest.PlanName, config => config.Ignore())
                 .ForMember(dest => dest.SysTimestamp, config => config.Ignore());
 
             this.CreateMap<DocumentModels.ListingRequest.ListingSaleRequestDetailQueryResult, ListingSaleRequestDetailResponse>();

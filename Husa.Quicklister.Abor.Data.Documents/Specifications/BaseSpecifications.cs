@@ -4,7 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Specifications
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;

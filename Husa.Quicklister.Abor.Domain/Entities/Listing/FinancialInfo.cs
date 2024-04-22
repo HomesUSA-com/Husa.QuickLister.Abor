@@ -8,9 +8,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using Husa.Quicklister.Extensions.Domain.Interfaces;
 
-    public class FinancialInfo : ValueObject, IProvideFinancial, IProvideAgentCommission, IProvideAgentBonusCommission
+    public class FinancialInfo : ValueObject, IProvideFinancial
     {
         private DateTime? bonusExpirationDate;
 

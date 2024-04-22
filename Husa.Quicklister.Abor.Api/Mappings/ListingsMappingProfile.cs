@@ -23,6 +23,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
@@ -39,7 +40,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     {
         public ListingsMappingProfile()
         {
-            this.CreateMap<Api.Contracts.Request.ListingSaleRequestFilter, ListingQueryFilter>();
+            this.CreateMap<Api.Contracts.Request.ListingRequestFilter, ListingQueryFilter>();
             this.CreateMap<Api.Contracts.Request.ListingSaleBillingRequestFilter, ListingSaleBillingQueryFilter>();
             this.CreateMap<InvoiceRequest, InvoiceDto>();
             this.CreateMap<SalePropertyQueryResult, SalePropertyResponse>();
@@ -50,7 +51,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<PropertyInfoQueryResult, PropertyInfoResponse>()
                 .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(dto => dto.MlsArea.HasValue ? dto.MlsArea.Value.ToStringFromEnumMember(false) : null));
             this.CreateMap<RoomQueryResult, RoomResponse>();
-            this.CreateMap<ListingSaleQueryResult, ListingSaleResponse>()
+            this.CreateMap<ListingSaleQueryResult, ListingResponse>()
                .ForMember(dest => dest.StreetNum, config => config.MapFrom(x => x.StreetNum))
                .ForMember(dest => dest.StreetName, config => config.MapFrom(x => x.StreetName))
                .ForMember(dest => dest.StreetType, config => config.MapFrom(x => x.StreetType.GetValueOrDefault().ToStringFromEnumMember(false)))
@@ -117,7 +118,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.Id, c => c.Ignore());
             this.CreateMap<ListingSaleDetailRequest, SaleListingDto>();
 
-            this.CreateMap<ListingSaleRequest, ListingSaleDto>()
+            this.CreateMap<QuickCreateListingRequest, QuickCreateListingDto>()
                 .ForMember(dto => dto.LegacyId, c => c.Ignore());
 
             this.CreateMap<ShowingDto, ShowingInfo>();

@@ -1,0 +1,19 @@
+namespace Husa.Quicklister.Abor.Api.Contracts.Request.LotListing
+{
+    using System;
+    using Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail;
+    using Husa.Quicklister.Abor.Domain.Enums;
+
+    public class LotListingDetailRequest : ListingRequest
+    {
+        public override ListType ListType => ListType.Lots;
+        public Guid? CompanyId { get; set; }
+
+        public AddressInfoRequest AddressInfo { get; set; }
+        public LotSchoolsRequest SchoolsInfo { get; set; }
+        public LotPropertyRequest PropertyInfo { get; set; }
+        public LotFeaturesRequest FeaturesInfo { get; set; }
+        public LotFinancialRequest FinancialInfo { get; set; }
+        public LotShowingRequest ShowingInfo { get; set; }
+    }
+}

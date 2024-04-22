@@ -28,14 +28,14 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             this.baseUri = "api/sale-listings";
         }
 
-        public async Task<Guid> CreateListing(Request.ListingSaleRequest listingSaleRequest, CancellationToken token = default)
+        public async Task<Guid> CreateListing(Request.QuickCreateListingRequest listingSaleRequest, CancellationToken token = default)
         {
             this.logger.LogDebug("Creating listing {@saleListingRequest}", listingSaleRequest);
-            var response = await this.client.PostAsJsonAsync<Request.ListingSaleRequest, Guid>(this.baseUri, listingSaleRequest, token);
+            var response = await this.client.PostAsJsonAsync<Request.QuickCreateListingRequest, Guid>(this.baseUri, listingSaleRequest, token);
             return response;
         }
 
-        public async Task<IEnumerable<Response.ListingSaleResponse>> GetAsync(Request.ListingSaleRequestFilter filters, CancellationToken token = default)
+        public async Task<IEnumerable<Response.ListingResponse>> GetAsync(Request.ListingRequestFilter filters, CancellationToken token = default)
         {
             this.logger.LogInformation("Getting listings with the filter {@filters}", filters);
             var endpoint = this.baseUri
@@ -44,7 +44,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
                 .AddQueryString("streetNumber", filters.StreetNumber)
                 .AddQueryString("mlsNumber", filters.MlsNumber)
                 .AddQueryString("isCompleteHome", filters.IsCompleteHome);
-            var response = await this.client.GetAsync<DataSet<Response.ListingSaleResponse>>(endpoint, token);
+            var response = await this.client.GetAsync<DataSet<Response.ListingResponse>>(endpoint, token);
             return response.Data;
         }
 

@@ -53,7 +53,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         public async Task SaleListingGetAsyncSuccess()
         {
             // Arrange
-            var filter = new Request.ListingSaleRequestFilter()
+            var filter = new Request.ListingRequestFilter()
             {
                 MlsStatus = SaleListing.ActiveAndPendingListingStatuses,
             };
@@ -578,7 +578,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         public async Task CreateListingSuccessAsync()
         {
             // Arrange
-            var listingDto = new Request.ListingSaleRequest
+            var listingDto = new Request.QuickCreateListingRequest
             {
                 MlsStatus = MarketStatuses.Active,
                 City = Cities.LaGrange,

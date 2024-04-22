@@ -2,7 +2,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
 {
     using Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail;
 
-    public class ListingSaleDetailResponse : ListingSaleResponse
+    public class ListingSaleDetailResponse : ListingResponse
     {
         public ListingSaleStatusFieldsResponse StatusFieldsInfo { get; set; }
 

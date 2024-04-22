@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using OpenHousesQueryResult = Husa.Quicklister.Abor.Data.Queries.Models.OpenHousesQueryResult;
 
     public static class SaleLisitngEntityQueryExtensions
@@ -112,7 +113,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             };
         }
 
-        public static FinancialQueryResult ToProjectionSpacesFinancial<T>(this T financial)
+        public static FinancialQueryResult ToProjectionFinancial<T>(this T financial)
             where T : FinancialInfo
         {
             return new()
@@ -139,7 +140,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             };
         }
 
-        public static SchoolsInfoQueryResult ToProjectionSchools<T>(this T schools)
+        public static SchoolsInfoQueryResult ToProjectionSchoolsInfo<T>(this T schools)
             where T : SchoolsInfo
         {
             return new()
@@ -151,6 +152,18 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 OtherMiddleSchool = schools.OtherMiddleSchool,
                 HighSchool = schools.HighSchool,
                 OtherHighSchool = schools.OtherHighSchool,
+            };
+        }
+
+        public static SchoolsQueryResult ToProjectionSchools<T>(this T schools)
+            where T : IProvideSchool
+        {
+            return new()
+            {
+                SchoolDistrict = schools.SchoolDistrict,
+                ElementarySchool = schools.ElementarySchool,
+                MiddleSchool = schools.MiddleSchool,
+                HighSchool = schools.HighSchool,
             };
         }
 
@@ -231,12 +244,12 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             {
                 SalePropertyInfo = saleProperty.ToProjectionSaleProperty(),
                 AddressInfo = saleProperty.AddressInfo.ToProjectionAddressInfo(),
-                SchoolsInfo = saleProperty.SchoolsInfo.ToProjectionSchools(),
+                SchoolsInfo = saleProperty.SchoolsInfo.ToProjectionSchoolsInfo(),
                 ShowingInfo = saleProperty.ShowingInfo.ToProjectionShowing(),
                 FeaturesInfo = saleProperty.FeaturesInfo.ToProjectionFeatures(),
                 PropertyInfo = saleProperty.PropertyInfo.ToProjectionPropertyInfo(),
                 SpacesDimensionsInfo = saleProperty.SpacesDimensionsInfo.ToProjectionSpacesDimensions(),
-                FinancialInfo = saleProperty.FinancialInfo.ToProjectionSpacesFinancial(),
+                FinancialInfo = saleProperty.FinancialInfo.ToProjectionFinancial(),
                 OpenHouses = saleProperty.OpenHouses.ToProjectionOpenHouses(),
                 Rooms = saleProperty.Rooms.ToProjectionRooms(),
             };
@@ -356,7 +369,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 AgentBonusAmountType = community.Financial.AgentBonusAmountType,
                 BonusExpirationDate = community.Financial.BonusExpirationDate,
                 HasBuyerIncentive = community.Financial.HasBuyerIncentive,
-                Schools = community.SchoolsInfo?.ToProjectionSchools(),
+                Schools = community.SchoolsInfo?.ToProjectionSchoolsInfo(),
             };
         }
 

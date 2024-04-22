@@ -115,6 +115,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.Address, pr => pr.Ignore())
                 .ForMember(dto => dto.Id, pr => pr.Ignore())
                 .ForMember(dto => dto.PlanId, pr => pr.Ignore())
+                .ForMember(dto => dto.PlanName, pr => pr.Ignore())
                 .ForMember(dto => dto.CommunityId, pr => pr.Ignore())
                 .AfterMap((src, dest) =>
                 {

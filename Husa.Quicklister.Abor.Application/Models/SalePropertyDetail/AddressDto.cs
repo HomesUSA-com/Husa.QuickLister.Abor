@@ -2,8 +2,9 @@ namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
 {
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
 
-    public class AddressDto
+    public class AddressDto : IProvideAddress
     {
         public string StreetNumber { get; set; }
         public string StreetName { get; set; }

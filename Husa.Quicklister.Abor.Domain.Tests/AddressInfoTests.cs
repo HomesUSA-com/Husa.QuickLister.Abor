@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Domain.Tests
 {
     using Husa.Extensions.Common.Enums;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Xml.Api.Contracts.Response;
     using Xunit;

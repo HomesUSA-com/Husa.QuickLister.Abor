@@ -1,0 +1,173 @@
+namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
+{
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Husa.CompanyServicesManager.Api.Client.Interfaces;
+    using Husa.CompanyServicesManager.Api.Contracts.Request;
+    using Husa.CompanyServicesManager.Domain.Enums;
+    using Husa.Extensions.Authorization;
+    using Husa.Extensions.Authorization.Enums;
+    using Husa.Extensions.Common.Classes;
+    using Husa.Extensions.Common.Enums;
+    using Husa.Quicklister.Abor.Application.Interfaces.Lot;
+    using Husa.Quicklister.Abor.Application.Models;
+    using Husa.Quicklister.Abor.Application.Services.LotListings;
+    using Husa.Quicklister.Abor.Crosscutting.Tests;
+    using Husa.Quicklister.Abor.Crosscutting.Tests.LotListings;
+    using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Abor.Domain.Entities.Lot;
+    using Husa.Quicklister.Abor.Domain.Repositories;
+    using Microsoft.Extensions.Logging;
+    using Moq;
+    using Xunit;
+    using CompanyResponse = Husa.CompanyServicesManager.Api.Contracts.Response;
+
+    [ExcludeFromCodeCoverage]
+    [Collection("Husa.Quicklister.Abor.Application.Test")]
+    public class LotListingServiceTests
+    {
+        private readonly LotListingService sut;
+        private readonly Mock<ILotListingRepository> lotListingRepositoryMock = new();
+        private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClientMock = new();
+        private readonly Mock<ICommunitySaleRepository> communitySaleRepositoryMock = new();
+        private readonly Mock<ILotListingMediaService> listingMediaServiceMock = new();
+        private readonly Mock<IUserContextProvider> userContextProviderMock = new();
+        private readonly Mock<ILogger<LotListingService>> loggerMock = new();
+
+        public LotListingServiceTests(ApplicationServicesFixture fixture)
+        {
+            this.sut = new LotListingService(
+                this.lotListingRepositoryMock.Object,
+                this.communitySaleRepositoryMock.Object,
+                this.serviceSubscriptionClientMock.Object,
+                this.userContextProviderMock.Object,
+                this.listingMediaServiceMock.Object,
+                fixture.Options.Object,
+                fixture.Mapper,
+                this.loggerMock.Object);
+        }
+
+        [Fact]
+        public async Task CreateAsync_ValidLotListing_ReturnsSuccessResult()
+        {
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var communityId = Guid.NewGuid();
+            var lotListing = new QuickCreateListingDto
+            {
+                CompanyId = companyId,
+                CommunityId = communityId,
+                IsManuallyManaged = true,
+            };
+
+            this.SetupSubscriptionClientCompany(companyId, ServiceCode.XMLImport);
+
+            this.lotListingRepositoryMock.Setup(x => x.AddAsync(It.IsAny<LotListing>()))
+               .ReturnsAsync(new LotListing { Id = Guid.NewGuid() });
+            this.communitySaleRepositoryMock.Setup(x => x.GetById(communityId, It.IsAny<bool>()))
+             .ReturnsAsync(new CommunitySale(companyId, "Community", "Company")
+             {
+                 Id = communityId,
+             });
+
+            // Act
+            var result = await this.sut.CreateAsync(lotListing);
+
+            // Assert
+            Assert.Equal(ResponseCode.Success, result.Code);
+            Assert.IsType<CommandSingleResult<Guid, string>>(result);
+        }
+
+        [Fact]
+        public async Task UpdateListing_UpdateComplete_Success()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            var companyId = Guid.NewGuid();
+            var listingId = Guid.NewGuid();
+            var listing = LotTestProvider.GetListingEntity(listingId, companyId: companyId);
+            var listingDto = LotTestProvider.GetLotListingDto();
+            var user = TestModelProvider.GetCurrentUser(userId, companyId, userRole: UserRole.MLSAdministrator);
+
+            this.userContextProviderMock.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
+
+            this.lotListingRepositoryMock
+                .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()))
+                .ReturnsAsync(listing)
+                .Verifiable();
+
+            this.SetupSubscriptionClientCompany(companyId);
+
+            // Act
+            await this.sut.UpdateListing(listingId, listingDto);
+
+            // Assert
+            this.lotListingRepositoryMock.Verify(r => r.SaveChangesAsync(It.IsAny<LotListing>()), Times.Once);
+            this.lotListingRepositoryMock.Verify(c => c.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => filterByCompany)), Times.Once);
+        }
+
+        [Fact]
+        public async Task ChangeCommunity_Success()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var communityId = Guid.NewGuid();
+            var companyId = Guid.NewGuid();
+
+            var listing = LotTestProvider.GetListingEntity(listingId, communityId: Guid.NewGuid(), companyId: companyId);
+            this.lotListingRepositoryMock
+                .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()))
+                .ReturnsAsync(listing)
+                .Verifiable();
+
+            this.communitySaleRepositoryMock.Setup(x => x.GetById(communityId, It.IsAny<bool>()))
+             .ReturnsAsync(new CommunitySale(companyId, "Community", "Company")
+             {
+                 Id = communityId,
+             });
+
+            // Act
+            await this.sut.ChangeCommunity(listingId, communityId);
+
+            // Assert
+            this.lotListingRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<LotListing>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task AssignMlsNumberAsync_Success()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+
+            var listing = LotTestProvider.GetListingEntity(listingId);
+            this.lotListingRepositoryMock
+                .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()))
+                .ReturnsAsync(listing)
+                .Verifiable();
+
+            // Act
+            await this.sut.AssignMlsNumberAsync(listingId, "MlsNumber", Domain.Enums.MarketStatuses.Active, Quicklister.Extensions.Domain.Enums.ActionType.NewListing);
+
+            // Assert
+            this.lotListingRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<LotListing>()), Times.Once);
+        }
+
+        private void SetupSubscriptionClientCompany(Guid companyId, ServiceCode? service = null)
+        {
+            var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
+            this.serviceSubscriptionClientMock
+                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(companyDetail);
+
+            var services = service.HasValue
+                ? new CompanyResponse.ServiceSubscription[] { new() { ServiceCode = service.Value } }
+                : Array.Empty<CompanyResponse.ServiceSubscription>();
+
+            this.serviceSubscriptionClientMock
+                .Setup(c => c.Company.GetCompanyServices(companyId, It.IsAny<FilterServiceSubscriptionRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataSet<CompanyResponse.ServiceSubscription>(services, services.Length));
+        }
+    }
+}

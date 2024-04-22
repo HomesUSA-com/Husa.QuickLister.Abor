@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
-    public class ListingSaleResponse
+    public class ListingResponse
     {
         public Guid Id { get; set; }
 
@@ -66,7 +66,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
 
         public DateTime? LockedOn { get; set; }
 
-        public LockedStatus LockedStatus { get; set; } = LockedStatus.NoLocked; public string LockedByUsername { get; set; }
+        public LockedStatus LockedStatus { get; set; } = LockedStatus.NoLocked;
+        public string LockedByUsername { get; set; }
 
         public DateTime? LastPhotoRequestCreationDate { get; set; }
 

@@ -66,6 +66,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
             request.SysCreatedBy = usersIds.SysCreatedBy ?? request.SysCreatedBy;
             request.SysModifiedBy = usersIds.SysModifiedBy ?? request.SysModifiedBy;
             request.PublishInfo.PublishUser = usersIds.PublishUserId ?? request.PublishInfo.PublishUser;
+            request.SaleProperty.PlanName = listing.SaleProperty.Plan?.BasePlan?.Name;
 
             if (!request.PublishInfo.PublishType.HasValue)
             {

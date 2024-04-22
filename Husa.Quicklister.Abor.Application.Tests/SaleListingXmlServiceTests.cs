@@ -714,7 +714,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var commandResult = CommandResult<SaleListing>.Success(quickCreateResult.Object);
             this.listingSaleService
                 .Setup(l => l.QuickCreateAsync(
-                    It.IsAny<ListingSaleDto>(),
+                    It.IsAny<QuickCreateListingDto>(),
                     It.Is<bool>(importFromListing => !importFromListing)))
                 .ReturnsAsync(commandResult);
         }

@@ -248,7 +248,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             // Arrange
             var listingSale = TestModelProvider.GetListingSaleEntity(Guid.NewGuid(), true);
             listingSale.MlsStatus = existingListingStatus;
-            var listingSaleDto = new ListingSaleDto()
+            var listingSaleDto = new QuickCreateListingDto()
             {
                 StreetNumber = listingSale.SaleProperty.AddressInfo.StreetNumber,
                 StreetName = listingSale.SaleProperty.AddressInfo.StreetName,
