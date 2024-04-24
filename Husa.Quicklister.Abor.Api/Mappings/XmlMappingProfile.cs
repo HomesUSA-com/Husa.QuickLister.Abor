@@ -29,7 +29,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.City, c => c.MapFrom(x => x.City.ToCity(false) ?? Cities.NotApplicable))
                 .ForMember(dto => dto.County, c => c.MapFrom(x => x.County.ToCounty(false)));
 
-            this.CreateMap<XmlResponse.XmlListingDetailResponse, ListingSaleDto>()
+            this.CreateMap<XmlResponse.XmlListingDetailResponse, QuickCreateListingDto>()
                 .ForMember(dto => dto.MlsStatus, c => c.MapFrom(x => x.Status))
                 .ForMember(dto => dto.StreetNumber, c => c.MapFrom(x => x.StreetNum))
                 .ForMember(dto => dto.ListPrice, c => c.MapFrom(x => x.Price))

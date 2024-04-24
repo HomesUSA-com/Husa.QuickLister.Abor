@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Data.Configuration
 {
     using System;
-    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Linq;
     using Husa.Extensions.Linq.ValueConverters;
     using Husa.Quicklister.Abor.Data.Extensions;
@@ -34,7 +33,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.OwnsOne(o => o.FinancialInfo, ConfigureFinancialMapping);
             builder.OwnsOne(o => o.ShowingInfo, ConfigureShowingMapping);
             builder.OwnsOne(o => o.SchoolsInfo, ConfigureSchoolsMapping).Navigation(e => e.SchoolsInfo).IsRequired();
-            builder.OwnsOne(o => o.AddressInfo, ConfigureAddressInfoMapping);
+            builder.OwnsOne(o => o.AddressInfo, AddressExtensions.ConfigureAddressInfoMapping);
             builder.OwnsOne(o => o.PropertyInfo, ConfigurePropertyInfoMapping);
             builder.OwnsOne(o => o.SalesOfficeInfo, ConfigureSalesOfficeMapping).Navigation(e => e.SalesOfficeInfo).IsRequired();
 
@@ -60,20 +59,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
             builder.ConfigureProperty();
             builder.ConfigureGeocodes();
-        }
-
-        private static void ConfigureAddressInfoMapping(OwnedNavigationBuilder<SaleProperty, AddressInfo> builder)
-        {
-            builder.Property(x => x.StreetNumber).HasColumnName(nameof(AddressInfo.StreetNumber)).HasMaxLength(12);
-            builder.Property(r => r.StreetName).HasColumnName(nameof(AddressInfo.StreetName)).HasMaxLength(50);
-            builder.Property(r => r.State).HasColumnName(nameof(AddressInfo.State)).HasEnumFieldValue<States>(maxLength: 2, isRequired: true);
-            builder.Property(r => r.StreetType).HasColumnName(nameof(AddressInfo.StreetType)).HasEnumFieldValue<StreetType>(maxLength: 20);
-            builder.Property(r => r.UnitNumber).HasColumnName(nameof(AddressInfo.UnitNumber)).HasMaxLength(20).IsRequired(false);
-
-            builder.Property(r => r.City).HasColumnName(nameof(AddressInfo.City)).HasEnumFieldValue<Cities>(maxLength: 50, isRequired: true);
-            builder.Property(r => r.County).HasColumnName(nameof(AddressInfo.County)).HasEnumFieldValue<Counties>(maxLength: 20);
-            builder.Property(x => x.Subdivision).HasColumnName(nameof(AddressInfo.Subdivision)).HasMaxLength(75);
-            builder.Property(x => x.ZipCode).HasColumnName(nameof(AddressInfo.ZipCode)).HasMaxLength(12);
         }
 
         private static void ConfigureSalesOfficeMapping(OwnedNavigationBuilder<SaleProperty, SalesOffice> builder)
@@ -131,7 +116,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<SaleProperty, SchoolsInfo> builder)
         {
-            builder.ConfigureSchools();
+            builder.ConfigureSchoolsInfo();
         }
     }
 }

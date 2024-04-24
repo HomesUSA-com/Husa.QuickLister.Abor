@@ -107,7 +107,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<CommunitySale, SchoolsInfo> builder)
         {
-            builder.ConfigureSchools();
+            builder.ConfigureSchoolsInfo();
         }
     }
 }

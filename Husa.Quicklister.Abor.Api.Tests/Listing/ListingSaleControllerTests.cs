@@ -80,7 +80,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
                 listing2,
             };
 
-            var filter = new ListingSaleRequestFilter
+            var filter = new ListingRequestFilter
             {
                 MlsStatus = new List<MarketStatuses> { status },
                 SearchBy = string.Empty,
@@ -99,7 +99,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
 
             // Assert
             var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(actionResult);
-            var result = Assert.IsAssignableFrom<DataSet<ListingSaleResponse>>(okObjectResult.Value);
+            var result = Assert.IsAssignableFrom<DataSet<ListingResponse>>(okObjectResult.Value);
             Assert.NotEmpty(result.Data);
             Assert.Equal(2, result.Total);
             this.saleListingQueriesRepository.Verify();
@@ -113,7 +113,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
             // Arrange
             var listingSaleResponse = new List<ListingSaleQueryResult>() { };
 
-            var filter = new ListingSaleRequestFilter
+            var filter = new ListingRequestFilter
             {
                 MlsStatus = new List<MarketStatuses> { status },
                 SearchBy = string.Empty,
@@ -133,7 +133,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
 
             // Assert
             var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(actionResult);
-            var result = Assert.IsAssignableFrom<DataSet<ListingSaleResponse>>(okObjectResult.Value);
+            var result = Assert.IsAssignableFrom<DataSet<ListingResponse>>(okObjectResult.Value);
             Assert.Empty(result.Data);
             Assert.Equal(0, result.Total);
             this.saleListingQueriesRepository.Verify();
@@ -159,7 +159,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
                 listing1,
                 listing2,
             };
-            var filter = new ListingSaleRequestFilter
+            var filter = new ListingRequestFilter
             {
                 MlsStatus = new List<MarketStatuses> { status },
                 SearchBy = string.Empty,
@@ -178,7 +178,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
 
             // Assert
             var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(actionResult);
-            var result = Assert.IsAssignableFrom<DataSet<ListingSaleResponse>>(okObjectResult.Value);
+            var result = Assert.IsAssignableFrom<DataSet<ListingResponse>>(okObjectResult.Value);
             Assert.NotEmpty(result.Data);
             Assert.Equal(2, result.Total);
             this.saleListingQueriesRepository.Verify();
@@ -238,7 +238,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
             var listingSaleRequest = TestModelProvider.GetListingSaleRequest(communityId: Guid.NewGuid());
 
             this.listingSaleService
-            .Setup(u => u.CreateAsync(It.IsAny<ListingSaleDto>()))
+            .Setup(u => u.CreateAsync(It.IsAny<QuickCreateListingDto>()))
             .ReturnsAsync(dataResponse)
             .Verifiable();
 
@@ -262,7 +262,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
             var dataResponse = CommandSingleResult<Guid, string>.Error(listingId.ToString());
 
             this.listingSaleService
-            .Setup(u => u.CreateAsync(It.IsAny<ListingSaleDto>()))
+            .Setup(u => u.CreateAsync(It.IsAny<QuickCreateListingDto>()))
             .ReturnsAsync(dataResponse)
             .Verifiable();
 
@@ -286,7 +286,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
 
             // Assert
             Assert.NotNull(result);
-            this.listingSaleService.Verify(x => x.UpdateListing(listingId, It.IsAny<SaleListingDto>()), Times.Once);
+            this.listingSaleService.Verify(x => x.UpdateListing(listingId, It.IsAny<SaleListingDto>(), It.IsAny<bool>()), Times.Once);
         }
 
         [Fact]

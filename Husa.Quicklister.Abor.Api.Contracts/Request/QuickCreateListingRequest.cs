@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
-    public class ListingSaleRequest
+    public class QuickCreateListingRequest
     {
         private string streetName;
 

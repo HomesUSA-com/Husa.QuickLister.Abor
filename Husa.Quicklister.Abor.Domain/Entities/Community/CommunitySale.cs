@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
@@ -73,6 +74,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual ICollection<SaleProperty> SaleProperties { get; set; }
 
         public virtual ICollection<CommunityEmployee> Employees { get; set; }
+
+        public virtual ICollection<LotListing> LotListings { get; set; }
 
         public override bool CanBeDeleted => !this.SaleProperties.Any(s => s.CanBeDeleted);
 

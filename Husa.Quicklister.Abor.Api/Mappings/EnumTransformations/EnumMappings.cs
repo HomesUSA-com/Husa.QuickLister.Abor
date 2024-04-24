@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
 {
     using System;
-    using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -833,13 +832,5 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.BuyerFinancing.VA => SaleTerms.VA,
             _ => null,
         };
-
-        public static IEnumerable<HoaIncludes> GetHoaFeeIncludes(Trestle.AssociationFeeIncludes hoaFeeIncludes)
-        {
-            var hoaFeeIncludesDescription = hoaFeeIncludes.ToCtxEnum();
-            return hoaFeeIncludesDescription.HasValue
-                ? new List<HoaIncludes> { hoaFeeIncludesDescription.Value }
-                : Array.Empty<HoaIncludes>();
-        }
     }
 }

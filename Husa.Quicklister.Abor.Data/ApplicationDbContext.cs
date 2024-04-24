@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Data
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.Office;
     using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
@@ -51,6 +52,10 @@ namespace Husa.Quicklister.Abor.Data
         public virtual DbSet<ManagementTrace> ManagementTrace { get; set; }
 
         public virtual DbSet<XmlRequestError> XmlRequestError { get; set; }
+
+        public virtual DbSet<LotListing> LotListing { get; set; }
+
+        public virtual DbSet<LotManagementTrace> LotManagementTrace { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
+    using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Services.Downloader;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Agent;
@@ -30,6 +31,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<IAgentRepository> agentRepository = new();
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
         private readonly Mock<IDownloaderCtxClient> downloaderCtxClient = new();
+        private readonly Mock<ISaleListingMigrationService> listingMigrationService = new();
         private readonly Mock<ILogger<ResidentialService>> logger = new();
 
         public DownloaderResidentialServiceTests(ApplicationServicesFixture fixture)
@@ -40,6 +42,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.agentRepository.Object,
                 this.serviceSubscriptionClient.Object,
                 this.downloaderCtxClient.Object,
+                this.listingMigrationService.Object,
                 this.fixture.Mapper,
                 this.logger.Object);
         }

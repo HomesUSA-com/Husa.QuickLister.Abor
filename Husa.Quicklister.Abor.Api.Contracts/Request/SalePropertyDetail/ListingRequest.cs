@@ -15,7 +15,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
 
         public DateTime? ListDate { get; set; }
 
-        public ListType ListType { get; set; }
+        public virtual ListType ListType { get; set; }
 
         public string MlsNumber { get; set; }
 

@@ -5,10 +5,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
     using Husa.Extensions.Common;
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
     using Husa.Xml.Domain.Enums;
 
-    public class SchoolsInfo : ValueObject
+    public class SchoolsInfo : ValueObject, IProvideSchool
     {
         public SchoolDistrict? SchoolDistrict { get; set; }
 

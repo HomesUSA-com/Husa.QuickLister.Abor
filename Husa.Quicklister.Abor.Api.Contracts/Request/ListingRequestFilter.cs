@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
-    public class ListingSaleRequestFilter : BaseFilterRequest
+    public class ListingRequestFilter : BaseFilterRequest
     {
         public IEnumerable<MarketStatuses> MlsStatus { get; set; }
         public ListedType? ListedType { get; set; }

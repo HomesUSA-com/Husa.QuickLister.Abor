@@ -25,6 +25,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
     {
         protected bool isMarketUpdate = false;
         protected bool processFullListing = true;
+        protected bool migrateFullListing = true;
         public SaleProperty(
             string streetName,
             string streetNum,
@@ -579,6 +580,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.PropertyInfo.ConstructionCompletionDate = propertyInfo.ConstructionCompletionDate;
                 this.PropertyInfo.UpdateGeocodes = propertyInfo.UpdateGeocodes;
                 this.PropertyInfo.IsXmlManaged = propertyInfo.IsXmlManaged;
+
+                if (!this.migrateFullListing)
+                {
+                    return;
+                }
             }
 
             if (this.processFullListing)
@@ -631,6 +637,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FeaturesInfo.GuestBedroomsTotal = featuresInfo.GuestBedroomsTotal;
                 this.FeaturesInfo.GuestFullBathsTotal = featuresInfo.GuestFullBathsTotal;
                 this.FeaturesInfo.GuestHalfBathsTotal = featuresInfo.GuestHalfBathsTotal;
+
+                if (!this.migrateFullListing)
+                {
+                    return;
+                }
             }
 
             if (this.processFullListing)
@@ -686,6 +697,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FinancialInfo.HasBuyerIncentive = financialInfo.HasBuyerIncentive;
                 this.FinancialInfo.HOARequirement = financialInfo.HOARequirement;
                 this.FinancialInfo.TaxRate = financialInfo.TaxRate;
+
+                if (!this.migrateFullListing)
+                {
+                    return;
+                }
             }
 
             if (this.processFullListing)
@@ -716,6 +732,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.ShowingInfo.OccupantPhone = showingInfo.OccupantPhone;
                 this.ShowingInfo.AgentPrivateRemarksAdditional = showingInfo.AgentPrivateRemarksAdditional;
                 this.ShowingInfo.RealtorContactEmail = showingInfo.RealtorContactEmail;
+
+                if (!this.migrateFullListing)
+                {
+                    return;
+                }
             }
 
             if (this.processFullListing)
@@ -745,6 +766,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             {
                 this.SpacesDimensionsInfo.DiningAreasTotal = spacesDimensions.DiningAreasTotal;
                 this.SpacesDimensionsInfo.LivingAreasTotal = spacesDimensions.LivingAreasTotal;
+
+                if (!this.migrateFullListing)
+                {
+                    return;
+                }
             }
 
             if (this.processFullListing)
@@ -777,17 +803,21 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         private void InitializeEntity(SalePropertyValueObject salePropertyInfo)
         {
-            if (this.processFullListing)
+            if (this.processFullListing && this.migrateFullListing)
             {
                 this.OwnerName = salePropertyInfo.OwnerName;
                 this.CopyAddressData(salePropertyInfo.AddressInfo);
+            }
+
+            if (this.migrateFullListing)
+            {
+                this.CopySchoolsData(salePropertyInfo.SchoolsInfo);
             }
 
             this.CopyPropertyInfoData(salePropertyInfo.PropertyInfo);
             this.CopyFinancialData(salePropertyInfo.FinancialInfo);
             this.CopyFeaturesData(salePropertyInfo.FeaturesInfo);
             this.CopyShowingData(salePropertyInfo.ShowingInfo);
-            this.CopySchoolsData(salePropertyInfo.SchoolsInfo);
             this.CopySpacesDimensionsData(salePropertyInfo.SpacesDimensionsInfo);
         }
     }

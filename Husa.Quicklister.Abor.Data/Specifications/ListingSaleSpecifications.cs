@@ -145,7 +145,7 @@ namespace Husa.Quicklister.Abor.Data.Specifications
         }
 
         public static IQueryable<T> FilterByMlsNumber<T>(this IQueryable<T> listings, string mlsNumber)
-            where T : SaleListing
+            where T : Listing
         {
             return string.IsNullOrWhiteSpace(mlsNumber) ? listings : listings.Where(l => l.MlsNumber.StartsWith(mlsNumber));
         }

@@ -4,7 +4,9 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
+    using Azure.Messaging.ServiceBus;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Request;
@@ -16,7 +18,10 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Crosscutting;
+    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Moq;
     using Xunit;
 
@@ -25,6 +30,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
     public class SaleListingMigrationServiceTests
     {
         private readonly ApplicationServicesFixture fixture;
+        private readonly IOptions<ServiceBusSettings> serviceBusSettings;
         private readonly Mock<IListingSaleRepository> listingRepository = new();
         private readonly Mock<IMigrationClient> migrationClient = new();
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
@@ -34,10 +40,14 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
         private readonly Mock<IPlanRepository> planRepository = new();
         private readonly Mock<ICommunitySaleRepository> communityRepository = new();
         private readonly Mock<ISaleListingPhotoService> photoService = new();
+        private readonly Mock<IUserContextProvider> userContextProvider = new();
+        private readonly Mock<IProvideTraceId> traceIdProvider = new();
+        private readonly Mock<ServiceBusClient> busClient = new();
 
         public SaleListingMigrationServiceTests(ApplicationServicesFixture fixture)
         {
             this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
+            this.serviceBusSettings = Options.Create(new ServiceBusSettings { MigrationService = new ServiceBusOptions { TopicName = "TopicName", SubscriptionName = "SubscriptionName" } });
         }
 
         [Fact]
@@ -61,7 +71,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
                 .ReturnsAsync(new[] { listingReponse }).Verifiable();
 
             var listingId = Guid.NewGuid();
-            this.saleListingService.Setup(m => m.CreateAsync(It.IsAny<ListingSaleDto>())).ReturnsAsync(CommandSingleResult<Guid, string>.Success(listingId)).Verifiable();
+            this.saleListingService.Setup(m => m.CreateAsync(It.IsAny<QuickCreateListingDto>())).ReturnsAsync(CommandSingleResult<Guid, string>.Success(listingId)).Verifiable();
             var listing = ListingTestProvider.GetListingEntity(listingId: listingId);
             this.listingRepository.Setup(m => m.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>())).ReturnsAsync(listing).Verifiable();
 
@@ -74,7 +84,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
             });
 
             // Assert
-            this.saleListingService.Verify(r => r.CreateAsync(It.IsAny<ListingSaleDto>()), Times.Once);
+            this.saleListingService.Verify(r => r.CreateAsync(It.IsAny<QuickCreateListingDto>()), Times.Once);
         }
 
         private SaleListingMigrationService GetSut()
@@ -87,6 +97,10 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
                 this.planRepository.Object,
                 this.communityRepository.Object,
                 this.photoService.Object,
+                this.userContextProvider.Object,
+                this.traceIdProvider.Object,
+                this.busClient.Object,
+                this.serviceBusSettings,
                 this.logger.Object,
                 this.fixture.Mapper);
     }

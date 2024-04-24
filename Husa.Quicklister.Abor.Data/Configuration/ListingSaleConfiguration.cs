@@ -25,7 +25,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
             builder.SetListingProperties();
             builder.OwnsOne(sf => sf.StatusFieldsInfo, ConfigureStatusFieldsMapping);
-            builder.OwnsOne(sf => sf.PublishInfo, ConfigurePublishInfoMapping).Navigation(e => e.PublishInfo).IsRequired();
+            builder.OwnsOne(sf => sf.PublishInfo, PublishInfoExtensions.ConfigurePublishInfoMapping).Navigation(e => e.PublishInfo).IsRequired();
             builder.OwnsOne(sf => sf.InvoiceInfo, ConfigureInvoiceInfoMapping).Navigation(e => e.InvoiceInfo).IsRequired();
             builder.Property(f => f.LastPhotoRequestCreationDate).HasColumnType("datetime");
             builder.Ignore(p => p.IsInMls);
@@ -58,14 +58,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(f => f.HasContingencyInfo).HasColumnName(nameof(ListingSaleStatusFieldsInfo.HasContingencyInfo));
             builder.Property(f => f.AgentIdSecond).HasColumnName(nameof(ListingSaleStatusFieldsInfo.AgentIdSecond));
             builder.Property(f => f.HasSecondBuyerAgent).HasColumnName(nameof(ListingSaleStatusFieldsInfo.HasSecondBuyerAgent));
-        }
-
-        private static void ConfigurePublishInfoMapping(OwnedNavigationBuilder<SaleListing, PublishInfo> builder)
-        {
-            builder.Property(r => r.PublishType).HasColumnName(nameof(PublishInfo.PublishType)).HasConversion<string>().HasMaxLength(20).IsRequired(false);
-            builder.Property(r => r.PublishUser).HasColumnName(nameof(PublishInfo.PublishUser)).IsRequired(false);
-            builder.Property(r => r.PublishStatus).HasColumnName(nameof(PublishInfo.PublishStatus)).HasConversion<string>().HasMaxLength(20).IsRequired(false);
-            builder.Property(r => r.PublishDate).HasColumnName(nameof(PublishInfo.PublishDate)).IsRequired(false);
         }
 
         private static void ConfigureInvoiceInfoMapping(OwnedNavigationBuilder<SaleListing, InvoiceInfo> builder)

@@ -10,19 +10,18 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Listing;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
-    public interface ISaleListingService
+    public interface ISaleListingService : IListingService
     {
-        Task<CommandSingleResult<Guid, string>> CreateAsync(ListingSaleDto listingSale);
+        Task<CommandSingleResult<Guid, string>> CreateAsync(QuickCreateListingDto listingSale);
 
-        Task<CommandResult<SaleListing>> QuickCreateAsync(ListingSaleDto listingSale, bool importFromListing);
+        Task<CommandResult<SaleListing>> QuickCreateAsync(QuickCreateListingDto listingSale, bool importFromListing);
 
-        Task UpdateListing(Guid listingId, SaleListingDto listingDto);
+        Task UpdateListing(Guid listingId, SaleListingDto listingDto, bool migrateFullListing = true);
 
-        Task DeleteListing(Guid listingId);
-
-        Task UpdateBaseListingInfo(SaleListingDto saleListingDto, Guid listingId = default, SaleListing entity = null);
+        Task UpdateBaseListingInfo(SaleListingDto saleListingDto, Guid listingId = default, SaleListing entity = null, bool migrateFullListing = true);
 
         Task UpdatePropertyInfo(PropertyDto propertyDto, Guid listingId = default, SaleListing entity = null);
 
@@ -44,21 +43,11 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
 
         Task<SaleListing> GetEntity(SaleListing entity = null, Guid listingId = default);
 
-        Task ChangeCommunity(Guid listingId, Guid communityId);
-
         Task ChangePlan(Guid listingId, Guid planId, bool updateRooms = false);
 
         Task AssignMlsNumberAsync(Guid listingId, string mlsNumber, MarketStatuses requestStatus, ActionType actionType);
 
         Task<SaleListing> SaveListingChanges(Guid listingId, ListingSaleRequestDto listingSaleDto);
-
-        Task<CommandResult<string>> UnlockListing(Guid listingId, CancellationToken cancellationToken = default);
-
-        Task<CommandResult<string>> CloseListing(Guid listingId);
-        Task LockListingByUser(Guid listingId);
-
-        Task DeclinePhotos(Guid listingId, CancellationToken cancellationToken = default);
-
         Task UpdateActionTypeAsync(Guid listingId, ActionType actionType, CancellationToken cancellationToken = default);
     }
 }
