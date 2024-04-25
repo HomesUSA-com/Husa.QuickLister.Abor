@@ -202,7 +202,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.CompanyId, config => config.Ignore());
 
             this.CreateMap<ListingSaleStatusFieldQueryResult, ListingSaleStatusFieldsResponse>();
-            this.CreateMap<DocumentModels.ListingRequest.ListingRequestPublishInfoQueryResult, ListingSalePublishInfoResponse>();
+            this.CreateMap<DocumentModels.ListingRequest.ListingRequestPublishInfoQueryResult, PublishInfoResponse>();
 
             this.CreateMap<SaleListingOpenHouseQueryResult, ListingSaleOpenHouseResponse>();
         }

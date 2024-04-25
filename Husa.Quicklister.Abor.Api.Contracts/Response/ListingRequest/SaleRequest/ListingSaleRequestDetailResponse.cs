@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleReques
 
         public ListingSaleStatusFieldsResponse StatusFieldsInfo { get; set; }
 
-        public ListingSalePublishInfoResponse PublishInfo { get; set; }
+        public PublishInfoResponse PublishInfo { get; set; }
 
         public SalePropertyDetailResponse SaleProperty { get; set; }
     }

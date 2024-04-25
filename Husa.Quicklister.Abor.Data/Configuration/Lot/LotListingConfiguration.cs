@@ -74,7 +74,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
         private static void ConfigureShowingMapping(OwnedNavigationBuilder<LotListing, LotShowingInfo> builder)
         {
             builder.Property(r => r.ShowingRequirements)
-                .HasColumnName(nameof(IProvideShowingInfo.ShowingRequirements))
+                .HasColumnName(nameof(LotShowingInfo.ShowingRequirements))
                 .HasEnumCollectionValue<ShowingRequirements>(maxLength: 300);
         }
 
