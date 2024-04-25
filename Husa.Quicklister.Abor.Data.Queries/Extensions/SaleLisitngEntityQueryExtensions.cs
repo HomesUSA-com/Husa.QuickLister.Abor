@@ -442,7 +442,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             };
         }
 
-        public static ListingSaleStatusFieldQueryResult ToProjectionStatusFieldsInfo(this ListingSaleStatusFieldsInfo statusFieldsInfo)
+        public static TStatusResult ToProjectionStatusFieldsInfo<TStatusFields, TStatusResult>(this TStatusFields statusFieldsInfo)
+            where TStatusFields : class, IProvideStatusFields
+            where TStatusResult : IProvideStatusFields, new()
         {
             if (statusFieldsInfo == null)
             {
@@ -451,10 +453,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
 
             return new()
             {
-                HasContingencyInfo = statusFieldsInfo.HasContingencyInfo,
-                ContingencyInfo = statusFieldsInfo.ContingencyInfo,
-                SaleTerms = statusFieldsInfo.SaleTerms,
-                SellConcess = statusFieldsInfo.SellConcess,
                 PendingDate = statusFieldsInfo.PendingDate,
                 ClosedDate = statusFieldsInfo.ClosedDate,
                 EstimatedClosedDate = statusFieldsInfo.EstimatedClosedDate,

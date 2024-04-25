@@ -4,7 +4,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using System.Linq.Expressions;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
+    using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.Lot;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
 
     public static class LotListingProjection
@@ -64,6 +66,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             FinancialInfo = listing.FinancialInfo.ToProjectionFinancial(),
             PublishInfo = listing.PublishInfo.ToProjectionPublishInfo(),
             EmailLead = listing.Community.EmailLead.ToProjectionEmailLead(),
+            StatusFieldsInfo = listing.StatusFieldsInfo.ToProjectionStatusFieldsInfo<ListingStatusFieldsInfo, ListingStatusFieldsQueryResult>(),
         };
 
         public static LotPropertyQueryResult ToProjectionPropertyInfo<T>(this T propertyInfo)

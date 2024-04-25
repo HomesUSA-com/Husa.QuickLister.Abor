@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
     using System;
     using Husa.Extensions.Linq;
     using Husa.Quicklister.Abor.Data.Extensions;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
@@ -32,6 +33,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
             builder.OwnsOne(o => o.SchoolsInfo, ConfigureSchoolsMapping);
             builder.OwnsOne(o => o.AddressInfo, AddressExtensions.ConfigureAddressInfoMapping);
             builder.OwnsOne(o => o.PropertyInfo, ConfigurePropertyInfoMapping);
+            builder.OwnsOne(o => o.StatusFieldsInfo, ConfigureStatusFieldsMapping);
 
             builder.HasOne(p => p.Community)
                .WithMany(b => b.LotListings)
@@ -81,6 +83,11 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<LotListing, LotSchoolsInfo> builder)
         {
             builder.ConfigureSchools();
+        }
+
+        private static void ConfigureStatusFieldsMapping(OwnedNavigationBuilder<LotListing, ListingStatusFieldsInfo> builder)
+        {
+            builder.ConfigureStatusInfoMapping();
         }
     }
 }

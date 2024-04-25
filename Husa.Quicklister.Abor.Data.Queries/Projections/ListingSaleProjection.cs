@@ -56,7 +56,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             SysModifiedOn = listingSale.SysModifiedOn,
             IsPhotosDeclined = listingSale.IsPhotosDeclined,
             IsManuallyManaged = listingSale.IsManuallyManaged,
-            StatusFieldsInfo = listingSale.StatusFieldsInfo.ToProjectionStatusFieldsInfo(),
+            StatusFieldsInfo = listingSale.StatusFieldsInfo.ToProjectionSaleStatusFieldsInfo(),
             SaleProperty = listingSale.SaleProperty.ToProjection(),
             PublishInfo = listingSale.PublishInfo.ToProjectionPublishInfo(),
             EmailLead = listingSale.SaleProperty.Community.EmailLead.ToProjectionEmailLead(),
@@ -109,5 +109,22 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             MlsNumber = listingSale.MlsNumber,
             OpenHouses = listingSale.SaleProperty.OpenHouses.ToProjectionOpenHouses(),
         };
+
+        private static ListingSaleStatusFieldQueryResult ToProjectionSaleStatusFieldsInfo(this ListingSaleStatusFieldsInfo statusFieldsInfo)
+        {
+            if (statusFieldsInfo == null)
+            {
+                return new();
+            }
+
+            var statusFields = statusFieldsInfo.ToProjectionStatusFieldsInfo<ListingSaleStatusFieldsInfo, ListingSaleStatusFieldQueryResult>();
+
+            statusFields.HasContingencyInfo = statusFieldsInfo.HasContingencyInfo;
+            statusFields.ContingencyInfo = statusFieldsInfo.ContingencyInfo;
+            statusFields.SaleTerms = statusFieldsInfo.SaleTerms;
+            statusFields.SellConcess = statusFieldsInfo.SellConcess;
+
+            return statusFields;
+        }
     }
 }
