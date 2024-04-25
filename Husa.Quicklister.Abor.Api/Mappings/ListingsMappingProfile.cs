@@ -75,7 +75,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<SpacesDimensionsQueryResult, SpacesDimensionsResponse>();
 
             this.CreateMap<SalePropertyDetailQueryResult, SalePropertyDetailResponse>();
-            this.CreateMap<ListingSalePublishInfoQueryResult, ListingSalePublishInfoResponse>();
+            this.CreateMap<PublishInfoQueryResult, PublishInfoResponse>();
             this.CreateMap<ListingSaleQueryDetailResult, ListingSaleDetailResponse>()
                .ForMember(dest => dest.StreetNum, config => config.MapFrom(x => x.SaleProperty.AddressInfo.StreetNumber))
                .ForMember(dest => dest.StreetName, config => config.MapFrom(x => x.SaleProperty.AddressInfo.StreetName))
@@ -212,7 +212,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<NoteDetailResult, NotesResponse>();
 
-            this.CreateMap<PublishInfo, ListingSalePublishInfoResponse>();
+            this.CreateMap<PublishInfo, PublishInfoResponse>();
 
             this.CreateMap<MediaDetailResponse, ListingSaleMediaDto>()
                 .ForMember(ls => ls.MediaId, mr => mr.MapFrom(x => x.EntityKey))

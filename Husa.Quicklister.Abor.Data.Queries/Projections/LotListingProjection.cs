@@ -59,10 +59,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             CompanyId = listing.CompanyId,
             AddressInfo = listing.AddressInfo.ToProjectionAddressInfo(),
             SchoolsInfo = listing.SchoolsInfo.ToProjectionSchools(),
-            ShowingInfo = listing.ShowingInfo.ToProjectionShowing(),
             FeaturesInfo = listing.FeaturesInfo.ToProjectionFeatures(),
             PropertyInfo = listing.PropertyInfo.ToProjectionPropertyInfo(),
             FinancialInfo = listing.FinancialInfo.ToProjectionFinancial(),
+            PublishInfo = listing.PublishInfo.ToProjectionPublishInfo(),
+            EmailLead = listing.Community.EmailLead.ToProjectionEmailLead(),
         };
 
         public static LotPropertyQueryResult ToProjectionPropertyInfo<T>(this T propertyInfo)

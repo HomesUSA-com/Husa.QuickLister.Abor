@@ -167,7 +167,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             };
         }
 
-        public static ListingSalePublishInfoQueryResult ToProjectionPublishInfo<T>(this T publishInfo)
+        public static PublishInfoQueryResult ToProjectionPublishInfo<T>(this T publishInfo)
             where T : PublishInfo
         {
             if (publishInfo == null)
