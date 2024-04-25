@@ -15,5 +15,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.LotListing
         public LotShowingResponse ShowingInfo { get; set; }
         public PublishInfoResponse PublishInfo { get; set; }
         public EmailLeadResponse EmailLead { get; set; }
+        public ListingStatusFieldsResponse StatusFieldsInfo { get; set; }
     }
 }

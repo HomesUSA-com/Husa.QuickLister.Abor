@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Entities.Listing
+namespace Husa.Quicklister.Abor.Domain.Entities.Base
 {
     using System;
     using System.Collections.Generic;

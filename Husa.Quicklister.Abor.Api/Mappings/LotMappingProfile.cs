@@ -27,6 +27,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<LotFinancialQueryResult, LotFinancialResponse>();
             this.CreateMap<LotShowingQueryResult, LotShowingResponse>();
             this.CreateMap<SchoolsQueryResult, LotSchoolsResponse>();
+            this.CreateMap<ListingStatusFieldsQueryResult, ListingStatusFieldsResponse>();
 
             this.CreateMap<LotListingQueryDetailResult, LotListingDetailResponse>()
                .ForMember(dest => dest.StreetNum, config => config.MapFrom(x => x.AddressInfo.StreetNumber))

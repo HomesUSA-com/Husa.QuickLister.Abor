@@ -15,5 +15,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Lot
         public LotShowingQueryResult ShowingInfo { get; set; }
         public PublishInfoQueryResult PublishInfo { get; set; }
         public EmailLeadQueryResult EmailLead { get; set; }
+        public ListingStatusFieldsQueryResult StatusFieldsInfo { get; set; }
     }
 }
