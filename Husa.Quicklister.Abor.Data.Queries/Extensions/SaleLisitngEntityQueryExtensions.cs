@@ -156,8 +156,13 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         }
 
         public static SchoolsQueryResult ToProjectionSchools<T>(this T schools)
-            where T : IProvideSchool
+            where T : class, IProvideSchool
         {
+            if (schools == null)
+            {
+                return new();
+            }
+
             return new()
             {
                 SchoolDistrict = schools.SchoolDistrict,

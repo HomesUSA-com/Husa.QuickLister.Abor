@@ -72,6 +72,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
         public static LotPropertyQueryResult ToProjectionPropertyInfo<T>(this T propertyInfo)
             where T : LotPropertyInfo
         {
+            if (propertyInfo == null)
+            {
+                return new();
+            }
+
             return new()
             {
                 MlsArea = propertyInfo.MlsArea,
@@ -84,6 +89,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
         public static LotFinancialQueryResult ToProjectionFinancial<T>(this T financial)
             where T : LotFinancialInfo
         {
+            if (financial == null)
+            {
+                return new();
+            }
+
             return new()
             {
                 TaxRate = financial.TaxRate,
@@ -106,6 +116,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
         public static LotFeaturesQueryResult ToProjectionFeatures<T>(this T features)
             where T : LotFeaturesInfo
         {
+            if (features == null)
+            {
+                return new();
+            }
+
             return new()
             {
                 RestrictionsDescription = features.RestrictionsDescription,
@@ -123,6 +138,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
         public static LotShowingQueryResult ToProjectionShowing<T>(this T showing)
             where T : LotShowingInfo
         {
+            if (showing == null)
+            {
+                return new();
+            }
+
             return new()
             {
                 ShowingRequirements = showing.ShowingRequirements,

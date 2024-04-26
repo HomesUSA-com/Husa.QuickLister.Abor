@@ -94,6 +94,33 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
             Assert.Equal(lotListing.LockedStatus, result.LockedStatus);
         }
 
+        [Fact]
+        public async Task GetListing_WithEmptySections()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            this.SetupMlsAdmin();
+
+            var lotListing = new LotListing
+            {
+                CommunityId = Guid.NewGuid(),
+                Id = listingId,
+                ShowingInfo = null,
+                SchoolsInfo = null,
+                FeaturesInfo = null,
+            };
+
+            var community = CommunityTestProvider.GetCommunityEntity(lotListing.CommunityId.Value);
+            var sut = this.GetInMemoryRepository(new[] { lotListing }, new List<CommunitySale> { community });
+
+            // Act
+            var result = await sut.GetListing(listingId);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(listingId, result.Id);
+        }
+
         private void SetupMlsAdmin()
         {
             var user = TestModelProvider.GetCurrentUser(userRole: UserRole.MLSAdministrator);
