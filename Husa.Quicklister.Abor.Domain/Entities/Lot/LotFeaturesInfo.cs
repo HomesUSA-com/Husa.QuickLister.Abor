@@ -30,6 +30,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             clonnedFeatures.WaterSource = utilities.WaterSource;
             clonnedFeatures.UtilitiesDescription = utilities.UtilitiesDescription;
             clonnedFeatures.View = utilities.View;
+            clonnedFeatures.Fencing = utilities.Fencing;
+            clonnedFeatures.ExteriorFeatures = utilities.ExteriorFeatures;
             return clonnedFeatures;
         }
 
@@ -42,6 +44,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             yield return this.UtilitiesDescription;
             yield return this.WaterSource;
             yield return this.DistanceToWaterAccess;
+            yield return this.Fencing;
+            yield return this.ExteriorFeatures;
         }
     }
 }

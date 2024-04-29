@@ -64,6 +64,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             FeaturesInfo = listing.FeaturesInfo.ToProjectionFeatures(),
             PropertyInfo = listing.PropertyInfo.ToProjectionPropertyInfo(),
             FinancialInfo = listing.FinancialInfo.ToProjectionFinancial(),
+            ShowingInfo = listing.ShowingInfo.ToProjectionShowing(),
             PublishInfo = listing.PublishInfo.ToProjectionPublishInfo(),
             EmailLead = listing.Community.EmailLead.ToProjectionEmailLead(),
             StatusFieldsInfo = listing.StatusFieldsInfo.ToProjectionStatusFieldsInfo<ListingStatusFieldsInfo, ListingStatusFieldsQueryResult>(),

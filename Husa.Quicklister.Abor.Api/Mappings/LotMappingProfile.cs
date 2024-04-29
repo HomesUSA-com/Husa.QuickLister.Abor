@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using System;
     using AutoMapper;
     using Husa.Extensions.Common.Enums;
+    using Husa.Quicklister.Abor.Api.Contracts.Request.LotListing;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.LotListing;
     using Husa.Quicklister.Abor.Application.Models.Lot;
@@ -48,6 +49,13 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                .ForMember(dest => dest.IsCompleteHome, config => config.MapFrom(x => false))
                .ForMember(dest => dest.PlanName, config => config.MapFrom(x => x.PlanName))
                .ForMember(dest => dest.XmlListingId, config => config.MapFrom(x => x.XmlListingId == null || x.XmlListingId == Guid.Empty ? x.XmlDiscrepancyListingId : x.XmlListingId));
+
+            this.CreateMap<LotListingDetailRequest, LotListingDto>();
+            this.CreateMap<LotPropertyRequest, LotPropertyDto>();
+            this.CreateMap<LotFeaturesRequest, LotFeaturesDto>();
+            this.CreateMap<LotFinancialRequest, LotFinancialDto>();
+            this.CreateMap<LotSchoolsRequest, LotSchoolsDto>();
+            this.CreateMap<LotShowingRequest, LotShowingDto>();
         }
     }
 }

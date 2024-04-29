@@ -7,13 +7,14 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.LotListing
     public class LotListingDetailRequest : ListingRequest
     {
         public override ListType ListType => ListType.Lots;
-        public Guid? CompanyId { get; set; }
-
+        public string OwnerName { get; set; }
+        public Guid CompanyId { get; set; }
+        public Guid CommunityId { get; set; }
         public AddressInfoRequest AddressInfo { get; set; }
-        public LotSchoolsRequest SchoolsInfo { get; set; }
         public LotPropertyRequest PropertyInfo { get; set; }
         public LotFeaturesRequest FeaturesInfo { get; set; }
         public LotFinancialRequest FinancialInfo { get; set; }
         public LotShowingRequest ShowingInfo { get; set; }
+        public LotSchoolsRequest SchoolsInfo { get; set; }
     }
 }
