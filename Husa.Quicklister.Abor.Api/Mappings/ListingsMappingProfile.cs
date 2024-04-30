@@ -23,6 +23,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Abor.Data.Queries.Models.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
@@ -47,7 +48,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<FeaturesQueryResult, FeaturesResponse>();
             this.CreateMap<FinancialQueryResult, FinancialResponse>();
             this.CreateMap<ListingShowingQueryResult, ShowingResponse>();
-            this.CreateMap<AddressQueryResult, AddressInfoResponse>();
+            this.CreateMap<SaleAddressQueryResult, SaleAddressResponse>();
             this.CreateMap<PropertyInfoQueryResult, PropertyInfoResponse>()
                 .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(dto => dto.MlsArea.HasValue ? dto.MlsArea.Value.ToStringFromEnumMember(false) : null));
             this.CreateMap<RoomQueryResult, RoomResponse>();
@@ -103,7 +104,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<FinancialRequest, FinancialDto>();
             this.CreateMap<ShowingRequest, ShowingDto>();
 
-            this.CreateMap<AddressInfoRequest, Application.Models.SalePropertyDetail.AddressDto>();
+            this.CreateMap<SaleAddressRequest, SaleAddressDto>();
             this.CreateMap<PropertyInfoRequest, PropertyDto>();
             this.CreateMap<RoomRequest, RoomDto>();
             this.CreateMap<ListingRequest, ListingDto>();
@@ -182,7 +183,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<FinancialDto, FinancialInfo>();
             this.CreateMap<FeaturesDto, FeaturesInfo>();
-            this.CreateMap<Application.Models.SalePropertyDetail.AddressDto, AddressInfo>()
+            this.CreateMap<SaleAddressDto, SaleAddressInfo>()
                 .ForMember(dto => dto.City, c => c.MapFrom(src => src.City))
                 .ForMember(dto => dto.State, c => c.MapFrom(src => src.State));
 

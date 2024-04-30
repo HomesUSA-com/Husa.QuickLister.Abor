@@ -14,7 +14,6 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Lot;
     using Husa.Quicklister.Abor.Crosscutting;
-    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -151,7 +150,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
 
             var property = this.mapper.Map<LotPropertyInfo>(listingDto.PropertyInfo);
             lotListing.UpdatePropertyInfo(property);
-            var address = this.mapper.Map<AddressInfo>(listingDto.AddressInfo);
+            var address = this.mapper.Map<LotAddressInfo>(listingDto.AddressInfo);
             lotListing.UpdateAddressInfo(address);
             var features = this.mapper.Map<LotFeaturesInfo>(listingDto.FeaturesInfo);
             lotListing.UpdateFeatures(features);

@@ -82,7 +82,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public virtual Guid? CommunityId { get; set; }
 
-        public virtual AddressInfo AddressInfo { get; set; }
+        public virtual SaleAddressInfo AddressInfo { get; set; }
 
         public virtual PropertyInfo PropertyInfo { get; set; }
 
@@ -125,7 +125,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
         }
 
-        public virtual void UpdateAddressInfo(AddressInfo addressInfo)
+        public virtual void UpdateAddressInfo(SaleAddressInfo addressInfo)
         {
             if (addressInfo is null)
             {
@@ -481,7 +481,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.CommunityId = listing.CommunityId;
             this.CompanyId = (Guid)listing.CompanyId;
 
-            var profile = AddressInfo.ImportFromXml(listing, this.AddressInfo);
+            var profile = SaleAddressInfo.ImportFromXml(listing, this.AddressInfo);
             this.UpdateAddressInfo(profile);
 
             var property = PropertyInfo.ImportFromXml(listing, this.PropertyInfo);
@@ -604,7 +604,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.PropertyInfo.Longitude = propertyInfo.Longitude;
         }
 
-        private void CopyAddressData(AddressInfo addressInfo)
+        private void CopyAddressData(SaleAddressInfo addressInfo)
         {
             if (addressInfo is null)
             {

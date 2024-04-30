@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
+namespace Husa.Quicklister.Abor.Api.Contracts.Request
 {
     using System;
     using System.ComponentModel.DataAnnotations;

@@ -19,7 +19,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     {
         public SaleListingMappingProfile()
         {
-            this.CreateMap<AddressResponse, AddressDto>()
+            this.CreateMap<AddressResponse, SaleAddressDto>()
                 .ForMember(dto => dto.City, pr => pr.MapFrom(x => x.City.ToEnumFromEnumMember<Cities>()))
                 .ForMember(dto => dto.County, pr => pr.MapFrom(x => x.County.ToEnumFromEnumMember<Counties>()))
                 .ForMember(dto => dto.StreetType, pr => pr.MapFrom(x => x.StreetType.ToEnumFromEnumMember<StreetType>()))

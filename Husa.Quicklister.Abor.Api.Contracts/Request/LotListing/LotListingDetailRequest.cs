@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Request.LotListing
 {
     using System;
-    using Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail;
     using Husa.Quicklister.Abor.Domain.Enums;
 
     public class LotListingDetailRequest : ListingRequest

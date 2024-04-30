@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Response.LotListing
 {
     using System;
-    using Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail;
 
     public class LotListingDetailResponse : ListingResponse
     {

@@ -82,7 +82,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.ReadableBuyersAgentCommission, config => config.MapFrom(dto => dto.BuyersAgentCommission.GetCommissionAmount(dto.BuyersAgentCommissionType)));
             this.CreateMap<ShowingDto, ShowingRecord>();
             this.CreateMap<SchoolsDto, SchoolRecord>();
-            this.CreateMap<AddressDto, AddressRecord>()
+            this.CreateMap<SaleAddressDto, AddressRecord>()
                  .ForMember(dest => dest.FormalAddress, config => config.Ignore())
                 .ForMember(dest => dest.ReadableCity, config => config.Ignore());
 
@@ -133,7 +133,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<DocumentModels.ListingRequest.ListingRequestStatusFieldsQueryResult, ListingSaleStatusFieldsResponse>();
             this.CreateMap<DocumentModels.ListingRequest.ListingRequestSalePropertyQueryResult, SalePropertyDetailResponse>();
             this.CreateMap<DocumentModels.ListingRequest.SalePropertyQueryResult, SalePropertyResponse>();
-            this.CreateMap<DocumentModels.ListingRequest.AddressInfoQueryResult, AddressInfoResponse>();
+            this.CreateMap<DocumentModels.ListingRequest.AddressInfoQueryResult, SaleAddressResponse>();
             this.CreateMap<DocumentModels.ListingRequest.SpacesDimensionsInfoQueryResult, SpacesDimensionsResponse>();
             this.CreateMap<DocumentModels.ListingRequest.FeaturesInfoQueryResult, FeaturesResponse>()
                 .ForMember(dto => dto.NeighborhoodAmenities, c => c.MapFrom(dto => dto.NeighborhoodAmenities));
@@ -172,7 +172,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<FeaturesInfo, FeaturesDto>();
             this.CreateMap<FinancialInfo, FinancialDto>();
-            this.CreateMap<AddressInfo, AddressDto>();
+            this.CreateMap<SaleAddressInfo, SaleAddressDto>();
             this.CreateMap<PropertyInfo, PropertyDto>();
             this.CreateMap<ShowingInfo, ShowingDto>();
             this.CreateMap<SchoolsInfo, SchoolsDto>();

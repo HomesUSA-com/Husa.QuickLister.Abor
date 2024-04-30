@@ -44,11 +44,6 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
                             l.AddressInfo.ZipCode == address.ZipCode &&
                             l.AddressInfo.City == address.City);
 
-            if (!string.IsNullOrEmpty(address.UnitNumber))
-            {
-                query = query.Where(l => l.AddressInfo.UnitNumber == address.UnitNumber);
-            }
-
             if (excludeStatuses != null)
             {
                 query = query.Where(x => !excludeStatuses.Contains(x.MlsStatus));

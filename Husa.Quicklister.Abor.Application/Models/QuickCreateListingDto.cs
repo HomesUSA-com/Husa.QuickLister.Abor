@@ -5,7 +5,7 @@ namespace Husa.Quicklister.Abor.Application.Models
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using ExtensionsModel = Husa.Quicklister.Extensions.Application.Models.Listing;
 
-    public class QuickCreateListingDto : ExtensionsModel.QuickCreateListingDto<MarketStatuses, Cities, Counties>, IProvideAddress
+    public class QuickCreateListingDto : ExtensionsModel.QuickCreateListingDto<MarketStatuses, Cities, Counties>, IProvideSaleAddress
     {
         public string UnitNumber { get; set; }
     }

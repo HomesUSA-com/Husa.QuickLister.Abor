@@ -4,7 +4,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules.SalePropertyValidations
     using Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail;
     using Husa.Quicklister.Abor.Crosscutting;
 
-    public class AdressInfoValidator : AbstractValidator<AddressInfoRequest>
+    public class AdressInfoValidator : AbstractValidator<SaleAddressRequest>
     {
         public AdressInfoValidator()
         {

@@ -33,7 +33,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             SysCreatedOn = listing.SysCreatedOn,
             SysCreatedBy = listing.SysCreatedBy,
             CommunityId = listing.CommunityId,
-            UnitNumber = listing.AddressInfo.UnitNumber,
         };
 
         public static Expression<Func<LotListing, LotListingQueryDetailResult>> ProjectToLotListingQueryDetail => listing => new LotListingQueryDetailResult
@@ -59,7 +58,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             OwnerName = listing.OwnerName,
             CommunityId = listing.CommunityId,
             CompanyId = listing.CompanyId,
-            AddressInfo = listing.AddressInfo.ToProjectionAddressInfo(),
+            AddressInfo = listing.AddressInfo.ToProjectionLotAddressInfo(),
             SchoolsInfo = listing.SchoolsInfo.ToProjectionSchools(),
             FeaturesInfo = listing.FeaturesInfo.ToProjectionFeatures(),
             PropertyInfo = listing.PropertyInfo.ToProjectionPropertyInfo(),
@@ -148,6 +147,16 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             {
                 ShowingRequirements = showing.ShowingRequirements,
             };
+        }
+
+        private static AddressQueryResult ToProjectionLotAddressInfo(this LotAddressInfo addressInfo)
+        {
+            if (addressInfo == null)
+            {
+                return new();
+            }
+
+            return addressInfo.ToProjectionAddressInfo<LotAddressInfo, AddressQueryResult>();
         }
     }
 }

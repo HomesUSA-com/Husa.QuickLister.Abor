@@ -804,7 +804,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
         public static SalePropertyDetailDto GetSalePropertyDtoObject() => new()
         {
-            AddressInfo = new Mock<AddressDto>().SetupAllProperties().Object,
+            AddressInfo = new Mock<SaleAddressDto>().SetupAllProperties().Object,
             PropertyInfo = new Mock<PropertyDto>().SetupAllProperties().Object,
             FeaturesInfo = new Mock<FeaturesDto>().SetupAllProperties().Object,
             FinancialInfo = new Mock<FinancialDto>().SetupAllProperties().Object,
@@ -980,7 +980,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 planId: planProfileId)
             {
                 SalesOfficeInfo = new Mock<SalesOffice>().SetupAllProperties().Object,
-                AddressInfo = new Mock<AddressInfo>().SetupAllProperties().Object,
+                AddressInfo = new Mock<SaleAddressInfo>().SetupAllProperties().Object,
                 PropertyInfo = new Mock<PropertyInfo>().SetupAllProperties().Object,
                 FeaturesInfo = new Mock<FeaturesInfo>().SetupAllProperties().Object,
                 FinancialInfo = new Mock<FinancialInfo>().SetupAllProperties().Object,
@@ -1008,7 +1008,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         public static SalePropertyValueObject GetFullSalePropertyValueObject() => new()
         {
             OwnerName = Faker.Company.Name(),
-            AddressInfo = new Mock<AddressInfo>().SetupAllProperties().Object,
+            AddressInfo = new Mock<SaleAddressInfo>().SetupAllProperties().Object,
             PropertyInfo = new Mock<PropertyInfo>().SetupAllProperties().Object,
             FeaturesInfo = new Mock<FeaturesInfo>().SetupAllProperties().Object,
             SchoolsInfo = new Mock<SchoolsInfo>().SetupAllProperties().Object,
@@ -1203,7 +1203,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Id = agentId ?? Guid.NewGuid(),
         };
 
-        public static AddressInfo GetDefaultAddressInfo() => new()
+        public static SaleAddressInfo GetDefaultAddressInfo() => new()
         {
             StreetNumber = "1528",
             StreetName = "MULBERRY AVE",

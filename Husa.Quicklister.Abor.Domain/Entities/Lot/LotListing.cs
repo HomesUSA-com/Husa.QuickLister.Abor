@@ -7,7 +7,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
     using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -33,7 +32,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             this.CompanyId = companyId;
             this.OwnerName = ownerName;
             this.CommunityId = communityId;
-            this.AddressInfo = new(streetNum, streetName, null, zipCode, city, state, county);
+            this.AddressInfo = new(streetNum, streetName, zipCode, city, state, county);
             this.IsManuallyManaged = manuallyManaged;
         }
 
@@ -53,7 +52,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public override ListType ListType { get; protected set; } = ListType.Lots;
         public virtual string OwnerName { get; set; }
         public virtual Guid? CommunityId { get; set; }
-        public virtual AddressInfo AddressInfo { get; set; }
+        public virtual LotAddressInfo AddressInfo { get; set; }
         public virtual LotSchoolsInfo SchoolsInfo { get; set; }
         public virtual LotPropertyInfo PropertyInfo { get; set; }
         public virtual LotFeaturesInfo FeaturesInfo { get; set; }
@@ -155,7 +154,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             }
         }
 
-        public virtual void UpdateAddressInfo(AddressInfo addressInfo)
+        public virtual void UpdateAddressInfo(LotAddressInfo addressInfo)
         {
             ArgumentNullException.ThrowIfNull(addressInfo);
 

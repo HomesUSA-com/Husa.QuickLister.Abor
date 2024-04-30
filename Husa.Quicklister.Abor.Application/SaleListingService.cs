@@ -216,12 +216,12 @@ namespace Husa.Quicklister.Abor.Application
             entity.SaleProperty.UpdatePropertyInfo(property);
         }
 
-        public async Task UpdateAddressInfo(AddressDto addressDto, Guid listingId = default, SaleListing entity = null)
+        public async Task UpdateAddressInfo(SaleAddressDto addressDto, Guid listingId = default, SaleListing entity = null)
         {
             this.Logger.LogInformation("Starting update address information for listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
 
-            var address = this.mapper.Map<AddressInfo>(addressDto);
+            var address = this.mapper.Map<SaleAddressInfo>(addressDto);
             entity.SaleProperty.UpdateAddressInfo(address);
         }
 

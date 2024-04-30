@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Models
 {
     using System.Collections.Generic;
+    using Husa.Quicklister.Abor.Data.Queries.Models.SaleListing;
 
     public class SalePropertyDetailQueryResult
     {
@@ -8,7 +9,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
 
         public PropertyInfoQueryResult PropertyInfo { get; set; }
 
-        public AddressQueryResult AddressInfo { get; set; }
+        public SaleAddressQueryResult AddressInfo { get; set; }
 
         public SpacesDimensionsQueryResult SpacesDimensionsInfo { get; set; }
 

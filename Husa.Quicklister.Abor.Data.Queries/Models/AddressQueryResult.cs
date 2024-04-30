@@ -12,7 +12,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
         public string ZipCode { get; set; }
         public Counties? County { get; set; }
         public StreetType? StreetType { get; set; }
-        public string UnitNumber { get; set; }
         public string Subdivision { get; set; }
     }
 }

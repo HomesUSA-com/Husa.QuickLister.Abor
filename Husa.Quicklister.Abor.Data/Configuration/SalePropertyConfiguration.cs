@@ -33,7 +33,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.OwnsOne(o => o.FinancialInfo, ConfigureFinancialMapping);
             builder.OwnsOne(o => o.ShowingInfo, ConfigureShowingMapping);
             builder.OwnsOne(o => o.SchoolsInfo, ConfigureSchoolsMapping).Navigation(e => e.SchoolsInfo).IsRequired();
-            builder.OwnsOne(o => o.AddressInfo, AddressExtensions.ConfigureAddressInfoMapping);
+            builder.OwnsOne(o => o.AddressInfo, ConfigureAddressMapping);
             builder.OwnsOne(o => o.PropertyInfo, ConfigurePropertyInfoMapping);
             builder.OwnsOne(o => o.SalesOfficeInfo, ConfigureSalesOfficeMapping).Navigation(e => e.SalesOfficeInfo).IsRequired();
 
@@ -73,6 +73,12 @@ namespace Husa.Quicklister.Abor.Data.Configuration
                 .HasMaxLength(50);
 
             builder.Property(x => x.SalesOfficeZip).HasColumnName(nameof(SalesOffice.SalesOfficeZip)).HasMaxLength(50);
+        }
+
+        private static void ConfigureAddressMapping(OwnedNavigationBuilder<SaleProperty, SaleAddressInfo> builder)
+        {
+            builder.ConfigureAddressInfoMapping();
+            builder.Property(r => r.UnitNumber).HasColumnName(nameof(SaleAddressInfo.UnitNumber)).HasMaxLength(20).IsRequired(false);
         }
 
         private static void ConfigureSpacesDimensionsMapping(OwnedNavigationBuilder<SaleProperty, SpacesDimensionsInfo> builder)

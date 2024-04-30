@@ -8,7 +8,7 @@ namespace Husa.Quicklister.Abor.Application.Models.Lot
         public Guid CompanyId { get; set; }
         public Guid CommunityId { get; set; }
 
-        public SalePropertyDetail.AddressDto AddressInfo { get; set; }
+        public AddressDto AddressInfo { get; set; }
         public LotPropertyDto PropertyInfo { get; set; }
         public LotFeaturesDto FeaturesInfo { get; set; }
         public LotFinancialDto FinancialInfo { get; set; }

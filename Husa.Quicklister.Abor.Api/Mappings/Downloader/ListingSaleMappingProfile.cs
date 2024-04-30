@@ -12,7 +12,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
     using Husa.Quicklister.Abor.Application.Models.Listing;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
 
@@ -103,7 +103,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.CommunityId, dto => dto.Ignore())
                 .ForMember(vo => vo.PlanId, dto => dto.Ignore());
 
-            this.CreateMap<ResidentialResponse, AddressDto>()
+            this.CreateMap<ResidentialResponse, SaleAddressDto>()
                 .ForMember(vo => vo.StreetNumber, dto => dto.MapFrom(src => src.ListingMessage.StreetNumber))
                 .ForMember(vo => vo.StreetName, dto => dto.MapFrom(src => src.ListingMessage.StreetName))
                 .ForMember(vo => vo.StreetType, dto => dto.MapFrom(src => src.ListingMessage.StreetType.ToCtxEnum()))

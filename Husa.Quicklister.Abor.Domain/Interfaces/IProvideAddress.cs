@@ -6,7 +6,6 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
     {
         string StreetNumber { get; set; }
         string StreetName { get; set; }
-        string UnitNumber { get; set; }
         Cities City { get; set; }
         string ZipCode { get; set; }
     }

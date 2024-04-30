@@ -25,7 +25,7 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
 
         Task UpdatePropertyInfo(PropertyDto propertyDto, Guid listingId = default, SaleListing entity = null);
 
-        Task UpdateAddressInfo(AddressDto addressDto, Guid listingId = default, SaleListing entity = null);
+        Task UpdateAddressInfo(SaleAddressDto addressDto, Guid listingId = default, SaleListing entity = null);
 
         Task UpdateFeaturesInfo(FeaturesDto featuresDto, Guid listingId = default, SaleListing entity = null);
 

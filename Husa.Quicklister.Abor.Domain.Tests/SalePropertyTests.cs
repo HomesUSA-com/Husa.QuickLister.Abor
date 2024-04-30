@@ -853,7 +853,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var salePropertyInfo = new Mock<SalePropertyValueObject>();
             salePropertyInfo.SetupGet(sp => sp.OwnerName).Returns(owner);
             salePropertyInfo.SetupGet(sp => sp.PropertyInfo).Returns(new Mock<PropertyInfo>().Object);
-            salePropertyInfo.SetupGet(sp => sp.AddressInfo).Returns(new Mock<AddressInfo>().Object);
+            salePropertyInfo.SetupGet(sp => sp.AddressInfo).Returns(new Mock<SaleAddressInfo>().Object);
             salePropertyInfo.SetupGet(sp => sp.FeaturesInfo).Returns(featuresInfo.Object);
             salePropertyInfo.SetupGet(sp => sp.SchoolsInfo).Returns(new Mock<SchoolsInfo>().Object);
             salePropertyInfo.SetupGet(sp => sp.ShowingInfo).Returns(new Mock<ShowingInfo>().Object);
