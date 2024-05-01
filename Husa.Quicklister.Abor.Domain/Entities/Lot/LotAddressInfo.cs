@@ -2,8 +2,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
 {
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces.LotListing;
 
-    public class LotAddressInfo : Base.AddressInfo
+    public class LotAddressInfo : Base.AddressInfo, IProvideLotAddress
     {
         public LotAddressInfo(string streetNum, string streetName, string zipCode, Cities city, States state, Counties? county)
         {

@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Data.Queries.Extensions
+namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Sale
 {
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Data.Queries.Models;
@@ -351,10 +351,18 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 return new();
             }
 
-            var statusFields = addressInfo.ToProjectionAddressInfo<SaleAddressInfo, SaleAddressQueryResult>();
-
-            statusFields.UnitNumber = addressInfo.UnitNumber;
-            return statusFields;
+            return new()
+            {
+                StreetNumber = addressInfo.StreetNumber,
+                StreetName = addressInfo.StreetName,
+                City = addressInfo.City,
+                State = addressInfo.State,
+                ZipCode = addressInfo.ZipCode,
+                County = addressInfo.County,
+                StreetType = addressInfo.StreetType,
+                Subdivision = addressInfo.Subdivision,
+                UnitNumber = addressInfo.UnitNumber,
+            };
         }
     }
 }

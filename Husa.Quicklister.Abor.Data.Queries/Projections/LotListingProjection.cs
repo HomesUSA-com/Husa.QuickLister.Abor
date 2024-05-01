@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using System.Linq.Expressions;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
+    using Husa.Quicklister.Abor.Data.Queries.Extensions.Lot;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
@@ -58,7 +59,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             OwnerName = listing.OwnerName,
             CommunityId = listing.CommunityId,
             CompanyId = listing.CompanyId,
-            AddressInfo = listing.AddressInfo.ToProjectionLotAddressInfo(),
+            AddressInfo = listing.AddressInfo.ToProjectionAddressInfo(),
             SchoolsInfo = listing.SchoolsInfo.ToProjectionSchools(),
             FeaturesInfo = listing.FeaturesInfo.ToProjectionFeatures(),
             PropertyInfo = listing.PropertyInfo.ToProjectionPropertyInfo(),
@@ -68,95 +69,5 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             EmailLead = listing.Community.EmailLead.ToProjectionEmailLead(),
             StatusFieldsInfo = listing.StatusFieldsInfo.ToProjectionStatusFieldsInfo<ListingStatusFieldsInfo, ListingStatusFieldsQueryResult>(),
         };
-
-        public static LotPropertyQueryResult ToProjectionPropertyInfo<T>(this T propertyInfo)
-            where T : LotPropertyInfo
-        {
-            if (propertyInfo == null)
-            {
-                return new();
-            }
-
-            return new()
-            {
-                MlsArea = propertyInfo.MlsArea,
-                LotDescription = propertyInfo.LotDescription,
-                PropertyType = propertyInfo.PropertyType,
-                FemaFloodPlain = propertyInfo.FemaFloodPlain,
-            };
-        }
-
-        public static LotFinancialQueryResult ToProjectionFinancial<T>(this T financial)
-            where T : LotFinancialInfo
-        {
-            if (financial == null)
-            {
-                return new();
-            }
-
-            return new()
-            {
-                TaxRate = financial.TaxRate,
-                AcceptableFinancing = financial.AcceptableFinancing,
-                HoaIncludes = financial.HoaIncludes,
-                HasHoa = financial.HasHoa,
-                BillingFrequency = financial.BillingFrequency,
-                HOARequirement = financial.HOARequirement,
-                BuyersAgentCommission = financial.BuyersAgentCommission,
-                BuyersAgentCommissionType = financial.BuyersAgentCommissionType,
-                HasAgentBonus = financial.HasAgentBonus,
-                HasBonusWithAmount = financial.HasBonusWithAmount,
-                AgentBonusAmount = financial.AgentBonusAmount,
-                AgentBonusAmountType = financial.AgentBonusAmountType,
-                BonusExpirationDate = financial.BonusExpirationDate,
-                HasBuyerIncentive = financial.HasBuyerIncentive,
-            };
-        }
-
-        public static LotFeaturesQueryResult ToProjectionFeatures<T>(this T features)
-            where T : LotFeaturesInfo
-        {
-            if (features == null)
-            {
-                return new();
-            }
-
-            return new()
-            {
-                RestrictionsDescription = features.RestrictionsDescription,
-                UtilitiesDescription = features.UtilitiesDescription,
-                WaterSource = features.WaterSource,
-                WaterSewer = features.WaterSewer,
-                Fencing = features.Fencing,
-                View = features.View,
-                ExteriorFeatures = features.ExteriorFeatures,
-                WaterfrontFeatures = features.WaterfrontFeatures,
-                DistanceToWaterAccess = features.DistanceToWaterAccess,
-            };
-        }
-
-        public static LotShowingQueryResult ToProjectionShowing<T>(this T showing)
-            where T : LotShowingInfo
-        {
-            if (showing == null)
-            {
-                return new();
-            }
-
-            return new()
-            {
-                ShowingRequirements = showing.ShowingRequirements,
-            };
-        }
-
-        private static AddressQueryResult ToProjectionLotAddressInfo(this LotAddressInfo addressInfo)
-        {
-            if (addressInfo == null)
-            {
-                return new();
-            }
-
-            return addressInfo.ToProjectionAddressInfo<LotAddressInfo, AddressQueryResult>();
-        }
     }
 }

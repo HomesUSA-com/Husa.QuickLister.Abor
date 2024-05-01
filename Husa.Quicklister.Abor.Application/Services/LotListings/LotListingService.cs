@@ -18,6 +18,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Extensions;
+    using Husa.Quicklister.Abor.Domain.Extensions.Lot;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
@@ -197,7 +198,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
         private async Task ImportDataFromListingAsync(LotListing lotListingEntity, Guid listingIdToImport)
         {
             var listing = await this.ListingRepository.GetById(listingIdToImport) ?? throw new NotFoundException<LotListing>(listingIdToImport);
-            lotListingEntity.CloneListing(listing);
+            lotListingEntity.ImportDataFromListing(listing);
         }
 
         private async Task ImportDataFromCommunityAsync(LotListing lotListing, Guid? fromCommunityId)

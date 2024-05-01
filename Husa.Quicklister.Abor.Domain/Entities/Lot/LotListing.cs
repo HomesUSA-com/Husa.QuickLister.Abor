@@ -4,7 +4,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
     using System.Collections.Generic;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -66,29 +65,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public virtual bool IsInMarket => !string.IsNullOrEmpty(this.MlsNumber);
         public override bool HasStatusToBeClosed => this.MlsStatus == MarketStatuses.Closed || this.MlsStatus == MarketStatuses.Canceled;
 
-        public virtual void CloneListing(LotListing saleListingToClone)
+        public LotListing Clone()
         {
-            this.CommunityId = saleListingToClone.CommunityId;
-            this.CompanyId = saleListingToClone.CompanyId;
-            this.OwnerName = saleListingToClone.OwnerName;
-            this.AddressInfo.PartialClone(saleListingToClone.AddressInfo);
-            this.PropertyInfo.PartialClone(saleListingToClone.PropertyInfo);
-
-            this.FeaturesInfo = saleListingToClone.FeaturesInfo.Clone();
-            this.FinancialInfo = saleListingToClone.FinancialInfo.Clone();
-            this.SchoolsInfo = saleListingToClone.SchoolsInfo.Clone();
-            this.ShowingInfo = saleListingToClone.ShowingInfo.Clone();
-        }
-
-        public virtual void ImportDataFromCommunity(CommunitySale communitySale)
-        {
-            this.CommunityId = communitySale.Id;
-            this.SchoolsInfo = this.SchoolsInfo.ImportSchools(communitySale.SchoolsInfo);
-            this.FeaturesInfo = this.FeaturesInfo.ImportFeaturesFromCommunity(communitySale.Utilities);
-            this.FinancialInfo = this.FinancialInfo.ImportFinancialFromCommunity(communitySale.Financial);
-            this.ShowingInfo = this.ShowingInfo.ImportShowingFromCommunity(communitySale.Showing);
-            this.AddressInfo = this.AddressInfo.ImportAddressInfoFromCommunity(communitySale.Property);
-            this.PropertyInfo = this.PropertyInfo.ImportPropertyFromCommunity(communitySale.Property);
+            var clonedProperty = (LotListing)this.MemberwiseClone();
+            clonedProperty.AddressInfo = this.AddressInfo.Clone();
+            clonedProperty.PropertyInfo = this.PropertyInfo.Clone();
+            clonedProperty.FinancialInfo = this.FinancialInfo.Clone();
+            clonedProperty.SchoolsInfo = this.SchoolsInfo.Clone();
+            clonedProperty.FeaturesInfo = this.FeaturesInfo.Clone();
+            clonedProperty.ShowingInfo = this.ShowingInfo.Clone();
+            return clonedProperty;
         }
 
         public virtual void CompleteListingRequest(string mlsNumber, Guid userId, MarketStatuses requestStatus, ActionType actionType, bool isDownloaderEnabled)
@@ -114,72 +100,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             }
 
             this.Lock(userId, LockedStatus.LockedBySystem);
-        }
-
-        public virtual void UpdateFeatures(LotFeaturesInfo features)
-        {
-            ArgumentNullException.ThrowIfNull(features);
-            if (this.FeaturesInfo != features)
-            {
-                this.FeaturesInfo = features;
-            }
-        }
-
-        public virtual void UpdateFinancial(LotFinancialInfo financial)
-        {
-            ArgumentNullException.ThrowIfNull(financial);
-
-            if (!financial.IsValidBuyersAgentCommissionRange())
-            {
-                throw new DomainException($"The range for Buyers Agent Commission is invalid for type {financial.BuyersAgentCommissionType}");
-            }
-
-            if (financial.HasAgentBonus && !financial.IsValidAgentBonusAmountRange())
-            {
-                throw new DomainException($"The range for Agent bonus amount is invalid for type {financial.BuyersAgentCommissionType}");
-            }
-
-            if (this.FinancialInfo != financial)
-            {
-                this.FinancialInfo = financial;
-            }
-        }
-
-        public virtual void UpdatePropertyInfo(LotPropertyInfo propertyInfo)
-        {
-            ArgumentNullException.ThrowIfNull(propertyInfo);
-            if (this.PropertyInfo != propertyInfo)
-            {
-                this.PropertyInfo = propertyInfo;
-            }
-        }
-
-        public virtual void UpdateAddressInfo(LotAddressInfo addressInfo)
-        {
-            ArgumentNullException.ThrowIfNull(addressInfo);
-
-            if (this.AddressInfo != addressInfo)
-            {
-                this.AddressInfo = addressInfo;
-            }
-        }
-
-        public virtual void UpdateShowing(LotShowingInfo showing)
-        {
-            ArgumentNullException.ThrowIfNull(showing);
-            if (this.ShowingInfo != showing)
-            {
-                this.ShowingInfo = showing;
-            }
-        }
-
-        public virtual void UpdateSchools(LotSchoolsInfo schools)
-        {
-            ArgumentNullException.ThrowIfNull(schools);
-            if (this.SchoolsInfo != schools)
-            {
-                this.SchoolsInfo = schools;
-            }
         }
 
         public override void UpdateManuallyManagement(bool manuallyManaged)

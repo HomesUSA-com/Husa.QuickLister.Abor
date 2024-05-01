@@ -1,12 +1,12 @@
 namespace Husa.Quicklister.Abor.Domain.Common
 {
-    using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Abor.Domain.Interfaces.LotListing;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 
     public static class CommonFieldsValidation
     {
-        public static bool IsValidHoa(this IProvideFinancial financialInfo)
+        public static bool IsValidHoa(this IProvideLotFinancial financialInfo)
         {
             return !financialInfo.HasHoa || financialInfo.HOARequirement.HasValue;
         }

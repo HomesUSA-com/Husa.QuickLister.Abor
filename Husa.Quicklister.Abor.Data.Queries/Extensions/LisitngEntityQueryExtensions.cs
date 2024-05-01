@@ -44,25 +44,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             };
         }
 
-        public static SchoolsQueryResult ToProjectionSchools<T>(this T schools)
-            where T : class, IProvideSchool
-        {
-            if (schools == null)
-            {
-                return new();
-            }
-
-            return new()
-            {
-                SchoolDistrict = schools.SchoolDistrict,
-                ElementarySchool = schools.ElementarySchool,
-                MiddleSchool = schools.MiddleSchool,
-                HighSchool = schools.HighSchool,
-            };
-        }
-
         public static PublishInfoQueryResult ToProjectionPublishInfo<T>(this T publishInfo)
-            where T : PublishInfo
+            where T : class, IProvidePublishFields
         {
             if (publishInfo == null)
             {
@@ -75,23 +58,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 PublishDate = publishInfo.PublishDate,
                 PublishStatus = publishInfo.PublishStatus,
                 PublishUser = publishInfo.PublishUser,
-            };
-        }
-
-        public static TStatusResult ToProjectionAddressInfo<TStatusFields, TStatusResult>(this TStatusFields addressInfo)
-            where TStatusFields : AddressInfo
-            where TStatusResult : AddressQueryResult, new()
-        {
-            return new()
-            {
-                StreetNumber = addressInfo.StreetNumber,
-                StreetName = addressInfo.StreetName,
-                City = addressInfo.City,
-                State = addressInfo.State,
-                ZipCode = addressInfo.ZipCode,
-                County = addressInfo.County,
-                StreetType = addressInfo.StreetType,
-                Subdivision = addressInfo.Subdivision,
             };
         }
 

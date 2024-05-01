@@ -4,8 +4,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces.LotListing;
 
-    public class LotFeaturesInfo : ValueObject
+    public class LotFeaturesInfo : ValueObject, IProvideLotFeatures
     {
         public virtual ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
         public virtual ICollection<WaterfrontFeatures> WaterfrontFeatures { get; set; }

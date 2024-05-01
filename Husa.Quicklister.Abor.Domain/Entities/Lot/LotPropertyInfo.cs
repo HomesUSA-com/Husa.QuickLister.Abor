@@ -3,8 +3,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
     using System.Collections.Generic;
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces.LotListing;
 
-    public class LotPropertyInfo : ValueObject
+    public class LotPropertyInfo : ValueObject, IProvideLotProperty
     {
         public MlsArea? MlsArea { get; set; }
         public PropertySubType? PropertyType { get; set; }

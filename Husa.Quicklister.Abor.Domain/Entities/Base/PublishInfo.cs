@@ -4,9 +4,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
     using System.Collections.Generic;
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
-    public class PublishInfo : ValueObject
+    public class PublishInfo : ValueObject, IProvidePublishFields
     {
         public PublishInfo(ActionType publishType, Guid publishUser, MarketStatuses publishStatus)
         {

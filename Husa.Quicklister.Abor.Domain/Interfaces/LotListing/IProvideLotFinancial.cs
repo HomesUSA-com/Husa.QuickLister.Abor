@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Interfaces
+namespace Husa.Quicklister.Abor.Domain.Interfaces.LotListing
 {
     using System;
     using System.Collections.Generic;
