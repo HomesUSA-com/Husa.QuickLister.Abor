@@ -99,8 +99,12 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             this.logger.LogInformation("Received request to GET community detail with Id '{communityId}'.", communityId);
 
             var community = await this.communityQueriesRepository.GetCommunityById(communityId);
-
+            var subdivision = await this.communityXmlService.GetSubdivisonByCommunityId(communityId, MarketCode.Austin);
             var result = this.mapper.Map<CommunitySaleResponse>(community);
+            if (subdivision != null)
+            {
+                result.XmlSubdivisionId = subdivision.Id;
+            }
 
             return this.Ok(result);
         }
