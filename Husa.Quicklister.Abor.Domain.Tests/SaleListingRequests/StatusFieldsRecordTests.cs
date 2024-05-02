@@ -4,7 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Xunit;
 

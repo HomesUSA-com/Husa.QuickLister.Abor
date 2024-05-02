@@ -22,8 +22,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
@@ -50,11 +50,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
             IUserRepository userQueriesRepository)
              : base(cosmosClient, cosmosLinqQuery, options, mediaQueriesRepository)
         {
-            if (cosmosClient is null)
-            {
-                throw new ArgumentNullException(nameof(cosmosClient));
-            }
-
+            ArgumentNullException.ThrowIfNull(cosmosClient);
             this.listingSaleQueriesRepository = listingSaleQueriesRepository ?? throw new ArgumentNullException(nameof(listingSaleQueriesRepository));
             this.agentQueriesRepository = agentQueriesRepository ?? throw new ArgumentNullException(nameof(agentQueriesRepository));
             this.userQueriesRepository = userQueriesRepository ?? throw new ArgumentNullException(nameof(userQueriesRepository));
@@ -141,7 +137,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
                 _ => throw new NotImplementedException(),
             };
 
-        protected override IQueryable<SaleListingRequest> FilterBySaleListingRequestQuery(IQueryable<SaleListingRequest> records, SaleListingRequestQueryFilter queryFilter)
+        protected override IQueryable<SaleListingRequest> FilterByListingRequestQuery(IQueryable<SaleListingRequest> records, ListingRequestQueryFilter queryFilter)
             => records.FilterByQuery(queryFilter);
 
         protected override SummarySectionQueryResult TransformSummaryToQueryResult(SummarySection item)

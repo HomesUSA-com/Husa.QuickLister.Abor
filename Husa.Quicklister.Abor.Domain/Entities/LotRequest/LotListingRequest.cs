@@ -22,6 +22,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
             : base(listing.MlsNumber, listing.ListDate, listing.ExpirationDate)
         {
             this.Id = Guid.NewGuid();
+            this.EntityId = listing.Id;
             this.CompanyId = listing.CompanyId;
             this.StatusFieldsInfo = LotStatusFieldsRecord.CreateRecord(listing.StatusFieldsInfo);
             this.PublishInfo = PublishFieldsRecord.CreateRecord(listing.PublishInfo);

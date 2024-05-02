@@ -4,7 +4,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Mocks
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Moq;
 

@@ -16,7 +16,7 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -72,7 +72,7 @@ namespace Husa.Quicklister.Abor.Application.Services
             var saleProperty = this.Mapper.Map<SaleProperty>(listingSaleRequestDto.SaleProperty);
             request.UpdateRequestInformation(listingSaleRequestDto.ListPrice, saleProperty);
             var userId = this.UserContextProvider.GetCurrentUserId();
-            await this.SaleRequestRepository.UpdateDocumentAsync(request.Id, request, userId, cancellationToken);
+            await this.RequestRepository.UpdateDocumentAsync(request.Id, request, userId, cancellationToken);
             this.Logger.LogInformation("Request update was completed for ABOR listing request with Id {requestId}", request.Id);
             return request;
         }
@@ -84,16 +84,16 @@ namespace Husa.Quicklister.Abor.Application.Services
             var statusFieldInfo = this.Mapper.Map<ListingSaleStatusFieldsInfo>(listingSaleRequestDto.StatusFieldsInfo);
             var salePropertyInfo = this.Mapper.Map<SalePropertyValueObject>(listingSaleRequestDto.SaleProperty);
 
-            var listingRequest = await this.SaleRequestRepository.GetByIdAsync(listingRequestId, cancellationToken);
+            var listingRequest = await this.RequestRepository.GetByIdAsync(listingRequestId, cancellationToken);
             listingRequest.UpdateRequestInformation(listingRequestValueObject, statusFieldInfo, salePropertyInfo);
             var userId = this.UserContextProvider.GetCurrentUserId();
 
-            await this.SaleRequestRepository.UpdateDocumentAsync(listingRequestId, listingRequest, userId, cancellationToken);
+            await this.RequestRepository.UpdateDocumentAsync(listingRequestId, listingRequest, userId, cancellationToken);
         }
 
-        protected override async Task<string> IsImageCountValidAsync(Guid saleListingId)
+        protected override async Task<string> IsImageCountValidAsync(Guid listingId)
         {
-            var mediaCount = (await this.MediaService.GetListingResources(saleListingId)).Media.Count();
+            var mediaCount = (await this.MediaService.GetListingResources(listingId)).Media.Count();
 
             if (mediaCount < this.options.ListingRequest.MinRequiredMedia)
             {
@@ -114,7 +114,7 @@ namespace Husa.Quicklister.Abor.Application.Services
 
             var user = await this.serviceSubscriptionClient.User.GetUserDetail(userId);
 
-            var callbackUrl = $"{this.options.QuicklisterUIUri}/listings/sale/{request.ListingSaleId}";
+            var callbackUrl = $"{this.options.QuicklisterUIUri}/sale-listings/{request.ListingSaleId}";
 
             var emailParameter = new Dictionary<EmailParameter, string>
             {

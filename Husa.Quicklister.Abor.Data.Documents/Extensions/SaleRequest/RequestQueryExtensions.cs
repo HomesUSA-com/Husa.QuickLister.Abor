@@ -1,14 +1,14 @@
-namespace Husa.Quicklister.Abor.Data.Documents.Extensions
+namespace Husa.Quicklister.Abor.Data.Documents.Extensions.SaleRequest
 {
     using System.Collections.Generic;
     using System.Linq;
     using Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Models = Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
 
-    public static class ListingRequestRecordQueryExtensions
+    public static class RequestQueryExtensions
     {
         public static ListingRequestSalePropertyQueryResult ToProjectionListingSaleRequestSalePropertyQueryResult<T>(this T saleProperty)
             where T : SalePropertyRecord => new()
@@ -188,46 +188,12 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
         public static ListingRequestStatusFieldsQueryResult ToProjectionListingSaleRequestStatusFieldsQueryResult<T>(this T statusField)
             where T : SaleStatusFieldsRecord
         {
-            if (statusField == null)
-            {
-                return new();
-            }
-
-            return new()
-            {
-                HasContingencyInfo = statusField.HasContingencyInfo,
-                ContingencyInfo = statusField.ContingencyInfo,
-                SaleTerms = statusField.SaleTerms,
-                SellConcess = statusField.SellConcess,
-                PendingDate = statusField.PendingDate,
-                ClosedDate = statusField.ClosedDate,
-                EstimatedClosedDate = statusField.EstimatedClosedDate,
-                CancelledReason = statusField.CancelledReason,
-                ClosePrice = statusField.ClosePrice,
-                AgentId = statusField.AgentId,
-                HasBuyerAgent = statusField.HasBuyerAgent,
-                HasSecondBuyerAgent = statusField.HasSecondBuyerAgent,
-                AgentIdSecond = statusField.AgentIdSecond,
-                BackOnMarketDate = statusField.BackOnMarketDate,
-                OffMarketDate = statusField.OffMarketDate,
-            };
-        }
-
-        public static ListingRequestPublishInfoQueryResult ToProjectionListingRequestPublishInfoQueryResult<T>(this T publishInfo)
-            where T : PublishFieldsRecord
-        {
-            if (publishInfo == null)
-            {
-                return new();
-            }
-
-            return new()
-            {
-                PublishType = publishInfo.PublishType,
-                PublishDate = publishInfo.PublishDate,
-                PublishStatus = publishInfo.PublishStatus,
-                PublishUser = publishInfo.PublishUser,
-            };
+            var fields = statusField.ToProjectionStatusFieldsQueryResult<T, ListingRequestStatusFieldsQueryResult>();
+            fields.HasContingencyInfo = statusField.HasContingencyInfo;
+            fields.ContingencyInfo = statusField.ContingencyInfo;
+            fields.SaleTerms = statusField.SaleTerms;
+            fields.SellConcess = statusField.SellConcess;
+            return fields;
         }
 
         public static IEnumerable<RoomQueryResult> ToProjectionRooms<T>(this IEnumerable<T> rooms)

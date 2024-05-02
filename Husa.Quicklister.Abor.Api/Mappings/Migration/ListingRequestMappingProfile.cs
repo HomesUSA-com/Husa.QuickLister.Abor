@@ -8,7 +8,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using Husa.Migration.Api.Contracts.Response;
     using Husa.Migration.Api.Contracts.Response.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -125,6 +126,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 });
 
             this.CreateMap<SaleListingRequestResponse, SaleListingRequest>()
+                .ForMember(dest => dest.EntityId, pr => pr.Ignore())
                 .ForMember(dto => dto.Id, pr => pr.Ignore())
                 .ForMember(dto => dto.IsDeleted, pr => pr.MapFrom(x => 0))
                 .ForMember(dto => dto.CompanyId, pr => pr.Ignore())

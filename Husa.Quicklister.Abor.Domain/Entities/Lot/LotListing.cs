@@ -16,7 +16,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
 
-    public class LotListing : Entities.Listing.Listing, ISaleListingRequest<LotListingRequest>
+    public class LotListing : Entities.Listing.Listing, IGenerateListingRequest<LotListingRequest>
     {
         public LotListing(
                 MarketStatuses mlsStatus,

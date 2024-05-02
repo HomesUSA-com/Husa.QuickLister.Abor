@@ -53,10 +53,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
         public SaleProperty(SalePropertyValueObject saleProperty, Guid companyId)
             : this()
         {
-            if (saleProperty is null)
-            {
-                throw new ArgumentNullException(nameof(saleProperty));
-            }
+            ArgumentNullException.ThrowIfNull(saleProperty);
 
             this.CompanyId = companyId;
             this.InitializeEntity(saleProperty);

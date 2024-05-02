@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
+namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 {
     using System;
     using System.Collections.Generic;
@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Common;
@@ -63,7 +64,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public virtual ICollection<RoomRecord> Rooms { get; set; }
         public void UpdateOpenHouse(ICollection<SaleListingOpenHouse> openHouses)
         {
-            if (openHouses != null && openHouses.Any())
+            if (openHouses != null && openHouses.Count > 0)
             {
                 this.OpenHouses = openHouses.Select(OpenHouseRecord.CreateOpenHouse).ToList();
             }
@@ -103,10 +104,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         public static SalePropertyRecord CreateRecord(SaleProperty saleProperty)
         {
-            if (saleProperty is null)
-            {
-                throw new ArgumentNullException(nameof(saleProperty));
-            }
+            ArgumentNullException.ThrowIfNull(saleProperty);
 
             var addressInfo = AddressRecord.CreateRecord(saleProperty.AddressInfo);
             var propertyInfo = PropertyRecord.CreateRecord(saleProperty.PropertyInfo);
@@ -149,10 +147,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         public virtual void UpdateInformation(SalePropertyValueObject saleProperty)
         {
-            if (saleProperty is null)
-            {
-                throw new ArgumentNullException(nameof(saleProperty));
-            }
+            ArgumentNullException.ThrowIfNull(saleProperty);
 
             this.OwnerName = saleProperty.OwnerName;
 
@@ -170,7 +165,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
 
         public virtual void UpdateRooms(ICollection<ListingSaleRoom> rooms)
         {
-            if (rooms != null && rooms.Any())
+            if (rooms != null && rooms.Count > 0)
             {
                 this.Rooms = rooms
                     .Select(rooms => RoomRecord.CreateRoom(rooms))

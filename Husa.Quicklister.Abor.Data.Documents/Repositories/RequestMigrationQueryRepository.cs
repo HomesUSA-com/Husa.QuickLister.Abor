@@ -9,7 +9,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using Husa.Extensions.Document.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Data.Documents.Projections;

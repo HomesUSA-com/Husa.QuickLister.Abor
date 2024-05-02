@@ -16,7 +16,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
@@ -67,7 +68,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.SysTimestamp, config => config.Ignore());
 
             this.CreateMap<RequestBaseFilter, RequestBaseQueryFilter>();
-            this.CreateMap<SaleListingRequestFilter, SaleListingRequestQueryFilter>();
+            this.CreateMap<SaleListingRequestFilter, SaleListingRequestQueryFilter>()
+                .ForMember(dest => dest.ListingId, config => config.MapFrom(dto => dto.SaleListingId));
 
             this.CreateMap<SummarySectionQueryResult, SummarySectionContract>();
             this.CreateMap<SummaryFieldQueryResult, SummaryFieldContract>();
@@ -189,6 +191,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<ListingSaleRequestDto, SaleListingRequest>()
                 .ForMember(dest => dest.SaleProperty, config => config.Ignore())
+                .ForMember(dest => dest.EntityId, config => config.MapFrom(dto => dto.ListingSaleId))
                 .ForMember(dest => dest.CDOM, config => config.Ignore())
                 .ForMember(dest => dest.DOM, config => config.Ignore())
                 .ForMember(dest => dest.RequestState, config => config.Ignore())
@@ -202,8 +205,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.CompanyId, config => config.Ignore());
 
             this.CreateMap<ListingSaleStatusFieldQueryResult, ListingSaleStatusFieldsResponse>();
-            this.CreateMap<DocumentModels.ListingRequest.ListingRequestPublishInfoQueryResult, PublishInfoResponse>();
-
             this.CreateMap<SaleListingOpenHouseQueryResult, ListingSaleOpenHouseResponse>();
         }
     }

@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Entities.Request
+namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
+    using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Common;
     using Husa.Quicklister.Extensions.Domain.Enums;

@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
+namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 {
     using System.ComponentModel.DataAnnotations;
     using Husa.Extensions.Common.Exceptions;

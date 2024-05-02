@@ -10,10 +10,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Extensions;
+    using Husa.Quicklister.Abor.Domain.Extensions.Listing;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Attributes;
     using Husa.Quicklister.Extensions.Domain.Entities.Listing;
@@ -23,7 +24,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class SaleListing : Listing, ISaleListing<SaleProperty>, ISaleListingRequest<SaleListingRequest>, IListingInvoiceInfo
+    public class SaleListing : Listing, ISaleListing<SaleProperty>, IGenerateListingRequest<SaleListingRequest>, IListingInvoiceInfo
     {
         public const int YearsInThePast = -2;
         public const int MaxExpirationDaysInTheFuture = 10;
@@ -31,47 +32,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public const int MaxDaysInMarket = 179;
         public const int MinPropertyDescriptionLength = 100;
 
-        public static readonly IEnumerable<MarketStatuses> ActiveListingStatuses = new[]
-        {
-            MarketStatuses.Active,
-            MarketStatuses.ActiveUnderContract,
-            MarketStatuses.Hold,
-        };
-        public static readonly IEnumerable<MarketStatuses> OrphanListingStatuses = new[]
-        {
-            MarketStatuses.Active,
-            MarketStatuses.ActiveUnderContract,
-            MarketStatuses.Hold,
-            MarketStatuses.Pending,
-            MarketStatuses.Canceled,
-            MarketStatuses.Closed,
-        };
-        public static readonly IEnumerable<MarketStatuses> PendingListingStatuses = new[] { MarketStatuses.Pending };
-        public static readonly IEnumerable<MarketStatuses> PendingAndCanceledStatuses = new[]
-        {
-            MarketStatuses.Pending,
-            MarketStatuses.Canceled,
-        };
-        public static readonly IEnumerable<MarketStatuses> ActivePhotoRequestListingStatuses = new[]
-        {
-            MarketStatuses.Active,
-            MarketStatuses.Hold,
-        };
-        public static readonly IEnumerable<MarketStatuses> ActiveAndPendingListingStatuses = new[]
-        {
-            MarketStatuses.Active,
-            MarketStatuses.ActiveUnderContract,
-            MarketStatuses.Hold,
-            MarketStatuses.Pending,
-        };
-        public static readonly IEnumerable<MarketStatuses> ExistingListingStatuses = new[]
-        {
-            MarketStatuses.Active,
-            MarketStatuses.ActiveUnderContract,
-            MarketStatuses.Hold,
-            MarketStatuses.Pending,
-            MarketStatuses.Canceled,
-        };
+        public static readonly IEnumerable<MarketStatuses> ActiveListingStatuses = MarketStatusesExtensions.ActiveListingStatuses;
+        public static readonly IEnumerable<MarketStatuses> OrphanListingStatuses = MarketStatusesExtensions.OrphanListingStatuses;
+        public static readonly IEnumerable<MarketStatuses> PendingListingStatuses = MarketStatusesExtensions.PendingListingStatuses;
+        public static readonly IEnumerable<MarketStatuses> PendingAndCanceledStatuses = MarketStatusesExtensions.PendingAndCanceledStatuses;
+        public static readonly IEnumerable<MarketStatuses> ActivePhotoRequestListingStatuses = MarketStatusesExtensions.ActivePhotoRequestListingStatuses;
+        public static readonly IEnumerable<MarketStatuses> ActiveAndPendingListingStatuses = MarketStatusesExtensions.ActiveAndPendingListingStatuses;
+        public static readonly IEnumerable<MarketStatuses> ExistingListingStatuses = MarketStatusesExtensions.ExistingListingStatuses;
 
         public SaleListing(
                 MarketStatuses mlsStatus,
@@ -110,10 +77,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public SaleListing(ListingValueObject listingInfo, ListingSaleStatusFieldsInfo statusFieldsInfo, SaleProperty saleProperty, Guid companyId)
             : this()
         {
-            if (saleProperty is null)
-            {
-                throw new ArgumentNullException(nameof(saleProperty));
-            }
+            ArgumentNullException.ThrowIfNull(saleProperty);
 
             this.SaleProperty = saleProperty;
             this.SalePropertyId = saleProperty.Id;

@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Media.Interfaces;
     using Husa.MediaService.Client;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Crosscutting;

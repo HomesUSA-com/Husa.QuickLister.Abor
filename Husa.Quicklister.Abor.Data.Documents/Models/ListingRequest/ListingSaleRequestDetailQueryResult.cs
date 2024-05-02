@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
 {
     using System;
+    using Husa.Quicklister.Abor.Data.Queries.Models;
 
     public class ListingSaleRequestDetailQueryResult : ListingRequestQueryResult
     {
@@ -8,7 +9,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
 
         public ListingRequestSalePropertyQueryResult SaleProperty { get; set; }
 
-        public ListingRequestPublishInfoQueryResult PublishInfo { get; set; }
+        public PublishInfoQueryResult PublishInfo { get; set; }
 
         public ListingRequestStatusFieldsQueryResult StatusFieldsInfo { get; set; }
     }

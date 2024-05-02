@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Entities.Request
+namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using ExtensionsEntities = Husa.Quicklister.Extensions.Domain.Entities.Request;
 
-    public abstract class ListingRequest : ExtensionsEntities.ListingRequest
+    public abstract class ListingRequest : ExtensionsEntities.SaleListingRequest
     {
         protected ListingRequest(ListingRequestValueObject listingRequestValue)
             : this(

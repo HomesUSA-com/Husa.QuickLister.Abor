@@ -5,7 +5,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Comparers;
     using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Interfaces;
 
     public static class OpenHouseExtensions
