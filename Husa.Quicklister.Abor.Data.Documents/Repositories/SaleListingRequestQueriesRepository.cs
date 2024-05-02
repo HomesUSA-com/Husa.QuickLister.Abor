@@ -146,8 +146,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
 
         protected override SummarySectionQueryResult TransformSummaryToQueryResult(SummarySection item)
         {
-            var agentId = item.Fields.FirstOrDefault(f => f.FieldName == nameof(StatusFieldsRecord.AgentId));
-            if (item.Name == StatusFieldsRecord.SummarySection && agentId != null)
+            var agentId = item.Fields.FirstOrDefault(f => f.FieldName == nameof(SaleStatusFieldsRecord.AgentId));
+            if (item.Name == SaleStatusFieldsRecord.SummarySection && agentId != null)
             {
                 var newAgent = agentId.NewValue is not null ? this.agentQueriesRepository.GetAgentByIdAsync(Guid.Parse(agentId.NewValue.ToString())).Result : null;
                 var oldAgent = agentId.OldValue is not null ? this.agentQueriesRepository.GetAgentByIdAsync(Guid.Parse(agentId.OldValue.ToString())).Result : null;

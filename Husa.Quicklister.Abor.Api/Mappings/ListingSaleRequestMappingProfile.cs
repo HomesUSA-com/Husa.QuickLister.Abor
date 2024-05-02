@@ -72,7 +72,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<SummarySectionQueryResult, SummarySectionContract>();
             this.CreateMap<SummaryFieldQueryResult, SummaryFieldContract>();
 
-            this.CreateMap<ListingSaleStatusFieldsDto, StatusFieldsRecord>();
+            this.CreateMap<ListingSaleStatusFieldsDto, SaleStatusFieldsRecord>();
             this.CreateMap<ListingSalePublishInfoDto, PublishFieldsRecord>();
             this.CreateMap<SpacesDimensionsDto, SpacesDimensionsRecord>();
 

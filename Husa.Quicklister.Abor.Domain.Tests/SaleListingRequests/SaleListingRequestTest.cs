@@ -47,9 +47,9 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
 
             sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
 
-            var statusFieldsRecord = new Mock<StatusFieldsRecord>();
+            var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
             statusFieldsRecord
-                .Setup(p => p.GetSummary(It.Is<StatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
+                .Setup(p => p.GetSummary(It.Is<SaleStatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
                 .Returns((SummarySection)null)
                 .Verifiable();
             sut.SetupGet(s => s.StatusFieldsInfo).Returns(statusFieldsRecord.Object);
@@ -80,9 +80,9 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
 
             sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
 
-            var statusFieldsRecord = new Mock<StatusFieldsRecord>();
+            var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
             statusFieldsRecord
-                .Setup(p => p.GetSummary(It.Is<StatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
+                .Setup(p => p.GetSummary(It.Is<SaleStatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
                 .Returns((SummarySection)null)
                 .Verifiable();
             sut.SetupGet(s => s.StatusFieldsInfo).Returns(statusFieldsRecord.Object);
@@ -111,9 +111,9 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
 
             sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
 
-            var statusFieldsRecord = new Mock<StatusFieldsRecord>();
+            var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
             statusFieldsRecord
-                .Setup(p => p.GetSummary(It.Is<StatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
+                .Setup(p => p.GetSummary(It.Is<SaleStatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
                 .Returns((SummarySection)null)
                 .Verifiable();
             sut.SetupGet(s => s.StatusFieldsInfo).Returns(statusFieldsRecord.Object);
@@ -145,9 +145,9 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
 
             sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
 
-            var statusFieldsRecord = new Mock<StatusFieldsRecord>();
+            var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
             statusFieldsRecord
-                .Setup(p => p.GetSummary(It.Is<StatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
+                .Setup(p => p.GetSummary(It.Is<SaleStatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
                 .Returns(GetStatusFieldSummary())
                 .Verifiable();
             sut.SetupGet(s => s.StatusFieldsInfo).Returns(statusFieldsRecord.Object);
@@ -355,12 +355,12 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
 
         private static SummarySection GetStatusFieldSummary() => new()
         {
-            Name = StatusFieldsRecord.SummarySection,
+            Name = SaleStatusFieldsRecord.SummarySection,
             Fields = new[]
             {
                 new SummaryField
                 {
-                    FieldName = nameof(StatusFieldsRecord.CancelledReason),
+                    FieldName = nameof(SaleStatusFieldsRecord.CancelledReason),
                     NewValue = "some-cancelled-reason",
                     OldValue = null,
                 },

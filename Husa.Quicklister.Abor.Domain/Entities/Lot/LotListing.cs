@@ -2,15 +2,21 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Extensions.Lot;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Extensions;
+    using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
 
-    public class LotListing : Entities.Listing.Listing
+    public class LotListing : Entities.Listing.Listing, ISaleListingRequest<LotListingRequest>
     {
         public LotListing(
                 MarketStatuses mlsStatus,
@@ -45,6 +51,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             this.PropertyInfo = new();
             this.AddressInfo = new();
             this.PublishInfo = new();
+            this.StatusFieldsInfo = new();
             this.ManagementTraces = new List<LotManagementTrace>();
         }
 
@@ -109,6 +116,33 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
                 this.IsManuallyManaged = manuallyManaged;
                 this.ManagementTraces.Add(new LotManagementTrace(this, this.CompanyId, manuallyManaged));
             }
+        }
+
+        public virtual CommandSingleResult<LotListingRequest, ValidationResult> GenerateRequest(Guid userId)
+        {
+            try
+            {
+                var request = new LotListingRequest(listing: this, userId);
+                return this.AddRequest(request, userId);
+            }
+            catch (Exception ex)
+            {
+                this.LockUnsubmitted(userId);
+                return CommandSingleResult<LotListingRequest, ValidationResult>.Error(new ValidationResult(ex.Message));
+            }
+        }
+
+        public virtual CommandSingleResult<LotListingRequest, ValidationResult> GenerateRequestFromCommunity(LotListingRequest lastCompletedRequest, Guid userId)
+        {
+            this.UpdateListingFromCommunitySubmit();
+
+            var newRequest = lastCompletedRequest.Clone();
+            newRequest.ImportDataFromCommunitySubmit(this.Community);
+            newRequest.UpdateTrackValues(userId, isNewRecord: true);
+            newRequest.MlsNumber = this.MlsNumber;
+            newRequest.ListDate = this.ListDate;
+
+            return this.AddRequest(newRequest, userId);
         }
 
         protected override void DeleteChildren(Guid userId)

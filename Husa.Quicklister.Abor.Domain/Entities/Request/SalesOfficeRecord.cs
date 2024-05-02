@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
+namespace Husa.Quicklister.Abor.Domain.Entities.Request
 {
     using System.ComponentModel.DataAnnotations;
     using Husa.Extensions.Document.Extensions;

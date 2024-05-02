@@ -455,9 +455,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             listingSaleRequest.Object.Id = id ?? Guid.NewGuid();
             listingSaleRequest.SetupGet(lr => lr.SaleProperty).Returns(propertyRecord.Object);
 
-            var statusFieldsRecord = new Mock<StatusFieldsRecord>();
+            var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
             statusFieldsRecord
-                .Setup(p => p.GetSummary(It.Is<StatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
+                .Setup(p => p.GetSummary(It.Is<SaleStatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
                 .Returns((SummarySection)null)
                 .Verifiable();
             listingSaleRequest.SetupGet(s => s.StatusFieldsInfo).Returns(statusFieldsRecord.Object);

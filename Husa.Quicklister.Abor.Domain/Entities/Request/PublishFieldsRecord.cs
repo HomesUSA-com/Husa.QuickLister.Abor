@@ -1,11 +1,12 @@
-namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
+namespace Husa.Quicklister.Abor.Domain.Entities.Request
 {
     using System;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
-    public record PublishFieldsRecord
+    public record PublishFieldsRecord : IProvidePublishFields
     {
         public ActionType? PublishType { get; set; }
 

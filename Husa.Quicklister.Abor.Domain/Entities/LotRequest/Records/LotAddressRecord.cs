@@ -1,16 +1,13 @@
-namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
+namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
 {
     using System.ComponentModel.DataAnnotations;
     using Husa.Extensions.Common;
     using Husa.Extensions.Common.Enums;
-    using Husa.Extensions.Common.Exceptions;
-    using Husa.Extensions.Document.Extensions;
-    using Husa.Extensions.Document.ValueObjects;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Extensions.Domain.Interfaces;
+    using Husa.Quicklister.Abor.Domain.Interfaces.LotListing;
 
-    public record AddressRecord : IProvideSummary
+    public record LotAddressRecord : IProvideLotAddress
     {
         private string subdivision;
 
@@ -31,7 +28,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public string ZipCode { get; set; }
 
         [Required]
-        public Counties County { get; set; }
+        public Counties? County { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         public string Subdivision { get => this.subdivision; set => this.subdivision = value.ToTitleCase(); }
@@ -40,9 +37,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
         public StreetType? StreetType { get; set; }
         public string UnitNumber { get; set; }
 
-        public AddressRecord CloneRecord() => (AddressRecord)this.MemberwiseClone();
+        public LotAddressRecord CloneRecord() => (LotAddressRecord)this.MemberwiseClone();
 
-        public static AddressRecord CreateRecord(SaleAddressInfo addressInfo)
+        public static LotAddressRecord CreateRecord(AddressInfo addressInfo)
         {
             if (addressInfo == null)
             {
@@ -58,15 +55,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
                 City = addressInfo.City,
                 State = addressInfo.State,
                 ZipCode = addressInfo.ZipCode,
-                County = addressInfo.County ?? throw new DomainException(nameof(addressInfo.County)),
+                County = addressInfo.County,
                 Subdivision = addressInfo.Subdivision,
-                StreetType = addressInfo.StreetType ?? throw new DomainException(nameof(addressInfo.StreetType)),
-                UnitNumber = addressInfo.UnitNumber,
+                StreetType = addressInfo.StreetType,
             };
         }
-
-        public virtual SummarySection GetSummary<T>(T entity)
-            where T : class
-        => this.GetSummarySection(entity, sectionName: SummarySection);
     }
 }

@@ -26,7 +26,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
         {
             this.Id = Guid.NewGuid();
             this.ListingSaleId = saleListing.Id;
-            this.StatusFieldsInfo = StatusFieldsRecord.CreateRecord(saleListing.StatusFieldsInfo);
+            this.StatusFieldsInfo = SaleStatusFieldsRecord.CreateRecord(saleListing.StatusFieldsInfo);
             this.SaleProperty = SalePropertyRecord.CreateRecord(saleListing.SaleProperty);
             this.PublishInfo = PublishFieldsRecord.CreateRecord(saleListing.PublishInfo);
             this.UpdateTrackValues(userId, isNewRecord: true);
@@ -45,7 +45,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
         [ValidateProperties]
         public virtual SalePropertyRecord SaleProperty { get; set; }
 
-        public virtual StatusFieldsRecord StatusFieldsInfo { get; set; }
+        public virtual SaleStatusFieldsRecord StatusFieldsInfo { get; set; }
 
         public virtual PublishFieldsRecord PublishInfo { get; set; }
 
@@ -121,7 +121,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
 
             var rootFieldChanges = this.GetRequestSummary(previousRequest);
 
-            if (!summarySections.Any() && !rootFieldChanges.Any())
+            if (summarySections.Count == 0 && !rootFieldChanges.Any())
             {
                 return Array.Empty<SummarySection>();
             }

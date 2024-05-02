@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
     using System.Linq;
     using Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
     using Husa.Quicklister.Abor.Data.Queries.Models;
+    using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
     using Models = Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
 
@@ -185,7 +186,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
            };
 
         public static ListingRequestStatusFieldsQueryResult ToProjectionListingSaleRequestStatusFieldsQueryResult<T>(this T statusField)
-            where T : StatusFieldsRecord
+            where T : SaleStatusFieldsRecord
         {
             if (statusField == null)
             {

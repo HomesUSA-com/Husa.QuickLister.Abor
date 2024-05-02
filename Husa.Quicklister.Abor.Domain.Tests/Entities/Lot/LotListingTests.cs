@@ -4,7 +4,9 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using System.Diagnostics.CodeAnalysis;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Tests.Providers;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Moq;
     using Xunit;
 
     [ExcludeFromCodeCoverage]
@@ -31,6 +33,25 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             Assert.NotNull(listing.PublishInfo);
             Assert.Equal(userId, listing.PublishInfo.PublishUser);
             Assert.NotNull(listing.PublishInfo.PublishDate);
+        }
+
+        [Fact]
+        public void GenerateRequestFromCommunity_Success()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            var listing = new LotListing()
+            {
+                Community = new(Guid.NewGuid(), "Company", "company"),
+            };
+            var request = TestProviderLotRequest.GetLotListingRequestMock();
+            request.Setup(x => x.Clone()).CallBase().Verifiable();
+
+            // Act
+            listing.GenerateRequestFromCommunity(request.Object, userId);
+
+            // Assert
+            request.Verify(r => r.UpdateTrackValues(userId, It.IsAny<bool>()), Times.Once);
         }
     }
 }
