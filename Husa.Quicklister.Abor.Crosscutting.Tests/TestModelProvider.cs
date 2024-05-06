@@ -853,7 +853,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             ListDate = DateTime.UtcNow,
             ListPrice = Faker.RandomNumber.Next(200000, 400000),
             ListType = ListType.Residential,
-            MarketModifiedOn = DateTime.UtcNow,
             MlsStatus = MarketStatuses.Active,
             MlsNumber = Faker.RandomNumber.Next(10000, 20000).ToString(),
             StatusFieldsInfo = GetListingSaleStatusFieldsDto(),

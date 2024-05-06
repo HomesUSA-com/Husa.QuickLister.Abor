@@ -2,7 +2,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Lot
 {
     using System;
 
-    public class LotListingQueryDetailResult : ListingQueryResult
+    public class LotListingQueryDetailResult : ListingDetailsQueryResult
     {
         public Guid? CommunityId { get; set; }
         public Guid? CompanyId { get; set; }
@@ -13,8 +13,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Lot
         public LotFeaturesQueryResult FeaturesInfo { get; set; }
         public LotFinancialQueryResult FinancialInfo { get; set; }
         public LotShowingQueryResult ShowingInfo { get; set; }
-        public PublishInfoQueryResult PublishInfo { get; set; }
-        public EmailLeadQueryResult EmailLead { get; set; }
         public ListingStatusFieldsQueryResult StatusFieldsInfo { get; set; }
     }
 }

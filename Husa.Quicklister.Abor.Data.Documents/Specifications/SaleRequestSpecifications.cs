@@ -3,7 +3,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Specifications
     using System;
     using System.Linq;
     using System.Reflection;
-    using Husa.Quicklister.Abor.Data.Documents.Specifications.RequestsCommon;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
@@ -15,7 +14,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Specifications
     {
         public static IOrderedQueryable<SaleListingRequest> ApplyListingSaleRequestSortByFields(this IQueryable<SaleListingRequest> records, string orderQueryString)
         {
-            return records.ApplyRequestSortByFields(orderQueryString, GetSalePropertyAttribute);
+            return records.ApplyRequestSort(orderQueryString, GetSalePropertyAttribute);
         }
 
         public static IQueryable<SaleListingRequest> FilterByQuery(this IQueryable<SaleListingRequest> records, ListingRequestQueryFilter queryFilter)
@@ -58,7 +57,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Specifications
             return query;
         }
 
-        private static Tuple<string, ReflectionPropertyInfo> GetSalePropertyAttribute(this string attributeName)
+        private static Tuple<string, ReflectionPropertyInfo> GetSalePropertyAttribute(string attributeName)
         {
             var columnName = "SaleProperty.AddressInfo.";
             ReflectionPropertyInfo propertyInfo;

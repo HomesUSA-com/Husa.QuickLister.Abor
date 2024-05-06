@@ -11,7 +11,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using Husa.Extensions.Document.Models;
     using Husa.Extensions.Document.Specifications;
     using Husa.Extensions.Document.ValueObjects;
-    using Husa.Quicklister.Abor.Crosscutting;
+    using Husa.Quicklister.Abor.Data.Documents.Extensions;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Documents.Models;
     using Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
@@ -74,22 +74,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
             var queryResult = requestEntity.ToListingSaleRequestDetailQueryResult();
             var saleListing = await this.listingSaleQueriesRepository.GetListing(requestEntity.EntityId) ?? throw new NotFoundException<SaleListing>(requestEntity.EntityId);
             queryResult.IsFirstRequest = await this.CheckIsFirstListingRequestAsync(requestEntity.EntityId, cancellationToken);
-            if (saleListing.LockedStatus == LockedStatus.LockedBySystem)
-            {
-                queryResult.LockedByUsername = UserConstants.LockedBySystemLabel;
-            }
-            else
-            {
-                queryResult.LockedBy = saleListing.LockedBy;
-                queryResult.LockedByUsername = saleListing.LockedByUsername;
-            }
-
-            queryResult.LockedStatus = saleListing.LockedStatus;
-            queryResult.LockedOn = saleListing.LockedOn;
-            if (queryResult.PublishInfo.PublishType is null)
-            {
-                queryResult.PublishInfo.PublishType = saleListing.PublishInfo.PublishType;
-            }
+            queryResult.FillLockedInformation(saleListing);
 
             await this.userQueriesRepository.FillUserNameAsync(queryResult);
 

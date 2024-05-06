@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 {
     using System;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Attributes;
@@ -16,6 +17,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         protected Listing()
             : base()
         {
+            this.PublishInfo = new();
         }
 
         public virtual int? CDOM { get; set; }
@@ -33,6 +35,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         [XmlPropertyUpdate]
         public virtual MarketStatuses MlsStatus { get; set; }
+
+        public virtual PublishInfo PublishInfo { get; set; }
 
         public virtual void SetMigrateFullListing(bool migrateFullListing)
         {

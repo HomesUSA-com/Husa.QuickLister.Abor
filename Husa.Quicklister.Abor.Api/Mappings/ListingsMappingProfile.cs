@@ -189,14 +189,12 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<PropertyDto, PropertyInfo>();
 
-            this.CreateMap<ListingSalePublishInfoRequest, ListingSalePublishInfoDto>()
+            this.CreateMap<ListingPublishInfoRequest, ListingSalePublishInfoDto>()
                 .ForMember(dto => dto.PublishStatus, c => c.Ignore())
                 .ForMember(dto => dto.PublishDate, c => c.Ignore())
                 .ForMember(dto => dto.PublishUser, c => c.Ignore());
 
-            this.CreateMap<ListingSaleRequestForUpdate, ListingSaleRequestDto>()
-                .ForMember(dto => dto.SysModifiedOn, c => c.Ignore())
-                .ForMember(dto => dto.SysCreatedOn, c => c.Ignore());
+            this.CreateMap<ListingSaleRequestForUpdate, ListingSaleRequestDto>();
             this.CreateMap<ListingStatusFieldsRequest, ListingStatusFieldsDto>();
             this.CreateMap<ListingSaleStatusFieldsRequest, ListingSaleStatusFieldsDto>();
             this.CreateMap<ListingStatusFieldsDto, ListingStatusFieldsInfo>();

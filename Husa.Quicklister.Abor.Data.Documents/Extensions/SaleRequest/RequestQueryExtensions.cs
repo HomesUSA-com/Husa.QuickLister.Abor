@@ -185,10 +185,9 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions.SaleRequest
                FemaFloodPlain = property.FemaFloodPlain,
            };
 
-        public static ListingRequestStatusFieldsQueryResult ToProjectionListingSaleRequestStatusFieldsQueryResult<T>(this T statusField)
-            where T : SaleStatusFieldsRecord
+        public static ListingRequestStatusFieldsQueryResult ToProjectionListingSaleRequestStatusFieldsQueryResult(this SaleStatusFieldsRecord statusField)
         {
-            var fields = statusField.ToProjectionStatusFieldsQueryResult<T, ListingRequestStatusFieldsQueryResult>();
+            var fields = statusField.ToProjectionStatusFieldsQueryResult<SaleStatusFieldsRecord, ListingRequestStatusFieldsQueryResult>();
             fields.HasContingencyInfo = statusField.HasContingencyInfo;
             fields.ContingencyInfo = statusField.ContingencyInfo;
             fields.SaleTerms = statusField.SaleTerms;

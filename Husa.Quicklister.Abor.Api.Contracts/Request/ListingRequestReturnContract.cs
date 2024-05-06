@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest
+namespace Husa.Quicklister.Abor.Api.Contracts.Request
 {
     public class ListingRequestReturnContract
     {

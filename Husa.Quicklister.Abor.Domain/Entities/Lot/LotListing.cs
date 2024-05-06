@@ -50,7 +50,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             this.ShowingInfo = new();
             this.PropertyInfo = new();
             this.AddressInfo = new();
-            this.PublishInfo = new();
             this.StatusFieldsInfo = new();
             this.ManagementTraces = new List<LotManagementTrace>();
         }
@@ -65,7 +64,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public virtual LotFinancialInfo FinancialInfo { get; set; }
         public virtual LotShowingInfo ShowingInfo { get; set; }
         public virtual CommunitySale Community { get; set; }
-        public virtual PublishInfo PublishInfo { get; set; }
         public virtual ListingStatusFieldsInfo StatusFieldsInfo { get; set; }
         public virtual ICollection<LotManagementTrace> ManagementTraces { get; set; }
 

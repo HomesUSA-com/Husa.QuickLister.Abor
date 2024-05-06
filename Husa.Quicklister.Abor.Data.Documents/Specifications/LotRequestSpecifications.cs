@@ -4,7 +4,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Specifications
     using System.Linq;
     using System.Reflection;
     using Husa.Extensions.Document.Specifications.Document;
-    using Husa.Quicklister.Abor.Data.Documents.Specifications.RequestsCommon;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
@@ -15,7 +14,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Specifications
     {
         public static IOrderedQueryable<LotListingRequest> ApplyLotListingRequestSortByFields(this IQueryable<LotListingRequest> records, string orderQueryString)
         {
-            return records.ApplyRequestSortByFields(orderQueryString, GetLotPropertyAttribute);
+            return records.ApplyRequestSort(orderQueryString, GetLotPropertyAttribute);
         }
 
         public static IQueryable<LotListingRequest> FilterByQuery(this IQueryable<LotListingRequest> records, ListingRequestQueryFilter queryFilter)
@@ -51,7 +50,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Specifications
             return query;
         }
 
-        private static Tuple<string, ReflectionPropertyInfo> GetLotPropertyAttribute(this string attributeName)
+        private static Tuple<string, ReflectionPropertyInfo> GetLotPropertyAttribute(string attributeName)
         {
             var columnName = "AddressInfo.";
             ReflectionPropertyInfo propertyInfo = typeof(AddressInfo).GetProperty(attributeName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);

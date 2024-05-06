@@ -17,9 +17,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Extensions;
+    using Husa.Quicklister.Abor.Domain.Extensions.Listing;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Communities;
     using Husa.Xml.Api.Contracts.Response;
@@ -243,9 +243,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             .SelectMany(p => p.SaleListings)
             .Where(listing => !listing.IsDeleted && SaleListing.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber));
 
-        public virtual IEnumerable<SaleListing> GetActiveUnlockedListingsInMarket() => this.GetActiveListingsInMarket().Where(x => x.LockedStatus == LockedStatus.NoLocked);
-
-        public virtual IEnumerable<SaleListing> GetActiveLockedListingsInMarket() => this.GetActiveListingsInMarket().Where(x => x.LockedStatus != LockedStatus.NoLocked);
+        public virtual IEnumerable<LotListing> GetActiveLotListings() => this.LotListings
+            .Where(listing => !listing.IsDeleted && MarketStatusesExtensions.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber));
 
         public virtual bool IsEmployee(Guid id) => this.Employees.Any(e => e.UserId == id);
 

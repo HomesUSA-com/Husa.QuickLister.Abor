@@ -18,11 +18,5 @@ namespace Husa.Quicklister.Abor.Application.Models.Request
         public virtual string MlsNumber { get; set; }
 
         public virtual MarketStatuses MlsStatus { get; set; }
-
-        public virtual DateTime? SysModifiedOn { get; set; }
-
-        public virtual DateTime? MarketModifiedOn { get; set; }
-
-        public virtual DateTime SysCreatedOn { get; set; }
     }
 }

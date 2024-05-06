@@ -1,11 +1,12 @@
-namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
+namespace Husa.Quicklister.Abor.Data.Documents.Models
 {
     using System;
+    using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 
-    public class ListingRequestQueryResult : IProvideQuicklisterUserInfo
+    public class ListingRequestDetailQueryResult : IProvideQuicklisterUserInfo
     {
         public Guid Id { get; set; }
 
@@ -44,5 +45,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public string LockedByUsername { get; set; }
 
         public bool IsFirstRequest { get; set; }
+        public PublishInfoQueryResult PublishInfo { get; set; }
     }
 }

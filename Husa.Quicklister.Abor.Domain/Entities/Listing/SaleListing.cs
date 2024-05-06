@@ -90,7 +90,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             : base()
         {
             this.StatusFieldsInfo = new();
-            this.PublishInfo = new();
             this.InvoiceInfo = new();
         }
 
@@ -101,8 +100,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual InvoiceInfo InvoiceInfo { get; set; }
 
         public virtual ListingSaleStatusFieldsInfo StatusFieldsInfo { get; set; }
-
-        public virtual PublishInfo PublishInfo { get; set; }
 
         public virtual ICollection<SaleListingTrace> ListingSaleTraces { get; set; }
 

@@ -1,13 +1,7 @@
 namespace Husa.Quicklister.Abor.Application.Models.Lot
 {
-    using System;
-
     public class LotListingDto : ListingDto
     {
-        public string OwnerName { get; set; }
-        public Guid CompanyId { get; set; }
-        public Guid CommunityId { get; set; }
-
         public AddressDto AddressInfo { get; set; }
         public LotPropertyDto PropertyInfo { get; set; }
         public LotFeaturesDto FeaturesInfo { get; set; }
