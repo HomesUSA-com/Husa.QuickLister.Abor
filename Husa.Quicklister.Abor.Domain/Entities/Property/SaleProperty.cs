@@ -471,6 +471,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.processFullListing = processFullListing;
         }
 
+        public void SetMigrateFullListing(bool value) => this.migrateFullListing = value;
+
         public void ImportFromXml(XmlListingDetailResponse listing, string companyName)
         {
             this.OwnerName = companyName;
@@ -577,6 +579,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.PropertyInfo.ConstructionCompletionDate = propertyInfo.ConstructionCompletionDate;
                 this.PropertyInfo.UpdateGeocodes = propertyInfo.UpdateGeocodes;
                 this.PropertyInfo.IsXmlManaged = propertyInfo.IsXmlManaged;
+                this.PropertyInfo.FemaFloodPlain = propertyInfo.FemaFloodPlain;
 
                 if (!this.migrateFullListing)
                 {

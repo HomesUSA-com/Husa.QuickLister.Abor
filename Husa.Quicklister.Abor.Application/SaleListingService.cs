@@ -162,6 +162,7 @@ namespace Husa.Quicklister.Abor.Application
 
             var statusFieldsInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingDto.StatusFieldsInfo);
             listingSale.SetMigrateFullListing(migrateFullListing);
+            listingSale.SaleProperty.SetMigrateFullListing(migrateFullListing);
             listingSale.UpdateStatusFieldsInfo(statusFieldsInfo);
 
             if (!migrateFullListing)
