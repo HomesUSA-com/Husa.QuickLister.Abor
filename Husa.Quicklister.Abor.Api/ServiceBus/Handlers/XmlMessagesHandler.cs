@@ -29,15 +29,18 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     public class XmlMessagesHandler : MessagesHandler<XmlMessagesHandler>, IXmlMessagesHandler
     {
         private readonly XmlUserSettings userOptions;
+        private readonly ApplicationOptions options;
 
         public XmlMessagesHandler(
             IXmlSubscriber xmlSubscriber,
             IServiceScopeFactory serviceProvider,
             IOptions<XmlUserSettings> userOptions,
+            IOptions<ApplicationOptions> options,
             ILogger<XmlMessagesHandler> logger)
             : base(xmlSubscriber, serviceProvider, logger)
         {
             this.userOptions = userOptions is null ? throw new ArgumentNullException(nameof(userOptions)) : userOptions.Value;
+            this.options = options is null ? throw new ArgumentNullException(nameof(options)) : options.Value;
         }
 
         public override async Task ProcessMessageAsync(Message message, IServiceScope scope, CancellationToken cancellationToken)
@@ -92,7 +95,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
             {
                 this.Logger.LogInformation("Importing the media for the XML plan {planId} and companyId {companyId}", importPlanMedia.Id, importPlanMedia.CompanyId);
                 var mediaImportService = scope.ServiceProvider.GetRequiredService<IXmlMediaService>();
-                return mediaImportService.ImportPlanMedia(importPlanMedia.Id);
+                return mediaImportService.ImportPlanMedia(importPlanMedia.Id, maxImagesAllowed: this.options.MediaAllowed.PlanMaxAllowedMedia);
             }
 
             Task ImportListingMedia(ImportListingMedia importListingMedia)
@@ -106,7 +109,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
             {
                 this.Logger.LogInformation("Importing the media for the XML subdivision {subdivisionId} and companyId {companyId}", importSubdivisionMedia.Id, importSubdivisionMedia.CompanyId);
                 var mediaImportService = scope.ServiceProvider.GetRequiredService<IXmlMediaService>();
-                return mediaImportService.ImportSubdivisionMedia(importSubdivisionMedia.Id);
+                return mediaImportService.ImportSubdivisionMedia(importSubdivisionMedia.Id, maxImagesAllowed: this.options.MediaAllowed.SaleCommunityMaxAllowedMedia);
             }
 
             Task ImportEntity<TService>(ImportProfileMessage meessage)

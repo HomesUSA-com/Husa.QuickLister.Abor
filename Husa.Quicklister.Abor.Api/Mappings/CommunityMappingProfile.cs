@@ -97,7 +97,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<CommunityDetailQueryResult, CommunitySaleResponse>()
                 .ForMember(dto => dto.City, pr => pr.MapFrom(dto => dto.Property.City))
                 .ForMember(dto => dto.ZipCode, pr => pr.MapFrom(dto => dto.Property.ZipCode))
-                .ForMember(dto => dto.Name, pr => pr.MapFrom(dto => dto.Profile.Name));
+                .ForMember(dto => dto.Name, pr => pr.MapFrom(dto => dto.Profile.Name))
+                .ForMember(dto => dto.XmlSubdivisionId, c => c.Ignore());
 
             this.CreateMap<SalesOfficeQueryResult, CommunitySalesOfficeResponse>()
                 .ForMember(dto => dto.SalesOfficeCity, c => c.MapFrom(dto => dto.SalesOfficeCity.HasValue ? dto.SalesOfficeCity.Value.ToStringFromEnumMember(false) : null));
