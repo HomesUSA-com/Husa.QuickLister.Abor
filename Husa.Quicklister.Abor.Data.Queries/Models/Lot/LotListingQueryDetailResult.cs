@@ -6,9 +6,12 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Lot
     {
         public Guid? CommunityId { get; set; }
         public Guid? CompanyId { get; set; }
+        public int? AlsoListedAs { get; set; }
 
-        public AddressQueryResult AddressInfo { get; set; }
-        public SchoolsQueryResult SchoolsInfo { get; set; }
+        public bool BuilderRestrictions { get; set; }
+
+        public LotAddressQueryResult AddressInfo { get; set; }
+        public SchoolsInfoQueryResult SchoolsInfo { get; set; }
         public LotPropertyQueryResult PropertyInfo { get; set; }
         public LotFeaturesQueryResult FeaturesInfo { get; set; }
         public LotFinancialQueryResult FinancialInfo { get; set; }

@@ -14,5 +14,14 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces.LotListing
         DistanceToWaterAccess? DistanceToWaterAccess { get; set; }
         ICollection<Fencing> Fencing { get; set; }
         ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
+        ICollection<HorseAmenities> HorseAmenities { get; set; }
+        ICollection<Minerals> MineralsFeatures { get; set; }
+        ICollection<RoadSurface> RoadSurface { get; set; }
+        ICollection<OtherStructures> OtherStructures { get; set; }
+
+        ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
+        ICollection<Disclosures> Disclosures { get; set; }
+        ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
+        bool GroundWaterConservDistric { get; set; }
     }
 }

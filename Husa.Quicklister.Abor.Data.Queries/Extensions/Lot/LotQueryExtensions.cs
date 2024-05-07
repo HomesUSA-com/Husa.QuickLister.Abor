@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Lot
 
     public static class LotQueryExtensions
     {
-        public static SchoolsQueryResult ToProjectionSchools<T>(this T schools)
+        public static SchoolsInfoQueryResult ToProjectionSchools<T>(this T schools)
             where T : class, IProvideSchool
         {
             if (schools == null)
@@ -21,6 +21,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Lot
                 ElementarySchool = schools.ElementarySchool,
                 MiddleSchool = schools.MiddleSchool,
                 HighSchool = schools.HighSchool,
+                OtherElementarySchool = schools.OtherElementarySchool,
+                OtherHighSchool = schools.OtherHighSchool,
+                OtherMiddleSchool = schools.OtherMiddleSchool,
             };
         }
 
@@ -38,6 +41,26 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Lot
                 LotDescription = propertyInfo.LotDescription,
                 PropertyType = propertyInfo.PropertyType,
                 FemaFloodPlain = propertyInfo.FemaFloodPlain,
+                PropCondition = propertyInfo.PropCondition,
+                TaxId = propertyInfo.TaxId,
+                Latitude = propertyInfo.Latitude,
+                Longitude = propertyInfo.Longitude,
+                LegalDescription = propertyInfo.LegalDescription,
+                LotDimension = propertyInfo.LotDimension,
+                LotSize = propertyInfo.LotSize,
+                TaxBlock = propertyInfo.TaxBlock,
+                TaxLot = propertyInfo.TaxLot,
+                SoilType = propertyInfo.SoilType,
+                SurfaceWater = propertyInfo.SurfaceWater,
+                TypeOfHomeAllowed = propertyInfo.TypeOfHomeAllowed,
+                PropertySubType = propertyInfo.PropertySubType,
+                NumberOfPonds = propertyInfo.NumberOfPonds,
+                NumberOfWells = propertyInfo.NumberOfWells,
+                CommercialAllowed = propertyInfo.CommercialAllowed,
+                LiveStock = propertyInfo.LiveStock,
+                UpdateGeocodes = propertyInfo.UpdateGeocodes,
+                AlsoListedAs = propertyInfo.AlsoListedAs,
+                BuilderRestrictions = propertyInfo.BuilderRestrictions,
             };
         }
 
@@ -65,6 +88,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Lot
                 AgentBonusAmountType = financial.AgentBonusAmountType,
                 BonusExpirationDate = financial.BonusExpirationDate,
                 HasBuyerIncentive = financial.HasBuyerIncentive,
+                EstimatedTax = financial.EstimatedTax,
+                HoaFee = financial.HoaFee,
+                HoaName = financial.HoaName,
+                LandTitleEvidence = financial.LandTitleEvidence,
+                PreferredTitleCompany = financial.PreferredTitleCompany,
+                TaxAssesedValue = financial.TaxAssesedValue,
+                TaxExemptions = financial.TaxExemptions,
+                TaxYear = financial.TaxYear,
             };
         }
 
@@ -87,6 +118,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Lot
                 ExteriorFeatures = features.ExteriorFeatures,
                 WaterfrontFeatures = features.WaterfrontFeatures,
                 DistanceToWaterAccess = features.DistanceToWaterAccess,
+                NeighborhoodAmenities = features.NeighborhoodAmenities,
+                Disclosures = features.Disclosures,
+                DocumentsAvailable = features.DocumentsAvailable,
+                GroundWaterConservDistric = features.GroundWaterConservDistric,
+                HorseAmenities = features.HorseAmenities,
+                MineralsFeatures = features.MineralsFeatures,
+                OtherStructures = features.OtherStructures,
+                RoadSurface = features.RoadSurface,
             };
         }
 
@@ -101,10 +140,17 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Lot
             return new()
             {
                 ShowingRequirements = showing.ShowingRequirements,
+                ApptPhone = showing.ApptPhone,
+                Directions = showing.Directions,
+                OwnerName = showing.OwnerName,
+                PublicRemarks = showing.PublicRemarks,
+                ShowingContactType = showing.ShowingContactType,
+                ShowingInstructions = showing.ShowingInstructions,
+                ShowingServicePhone = showing.ShowingServicePhone,
             };
         }
 
-        public static AddressQueryResult ToProjectionAddressInfo<TStatusFields>(this TStatusFields addressInfo)
+        public static LotAddressQueryResult ToProjectionAddressInfo<TStatusFields>(this TStatusFields addressInfo)
            where TStatusFields : class, IProvideLotAddress
         {
             if (addressInfo == null)
@@ -122,6 +168,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Lot
                 County = addressInfo.County,
                 StreetType = addressInfo.StreetType,
                 Subdivision = addressInfo.Subdivision,
+                StreetDirPrefix = addressInfo.StreetDirPrefix,
+                StreetDirSuffix = addressInfo.StreetDirSuffix,
+                UnitNumber = addressInfo.UnitNumber,
             };
         }
     }

@@ -41,9 +41,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "ECAD")]
         [Description("Energy Conservation Audit Disclosure")]
         EnergyConservationAuditDisclosure,
-        [EnumMember(Value = "EES,Energy, Environment and Sustainability")]
-        [Description("Energy")]
-        EnvironmentandSustainability,
+        [EnumMember(Value = "EES")]
+        [Description("Energy, Environment and Sustainability")]
+        EnergyEnvironmentAndSustainability,
         [EnumMember(Value = "ENGRPT")]
         [Description("Engineering Report")]
         EngineeringReport,

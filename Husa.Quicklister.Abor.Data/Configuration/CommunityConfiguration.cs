@@ -97,6 +97,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.County).HasColumnName(nameof(Property.County)).HasEnumFieldValue<Counties>(maxLength: 20);
             builder.Property(x => x.Subdivision).HasColumnName(nameof(Property.Subdivision)).HasMaxLength(75);
             builder.Property(x => x.ZipCode).HasColumnName(nameof(Property.ZipCode)).HasMaxLength(12);
+            builder.Property(x => x.LotDimension).HasColumnName(nameof(Property.LotDimension)).HasMaxLength(25);
             builder.ConfigureProperty();
         }
 
@@ -107,7 +108,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<CommunitySale, SchoolsInfo> builder)
         {
-            builder.ConfigureSchoolsInfo();
+            builder.ConfigureSchools();
         }
     }
 }

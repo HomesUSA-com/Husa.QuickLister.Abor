@@ -3,7 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
     using System.ComponentModel.DataAnnotations;
     using Husa.Extensions.Common;
     using Husa.Extensions.Common.Enums;
-    using Husa.Quicklister.Abor.Domain.Entities.Base;
+    using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces.LotListing;
 
@@ -16,6 +16,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public string ReadableCity { get; set; }
         public string StreetNumber { get; set; }
         public string StreetName { get; set; }
+        public StreetDirPrefix? StreetDirPrefix { get; set; }
+        public StreetDirPrefix? StreetDirSuffix { get; set; }
 
         [Required]
         public Cities City { get; set; }
@@ -39,7 +41,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
 
         public LotAddressRecord CloneRecord() => (LotAddressRecord)this.MemberwiseClone();
 
-        public static LotAddressRecord CreateRecord(AddressInfo addressInfo)
+        public static LotAddressRecord CreateRecord(LotAddressInfo addressInfo)
         {
             if (addressInfo == null)
             {
@@ -58,6 +60,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
                 County = addressInfo.County,
                 Subdivision = addressInfo.Subdivision,
                 StreetType = addressInfo.StreetType,
+                StreetDirPrefix = addressInfo.StreetDirPrefix,
+                StreetDirSuffix = addressInfo.StreetDirSuffix,
             };
         }
     }

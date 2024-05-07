@@ -62,6 +62,24 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public DateTime? BonusExpirationDate { get; set; }
         public bool HasBuyerIncentive { get; set; }
 
+        [Required]
+        public int? EstimatedTax { get; set; }
+
+        [Required]
+        public int? TaxYear { get; set; }
+
+        [Required]
+        public ICollection<TaxExemptions> TaxExemptions { get; set; }
+
+        [Required]
+        public int? TaxAssesedValue { get; set; }
+
+        public LandTitleEvidence? LandTitleEvidence { get; set; }
+
+        public string PreferredTitleCompany { get; set; }
+
+        public decimal? HoaFee { get; set; }
+
         public LotFinancialRecord CloneRecord() => (LotFinancialRecord)this.MemberwiseClone();
         public static LotFinancialRecord CreateRecord(LotFinancialInfo financialInfo)
         {
@@ -98,6 +116,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
                 HasBuyerIncentive = financialInfo.HasBuyerIncentive,
                 ReadableAgentBonusAmount = financialInfo.AgentBonusAmount.GetCommissionAmount(financialInfo.AgentBonusAmountType),
                 ReadableBuyersAgentCommission = financialInfo.BuyersAgentCommission.GetCommissionAmount(financialInfo.BuyersAgentCommissionType),
+                EstimatedTax = financialInfo.EstimatedTax,
+                HoaFee = financialInfo.HoaFee,
+                HoaName = financialInfo.HoaName,
+                LandTitleEvidence = financialInfo.LandTitleEvidence,
+                PreferredTitleCompany = financialInfo.PreferredTitleCompany,
+                TaxAssesedValue = financialInfo.TaxAssesedValue,
+                TaxExemptions = financialInfo.TaxExemptions,
+                TaxYear = financialInfo.TaxYear,
             };
         }
     }

@@ -12,5 +12,11 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces.LotListing
         string Subdivision { get; set; }
 
         States State { get; set; }
+
+        StreetDirPrefix? StreetDirPrefix { get; set; }
+
+        StreetDirPrefix? StreetDirSuffix { get; set; }
+
+        string UnitNumber { get; set; }
     }
 }

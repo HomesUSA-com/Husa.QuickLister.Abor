@@ -20,6 +20,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         {
         }
 
+        public StreetDirPrefix? StreetDirPrefix { get; set; }
+        public StreetDirPrefix? StreetDirSuffix { get; set; }
+        public string UnitNumber { get; set; }
+
         public LotAddressInfo Clone()
         {
             return (LotAddressInfo)this.MemberwiseClone();

@@ -1,15 +1,12 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Request.LotListing
 {
-    using System;
     using Husa.Quicklister.Abor.Domain.Enums;
 
     public class LotListingDetailRequest : ListingRequest
     {
         public override ListType ListType => ListType.Lots;
         public string OwnerName { get; set; }
-        public Guid CompanyId { get; set; }
-        public Guid CommunityId { get; set; }
-        public AddressInfoRequest AddressInfo { get; set; }
+        public LotAdressRequest AddressInfo { get; set; }
         public LotPropertyRequest PropertyInfo { get; set; }
         public LotFeaturesRequest FeaturesInfo { get; set; }
         public LotFinancialRequest FinancialInfo { get; set; }

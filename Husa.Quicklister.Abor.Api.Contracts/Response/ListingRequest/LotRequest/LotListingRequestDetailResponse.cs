@@ -7,10 +7,10 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.LotRequest
     public class LotListingRequestDetailResponse : ListingRequestDetailResponse, IListingRequestDetailResponse
     {
         public Guid ListingId { get; set; }
-
+        public string OwnerName { get; set; }
         public ListingStatusFieldsResponse StatusFieldsInfo { get; set; }
         public PublishInfoResponse PublishInfo { get; set; }
-        public AddressInfoResponse AddressInfo { get; set; }
+        public LotAddressResponse AddressInfo { get; set; }
         public LotSchoolsResponse SchoolsInfo { get; set; }
         public LotPropertyResponse PropertyInfo { get; set; }
         public LotFeaturesResponse FeaturesInfo { get; set; }

@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.LotListing
     {
         public Guid? CompanyId { get; set; }
 
-        public AddressInfoResponse AddressInfo { get; set; }
+        public LotAddressResponse AddressInfo { get; set; }
         public LotSchoolsResponse SchoolsInfo { get; set; }
         public LotPropertyResponse PropertyInfo { get; set; }
         public LotFeaturesResponse FeaturesInfo { get; set; }

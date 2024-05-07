@@ -17,6 +17,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public virtual DistanceToWaterAccess? DistanceToWaterAccess { get; set; }
         public virtual ICollection<Fencing> Fencing { get; set; }
         public virtual ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
+        public virtual bool GroundWaterConservDistric { get; set; }
+        public virtual ICollection<HorseAmenities> HorseAmenities { get; set; }
+        public virtual ICollection<Minerals> MineralsFeatures { get; set; }
+        public virtual ICollection<RoadSurface> RoadSurface { get; set; }
+        public virtual ICollection<OtherStructures> OtherStructures { get; set; }
+        public virtual ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
+        public virtual ICollection<Disclosures> Disclosures { get; set; }
+        public virtual ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
 
         public LotFeaturesInfo Clone()
         {
@@ -47,6 +55,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             yield return this.DistanceToWaterAccess;
             yield return this.Fencing;
             yield return this.ExteriorFeatures;
+            yield return this.GroundWaterConservDistric;
+            yield return this.HorseAmenities;
+            yield return this.MineralsFeatures;
+            yield return this.RoadSurface;
+            yield return this.OtherStructures;
+            yield return this.NeighborhoodAmenities;
+            yield return this.DocumentsAvailable;
+            yield return this.Disclosures;
         }
     }
 }

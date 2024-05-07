@@ -3,13 +3,10 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
-    public interface IProvideShowingInfo
+    public interface IProvideShowingInfo : IProvideCommonShowingInfo
     {
         string OccupantPhone { get; set; }
         string ContactPhone { get; set; }
-        string ShowingInstructions { get; set; }
-        string Directions { get; set; }
-        string OwnerName { get; set; }
         LockBoxType? LockBoxType { get; set; }
         ICollection<ShowingRequirements> ShowingRequirements { get; set; }
         public ICollection<string> RealtorContactEmail { get; set; }

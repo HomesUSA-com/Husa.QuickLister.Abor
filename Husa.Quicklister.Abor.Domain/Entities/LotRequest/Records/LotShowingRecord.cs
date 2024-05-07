@@ -11,6 +11,20 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         [Required]
         [MinLength(1)]
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
+        public ICollection<ShowingContactType> ShowingContactType { get; set; }
+        public string ApptPhone { get; set; }
+        public string ShowingServicePhone { get; set; }
+
+        [Required]
+        public string PublicRemarks { get; set; }
+
+        [Required]
+        public string OwnerName { get; set; }
+
+        public string ShowingInstructions { get; set; }
+
+        [Required]
+        public string Directions { get; set; }
 
         public LotShowingRecord CloneRecord() => (LotShowingRecord)this.MemberwiseClone();
         public static LotShowingRecord CreateRecord(LotShowingInfo showingInfo)
@@ -23,6 +37,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
             return new()
             {
                 ShowingRequirements = showingInfo.ShowingRequirements,
+                ApptPhone = showingInfo.ApptPhone,
+                Directions = showingInfo.Directions,
+                OwnerName = showingInfo.OwnerName,
+                PublicRemarks = showingInfo.PublicRemarks,
+                ShowingContactType = showingInfo.ShowingContactType,
+                ShowingInstructions = showingInfo.ShowingInstructions,
+                ShowingServicePhone = showingInfo.ShowingServicePhone,
             };
         }
     }

@@ -9,6 +9,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
     public class LotShowingInfo : ValueObject, IProvideLotShowing
     {
         public virtual ICollection<ShowingRequirements> ShowingRequirements { get; set; }
+        public string ApptPhone { get; set; }
+        public string ShowingServicePhone { get; set; }
+        public string OwnerName { get; set; }
+        public string ShowingInstructions { get; set; }
+        public string PublicRemarks { get; set; }
+        public string Directions { get; set; }
+        public ICollection<ShowingContactType> ShowingContactType { get; set; }
 
         public LotShowingInfo Clone()
         {
@@ -25,6 +32,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return this.ShowingRequirements;
+            yield return this.ApptPhone;
+            yield return this.OwnerName;
+            yield return this.ShowingContactType;
+            yield return this.ShowingInstructions;
+            yield return this.ShowingServicePhone;
+            yield return this.PublicRemarks;
+            yield return this.Directions;
         }
     }
 }

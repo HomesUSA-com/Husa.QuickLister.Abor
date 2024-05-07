@@ -162,6 +162,8 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             var showing = this.mapper.Map<LotShowingInfo>(listingDto.ShowingInfo);
             lotListing.UpdateShowing(showing);
 
+            lotListing.OwnerName = listingDto.OwnerName;
+
             await this.ListingRepository.SaveChangesAsync(lotListing);
         }
 

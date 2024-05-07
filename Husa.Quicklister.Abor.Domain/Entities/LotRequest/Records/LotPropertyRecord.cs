@@ -18,6 +18,43 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public PropertySubType? PropertyType { get; set; }
 
         public ICollection<FemaFloodPlain> FemaFloodPlain { get; set; }
+        public ICollection<PropCondition> PropCondition { get; set; }
+        public string TaxBlock { get; set; }
+
+        [Required]
+        public int? LotSize { get; set; }
+
+        [Required]
+        public string LegalDescription { get; set; }
+
+        public string TaxLot { get; set; }
+
+        [Required]
+        public string TaxId { get; set; }
+
+        public string LotDimension { get; set; }
+        public decimal? Latitude { get; set; }
+        public decimal? Longitude { get; set; }
+        public bool LiveStock { get; set; }
+
+        [Required]
+        public bool CommercialAllowed { get; set; }
+        public int? NumberOfPonds { get; set; }
+        public int? NumberOfWells { get; set; }
+
+        [Required]
+        public bool SurfaceWater { get; set; }
+
+        [Required]
+        public PropertySubTypeLots? PropertySubType { get; set; }
+
+        public ICollection<TypeOfHomeAllowed> TypeOfHomeAllowed { get; set; }
+        public ICollection<SoilType> SoilType { get; set; }
+        public bool UpdateGeocodes { get; set; }
+        public int? AlsoListedAs { get; set; }
+
+        [Required]
+        public bool BuilderRestrictions { get; set; }
 
         public LotPropertyRecord CloneRecord() => (LotPropertyRecord)this.MemberwiseClone();
 
@@ -34,6 +71,26 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
                 LotDescription = propertyInfo.LotDescription,
                 PropertyType = propertyInfo.PropertyType,
                 FemaFloodPlain = propertyInfo.FemaFloodPlain,
+                Latitude = propertyInfo.Latitude,
+                LegalDescription = propertyInfo.LegalDescription,
+                Longitude = propertyInfo.Longitude,
+                LotDimension = propertyInfo.LotDimension,
+                LotSize = propertyInfo.LotSize,
+                PropCondition = propertyInfo.PropCondition,
+                TaxBlock = propertyInfo.TaxBlock,
+                TaxId = propertyInfo.TaxId,
+                TaxLot = propertyInfo.TaxLot,
+                SoilType = propertyInfo.SoilType,
+                SurfaceWater = propertyInfo.SurfaceWater,
+                TypeOfHomeAllowed = propertyInfo.TypeOfHomeAllowed,
+                PropertySubType = propertyInfo.PropertySubType,
+                NumberOfPonds = propertyInfo.NumberOfPonds,
+                NumberOfWells = propertyInfo.NumberOfWells,
+                LiveStock = propertyInfo.LiveStock,
+                CommercialAllowed = propertyInfo.CommercialAllowed,
+                UpdateGeocodes = propertyInfo.UpdateGeocodes,
+                AlsoListedAs = propertyInfo.AlsoListedAs,
+                BuilderRestrictions = propertyInfo.BuilderRestrictions,
             };
         }
     }

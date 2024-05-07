@@ -11,5 +11,9 @@ namespace Husa.Quicklister.Abor.Application.Models.Lot
         public MiddleSchool? MiddleSchool { get; set; }
 
         public HighSchool? HighSchool { get; set; }
+
+        public string OtherElementarySchool { get; set; }
+        public string OtherMiddleSchool { get; set; }
+        public string OtherHighSchool { get; set; }
     }
 }

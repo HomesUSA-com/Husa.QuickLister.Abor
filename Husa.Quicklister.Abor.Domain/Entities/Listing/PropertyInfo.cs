@@ -12,7 +12,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class PropertyInfo : ValueObject, IProvideProperty, IProvideGeocodes
+    public class PropertyInfo : ValueObject, IProvideProperty, IProvidePropertyCommon, IProvideGeocodes
     {
         private DateTime? constructionCompletionDate;
 

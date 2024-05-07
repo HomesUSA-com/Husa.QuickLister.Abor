@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Data.Configuration;
+    using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -28,8 +29,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
             this.CreateMap<PropertyResponse, PropertyDto>()
                 .ForMember(dto => dto.ConstructionStage, pr => pr.MapFrom(x => x.ConstructionStage.ToEnumFromEnumMember<ConstructionStage>()))
                 .ForMember(dto => dto.LotDescription, pr => pr.MapFrom(x => x.LotDescription.ToLotDescription()))
-                .ForMember(dto => dto.LegalDescription, pr => pr.MapFrom(x => x.LegalDescription.GetSubstring(SalePropertyConfiguration.LegalDescriptionLength)))
-                .ForMember(dto => dto.TaxId, pr => pr.MapFrom(x => x.TaxId.GetSubstring(SalePropertyConfiguration.TaxIdLength)))
+                .ForMember(dto => dto.LegalDescription, pr => pr.MapFrom(x => x.LegalDescription.GetSubstring(PropertyExtensions.LegalDescriptionLength)))
+                .ForMember(dto => dto.TaxId, pr => pr.MapFrom(x => x.TaxId.GetSubstring(PropertyExtensions.TaxIdLength)))
                 .ForMember(dto => dto.PropertyType, pr => pr.MapFrom(x => x.PropertyType.ToEnumFromEnumMember<PropertySubType>()))
                 .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(x => x.MlsArea.ToEnumFromEnumMember<MlsArea>()))
                 .ForMember(dto => dto.FemaFloodPlain, pr => pr.MapFrom(x => x.FemaFloodPlain.ToFemaFloodPlain()));

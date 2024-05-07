@@ -42,6 +42,25 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         [MinLength(1)]
         public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
 
+        [Required]
+        public ICollection<HorseAmenities> HorseAmenities { get; set; }
+
+        [Required]
+        public ICollection<Minerals> MineralsFeatures { get; set; }
+
+        public ICollection<RoadSurface> RoadSurface { get; set; }
+
+        [Required]
+        public ICollection<OtherStructures> OtherStructures { get; set; }
+
+        public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
+        [Required]
+        public ICollection<Disclosures> Disclosures { get; set; }
+
+        [Required]
+        public ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
+        public bool GroundWaterConservDistric { get; set; }
+
         public LotFeaturesRecord CloneRecord() => (LotFeaturesRecord)this.MemberwiseClone();
 
         public static LotFeaturesRecord CreateRecord(LotFeaturesInfo featuresInfo)
@@ -62,6 +81,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
                 ExteriorFeatures = featuresInfo.ExteriorFeatures,
                 WaterfrontFeatures = featuresInfo.WaterfrontFeatures,
                 DistanceToWaterAccess = featuresInfo.DistanceToWaterAccess,
+                NeighborhoodAmenities = featuresInfo.NeighborhoodAmenities,
+                Disclosures = featuresInfo.Disclosures,
+                DocumentsAvailable = featuresInfo.DocumentsAvailable,
+                GroundWaterConservDistric = featuresInfo.GroundWaterConservDistric,
+                HorseAmenities = featuresInfo.HorseAmenities,
+                MineralsFeatures = featuresInfo.MineralsFeatures,
+                OtherStructures = featuresInfo.OtherStructures,
+                RoadSurface = featuresInfo.RoadSurface,
             };
         }
     }

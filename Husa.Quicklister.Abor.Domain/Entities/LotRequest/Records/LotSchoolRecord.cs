@@ -18,6 +18,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
 
         [Required]
         public HighSchool? HighSchool { get; set; }
+        public string OtherElementarySchool { get; set; }
+        public string OtherMiddleSchool { get; set; }
+        public string OtherHighSchool { get; set; }
 
         public LotSchoolRecord CloneRecord() => (LotSchoolRecord)this.MemberwiseClone();
         public static LotSchoolRecord CreateRecord(LotSchoolsInfo schoolsInfo)
@@ -33,6 +36,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
                 ElementarySchool = schoolsInfo.ElementarySchool,
                 MiddleSchool = schoolsInfo.MiddleSchool,
                 HighSchool = schoolsInfo.HighSchool,
+                OtherElementarySchool = schoolsInfo.OtherElementarySchool,
+                OtherHighSchool = schoolsInfo.OtherHighSchool,
+                OtherMiddleSchool = schoolsInfo.OtherMiddleSchool,
             };
         }
     }
