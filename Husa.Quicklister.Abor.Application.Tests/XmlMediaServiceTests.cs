@@ -68,7 +68,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                this.logger.Object);
 
             // Act & Assert
-            var exception = await Assert.ThrowsAsync<HttpRequestException>(() => sut.ImportSubdivisionMedia(xmlSubdivisionId));
+            var exception = await Assert.ThrowsAsync<HttpRequestException>(() => sut.ImportSubdivisionMedia(xmlSubdivisionId, maxImagesAllowed: 50));
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, exception.StatusCode);
@@ -98,7 +98,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                this.logger.Object);
 
             // Act & Assert
-            var exception = await Assert.ThrowsAsync<DomainException>(() => sut.ImportSubdivisionMedia(xmlSubdivisionId));
+            var exception = await Assert.ThrowsAsync<DomainException>(() => sut.ImportSubdivisionMedia(xmlSubdivisionId, maxImagesAllowed: 50));
 
             // Assert
             Assert.StartsWith("Cannot process the media import of the xml subdivision", exception.Message);
@@ -134,7 +134,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.logger.Object);
 
             // Act & Assert
-            var exception = await Assert.ThrowsAsync<NotFoundException<CommunitySale>>(() => sut.ImportSubdivisionMedia(xmlSubdivisionId));
+            var exception = await Assert.ThrowsAsync<NotFoundException<CommunitySale>>(() => sut.ImportSubdivisionMedia(xmlSubdivisionId, maxImagesAllowed: 50));
 
             // Assert
             Assert.Equal(communityProfileId, exception.Id);
@@ -183,7 +183,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                this.logger.Object);
 
             // Act
-            await sut.ImportSubdivisionMedia(xmlSubdivisionId);
+            await sut.ImportSubdivisionMedia(xmlSubdivisionId, maxImagesAllowed: 50);
 
             // Assert
             this.userContextProvider.Verify(c => c.GetCurrentUserId(), Times.Never);
@@ -243,7 +243,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                this.logger.Object);
 
             // Act
-            await sut.ImportSubdivisionMedia(xmlSubdivisionId);
+            await sut.ImportSubdivisionMedia(xmlSubdivisionId, maxImagesAllowed: 50);
 
             // Assert
             this.traceIdProvider.Verify();
@@ -284,7 +284,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                this.logger.Object);
 
             // Act & Assert
-            var exception = await Assert.ThrowsAsync<HttpRequestException>(() => sut.ImportPlanMedia(xmlPlanId));
+            var exception = await Assert.ThrowsAsync<HttpRequestException>(() => sut.ImportPlanMedia(xmlPlanId, maxImagesAllowed: 50));
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, exception.StatusCode);
@@ -314,7 +314,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                this.logger.Object);
 
             // Act & Assert
-            var exception = await Assert.ThrowsAsync<DomainException>(() => sut.ImportPlanMedia(xmlPlanId));
+            var exception = await Assert.ThrowsAsync<DomainException>(() => sut.ImportPlanMedia(xmlPlanId, maxImagesAllowed: 50));
 
             // Assert
             Assert.StartsWith("Cannot process the media import of the xml plan", exception.Message);
@@ -350,7 +350,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.logger.Object);
 
             // Act & Assert
-            var exception = await Assert.ThrowsAsync<NotFoundException<Plan>>(() => sut.ImportPlanMedia(xmlPlanId));
+            var exception = await Assert.ThrowsAsync<NotFoundException<Plan>>(() => sut.ImportPlanMedia(xmlPlanId, maxImagesAllowed: 50));
 
             // Assert
             Assert.Equal(planProfileId, exception.Id);
@@ -399,7 +399,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                this.logger.Object);
 
             // Act
-            await sut.ImportPlanMedia(xmlPlanId);
+            await sut.ImportPlanMedia(xmlPlanId, maxImagesAllowed: 50);
 
             // Assert
             this.userContextProvider.Verify(c => c.GetCurrentUserId(), Times.Never);
@@ -459,7 +459,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                this.logger.Object);
 
             // Act
-            await sut.ImportPlanMedia(xmlPlanId);
+            await sut.ImportPlanMedia(xmlPlanId, maxImagesAllowed: 50);
 
             // Assert
             this.traceIdProvider.Verify();

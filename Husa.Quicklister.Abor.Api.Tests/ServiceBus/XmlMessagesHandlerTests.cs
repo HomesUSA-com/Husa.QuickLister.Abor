@@ -209,6 +209,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
             this.subscriberMock.Object,
             this.serviceScopeFactoryMock.Object,
             this.fixture.XmlUserSettings.Object,
+            this.fixture.Options.Object,
             this.loggerMock.Object);
     }
 }
