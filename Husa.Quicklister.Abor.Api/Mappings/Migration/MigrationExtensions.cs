@@ -43,9 +43,20 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
 
         public static Cities? ToCity(this string city)
         {
+            if (string.IsNullOrWhiteSpace(city))
+            {
+                return null;
+            }
+
             try
             {
-                return string.IsNullOrWhiteSpace(city) ? null : city.GetEnumValueFromDescription<Cities>(true);
+                var enumName = city.ToEnumNameFromEnumMember<Cities>();
+                if (enumName != null)
+                {
+                    return city.ToEnumFromEnumMember<Cities>();
+                }
+
+                return city.GetEnumValueFromDescription<Cities>(true);
             }
             catch
             {

@@ -3,6 +3,8 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
+    using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -22,6 +24,8 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Application.Models.Community;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
+    using Husa.Xml.Api.Contracts.Response;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -99,8 +103,27 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             this.logger.LogInformation("Received request to GET community detail with Id '{communityId}'.", communityId);
 
             var community = await this.communityQueriesRepository.GetCommunityById(communityId);
+            SubdivisionResponse subdivision = null;
+            if (community?.XmlStatus != XmlStatus.NotFromXml)
+            {
+                try
+                {
+                    subdivision = await this.communityXmlService.GetSubdivisonByCommunityId(communityId, MarketCode.Austin);
+                }
+                catch (HttpRequestException ex)
+                {
+                    if (ex.StatusCode != HttpStatusCode.NotFound)
+                    {
+                        throw;
+                    }
+                }
+            }
 
             var result = this.mapper.Map<CommunitySaleResponse>(community);
+            if (subdivision != null)
+            {
+                result.XmlSubdivisionId = subdivision.Id;
+            }
 
             return this.Ok(result);
         }
