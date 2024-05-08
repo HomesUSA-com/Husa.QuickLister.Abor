@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request.Records
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 

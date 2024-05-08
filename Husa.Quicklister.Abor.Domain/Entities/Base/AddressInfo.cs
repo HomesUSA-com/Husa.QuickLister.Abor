@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Entities.Listing
+namespace Husa.Quicklister.Abor.Domain.Entities.Base
 {
     using System.Collections.Generic;
     using Husa.Extensions.Common;
@@ -6,9 +6,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class AddressInfo : ValueObject
+    public class AddressInfo : ValueObject, IProvideAddress
     {
         private string subdivision;
 

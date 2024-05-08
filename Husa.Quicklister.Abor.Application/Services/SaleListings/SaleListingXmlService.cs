@@ -85,7 +85,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
             if (listing == null)
             {
-                var listingSaleDto = this.mapper.Map<ListingSaleDto>(xmlListing);
+                var listingSaleDto = this.mapper.Map<QuickCreateListingDto>(xmlListing);
                 var quickCreateResult = await this.listingSaleService.QuickCreateAsync(listingSaleDto, importFromListing: false);
 
                 if (quickCreateResult.Code == ResponseCode.Error)

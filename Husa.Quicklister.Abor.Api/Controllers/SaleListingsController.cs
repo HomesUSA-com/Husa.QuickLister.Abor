@@ -63,18 +63,18 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery] ListingSaleRequestFilter filters)
+        public async Task<IActionResult> GetAsync([FromQuery] ListingRequestFilter filters)
         {
             this.logger.LogInformation("Retrieving the listing with status: '{filters.MlsStatus}'", filters.MlsStatus);
 
             var requestFilter = this.mapper.Map<ListingQueryFilter>(filters);
             var listingsSaleResult = await this.listingSaleQueriesRepository.GetAsync(requestFilter);
 
-            var data = this.mapper.Map<IEnumerable<ListingSaleResponse>>(listingsSaleResult.Data);
+            var data = this.mapper.Map<IEnumerable<ListingResponse>>(listingsSaleResult.Data);
 
             this.logger.LogInformation("Found '{listingCount}' sale listings", data.Count());
 
-            return this.Ok(new DataSet<ListingSaleResponse>(data, listingsSaleResult.Total));
+            return this.Ok(new DataSet<ListingResponse>(data, listingsSaleResult.Total));
         }
 
         [HttpGet("Address")]
@@ -115,10 +115,10 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
         [HttpPost]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> CreateAsync(ListingSaleRequest listingSale)
+        public async Task<IActionResult> CreateAsync(QuickCreateListingRequest listingSale)
         {
             this.logger.LogInformation("Starting to add in Listing in ABOR with Address: {StreetNumber} {StreetName} ", listingSale.StreetNumber, listingSale.StreetName);
-            var listingSaleRequest = this.mapper.Map<ListingSaleDto>(listingSale);
+            var listingSaleRequest = this.mapper.Map<QuickCreateListingDto>(listingSale);
             var queryResponse = await this.listingSaleService.CreateAsync(listingSaleRequest);
 
             if (queryResponse.Code == ResponseCode.Error)

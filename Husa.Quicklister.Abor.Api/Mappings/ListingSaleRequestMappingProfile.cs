@@ -119,11 +119,13 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.PlanId, config => config.Ignore())
                 .ForMember(dest => dest.CommunityId, config => config.Ignore())
                 .ForMember(dest => dest.Address, config => config.Ignore())
+                .ForMember(dest => dest.PlanName, config => config.Ignore())
                 .ForMember(dest => dest.SysCreatedBy, config => config.Ignore())
                 .ForMember(dest => dest.SysCreatedOn, config => config.Ignore())
                 .ForMember(dest => dest.SysModifiedBy, config => config.Ignore())
                 .ForMember(dest => dest.SysModifiedOn, config => config.Ignore())
                 .ForMember(dest => dest.IsDeleted, config => config.Ignore())
+                .ForMember(dest => dest.PlanName, config => config.Ignore())
                 .ForMember(dest => dest.SysTimestamp, config => config.Ignore());
 
             this.CreateMap<DocumentModels.ListingRequest.ListingSaleRequestDetailQueryResult, ListingSaleRequestDetailResponse>();
@@ -200,7 +202,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.CompanyId, config => config.Ignore());
 
             this.CreateMap<ListingSaleStatusFieldQueryResult, ListingSaleStatusFieldsResponse>();
-            this.CreateMap<DocumentModels.ListingRequest.ListingRequestPublishInfoQueryResult, ListingSalePublishInfoResponse>();
+            this.CreateMap<DocumentModels.ListingRequest.ListingRequestPublishInfoQueryResult, PublishInfoResponse>();
 
             this.CreateMap<SaleListingOpenHouseQueryResult, ListingSaleOpenHouseResponse>();
         }

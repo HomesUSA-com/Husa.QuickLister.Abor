@@ -20,7 +20,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using Husa.Quicklister.Abor.Api.Contracts.Request.Community;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Notes;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Plan;
-    using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Agent;
     using Husa.Quicklister.Abor.Application.Models.Community;
@@ -79,7 +78,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             SysModifiedOn = DateTime.UtcNow,
         };
 
-        public static ListingSaleResponse GetListingSaleResponse(Guid? id) => new()
+        public static Api.Contracts.Response.ListingResponse GetListingSaleResponse(Guid? id) => new()
         {
             Id = id ?? Guid.NewGuid(),
             City = Faker.Enum.Random<Cities>(),
@@ -114,7 +113,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             },
         };
 
-        public static ListingSaleRequest GetListingSaleRequest(Guid? companyId = null, Guid? communityId = null, Guid? planId = null, Guid? listingIdToImport = null) => new()
+        public static QuickCreateListingRequest GetListingSaleRequest(Guid? companyId = null, Guid? communityId = null, Guid? planId = null, Guid? listingIdToImport = null) => new()
         {
             MlsStatus = MarketStatuses.Active,
             City = Faker.Enum.Random<Cities>(),
@@ -255,7 +254,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             LotDescription = GetEnumCollectionRandom<LotDescription>(),
         };
 
-        public static ListingSaleDto GetListingSaleDto(Guid? companyId, Guid? communityId = null, Guid? planId = null) => new()
+        public static QuickCreateListingDto GetListingSaleDto(Guid? companyId, Guid? communityId = null, Guid? planId = null) => new()
         {
             MlsStatus = MarketStatuses.Active,
             City = Faker.Enum.Random<Cities>(),
@@ -690,7 +689,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             ShowingMessage = GetShowingMessage(),
         };
 
-        public static ListingResponse GetListingResponse() => new()
+        public static Downloader.CTX.Api.Contracts.Response.Residential.ListingResponse GetListingResponse() => new()
         {
             ListPrice = 100000,
             ExpirationDate = DateTime.UtcNow,

@@ -10,10 +10,12 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
+    using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.ServiceBus.Contracts;
     using Microsoft.Extensions.Logging;
 
     public class ResidentialService : IResidentialService
@@ -24,12 +26,14 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
         private readonly IAgentRepository agentRepository;
         private readonly IDownloaderCtxClient downloaderClient;
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
+        private readonly ISaleListingMigrationService listingMigrationService;
 
         public ResidentialService(
             IListingSaleRepository listingSaleRepository,
             IAgentRepository agentRepository,
             IServiceSubscriptionClient serviceSubscriptionClient,
             IDownloaderCtxClient downloaderClient,
+            ISaleListingMigrationService listingMigrationService,
             IMapper mapper,
             ILogger<ResidentialService> logger)
         {
@@ -37,12 +41,14 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             this.agentRepository = agentRepository ?? throw new ArgumentNullException(nameof(agentRepository));
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
             this.downloaderClient = downloaderClient ?? throw new ArgumentNullException(nameof(downloaderClient));
+            this.listingMigrationService = listingMigrationService ?? throw new ArgumentNullException(nameof(listingMigrationService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task ProcessData(string entityKey, bool processFullListing)
         {
+            var migrateLegacyInfo = false;
             var residential = await this.downloaderClient.Residential.GetByIdAsync(entityKey);
             var residentialDto = this.mapper.Map<FullListingSaleDto>(residential);
             var companyName = residentialDto.SaleProperty.SalePropertyInfo.OwnerName;
@@ -77,6 +83,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
 
             if (listingSale is null)
             {
+                migrateLegacyInfo = true;
                 listingSale = new SaleListing(listingInfo, listingStatusInfo, salePropertyInfo, company.Id, true);
                 this.listingSaleRepository.Attach(listingSale);
             }
@@ -91,6 +98,17 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             }
 
             await this.listingSaleRepository.SaveChangesAsync(listingSale);
+
+            if (migrateLegacyInfo)
+            {
+                await this.listingMigrationService.SendMigrateListingMesage(MarketCode.DFW, new MigrateListingMessage
+                {
+                    CompanyId = listingSale.CompanyId,
+                    MlsNumber = listingSale.MlsNumber,
+                    UpdateListing = true,
+                    MigrateFullListing = false,
+                });
+            }
         }
     }
 }

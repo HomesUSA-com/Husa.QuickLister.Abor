@@ -122,6 +122,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.XmlStatus, cr => cr.Ignore())
                 .ForMember(dto => dto.LastPhotoRequestCreationDate, cr => cr.Ignore())
                 .ForMember(dto => dto.LastPhotoRequestId, cr => cr.Ignore())
+                .ForMember(dto => dto.LotListings, cr => cr.Ignore())
                 .ForMember(dto => dto.SaleProperties, cr => cr.Ignore());
         }
     }

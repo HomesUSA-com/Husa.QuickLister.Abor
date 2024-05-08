@@ -41,8 +41,8 @@ namespace Husa.Quicklister.Abor.Api.Tests.PhotoRequest
             var listingId = Guid.NewGuid();
             var photoRequestFilter = new Request.PhotoRequestFilter
             {
-                StartIndex = 0,
-                PageSize = 100,
+                Skip = 0,
+                Take = 100,
                 Type = new[] { PhotoType },
                 Status = new List<PhotoRequestStatus>
                 {
@@ -84,8 +84,8 @@ namespace Husa.Quicklister.Abor.Api.Tests.PhotoRequest
 
             var photoRequestFilter = new Request.PhotoRequestFilter
             {
-                StartIndex = 0,
-                PageSize = 100,
+                Skip = 0,
+                Take = 100,
                 Type = new[] { PhotoType },
                 Status = new List<PhotoRequestStatus>
                 {

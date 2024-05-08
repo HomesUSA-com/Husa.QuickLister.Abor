@@ -3,7 +3,9 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using System;
     using System.Threading.Tasks;
     using AutoMapper;
+    using Azure.Messaging.ServiceBus;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Enums;
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Response.SaleListing;
@@ -14,8 +16,11 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Crosscutting;
+    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Migration;
     using PhotoRequest = Husa.PhotoService.Api.Contracts.Request;
 
@@ -34,9 +39,13 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             IPlanRepository planRepository,
             ICommunitySaleRepository communityRepository,
             ISaleListingPhotoService photoService,
+            IUserContextProvider userContextProvider,
+            IProvideTraceId traceIdProvider,
+            ServiceBusClient busClient,
+            IOptions<ServiceBusSettings> serviceBusSettings,
             ILogger<SaleListingMigrationService> logger,
             IMapper mapper)
-            : base(listingRepository, serviceSubscriptionClient, migrationClient, communityRepository, planRepository, photoService, logger)
+            : base(listingRepository, serviceSubscriptionClient, migrationClient, communityRepository, planRepository, photoService, userContextProvider, traceIdProvider, busClient, serviceBusSettings, logger)
         {
             this.saleListingService = saleListingService ?? throw new ArgumentNullException(nameof(saleListingService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -83,7 +92,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 listingDto.ExpirationDate = listing.ExpirationDate;
             }
 
-            await this.saleListingService.UpdateListing(listing.Id, listingDto);
+            await this.saleListingService.UpdateListing(listing.Id, listingDto, migrateFullListing);
             if (string.IsNullOrWhiteSpace(listing.MlsNumber) && !string.IsNullOrWhiteSpace(listingDto.MlsNumber))
             {
                 await this.saleListingService.AssignMlsNumberAsync(listing.Id, listingDto.MlsNumber, listingDto.MlsStatus, ActionType.NewListing);
@@ -94,7 +103,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
         protected async override Task<Guid?> CreateListing(Guid companyId, SaleListingResponse legacyListing)
         {
-            var listingDto = await this.GetQuickCreateListingDto<ListingSaleDto, MarketStatuses, Cities, Counties>(companyId, legacyListing);
+            var listingDto = await this.GetQuickCreateListingDto<QuickCreateListingDto, MarketStatuses, Cities, Counties>(companyId, legacyListing);
             var queryResponse = await this.saleListingService.CreateAsync(listingDto);
 
             if (queryResponse.Code == ResponseCode.Success)

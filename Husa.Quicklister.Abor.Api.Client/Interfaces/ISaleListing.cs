@@ -13,7 +13,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
 
     public interface ISaleListing
     {
-        Task<IEnumerable<Response.ListingSaleResponse>> GetAsync(Request.ListingSaleRequestFilter filters, CancellationToken token = default);
+        Task<IEnumerable<Response.ListingResponse>> GetAsync(Request.ListingRequestFilter filters, CancellationToken token = default);
 
         Task<Response.ListingSaleDetailResponse> GetByIdAsync(Guid id, CancellationToken token = default);
 
@@ -23,7 +23,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
 
         Task UpdateListing(Guid id, Request.ListingSaleDetailRequest saleListingRequest, CancellationToken token = default);
 
-        Task<Guid> CreateListing(Request.ListingSaleRequest listingSaleRequest, CancellationToken token = default);
+        Task<Guid> CreateListing(Request.QuickCreateListingRequest listingSaleRequest, CancellationToken token = default);
 
         Task<CommandResult<ReverseProspectResponse>> GetReverseProspect(Guid listingId, CancellationToken token = default);
 

@@ -7,73 +7,96 @@ namespace Husa.Quicklister.Abor.Data.Extensions
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     public static class FinancialExtensions
     {
+        public static void ConfigureAgentBonusAmount<TOwnerEntity, TDependentEntity>(this OwnedNavigationBuilder<TOwnerEntity, TDependentEntity> builder)
+            where TOwnerEntity : class
+            where TDependentEntity : class, IProvideAgentBonusCommission
+        {
+            ArgumentNullException.ThrowIfNull(builder);
+
+            builder
+            .Property(r => r.AgentBonusAmount)
+            .HasColumnName(nameof(IProvideAgentBonusCommission.AgentBonusAmount))
+                .HasPrecision(18, 2);
+
+            builder.Property(r => r.AgentBonusAmountType).HasColumnName(nameof(IProvideAgentBonusCommission.AgentBonusAmountType))
+                .HasEnumFieldValue<CommissionType>(maxLength: 1, isRequired: true);
+        }
+
+        public static void ConfigureAgentCommission<TOwnerEntity, TDependentEntity>(this OwnedNavigationBuilder<TOwnerEntity, TDependentEntity> builder)
+            where TOwnerEntity : class
+            where TDependentEntity : class, IProvideAgentCommission
+        {
+            ArgumentNullException.ThrowIfNull(builder);
+
+            builder.Property(r => r.BuyersAgentCommission).HasPrecision(18, 2).HasColumnName(nameof(IProvideAgentCommission.BuyersAgentCommission)).HasMaxLength(6);
+            builder.Property(r => r.BuyersAgentCommissionType)
+                .HasColumnName(nameof(IProvideAgentCommission.BuyersAgentCommissionType))
+                .HasEnumFieldValue<CommissionType>(maxLength: 1, isRequired: true);
+        }
+
+        public static void ConfigureLotFinancial<TOwnerEntity, TDependentEntity>(this OwnedNavigationBuilder<TOwnerEntity, TDependentEntity> builder)
+            where TOwnerEntity : class
+            where TDependentEntity : class, IProvideLotFinancial
+        {
+            ArgumentNullException.ThrowIfNull(builder);
+
+            builder.ConfigureAgentCommission();
+            builder.ConfigureAgentBonusAmount();
+
+            builder.Property(r => r.HasAgentBonus).HasColumnName(nameof(IProvideLotFinancial.HasAgentBonus));
+            builder.Property(r => r.HasBonusWithAmount).HasColumnName(nameof(IProvideLotFinancial.HasBonusWithAmount));
+            builder.Property(r => r.BonusExpirationDate).HasColumnName(nameof(IProvideLotFinancial.BonusExpirationDate));
+            builder.Property(r => r.HasBuyerIncentive).HasColumnName(nameof(IProvideLotFinancial.HasBuyerIncentive)).HasColumnType("bit")
+                .IsRequired();
+
+            builder
+                .Property(r => r.TaxRate)
+                .HasColumnName(nameof(IProvideLotFinancial.TaxRate))
+                .HasPrecision(18, 2);
+
+            builder.Property(r => r.AcceptableFinancing)
+                .HasColumnName(nameof(IProvideLotFinancial.AcceptableFinancing))
+                .HasEnumCollectionValue<AcceptableFinancing>(maxLength: 500);
+
+            builder.Property(r => r.HoaIncludes)
+                .HasColumnName(nameof(IProvideLotFinancial.HoaIncludes))
+                .HasEnumCollectionValue<HoaIncludes>(maxLength: 500);
+            builder.Property(r => r.HOARequirement)
+                .HasColumnName(nameof(IProvideLotFinancial.HOARequirement))
+                .HasEnumFieldValue<HoaRequirement>(maxLength: 10);
+            builder.Property(r => r.HasHoa).HasColumnName(nameof(IProvideLotFinancial.HasHoa))
+                .HasColumnType("bit")
+                .IsRequired();
+
+            builder.Property(r => r.BillingFrequency)
+                .HasColumnName(nameof(IProvideLotFinancial.BillingFrequency))
+                .HasConversion<EnumFieldValueConverter<BillingFrequency>>()
+                .HasMaxLength(6);
+        }
+
         public static void ConfigureFinancial<TOwnerEntity, TDependentEntity>(this OwnedNavigationBuilder<TOwnerEntity, TDependentEntity> builder)
             where TOwnerEntity : class
             where TDependentEntity : class, IProvideFinancial
         {
-            if (builder is null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-
-            builder
-                .Property(r => r.TaxRate)
-                .HasColumnName(nameof(IProvideFinancial.TaxRate))
-                .HasPrecision(18, 2);
-
-            builder.Property(r => r.AcceptableFinancing)
-                .HasColumnName(nameof(IProvideFinancial.AcceptableFinancing))
-                .HasEnumCollectionValue<AcceptableFinancing>(maxLength: 500);
+            ArgumentNullException.ThrowIfNull(builder);
 
             builder.Property(r => r.TaxExemptions)
                 .HasColumnName(nameof(IProvideFinancial.TaxExemptions))
                 .HasEnumCollectionValue<TaxExemptions>(maxLength: 500);
-
-            builder.Property(r => r.HoaIncludes)
-                .HasColumnName(nameof(IProvideFinancial.HoaIncludes))
-                .HasEnumCollectionValue<HoaIncludes>(maxLength: 500);
-
             builder.Property(r => r.TitleCompany).HasColumnName(nameof(IProvideFinancial.TitleCompany)).HasMaxLength(45);
-            builder.Property(r => r.HOARequirement)
-                .HasColumnName(nameof(IProvideFinancial.HOARequirement))
-                .HasEnumFieldValue<HoaRequirement>(maxLength: 10);
             builder.Property(r => r.HoaName).HasColumnName(nameof(IProvideFinancial.HoaName)).HasMaxLength(70);
-            builder.Property(r => r.HasHoa).HasColumnName(nameof(IProvideFinancial.HasHoa))
-                .HasColumnType("bit")
-                .IsRequired();
-
             builder
                 .Property(p => p.HoaFee)
                 .HasColumnName(nameof(IProvideFinancial.HoaFee))
                 .HasPrecision(18, 2);
 
-            builder.Property(r => r.BillingFrequency)
-                .HasColumnName(nameof(IProvideFinancial.BillingFrequency))
-                .HasConversion<EnumFieldValueConverter<BillingFrequency>>()
-                .HasMaxLength(6);
-
-            builder.Property(r => r.BuyersAgentCommission).HasPrecision(18, 2).HasColumnName(nameof(IProvideFinancial.BuyersAgentCommission)).HasMaxLength(6);
-            builder.Property(r => r.BuyersAgentCommissionType)
-                .HasColumnName(nameof(IProvideFinancial.BuyersAgentCommissionType))
-                .HasEnumFieldValue<CommissionType>(maxLength: 1, isRequired: true);
-
-            builder.Property(r => r.HasAgentBonus).HasColumnName(nameof(IProvideFinancial.HasAgentBonus));
-            builder.Property(r => r.HasBonusWithAmount).HasColumnName(nameof(IProvideFinancial.HasBonusWithAmount));
-            builder
-            .Property(r => r.AgentBonusAmount)
-            .HasColumnName(nameof(IProvideFinancial.AgentBonusAmount))
-                .HasPrecision(18, 2);
-
-            builder.Property(r => r.AgentBonusAmountType).HasColumnName(nameof(IProvideFinancial.AgentBonusAmountType))
-                .HasEnumFieldValue<CommissionType>(maxLength: 1, isRequired: true);
-            builder.Property(r => r.BonusExpirationDate).HasColumnName(nameof(IProvideFinancial.BonusExpirationDate));
-            builder.Property(r => r.HasBuyerIncentive).HasColumnName(nameof(IProvideFinancial.HasBuyerIncentive)).HasColumnType("bit")
-                .IsRequired();
+            builder.ConfigureLotFinancial();
         }
     }
 }

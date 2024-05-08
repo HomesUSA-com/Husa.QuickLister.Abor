@@ -23,13 +23,14 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using CompanyServiceSubscriptionFilter = Husa.CompanyServicesManager.Api.Contracts.Request.FilterServiceSubscriptionRequest;
-    using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
+    using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services;
 
-    public class SaleListingService : ExtensionsServices.SaleListingService<SaleListing, IListingSaleRepository>, ISaleListingService
+    public class SaleListingService : ExtensionsServices.ListingService<SaleListing, IListingSaleRepository>, ISaleListingService
     {
         private readonly IMapper mapper;
         private readonly ISaleListingRequestRepository saleRequestRepository;
@@ -64,9 +65,9 @@ namespace Husa.Quicklister.Abor.Application
             this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
         }
 
-        private IEnumerable<MarketStatuses> StatusesThatAllowDuplicates => new[] { MarketStatuses.Canceled, MarketStatuses.Closed };
+        private static IEnumerable<MarketStatuses> StatusesThatAllowDuplicates => new[] { MarketStatuses.Canceled, MarketStatuses.Closed };
 
-        public async Task<CommandSingleResult<Guid, string>> CreateAsync(ListingSaleDto listingSale)
+        public async Task<CommandSingleResult<Guid, string>> CreateAsync(QuickCreateListingDto listingSale)
         {
             var companyServices = await this.serviceSubscriptionClient.Company.GetCompanyServices(
                 listingSale.CompanyId,
@@ -84,7 +85,7 @@ namespace Husa.Quicklister.Abor.Application
                 return CommandSingleResult<Guid, string>.Error(commandResult.Message);
             }
 
-            var listingResult = await this.ListingSaleRepository.AddAsync(commandResult.Result);
+            var listingResult = await this.ListingRepository.AddAsync(commandResult.Result);
             if (importFromListing)
             {
                 await this.listingMediaService.CopyMediaAsync(listingSale.ListingIdToImport.Value, listingResult.Id);
@@ -95,12 +96,12 @@ namespace Husa.Quicklister.Abor.Application
             return CommandSingleResult<Guid, string>.Success(listingResult.Id);
         }
 
-        public async Task<CommandResult<SaleListing>> QuickCreateAsync(ListingSaleDto listingSale, bool importFromListing)
+        public async Task<CommandResult<SaleListing>> QuickCreateAsync(QuickCreateListingDto listingSale, bool importFromListing)
         {
             this.Logger.LogInformation("ABOR Listing Sale Service starting create listing with Address : {StreetNumber} {StreetName}", listingSale.StreetNumber, listingSale.StreetName);
-            var listing = await this.ListingSaleRepository.GetListing(listingSale.StreetNumber, listingSale.StreetName, listingSale.City, listingSale.ZipCode, listingSale.UnitNumber);
+            var listing = await this.ListingRepository.GetListing(listingSale.StreetNumber, listingSale.StreetName, listingSale.City, listingSale.ZipCode, listingSale.UnitNumber);
 
-            if (listing is not null && !this.StatusesThatAllowDuplicates.Contains(listing.MlsStatus))
+            if (listing is not null && !StatusesThatAllowDuplicates.Contains(listing.MlsStatus))
             {
                 this.Logger.LogInformation("listing {address} already exists!", listing.SaleProperty.AddressInfo.FormalAddress);
                 return CommandResult<SaleListing>.Error($"listing {listing.SaleProperty.AddressInfo.FormalAddress} already exists!", listing);
@@ -138,65 +139,70 @@ namespace Husa.Quicklister.Abor.Application
             return CommandResult<SaleListing>.Success(listingSaleEntity);
         }
 
-        public async Task UpdateListing(Guid listingId, SaleListingDto listingDto)
+        public async Task UpdateListing(Guid listingId, SaleListingDto listingDto, bool migrateFullListing = true)
         {
             this.Logger.LogInformation("Starting update sale listing with id {listingId}", listingId);
             var listingAddress = listingDto.SaleProperty.AddressInfo;
-            var existingListing = await this.ListingSaleRepository.GetListing(
+            var existingListing = await this.ListingRepository.GetListing(
                 listingAddress.StreetNumber,
                 listingAddress.StreetName,
                 listingAddress.City,
                 listingAddress.ZipCode,
                 listingAddress.UnitNumber);
 
-            if (existingListing is not null && existingListing.Id != listingId && !this.StatusesThatAllowDuplicates.Contains(existingListing.MlsStatus))
+            if (existingListing is not null && existingListing.Id != listingId && !StatusesThatAllowDuplicates.Contains(existingListing.MlsStatus))
             {
                 this.Logger.LogInformation("{address} already exists!", existingListing.SaleProperty.AddressInfo.FormalAddress);
                 throw new InvalidOperationException($"{existingListing.SaleProperty.AddressInfo.FormalAddress} already exists!");
             }
 
-            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
             var company = await this.serviceSubscriptionClient.Company.GetCompany(listingSale.CompanyId) ?? throw new NotFoundException<SaleListing>(listingSale.CompanyId);
-            await this.UpdateBaseListingInfo(listingDto, Guid.Empty, listingSale);
+            await this.UpdateBaseListingInfo(listingDto, Guid.Empty, listingSale, migrateFullListing);
 
             var statusFieldsInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingDto.StatusFieldsInfo);
+            listingSale.SetMigrateFullListing(migrateFullListing);
             listingSale.UpdateStatusFieldsInfo(statusFieldsInfo);
 
-            await this.UpdatePropertyInfo(listingDto.SaleProperty.PropertyInfo, entity: listingSale);
-            await this.UpdateAddressInfo(listingDto.SaleProperty.AddressInfo, entity: listingSale);
-            await this.UpdateShowingInfo(listingDto.SaleProperty.ShowingInfo, entity: listingSale);
-            await this.UpdateSchoolsInfo(listingDto.SaleProperty.SchoolsInfo, entity: listingSale);
-            await this.UpdateFeaturesInfo(listingDto.SaleProperty.FeaturesInfo, entity: listingSale);
-            await this.UpdateFinancialInfo(listingDto.SaleProperty.FinancialInfo, entity: listingSale);
-            await this.UpdateSpacesDimensionsInfo(listingDto.SaleProperty.SpacesDimensionsInfo, entity: listingSale, isBlockedSquareFootage: company.MlsInfo.BlockSquareFootage);
+            if (!migrateFullListing)
+            {
+                var salepropertyInfo = this.mapper.Map<SalePropertyValueObject>(listingDto.SaleProperty);
+                listingSale.SaleProperty.FillSalesPropertyInformation(salepropertyInfo);
+            }
+            else
+            {
+                await this.UpdatePropertyInfo(listingDto.SaleProperty.PropertyInfo, entity: listingSale);
+                await this.UpdateAddressInfo(listingDto.SaleProperty.AddressInfo, entity: listingSale);
+                await this.UpdateShowingInfo(listingDto.SaleProperty.ShowingInfo, entity: listingSale);
+                await this.UpdateSchoolsInfo(listingDto.SaleProperty.SchoolsInfo, entity: listingSale);
+                await this.UpdateFeaturesInfo(listingDto.SaleProperty.FeaturesInfo, entity: listingSale);
+                await this.UpdateFinancialInfo(listingDto.SaleProperty.FinancialInfo, entity: listingSale);
+                await this.UpdateSpacesDimensionsInfo(listingDto.SaleProperty.SpacesDimensionsInfo, entity: listingSale, isBlockedSquareFootage: company.MlsInfo.BlockSquareFootage);
+            }
+
             await this.UpdateRooms(listingDto.SaleProperty.Rooms, entity: listingSale);
             await this.UpdateOpenHouse(listingDto.SaleProperty.OpenHouses, entity: listingSale);
 
-            await this.ListingSaleRepository.UpdateAsync(listingSale);
+            await this.ListingRepository.UpdateAsync(listingSale);
         }
 
-        public async Task DeleteListing(Guid listingId)
-        {
-            this.Logger.LogInformation("Starting delete sale listing with id {listingId}", listingId);
-            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
-            listingSale.Delete(this.UserContextProvider.GetCurrentUserId(), false);
-            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
-        }
-
-        public async Task UpdateBaseListingInfo(SaleListingDto saleListingDto, Guid listingId = default, SaleListing entity = null)
+        public async Task UpdateBaseListingInfo(SaleListingDto saleListingDto, Guid listingId = default, SaleListing entity = null, bool migrateFullListing = true)
         {
             this.Logger.LogInformation("Starting update base sale listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
             var currentUser = this.UserContextProvider.GetCurrentUser();
 
-            entity.UpdateBaseListingInfo(
-                saleListingDto.ListType,
-                saleListingDto.ListPrice,
-                saleListingDto.ExpirationDate,
-                saleListingDto.ListDate,
-                saleListingDto.MlsStatus,
-                LockedStatus.LockedNotSubmitted,
-                currentUser.Id);
+            if (migrateFullListing)
+            {
+                entity.UpdateBaseListingInfo(
+                    saleListingDto.ListType,
+                    saleListingDto.ListPrice,
+                    saleListingDto.ExpirationDate,
+                    saleListingDto.ListDate,
+                    saleListingDto.MlsStatus,
+                    LockedStatus.LockedNotSubmitted,
+                    currentUser.Id);
+            }
 
             entity.UpdateManuallyManagement(saleListingDto.IsManuallyManaged);
         }
@@ -289,12 +295,12 @@ namespace Husa.Quicklister.Abor.Application
                 return entity;
             }
 
-            return await this.ListingSaleRepository.GetById(listingId, filterByCompany: true);
+            return await this.ListingRepository.GetById(listingId, filterByCompany: true);
         }
 
-        public async Task ChangeCommunity(Guid listingId, Guid communityId)
+        public override async Task ChangeCommunity(Guid listingId, Guid communityId)
         {
-            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
             var community = await this.communitySaleRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
 
             if (listingSale.SaleProperty.CompanyId != community.CompanyId)
@@ -305,12 +311,12 @@ namespace Husa.Quicklister.Abor.Application
 
             listingSale.SaleProperty.CommunityId = communityId;
 
-            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
+            await this.ListingRepository.SaveChangesAsync(listingSale);
         }
 
         public async Task ChangePlan(Guid listingId, Guid planId, bool updateRooms = false)
         {
-            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
             var plan = await this.planRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
 
             if (listingSale.SaleProperty.CompanyId != plan.CompanyId)
@@ -323,13 +329,13 @@ namespace Husa.Quicklister.Abor.Application
 
             listingSale.SaleProperty.PlanId = planId;
 
-            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
+            await this.ListingRepository.SaveChangesAsync(listingSale);
         }
 
         public async Task AssignMlsNumberAsync(Guid listingId, string mlsNumber, MarketStatuses requestStatus, ActionType actionType)
         {
-            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
-            var listingWithMlsNumber = await this.ListingSaleRepository.GetListingByMlsNumber(listingId, mlsNumber);
+            var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listingWithMlsNumber = await this.ListingRepository.GetListingByMlsNumber(listingId, mlsNumber);
 
             if (listingWithMlsNumber is not null)
             {
@@ -344,12 +350,12 @@ namespace Husa.Quicklister.Abor.Application
                 await this.saleListingPhotoService.SendUpdatePropertiesMessages(new[] { listingSale });
             }
 
-            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
+            await this.ListingRepository.SaveChangesAsync(listingSale);
         }
 
         public async Task<SaleListing> SaveListingChanges(Guid listingId, ListingSaleRequestDto listingSaleDto)
         {
-            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
 
             var statusFieldsInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingSaleDto.StatusFieldsInfo);
 
@@ -372,14 +378,14 @@ namespace Husa.Quicklister.Abor.Application
             await this.UpdateRooms(listingSaleDto.SaleProperty.Rooms, entity: listingSale);
             await this.UpdateOpenHouse(listingSaleDto.SaleProperty.OpenHouses, entity: listingSale);
 
-            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
+            await this.ListingRepository.SaveChangesAsync(listingSale);
             return listingSale;
         }
 
-        public async Task<CommandResult<string>> UnlockListing(Guid listingId, CancellationToken cancellationToken = default)
+        public override async Task<CommandResult<string>> UnlockListing(Guid listingId, CancellationToken cancellationToken = default)
         {
             this.Logger.LogInformation("Trying to unlock Listing sale with id {listingId}.", listingId);
-            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
 
             var currentUser = this.UserContextProvider.GetCurrentUser();
             if (!listingSale.CanUnlock(currentUser))
@@ -397,34 +403,18 @@ namespace Husa.Quicklister.Abor.Application
             }
 
             listingSale.Unlock(this.featureFlags.AllowManualListingUnlock);
-            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
+            await this.ListingRepository.SaveChangesAsync(listingSale);
             return CommandResult<string>.Success($"Unlocked listing sale with id {listingId}.");
-        }
-
-        public async Task LockListingByUser(Guid listingId)
-        {
-            var listingSale = await this.ListingSaleRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
-
-            listingSale.LockByUser(this.UserContextProvider.GetCurrentUserId());
-            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
-        }
-
-        public async Task DeclinePhotos(Guid listingId, CancellationToken cancellationToken = default)
-        {
-            var listingSale = await this.ListingSaleRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
-            var currentUser = this.UserContextProvider.GetCurrentUser();
-            listingSale.DeclinePhotos(currentUser.Id);
-            await this.ListingSaleRepository.SaveChangesAsync(listingSale);
         }
 
         public async Task UpdateActionTypeAsync(Guid listingId, ActionType actionType, CancellationToken cancellationToken = default)
         {
-            var listing = await this.ListingSaleRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
+            var listing = await this.ListingRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
             listing.UpdateActionType(actionType);
-            await this.ListingSaleRepository.SaveChangesAsync(listing);
+            await this.ListingRepository.SaveChangesAsync(listing);
         }
 
-        private async Task ImportDataFromCommunityAndPlan(SaleListing listingSaleEntity, ListingSaleDto listingSale)
+        private async Task ImportDataFromCommunityAndPlan(SaleListing listingSaleEntity, QuickCreateListingDto listingSale)
         {
             await this.ImportCommunityDataAsync(listingSaleEntity, listingSale.CommunityId);
 
@@ -436,7 +426,7 @@ namespace Husa.Quicklister.Abor.Application
 
         private async Task ImportDataFromListingAsync(SaleListing listingSaleEntity, Guid listingIdToImport)
         {
-            var listing = await this.ListingSaleRepository.GetById(listingIdToImport) ?? throw new NotFoundException<SaleListing>(listingIdToImport);
+            var listing = await this.ListingRepository.GetById(listingIdToImport) ?? throw new NotFoundException<SaleListing>(listingIdToImport);
             listingSaleEntity.CloneListing(listing);
         }
 

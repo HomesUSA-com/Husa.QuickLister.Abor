@@ -524,6 +524,163 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.ToTable("XmlRequestError");
                 });
 
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Lot.LotListing", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("CDOM")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("CommunityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("DOM")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ExpirationDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsManuallyManaged")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPhotosDeclined")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastPhotoRequestCreationDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid?>("LastPhotoRequestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("LegacyId")
+                        .HasMaxLength(100)
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ListDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<decimal?>("ListPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("ListPrice");
+
+                    b.Property<int>("ListType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("LockedBy")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LockedBy");
+
+                    b.Property<DateTime?>("LockedOn")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LockedOn");
+
+                    b.Property<string>("LockedStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("LockedStatus");
+
+                    b.Property<DateTime?>("MarketModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MarketUniqueId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MlsNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("MlsStatus")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("OwnerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("PhotosDeclinedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("PhotosDeclinedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("SysCreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("SysCreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("SysModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("SysModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("SysTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("XmlDiscrepancyListingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("XmlListingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommunityId");
+
+                    b.ToTable("LotListing", (string)null);
+                });
+
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Lot.LotManagementTrace", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsManuallyManaged")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ListingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SysCreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("SysCreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("SysModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("SysModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("SysTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ListingId");
+
+                    b.ToTable("LotManagementTrace");
+                });
+
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Office.Office", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1806,6 +1963,417 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Navigation("SaleListing");
                 });
 
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Lot.LotListing", b =>
+                {
+                    b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Community.CommunitySale", "Community")
+                        .WithMany("LotListings")
+                        .HasForeignKey("CommunityId");
+
+                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Base.ListingStatusFieldsInfo", "StatusFieldsInfo", b1 =>
+                        {
+                            b1.Property<Guid>("LotListingId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<Guid?>("AgentId")
+                                .HasColumnType("uniqueidentifier")
+                                .HasColumnName("AgentId");
+
+                            b1.Property<Guid?>("AgentIdSecond")
+                                .HasColumnType("uniqueidentifier")
+                                .HasColumnName("AgentIdSecond");
+
+                            b1.Property<DateTime?>("BackOnMarketDate")
+                                .HasColumnType("datetime")
+                                .HasColumnName("BackOnMarketDate");
+
+                            b1.Property<string>("CancelledReason")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("CancelledReason");
+
+                            b1.Property<decimal?>("ClosePrice")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("ClosePrice");
+
+                            b1.Property<DateTime?>("ClosedDate")
+                                .HasColumnType("datetime")
+                                .HasColumnName("ClosedDate");
+
+                            b1.Property<DateTime?>("EstimatedClosedDate")
+                                .HasColumnType("datetime")
+                                .HasColumnName("EstimatedClosedDate");
+
+                            b1.Property<bool>("HasBuyerAgent")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bit")
+                                .HasDefaultValue(false)
+                                .HasColumnName("HasBuyerAgent");
+
+                            b1.Property<bool>("HasSecondBuyerAgent")
+                                .HasColumnType("bit")
+                                .HasColumnName("HasSecondBuyerAgent");
+
+                            b1.Property<DateTime?>("OffMarketDate")
+                                .HasColumnType("datetime")
+                                .HasColumnName("OffMarketDate");
+
+                            b1.Property<DateTime?>("PendingDate")
+                                .HasColumnType("datetime")
+                                .HasColumnName("PendingDate");
+
+                            b1.HasKey("LotListingId");
+
+                            b1.ToTable("LotListing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LotListingId");
+                        });
+
+                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Lot.LotFeaturesInfo", "FeaturesInfo", b1 =>
+                        {
+                            b1.Property<Guid>("LotListingId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("DistanceToWaterAccess")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("DistanceToWaterAccess");
+
+                            b1.Property<string>("ExteriorFeatures")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("ExteriorFeatures");
+
+                            b1.Property<string>("Fencing")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("Fencing");
+
+                            b1.Property<string>("RestrictionsDescription")
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)")
+                                .HasColumnName("RestrictionsDescription");
+
+                            b1.Property<string>("UtilitiesDescription")
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)")
+                                .HasColumnName("UtilitiesDescription");
+
+                            b1.Property<string>("View")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("View");
+
+                            b1.Property<string>("WaterSewer")
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)")
+                                .HasColumnName("WaterSewer");
+
+                            b1.Property<string>("WaterSource")
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("WaterSource");
+
+                            b1.Property<string>("WaterfrontFeatures")
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("WaterfrontFeatures");
+
+                            b1.HasKey("LotListingId");
+
+                            b1.ToTable("LotListing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LotListingId");
+                        });
+
+                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Lot.LotFinancialInfo", "FinancialInfo", b1 =>
+                        {
+                            b1.Property<Guid>("LotListingId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("AcceptableFinancing")
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
+                                .HasColumnName("AcceptableFinancing");
+
+                            b1.Property<decimal?>("AgentBonusAmount")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("AgentBonusAmount");
+
+                            b1.Property<string>("AgentBonusAmountType")
+                                .IsRequired()
+                                .HasMaxLength(1)
+                                .HasColumnType("nvarchar(1)")
+                                .HasColumnName("AgentBonusAmountType");
+
+                            b1.Property<string>("BillingFrequency")
+                                .HasMaxLength(6)
+                                .HasColumnType("nvarchar(6)")
+                                .HasColumnName("BillingFrequency");
+
+                            b1.Property<DateTime?>("BonusExpirationDate")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("BonusExpirationDate");
+
+                            b1.Property<decimal?>("BuyersAgentCommission")
+                                .HasMaxLength(6)
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("BuyersAgentCommission");
+
+                            b1.Property<string>("BuyersAgentCommissionType")
+                                .IsRequired()
+                                .HasMaxLength(1)
+                                .HasColumnType("nvarchar(1)")
+                                .HasColumnName("BuyersAgentCommissionType");
+
+                            b1.Property<string>("HOARequirement")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("HOARequirement");
+
+                            b1.Property<bool>("HasAgentBonus")
+                                .HasColumnType("bit")
+                                .HasColumnName("HasAgentBonus");
+
+                            b1.Property<bool>("HasBonusWithAmount")
+                                .HasColumnType("bit")
+                                .HasColumnName("HasBonusWithAmount");
+
+                            b1.Property<bool>("HasBuyerIncentive")
+                                .HasColumnType("bit")
+                                .HasColumnName("HasBuyerIncentive");
+
+                            b1.Property<bool>("HasHoa")
+                                .HasColumnType("bit")
+                                .HasColumnName("HasHoa");
+
+                            b1.Property<string>("HoaIncludes")
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
+                                .HasColumnName("HoaIncludes");
+
+                            b1.Property<decimal?>("TaxRate")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("TaxRate");
+
+                            b1.HasKey("LotListingId");
+
+                            b1.ToTable("LotListing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LotListingId");
+                        });
+
+                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Base.AddressInfo", "AddressInfo", b1 =>
+                        {
+                            b1.Property<Guid>("LotListingId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("City");
+
+                            b1.Property<string>("County")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("County");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(2)
+                                .HasColumnType("nvarchar(2)")
+                                .HasColumnName("State");
+
+                            b1.Property<string>("StreetName")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("StreetName");
+
+                            b1.Property<string>("StreetNumber")
+                                .HasMaxLength(12)
+                                .HasColumnType("nvarchar(12)")
+                                .HasColumnName("StreetNumber");
+
+                            b1.Property<string>("StreetType")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("StreetType");
+
+                            b1.Property<string>("Subdivision")
+                                .HasMaxLength(75)
+                                .HasColumnType("nvarchar(75)")
+                                .HasColumnName("Subdivision");
+
+                            b1.Property<string>("UnitNumber")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("UnitNumber");
+
+                            b1.Property<string>("ZipCode")
+                                .HasMaxLength(12)
+                                .HasColumnType("nvarchar(12)")
+                                .HasColumnName("ZipCode");
+
+                            b1.HasKey("LotListingId");
+
+                            b1.ToTable("LotListing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LotListingId");
+                        });
+
+                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Listing.PublishInfo", "PublishInfo", b1 =>
+                        {
+                            b1.Property<Guid>("LotListingId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<DateTime?>("PublishDate")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("PublishDate");
+
+                            b1.Property<string>("PublishStatus")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("PublishStatus");
+
+                            b1.Property<string>("PublishType")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("PublishType");
+
+                            b1.Property<Guid?>("PublishUser")
+                                .HasColumnType("uniqueidentifier")
+                                .HasColumnName("PublishUser");
+
+                            b1.HasKey("LotListingId");
+
+                            b1.ToTable("LotListing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LotListingId");
+                        });
+
+                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Lot.LotPropertyInfo", "PropertyInfo", b1 =>
+                        {
+                            b1.Property<Guid>("LotListingId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("FemaFloodPlain")
+                                .HasMaxLength(25)
+                                .HasColumnType("nvarchar(25)")
+                                .HasColumnName("FemaFloodPlain");
+
+                            b1.Property<string>("LotDescription")
+                                .HasMaxLength(500)
+                                .HasColumnType("nvarchar(500)")
+                                .HasColumnName("LotDescription");
+
+                            b1.Property<string>("MlsArea")
+                                .HasMaxLength(5)
+                                .HasColumnType("nvarchar(5)")
+                                .HasColumnName("MlsArea");
+
+                            b1.Property<string>("PropertyType")
+                                .HasMaxLength(32)
+                                .HasColumnType("nvarchar(32)")
+                                .HasColumnName("PropertyType");
+
+                            b1.HasKey("LotListingId");
+
+                            b1.ToTable("LotListing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LotListingId");
+                        });
+
+                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Lot.LotSchoolsInfo", "SchoolsInfo", b1 =>
+                        {
+                            b1.Property<Guid>("LotListingId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("ElementarySchool")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("ElementarySchool");
+
+                            b1.Property<string>("HighSchool")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("HighSchool");
+
+                            b1.Property<string>("MiddleSchool")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("MiddleSchool");
+
+                            b1.Property<string>("SchoolDistrict")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("SchoolDistrict");
+
+                            b1.HasKey("LotListingId");
+
+                            b1.ToTable("LotListing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LotListingId");
+                        });
+
+                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Lot.LotShowingInfo", "ShowingInfo", b1 =>
+                        {
+                            b1.Property<Guid>("LotListingId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("ShowingRequirements")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
+                                .HasColumnName("ShowingRequirements");
+
+                            b1.HasKey("LotListingId");
+
+                            b1.ToTable("LotListing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LotListingId");
+                        });
+
+                    b.Navigation("AddressInfo");
+
+                    b.Navigation("Community");
+
+                    b.Navigation("FeaturesInfo");
+
+                    b.Navigation("FinancialInfo");
+
+                    b.Navigation("PropertyInfo");
+
+                    b.Navigation("PublishInfo");
+
+                    b.Navigation("SchoolsInfo");
+
+                    b.Navigation("ShowingInfo");
+
+                    b.Navigation("StatusFieldsInfo");
+                });
+
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Lot.LotManagementTrace", b =>
+                {
+                    b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Lot.LotListing", "Listing")
+                        .WithMany("ManagementTraces")
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Listing");
+                });
+
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Office.Office", b =>
                 {
                     b.OwnsOne("Husa.Quicklister.Abor.Domain.ValueObjects.OfficeValueObject", "OfficeValue", b1 =>
@@ -1995,67 +2563,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
                                 .HasColumnName("SalesOfficeStreetSuffix");
-
-                            b1.HasKey("SalePropertyId");
-
-                            b1.ToTable("SaleProperty");
-
-                            b1.WithOwner()
-                                .HasForeignKey("SalePropertyId");
-                        });
-
-                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Listing.AddressInfo", "AddressInfo", b1 =>
-                        {
-                            b1.Property<Guid>("SalePropertyId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("City")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)")
-                                .HasColumnName("City");
-
-                            b1.Property<string>("County")
-                                .HasMaxLength(20)
-                                .HasColumnType("nvarchar(20)")
-                                .HasColumnName("County");
-
-                            b1.Property<string>("State")
-                                .IsRequired()
-                                .HasMaxLength(2)
-                                .HasColumnType("nvarchar(2)")
-                                .HasColumnName("State");
-
-                            b1.Property<string>("StreetName")
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)")
-                                .HasColumnName("StreetName");
-
-                            b1.Property<string>("StreetNumber")
-                                .HasMaxLength(12)
-                                .HasColumnType("nvarchar(12)")
-                                .HasColumnName("StreetNumber");
-
-                            b1.Property<string>("StreetType")
-                                .HasMaxLength(20)
-                                .HasColumnType("nvarchar(20)")
-                                .HasColumnName("StreetType");
-
-                            b1.Property<string>("Subdivision")
-                                .HasMaxLength(75)
-                                .HasColumnType("nvarchar(75)")
-                                .HasColumnName("Subdivision");
-
-                            b1.Property<string>("UnitNumber")
-                                .HasMaxLength(20)
-                                .HasColumnType("nvarchar(20)")
-                                .HasColumnName("UnitNumber");
-
-                            b1.Property<string>("ZipCode")
-                                .HasMaxLength(12)
-                                .HasColumnType("nvarchar(12)")
-                                .HasColumnName("ZipCode");
 
                             b1.HasKey("SalePropertyId");
 
@@ -2581,6 +3088,67 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasForeignKey("SalePropertyId");
                         });
 
+                    b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Base.AddressInfo", "AddressInfo", b1 =>
+                        {
+                            b1.Property<Guid>("SalePropertyId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("City");
+
+                            b1.Property<string>("County")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("County");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(2)
+                                .HasColumnType("nvarchar(2)")
+                                .HasColumnName("State");
+
+                            b1.Property<string>("StreetName")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("StreetName");
+
+                            b1.Property<string>("StreetNumber")
+                                .HasMaxLength(12)
+                                .HasColumnType("nvarchar(12)")
+                                .HasColumnName("StreetNumber");
+
+                            b1.Property<string>("StreetType")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("StreetType");
+
+                            b1.Property<string>("Subdivision")
+                                .HasMaxLength(75)
+                                .HasColumnType("nvarchar(75)")
+                                .HasColumnName("Subdivision");
+
+                            b1.Property<string>("UnitNumber")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("UnitNumber");
+
+                            b1.Property<string>("ZipCode")
+                                .HasMaxLength(12)
+                                .HasColumnType("nvarchar(12)")
+                                .HasColumnName("ZipCode");
+
+                            b1.HasKey("SalePropertyId");
+
+                            b1.ToTable("SaleProperty");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SalePropertyId");
+                        });
+
                     b.OwnsOne("Husa.Quicklister.Abor.Domain.Entities.Base.SchoolsInfo", "SchoolsInfo", b1 =>
                         {
                             b1.Property<Guid>("SalePropertyId")
@@ -2697,6 +3265,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                 {
                     b.Navigation("Employees");
 
+                    b.Navigation("LotListings");
+
                     b.Navigation("OpenHouses");
 
                     b.Navigation("SaleProperties");
@@ -2709,6 +3279,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Navigation("ManagementTraces");
 
                     b.Navigation("XmlRequestError");
+                });
+
+            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Lot.LotListing", b =>
+                {
+                    b.Navigation("ManagementTraces");
                 });
 
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Plan.Plan", b =>
