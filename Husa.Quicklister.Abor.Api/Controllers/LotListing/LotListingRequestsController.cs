@@ -5,11 +5,9 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
-    using FluentValidation.Results;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Filters;
     using Husa.Extensions.Common;
-    using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Request.LotRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest;
@@ -38,7 +36,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         private readonly ILotListingService listingService;
         private readonly ILotListingNotesService listingNotesService;
         private readonly IUserRepository userQueriesRepository;
-        private readonly IValidateListingStatusChanges<LotListingRequestForUpdate> validateListingStatusChanges;
 
         public LotListingRequestsController(
             ILotListingRequestQueriesRepository lotRequestQueryRepository,
@@ -54,7 +51,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
             this.requestQueryRepository = lotRequestQueryRepository ?? throw new ArgumentNullException(nameof(lotRequestQueryRepository));
             this.listingService = listingService ?? throw new ArgumentNullException(nameof(listingService));
             this.listingNotesService = listingNotesService ?? throw new ArgumentNullException(nameof(listingNotesService));
-            this.validateListingStatusChanges = validateListingStatusChanges ?? throw new ArgumentNullException(nameof(validateListingStatusChanges));
             this.userQueriesRepository = userQueriesRepository ?? throw new ArgumentNullException(nameof(userQueriesRepository));
         }
 
@@ -110,14 +106,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
             this.logger.LogInformation("Starting to update ABOR listing with id {lotListingId}", lotListingId);
             var listingLotDto = this.mapper.Map<LotListingDto>(listingLotForUpdate);
             await this.listingService.UpdateListing(lotListingId, listingLotDto);
-
-            var requestValidations = this.validateListingStatusChanges.Validate(listingLotForUpdate);
-            if (!requestValidations.IsValid)
-            {
-                var errors = CommandResult<ValidationFailure>.Error("Request could not be created. Please check required fields.", requestValidations.Errors);
-                return this.ToActionResult(errors);
-            }
-
             var result = await this.requestService.CreateRequestAsync(lotListingId, cancellationToken);
 
             return this.ToActionResult(result);
