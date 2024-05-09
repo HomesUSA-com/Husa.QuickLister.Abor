@@ -12,7 +12,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
     using Husa.Quicklister.Abor.Api.Contracts.Request.LotRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.LotRequest;
-    using Husa.Quicklister.Abor.Api.ValidationsRules;
     using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models.Lot;
@@ -44,7 +43,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
             ILotListingRequestService requestService,
             IUserRepository userQueriesRepository,
             IMapper mapper,
-            IValidateListingStatusChanges<LotListingRequestForUpdate> validateListingStatusChanges,
             ILogger<LotListingRequestsController> logger)
             : base(requestService, mapper, logger)
         {

@@ -34,30 +34,31 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
 
         public DistanceToWaterAccess? DistanceToWaterAccess { get; set; }
 
-        [Required]
-        [MinLength(1)]
         public ICollection<Fencing> Fencing { get; set; }
 
-        [Required]
-        [MinLength(1)]
         public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
 
         [Required]
+        [MinLength(1)]
         public ICollection<HorseAmenities> HorseAmenities { get; set; }
 
         [Required]
+        [MinLength(1)]
         public ICollection<Minerals> MineralsFeatures { get; set; }
 
         public ICollection<RoadSurface> RoadSurface { get; set; }
 
         [Required]
+        [MinLength(1)]
         public ICollection<OtherStructures> OtherStructures { get; set; }
 
         public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
         [Required]
+        [MinLength(1)]
         public ICollection<Disclosures> Disclosures { get; set; }
 
         [Required]
+        [MinLength(1)]
         public ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
         public bool GroundWaterConservDistric { get; set; }
 

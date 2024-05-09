@@ -15,15 +15,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public string ApptPhone { get; set; }
         public string ShowingServicePhone { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string PublicRemarks { get; set; }
 
-        [Required]
         public string OwnerName { get; set; }
 
         public string ShowingInstructions { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string Directions { get; set; }
 
         public LotShowingRecord CloneRecord() => (LotShowingRecord)this.MemberwiseClone();

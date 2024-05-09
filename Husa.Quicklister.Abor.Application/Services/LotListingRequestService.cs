@@ -91,16 +91,7 @@ namespace Husa.Quicklister.Abor.Application.Services
         protected override async Task<string> IsImageCountValidAsync(Guid listingId)
         {
             var mediaCount = (await this.MediaService.GetListingResources(listingId)).Media.Count();
-
-            if (mediaCount < this.options.ListingRequest.MinRequiredMedia)
-            {
-                return $"{this.options.ListingRequest.MinRequiredMedia} photos are required to submit this listing";
-            }
-
-            if (mediaCount > this.options.ListingRequest.MaxAllowedMedia)
-            {
-                return $"No more than {this.options.ListingRequest.MaxAllowedMedia} photos are allowed to submit this listing";
-            }
+            this.Logger.LogInformation("These comments will be deleted once the lot media is implemented {mediaCount}", mediaCount);
 
             return string.Empty;
         }
