@@ -9,20 +9,20 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
     using Microsoft.Extensions.Options;
 
     [ApiController]
-    [Route("sale-listing-requests/{listingRequestId}/media")]
-    public class SaleListingRequestMediaController : MediaController<ISaleListingRequestMediaService>
+    [Route("lot-listing-requests/{listingRequestId}/media")]
+    public class LotListingRequestMediaController : MediaController<ILotListingRequestMediaService>
     {
         private readonly ApplicationOptions options;
 
-        public SaleListingRequestMediaController(
-            ISaleListingRequestMediaService requestMediaService,
+        public LotListingRequestMediaController(
+            ILotListingRequestMediaService requestMediaService,
             IOptions<ApplicationOptions> options,
-            ILogger<SaleListingRequestMediaController> logger)
+            ILogger<LotListingRequestMediaController> logger)
             : base(requestMediaService, logger)
         {
             this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
-        protected override int MediaLimitAllowed => this.options.MediaAllowed.SaleListingMaxAllowedMedia;
+        protected override int MediaLimitAllowed => this.options.MediaAllowed.LotListingMaxAllowedMedia;
     }
 }

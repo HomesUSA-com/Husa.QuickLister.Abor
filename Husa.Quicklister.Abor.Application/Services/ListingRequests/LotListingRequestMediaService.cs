@@ -6,7 +6,8 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Media.Interfaces;
     using Husa.MediaService.Client;
-    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.MediaService.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Crosscutting;
@@ -15,22 +16,22 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
     using Microsoft.Extensions.Options;
     using ExtensionServices = Husa.Quicklister.Extensions.Application.Media;
 
-    public class ListingRequestMediaService : ExtensionServices.ListingRequestMediaService<SaleListingRequest, ISaleListingRequestRepository>, IListingRequestMediaService
+    public class LotListingRequestMediaService : ExtensionServices.ListingRequestMediaService<LotListingRequest, ILotListingRequestRepository>, ILotListingRequestMediaService
     {
-        public ListingRequestMediaService(
+        public LotListingRequestMediaService(
             IOptions<ServiceBusSettings> serviceBusSettings,
             IUserContextProvider userContextProvider,
-            ISaleListingRequestRepository saleRequestRepository,
+            ILotListingRequestRepository requestRepository,
             IMediaServiceClient mediaClient,
             ServiceBusClient client,
             IProvideTraceId traceIdProvider,
             IBlobService blobService,
             ICache cache,
-            ILogger<ListingRequestMediaService> logger)
+            ILogger<LotListingRequestMediaService> logger)
             : base(
                 serviceBusSettings,
                 userContextProvider,
-                saleRequestRepository,
+                requestRepository,
                 mediaClient,
                 client,
                 traceIdProvider,
@@ -41,5 +42,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
         }
 
         public override MarketCode Market => MarketCode.Austin;
+
+        public override MediaType MediaType => MediaType.LotRequest;
     }
 }

@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
+    using Husa.Quicklister.Extensions.Api.Controllers;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;

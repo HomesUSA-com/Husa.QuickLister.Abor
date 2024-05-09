@@ -2,7 +2,6 @@ namespace Husa.Quicklister.Abor.Application.Services
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -19,10 +18,10 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.ListingRequests;
 
     public class LotListingRequestService :
@@ -42,7 +41,7 @@ namespace Husa.Quicklister.Abor.Application.Services
         public LotListingRequestService(
             ILotListingRequestRepository saleRequestRepository,
             ILotListingRepository listingRepository,
-            ExtensionsInterfaces.IListingRequestMediaService mediaService,
+            ILotListingRequestMediaService mediaService,
             IUserContextProvider userContextProvider,
             ICommunitySaleRepository saleCommunityRepository,
             IMapper mapper,
@@ -66,6 +65,9 @@ namespace Husa.Quicklister.Abor.Application.Services
             this.emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
         }
 
+        protected override int MinRequiredMedia => this.options.ListingRequest.MinRequiredMedia;
+        protected override int MaxAllowedMedia => this.options.ListingRequest.MaxAllowedMedia;
+
         public async Task<LotListingRequest> UpdateRequestAsync(LotListingRequest request, LotListingRequestDto listingRequestDto, CancellationToken cancellationToken = default)
         {
             this.Logger.LogInformation("Service starting to update request for ABOR listing sale with Id {requestId}", request.Id);
@@ -86,14 +88,6 @@ namespace Husa.Quicklister.Abor.Application.Services
             this.Logger.LogInformation("Service is starting to update request for ABOR with id {listingRequestId}", listingRequestId);
             var listingRequest = await this.RequestRepository.GetByIdAsync(listingRequestId, cancellationToken);
             await this.UpdateRequestAsync(listingRequest, listingRequestDto, cancellationToken);
-        }
-
-        protected override async Task<string> IsImageCountValidAsync(Guid listingId)
-        {
-            var mediaCount = (await this.MediaService.GetListingResources(listingId)).Media.Count();
-            this.Logger.LogInformation("These comments will be deleted once the lot media is implemented {mediaCount}", mediaCount);
-
-            return string.Empty;
         }
 
         protected override async Task SendReturnedListingRequestEmail(LotListingRequest request, string reason)

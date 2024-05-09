@@ -26,7 +26,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
-    using ExtensionsMediaService = Husa.Quicklister.Extensions.Application.Interfaces.Request.IListingRequestMediaService;
+    using ExtensionsMediaService = Husa.Quicklister.Extensions.Application.Interfaces.Request.ILotListingRequestMediaService;
     using ExtensionsUserRepository = Husa.Quicklister.Extensions.Domain.Repositories.IUserRepository;
     using MediaResponse = Husa.MediaService.Api.Contracts.Response;
 
@@ -139,6 +139,66 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
             // Arrange
             const int listPrice = 230000;
             var requestId = Guid.NewGuid();
+            var lotListingRequest = this.SetupListingRequestForUpdate(requestId);
+            var lotListingRequestDto = this.GetLotListingRequestDto(listPrice);
+            var sut = this.GetSut();
+
+            // Act
+            var result = await sut.UpdateRequestAsync(lotListingRequest, lotListingRequestDto);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(listPrice, result.ListPrice);
+            Assert.Equal(ListingRequestState.Pending, result.RequestState);
+        }
+
+        [Fact]
+        public async Task UpdateListingRequestAsync_Success()
+        {
+            // Arrange
+            var requestId = Guid.NewGuid();
+            var lotListingRequest = this.SetupListingRequestForUpdate(requestId);
+            var lotListingRequestDto = this.GetLotListingRequestDto(listPrice: 230000);
+
+            this.requestRepository
+                .Setup(p => p.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(lotListingRequest);
+
+            var sut = this.GetSut();
+
+            // Act
+            await sut.UpdateListingRequestAsync(requestId, lotListingRequestDto);
+
+            // Assert
+            this.requestRepository.Verify(
+                r => r.UpdateDocumentAsync(
+                    It.Is<Guid>(id => id == requestId),
+                    It.IsAny<LotListingRequest>(),
+                    It.IsAny<Guid>(),
+                    It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
+        private LotListingRequestDto GetLotListingRequestDto(decimal listPrice) => new()
+        {
+            ListPrice = listPrice,
+            StatusFieldsInfo = new()
+            {
+                PendingDate = DateTime.UtcNow,
+            },
+            AddressInfo = new()
+            {
+                City = Domain.Enums.Domain.Cities.Daffen,
+            },
+            PropertyInfo = new(),
+            FinancialInfo = new(),
+            FeaturesInfo = new(),
+            ShowingInfo = new(),
+            SchoolsInfo = new(),
+        };
+
+        private LotListingRequest SetupListingRequestForUpdate(Guid requestId)
+        {
             var lotListingRequest = this.GetLotListingRequestMock(requestId, Guid.NewGuid(), Guid.NewGuid());
             lotListingRequest.SetupProperty(sl => sl.ListPrice, initialValue: 0);
             lotListingRequest.SetupProperty(sl => sl.RequestState, initialValue: ListingRequestState.Processing);
@@ -147,40 +207,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
                 .CallBase()
                 .Verifiable();
 
-            var lotListingRequestDto = new LotListingRequestDto()
-            {
-                ListPrice = listPrice,
-                StatusFieldsInfo = new()
-                {
-                    PendingDate = DateTime.UtcNow,
-                },
-                AddressInfo = new()
-                {
-                    City = Domain.Enums.Domain.Cities.Daffen,
-                },
-                PropertyInfo = new(),
-                FinancialInfo = new(),
-                FeaturesInfo = new(),
-                ShowingInfo = new(),
-                SchoolsInfo = new(),
-            };
-
-            var sut = this.GetSut();
-
-            // Act
-            var result = await sut.UpdateRequestAsync(lotListingRequest.Object, lotListingRequestDto);
-
-            // Assert
-            Assert.NotNull(result);
-            this.requestRepository.Verify(
-                r => r.UpdateDocumentAsync(
-                    It.Is<Guid>(id => id == requestId),
-                    It.IsAny<LotListingRequest>(),
-                    It.IsAny<Guid>(),
-                    It.IsAny<CancellationToken>()),
-                Times.Once);
-            Assert.Equal(listPrice, result.ListPrice);
-            Assert.Equal(ListingRequestState.Pending, result.RequestState);
+            return lotListingRequest.Object;
         }
 
         private Mock<LotListingRequest> GetLotListingRequestMock(Guid requestId, Guid listingId, Guid? companyId = null, ListingRequestState? requestState = null)
