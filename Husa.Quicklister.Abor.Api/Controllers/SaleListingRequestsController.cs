@@ -105,11 +105,11 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
         [HttpPost("submit")]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> SaveAndSubmitListingAsync(Guid saleListingId, ListingSaleRequestForUpdate listingSaleForUpdate, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> SaveAndSubmitListingAsync(Guid listingId, ListingSaleRequestForUpdate listingSaleForUpdate, CancellationToken cancellationToken = default)
         {
-            this.logger.LogInformation("Starting to update ABOR listing with id {saleListingId}", saleListingId);
+            this.logger.LogInformation("Starting to update ABOR listing with id {saleListingId}", listingId);
             var listingSaleDto = this.mapper.Map<ListingSaleRequestDto>(listingSaleForUpdate);
-            await this.listingSaleService.SaveListingChanges(saleListingId, listingSaleDto);
+            await this.listingSaleService.SaveListingChanges(listingId, listingSaleDto);
 
             var requestValidations = this.validateListingStatusChanges.Validate(listingSaleForUpdate);
             if (!requestValidations.IsValid)
@@ -118,7 +118,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.ToActionResult(errors);
             }
 
-            var result = await this.saleRequestService.CreateRequestAsync(saleListingId, cancellationToken);
+            var result = await this.saleRequestService.CreateRequestAsync(listingId, cancellationToken);
 
             return this.ToActionResult(result);
         }

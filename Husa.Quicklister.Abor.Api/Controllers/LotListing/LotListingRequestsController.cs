@@ -101,12 +101,12 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
 
         [HttpPost("submit")]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> SaveAndSubmitListingAsync(Guid lotListingId, LotListingRequestForUpdate listingLotForUpdate, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> SaveAndSubmitListingAsync(Guid listingId, LotListingRequestForUpdate listingLotForUpdate, CancellationToken cancellationToken = default)
         {
-            this.logger.LogInformation("Starting to update ABOR listing with id {lotListingId}", lotListingId);
+            this.logger.LogInformation("Starting to update ABOR listing with id {lotListingId}", listingId);
             var listingLotDto = this.mapper.Map<LotListingDto>(listingLotForUpdate);
-            await this.listingService.UpdateListing(lotListingId, listingLotDto);
-            var result = await this.requestService.CreateRequestAsync(lotListingId, cancellationToken);
+            await this.listingService.UpdateListing(listingId, listingLotDto);
+            var result = await this.requestService.CreateRequestAsync(listingId, cancellationToken);
 
             return this.ToActionResult(result);
         }
