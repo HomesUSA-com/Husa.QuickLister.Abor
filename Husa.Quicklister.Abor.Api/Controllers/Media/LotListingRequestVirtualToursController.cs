@@ -6,10 +6,10 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
     using Microsoft.Extensions.Logging;
 
     [ApiController]
-    [Route("sale-listing-requests/{listingRequestId}/virtual-tour")]
-    public class SaleListingRequestVirtualToursController : VirtualToursController<ISaleListingRequestMediaService>
+    [Route("lot-listing-requests/{listingRequestId}/virtual-tour")]
+    public class LotListingRequestVirtualToursController : VirtualToursController<ILotListingRequestMediaService>
     {
-        public SaleListingRequestVirtualToursController(ISaleListingRequestMediaService requestMediaService, ILogger logger)
+        public LotListingRequestVirtualToursController(ILotListingRequestMediaService requestMediaService, ILogger logger)
             : base(requestMediaService, logger)
         {
         }

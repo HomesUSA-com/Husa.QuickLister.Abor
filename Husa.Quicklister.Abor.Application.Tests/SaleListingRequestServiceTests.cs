@@ -27,7 +27,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
-    using ExtensionsMediaService = Husa.Quicklister.Extensions.Application.Interfaces.Request.IListingRequestMediaService;
+    using ExtensionsMediaService = Husa.Quicklister.Extensions.Application.Interfaces.Request.ISaleListingRequestMediaService;
     using ExtensionsUserRepository = Husa.Quicklister.Extensions.Domain.Repositories.IUserRepository;
 
     [ExcludeFromCodeCoverage]

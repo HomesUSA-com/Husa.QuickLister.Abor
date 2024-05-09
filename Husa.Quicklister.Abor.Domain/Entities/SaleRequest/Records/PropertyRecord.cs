@@ -36,7 +36,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 
         public int ConstructionStartYear { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
         public string TaxLot { get; set; }
 
         [Required]

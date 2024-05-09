@@ -12,7 +12,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
     using Husa.Quicklister.Abor.Api.Contracts.Request.LotRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.LotRequest;
-    using Husa.Quicklister.Abor.Api.ValidationsRules;
     using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models.Lot;
@@ -21,6 +20,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
+    using Husa.Quicklister.Extensions.Api.Controllers;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -44,7 +44,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
             ILotListingRequestService requestService,
             IUserRepository userQueriesRepository,
             IMapper mapper,
-            IValidateListingStatusChanges<LotListingRequestForUpdate> validateListingStatusChanges,
             ILogger<LotListingRequestsController> logger)
             : base(requestService, mapper, logger)
         {
@@ -101,12 +100,12 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
 
         [HttpPost("submit")]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> SaveAndSubmitListingAsync(Guid lotListingId, LotListingRequestForUpdate listingLotForUpdate, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> SaveAndSubmitListingAsync(Guid listingId, LotListingRequestForUpdate listingLotForUpdate, CancellationToken cancellationToken = default)
         {
-            this.logger.LogInformation("Starting to update ABOR listing with id {lotListingId}", lotListingId);
+            this.logger.LogInformation("Starting to update ABOR listing with id {lotListingId}", listingId);
             var listingLotDto = this.mapper.Map<LotListingDto>(listingLotForUpdate);
-            await this.listingService.UpdateListing(lotListingId, listingLotDto);
-            var result = await this.requestService.CreateRequestAsync(lotListingId, cancellationToken);
+            await this.listingService.UpdateListing(listingId, listingLotDto);
+            var result = await this.requestService.CreateRequestAsync(listingId, cancellationToken);
 
             return this.ToActionResult(result);
         }

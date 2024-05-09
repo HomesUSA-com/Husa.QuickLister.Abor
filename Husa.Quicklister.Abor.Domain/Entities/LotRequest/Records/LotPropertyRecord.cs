@@ -8,13 +8,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
 
     public record LotPropertyRecord : IProvideLotProperty
     {
+        [Required]
         public MlsArea? MlsArea { get; set; }
 
         [Required]
         [MinLength(1)]
         public ICollection<LotDescription> LotDescription { get; set; }
 
-        [Required]
         public PropertySubType? PropertyType { get; set; }
 
         public ICollection<FemaFloodPlain> FemaFloodPlain { get; set; }
@@ -24,12 +24,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         [Required]
         public int? LotSize { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string LegalDescription { get; set; }
 
         public string TaxLot { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string TaxId { get; set; }
 
         public string LotDimension { get; set; }
@@ -37,12 +37,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public decimal? Longitude { get; set; }
         public bool LiveStock { get; set; }
 
-        [Required]
         public bool CommercialAllowed { get; set; }
         public int? NumberOfPonds { get; set; }
         public int? NumberOfWells { get; set; }
 
-        [Required]
         public bool SurfaceWater { get; set; }
 
         [Required]
@@ -53,7 +51,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public bool UpdateGeocodes { get; set; }
         public int? AlsoListedAs { get; set; }
 
-        [Required]
         public bool BuilderRestrictions { get; set; }
 
         public LotPropertyRecord CloneRecord() => (LotPropertyRecord)this.MemberwiseClone();

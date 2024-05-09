@@ -8,11 +8,9 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Document.Models;
-    using Husa.Quicklister.Abor.Api.Contracts.Request.LotRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Abor.Api.Controllers.LotListing;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
-    using Husa.Quicklister.Abor.Api.ValidationsRules;
     using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models.Lot;
@@ -41,7 +39,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
         private readonly Mock<ILotListingNotesService> listingNotesService = new();
         private readonly Mock<ILotListingRequestService> requestService = new();
         private readonly Mock<IUserRepository> userQueriesRepository = new();
-        private readonly Mock<IValidateListingStatusChanges<LotListingRequestForUpdate>> validateListingStatusChanges = new();
         private readonly Mock<ILogger<LotListingRequestsController>> logger = new();
 
         public LotListingRequestsControllerTests(ApplicationServicesFixture fixture)
@@ -54,7 +51,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
                 this.requestService.Object,
                 this.userQueriesRepository.Object,
                 this.fixture.Mapper,
-                this.validateListingStatusChanges.Object,
                 this.logger.Object);
         }
 
@@ -90,12 +86,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
         [Fact]
         public async Task SaveAndSubmitListingAsync_Success()
         {
-            var validationResult = new FluentValidation.Results.ValidationResult();
-            this.validateListingStatusChanges
-                .Setup(u => u.Validate(It.IsAny<LotListingRequestForUpdate>()))
-                .Returns(validationResult)
-                .Verifiable();
-
             this.requestService
                 .Setup(x => x.CreateRequestAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(CommandSingleResult<Guid, System.ComponentModel.DataAnnotations.ValidationResult>.Success(Guid.NewGuid()))

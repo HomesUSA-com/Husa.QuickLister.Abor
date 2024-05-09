@@ -20,7 +20,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers.Media
     [Collection(nameof(ApplicationServicesFixture))]
     public class SaleListingRequestMediaControllerTests
     {
-        private readonly Mock<IListingRequestMediaService> mediaService = new();
+        private readonly Mock<ISaleListingRequestMediaService> mediaService = new();
         private readonly Mock<ILogger<SaleListingRequestMediaController>> logger = new();
 
         public SaleListingRequestMediaControllerTests(ApplicationServicesFixture fixture)

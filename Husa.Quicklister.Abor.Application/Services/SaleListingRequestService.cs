@@ -19,10 +19,10 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.ListingRequests;
 
     public class SaleListingRequestService :
@@ -42,7 +42,7 @@ namespace Husa.Quicklister.Abor.Application.Services
         public SaleListingRequestService(
             ISaleListingRequestRepository saleRequestRepository,
             IListingSaleRepository listingSaleRepository,
-            ExtensionsInterfaces.IListingRequestMediaService mediaService,
+            ISaleListingRequestMediaService mediaService,
             IUserContextProvider userContextProvider,
             ICommunitySaleRepository saleCommunityRepository,
             IMapper mapper,
@@ -65,6 +65,9 @@ namespace Husa.Quicklister.Abor.Application.Services
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
             this.emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
         }
+
+        protected override int MinRequiredMedia => this.options.ListingRequest.MinRequiredMedia;
+        protected override int MaxAllowedMedia => this.options.ListingRequest.MaxAllowedMedia;
 
         public async Task<SaleListingRequest> UpdateRequestAsync(SaleListingRequest request, ListingSaleRequestDto listingSaleRequestDto, CancellationToken cancellationToken = default)
         {
@@ -89,23 +92,6 @@ namespace Husa.Quicklister.Abor.Application.Services
             var userId = this.UserContextProvider.GetCurrentUserId();
 
             await this.RequestRepository.UpdateDocumentAsync(listingRequestId, listingRequest, userId, cancellationToken);
-        }
-
-        protected override async Task<string> IsImageCountValidAsync(Guid listingId)
-        {
-            var mediaCount = (await this.MediaService.GetListingResources(listingId)).Media.Count();
-
-            if (mediaCount < this.options.ListingRequest.MinRequiredMedia)
-            {
-                return $"{this.options.ListingRequest.MinRequiredMedia} photos are required to submit this listing";
-            }
-
-            if (mediaCount > this.options.ListingRequest.MaxAllowedMedia)
-            {
-                return $"No more than {this.options.ListingRequest.MaxAllowedMedia} photos are allowed to submit this listing";
-            }
-
-            return string.Empty;
         }
 
         protected override async Task SendReturnedListingRequestEmail(SaleListingRequest request, string reason)

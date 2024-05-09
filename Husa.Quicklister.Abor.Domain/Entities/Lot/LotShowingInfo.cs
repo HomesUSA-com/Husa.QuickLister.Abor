@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Lot
 {
     using System.Collections.Generic;
+    using Husa.Extensions.Domain.Extensions;
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
@@ -8,9 +9,23 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
 
     public class LotShowingInfo : ValueObject, IProvideLotShowing
     {
+        private string apptPhone;
+        private string showingServicePhone;
+
         public virtual ICollection<ShowingRequirements> ShowingRequirements { get; set; }
-        public string ApptPhone { get; set; }
-        public string ShowingServicePhone { get; set; }
+
+        public virtual string ApptPhone
+        {
+            get { return this.apptPhone; }
+            set { this.apptPhone = value.CleanPhoneValue(); }
+        }
+
+        public virtual string ShowingServicePhone
+        {
+            get { return this.showingServicePhone; }
+            set { this.showingServicePhone = value.CleanPhoneValue(); }
+        }
+
         public string OwnerName { get; set; }
         public string ShowingInstructions { get; set; }
         public string PublicRemarks { get; set; }
