@@ -138,6 +138,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
             this.MlsStatus = listingRequestValue.MlsStatus;
         }
 
+        public override IEnumerable<SummarySection> GetSummary<TListingRequest>(TListingRequest previousRequest)
+            => this.GetSummary(previousRequest as LotListingRequest);
+
         public IEnumerable<SummarySection> GetSummary(LotListingRequest previousRequest)
         {
             var summarySections = this.GetSummarySections(previousRequest).Where(summary => summary != null).ToList();
@@ -174,18 +177,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
         }
 
         private IEnumerable<SummaryField> GetRootFieldsSummary(LotListingRequest oldObject) => SummaryExtensions.GetFieldSummary(
-            this, oldObject, excludeFields: new[]
+            this, oldObject, filterFields: new[]
             {
-                nameof(this.Id),
-                nameof(this.MlsNumber),
-                nameof(this.CDOM),
-                nameof(this.DOM),
-                nameof(this.RequestState),
-                nameof(this.SysCreatedOn),
-                nameof(this.SysCreatedBy),
-                nameof(this.SysModifiedOn),
-                nameof(this.SysTimestamp),
-                nameof(this.LegacyId),
+                nameof(this.ListDate),
+                nameof(this.ListPrice),
+                nameof(this.ExpirationDate),
+                nameof(this.OwnerName),
+                nameof(this.MlsStatus),
             });
     }
 }

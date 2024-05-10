@@ -8,7 +8,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public int SqFtTotal { get; set; }
         public int? DiningAreasTotal { get; set; }
         public int MainLevelBedroomTotal { get; set; }
-        public int OtherLevelsBedroomTotal { get; set; }
+        public int? OtherLevelsBedroomTotal { get; set; }
         public int HalfBathsTotal { get; set; }
         public int FullBathsTotal { get; set; }
         public int? LivingAreasTotal { get; set; }

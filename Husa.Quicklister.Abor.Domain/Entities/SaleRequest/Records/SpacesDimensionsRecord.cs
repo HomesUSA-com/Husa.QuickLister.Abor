@@ -14,7 +14,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         public int SqFtTotal { get; set; }
         public int DiningAreasTotal { get; set; }
         public int MainLevelBedroomTotal { get; set; }
-        public int OtherLevelsBedroomTotal { get; set; }
+        public int? OtherLevelsBedroomTotal { get; set; }
         public int HalfBathsTotal { get; set; }
         public int FullBathsTotal { get; set; }
         public int LivingAreasTotal { get; set; }
@@ -34,7 +34,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
                 SqFtTotal = spacesDimensionsInfo.SqFtTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.SqFtTotal)),
                 DiningAreasTotal = spacesDimensionsInfo.DiningAreasTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.DiningAreasTotal)),
                 MainLevelBedroomTotal = spacesDimensionsInfo.MainLevelBedroomTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.MainLevelBedroomTotal)),
-                OtherLevelsBedroomTotal = spacesDimensionsInfo.OtherLevelsBedroomTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.OtherLevelsBedroomTotal)),
+                OtherLevelsBedroomTotal = spacesDimensionsInfo.OtherLevelsBedroomTotal,
                 HalfBathsTotal = spacesDimensionsInfo.HalfBathsTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.HalfBathsTotal)),
                 FullBathsTotal = spacesDimensionsInfo.FullBathsTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.FullBathsTotal)),
                 LivingAreasTotal = spacesDimensionsInfo.LivingAreasTotal ?? throw new DomainException(nameof(spacesDimensionsInfo.LivingAreasTotal)),

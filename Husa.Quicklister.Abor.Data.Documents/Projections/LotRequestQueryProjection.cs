@@ -43,6 +43,9 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
                 MlsNumber = listingRequest.MlsNumber,
                 MlsStatus = listingRequest.MlsStatus,
                 RequestState = listingRequest.RequestState,
+                CommunityId = listingRequest.CommunityId,
+                CompanyId = listingRequest.CompanyId,
+                OwnerName = listingRequest.OwnerName,
                 Id = listingRequest.Id,
                 LockedOn = null,
                 LockedByUsername = null,
@@ -55,6 +58,9 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
             new()
             {
                 ListingId = listingRequest.EntityId,
+                CommunityId = listingRequest.CommunityId,
+                CompanyId = listingRequest.CompanyId,
+                OwnerName = listingRequest.OwnerName,
                 ExpirationDate = listingRequest.ExpirationDate,
                 ListDate = listingRequest.ListDate,
                 ListPrice = listingRequest.ListPrice,

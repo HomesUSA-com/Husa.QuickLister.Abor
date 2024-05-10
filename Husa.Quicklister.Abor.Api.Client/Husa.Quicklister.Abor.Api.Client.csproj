@@ -8,9 +8,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.2.0</Version>
+        <Version>2.2.1</Version>
         <PackageReleaseNotes>
-            Release 2.2.0:
+            Release 2.2.1:
             - Added lot contracts
             - Added OwnerName, CompanyId, CommunityId to lot Contracts
         </PackageReleaseNotes>
