@@ -9,7 +9,6 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Application.Models.Plan;
-    using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Microsoft.Extensions.Logging;
@@ -75,43 +74,23 @@ namespace Husa.Quicklister.Abor.Application
                 throw new DomainException($"Plan '{planFound.BasePlan.Name}' for the company '{planFound.BasePlan.OwnerName}' already exists!");
             }
 
-            await this.UpdateCompany(updatePlanDto.CompanyId, planId, plan);
-            await this.UpdateBasePlanInformation(updatePlanDto, planId, plan);
-            await this.UpdateRooms(updatePlanDto.Rooms, planId, plan);
+            plan.UpdateCompany(updatePlanDto.CompanyId);
+            plan.UpdateBasePlanInformation(this.mapper.Map<BasePlan>(updatePlanDto));
+            plan.UpdateRooms(this.mapper.Map<IEnumerable<PlanRoom>>(updatePlanDto.Rooms));
             await this.planRepository.UpdateAsync(plan);
         }
 
-        public async Task UpdateBasePlanInformation(UpdatePlanDto planDto, Guid? planId = null, Plan entity = null)
+        public async Task UpdateListingsFromPlanAsync(Guid planId)
         {
-            this.logger.LogInformation("Starting update base information for plan with id {planId}", planId);
-            entity = await this.GetPlan(entity, planId);
-            var plan = this.mapper.Map<BasePlan>(planDto);
-            entity.UpdateBasePlanInformation(plan);
-        }
+            var plan = await this.planRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
+            this.logger.LogInformation("Starting update listing from plan with id {planId}", planId);
 
-        public async Task UpdateRooms(IEnumerable<RoomDto> roomsDto, Guid? planId = null, Plan plan = null)
-        {
-            this.logger.LogInformation("Starting update rooms information for plan with id {planId}", planId);
-            plan = await this.GetPlan(plan, planId);
-            var rooms = this.mapper.Map<IEnumerable<PlanRoom>>(roomsDto);
-            plan.UpdateRooms(rooms);
-        }
-
-        public async Task UpdateCompany(Guid companyId, Guid? planId = null, Plan plan = null)
-        {
-            this.logger.LogInformation("Starting update company information for plan with id {planId}", planId);
-            plan = await this.GetPlan(plan, planId);
-            plan.UpdateCompany(companyId);
-        }
-
-        private async Task<Plan> GetPlan(Plan plan = null, Guid? planId = null)
-        {
-            if (plan is null && planId != null)
+            foreach (var listing in plan.SaleProperties)
             {
-                return await this.planRepository.GetById((Guid)planId);
+                listing.ImportDataFromPlan(plan);
             }
 
-            return plan;
+            await this.planRepository.SaveChangesAsync();
         }
     }
 }

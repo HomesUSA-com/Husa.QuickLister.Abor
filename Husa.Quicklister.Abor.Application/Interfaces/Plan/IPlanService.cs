@@ -11,5 +11,7 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Plan
         Task DeletePlan(Guid planId, bool deleteInCascade = false);
 
         Task UpdatePlanAsync(Guid planId, UpdatePlanDto updatePlanDto);
+
+        Task UpdateListingsFromPlanAsync(Guid planId);
     }
 }

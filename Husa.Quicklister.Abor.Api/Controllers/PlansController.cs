@@ -126,6 +126,15 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             return this.Ok();
         }
 
+        [HttpPatch("{planId}/update-listings")]
+        [Authorize(Roles.MLSAdministrator)]
+        public async Task<IActionResult> UpdatePlanListings(Guid planId)
+        {
+            this.logger.LogInformation("Update listings from plan with id {planId}", planId);
+            await this.planService.UpdateListingsFromPlanAsync(planId);
+            return this.Ok();
+        }
+
         [HttpGet("{planId:guid}/sale-listings/{listingId:guid}")]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly)]
         public async Task<IActionResult> GetPlanWithListingProjection([FromRoute][Required] Guid planId, [FromRoute][Required] Guid listingId)

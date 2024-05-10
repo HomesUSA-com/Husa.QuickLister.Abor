@@ -296,10 +296,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public virtual void ImportDataFromPlan(Plan plan)
         {
-            if (plan is null)
-            {
-                throw new ArgumentNullException(nameof(plan));
-            }
+            ArgumentNullException.ThrowIfNull(plan);
 
             this.PlanId = plan.Id;
             this.SpacesDimensionsInfo = this.SpacesDimensionsInfo.ImportSpacesDimensionsFromPlan(plan.BasePlan);

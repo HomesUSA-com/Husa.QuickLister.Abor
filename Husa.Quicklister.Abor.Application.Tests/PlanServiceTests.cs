@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
+    using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -147,6 +148,29 @@ namespace Husa.Quicklister.Abor.Application.Tests
             await Assert.ThrowsAsync<NotFoundException<Plan>>(() => sut.UpdatePlanAsync(planId, planDto));
             this.planRepository.Verify(r => r.SaveChangesAsync(It.IsAny<Plan>()), Times.Never);
             this.planRepository.Verify(c => c.GetById(It.Is<Guid>(id => id == planId), It.Is<bool>(filterByCompany => filterByCompany)), Times.Once);
+        }
+
+        [Fact]
+        public async Task UpdateListingsFromPlanAsync_Success()
+        {
+            // Arrange
+            var planId = Guid.NewGuid();
+            var plan = TestModelProvider.GetPlanEntity(planId);
+            var saleProperty = new Mock<SaleProperty>();
+            plan.SaleProperties.Add(saleProperty.Object);
+
+            this.planRepository
+                .Setup(c => c.GetById(It.Is<Guid>(id => id == planId), It.Is<bool>(filterByCompany => filterByCompany)))
+                .ReturnsAsync(plan)
+                .Verifiable();
+            var sut = this.GetSut();
+
+            // Act
+            await sut.UpdateListingsFromPlanAsync(planId);
+
+            // Assert
+            this.planRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
+            saleProperty.Verify(r => r.ImportDataFromPlan(It.Is<Plan>(x => x.Id == planId)), Times.Once);
         }
 
         private PlanService GetSut() => new(

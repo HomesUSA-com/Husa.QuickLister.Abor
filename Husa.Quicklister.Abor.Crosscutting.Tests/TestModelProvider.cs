@@ -502,6 +502,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
             plan.SetupGet(c => c.Id).Returns(planProfileId);
             plan.SetupGet(c => c.CompanyId).Returns(company);
+            plan.SetupGet(c => c.Rooms).Returns(new List<PlanRoom>());
             plan.SetupGet(c => c.SaleProperties).Returns(saleProperties);
             return plan.Object;
         }
