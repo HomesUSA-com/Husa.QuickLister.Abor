@@ -39,7 +39,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
             CosmosClient cosmosClient,
             ICosmosLinqQuery cosmosLinqQuery,
             IOptions<DocumentDbSettings> options,
-            IQueryMediaRepository mediaQueriesRepository,
+            IQueryLotRequestMediaRepository mediaQueriesRepository,
             IAgentQueriesRepository agentQueriesRepository,
             IUserRepository userQueriesRepository,
             ILotListingQueriesRepository listingQueriesRepository)

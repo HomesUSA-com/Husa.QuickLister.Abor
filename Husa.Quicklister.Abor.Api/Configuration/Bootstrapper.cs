@@ -57,6 +57,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Api.Configuration;
     using Husa.Quicklister.Extensions.Application.Interfaces.Migration;
     using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
@@ -75,7 +76,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Microsoft.Extensions.Options;
     using Microsoft.OpenApi.Models;
     using InterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces.Community;
-    using RepositoryExtensions = Husa.Quicklister.Extensions.Data.Queries.Repositories;
 
     public static class Bootstrapper
     {
@@ -109,15 +109,14 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IListingSaleQueriesRepository, ListingSaleQueriesRepository>();
             services.AddScoped<ICommunityQueriesRepository, CommunityQueriesRepository>();
             services.AddScoped<IPlanQueriesRepository, PlanQueriesRepository>();
-            services.AddScoped<IQueryMediaRepository, RepositoryExtensions.QueryMediaRepository>();
             services.AddScoped<IAgentQueriesRepository, AgentQueriesRepository>();
             services.AddScoped<IAlertQueriesRepository, AlertQueriesRepository>();
             services.AddScoped<IScrapedListingQueriesRepository, ScrapedListingQueriesRepository>();
             services.AddScoped<IQueryXmlRepository, QueryXmlRepository>();
             services.AddScoped<IManagementTraceQueriesRepository, ManagementTraceQueriesRepository>();
             services.AddScoped<IMigrationQueryRepository, RequestMigrationQueryRepository>();
-            services.AddScoped<IUserCacheRepository, RepositoryExtensions.UserCacheRepository>();
             services.AddScoped<ILotListingQueriesRepository, LotListingQueriesRepository>();
+            services.AddExtensionRepositories();
             return services;
         }
 
