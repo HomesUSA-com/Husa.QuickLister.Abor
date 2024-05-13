@@ -44,6 +44,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
 
         public virtual ICollection<SaleProperty> SaleProperties { get; set; }
 
+        public virtual IEnumerable<SaleListing> GetActiveListingsInMarket() => this.SaleProperties
+            .Where(property => !property.IsDeleted)
+            .SelectMany(p => p.SaleListings)
+            .Where(listing => !listing.IsDeleted && SaleListing.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber));
+
         public virtual void UpdateBasePlanInformation(BasePlan plan)
         {
             if (plan is null)

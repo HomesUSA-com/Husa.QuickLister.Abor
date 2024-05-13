@@ -12,8 +12,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Application.Models.Community;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
@@ -128,155 +131,31 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Fact]
-        public async Task DeleteCommunity_DeleteComplete_Success()
+        public async Task UpdateListingsAsync_Success()
         {
             // Arrange
             var communityId = Guid.NewGuid();
-            var communitySale = TestModelProvider.GetCommunitySaleEntity(communityId);
-            var deleteInCascade = false;
-
-            this.communitySaleRepository
-                .Setup(c => c.GetById(
-                    It.Is<Guid>(id => id == communityId),
-                    It.Is<bool>(filterByCompany => filterByCompany)))
-                .ReturnsAsync(communitySale)
-                .Verifiable();
-
-            // Act
-            await this.Sut.DeleteCommunity(communityId, deleteInCascade);
-
-            // Assert
-            this.communitySaleRepository.Verify(r => r.UpdateAsync(It.IsAny<CommunitySale>()), Times.Once);
-            this.communitySaleRepository.Verify(c => c.GetById(It.Is<Guid>(id => id == communityId), It.Is<bool>(filterByCompany => filterByCompany)), Times.Once);
-        }
-
-        [Fact]
-        public async Task DeleteCommunity_DeleteFail_Success()
-        {
-            // Arrange
-            var communityId = Guid.NewGuid();
-            CommunitySale communitySale = null;
-            var deleteInCascade = false;
-
-            this.communitySaleRepository
-                .Setup(c => c.GetById(
-                    It.Is<Guid>(id => id == communityId),
-                    It.Is<bool>(filterByCompany => filterByCompany)))
-                .ReturnsAsync(communitySale)
-                .Verifiable();
-
-            // Act and Assert
-            await Assert.ThrowsAsync<NotFoundException<CommunitySale>>(() => this.Sut.DeleteCommunity(communityId, deleteInCascade));
-            this.communitySaleRepository.Verify(r => r.SaveChangesAsync(It.IsAny<CommunitySale>()), Times.Never);
-            this.communitySaleRepository.Verify(c => c.GetById(It.Is<Guid>(id => id == communityId), It.Is<bool>(filterByCompany => filterByCompany)), Times.Once);
-        }
-
-        [Fact]
-        public async Task AddCommunityEmployees_CommunityFound_Success()
-        {
-            // Arrange
-            var communityId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var userId1 = Guid.NewGuid();
-            var userId2 = Guid.NewGuid();
-            var userIds = new List<Guid>()
-            {
-                userId1,
-                userId2,
-            };
-
-            var employeesDto = new CommunityEmployeesCreateDto() { UserIds = userIds, CommunityId = communityId, CompanyId = companyId };
-
-            var community = new Mock<CommunitySale>();
-
-            Mock.Get(community.Object)
-                .Setup(c => c.AddCommunityEmployees(It.Is<IEnumerable<Guid>>(e => e == userIds))).Verifiable();
-
-            this.communitySaleRepository
-                .Setup(c => c.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()))
-                .ReturnsAsync(community.Object)
-                .Verifiable();
-
-            this.communitySaleRepository
-                .Setup(c => c.SaveChangesAsync(It.Is<CommunitySale>(comm => comm == community.Object)))
-                .Verifiable();
-
-            // Act
-            await this.Sut.CreateEmployeesAsync(employeesDto);
-
-            // Assert
-            this.communitySaleRepository.Verify(r => r.SaveChangesAsync(community.Object), Times.Once);
-            this.communitySaleRepository.Verify(r => r.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()), Times.Once);
-        }
-
-        [Fact]
-        public async Task AddCommunityEmployees_CommunityNotFound_Exception()
-        {
-            // Arrange
-            var communityId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var userId1 = Guid.NewGuid();
-            var userId2 = Guid.NewGuid();
-            var userIds = new List<Guid>()
-            {
-                userId1,
-                userId2,
-            };
-
-            var employeesDto = new CommunityEmployeesCreateDto() { UserIds = userIds, CommunityId = communityId, CompanyId = companyId };
-
-            CommunitySale community = null;
+            var community = TestModelProvider.GetCommunitySaleEntity(communityId);
+            var saleProperty = new Mock<SaleProperty>();
+            var listing = new Mock<SaleListing>();
+            listing.Setup(x => x.MlsNumber).Returns("3544");
+            listing.Setup(x => x.LockedStatus).Returns(LockedStatus.NoLocked);
+            listing.Setup(x => x.MlsStatus).Returns(MarketStatuses.Active);
+            saleProperty.Setup(c => c.SaleListings).Returns(new[] { listing.Object });
+            listing.Setup(c => c.SaleProperty).Returns(saleProperty.Object);
+            community.SaleProperties = new[] { saleProperty.Object };
 
             this.communitySaleRepository
                 .Setup(c => c.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()))
                 .ReturnsAsync(community)
                 .Verifiable();
 
-            // Act and Assert
-            await Assert.ThrowsAsync<NotFoundException<CommunitySale>>(() => this.Sut.CreateEmployeesAsync(employeesDto));
-            this.communitySaleRepository.Verify();
-        }
-
-        [Fact]
-        public async Task DeleteCommunityEmployees_CommunityFound_Success()
-        {
-            // Arrange
-            var communityId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var employeeId1 = Guid.NewGuid();
-            var employeeId2 = Guid.NewGuid();
-            var employeeIds = new List<Guid>()
-            {
-                employeeId1,
-                employeeId2,
-            };
-
-            CommunityEmployee employee1 = TestModelProvider.GetCommunityEmployee(employeeId1, communityId, Guid.NewGuid());
-            CommunityEmployee employee2 = TestModelProvider.GetCommunityEmployee(employeeId2, communityId, Guid.NewGuid());
-
-            var communityEmployees = new List<CommunityEmployee>() { employee1, employee2 };
-
-            var employeesDto = new CommunityEmployeesDeleteDto() { UserIds = employeeIds, CommunityId = communityId };
-
-            var communityMock = TestModelProvider.GetCommunitySaleEntityMock(communityId, companyId);
-            communityMock.Setup(x => x.Employees).Returns(communityEmployees);
-            var community = communityMock.Object;
-
-            this.communitySaleRepository
-                .Setup(c => c.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()))
-                .ReturnsAsync(community)
-                .Verifiable();
-
-            this.communitySaleRepository
-                .Setup(c => c.SaveChangesAsync(It.Is<CommunitySale>(comm => comm == community)))
-                .Verifiable();
-
             // Act
-            await this.Sut.DeleteEmployeesAsync(employeesDto);
+            await this.Sut.UpdateListingsAsync(communityId);
 
             // Assert
-            this.communitySaleRepository.Verify(r => r.SaveChangesAsync(community), Times.Once);
-            this.communitySaleRepository.Verify(r => r.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()), Times.Once);
+            this.communitySaleRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
+            saleProperty.Verify(r => r.ImportDataFromCommunity(It.Is<CommunitySale>(x => x.Id == communityId)), Times.Once);
         }
     }
 }

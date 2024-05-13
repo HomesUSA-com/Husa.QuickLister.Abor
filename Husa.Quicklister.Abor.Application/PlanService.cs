@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Application
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
@@ -11,6 +12,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Application.Models.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
 
     public class PlanService : IPlanService
@@ -80,14 +82,16 @@ namespace Husa.Quicklister.Abor.Application
             await this.planRepository.UpdateAsync(plan);
         }
 
-        public async Task UpdateListingsFromPlanAsync(Guid planId)
+        public async Task UpdateListingsAsync(Guid planId)
         {
             var plan = await this.planRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
             this.logger.LogInformation("Starting update listing from plan with id {planId}", planId);
 
-            foreach (var listing in plan.SaleProperties)
+            var activeListings = plan.GetActiveListingsInMarket();
+            var unlockedListings = activeListings.Where(x => x.LockedStatus == LockedStatus.NoLocked);
+            foreach (var listing in unlockedListings)
             {
-                listing.ImportDataFromPlan(plan);
+                listing.SaleProperty.ImportDataFromPlan(plan);
             }
 
             await this.planRepository.SaveChangesAsync();

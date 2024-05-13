@@ -135,22 +135,20 @@ namespace Husa.Quicklister.Abor.Application.Tests
             saleCommunity.UpdateChanges(nameof(saleCommunity.Property), changes);
 
             // Unlocked Listing
-            var unlockedListingMock = TestModelProvider.GetListingSaleEntityMock(unlockedListingId, createStub: true, communityId: communityId);
+            var unlockedListingMock = TestModelProvider.GetListingSaleEntityMock(unlockedListingId, createStub: true, communityId: communityId, lockedStatus: LockedStatus.NoLocked);
             var saleListingRequest = this.GetSaleListingRequestMock(newRequestId, unlockedListingId, Guid.NewGuid());
             unlockedListingMock
                 .Setup(x => x.GenerateRequestFromCommunity(It.IsAny<SaleListingRequest>(), It.IsAny<Guid>()))
                 .Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Success(saleListingRequest.Object))
                 .Verifiable();
             var unlockedListing = unlockedListingMock.Object;
-            unlockedListing.LockedStatus = LockedStatus.NoLocked;
             unlockedListing.SaleProperty.AddressInfo.Subdivision = "ListingSubdivision";
             unlockedListing.SaleProperty.Community = saleCommunity;
 
             // Locked Listing
             var lockedListingId = Guid.NewGuid();
-            var lockedListing = TestModelProvider.GetListingSaleEntity(lockedListingId, createStub: true, communityId: communityId);
+            var lockedListing = TestModelProvider.GetListingSaleEntity(lockedListingId, createStub: true, communityId: communityId, lockedStatus: LockedStatus.LockedByUser);
             lockedListing.LockedBy = lockedListingBy;
-            lockedListing.LockedStatus = LockedStatus.LockedByUser;
 
             saleCommunity.SaleProperties = new[] { unlockedListing.SaleProperty, lockedListing.SaleProperty };
             return saleCommunity;

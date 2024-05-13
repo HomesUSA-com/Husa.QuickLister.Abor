@@ -260,6 +260,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public virtual void ImportDataFromCommunity(CommunitySale communitySale)
         {
+            ArgumentNullException.ThrowIfNull(communitySale);
+
             this.CommunityId = communitySale.Id;
             this.SchoolsInfo = this.SchoolsInfo.ImportSchools(communitySale.SchoolsInfo);
             this.FeaturesInfo = this.FeaturesInfo.ImportFeaturesFromCommunity(communitySale.Utilities);

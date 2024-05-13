@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Application
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
@@ -15,6 +16,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Communities;
 
@@ -96,6 +98,21 @@ namespace Husa.Quicklister.Abor.Application
 
             await this.CommunitySaleRepository.SaveChangesAsync();
             await this.communityHistoryService.CreateRecordAsync(communityId);
+        }
+
+        public async Task UpdateListingsAsync(Guid communityId)
+        {
+            var community = await this.CommunitySaleRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
+            this.Logger.LogInformation("Starting update listing from community with id {communityId}", communityId);
+
+            var activeListings = community.GetActiveListingsInMarket();
+            var unlockedListings = activeListings.Where(x => x.LockedStatus == LockedStatus.NoLocked);
+            foreach (var listing in unlockedListings)
+            {
+                listing.SaleProperty.ImportDataFromCommunity(community);
+            }
+
+            await this.CommunitySaleRepository.SaveChangesAsync();
         }
     }
 }

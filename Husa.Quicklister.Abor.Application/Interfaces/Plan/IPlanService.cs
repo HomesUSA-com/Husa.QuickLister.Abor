@@ -12,6 +12,6 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Plan
 
         Task UpdatePlanAsync(Guid planId, UpdatePlanDto updatePlanDto);
 
-        Task UpdateListingsFromPlanAsync(Guid planId);
+        Task UpdateListingsAsync(Guid planId);
     }
 }

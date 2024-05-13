@@ -244,5 +244,14 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
             return this.Ok(result);
         }
+
+        [HttpPatch("{communityId}/update-listings")]
+        [Authorize(Roles.MLSAdministrator)]
+        public async Task<IActionResult> UpdateListings([FromRoute] Guid communityId)
+        {
+            this.logger.LogInformation("Update listings from community with id {communityId}", communityId);
+            await this.communitySaleService.UpdateListingsAsync(communityId);
+            return this.Ok();
+        }
     }
 }

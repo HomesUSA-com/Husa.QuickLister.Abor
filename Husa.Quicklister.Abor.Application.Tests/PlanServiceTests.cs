@@ -8,9 +8,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
@@ -155,18 +158,24 @@ namespace Husa.Quicklister.Abor.Application.Tests
         {
             // Arrange
             var planId = Guid.NewGuid();
-            var plan = TestModelProvider.GetPlanEntity(planId);
+            var plan = PlanTestProvider.GetPlanEntity(planId);
             var saleProperty = new Mock<SaleProperty>();
-            plan.SaleProperties.Add(saleProperty.Object);
+            var listing = new Mock<SaleListing>();
+            listing.Setup(x => x.MlsNumber).Returns("3544");
+            listing.Setup(x => x.LockedStatus).Returns(LockedStatus.NoLocked);
+            listing.Setup(x => x.MlsStatus).Returns(MarketStatuses.Active);
+            listing.Setup(c => c.SaleProperty).Returns(saleProperty.Object);
+            saleProperty.Setup(c => c.SaleListings).Returns(new[] { listing.Object });
+            plan.SaleProperties = new[] { saleProperty.Object };
 
             this.planRepository
-                .Setup(c => c.GetById(It.Is<Guid>(id => id == planId), It.Is<bool>(filterByCompany => filterByCompany)))
+                .Setup(c => c.GetById(It.Is<Guid>(id => id == planId), It.IsAny<bool>()))
                 .ReturnsAsync(plan)
                 .Verifiable();
             var sut = this.GetSut();
 
             // Act
-            await sut.UpdateListingsFromPlanAsync(planId);
+            await sut.UpdateListingsAsync(planId);
 
             // Assert
             this.planRepository.Verify(r => r.SaveChangesAsync(), Times.Once);

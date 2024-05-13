@@ -131,7 +131,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         public async Task<IActionResult> UpdatePlanListings(Guid planId)
         {
             this.logger.LogInformation("Update listings from plan with id {planId}", planId);
-            await this.planService.UpdateListingsFromPlanAsync(planId);
+            await this.planService.UpdateListingsAsync(planId);
             return this.Ok();
         }
 
