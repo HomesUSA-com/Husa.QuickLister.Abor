@@ -94,9 +94,9 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
             builder.Property(r => r.HorseAmenities).HasColumnName(nameof(LotFeaturesInfo.HorseAmenities)).HasEnumCollectionValue<HorseAmenities>(120);
             builder.Property(r => r.MineralsFeatures).HasColumnName(nameof(LotFeaturesInfo.MineralsFeatures)).HasEnumCollectionValue<Minerals>(30);
             builder.Property(r => r.RoadSurface).HasColumnName(nameof(LotFeaturesInfo.RoadSurface)).HasEnumCollectionValue<RoadSurface>(100);
-            builder.Property(r => r.OtherStructures).HasColumnName(nameof(LotFeaturesInfo.OtherStructures)).HasEnumCollectionValue<OtherStructures>(150);
+            builder.Property(r => r.OtherStructures).HasColumnName(nameof(LotFeaturesInfo.OtherStructures)).HasEnumCollectionValue<OtherStructures>(315);
             builder.Property(r => r.NeighborhoodAmenities).HasColumnName(nameof(LotFeaturesInfo.NeighborhoodAmenities)).HasEnumCollectionValue<NeighborhoodAmenities>(1000);
-            builder.Property(r => r.DocumentsAvailable).HasColumnName(nameof(LotFeaturesInfo.DocumentsAvailable)).HasEnumCollectionValue<DocumentsAvailable>(300);
+            builder.Property(r => r.DocumentsAvailable).HasColumnName(nameof(LotFeaturesInfo.DocumentsAvailable)).HasEnumCollectionValue<DocumentsAvailable>(1805);
             builder.Property(r => r.Disclosures).HasColumnName(nameof(LotFeaturesInfo.Disclosures)).HasEnumCollectionValue<Disclosures>(240);
         }
 

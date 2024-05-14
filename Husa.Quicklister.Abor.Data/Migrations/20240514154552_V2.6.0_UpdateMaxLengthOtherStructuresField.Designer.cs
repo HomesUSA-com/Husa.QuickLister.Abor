@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240514154552_V2.6.0_UpdateMaxLengthOtherStructuresField")]
+    partial class V260_UpdateMaxLengthOtherStructuresField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2118,8 +2121,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("DistanceToWaterAccess");
 
                             b1.Property<string>("DocumentsAvailable")
-                                .HasMaxLength(1805)
-                                .HasColumnType("nvarchar(1805)")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
                                 .HasColumnName("DocumentsAvailable");
 
                             b1.Property<string>("ExteriorFeatures")
