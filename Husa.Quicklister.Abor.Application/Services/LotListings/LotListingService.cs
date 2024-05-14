@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
@@ -30,6 +31,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     {
         private readonly IMapper mapper;
         private readonly ICommunitySaleRepository communityRepository;
+        private readonly ILotListingRequestRepository lotListingRequestRepository;
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
         private readonly ILotListingMediaService listingMediaService;
         private readonly FeatureFlags featureFlags;
@@ -40,6 +42,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             IServiceSubscriptionClient serviceSubscriptionClient,
             IUserContextProvider userContextProvider,
             ILotListingMediaService listingMediaService,
+            ILotListingRequestRepository lotListingRequestRepository,
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<LotListingService> logger)
@@ -50,6 +53,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             this.listingMediaService = listingMediaService ?? throw new ArgumentNullException(nameof(listingMediaService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
+            this.lotListingRequestRepository = lotListingRequestRepository ?? throw new ArgumentNullException(nameof(lotListingRequestRepository));
         }
 
         private static IEnumerable<MarketStatuses> StatusesThatAllowDuplicates => new[] { MarketStatuses.Canceled, MarketStatuses.Closed };
@@ -195,6 +199,31 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             lotListing.CompleteListingRequest(mlsNumber, this.UserContextProvider.GetCurrentUserId(), requestStatus, actionType, this.featureFlags.IsDownloaderEnabled);
 
             await this.ListingRepository.SaveChangesAsync(lotListing);
+        }
+
+        public override async Task<CommandResult<string>> UnlockListing(Guid listingId, CancellationToken cancellationToken = default)
+        {
+            this.Logger.LogInformation("Trying to unlock lot listing with id {listingId}.", listingId);
+            var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<LotListing>(listingId);
+
+            var currentUser = this.UserContextProvider.GetCurrentUser();
+            if (!listingSale.CanUnlock(currentUser))
+            {
+                this.Logger.LogInformation("Lot listing {listingId} cannot be unlocked.", listingId);
+                throw new DomainException($"Lot listing {listingId} cannot be unlocked.");
+            }
+
+            var existingRequest = await this.lotListingRequestRepository.CheckFirstListingRequestExistAsync(listingId, cancellationToken);
+
+            if (!currentUser.IsMLSAdministrator && existingRequest)
+            {
+                this.Logger.LogInformation("The lot listing {listingId} has an open request, cannot be unlocked.", listingId);
+                return CommandResult<string>.Error($"The lot listing {listingId} has an open request, cannot be unlocked.");
+            }
+
+            listingSale.Unlock(this.featureFlags.AllowManualListingUnlock);
+            await this.ListingRepository.SaveChangesAsync(listingSale);
+            return CommandResult<string>.Success($"Unlocked lot listing with id {listingId}.");
         }
 
         private async Task ImportDataFromListingAsync(LotListing lotListingEntity, Guid listingIdToImport)
