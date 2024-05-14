@@ -2,7 +2,6 @@ namespace Husa.Quicklister.Abor.Application
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
@@ -10,17 +9,16 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Application.Models.Plan;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Extensions;
     using Microsoft.Extensions.Logging;
+    using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Plans;
 
-    public class PlanService : IPlanService
+    public class PlanService : ExtensionsServices.PlanService<Plan, IPlanRepository>, IPlanService
     {
-        private readonly IPlanRepository planRepository;
-        private readonly ILogger<PlanService> logger;
         private readonly IMapper mapper;
-        private readonly IUserContextProvider userContextProvider;
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
 
         public PlanService(
@@ -29,72 +27,55 @@ namespace Husa.Quicklister.Abor.Application
             IUserContextProvider userContextProvider,
             IMapper mapper,
             ILogger<PlanService> logger)
+            : base(planRepository, userContextProvider, logger)
         {
-            this.planRepository = planRepository ?? throw new ArgumentNullException(nameof(planRepository));
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
-            this.userContextProvider = userContextProvider ?? throw new ArgumentNullException(nameof(userContextProvider));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<Guid> CreateAsync(PlanCreateDto planDto)
         {
-            var planFound = await this.planRepository.GetPlan(planDto.Name, planDto.CompanyId);
+            var planFound = await this.PlanRepository.GetPlan(planDto.Name, planDto.CompanyId);
             if (planFound is not null)
             {
                 throw new DomainException($"Plan '{planFound.BasePlan.Name}' for the company '{planFound.BasePlan.OwnerName}' already exists!");
             }
 
-            this.logger.LogInformation("Creating plan profile {planName} of company {companyId}", planDto.Name, planDto.CompanyId);
+            this.Logger.LogInformation("Creating plan profile {planName} of company {companyId}", planDto.Name, planDto.CompanyId);
             var company = await this.serviceSubscriptionClient.Company.GetCompany(planDto.CompanyId);
             var plan = new Plan(
                 company.Id,
                 planDto.Name,
                 company.Name);
 
-            this.planRepository.Attach(plan);
-            await this.planRepository.SaveChangesAsync();
+            this.PlanRepository.Attach(plan);
+            await this.PlanRepository.SaveChangesAsync();
             return plan.Id;
-        }
-
-        public async Task DeletePlan(Guid planId, bool deleteInCascade = false)
-        {
-            var plan = await this.planRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
-            this.logger.LogInformation("Starting delete Plan with id {planId}", planId);
-            plan.Delete(this.userContextProvider.GetCurrentUserId(), deleteInCascade);
-            await this.planRepository.SaveChangesAsync(plan);
         }
 
         public async Task UpdatePlanAsync(Guid planId, UpdatePlanDto updatePlanDto)
         {
-            var plan = await this.planRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
-            this.logger.LogInformation("Starting update plan profile with id {planId}", planId);
-            var planFound = await this.planRepository.GetPlan(updatePlanDto.Name, updatePlanDto.CompanyId);
+            var plan = await this.PlanRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
+            this.Logger.LogInformation("Starting update plan profile with id {planId}", planId);
+            var planFound = await this.PlanRepository.GetPlan(updatePlanDto.Name, updatePlanDto.CompanyId);
             if (planFound is not null && plan.Id != planFound.Id)
             {
-                this.logger.LogError("Plan '{planName}' for the company '{planOwnerName}' already exists!", planFound.BasePlan.Name, planFound.BasePlan.OwnerName);
+                this.Logger.LogError("Plan '{planName}' for the company '{planOwnerName}' already exists!", planFound.BasePlan.Name, planFound.BasePlan.OwnerName);
                 throw new DomainException($"Plan '{planFound.BasePlan.Name}' for the company '{planFound.BasePlan.OwnerName}' already exists!");
             }
 
             plan.UpdateCompany(updatePlanDto.CompanyId);
             plan.UpdateBasePlanInformation(this.mapper.Map<BasePlan>(updatePlanDto));
             plan.UpdateRooms(this.mapper.Map<IEnumerable<PlanRoom>>(updatePlanDto.Rooms));
-            await this.planRepository.UpdateAsync(plan);
+            await this.PlanRepository.UpdateAsync(plan);
         }
 
         public async Task UpdateListingsAsync(Guid planId)
         {
-            var plan = await this.planRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
-            this.logger.LogInformation("Starting update listing from plan with id {planId}", planId);
-
-            var activeListings = plan.GetActiveListingsInMarket();
-            var unlockedListings = activeListings.Where(x => x.LockedStatus == LockedStatus.NoLocked);
-            foreach (var listing in unlockedListings)
-            {
-                listing.SaleProperty.ImportDataFromPlan(plan);
-            }
-
-            await this.planRepository.SaveChangesAsync();
+            var plan = await this.PlanRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
+            this.Logger.LogInformation("Starting update listing from plan with id {planId}", planId);
+            plan.UpdateListingsFromPlanAsync<SaleListing, Plan>();
+            await this.PlanRepository.SaveChangesAsync();
         }
     }
 }

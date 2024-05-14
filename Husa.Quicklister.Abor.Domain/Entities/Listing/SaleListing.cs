@@ -9,6 +9,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
+    using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -24,7 +26,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class SaleListing : Listing, ISaleListing<SaleProperty>, IGenerateListingRequest<SaleListingRequest>, IListingInvoiceInfo
+    public class SaleListing :
+        Listing,
+        ISaleListing<SaleProperty>,
+        IGenerateListingRequest<SaleListingRequest>,
+        IListingInvoiceInfo,
+        IListingPlan<Plan>,
+        IListingCommunity<CommunitySale>
     {
         public const int YearsInThePast = -2;
         public const int MaxExpirationDaysInTheFuture = 10;
@@ -273,6 +281,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.XmlListingId = listing.Id;
             this.SaleProperty.UpdateFromXml(listing);
             this.LockByUser(userId);
+        }
+
+        public void ImportDataFromPlan(Plan plan)
+        {
+            this.SaleProperty.ImportDataFromPlan(plan);
+        }
+
+        public void ImportDataFromCommunity(CommunitySale community)
+        {
+            this.SaleProperty.ImportDataFromCommunity(community);
         }
 
         protected override void DeleteChildren(Guid userId) => throw new NotImplementedException();

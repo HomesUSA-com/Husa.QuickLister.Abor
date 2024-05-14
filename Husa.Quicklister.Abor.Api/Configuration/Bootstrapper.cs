@@ -59,7 +59,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Api.Configuration;
     using Husa.Quicklister.Extensions.Application.Interfaces.Migration;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
@@ -75,7 +74,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
     using Microsoft.OpenApi.Models;
-    using InterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces.Community;
+    using CommunityInterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces.Community;
+    using PlanInterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces.Plan;
 
     public static class Bootstrapper
     {
@@ -149,14 +149,14 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<IPlanPhotoService, PlanPhotoService>();
-            services.AddScoped<IPlanXmlService, PlanXmlService>();
+            services.AddScoped<PlanInterfaceExtensions.IPlanXmlService, PlanXmlService>();
             services.AddScoped<IPlanMigrationService, PlanMigrationService>();
             services.AddScoped<IPlanMediaService, PlanMediaService>();
             services.AddScoped<IPlanNotesService, PlanNotesService>();
 
             services.AddScoped<ISaleCommunityService, SaleCommunityService>();
             services.AddScoped<ICommunityPhotoService, CommunityPhotoService>();
-            services.AddScoped<InterfaceExtensions.ICommunityXmlService, CommunityXmlService>();
+            services.AddScoped<CommunityInterfaceExtensions.ICommunityXmlService, CommunityXmlService>();
             services.AddScoped<ICommunityMigrationService, CommunityMigrationService>();
             services.AddScoped<ICommunityHistoryMigrationService, CommunityHistoryMigrationService>();
             services.AddScoped<ICommunityMediaService, CommunityMediaService>();

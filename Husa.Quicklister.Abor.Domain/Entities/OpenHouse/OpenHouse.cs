@@ -2,9 +2,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.OpenHouse
 {
     using System;
     using System.Collections.Generic;
+    using Husa.Extensions.Document.Interfaces;
     using Husa.Extensions.Domain.Entities;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Extensions.Domain.Interfaces;
     using AborIProvideOpenHouseInfo = Husa.Quicklister.Abor.Domain.Interfaces.IProvideOpenHouseInfo;
     using OpenHouseTypeEnum = Husa.Quicklister.Extensions.Domain.Enums.OpenHouseType;
 
