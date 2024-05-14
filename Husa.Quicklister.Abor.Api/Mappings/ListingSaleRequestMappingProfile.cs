@@ -130,7 +130,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.PlanName, config => config.Ignore())
                 .ForMember(dest => dest.SysTimestamp, config => config.Ignore());
 
-            this.CreateMap<DocumentModels.ListingRequest.ListingSaleRequestDetailQueryResult, ListingSaleRequestDetailResponse>();
+            this.CreateMap<DocumentModels.ListingRequest.ListingSaleRequestDetailQueryResult, ListingSaleRequestDetailResponse>()
+                .ForPath(dest => dest.ListingId, config => config.MapFrom(dto => dto.ListingSaleId));
 
             this.CreateMap<DocumentModels.ListingRequest.ListingRequestStatusFieldsQueryResult, ListingSaleStatusFieldsResponse>();
             this.CreateMap<DocumentModels.ListingRequest.ListingRequestSalePropertyQueryResult, SalePropertyDetailResponse>();
