@@ -26,6 +26,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
             this.CompanyId = listing.CompanyId;
             this.CommunityId = listing.CommunityId;
             this.OwnerName = listing.OwnerName;
+            this.MlsStatus = listing.MlsStatus;
+            this.ListPrice = listing.ListPrice;
             this.StatusFieldsInfo = LotStatusFieldsRecord.CreateRecord(listing.StatusFieldsInfo);
             this.PublishInfo = PublishFieldsRecord.CreateRecord(listing.PublishInfo);
             this.AddressInfo = LotAddressRecord.CreateRecord(listing.AddressInfo);
@@ -56,7 +58,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
         public virtual int? CDOM { get; set; }
         public virtual int? DOM { get; set; }
 
-        public virtual decimal ListPrice { get; set; }
+        [Required]
+        public virtual decimal? ListPrice { get; set; }
 
         public virtual DateTime? MarketModifiedOn { get; }
         public virtual string MarketUniqueId { get; }
