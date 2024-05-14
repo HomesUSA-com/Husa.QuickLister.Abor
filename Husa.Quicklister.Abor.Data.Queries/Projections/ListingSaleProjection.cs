@@ -19,6 +19,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             StreetNum = listingSale.SaleProperty.AddressInfo.StreetNumber,
             StreetType = listingSale.SaleProperty.AddressInfo.StreetType,
             City = listingSale.SaleProperty.AddressInfo.City,
+            State = listingSale.SaleProperty.AddressInfo.State,
             County = listingSale.SaleProperty.AddressInfo.County,
             ListDate = listingSale.ListDate,
             ListPrice = listingSale.ListPrice,

@@ -25,12 +25,13 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
                 City = listingRequest.AddressInfo.City,
                 Subdivision = listingRequest.AddressInfo.Subdivision,
                 ZipCode = listingRequest.AddressInfo.ZipCode,
-                ListPrice = listingRequest.ListPrice,
+                ListPrice = listingRequest.ListPrice ?? 0,
                 SysCreatedOn = listingRequest.SysCreatedOn,
                 SysCreatedBy = listingRequest.SysCreatedBy,
                 UnitNumber = listingRequest.AddressInfo.UnitNumber,
-                UpdateGeocodes = false,
+                UpdateGeocodes = listingRequest.PropertyInfo.UpdateGeocodes,
                 StreetType = listingRequest.AddressInfo.StreetType,
+                Address = $"{listingRequest.AddressInfo.StreetNumber} {listingRequest.AddressInfo.StreetName}",
             };
 
         public static Expression<Func<LotListingRequest, LotListingRequestDetailQueryResult>> ProjectionToLotListingRequestDetailQueryResult =>

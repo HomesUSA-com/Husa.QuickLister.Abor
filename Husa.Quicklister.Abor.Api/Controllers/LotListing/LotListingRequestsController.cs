@@ -124,7 +124,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
         public async Task<IActionResult> ReturnRequestAsync(Guid id, [FromBody] ListingRequestReturnContract returnRequest, CancellationToken cancellationToken = default)
         {
-            await this.ChangesRequestState(id, ListingRequestState.Returned, cancellationToken);
+            await this.requestService.ChangeRequestStatus(id, ListingRequestState.Returned, returnRequest.ReturnReason, cancellationToken: cancellationToken);
             var request = await this.requestQueryRepository.GetRequestByIdAsync(id, cancellationToken);
             await this.listingNotesService.CreateNote(request.ListingId, title: "Returned", description: returnRequest.ReturnReason);
             return this.Ok();

@@ -35,7 +35,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
         {
             ArgumentNullException.ThrowIfNull(builder);
 
-            builder.Property(r => r.BuyersAgentCommission).HasPrecision(18, 2).HasColumnName(nameof(IProvideAgentCommission.BuyersAgentCommission)).HasMaxLength(6);
+            builder.Property(r => r.BuyersAgentCommission).HasPrecision(18, 3).HasColumnName(nameof(IProvideAgentCommission.BuyersAgentCommission)).HasMaxLength(6);
             builder.Property(r => r.BuyersAgentCommissionType)
                 .HasColumnName(nameof(IProvideAgentCommission.BuyersAgentCommissionType))
                 .HasEnumFieldValue<CommissionType>(maxLength: 1, isRequired: true);

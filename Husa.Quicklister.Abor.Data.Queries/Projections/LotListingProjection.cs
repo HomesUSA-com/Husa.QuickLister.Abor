@@ -19,6 +19,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             StreetName = listing.AddressInfo.StreetName,
             StreetNum = listing.AddressInfo.StreetNumber,
             StreetType = listing.AddressInfo.StreetType,
+            State = listing.AddressInfo.State,
             City = listing.AddressInfo.City,
             County = listing.AddressInfo.County,
             ListDate = listing.ListDate,
@@ -34,6 +35,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             SysCreatedOn = listing.SysCreatedOn,
             SysCreatedBy = listing.SysCreatedBy,
             CommunityId = listing.CommunityId,
+            UnitNumber = listing.AddressInfo.UnitNumber,
         };
 
         public static Expression<Func<LotListing, LotListingQueryDetailResult>> ProjectToLotListingQueryDetail => listing => new LotListingQueryDetailResult

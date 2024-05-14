@@ -39,6 +39,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             this.CommunityId = communityId;
             this.AddressInfo = new(streetNum, streetName, zipCode, city, state, county);
             this.IsManuallyManaged = manuallyManaged;
+            this.ShowingInfo = new()
+            {
+                OwnerName = ownerName,
+            };
         }
 
         public LotListing()

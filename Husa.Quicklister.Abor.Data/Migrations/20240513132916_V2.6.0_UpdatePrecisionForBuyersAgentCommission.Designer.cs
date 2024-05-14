@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240513132916_V2.6.0_UpdatePrecisionForBuyersAgentCommission")]
+    partial class V260_UpdatePrecisionForBuyersAgentCommission
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2118,8 +2121,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("DistanceToWaterAccess");
 
                             b1.Property<string>("DocumentsAvailable")
-                                .HasMaxLength(1805)
-                                .HasColumnType("nvarchar(1805)")
+                                .HasMaxLength(300)
+                                .HasColumnType("nvarchar(300)")
                                 .HasColumnName("DocumentsAvailable");
 
                             b1.Property<string>("ExteriorFeatures")
@@ -2154,8 +2157,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("NeighborhoodAmenities");
 
                             b1.Property<string>("OtherStructures")
-                                .HasMaxLength(315)
-                                .HasColumnType("nvarchar(315)")
+                                .HasMaxLength(150)
+                                .HasColumnType("nvarchar(150)")
                                 .HasColumnName("OtherStructures");
 
                             b1.Property<string>("RestrictionsDescription")
