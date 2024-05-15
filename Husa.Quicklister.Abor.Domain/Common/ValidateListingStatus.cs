@@ -41,6 +41,8 @@ namespace Husa.Quicklister.Abor.Domain.Common
             {
                 case MarketStatuses.Pending:
                     return PendingValidations(value);
+                case MarketStatuses.Hold:
+                    return HoldValidations(value);
             }
 
             return new List<ValidationResult>();
@@ -69,6 +71,23 @@ namespace Husa.Quicklister.Abor.Domain.Common
             }
 
             result.AddValue(record.HasBuyerAgent && !record.AgentId.HasValue, new(RequiredFieldMessage, new[] { nameof(record.AgentId) }));
+
+            return result;
+        }
+
+        private static IEnumerable<ValidationResult> HoldValidations(TStatusFields record)
+        {
+            var result = new List<ValidationResult>();
+
+            if (!record.OffMarketDate.HasValue)
+            {
+                result.Add(new ValidationResult(RequiredFieldMessage, new[] { nameof(record.OffMarketDate) }));
+            }
+
+            if (!record.BackOnMarketDate.HasValue)
+            {
+                result.Add(new ValidationResult(RequiredFieldMessage, new[] { nameof(record.BackOnMarketDate) }));
+            }
 
             return result;
         }
