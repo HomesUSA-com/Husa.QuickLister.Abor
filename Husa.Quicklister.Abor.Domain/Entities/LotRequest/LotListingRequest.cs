@@ -92,6 +92,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
         public virtual SalesOfficeRecord SalesOfficeInfo { get; set; }
         public virtual LotStatusFieldsRecord StatusFieldsInfo { get; set; }
         public virtual PublishFieldsRecord PublishInfo { get; set; }
+        public virtual string Address => $"{this.AddressInfo.StreetNumber} {this.AddressInfo.StreetName}";
 
         public virtual LotListingRequest Clone()
         {
