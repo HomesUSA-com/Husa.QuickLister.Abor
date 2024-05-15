@@ -31,7 +31,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
                 UnitNumber = listingRequest.AddressInfo.UnitNumber,
                 UpdateGeocodes = listingRequest.PropertyInfo.UpdateGeocodes,
                 StreetType = listingRequest.AddressInfo.StreetType,
-                Address = $"{listingRequest.AddressInfo.StreetNumber} {listingRequest.AddressInfo.StreetName}",
+                Address = listingRequest.Address,
             };
 
         public static Expression<Func<LotListingRequest, LotListingRequestDetailQueryResult>> ProjectionToLotListingRequestDetailQueryResult =>
