@@ -10,5 +10,6 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces.LotListing
         string ApptPhone { get; set; }
         string ShowingServicePhone { get; set; }
         string PublicRemarks { get; set; }
+        string ShowingContactName { get; set; }
     }
 }

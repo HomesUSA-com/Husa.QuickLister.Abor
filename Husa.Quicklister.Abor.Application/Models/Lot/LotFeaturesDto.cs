@@ -22,5 +22,6 @@ namespace Husa.Quicklister.Abor.Application.Models.Lot
         public virtual ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
         public virtual ICollection<Disclosures> Disclosures { get; set; }
         public virtual ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
+        public WaterBodyName? WaterBodyName { get; set; }
     }
 }

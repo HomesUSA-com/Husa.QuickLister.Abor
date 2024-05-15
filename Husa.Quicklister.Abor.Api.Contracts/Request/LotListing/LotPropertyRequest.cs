@@ -10,14 +10,14 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.LotListing
         public ICollection<FemaFloodPlain> FemaFloodPlain { get; set; }
         public ICollection<LotDescription> LotDescription { get; set; }
         public ICollection<PropCondition> PropCondition { get; set; }
-        public virtual PropertySubTypeLots? PropertySubType { get; set; }
-        public virtual ICollection<TypeOfHomeAllowed> TypeOfHomeAllowed { get; set; }
-        public virtual ICollection<SoilType> SoilType { get; set; }
-        public virtual bool SurfaceWater { get; set; }
-        public virtual int? NumberOfPonds { get; set; }
-        public virtual int? NumberOfWells { get; set; }
-        public virtual bool LiveStock { get; set; }
-        public virtual bool CommercialAllowed { get; set; }
+        public PropertySubTypeLots? PropertySubType { get; set; }
+        public ICollection<TypeOfHomeAllowed> TypeOfHomeAllowed { get; set; }
+        public ICollection<SoilType> SoilType { get; set; }
+        public bool SurfaceWater { get; set; }
+        public int? NumberOfPonds { get; set; }
+        public int? NumberOfWells { get; set; }
+        public bool LiveStock { get; set; }
+        public bool CommercialAllowed { get; set; }
         public decimal? Latitude { get; set; }
         public decimal? Longitude { get; set; }
         public string LegalDescription { get; set; }
@@ -25,7 +25,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.LotListing
         public string TaxId { get; set; }
         public string TaxBlock { get; set; }
         public string LotDimension { get; set; }
-        public int? LotSize { get; set; }
+        public string LotSize { get; set; }
         public bool UpdateGeocodes { get; set; }
         public int? AlsoListedAs { get; set; }
         public bool BuilderRestrictions { get; set; }

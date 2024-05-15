@@ -63,7 +63,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public bool HasBuyerIncentive { get; set; }
 
         [Required]
-        public int? EstimatedTax { get; set; }
+        public decimal? EstimatedTax { get; set; }
 
         [Required]
         public int? TaxYear { get; set; }

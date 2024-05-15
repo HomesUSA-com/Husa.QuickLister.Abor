@@ -1,11 +1,15 @@
 namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
 {
     using System;
+    using System.Linq;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records;
+    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Moq;
     using Xunit;
     public class LotListingRequestTests
     {
@@ -46,6 +50,46 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
             Assert.Equal(statusInfo.PendingDate, request.StatusFieldsInfo.PendingDate);
             Assert.Equal(propertyValueObject.FeaturesInfo.DistanceToWaterAccess, request.FeaturesInfo.DistanceToWaterAccess);
             Assert.Equal(propertyValueObject.SchoolsInfo.HighSchool, request.SchoolsInfo.HighSchool);
+        }
+
+        [Theory]
+        [InlineData(MarketStatuses.Canceled)]
+        [InlineData(MarketStatuses.ActiveUnderContract)]
+        [InlineData(MarketStatuses.Pending)]
+        [InlineData(MarketStatuses.Hold)]
+        [InlineData(MarketStatuses.Closed)]
+        public void IsValidForSubmit_StatusFieldAreRequired(MarketStatuses mlsStatus)
+        {
+            var listing = new Mock<LotListingRequest>();
+            listing.Setup(sp => sp.MlsStatus).Returns(mlsStatus);
+            listing.Setup(x => x.StatusFieldsInfo).Returns(new LotStatusFieldsRecord());
+            listing.Setup(sp => sp.IsValidForSubmit()).CallBase();
+
+            var result = listing.Object.IsValidForSubmit();
+
+            var statusError = result.FirstOrDefault(x => x.ErrorMessage.Contains("StatusFields"));
+            Assert.NotNull(statusError);
+        }
+
+        [Fact]
+        public void IsValidForSubmit_PendingValidations()
+        {
+            var mlsStatus = MarketStatuses.Pending;
+            var listing = new Mock<LotListingRequest>();
+            listing.Setup(sp => sp.MlsStatus).Returns(mlsStatus);
+            listing.Setup(sp => sp.IsValidForSubmit()).CallBase();
+
+            var statusFields = new LotStatusFieldsRecord()
+            {
+                PendingDate = DateTime.Today.AddDays(2),
+                EstimatedClosedDate = DateTime.Today.AddDays(-2),
+            };
+            listing.Setup(x => x.StatusFieldsInfo).Returns(statusFields);
+
+            var result = listing.Object.IsValidForSubmit();
+
+            var statusError = result.FirstOrDefault(x => x.ErrorMessage.Contains("StatusFields"));
+            Assert.NotNull(statusError);
         }
     }
 }

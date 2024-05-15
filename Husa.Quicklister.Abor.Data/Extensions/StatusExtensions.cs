@@ -1,6 +1,8 @@
 namespace Husa.Quicklister.Abor.Data.Extensions
 {
     using System;
+    using Husa.Extensions.Linq;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -24,6 +26,11 @@ namespace Husa.Quicklister.Abor.Data.Extensions
             builder.Property(f => f.PendingDate).HasColumnType("datetime").HasColumnName(nameof(IProvideStatusFields.PendingDate));
             builder.Property(f => f.AgentIdSecond).HasColumnName(nameof(IProvideStatusFields.AgentIdSecond));
             builder.Property(f => f.HasSecondBuyerAgent).HasColumnName(nameof(IProvideStatusFields.HasSecondBuyerAgent));
+            builder.Property(f => f.HasContingencyInfo).HasColumnName(nameof(IProvideStatusFields.HasContingencyInfo));
+            builder.Property(f => f.SellConcess).HasMaxLength(50).HasColumnName(nameof(IProvideStatusFields.SellConcess)).HasDefaultValue('0');
+            builder.Property(f => f.SaleTerms).HasColumnName(nameof(IProvideStatusFields.SaleTerms)).HasEnumCollectionValue<SaleTerms>(300);
+            builder.Property(f => f.ContingencyInfo).HasColumnName(nameof(IProvideStatusFields.ContingencyInfo))
+                .HasEnumCollectionValue<ContingencyInfo>(maxLength: 100);
         }
     }
 }

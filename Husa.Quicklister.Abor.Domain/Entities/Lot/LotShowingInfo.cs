@@ -11,7 +11,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
     {
         private string apptPhone;
         private string showingServicePhone;
-
+        private string showingContactName;
         public virtual ICollection<ShowingRequirements> ShowingRequirements { get; set; }
 
         public virtual string ApptPhone
@@ -30,6 +30,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public string ShowingInstructions { get; set; }
         public string PublicRemarks { get; set; }
         public string Directions { get; set; }
+        public virtual string ShowingContactName
+        {
+            get => this.showingContactName ?? this.OwnerName;
+
+            set => this.showingContactName = value;
+        }
+
         public ICollection<ShowingContactType> ShowingContactType { get; set; }
 
         public LotShowingInfo Clone()
@@ -41,6 +48,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         {
             var clonnedShowing = this.Clone();
             clonnedShowing.ShowingRequirements = showing.ShowingRequirements;
+            clonnedShowing.OwnerName = showing.OwnerName;
+            clonnedShowing.ApptPhone = showing.ContactPhone;
+            clonnedShowing.ShowingServicePhone = showing.OccupantPhone;
+            clonnedShowing.ShowingInstructions = showing.ShowingInstructions;
+            clonnedShowing.Directions = showing.Directions;
+
             return clonnedShowing;
         }
 
@@ -54,6 +67,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             yield return this.ShowingServicePhone;
             yield return this.PublicRemarks;
             yield return this.Directions;
+            yield return this.ShowingContactName;
         }
     }
 }

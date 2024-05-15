@@ -20,7 +20,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Lot
         public string TaxId { get; set; }
         public string TaxBlock { get; set; }
         public string LotDimension { get; set; }
-        public int? LotSize { get; set; }
+        public string LotSize { get; set; }
         public bool SurfaceWater { get; set; }
         public int? NumberOfPonds { get; set; }
         public int? NumberOfWells { get; set; }

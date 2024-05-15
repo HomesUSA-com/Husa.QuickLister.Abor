@@ -126,6 +126,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Lot
                 MineralsFeatures = features.MineralsFeatures,
                 OtherStructures = features.OtherStructures,
                 RoadSurface = features.RoadSurface,
+                WaterBodyName = features.WaterBodyName,
             };
         }
 
@@ -147,6 +148,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Lot
                 ShowingContactType = showing.ShowingContactType,
                 ShowingInstructions = showing.ShowingInstructions,
                 ShowingServicePhone = showing.ShowingServicePhone,
+                ShowingContactName = showing.ShowingContactName,
             };
         }
 

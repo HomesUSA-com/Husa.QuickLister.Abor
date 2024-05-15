@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
     using System;
     using System.Collections.Generic;
     using Husa.Extensions.Domain.ValueObjects;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Attributes;
     using Agent = Husa.Quicklister.Abor.Domain.Entities.Agent.Agent;
@@ -40,6 +41,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
 
         public DateTime? OffMarketDate { get; set; }
 
+        public bool HasContingencyInfo { get; set; }
+
+        public ICollection<SaleTerms> SaleTerms { get; set; }
+
+        public string SellConcess { get; set; }
+        public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
+
         public void SetStatusChangeAgent(Agent agent)
         {
             if (agent is null)
@@ -69,6 +77,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
             yield return this.AgentIdSecond;
             yield return this.BackOnMarketDate;
             yield return this.OffMarketDate;
+            yield return this.HasContingencyInfo;
+            yield return this.SaleTerms;
+            yield return this.SellConcess;
+            yield return this.ContingencyInfo;
         }
     }
 }

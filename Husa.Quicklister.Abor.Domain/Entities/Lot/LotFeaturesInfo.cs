@@ -25,6 +25,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public virtual ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
         public virtual ICollection<Disclosures> Disclosures { get; set; }
         public virtual ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
+        public WaterBodyName? WaterBodyName { get; set; }
 
         public LotFeaturesInfo Clone()
         {
@@ -41,6 +42,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             clonnedFeatures.View = utilities.View;
             clonnedFeatures.Fencing = utilities.Fencing;
             clonnedFeatures.ExteriorFeatures = utilities.ExteriorFeatures;
+            clonnedFeatures.NeighborhoodAmenities = utilities.NeighborhoodAmenities;
             return clonnedFeatures;
         }
 
@@ -63,6 +65,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             yield return this.NeighborhoodAmenities;
             yield return this.DocumentsAvailable;
             yield return this.Disclosures;
+            yield return this.WaterBodyName;
         }
     }
 }

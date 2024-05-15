@@ -56,7 +56,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
             builder.Property(x => x.PropertyType).HasColumnName(nameof(LotPropertyInfo.PropertyType)).HasEnumFieldValue<PropertySubType>(maxLength: 32);
             builder.Property(r => r.FemaFloodPlain).HasColumnName(nameof(LotPropertyInfo.FemaFloodPlain)).HasEnumCollectionValue<FemaFloodPlain>(25);
             builder.Property(r => r.TaxBlock).HasColumnName(nameof(LotPropertyInfo.TaxBlock)).HasMaxLength(25).IsRequired(false);
-            builder.Property(r => r.LotSize).HasColumnName(nameof(LotPropertyInfo.LotSize));
+            builder.Property(r => r.LotSize).HasColumnName(nameof(LotPropertyInfo.LotSize)).HasMaxLength(25).IsRequired(false);
             builder.Property(r => r.PropCondition).HasColumnName(nameof(LotPropertyInfo.PropCondition)).HasEnumCollectionValue<PropCondition>(30);
             builder.Property(r => r.NumberOfPonds).HasColumnName(nameof(LotPropertyInfo.NumberOfPonds));
             builder.Property(r => r.NumberOfWells).HasColumnName(nameof(LotPropertyInfo.NumberOfWells));
@@ -98,6 +98,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
             builder.Property(r => r.NeighborhoodAmenities).HasColumnName(nameof(LotFeaturesInfo.NeighborhoodAmenities)).HasEnumCollectionValue<NeighborhoodAmenities>(1000);
             builder.Property(r => r.DocumentsAvailable).HasColumnName(nameof(LotFeaturesInfo.DocumentsAvailable)).HasEnumCollectionValue<DocumentsAvailable>(1805);
             builder.Property(r => r.Disclosures).HasColumnName(nameof(LotFeaturesInfo.Disclosures)).HasEnumCollectionValue<Disclosures>(240);
+            builder.Property(r => r.WaterBodyName).HasColumnName(nameof(LotFeaturesInfo.WaterBodyName)).HasEnumFieldValue<WaterBodyName>(50);
         }
 
         private static void ConfigureFinancialMapping(OwnedNavigationBuilder<LotListing, LotFinancialInfo> builder)
@@ -118,6 +119,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
             builder.Property(r => r.ShowingServicePhone).HasColumnName(nameof(LotShowingInfo.ShowingServicePhone)).HasMaxLength(12);
             builder.Property(r => r.PublicRemarks).HasColumnName(nameof(LotShowingInfo.PublicRemarks)).HasMaxLength(1000);
             builder.Property(r => r.ShowingContactType).HasColumnName(nameof(LotShowingInfo.ShowingContactType)).HasEnumCollectionValue<ShowingContactType>(maxLength: 20);
+            builder.Property(r => r.ShowingContactName).HasColumnName(nameof(LotShowingInfo.ShowingContactName)).HasMaxLength(100);
         }
 
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<LotListing, LotSchoolsInfo> builder)

@@ -27,7 +27,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public string TaxId { get; set; }
         public string TaxBlock { get; set; }
         public string LotDimension { get; set; }
-        public int? LotSize { get; set; }
+        public string LotSize { get; set; }
         public bool UpdateGeocodes { get; set; }
         public int? AlsoListedAs { get; set; }
         public bool BuilderRestrictions { get; set; }
@@ -50,6 +50,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             clonnedProperty.MlsArea = property.MlsArea;
             clonnedProperty.LotDescription = property.LotDescription;
             clonnedProperty.PropertyType = property.PropertyType;
+            clonnedProperty.LotDimension = property.LotDimension;
+            clonnedProperty.LotSize = property.LotSize;
             return clonnedProperty;
         }
 

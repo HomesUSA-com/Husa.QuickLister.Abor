@@ -108,7 +108,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
             ArgumentNullException.ThrowIfNull(builder);
 
             builder.ConfigureCommonFinancial();
-            builder.Property(r => r.EstimatedTax).HasColumnName(nameof(IProvideLotFinancial.EstimatedTax));
+            builder.Property(r => r.EstimatedTax).HasColumnName(nameof(IProvideLotFinancial.EstimatedTax)).HasPrecision(18, 2);
             builder.Property(r => r.TaxYear).HasColumnName(nameof(IProvideLotFinancial.TaxYear));
             builder.Property(r => r.TaxExemptions).HasColumnName(nameof(IProvideLotFinancial.TaxExemptions)).HasEnumCollectionValue<TaxExemptions>(40);
             builder.Property(r => r.TaxAssesedValue).HasColumnName(nameof(IProvideLotFinancial.TaxAssesedValue));

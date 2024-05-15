@@ -21,8 +21,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public ICollection<PropCondition> PropCondition { get; set; }
         public string TaxBlock { get; set; }
 
-        [Required]
-        public int? LotSize { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        public string LotSize { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         public string LegalDescription { get; set; }

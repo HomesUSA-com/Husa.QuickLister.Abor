@@ -20,7 +20,7 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces.LotListing
         bool LiveStock { get; set; }
         bool CommercialAllowed { get; set; }
         string TaxBlock { get; set; }
-        int? LotSize { get; set; }
+        string LotSize { get; set; }
         bool UpdateGeocodes { get; set; }
         int? AlsoListedAs { get; set; }
         bool BuilderRestrictions { get; set; }

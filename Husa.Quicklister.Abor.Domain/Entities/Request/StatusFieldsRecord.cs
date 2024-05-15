@@ -1,11 +1,13 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Request
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
 
     public record StatusFieldsRecord : IProvideStatusFields
@@ -21,6 +23,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
         public Guid? AgentIdSecond { get; set; }
         public DateTime? BackOnMarketDate { get; set; }
         public DateTime? OffMarketDate { get; set; }
+        public bool HasContingencyInfo { get; set; }
+        public ICollection<SaleTerms> SaleTerms { get; set; }
+        public string SellConcess { get; set; }
+        public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
 
         public static TResult CreateRecord<T, TResult>(T statusFieldInfo)
             where T : ListingStatusFieldsInfo
@@ -38,6 +44,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
             AgentIdSecond = statusFieldInfo.AgentIdSecond,
             BackOnMarketDate = statusFieldInfo.BackOnMarketDate,
             OffMarketDate = statusFieldInfo.OffMarketDate,
+            HasContingencyInfo = statusFieldInfo.HasContingencyInfo,
+            SaleTerms = statusFieldInfo.SaleTerms,
+            SellConcess = statusFieldInfo.SellConcess,
+            ContingencyInfo = statusFieldInfo.ContingencyInfo,
         };
 
         public virtual void UpdateInformation<T>(T statusFieldInfo)
@@ -56,6 +66,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
             this.AgentIdSecond = statusFieldInfo.AgentIdSecond;
             this.BackOnMarketDate = statusFieldInfo.BackOnMarketDate;
             this.OffMarketDate = statusFieldInfo.OffMarketDate;
+            this.HasContingencyInfo = statusFieldInfo.HasContingencyInfo;
+            this.SaleTerms = statusFieldInfo.SaleTerms;
+            this.SellConcess = statusFieldInfo.SellConcess;
+            this.ContingencyInfo = statusFieldInfo.ContingencyInfo;
         }
 
         public virtual SummarySection GetSummarySection<T>(T oldStatusFielsValues, MarketStatuses? mlsStatus, string sectionName)
@@ -85,15 +99,19 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
                 nameof(this.EstimatedClosedDate),
                 nameof(this.HasBuyerAgent),
                 nameof(this.AgentId),
+                nameof(this.HasContingencyInfo),
             },
             MarketStatuses.ActiveUnderContract => new string[]
             {
                 nameof(this.PendingDate),
                 nameof(this.ClosedDate),
                 nameof(this.EstimatedClosedDate),
+                nameof(this.HasContingencyInfo),
+                nameof(this.ContingencyInfo),
             },
             MarketStatuses.Closed => new string[]
             {
+                nameof(this.HasContingencyInfo),
                 nameof(this.AgentId),
                 nameof(this.AgentIdSecond),
                 nameof(this.HasSecondBuyerAgent),
@@ -101,6 +119,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
                 nameof(this.PendingDate),
                 nameof(this.ClosedDate),
                 nameof(this.ClosePrice),
+                nameof(this.SaleTerms),
+                nameof(this.SellConcess),
             },
             _ => Array.Empty<string>(),
         };
