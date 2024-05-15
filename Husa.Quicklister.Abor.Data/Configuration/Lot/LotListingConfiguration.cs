@@ -56,7 +56,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
             builder.Property(x => x.PropertyType).HasColumnName(nameof(LotPropertyInfo.PropertyType)).HasEnumFieldValue<PropertySubType>(maxLength: 32);
             builder.Property(r => r.FemaFloodPlain).HasColumnName(nameof(LotPropertyInfo.FemaFloodPlain)).HasEnumCollectionValue<FemaFloodPlain>(25);
             builder.Property(r => r.TaxBlock).HasColumnName(nameof(LotPropertyInfo.TaxBlock)).HasMaxLength(25).IsRequired(false);
-            builder.Property(r => r.LotSize).HasColumnName(nameof(LotPropertyInfo.LotSize));
+            builder.Property(r => r.LotSize).HasColumnName(nameof(LotPropertyInfo.LotSize)).HasMaxLength(25).IsRequired(false);
             builder.Property(r => r.PropCondition).HasColumnName(nameof(LotPropertyInfo.PropCondition)).HasEnumCollectionValue<PropCondition>(30);
             builder.Property(r => r.NumberOfPonds).HasColumnName(nameof(LotPropertyInfo.NumberOfPonds));
             builder.Property(r => r.NumberOfWells).HasColumnName(nameof(LotPropertyInfo.NumberOfWells));

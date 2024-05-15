@@ -140,7 +140,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.LotListings
                     Longitude = (decimal?)12.2,
                     LotDescription = new List<LotDescription>() { LotDescription.BackYard },
                     LotDimension = "Dimension",
-                    LotSize = 12,
+                    LotSize = "12",
                     MlsArea = MlsArea.TenN,
                     PropCondition = new List<PropCondition>() { PropCondition.ToBeBuilt },
                     PropertyType = PropertySubType.Condominium,

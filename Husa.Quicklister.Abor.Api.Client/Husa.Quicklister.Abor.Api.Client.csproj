@@ -8,10 +8,10 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.2.2</Version>
+        <Version>2.2.3</Version>
         <PackageReleaseNotes>
             Release 2.2.2:
-            - Changed EstimatedTax to decimal
+            - Updated Lot Size for lots data type
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
