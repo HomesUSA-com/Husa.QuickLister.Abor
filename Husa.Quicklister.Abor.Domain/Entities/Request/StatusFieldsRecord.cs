@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
         public Guid? AgentIdSecond { get; set; }
         public DateTime? BackOnMarketDate { get; set; }
         public DateTime? OffMarketDate { get; set; }
+        public bool HasContingencyInfo { get; set; }
 
         public static TResult CreateRecord<T, TResult>(T statusFieldInfo)
             where T : ListingStatusFieldsInfo
@@ -38,6 +39,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
             AgentIdSecond = statusFieldInfo.AgentIdSecond,
             BackOnMarketDate = statusFieldInfo.BackOnMarketDate,
             OffMarketDate = statusFieldInfo.OffMarketDate,
+            HasContingencyInfo = statusFieldInfo.HasContingencyInfo,
         };
 
         public virtual void UpdateInformation<T>(T statusFieldInfo)
@@ -56,6 +58,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
             this.AgentIdSecond = statusFieldInfo.AgentIdSecond;
             this.BackOnMarketDate = statusFieldInfo.BackOnMarketDate;
             this.OffMarketDate = statusFieldInfo.OffMarketDate;
+            this.HasContingencyInfo = statusFieldInfo.HasContingencyInfo;
         }
 
         public virtual SummarySection GetSummarySection<T>(T oldStatusFielsValues, MarketStatuses? mlsStatus, string sectionName)
@@ -85,6 +88,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
                 nameof(this.EstimatedClosedDate),
                 nameof(this.HasBuyerAgent),
                 nameof(this.AgentId),
+                nameof(this.HasContingencyInfo),
             },
             MarketStatuses.ActiveUnderContract => new string[]
             {

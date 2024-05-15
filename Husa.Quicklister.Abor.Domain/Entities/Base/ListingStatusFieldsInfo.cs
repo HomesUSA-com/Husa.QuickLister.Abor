@@ -40,6 +40,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
 
         public DateTime? OffMarketDate { get; set; }
 
+        public bool HasContingencyInfo { get; set; }
+
         public void SetStatusChangeAgent(Agent agent)
         {
             if (agent is null)
@@ -69,6 +71,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
             yield return this.AgentIdSecond;
             yield return this.BackOnMarketDate;
             yield return this.OffMarketDate;
+            yield return this.HasContingencyInfo;
         }
     }
 }

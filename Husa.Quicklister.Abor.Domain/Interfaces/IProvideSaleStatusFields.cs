@@ -5,8 +5,6 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
 
     public interface IProvideSaleStatusFields
     {
-        public bool HasContingencyInfo { get; set; }
-
         public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
 
         public ICollection<SaleTerms> SaleTerms { get; set; }

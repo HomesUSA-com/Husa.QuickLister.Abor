@@ -7,8 +7,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
     public class ListingSaleStatusFieldsInfo : ListingStatusFieldsInfo, IProvideSaleStatusFields
     {
-        public bool HasContingencyInfo { get; set; }
-
         public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
 
         public ICollection<SaleTerms> SaleTerms { get; set; }
@@ -18,7 +16,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return base.GetEqualityComponents();
-            yield return this.HasContingencyInfo;
             yield return this.ContingencyInfo;
             yield return this.SaleTerms;
             yield return this.PendingDate;

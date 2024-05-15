@@ -30,5 +30,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
         public string AgentMarketUniqueId { get; set; }
 
         public string SecondAgentMarketUniqueId { get; set; }
+
+        public bool HasContingencyInfo { get; set; }
     }
 }

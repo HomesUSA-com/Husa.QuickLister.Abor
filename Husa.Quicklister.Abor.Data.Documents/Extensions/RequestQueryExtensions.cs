@@ -27,6 +27,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                 AgentIdSecond = statusField.AgentIdSecond,
                 BackOnMarketDate = statusField.BackOnMarketDate,
                 OffMarketDate = statusField.OffMarketDate,
+                HasContingencyInfo = statusField.HasContingencyInfo,
             };
         }
     }

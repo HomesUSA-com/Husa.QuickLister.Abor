@@ -1,13 +1,11 @@
 namespace Husa.Quicklister.Abor.Domain.Interfaces
 {
     using System;
-    using Husa.Quicklister.Extensions.Domain.Attributes;
 
     public interface IProvideStatusFields
     {
         public DateTime? PendingDate { get; set; }
 
-        [XmlPropertyUpdate]
         public DateTime? ClosedDate { get; set; }
 
         public DateTime? EstimatedClosedDate { get; set; }
@@ -27,5 +25,7 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         public DateTime? BackOnMarketDate { get; set; }
 
         public DateTime? OffMarketDate { get; set; }
+
+        public bool HasContingencyInfo { get; set; }
     }
 }

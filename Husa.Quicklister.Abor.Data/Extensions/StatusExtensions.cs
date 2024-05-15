@@ -24,6 +24,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
             builder.Property(f => f.PendingDate).HasColumnType("datetime").HasColumnName(nameof(IProvideStatusFields.PendingDate));
             builder.Property(f => f.AgentIdSecond).HasColumnName(nameof(IProvideStatusFields.AgentIdSecond));
             builder.Property(f => f.HasSecondBuyerAgent).HasColumnName(nameof(IProvideStatusFields.HasSecondBuyerAgent));
+            builder.Property(f => f.HasContingencyInfo).HasColumnName(nameof(IProvideStatusFields.HasContingencyInfo));
         }
     }
 }

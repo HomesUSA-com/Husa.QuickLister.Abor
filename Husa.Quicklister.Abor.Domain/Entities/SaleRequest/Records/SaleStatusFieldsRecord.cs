@@ -16,7 +16,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     {
         public const string SummarySection = "Status Fields";
 
-        public bool HasContingencyInfo { get; set; }
         public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
         public ICollection<SaleTerms> SaleTerms { get; set; }
         public string SellConcess { get; set; }
@@ -26,7 +25,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         public static SaleStatusFieldsRecord CreateRecord(ListingSaleStatusFieldsInfo statusFieldInfo)
         {
             var record = StatusFieldsRecord.CreateRecord<ListingSaleStatusFieldsInfo, SaleStatusFieldsRecord>(statusFieldInfo);
-            record.HasContingencyInfo = statusFieldInfo.HasContingencyInfo;
             record.ContingencyInfo = statusFieldInfo.ContingencyInfo;
             record.SaleTerms = statusFieldInfo.SaleTerms;
             record.SellConcess = statusFieldInfo.SellConcess;
@@ -39,7 +37,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 
             this.UpdateInformation<ListingSaleStatusFieldsInfo>(statusFieldInfo);
 
-            this.HasContingencyInfo = statusFieldInfo.HasContingencyInfo;
             this.ContingencyInfo = statusFieldInfo.ContingencyInfo;
             this.SaleTerms = statusFieldInfo.SaleTerms;
             this.SellConcess = statusFieldInfo.SellConcess;

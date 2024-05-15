@@ -25,5 +25,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
         public DateTime? BackOnMarketDate { get; set; }
 
         public DateTime? OffMarketDate { get; set; }
+        public bool HasContingencyInfo { get; set; }
     }
 }

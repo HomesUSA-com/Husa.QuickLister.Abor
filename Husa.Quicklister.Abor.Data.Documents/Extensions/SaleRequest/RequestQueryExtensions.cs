@@ -188,7 +188,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions.SaleRequest
         public static ListingRequestStatusFieldsQueryResult ToProjectionListingSaleRequestStatusFieldsQueryResult(this SaleStatusFieldsRecord statusField)
         {
             var fields = statusField.ToProjectionStatusFieldsQueryResult<SaleStatusFieldsRecord, ListingRequestStatusFieldsQueryResult>();
-            fields.HasContingencyInfo = statusField.HasContingencyInfo;
             fields.ContingencyInfo = statusField.ContingencyInfo;
             fields.SaleTerms = statusField.SaleTerms;
             fields.SellConcess = statusField.SellConcess;

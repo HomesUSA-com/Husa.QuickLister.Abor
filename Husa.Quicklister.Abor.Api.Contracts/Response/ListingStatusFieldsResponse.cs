@@ -29,5 +29,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
         public string AgentMarketUniqueId { get; set; }
 
         public string SecondAgentMarketUniqueId { get; set; }
+        public bool HasContingencyInfo { get; set; }
     }
 }

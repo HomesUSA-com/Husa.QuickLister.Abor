@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
     using System.Linq;
     using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
+    using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records;
@@ -140,6 +141,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
             this.ExpirationDate = listingRequestValue.ExpirationDate;
             this.ListPrice = listingRequestValue.ListPrice;
             this.MlsStatus = listingRequestValue.MlsStatus;
+        }
+
+        public override IEnumerable<ValidationResult> IsValidForSubmit()
+        {
+            var validationResults = ValidatePropertiesAttribute.GetErrors(this);
+            var statusResults = ValidateListingStatus<StatusFieldsRecord>.GetErrors(this.MlsStatus, this.StatusFieldsInfo);
+            return statusResults != null ? validationResults.Concat(new[] { statusResults }) : validationResults;
         }
 
         public override IEnumerable<SummarySection> GetSummary<TListingRequest>(TListingRequest previousRequest)

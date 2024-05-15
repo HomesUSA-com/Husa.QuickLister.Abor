@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240515174202_V2.6.0_AddHasContingencyInfoToLot")]
+    partial class V260_AddHasContingencyInfoToLot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1334,8 +1337,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("ContactPhone");
 
                             b1.Property<string>("Directions")
-                                .HasMaxLength(2000)
-                                .HasColumnType("nvarchar(2000)")
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)")
                                 .HasColumnName("Directions");
 
                             b1.Property<string>("LockBoxType")
@@ -2247,9 +2250,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(1)")
                                 .HasColumnName("BuyersAgentCommissionType");
 
-                            b1.Property<decimal?>("EstimatedTax")
-                                .HasPrecision(18, 2)
-                                .HasColumnType("decimal(18,2)")
+                            b1.Property<int?>("EstimatedTax")
+                                .HasColumnType("int")
                                 .HasColumnName("EstimatedTax");
 
                             b1.Property<string>("HOARequirement")
@@ -2410,9 +2412,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(25)")
                                 .HasColumnName("LotDimension");
 
-                            b1.Property<string>("LotSize")
-                                .HasMaxLength(25)
-                                .HasColumnType("nvarchar(25)")
+                            b1.Property<int?>("LotSize")
+                                .HasColumnType("int")
                                 .HasColumnName("LotSize");
 
                             b1.Property<string>("MlsArea")
@@ -3282,8 +3283,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("ContactPhone");
 
                             b1.Property<string>("Directions")
-                                .HasMaxLength(2000)
-                                .HasColumnType("nvarchar(2000)")
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)")
                                 .HasColumnName("Directions");
 
                             b1.Property<bool>("EnableOpenHouses")

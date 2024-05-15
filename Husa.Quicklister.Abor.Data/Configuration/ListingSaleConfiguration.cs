@@ -47,7 +47,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(f => f.SaleTerms).HasColumnName(nameof(ListingSaleStatusFieldsInfo.SaleTerms)).HasEnumCollectionValue<SaleTerms>(300);
             builder.Property(f => f.ContingencyInfo).HasColumnName(nameof(ListingSaleStatusFieldsInfo.ContingencyInfo))
                 .HasEnumCollectionValue<ContingencyInfo>(maxLength: 100);
-            builder.Property(f => f.HasContingencyInfo).HasColumnName(nameof(ListingSaleStatusFieldsInfo.HasContingencyInfo));
         }
 
         private static void ConfigureInvoiceInfoMapping(OwnedNavigationBuilder<SaleListing, InvoiceInfo> builder)
