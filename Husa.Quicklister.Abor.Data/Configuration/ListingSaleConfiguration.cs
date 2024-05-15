@@ -43,7 +43,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
         private static void ConfigureStatusFieldsMapping(OwnedNavigationBuilder<SaleListing, ListingSaleStatusFieldsInfo> builder)
         {
             builder.ConfigureStatusInfoMapping();
-            builder.Property(f => f.SellConcess).HasMaxLength(50).HasColumnName(nameof(ListingSaleStatusFieldsInfo.SellConcess));
+            builder.Property(f => f.SellConcess).HasMaxLength(50).HasColumnName(nameof(ListingSaleStatusFieldsInfo.SellConcess)).HasDefaultValue('0');
             builder.Property(f => f.SaleTerms).HasColumnName(nameof(ListingSaleStatusFieldsInfo.SaleTerms)).HasEnumCollectionValue<SaleTerms>(300);
             builder.Property(f => f.ContingencyInfo).HasColumnName(nameof(ListingSaleStatusFieldsInfo.ContingencyInfo))
                 .HasEnumCollectionValue<ContingencyInfo>(maxLength: 100);
