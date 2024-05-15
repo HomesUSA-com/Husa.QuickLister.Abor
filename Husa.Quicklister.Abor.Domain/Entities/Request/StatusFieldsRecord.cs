@@ -26,6 +26,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
         public bool HasContingencyInfo { get; set; }
         public ICollection<SaleTerms> SaleTerms { get; set; }
         public string SellConcess { get; set; }
+        public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
 
         public static TResult CreateRecord<T, TResult>(T statusFieldInfo)
             where T : ListingStatusFieldsInfo
@@ -46,6 +47,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
             HasContingencyInfo = statusFieldInfo.HasContingencyInfo,
             SaleTerms = statusFieldInfo.SaleTerms,
             SellConcess = statusFieldInfo.SellConcess,
+            ContingencyInfo = statusFieldInfo.ContingencyInfo,
         };
 
         public virtual void UpdateInformation<T>(T statusFieldInfo)
@@ -67,6 +69,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
             this.HasContingencyInfo = statusFieldInfo.HasContingencyInfo;
             this.SaleTerms = statusFieldInfo.SaleTerms;
             this.SellConcess = statusFieldInfo.SellConcess;
+            this.ContingencyInfo = statusFieldInfo.ContingencyInfo;
         }
 
         public virtual SummarySection GetSummarySection<T>(T oldStatusFielsValues, MarketStatuses? mlsStatus, string sectionName)
@@ -103,9 +106,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
                 nameof(this.PendingDate),
                 nameof(this.ClosedDate),
                 nameof(this.EstimatedClosedDate),
+                nameof(this.HasContingencyInfo),
+                nameof(this.ContingencyInfo),
             },
             MarketStatuses.Closed => new string[]
-           {
+            {
                 nameof(this.HasContingencyInfo),
                 nameof(this.AgentId),
                 nameof(this.AgentIdSecond),
@@ -116,7 +121,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
                 nameof(this.ClosePrice),
                 nameof(this.SaleTerms),
                 nameof(this.SellConcess),
-           },
+            },
             _ => Array.Empty<string>(),
         };
     }

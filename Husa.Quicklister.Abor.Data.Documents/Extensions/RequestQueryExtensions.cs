@@ -30,6 +30,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                 HasContingencyInfo = statusField.HasContingencyInfo,
                 SaleTerms = statusField.SaleTerms,
                 SellConcess = statusField.SellConcess,
+                ContingencyInfo = statusField.ContingencyInfo,
             };
         }
     }

@@ -54,6 +54,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
 
         [Theory]
         [InlineData(MarketStatuses.Canceled)]
+        [InlineData(MarketStatuses.ActiveUnderContract)]
         [InlineData(MarketStatuses.Pending)]
         [InlineData(MarketStatuses.Hold)]
         [InlineData(MarketStatuses.Closed)]

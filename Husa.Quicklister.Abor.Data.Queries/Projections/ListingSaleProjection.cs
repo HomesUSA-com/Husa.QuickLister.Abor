@@ -113,17 +113,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
         };
 
         private static ListingSaleStatusFieldQueryResult ToProjectionSaleStatusFieldsInfo(this ListingSaleStatusFieldsInfo statusFieldsInfo)
-        {
-            if (statusFieldsInfo == null)
-            {
-                return new();
-            }
-
-            var statusFields = statusFieldsInfo.ToProjectionStatusFieldsInfo<ListingSaleStatusFieldsInfo, ListingSaleStatusFieldQueryResult>();
-
-            statusFields.ContingencyInfo = statusFieldsInfo.ContingencyInfo;
-
-            return statusFields;
-        }
+            => statusFieldsInfo.ToProjectionStatusFieldsInfo<ListingSaleStatusFieldsInfo, ListingSaleStatusFieldQueryResult>();
     }
 }

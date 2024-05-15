@@ -47,7 +47,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
                 LockedByUsername = null,
                 LockedBy = null,
                 LockedStatus = LockedStatus.NoLocked,
-                StatusFieldsInfo = listingRequest.StatusFieldsInfo.ToProjectionListingSaleRequestStatusFieldsQueryResult(),
+                StatusFieldsInfo = listingRequest.StatusFieldsInfo.ToListingRequestStatusFieldsQueryResult(),
                 SaleProperty = listingRequest.SaleProperty.ToProjectionListingSaleRequestSalePropertyQueryResult(),
             };
 
@@ -70,7 +70,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
                 SysCreatedBy = listingRequest.SysCreatedBy,
                 SysModifiedOn = listingRequest.SysModifiedOn,
                 SysModifiedBy = listingRequest.SysModifiedBy,
-                StatusFieldsInfo = listingRequest.StatusFieldsInfo.ToProjectionListingSaleRequestStatusFieldsQueryResult(),
+                StatusFieldsInfo = listingRequest.StatusFieldsInfo.ToListingRequestStatusFieldsQueryResult(),
                 SaleProperty = listingRequest.SaleProperty.ToProjectionListingSaleRequestSalePropertyQueryResult(),
                 PublishInfo = listingRequest.PublishInfo.ToProjectionPublishInfo(),
             };

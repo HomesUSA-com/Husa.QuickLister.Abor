@@ -32,5 +32,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
         public ICollection<SaleTerms> SaleTerms { get; set; }
 
         public string SellConcess { get; set; }
+        public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
     }
 }

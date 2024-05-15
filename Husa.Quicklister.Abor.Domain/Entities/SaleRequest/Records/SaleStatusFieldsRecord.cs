@@ -1,40 +1,25 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Enums;
-    using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 
-    public record SaleStatusFieldsRecord : StatusFieldsRecord, IProvideSummary, IProvideSaleStatusFields
+    public record SaleStatusFieldsRecord : StatusFieldsRecord, IProvideSummary
     {
         public const string SummarySection = "Status Fields";
-
-        public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
 
         public SaleStatusFieldsRecord CloneRecord() => (SaleStatusFieldsRecord)this.MemberwiseClone();
 
         public static SaleStatusFieldsRecord CreateRecord(ListingSaleStatusFieldsInfo statusFieldInfo)
-        {
-            var record = StatusFieldsRecord.CreateRecord<ListingSaleStatusFieldsInfo, SaleStatusFieldsRecord>(statusFieldInfo);
-            record.ContingencyInfo = statusFieldInfo.ContingencyInfo;
-            return record;
-        }
+            => StatusFieldsRecord.CreateRecord<ListingSaleStatusFieldsInfo, SaleStatusFieldsRecord>(statusFieldInfo);
 
         public virtual void UpdateInformation(ListingSaleStatusFieldsInfo statusFieldInfo)
-        {
-            ArgumentNullException.ThrowIfNull(statusFieldInfo);
-
-            this.UpdateInformation<ListingSaleStatusFieldsInfo>(statusFieldInfo);
-
-            this.ContingencyInfo = statusFieldInfo.ContingencyInfo;
-        }
+            => this.UpdateInformation<ListingSaleStatusFieldsInfo>(statusFieldInfo);
 
         public virtual SummarySection GetSummary<T>(T entity)
             where T : class

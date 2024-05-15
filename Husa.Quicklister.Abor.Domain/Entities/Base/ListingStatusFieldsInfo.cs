@@ -46,6 +46,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
         public ICollection<SaleTerms> SaleTerms { get; set; }
 
         public string SellConcess { get; set; }
+        public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
 
         public void SetStatusChangeAgent(Agent agent)
         {
@@ -78,8 +79,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
             yield return this.OffMarketDate;
             yield return this.HasContingencyInfo;
             yield return this.SaleTerms;
-            yield return this.PendingDate;
             yield return this.SellConcess;
+            yield return this.ContingencyInfo;
         }
     }
 }
