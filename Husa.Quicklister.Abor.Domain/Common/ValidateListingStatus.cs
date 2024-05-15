@@ -43,6 +43,8 @@ namespace Husa.Quicklister.Abor.Domain.Common
                     return PendingValidations(value);
                 case MarketStatuses.Hold:
                     return HoldValidations(value);
+                case MarketStatuses.Closed:
+                    return SoldValidations(value);
                 case MarketStatuses.Canceled:
                     return CanceledValidations(value);
             }
@@ -86,19 +88,32 @@ namespace Husa.Quicklister.Abor.Domain.Common
 
         private static IEnumerable<ValidationResult> HoldValidations(TStatusFields record)
         {
-            var result = new List<ValidationResult>();
+            var requiredFields = new List<string>();
+            requiredFields.AddValue(!record.OffMarketDate.HasValue, nameof(record.OffMarketDate));
+            requiredFields.AddValue(!record.BackOnMarketDate.HasValue, nameof(record.BackOnMarketDate));
+            return requiredFields.Any() ? new List<ValidationResult> { new(RequiredFieldMessage, requiredFields) } : new List<ValidationResult>();
+        }
 
-            if (!record.OffMarketDate.HasValue)
+        private static IEnumerable<ValidationResult> SoldValidations(TStatusFields record)
+        {
+            var requiredFields = new List<string>();
+
+            requiredFields.AddValue(!record.ClosedDate.HasValue, nameof(record.ClosedDate));
+            requiredFields.AddValue(!record.PendingDate.HasValue, nameof(record.PendingDate));
+            requiredFields.AddValue(!record.ClosePrice.HasValue, nameof(record.ClosePrice));
+            requiredFields.AddValue(record.HasBuyerAgent && !record.AgentId.HasValue, nameof(record.AgentId));
+            requiredFields.AddValue(record.HasSecondBuyerAgent && !record.AgentIdSecond.HasValue, nameof(record.AgentIdSecond));
+            requiredFields.AddValue(record.SaleTerms == null || !record.SaleTerms.Any(), nameof(record.SaleTerms));
+            requiredFields.AddValue(string.IsNullOrWhiteSpace(record.SellConcess), nameof(record.SellConcess));
+
+            var results = requiredFields.Any() ? new List<ValidationResult> { new(RequiredFieldMessage, requiredFields) } : new List<ValidationResult>();
+
+            if (record.ClosePrice.HasValue && record.ClosePrice.Value <= 0)
             {
-                result.Add(new ValidationResult(RequiredFieldMessage, new[] { nameof(record.OffMarketDate) }));
+                results.Add(new ValidationResult(GetErrorMessage("zero", OperatorType.GreaterThan)));
             }
 
-            if (!record.BackOnMarketDate.HasValue)
-            {
-                result.Add(new ValidationResult(RequiredFieldMessage, new[] { nameof(record.BackOnMarketDate) }));
-            }
-
-            return result;
+            return results;
         }
 
         private static string GetErrorMessage(string fieldName, OperatorType option)

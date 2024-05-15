@@ -56,6 +56,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
         [InlineData(MarketStatuses.Canceled)]
         [InlineData(MarketStatuses.Pending)]
         [InlineData(MarketStatuses.Hold)]
+        [InlineData(MarketStatuses.Closed)]
         public void IsValidForSubmit_StatusFieldAreRequired(MarketStatuses mlsStatus)
         {
             var listing = new Mock<LotListingRequest>();

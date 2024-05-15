@@ -1,6 +1,8 @@
 namespace Husa.Quicklister.Abor.Domain.Interfaces
 {
     using System;
+    using System.Collections.Generic;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public interface IProvideStatusFields
     {
@@ -27,5 +29,9 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         public DateTime? OffMarketDate { get; set; }
 
         public bool HasContingencyInfo { get; set; }
+
+        public ICollection<SaleTerms> SaleTerms { get; set; }
+
+        public string SellConcess { get; set; }
     }
 }

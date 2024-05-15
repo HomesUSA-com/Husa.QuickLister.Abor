@@ -6,9 +6,5 @@ namespace Husa.Quicklister.Abor.Application.Models
     public class ListingSaleStatusFieldsDto : ListingStatusFieldsDto
     {
         public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
-
-        public ICollection<SaleTerms> SaleTerms { get; set; }
-
-        public string SellConcess { get; set; }
     }
 }

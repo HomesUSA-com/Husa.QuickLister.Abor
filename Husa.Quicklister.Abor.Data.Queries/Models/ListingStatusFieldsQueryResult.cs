@@ -1,6 +1,8 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Models
 {
     using System;
+    using System.Collections.Generic;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
 
     public class ListingStatusFieldsQueryResult : IProvideStatusFields
@@ -32,5 +34,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
         public string SecondAgentMarketUniqueId { get; set; }
 
         public bool HasContingencyInfo { get; set; }
+
+        public ICollection<SaleTerms> SaleTerms { get; set; }
+
+        public string SellConcess { get; set; }
     }
 }

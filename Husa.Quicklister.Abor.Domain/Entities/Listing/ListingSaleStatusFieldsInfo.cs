@@ -9,17 +9,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     {
         public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
 
-        public ICollection<SaleTerms> SaleTerms { get; set; }
-
-        public string SellConcess { get; set; }
-
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return base.GetEqualityComponents();
             yield return this.ContingencyInfo;
-            yield return this.SaleTerms;
-            yield return this.PendingDate;
-            yield return this.SellConcess;
         }
     }
 }

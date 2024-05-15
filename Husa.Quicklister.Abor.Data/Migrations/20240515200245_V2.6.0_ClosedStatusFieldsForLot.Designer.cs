@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240515200245_V2.6.0_ClosedStatusFieldsForLot")]
+    partial class V260_ClosedStatusFieldsForLot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1770,10 +1773,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("SaleTerms");
 
                             b1.Property<string>("SellConcess")
-                                .ValueGeneratedOnAdd()
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
-                                .HasDefaultValue("0")
                                 .HasColumnName("SellConcess");
 
                             b1.HasKey("SaleListingId");
@@ -2194,11 +2195,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(300)")
                                 .HasColumnName("View");
 
-                            b1.Property<string>("WaterBodyName")
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)")
-                                .HasColumnName("WaterBodyName");
-
                             b1.Property<string>("WaterSewer")
                                 .HasMaxLength(255)
                                 .HasColumnType("nvarchar(255)")
@@ -2574,11 +2570,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasMaxLength(1000)
                                 .HasColumnType("nvarchar(1000)")
                                 .HasColumnName("PublicRemarks");
-
-                            b1.Property<string>("ShowingContactName")
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)")
-                                .HasColumnName("ShowingContactName");
 
                             b1.Property<string>("ShowingContactType")
                                 .HasMaxLength(20)

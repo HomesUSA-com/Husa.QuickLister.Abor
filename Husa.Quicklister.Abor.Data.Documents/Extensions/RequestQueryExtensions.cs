@@ -28,6 +28,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions
                 BackOnMarketDate = statusField.BackOnMarketDate,
                 OffMarketDate = statusField.OffMarketDate,
                 HasContingencyInfo = statusField.HasContingencyInfo,
+                SaleTerms = statusField.SaleTerms,
+                SellConcess = statusField.SellConcess,
             };
         }
     }

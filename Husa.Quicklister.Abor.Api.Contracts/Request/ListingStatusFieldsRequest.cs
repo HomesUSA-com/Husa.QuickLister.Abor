@@ -1,6 +1,8 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Request
 {
     using System;
+    using System.Collections.Generic;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class ListingStatusFieldsRequest
     {
@@ -26,5 +28,9 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
 
         public DateTime? OffMarketDate { get; set; }
         public bool HasContingencyInfo { get; set; }
+
+        public ICollection<SaleTerms> SaleTerms { get; set; }
+
+        public string SellConcess { get; set; }
     }
 }

@@ -122,8 +122,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             var statusFields = statusFieldsInfo.ToProjectionStatusFieldsInfo<ListingSaleStatusFieldsInfo, ListingSaleStatusFieldQueryResult>();
 
             statusFields.ContingencyInfo = statusFieldsInfo.ContingencyInfo;
-            statusFields.SaleTerms = statusFieldsInfo.SaleTerms;
-            statusFields.SellConcess = statusFieldsInfo.SellConcess;
 
             return statusFields;
         }

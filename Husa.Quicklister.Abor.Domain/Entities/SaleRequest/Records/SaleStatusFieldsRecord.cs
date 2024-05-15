@@ -17,8 +17,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         public const string SummarySection = "Status Fields";
 
         public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
-        public ICollection<SaleTerms> SaleTerms { get; set; }
-        public string SellConcess { get; set; }
 
         public SaleStatusFieldsRecord CloneRecord() => (SaleStatusFieldsRecord)this.MemberwiseClone();
 
@@ -26,8 +24,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         {
             var record = StatusFieldsRecord.CreateRecord<ListingSaleStatusFieldsInfo, SaleStatusFieldsRecord>(statusFieldInfo);
             record.ContingencyInfo = statusFieldInfo.ContingencyInfo;
-            record.SaleTerms = statusFieldInfo.SaleTerms;
-            record.SellConcess = statusFieldInfo.SellConcess;
             return record;
         }
 
@@ -38,8 +34,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
             this.UpdateInformation<ListingSaleStatusFieldsInfo>(statusFieldInfo);
 
             this.ContingencyInfo = statusFieldInfo.ContingencyInfo;
-            this.SaleTerms = statusFieldInfo.SaleTerms;
-            this.SellConcess = statusFieldInfo.SellConcess;
         }
 
         public virtual SummarySection GetSummary<T>(T entity)
