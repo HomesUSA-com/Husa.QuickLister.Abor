@@ -38,7 +38,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
 
         public string HoaName { get; set; }
         public decimal? HoaFee { get; set; }
-        public int? EstimatedTax { get; set; }
+        public decimal? EstimatedTax { get; set; }
         public int? TaxYear { get; set; }
         public ICollection<TaxExemptions> TaxExemptions { get; set; }
         public int? TaxAssesedValue { get; set; }
