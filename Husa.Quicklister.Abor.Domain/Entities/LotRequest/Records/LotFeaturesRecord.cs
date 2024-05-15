@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Husa.Extensions.Domain.Validations;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces.LotListing;
@@ -62,6 +63,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
         public bool GroundWaterConservDistric { get; set; }
 
+        [RequiredIfCollection(nameof(WaterfrontFeatures), Enums.Domain.WaterfrontFeatures.None, isIn: false)]
+        public WaterBodyName? WaterBodyName { get; set; }
         public LotFeaturesRecord CloneRecord() => (LotFeaturesRecord)this.MemberwiseClone();
 
         public static LotFeaturesRecord CreateRecord(LotFeaturesInfo featuresInfo)
@@ -90,6 +93,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
                 MineralsFeatures = featuresInfo.MineralsFeatures,
                 OtherStructures = featuresInfo.OtherStructures,
                 RoadSurface = featuresInfo.RoadSurface,
+                WaterBodyName = featuresInfo.WaterBodyName,
             };
         }
     }

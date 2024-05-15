@@ -23,5 +23,6 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces.LotListing
         ICollection<Disclosures> Disclosures { get; set; }
         ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
         bool GroundWaterConservDistric { get; set; }
+        WaterBodyName? WaterBodyName { get; set; }
     }
 }

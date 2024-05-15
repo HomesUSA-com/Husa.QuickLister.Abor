@@ -13,5 +13,6 @@ namespace Husa.Quicklister.Abor.Application.Models.Lot
         public string PublicRemarks { get; set; }
         public string Directions { get; set; }
         public ICollection<ShowingContactType> ShowingContactType { get; set; }
+        public string ShowingContactName { get; set; }
     }
 }

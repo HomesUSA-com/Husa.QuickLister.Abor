@@ -14,13 +14,14 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.LotListing
         public DistanceToWaterAccess? DistanceToWaterAccess { get; set; }
         public ICollection<Fencing> Fencing { get; set; }
         public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
-        public virtual bool GroundWaterConservDistric { get; set; }
-        public virtual ICollection<HorseAmenities> HorseAmenities { get; set; }
-        public virtual ICollection<Minerals> MineralsFeatures { get; set; }
-        public virtual ICollection<RoadSurface> RoadSurface { get; set; }
-        public virtual ICollection<OtherStructures> OtherStructures { get; set; }
-        public virtual ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
-        public virtual ICollection<Disclosures> Disclosures { get; set; }
-        public virtual ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
+        public bool GroundWaterConservDistric { get; set; }
+        public ICollection<HorseAmenities> HorseAmenities { get; set; }
+        public ICollection<Minerals> MineralsFeatures { get; set; }
+        public ICollection<RoadSurface> RoadSurface { get; set; }
+        public ICollection<OtherStructures> OtherStructures { get; set; }
+        public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
+        public ICollection<Disclosures> Disclosures { get; set; }
+        public ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
+        public WaterBodyName? WaterBodyName { get; set; }
     }
 }

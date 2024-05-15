@@ -24,6 +24,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
 
         [MaxLength(2000, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string Directions { get; set; }
+        public string ShowingContactName { get; set; }
 
         public LotShowingRecord CloneRecord() => (LotShowingRecord)this.MemberwiseClone();
         public static LotShowingRecord CreateRecord(LotShowingInfo showingInfo)
@@ -43,6 +44,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
                 ShowingContactType = showingInfo.ShowingContactType,
                 ShowingInstructions = showingInfo.ShowingInstructions,
                 ShowingServicePhone = showingInfo.ShowingServicePhone,
+                ShowingContactName = showingInfo.ShowingContactName,
             };
         }
     }
