@@ -43,9 +43,18 @@ namespace Husa.Quicklister.Abor.Domain.Common
                     return PendingValidations(value);
                 case MarketStatuses.Hold:
                     return HoldValidations(value);
+                case MarketStatuses.Canceled:
+                    return CanceledValidations(value);
             }
 
             return new List<ValidationResult>();
+        }
+
+        private static IEnumerable<ValidationResult> CanceledValidations(TStatusFields record)
+        {
+            var result = new List<ValidationResult>();
+            result.AddValue(string.IsNullOrWhiteSpace(record.CancelledReason), new ValidationResult(RequiredFieldMessage, new[] { nameof(record.OffMarketDate) }));
+            return result;
         }
 
         private static IEnumerable<ValidationResult> PendingValidations(TStatusFields record)
