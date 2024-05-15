@@ -22,7 +22,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
 
         public string ShowingInstructions { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
+        [MaxLength(2000, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string Directions { get; set; }
 
         public LotShowingRecord CloneRecord() => (LotShowingRecord)this.MemberwiseClone();

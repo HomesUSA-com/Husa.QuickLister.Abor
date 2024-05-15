@@ -8,7 +8,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules.SalePropertyValidations
         public FinancialValidator()
         {
             this.RuleFor(x => x.BuyersAgentCommission)
-                .LessThanOrEqualTo(30000)
+                .LessThanOrEqualTo(40000)
                 .GreaterThanOrEqualTo(1000)
                 .When(x => x.BuyersAgentCommissionType == Quicklister.Extensions.Domain.Enums.CommissionType.Amount);
             this.RuleFor(x => x.BuyersAgentCommission)
