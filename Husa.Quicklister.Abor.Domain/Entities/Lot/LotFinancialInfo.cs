@@ -67,6 +67,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             clonedFinancial.AgentBonusAmountType = financial.AgentBonusAmountType;
             clonedFinancial.BonusExpirationDate = financial.BonusExpirationDate;
             clonedFinancial.HasBuyerIncentive = financial.HasBuyerIncentive;
+            clonedFinancial.TaxExemptions = financial.TaxExemptions;
+            clonedFinancial.PreferredTitleCompany = financial.TitleCompany;
+            clonedFinancial.HoaFee = financial.HoaFee;
+            clonedFinancial.HoaName = financial.HoaName;
+
             return clonedFinancial;
         }
 

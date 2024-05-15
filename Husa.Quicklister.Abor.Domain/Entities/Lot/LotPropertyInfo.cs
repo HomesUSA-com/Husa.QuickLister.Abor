@@ -50,6 +50,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             clonnedProperty.MlsArea = property.MlsArea;
             clonnedProperty.LotDescription = property.LotDescription;
             clonnedProperty.PropertyType = property.PropertyType;
+            clonnedProperty.LotDimension = property.LotDimension;
+            clonnedProperty.LotSize = property.LotSize;
             return clonnedProperty;
         }
 

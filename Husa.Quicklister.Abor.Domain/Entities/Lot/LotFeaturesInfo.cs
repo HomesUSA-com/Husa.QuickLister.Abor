@@ -42,6 +42,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             clonnedFeatures.View = utilities.View;
             clonnedFeatures.Fencing = utilities.Fencing;
             clonnedFeatures.ExteriorFeatures = utilities.ExteriorFeatures;
+            clonnedFeatures.NeighborhoodAmenities = utilities.NeighborhoodAmenities;
             return clonnedFeatures;
         }
 

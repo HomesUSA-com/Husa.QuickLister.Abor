@@ -49,6 +49,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             var clonnedShowing = this.Clone();
             clonnedShowing.ShowingRequirements = showing.ShowingRequirements;
             clonnedShowing.OwnerName = showing.OwnerName;
+            clonnedShowing.ApptPhone = showing.ContactPhone;
+            clonnedShowing.ShowingServicePhone = showing.OccupantPhone;
+            clonnedShowing.ShowingInstructions = showing.ShowingInstructions;
+            clonnedShowing.Directions = showing.Directions;
 
             return clonnedShowing;
         }
