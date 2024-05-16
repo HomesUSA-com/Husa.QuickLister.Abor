@@ -219,7 +219,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
             listingSale.SetupGet(c => c.Id).Returns(listingId ?? Guid.NewGuid());
             listingSale.SetupGet(c => c.SaleProperty).Returns(saleProperty);
-            listingSale.SetupGet(c => c.StatusFieldsInfo).Returns(new ListingSaleStatusFieldsInfo());
+            listingSale.SetupGet(c => c.StatusFieldsInfo).Returns(new ListingStatusFieldsInfo());
             listingSale.SetupGet(c => c.CompanyId).Returns(listingCompanyId);
             listingSale.SetupGet(c => c.IsInMls).Returns(true);
             listingSale.Setup(x => x.MlsNumber).Returns("12345");
@@ -1002,7 +1002,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             MarketModifiedOn = DateTime.UtcNow,
         };
 
-        public static ListingSaleStatusFieldsInfo GetListingStatusFieldsInfo() => new Mock<ListingSaleStatusFieldsInfo>().SetupAllProperties().Object;
+        public static ListingStatusFieldsInfo GetListingStatusFieldsInfo() => new Mock<ListingStatusFieldsInfo>().SetupAllProperties().Object;
 
         public static SalePropertyValueObject GetFullSalePropertyValueObject() => new()
         {

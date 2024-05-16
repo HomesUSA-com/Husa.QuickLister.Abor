@@ -193,6 +193,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.LotListings
             SchoolsInfo = new(),
             PropertyInfo = new(),
             AddressInfo = new(),
+            StatusFieldsInfo = new(),
         };
     }
 }

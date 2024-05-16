@@ -12,5 +12,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.LotListing
         public LotFinancialRequest FinancialInfo { get; set; }
         public LotShowingRequest ShowingInfo { get; set; }
         public LotSchoolsRequest SchoolsInfo { get; set; }
+        public ListingStatusFieldsRequest StatusFieldsInfo { get; set; }
     }
 }

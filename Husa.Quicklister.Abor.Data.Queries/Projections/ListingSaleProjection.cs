@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
     using Husa.Quicklister.Abor.Data.Queries.Extensions.Sale;
     using Husa.Quicklister.Abor.Data.Queries.Models;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
@@ -112,7 +113,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             OpenHouses = listingSale.SaleProperty.OpenHouses.ToProjectionOpenHouses(),
         };
 
-        private static ListingSaleStatusFieldQueryResult ToProjectionSaleStatusFieldsInfo(this ListingSaleStatusFieldsInfo statusFieldsInfo)
-            => statusFieldsInfo.ToProjectionStatusFieldsInfo<ListingSaleStatusFieldsInfo, ListingSaleStatusFieldQueryResult>();
+        private static ListingSaleStatusFieldQueryResult ToProjectionSaleStatusFieldsInfo(this ListingStatusFieldsInfo statusFieldsInfo)
+            => statusFieldsInfo.ToProjectionStatusFieldsInfo<ListingStatusFieldsInfo, ListingSaleStatusFieldQueryResult>();
     }
 }

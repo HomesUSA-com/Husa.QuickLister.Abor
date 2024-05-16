@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Lot;
     using Husa.Quicklister.Abor.Crosscutting;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -165,6 +166,8 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             lotListing.UpdateSchools(schools);
             var showing = this.mapper.Map<LotShowingInfo>(listingDto.ShowingInfo);
             lotListing.UpdateShowing(showing);
+            var statusFieldsInfo = this.mapper.Map<ListingStatusFieldsInfo>(listingDto.StatusFieldsInfo);
+            lotListing.UpdateStatusFieldsInfo(statusFieldsInfo);
 
             lotListing.OwnerName = listingDto.OwnerName;
 

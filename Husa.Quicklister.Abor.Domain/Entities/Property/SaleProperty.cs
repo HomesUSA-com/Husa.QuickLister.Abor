@@ -397,7 +397,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public virtual SaleListing AddListing(
             ListingValueObject listingInfo,
-            ListingSaleStatusFieldsInfo listingStatusInfo,
+            ListingStatusFieldsInfo listingStatusInfo,
             SalePropertyValueObject salePropertyInfo,
             IEnumerable<ListingSaleRoom> rooms,
             Guid companyId)

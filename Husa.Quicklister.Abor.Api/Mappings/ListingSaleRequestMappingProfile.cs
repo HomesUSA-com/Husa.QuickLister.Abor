@@ -154,7 +154,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.ListingSaleId, config => config.Ignore())
                 .ForMember(dest => dest.SaleProperty, config => config.MapFrom(dto => dto.SaleProperty));
 
-            this.CreateMap<ListingSaleStatusFieldsInfo, ListingSaleStatusFieldsDto>().ReverseMap();
+            this.CreateMap<ListingStatusFieldsInfo, ListingSaleStatusFieldsDto>().ReverseMap();
 
             this.CreateMap<SaleProperty, SalePropertyDetailDto>()
                 .ForMember(dest => dest.FeaturesInfo, config => config.MapFrom(dto => dto.FeaturesInfo))

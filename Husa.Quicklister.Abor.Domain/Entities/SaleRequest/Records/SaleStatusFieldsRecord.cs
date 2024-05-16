@@ -4,7 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     using System.Linq;
     using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
@@ -15,11 +15,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 
         public SaleStatusFieldsRecord CloneRecord() => (SaleStatusFieldsRecord)this.MemberwiseClone();
 
-        public static SaleStatusFieldsRecord CreateRecord(ListingSaleStatusFieldsInfo statusFieldInfo)
-            => StatusFieldsRecord.CreateRecord<ListingSaleStatusFieldsInfo, SaleStatusFieldsRecord>(statusFieldInfo);
+        public static SaleStatusFieldsRecord CreateRecord(ListingStatusFieldsInfo statusFieldInfo)
+            => StatusFieldsRecord.CreateRecord<ListingStatusFieldsInfo, SaleStatusFieldsRecord>(statusFieldInfo);
 
-        public virtual void UpdateInformation(ListingSaleStatusFieldsInfo statusFieldInfo)
-            => this.UpdateInformation<ListingSaleStatusFieldsInfo>(statusFieldInfo);
+        public virtual void UpdateInformation(ListingStatusFieldsInfo statusFieldInfo)
+            => this.UpdateInformation<ListingStatusFieldsInfo>(statusFieldInfo);
 
         public virtual SummarySection GetSummary<T>(T entity)
             where T : class

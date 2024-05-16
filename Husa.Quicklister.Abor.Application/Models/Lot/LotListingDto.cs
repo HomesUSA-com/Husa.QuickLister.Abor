@@ -9,5 +9,6 @@ namespace Husa.Quicklister.Abor.Application.Models.Lot
         public LotFinancialDto FinancialInfo { get; set; }
         public LotShowingDto ShowingInfo { get; set; }
         public LotSchoolsDto SchoolsInfo { get; set; }
+        public ListingStatusFieldsDto StatusFieldsInfo { get; set; }
     }
 }

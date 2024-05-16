@@ -198,7 +198,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<ListingStatusFieldsRequest, ListingStatusFieldsDto>();
             this.CreateMap<ListingSaleStatusFieldsRequest, ListingSaleStatusFieldsDto>();
             this.CreateMap<ListingStatusFieldsDto, ListingStatusFieldsInfo>();
-            this.CreateMap<ListingSaleStatusFieldsDto, ListingSaleStatusFieldsInfo>();
+            this.CreateMap<ListingSaleStatusFieldsDto, ListingStatusFieldsInfo>();
 
             this.CreateMap<Note, NotesResponse>()
                 .ForMember(ln => ln.ModifiedBy, n => n.Ignore())
