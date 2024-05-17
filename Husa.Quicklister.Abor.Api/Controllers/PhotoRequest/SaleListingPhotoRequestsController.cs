@@ -22,7 +22,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.PhotoRequest
         }
 
         [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetAsync([FromRoute] Guid listingId, [FromQuery] Request.PhotoRequestFilter filter)
         {
             this.logger.LogInformation("Getting photo request for the entity {listingId}.", listingId);
@@ -31,7 +31,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.PhotoRequest
         }
 
         [HttpGet("{photoRequestId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid listingId, [FromRoute] Guid photoRequestId)
         {
             this.logger.LogInformation("Getting the photo request for entity {listingId} and photoRequest Id '{photoRequestId}'", listingId, photoRequestId);

@@ -71,7 +71,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpGet("{listingId:guid}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetListing([FromRoute] Guid listingId)
         {
             this.logger.LogInformation("Received request to GET sale listing with Id '{listingId}'.", listingId);
@@ -196,7 +196,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpGet("{listingId:guid}/listing-requests")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetRequestByListingAsync(Guid listingId, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Start to handle query request by listing Id {listingId}", listingId);
