@@ -160,7 +160,7 @@ namespace Husa.Quicklister.Abor.Application
             var company = await this.serviceSubscriptionClient.Company.GetCompany(listingSale.CompanyId) ?? throw new NotFoundException<SaleListing>(listingSale.CompanyId);
             await this.UpdateBaseListingInfo(listingDto, Guid.Empty, listingSale, migrateFullListing);
 
-            var statusFieldsInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingDto.StatusFieldsInfo);
+            var statusFieldsInfo = this.mapper.Map<ListingStatusFieldsInfo>(listingDto.StatusFieldsInfo);
             listingSale.SetMigrateFullListing(migrateFullListing);
             listingSale.SaleProperty.SetMigrateFullListing(migrateFullListing);
             listingSale.UpdateStatusFieldsInfo(statusFieldsInfo);
@@ -358,7 +358,7 @@ namespace Husa.Quicklister.Abor.Application
         {
             var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
 
-            var statusFieldsInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingSaleDto.StatusFieldsInfo);
+            var statusFieldsInfo = this.mapper.Map<ListingStatusFieldsInfo>(listingSaleDto.StatusFieldsInfo);
 
             listingSale.UpdateBaseListingInfo(
                 listingSaleDto.ListType,

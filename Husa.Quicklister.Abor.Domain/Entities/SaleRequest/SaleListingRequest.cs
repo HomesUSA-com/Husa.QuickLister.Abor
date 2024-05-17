@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using Husa.Extensions.Document.ValueObjects;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
@@ -77,7 +78,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
             this.SaleProperty = SalePropertyRecord.CreateRecord(saleProperty);
         }
 
-        public virtual void UpdateRequestInformation(ListingRequestValueObject listingRequestValue, ListingSaleStatusFieldsInfo statusFieldsInfo, SalePropertyValueObject salePropertyValue)
+        public virtual void UpdateRequestInformation(ListingRequestValueObject listingRequestValue, ListingStatusFieldsInfo statusFieldsInfo, SalePropertyValueObject salePropertyValue)
         {
             this.ExpirationDate = listingRequestValue.ExpirationDate;
             this.ListDate = listingRequestValue.ListDate;

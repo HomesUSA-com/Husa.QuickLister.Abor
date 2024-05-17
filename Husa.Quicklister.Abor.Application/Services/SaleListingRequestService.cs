@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Crosscutting;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
@@ -83,7 +84,7 @@ namespace Husa.Quicklister.Abor.Application.Services
         {
             this.Logger.LogInformation("Service is starting to update request for ABOR with id {listingRequestId}", listingRequestId);
             var listingRequestValueObject = this.Mapper.Map<ListingRequestValueObject>(listingSaleRequestDto);
-            var statusFieldInfo = this.Mapper.Map<ListingSaleStatusFieldsInfo>(listingSaleRequestDto.StatusFieldsInfo);
+            var statusFieldInfo = this.Mapper.Map<ListingStatusFieldsInfo>(listingSaleRequestDto.StatusFieldsInfo);
             var salePropertyInfo = this.Mapper.Map<SalePropertyValueObject>(listingSaleRequestDto.SaleProperty);
 
             var listingRequest = await this.RequestRepository.GetByIdAsync(listingRequestId, cancellationToken);

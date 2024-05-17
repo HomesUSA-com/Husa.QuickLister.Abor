@@ -3,7 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Xunit;
@@ -17,7 +17,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         {
             // Arrange
             var statusRecord = new SaleStatusFieldsRecord();
-            var statusInfo = new ListingSaleStatusFieldsInfo()
+            var statusInfo = new ListingStatusFieldsInfo()
             {
                 PendingDate = DateTime.Now,
                 EstimatedClosedDate = DateTime.Now,

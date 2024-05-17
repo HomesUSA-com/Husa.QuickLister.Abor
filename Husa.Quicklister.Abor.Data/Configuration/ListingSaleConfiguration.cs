@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 {
     using System;
     using Husa.Quicklister.Abor.Data.Extensions;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Extensions.Data.Configuration;
     using Husa.Quicklister.Extensions.Domain.Entities.Listing;
@@ -38,7 +39,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.LegacyId).HasMaxLength(100);
         }
 
-        private static void ConfigureStatusFieldsMapping(OwnedNavigationBuilder<SaleListing, ListingSaleStatusFieldsInfo> builder)
+        private static void ConfigureStatusFieldsMapping(OwnedNavigationBuilder<SaleListing, ListingStatusFieldsInfo> builder)
         {
             builder.ConfigureStatusInfoMapping();
         }

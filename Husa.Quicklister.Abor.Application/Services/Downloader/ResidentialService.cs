@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Models.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
@@ -79,7 +80,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
                 residentialDto.SaleProperty.AddressInfo.ZipCode,
                 residentialDto.SaleProperty.AddressInfo.UnitNumber);
 
-            var listingStatusInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(residentialDto.StatusFieldsInfo);
+            var listingStatusInfo = this.mapper.Map<ListingStatusFieldsInfo>(residentialDto.StatusFieldsInfo);
             var agent = await this.agentRepository.GetAgentByMarketUniqueId(residentialDto.SellingAgentId);
             listingStatusInfo.SetStatusChangeAgent(agent);
             var listingInfo = this.mapper.Map<ListingValueObject>(residentialDto);

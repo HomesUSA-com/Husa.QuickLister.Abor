@@ -68,7 +68,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public virtual LotFinancialInfo FinancialInfo { get; set; }
         public virtual LotShowingInfo ShowingInfo { get; set; }
         public virtual CommunitySale Community { get; set; }
-        public virtual ListingStatusFieldsInfo StatusFieldsInfo { get; set; }
         public virtual ICollection<LotManagementTrace> ManagementTraces { get; set; }
 
         public virtual bool IsInMarket => !string.IsNullOrEmpty(this.MlsNumber);
