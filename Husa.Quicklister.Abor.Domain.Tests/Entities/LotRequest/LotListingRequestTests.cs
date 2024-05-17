@@ -91,5 +91,30 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
             var statusError = result.FirstOrDefault(x => x.ErrorMessage.Contains("StatusFields"));
             Assert.NotNull(statusError);
         }
+
+        [Fact]
+        public void GetSummary_ActiveUnderContractChanges_Success()
+        {
+            var listing = new LotListing() { Id = Guid.NewGuid() };
+            var oldRequest = new LotListingRequest(listing, Guid.NewGuid())
+            {
+                MlsStatus = MarketStatuses.Active,
+            };
+            var newRequest = new LotListingRequest(listing, Guid.NewGuid())
+            {
+                MlsStatus = MarketStatuses.ActiveUnderContract,
+                StatusFieldsInfo = new()
+                {
+                    PendingDate = DateTime.Now,
+                    ClosedDate = DateTime.Now,
+                },
+            };
+
+            var result = newRequest.GetSummary(oldRequest);
+            var statusSummary = result.First(x => x.Name == nameof(LotListingRequest.StatusFieldsInfo)).Fields;
+            Assert.Equal(2, statusSummary.Count());
+            Assert.Contains(statusSummary, x => x.FieldName == nameof(LotStatusFieldsRecord.PendingDate));
+            Assert.Contains(statusSummary, x => x.FieldName == nameof(LotStatusFieldsRecord.ClosedDate));
+        }
     }
 }

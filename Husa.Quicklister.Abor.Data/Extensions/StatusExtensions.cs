@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
 {
     using System;
     using Husa.Extensions.Linq;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Microsoft.EntityFrameworkCore;
@@ -9,9 +10,8 @@ namespace Husa.Quicklister.Abor.Data.Extensions
 
     public static class StatusExtensions
     {
-        public static void ConfigureStatusInfoMapping<TOwnerEntity, TDependentEntity>(this OwnedNavigationBuilder<TOwnerEntity, TDependentEntity> builder)
+        public static void ConfigureStatusInfoMapping<TOwnerEntity>(this OwnedNavigationBuilder<TOwnerEntity, ListingStatusFieldsInfo> builder)
            where TOwnerEntity : class
-           where TDependentEntity : class, IProvideStatusFields
         {
             ArgumentNullException.ThrowIfNull(builder);
 

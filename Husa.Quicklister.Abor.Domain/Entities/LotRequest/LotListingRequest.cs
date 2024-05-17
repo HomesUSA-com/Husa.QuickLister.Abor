@@ -185,7 +185,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
             yield return this.SchoolsInfo.GetSummarySection(prevRecord?.SchoolsInfo, sectionName: nameof(this.SchoolsInfo));
             yield return this.ShowingInfo.GetSummarySection(prevRecord?.ShowingInfo, sectionName: nameof(this.ShowingInfo));
             yield return this.SalesOfficeInfo?.GetSummarySection(prevRecord?.SalesOfficeInfo, sectionName: nameof(this.SalesOfficeInfo));
-            yield return this.StatusFieldsInfo?.GetSummarySection(prevRecord?.StatusFieldsInfo, prevRecord?.MlsStatus, sectionName: nameof(this.StatusFieldsInfo));
+            yield return this.StatusFieldsInfo?.GetSummarySection(prevRecord?.StatusFieldsInfo, this.MlsStatus, sectionName: nameof(this.StatusFieldsInfo));
         }
 
         private IEnumerable<SummaryField> GetRootFieldsSummary(LotListingRequest oldObject) => SummaryExtensions.GetFieldSummary(

@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 {
     using System;
+    using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
@@ -18,6 +19,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             : base()
         {
             this.PublishInfo = new();
+            this.StatusFieldsInfo = new();
         }
 
         public virtual int? CDOM { get; set; }
@@ -39,6 +41,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual PublishInfo PublishInfo { get; set; }
 
         public virtual ListingStatusFieldsInfo StatusFieldsInfo { get; set; }
+
+        public virtual bool IsInMarket => !string.IsNullOrEmpty(this.MlsNumber);
+        public override bool HasStatusToBeClosed => this.MlsStatus == MarketStatuses.Closed || this.MlsStatus == MarketStatuses.Canceled;
 
         public virtual void SetMigrateFullListing(bool migrateFullListing)
         {
@@ -78,6 +83,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         protected void CopyInformationFromValueObject(ListingStatusFieldsInfo listingSaleStatusFields)
         {
+            this.StatusFieldsInfo = this.StatusFieldsInfo.Clone();
+
             if (!this.isMarketUpdate)
             {
                 this.StatusFieldsInfo.AgentId = listingSaleStatusFields.AgentId;
@@ -123,6 +130,20 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.MarketModifiedOn = listingValue.MarketModifiedOn;
             this.MlsStatus = listingValue.MlsStatus;
             this.ListPrice = listingValue.ListPrice;
+        }
+
+        protected override void DeleteChildren(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IEnumerable<object> GetEntityEqualityComponents()
+        {
+            yield return this.PublishInfo;
+            yield return this.StatusFieldsInfo;
+            yield return this.ListPrice;
+            yield return this.MlsNumber;
+            yield return this.MlsStatus;
         }
     }
 }

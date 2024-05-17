@@ -106,11 +106,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         [IgnoreXmlProperty]
         public virtual XmlRequestError XmlRequestError { get; set; }
 
-        public virtual bool IsInMarket => !string.IsNullOrEmpty(this.MlsNumber);
-
         public virtual bool IsExisting => ExistingListingStatuses.Contains(this.MlsStatus);
-
-        public override bool HasStatusToBeClosed => this.MlsStatus == MarketStatuses.Closed || this.MlsStatus == MarketStatuses.Canceled;
 
         public virtual CommandSingleResult<SaleListingRequest, ValidationResult> GenerateRequest(Guid userId)
         {
@@ -263,13 +259,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.LockByUser(userId);
         }
 
-        protected override void DeleteChildren(Guid userId) => throw new NotImplementedException();
-
         protected override IEnumerable<object> GetEntityEqualityComponents()
         {
             yield return this.SalePropertyId;
-            yield return this.PublishInfo;
-            yield return this.StatusFieldsInfo;
+            yield return base.GetEntityEqualityComponents();
         }
     }
 }
