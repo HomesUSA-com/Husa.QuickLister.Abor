@@ -22,7 +22,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.PhotoRequest
         }
 
         [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetAsync([FromRoute] Guid communityId, [FromQuery] Request.PhotoRequestFilter filter)
         {
             this.logger.LogInformation("Getting the photo request for the entity {communityId}.", communityId);

@@ -35,7 +35,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetAsync([FromQuery] CommunityHistoryFilter requestFilter, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Starting to get filtered community history");
@@ -46,7 +46,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet("{id:guid}/summary")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetSummaryAsync(Guid id, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Start to handle summary of community record with {id}", id);

@@ -3,11 +3,9 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
     using System;
     using Husa.Extensions.Linq;
     using Husa.Quicklister.Abor.Data.Extensions;
-    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
-    using Husa.Quicklister.Extensions.Data.Extensions;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,16 +15,9 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
         {
             ArgumentNullException.ThrowIfNull(builder);
 
-            builder.SetBaseListingProperties();
-            builder.ToTable("LotListing");
+            builder.ListingProperties();
 
-            builder
-                .Property(r => r.ListPrice)
-                .HasColumnName(nameof(LotListing.ListPrice))
-                .HasPrecision(18, 2);
-            builder.Property(p => p.OwnerName).HasColumnName(nameof(LotListing.OwnerName)).HasMaxLength(100);
-            builder.Property(p => p.MlsStatus).HasConversion<string>().HasMaxLength(30).IsRequired();
-
+            builder.OwnsOne(o => o.StatusFieldsInfo, StatusExtensions.ConfigureStatusInfoMapping).Navigation(e => e.StatusFieldsInfo);
             builder.OwnsOne(o => o.PublishInfo, PublishInfoExtensions.ConfigurePublishInfoMapping);
             builder.OwnsOne(o => o.FeaturesInfo, ConfigureFeaturesMapping);
             builder.OwnsOne(o => o.FinancialInfo, ConfigureFinancialMapping);
@@ -34,11 +25,13 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
             builder.OwnsOne(o => o.SchoolsInfo, ConfigureSchoolsMapping);
             builder.OwnsOne(o => o.AddressInfo, ConfigureAddressMapping);
             builder.OwnsOne(o => o.PropertyInfo, ConfigurePropertyInfoMapping);
-            builder.OwnsOne(o => o.StatusFieldsInfo, ConfigureStatusFieldsMapping);
 
+            builder.Property(p => p.OwnerName).HasColumnName(nameof(LotListing.OwnerName)).HasMaxLength(100);
             builder.HasOne(p => p.Community)
                .WithMany(b => b.LotListings)
                .HasForeignKey(e => e.CommunityId);
+
+            builder.ToTable("LotListing");
         }
 
         private static void ConfigureAddressMapping(OwnedNavigationBuilder<LotListing, LotAddressInfo> builder)
@@ -125,11 +118,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<LotListing, LotSchoolsInfo> builder)
         {
             builder.ConfigureSchools();
-        }
-
-        private static void ConfigureStatusFieldsMapping(OwnedNavigationBuilder<LotListing, ListingStatusFieldsInfo> builder)
-        {
-            builder.ConfigureStatusInfoMapping();
         }
     }
 }

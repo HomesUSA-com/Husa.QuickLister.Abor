@@ -48,6 +48,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
         public string SellConcess { get; set; }
         public ICollection<ContingencyInfo> ContingencyInfo { get; set; }
 
+        public virtual ListingStatusFieldsInfo Clone()
+        {
+            return (ListingStatusFieldsInfo)this.MemberwiseClone();
+        }
+
         public void SetStatusChangeAgent(Agent agent)
         {
             if (agent is null)

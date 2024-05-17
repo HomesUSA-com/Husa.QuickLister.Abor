@@ -54,7 +54,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             this.ShowingInfo = new();
             this.PropertyInfo = new();
             this.AddressInfo = new();
-            this.StatusFieldsInfo = new();
             this.ManagementTraces = new List<LotManagementTrace>();
         }
 
@@ -69,9 +68,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public virtual LotShowingInfo ShowingInfo { get; set; }
         public virtual CommunitySale Community { get; set; }
         public virtual ICollection<LotManagementTrace> ManagementTraces { get; set; }
-
-        public virtual bool IsInMarket => !string.IsNullOrEmpty(this.MlsNumber);
-        public override bool HasStatusToBeClosed => this.MlsStatus == MarketStatuses.Closed || this.MlsStatus == MarketStatuses.Canceled;
 
         public LotListing Clone()
         {
@@ -146,22 +142,17 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             return this.AddRequest(newRequest, userId);
         }
 
-        protected override void DeleteChildren(Guid userId)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override IEnumerable<object> GetEntityEqualityComponents()
         {
             yield return this.OwnerName;
-            yield return this.ListPrice;
-            yield return this.MlsNumber;
+            yield return this.CommunityId;
             yield return this.AddressInfo;
             yield return this.SchoolsInfo;
             yield return this.PropertyInfo;
             yield return this.FeaturesInfo;
             yield return this.FinancialInfo;
             yield return this.ShowingInfo;
+            yield return base.GetEntityEqualityComponents();
         }
     }
 }

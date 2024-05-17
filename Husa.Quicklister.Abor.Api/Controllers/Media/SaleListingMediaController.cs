@@ -31,7 +31,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         }
 
         [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetResources([FromRoute] Guid listingId)
         {
             this.logger.LogInformation("Starting to get the media resources for the entity {listingId}", listingId);
@@ -42,7 +42,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         }
 
         [HttpGet("{mediaId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetMediaById([FromRoute] Guid listingId, [FromRoute] Guid mediaId)
         {
             this.logger.LogInformation("Starting to get the media for the entity {listingId} and media Id '{mediaId}'", listingId, mediaId);

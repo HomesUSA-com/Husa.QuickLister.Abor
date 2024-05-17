@@ -54,7 +54,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetListRequestAsync([FromQuery] ListingRequestFilter requestFilter, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Starting to get filtered ABOR lot listings request with company id {companyId}", requestFilter.CompanyId);
@@ -66,7 +66,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpGet("{id:guid}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetListRequestLotByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Starting to get listing lot request with id: {id}", id);
@@ -82,7 +82,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpGet("{id:guid}/summary")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetRequestSummaryAsync(Guid id, CancellationToken cancellationToken)
         {
             this.logger.LogInformation("Start to handle summary of lot listing request with {listingRequestId}", id);
