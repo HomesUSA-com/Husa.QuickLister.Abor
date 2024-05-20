@@ -15,7 +15,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
@@ -47,7 +46,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<ISaleListingService> listingSaleService = new();
         private readonly Mock<ICommunitySaleRepository> communitySaleRepository = new();
         private readonly Mock<ISaleListingRequestService> saleListingRequestService = new();
-        private readonly Mock<IXmlMediaService> xmlMediaService = new();
+        private readonly Mock<ISaleListingXmlMediaService> xmlMediaService = new();
         private readonly Mock<ILogger<SaleListingXmlService>> logger = new();
 
         public SaleListingXmlServiceTests(ApplicationServicesFixture fixture)

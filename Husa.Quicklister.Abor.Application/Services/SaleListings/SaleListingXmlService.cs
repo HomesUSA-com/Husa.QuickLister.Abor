@@ -11,7 +11,6 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Crosscutting;
@@ -39,7 +38,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
         private readonly ApplicationOptions options;
         private readonly ISaleListingService listingSaleService;
         private readonly ISaleListingRequestService saleListingRequestService;
-        private readonly IXmlMediaService xmlMediaService;
+        private readonly ISaleListingXmlMediaService xmlMediaService;
 
         private readonly IEnumerable<MarketStatuses> notAlowedStatusForRequest = new[]
         {
@@ -53,7 +52,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             ICommunitySaleRepository communityRepository,
             IUserContextProvider userContextProvider,
             ILogger<SaleListingXmlService> logger,
-            IXmlMediaService xmlMediaService,
+            ISaleListingXmlMediaService xmlMediaService,
             ISaleListingService listingSaleService,
             ISaleListingRequestService saleListingRequestService,
             IServiceSubscriptionClient serviceSubscriptionClient,
