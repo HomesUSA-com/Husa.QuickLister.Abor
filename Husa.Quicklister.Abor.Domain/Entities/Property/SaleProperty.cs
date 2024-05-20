@@ -537,6 +537,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.PropertyInfo.LotDescription = property.LotDescription;
             this.PropertyInfo.LotSize = property.LotSize;
             this.PropertyInfo.PropertyType = property.PropertyType;
+            this.PropertyInfo.ConstructionStage = property.ConstructionStage;
         }
 
         private void CopyFireplaces(int? fireplaces)
