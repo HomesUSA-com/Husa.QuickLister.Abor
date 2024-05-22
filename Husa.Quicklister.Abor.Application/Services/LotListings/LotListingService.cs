@@ -229,6 +229,11 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             return CommandResult<string>.Success($"Unlocked lot listing with id {listingId}.");
         }
 
+        protected override Task UpdatePhotoRequestProperty(LotListing listing)
+        {
+            throw new NotImplementedException();
+        }
+
         private async Task ImportDataFromListingAsync(LotListing lotListingEntity, Guid listingIdToImport)
         {
             var listing = await this.ListingRepository.GetById(listingIdToImport) ?? throw new NotFoundException<LotListing>(listingIdToImport);
