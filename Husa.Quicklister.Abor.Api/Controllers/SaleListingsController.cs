@@ -28,18 +28,15 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using ExtensionController = Husa.Quicklister.Extensions.Api.Controllers;
 
-    [ApiController]
-    [Route("sale-listings")]
-    public class SaleListingsController : Controller
+    public class SaleListingsController : ExtensionController.SaleListingsController<ISaleListingService>
     {
         private readonly IListingSaleQueriesRepository listingSaleQueriesRepository;
         private readonly ISaleListingRequestQueriesRepository saleRequestQueryRepository;
         private readonly IManagementTraceQueriesRepository managementTraceQueriesRepository;
         private readonly IUploaderService austinUploaderService;
         private readonly IMediaService mediaService;
-        private readonly ISaleListingService listingSaleService;
-        private readonly ILogger<SaleListingsController> logger;
         private readonly IMapper mapper;
 
         public SaleListingsController(
@@ -51,13 +48,12 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             IMediaService mediaService,
             ILogger<SaleListingsController> logger,
             IMapper mapper)
+            : base(listingSaleService, logger)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.austinUploaderService = austinUploaderService ?? throw new ArgumentNullException(nameof(austinUploaderService));
             this.listingSaleQueriesRepository = listingSaleQueriesRepository ?? throw new ArgumentNullException(nameof(listingSaleQueriesRepository));
             this.managementTraceQueriesRepository = managementTraceQueriesRepository ?? throw new ArgumentNullException(nameof(managementTraceQueriesRepository));
-            this.listingSaleService = listingSaleService ?? throw new ArgumentNullException(nameof(listingSaleService));
             this.mediaService = mediaService ?? throw new ArgumentNullException(nameof(mediaService));
             this.saleRequestQueryRepository = saleRequestQueryRepository ?? throw new ArgumentNullException(nameof(saleRequestQueryRepository));
         }
@@ -119,7 +115,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         {
             this.logger.LogInformation("Starting to add in Listing in ABOR with Address: {StreetNumber} {StreetName} ", listingSale.StreetNumber, listingSale.StreetName);
             var listingSaleRequest = this.mapper.Map<QuickCreateListingDto>(listingSale);
-            var queryResponse = await this.listingSaleService.CreateAsync(listingSaleRequest);
+            var queryResponse = await this.listingService.CreateAsync(listingSaleRequest);
 
             if (queryResponse.Code == ResponseCode.Error)
             {
@@ -137,7 +133,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
             var listingSale = this.mapper.Map<SaleListingDto>(saleListingRequest);
 
-            await this.listingSaleService.UpdateListing(listingId, listingSale);
+            await this.listingService.UpdateListing(listingId, listingSale);
 
             return this.Ok();
         }
@@ -148,7 +144,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         {
             this.logger.LogInformation("Received request to DELETE sale listing with Id '{listingId}'.", listingId);
 
-            await this.listingSaleService.DeleteListing(listingId);
+            await this.listingService.DeleteListing(listingId);
 
             return this.Ok();
         }
@@ -159,7 +155,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         {
             this.logger.LogInformation("Starting the process to change the community linked to the listing Id '{listingId}' for the Community Id '{communityId}'", listingId, communityId);
 
-            await this.listingSaleService.ChangeCommunity(listingId, communityId);
+            await this.listingService.ChangeCommunity(listingId, communityId);
 
             return this.Ok();
         }
@@ -170,7 +166,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         {
             this.logger.LogInformation("Starting the process to change the plan profile linked to the listing Id '{listingId}' for the Plan Profile Id '{planId}'", listingId, planId);
 
-            await this.listingSaleService.ChangePlan(listingId, planId, updateRooms);
+            await this.listingService.ChangePlan(listingId, planId, updateRooms);
 
             return this.Ok();
         }
@@ -201,7 +197,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.BadRequest(listingId);
             }
 
-            var queryResponse = await this.listingSaleService.UnlockListing(listingId, cancellationToken);
+            var queryResponse = await this.listingService.UnlockListing(listingId, cancellationToken);
 
             if (queryResponse.Code == ResponseCode.Error)
             {
@@ -221,7 +217,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.BadRequest(listingId);
             }
 
-            var queryResponse = await this.listingSaleService.CloseListing(listingId);
+            var queryResponse = await this.listingService.CloseListing(listingId);
             if (queryResponse.Code == ResponseCode.Error)
             {
                 return this.BadRequest(queryResponse);
@@ -266,7 +262,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.BadRequest(listingId);
             }
 
-            await this.listingSaleService.DeclinePhotos(listingId);
+            await this.listingService.DeclinePhotos(listingId);
 
             return this.Ok();
         }
@@ -286,7 +282,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         public async Task<IActionResult> UpdateActionTypeAsync(Guid listingId, ActionTypeRequest listingRequestForUpdate, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Start to update action type from listing {listingId}", listingId);
-            await this.listingSaleService.UpdateActionTypeAsync(listingId, listingRequestForUpdate.ActionType, cancellationToken);
+            await this.listingService.UpdateActionTypeAsync(listingId, listingRequestForUpdate.ActionType, cancellationToken);
             return this.Ok();
         }
     }
