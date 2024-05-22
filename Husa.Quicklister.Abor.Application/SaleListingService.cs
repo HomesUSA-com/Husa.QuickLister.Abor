@@ -346,12 +346,12 @@ namespace Husa.Quicklister.Abor.Application
             var mlsNumberWasEmpty = string.IsNullOrWhiteSpace(listingSale.MlsNumber);
             listingSale.CompleteListingRequest(mlsNumber, this.UserContextProvider.GetCurrentUserId(), requestStatus, actionType, this.featureFlags.IsDownloaderEnabled);
 
-            if (mlsNumberWasEmpty && listingSale.LastPhotoRequestCreationDate.HasValue)
-            {
-                await this.saleListingPhotoService.SendUpdatePropertiesMessages(new[] { listingSale });
-            }
-
             await this.ListingRepository.SaveChangesAsync(listingSale);
+
+            if (mlsNumberWasEmpty)
+            {
+                await this.UpdatePhotoRequestProperty(listingSale);
+            }
         }
 
         public async Task<SaleListing> SaveListingChanges(Guid listingId, ListingSaleRequestDto listingSaleDto)
@@ -413,6 +413,14 @@ namespace Husa.Quicklister.Abor.Application
             var listing = await this.ListingRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
             listing.UpdateActionType(actionType);
             await this.ListingRepository.SaveChangesAsync(listing);
+        }
+
+        protected override async Task UpdatePhotoRequestProperty(SaleListing listing)
+        {
+            if (listing.LastPhotoRequestCreationDate.HasValue)
+            {
+                await this.saleListingPhotoService.SendUpdatePropertiesMessages(new[] { listing });
+            }
         }
 
         private async Task ImportDataFromCommunityAndPlan(SaleListing listingSaleEntity, QuickCreateListingDto listingSale)
