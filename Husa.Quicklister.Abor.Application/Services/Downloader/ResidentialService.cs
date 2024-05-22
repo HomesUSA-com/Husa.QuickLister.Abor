@@ -106,15 +106,15 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
 
             if (isNewListing)
             {
-                await this.listingMigrationService.SendMigrateListingMesage(MarketCode.DFW, new MigrateListingMessage
+                await this.mediaService.ImportMediaFromMlsAsync(listingSale.Id, dispose: false);
+
+                await this.listingMigrationService.SendMigrateListingMesage(MarketCode.Austin, new MigrateListingMessage
                 {
                     CompanyId = listingSale.CompanyId,
                     MlsNumber = listingSale.MlsNumber,
                     UpdateListing = true,
                     MigrateFullListing = false,
                 });
-
-                await this.mediaService.ImportMediaFromMlsAsync(listingSale.Id);
             }
         }
     }

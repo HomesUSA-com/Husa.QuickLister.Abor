@@ -135,7 +135,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.listingSaleRepository.Verify(x => x.Attach(It.IsAny<SaleListing>()), Times.Once);
             this.listingSaleRepository.Verify(x => x.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Once);
             this.listingMigrationService.Verify(x => x.SendMigrateListingMesage(It.IsAny<MarketCode>(), It.IsAny<MigrateListingMessage>()), Times.Once);
-            this.mediaService.Verify(x => x.ImportMediaFromMlsAsync(It.IsAny<Guid>()), Times.Once);
+            this.mediaService.Verify(x => x.ImportMediaFromMlsAsync(It.IsAny<Guid>(), It.IsAny<bool>()), Times.Once);
         }
 
         [Fact]
@@ -191,7 +191,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.listingSaleRepository.Verify(x => x.Attach(It.IsAny<SaleListing>()), Times.Never);
             this.listingSaleRepository.Verify(x => x.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Once);
             this.listingMigrationService.Verify(x => x.SendMigrateListingMesage(It.IsAny<MarketCode>(), It.IsAny<MigrateListingMessage>()), Times.Never);
-            this.mediaService.Verify(x => x.ImportMediaFromMlsAsync(It.IsAny<Guid>()), Times.Never);
+            this.mediaService.Verify(x => x.ImportMediaFromMlsAsync(It.IsAny<Guid>(), It.IsAny<bool>()), Times.Never);
         }
     }
 }

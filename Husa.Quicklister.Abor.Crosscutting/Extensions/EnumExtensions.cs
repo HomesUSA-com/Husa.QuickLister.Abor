@@ -100,21 +100,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Extensions
             };
         }
 
-        public static Stories? ToStories(this int value)
-        {
-            if (value <= 0)
-            {
-                return null;
-            }
-
-            return value switch
-            {
-                1 => Stories.One,
-                2 => Stories.Two,
-                _ => Stories.ThreePlus,
-            };
-        }
-
         public static MarketStatuses ToStatus(this SpecStatus status)
         {
             return status switch

@@ -1,9 +1,8 @@
-namespace Husa.Quicklister.Abor.Application.Services.Media
+namespace Husa.Quicklister.Abor.Application.Services.Plans
 {
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Enums;
-    using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Application.Interfaces.Media;
+    using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
@@ -12,24 +11,23 @@ namespace Husa.Quicklister.Abor.Application.Services.Media
     using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Media;
-
-    public class XmlMediaService : ExtensionsServices.XmlMediaService<
+    public class PlanXmlMediaService : ExtensionsServices.XmlMediaService<
         Plan,
         CommunitySale,
         SaleListing,
         IPlanRepository,
         ICommunitySaleRepository,
-        IListingSaleRepository>, IXmlMediaService
+        IListingSaleRepository>, IPlanXmlMediaService
     {
-        public XmlMediaService(
+        public PlanXmlMediaService(
             IXmlClient xmlClient,
-            ISaleListingMediaService mediaService,
+            IPlanMediaService mediaService,
             IPlanRepository planRepository,
             ICommunitySaleRepository communitySaleRepository,
             IListingSaleRepository listingSaleRepository,
             IUserContextProvider userContextProvider,
             IProvideTraceId traceIdProvider,
-            ILogger<XmlMediaService> logger)
+            ILogger<PlanXmlMediaService> logger)
             : base(xmlClient, mediaService, traceIdProvider, planRepository, communitySaleRepository, listingSaleRepository, userContextProvider, logger)
         {
         }
