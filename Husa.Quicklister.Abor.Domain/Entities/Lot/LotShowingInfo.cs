@@ -12,6 +12,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         private string apptPhone;
         private string showingServicePhone;
         private string showingContactName;
+        private ICollection<ShowingContactType> showingContactTypes;
+
         public virtual ICollection<ShowingRequirements> ShowingRequirements { get; set; }
 
         public virtual string ApptPhone
@@ -37,7 +39,19 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             set => this.showingContactName = value;
         }
 
-        public ICollection<ShowingContactType> ShowingContactType { get; set; }
+        public ICollection<ShowingContactType> ShowingContactType
+        {
+            get
+            {
+                if (this.showingContactTypes == null)
+                {
+                    this.showingContactTypes = new List<ShowingContactType> { Enums.Domain.ShowingContactType.Owner };
+                }
+
+                return this.showingContactTypes;
+            }
+            set => this.showingContactTypes = value;
+        }
 
         public LotShowingInfo Clone()
         {
