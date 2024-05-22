@@ -2,11 +2,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 {
     using System;
     using System.Collections.Generic;
+    using Husa.Extensions.Document.Interfaces;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
-    using Husa.Quicklister.Extensions.Domain.Interfaces;
 
     public record RoomRecord : IProvideType, IProvideRoomInfo
     {

@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Community;
@@ -226,58 +227,22 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
         }
 
         [Fact]
-        public async Task AddEmployees_UsersListEmpty_Error()
+        public async Task SaveAndSubmitCommunityAsync_Succcess()
         {
             // Arrange
+            var communitySaleRequest = new CommunitySaleRequest();
             var communityId = Guid.NewGuid();
-            var userIds = new List<Guid>();
-            var employees = new CommunityEmployeesRequest();
-            employees.UserIds = userIds;
-            CommunityEmployeesCreateDto employeesDto = null;
-
-            this.communitySaleService
-            .Setup(u => u.CreateEmployeesAsync(It.Is<CommunityEmployeesCreateDto>(employee => employee == employeesDto)))
-            .Verifiable();
+            this.listingSaleRequestService
+                .Setup(u => u.CreateRequestsFromCommunityAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(CommandResult<CommunityRequestsResponse>.Success(new CommunityRequestsResponse()))
+                .Verifiable();
 
             // Act
-            var result = await this.Sut.AddEmployeesAsync(communityId, employees);
+            var result = await this.Sut.SaveAndSubmitCommunityAsync(communityId, communitySaleRequest);
 
             // Assert
-            this.communitySaleService.Verify(x => x.CreateEmployeesAsync(employeesDto), Times.Never);
             Assert.NotNull(result);
-            Assert.IsType<BadRequestResult>(result);
-        }
-
-        [Fact]
-        public async Task AddEmployee_UsersListNotNull_Success()
-        {
-            // Arrange
-            var communityId = Guid.NewGuid();
-            var companyId = Guid.Empty;
-            var userId1 = Guid.NewGuid();
-            var userId2 = Guid.NewGuid();
-            var employees = new CommunityEmployeesRequest();
-            var userIds = new List<Guid>()
-            {
-                userId1,
-                userId2,
-            };
-
-            employees.UserIds = userIds;
-
-            var employeesDto = new CommunityEmployeesCreateDto() { UserIds = userIds, CommunityId = communityId, CompanyId = companyId };
-
-            this.communitySaleService
-            .Setup(u => u.CreateEmployeesAsync(It.Is<CommunityEmployeesCreateDto>(x => x == employeesDto)))
-            .Verifiable();
-
-            // Act
-            var result = await this.Sut.AddEmployeesAsync(communityId, employees);
-
-            // Assert
-            this.communitySaleService.Verify(x => x.CreateEmployeesAsync(It.IsAny<CommunityEmployeesCreateDto>()), Times.Once);
-            Assert.NotNull(result);
-            Assert.IsType<OkResult>(result);
+            this.communitySaleService.Verify(x => x.UpdateCommunity(communityId, It.IsAny<CommunitySaleDto>()), Times.Once);
         }
 
         [Fact]
@@ -332,60 +297,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
             var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(result);
             var employeeResult = Assert.IsAssignableFrom<DataSet<CommunityEmployeeResponse>>(okObjectResult.Value);
             Assert.Equal(2, employeeResult.Total);
-        }
-
-        [Fact]
-        public async Task RemoveEmployees_UsersListEmpty_Error()
-        {
-            // Arrange
-            var communityId = Guid.NewGuid();
-            var employeeIds = new List<Guid>();
-            var employees = new CommunityEmployeesDeleteRequest();
-            employees.UserIds = employeeIds;
-            CommunityEmployeesDeleteDto employeesDto = null;
-
-            this.communitySaleService
-            .Setup(u => u.DeleteEmployeesAsync(It.Is<CommunityEmployeesDeleteDto>(employee => employee == employeesDto)))
-            .Verifiable();
-
-            // Act
-            var result = await this.Sut.DeleteEmployeesAsync(communityId, employees);
-
-            // Assert
-            this.communitySaleService.Verify(x => x.DeleteEmployeesAsync(employeesDto), Times.Never);
-            Assert.NotNull(result);
-            Assert.IsType<BadRequestResult>(result);
-        }
-
-        [Fact]
-        public async Task RemoveEmployee_EmployeeListNotNull_Success()
-        {
-            // Arrange
-            var communityId = Guid.NewGuid();
-            var employeeId1 = Guid.NewGuid();
-            var employeeId2 = Guid.NewGuid();
-            var employees = new CommunityEmployeesDeleteRequest();
-            var employeeIds = new List<Guid>()
-            {
-                employeeId1,
-                employeeId2,
-            };
-
-            employees.UserIds = employeeIds;
-
-            var employeesDto = new CommunityEmployeesDeleteDto() { UserIds = employeeIds, CommunityId = communityId };
-
-            this.communitySaleService
-            .Setup(u => u.DeleteEmployeesAsync(It.Is<CommunityEmployeesDeleteDto>(x => x == employeesDto)))
-            .Verifiable();
-
-            // Act
-            var result = await this.Sut.DeleteEmployeesAsync(communityId, employees);
-
-            // Assert
-            this.communitySaleService.Verify(x => x.DeleteEmployeesAsync(It.IsAny<CommunityEmployeesDeleteDto>()), Times.Once);
-            Assert.NotNull(result);
-            Assert.IsType<OkResult>(result);
         }
 
         [Fact]

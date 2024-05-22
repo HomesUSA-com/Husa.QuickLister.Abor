@@ -7,9 +7,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
+    using Husa.Quicklister.Extensions.Domain.Interfaces;
     using ExtensionPlan = Husa.Quicklister.Extensions.Domain.Entities.Plan.Plan;
 
-    public class Plan : ExtensionPlan
+    public class Plan : ExtensionPlan, IProvideActiveListings<SaleListing>
     {
         public Plan(Guid companyId, string name, string ownerName, XmlStatus xmlStatus)
             : this(companyId, name, ownerName)
@@ -43,6 +44,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
         public virtual ICollection<PlanRoom> Rooms { get; set; }
 
         public virtual ICollection<SaleProperty> SaleProperties { get; set; }
+
+        public virtual IEnumerable<SaleListing> GetActiveListingsInMarket() => this.SaleProperties
+            .Where(property => !property.IsDeleted)
+            .SelectMany(p => p.SaleListings)
+            .Where(listing => !listing.IsDeleted && SaleListing.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber));
 
         public virtual void UpdateBasePlanInformation(BasePlan plan)
         {
