@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
 
         [Required]
+        [MinLength(1)]
         public ICollection<ShowingContactType> ShowingContactType { get; set; }
         public string ApptPhone { get; set; }
         public string ShowingServicePhone { get; set; }
