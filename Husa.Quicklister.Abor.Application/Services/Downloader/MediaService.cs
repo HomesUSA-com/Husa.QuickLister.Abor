@@ -71,7 +71,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             await this.listingMediaService.Resource.BulkCreateAsync(listingSale.Id, mediaDto, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
         }
 
-        public async Task ImportMediaFromMlsAsync(Guid listingId)
+        public async Task ImportMediaFromMlsAsync(Guid listingId, bool dispose = true)
         {
             var listingSale = await this.listingSaleRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
             this.logger.LogInformation("Listing Sale service is starting to import media from ABOR market for listing with id {listingId}", listingId);
@@ -83,7 +83,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
                 MediaLimit = this.options.MediaAllowed.SaleListingMaxAllowedMedia,
             };
             var userId = this.userContextProvider.GetCurrentUserId();
-            await this.saleListingMediaMessagingService.SendMessage(new List<ImportMlsMediaMessage>() { message }, userId.ToString(), MarketCode.Austin, this.traceIdProvider.TraceId);
+            await this.saleListingMediaMessagingService.SendMessage(new List<ImportMlsMediaMessage>() { message }, userId.ToString(), MarketCode.Austin, this.traceIdProvider.TraceId, dispose: dispose);
         }
     }
 }

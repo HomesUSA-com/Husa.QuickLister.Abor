@@ -139,7 +139,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.DiningAreasTotal, dto => dto.Ignore())
                 .ForMember(vo => vo.LivingAreasTotal, dto => dto.Ignore())
                 .ForMember(vo => vo.OtherLevelsBedroomTotal, dto => dto.MapFrom(src => src.RoomsMessage.NumBedrooms - src.RoomsMessage.MainLevelBedrooms))
-                .ForMember(vo => vo.StoriesTotal, dto => dto.MapFrom(src => src.FeaturesMessage.Stories.ToStories()))
+                .ForMember(vo => vo.StoriesTotal, dto => dto.MapFrom(src => src.FeaturesMessage.Levels.ToStories()))
                 .ForMember(vo => vo.SqFtTotal, dto => dto.MapFrom(src => src.ListingMessage.SquareFeetTotal));
 
             this.CreateMap<ResidentialResponse, FeaturesDto>()
@@ -171,7 +171,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.RestrictionsDescription, dto => dto.Ignore())
                 .ForMember(vo => vo.SecurityFeatures, dto => dto.MapFrom(src => src.FeaturesMessage.SecurityFeatures.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.WindowFeatures, dto => dto.MapFrom(src => src.OtherMessage.WindowFeatures.Select(x => x.ToCtxEnum()).Where(y => y != null)))
-                .ForMember(vo => vo.PatioAndPorchFeatures, dto => dto.Ignore())
                 .ForMember(vo => vo.DistanceToWaterAccess, dto => dto.Ignore())
                 .ForMember(vo => vo.WaterfrontFeatures, dto => dto.MapFrom(src => src.OtherMessage.WaterfrontFeatures.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.UnitStyle, dto => dto.Ignore())
