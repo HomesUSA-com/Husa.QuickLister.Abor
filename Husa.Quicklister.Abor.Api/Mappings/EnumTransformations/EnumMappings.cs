@@ -832,5 +832,15 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.BuyerFinancing.VA => SaleTerms.VA,
             _ => null,
         };
+
+        public static Stories? ToStories(this Trestle.Levels? value) => value switch
+        {
+            Trestle.Levels.One => Stories.One,
+            Trestle.Levels.OneandOneHalf => Stories.OnePointFive,
+            Trestle.Levels.Two => Stories.Two,
+            Trestle.Levels.ThreeOrMore => Stories.ThreePlus,
+            Trestle.Levels.MultiLevelUnit => Stories.MultiLevel,
+            _ => null,
+        };
     }
 }
