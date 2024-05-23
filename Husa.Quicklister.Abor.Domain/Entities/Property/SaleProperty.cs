@@ -204,6 +204,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 throw new ArgumentNullException(nameof(spacesDimensions));
             }
 
+            this.SpacesDimensionsInfo = this.SpacesDimensionsInfo.Clone();
+
             if (this.SpacesDimensionsInfo != spacesDimensions)
             {
                 this.SpacesDimensionsInfo.DiningAreasTotal = spacesDimensions.DiningAreasTotal;
