@@ -7,7 +7,6 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
-    using Husa.CompanyServicesManager.Domain.Enums;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
@@ -25,7 +24,6 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using CompanyServiceSubscriptionFilter = Husa.CompanyServicesManager.Api.Contracts.Request.FilterServiceSubscriptionRequest;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services;
 
     public class LotListingService : ExtensionsServices.ListingService<LotListing, ILotListingRepository>, ILotListingService
@@ -61,15 +59,6 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
 
         public async Task<CommandSingleResult<Guid, string>> CreateAsync(QuickCreateListingDto lotListing)
         {
-            var companyServices = await this.serviceSubscriptionClient.Company.GetCompanyServices(
-                lotListing.CompanyId,
-                new CompanyServiceSubscriptionFilter { ServiceCode = new[] { ServiceCode.XMLImport } });
-
-            if (companyServices.Total > 0 && !lotListing.IsManuallyManaged)
-            {
-                return CommandSingleResult<Guid, string>.Error("Listings are managed by company's XML data.");
-            }
-
             var importFromListing = lotListing.ListingIdToImport.HasValue && !lotListing.ListingIdToImport.Equals(Guid.Empty);
             var commandResult = await this.QuickCreateAsync(lotListing, importFromListing);
             if (commandResult.HasErrors())
