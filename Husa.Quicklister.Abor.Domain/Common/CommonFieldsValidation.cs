@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
 
     public static class CommonFieldsValidation
     {
-        public static bool IsValidHoa(this IProvideFinancial financialInfo)
+        public static bool IsValidHoa(this IProvideCommonFinancial financialInfo)
         {
             return !financialInfo.HasHoa || financialInfo.HOARequirement.HasValue;
         }
@@ -26,7 +26,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
             return agentCommission.BuyersAgentCommissionType switch
             {
                 CommissionType.Percent => agentCommission.BuyersAgentCommission <= 8,
-                CommissionType.Amount => agentCommission.BuyersAgentCommission <= 50000,
+                CommissionType.Amount => agentCommission.BuyersAgentCommission <= 40000,
                 _ => false,
             };
         }

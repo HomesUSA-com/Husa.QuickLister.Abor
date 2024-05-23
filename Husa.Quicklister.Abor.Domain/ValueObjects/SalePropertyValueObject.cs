@@ -16,7 +16,7 @@ namespace Husa.Quicklister.Abor.Domain.ValueObjects
 
         public virtual PropertyInfo PropertyInfo { get; set; }
 
-        public virtual AddressInfo AddressInfo { get; set; }
+        public virtual SaleAddressInfo AddressInfo { get; set; }
 
         public virtual FeaturesInfo FeaturesInfo { get; set; }
 

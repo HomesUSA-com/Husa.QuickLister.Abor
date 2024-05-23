@@ -3,7 +3,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using System;
     using System.Linq.Expressions;
     using Husa.Extensions.Common.Enums;
-    using Husa.Quicklister.Abor.Data.Queries.Extensions;
+    using Husa.Quicklister.Abor.Data.Queries.Extensions.Sale;
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
 

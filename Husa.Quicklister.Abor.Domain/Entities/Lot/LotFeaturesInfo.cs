@@ -4,8 +4,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces.LotListing;
 
-    public class LotFeaturesInfo : ValueObject
+    public class LotFeaturesInfo : ValueObject, IProvideLotFeatures
     {
         public virtual ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
         public virtual ICollection<WaterfrontFeatures> WaterfrontFeatures { get; set; }
@@ -16,6 +17,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public virtual DistanceToWaterAccess? DistanceToWaterAccess { get; set; }
         public virtual ICollection<Fencing> Fencing { get; set; }
         public virtual ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
+        public virtual bool GroundWaterConservDistric { get; set; }
+        public virtual ICollection<HorseAmenities> HorseAmenities { get; set; }
+        public virtual ICollection<Minerals> MineralsFeatures { get; set; }
+        public virtual ICollection<RoadSurface> RoadSurface { get; set; }
+        public virtual ICollection<OtherStructures> OtherStructures { get; set; }
+        public virtual ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
+        public virtual ICollection<Disclosures> Disclosures { get; set; }
+        public virtual ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
+        public WaterBodyName? WaterBodyName { get; set; }
 
         public LotFeaturesInfo Clone()
         {
@@ -30,6 +40,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             clonnedFeatures.WaterSource = utilities.WaterSource;
             clonnedFeatures.UtilitiesDescription = utilities.UtilitiesDescription;
             clonnedFeatures.View = utilities.View;
+            clonnedFeatures.Fencing = utilities.Fencing;
+            clonnedFeatures.ExteriorFeatures = utilities.ExteriorFeatures;
+            clonnedFeatures.NeighborhoodAmenities = utilities.NeighborhoodAmenities;
             return clonnedFeatures;
         }
 
@@ -42,6 +55,17 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             yield return this.UtilitiesDescription;
             yield return this.WaterSource;
             yield return this.DistanceToWaterAccess;
+            yield return this.Fencing;
+            yield return this.ExteriorFeatures;
+            yield return this.GroundWaterConservDistric;
+            yield return this.HorseAmenities;
+            yield return this.MineralsFeatures;
+            yield return this.RoadSurface;
+            yield return this.OtherStructures;
+            yield return this.NeighborhoodAmenities;
+            yield return this.DocumentsAvailable;
+            yield return this.Disclosures;
+            yield return this.WaterBodyName;
         }
     }
 }

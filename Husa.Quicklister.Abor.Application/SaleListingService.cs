@@ -160,8 +160,9 @@ namespace Husa.Quicklister.Abor.Application
             var company = await this.serviceSubscriptionClient.Company.GetCompany(listingSale.CompanyId) ?? throw new NotFoundException<SaleListing>(listingSale.CompanyId);
             await this.UpdateBaseListingInfo(listingDto, Guid.Empty, listingSale, migrateFullListing);
 
-            var statusFieldsInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingDto.StatusFieldsInfo);
+            var statusFieldsInfo = this.mapper.Map<ListingStatusFieldsInfo>(listingDto.StatusFieldsInfo);
             listingSale.SetMigrateFullListing(migrateFullListing);
+            listingSale.SaleProperty.SetMigrateFullListing(migrateFullListing);
             listingSale.UpdateStatusFieldsInfo(statusFieldsInfo);
 
             if (!migrateFullListing)
@@ -216,12 +217,12 @@ namespace Husa.Quicklister.Abor.Application
             entity.SaleProperty.UpdatePropertyInfo(property);
         }
 
-        public async Task UpdateAddressInfo(AddressDto addressDto, Guid listingId = default, SaleListing entity = null)
+        public async Task UpdateAddressInfo(SaleAddressDto addressDto, Guid listingId = default, SaleListing entity = null)
         {
             this.Logger.LogInformation("Starting update address information for listing with id {listingId}", listingId);
             entity = await this.GetEntity(entity, listingId);
 
-            var address = this.mapper.Map<AddressInfo>(addressDto);
+            var address = this.mapper.Map<SaleAddressInfo>(addressDto);
             entity.SaleProperty.UpdateAddressInfo(address);
         }
 
@@ -345,19 +346,19 @@ namespace Husa.Quicklister.Abor.Application
             var mlsNumberWasEmpty = string.IsNullOrWhiteSpace(listingSale.MlsNumber);
             listingSale.CompleteListingRequest(mlsNumber, this.UserContextProvider.GetCurrentUserId(), requestStatus, actionType, this.featureFlags.IsDownloaderEnabled);
 
-            if (mlsNumberWasEmpty && listingSale.LastPhotoRequestCreationDate.HasValue)
-            {
-                await this.saleListingPhotoService.SendUpdatePropertiesMessages(new[] { listingSale });
-            }
-
             await this.ListingRepository.SaveChangesAsync(listingSale);
+
+            if (mlsNumberWasEmpty)
+            {
+                await this.UpdatePhotoRequestProperty(listingSale);
+            }
         }
 
         public async Task<SaleListing> SaveListingChanges(Guid listingId, ListingSaleRequestDto listingSaleDto)
         {
             var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
 
-            var statusFieldsInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(listingSaleDto.StatusFieldsInfo);
+            var statusFieldsInfo = this.mapper.Map<ListingStatusFieldsInfo>(listingSaleDto.StatusFieldsInfo);
 
             listingSale.UpdateBaseListingInfo(
                 listingSaleDto.ListType,
@@ -412,6 +413,14 @@ namespace Husa.Quicklister.Abor.Application
             var listing = await this.ListingRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
             listing.UpdateActionType(actionType);
             await this.ListingRepository.SaveChangesAsync(listing);
+        }
+
+        protected override async Task UpdatePhotoRequestProperty(SaleListing listing)
+        {
+            if (listing.LastPhotoRequestCreationDate.HasValue)
+            {
+                await this.saleListingPhotoService.SendUpdatePropertiesMessages(new[] { listing });
+            }
         }
 
         private async Task ImportDataFromCommunityAndPlan(SaleListing listingSaleEntity, QuickCreateListingDto listingSale)

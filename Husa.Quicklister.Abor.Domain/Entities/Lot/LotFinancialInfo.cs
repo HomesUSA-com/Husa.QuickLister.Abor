@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Abor.Domain.Interfaces.LotListing;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class LotFinancialInfo : ValueObject, IProvideLotFinancial
@@ -36,6 +36,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
                 $"{(int)this.BuyersAgentCommission}%" :
                 $"${this.BuyersAgentCommission}";
 
+        public string HoaName { get; set; }
+        public decimal? HoaFee { get; set; }
+        public decimal? EstimatedTax { get; set; }
+        public int? TaxYear { get; set; }
+        public ICollection<TaxExemptions> TaxExemptions { get; set; }
+        public int? TaxAssesedValue { get; set; }
+        public string PreferredTitleCompany { get; set; }
+        public LandTitleEvidence? LandTitleEvidence { get; set; }
+
         public LotFinancialInfo Clone()
         {
             return (LotFinancialInfo)this.MemberwiseClone();
@@ -58,6 +67,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             clonedFinancial.AgentBonusAmountType = financial.AgentBonusAmountType;
             clonedFinancial.BonusExpirationDate = financial.BonusExpirationDate;
             clonedFinancial.HasBuyerIncentive = financial.HasBuyerIncentive;
+            clonedFinancial.TaxExemptions = financial.TaxExemptions;
+            clonedFinancial.PreferredTitleCompany = financial.TitleCompany;
+            clonedFinancial.HoaFee = financial.HoaFee;
+            clonedFinancial.HoaName = financial.HoaName;
+
             return clonedFinancial;
         }
 
@@ -77,6 +91,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             yield return this.AgentBonusAmountType;
             yield return this.BonusExpirationDate;
             yield return this.HasBuyerIncentive;
+            yield return this.HoaFee;
+            yield return this.HoaName;
+            yield return this.EstimatedTax;
+            yield return this.TaxYear;
+            yield return this.TaxExemptions;
+            yield return this.TaxAssesedValue;
+            yield return this.PreferredTitleCompany;
+            yield return this.LandTitleEvidence;
         }
     }
 }

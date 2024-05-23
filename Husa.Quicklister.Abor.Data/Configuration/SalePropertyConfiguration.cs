@@ -15,8 +15,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     public class SalePropertyConfiguration : IEntityTypeConfiguration<SaleProperty>
     {
         public const int PropertyDescriptionLength = 4000;
-        public const int LegalDescriptionLength = 255;
-        public const int TaxIdLength = 50;
         public const int AgentPrivateRemarksLength = 4000;
 
         public void Configure(EntityTypeBuilder<SaleProperty> builder)
@@ -33,7 +31,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.OwnsOne(o => o.FinancialInfo, ConfigureFinancialMapping);
             builder.OwnsOne(o => o.ShowingInfo, ConfigureShowingMapping);
             builder.OwnsOne(o => o.SchoolsInfo, ConfigureSchoolsMapping).Navigation(e => e.SchoolsInfo).IsRequired();
-            builder.OwnsOne(o => o.AddressInfo, AddressExtensions.ConfigureAddressInfoMapping);
+            builder.OwnsOne(o => o.AddressInfo, ConfigureAddressMapping);
             builder.OwnsOne(o => o.PropertyInfo, ConfigurePropertyInfoMapping);
             builder.OwnsOne(o => o.SalesOfficeInfo, ConfigureSalesOfficeMapping).Navigation(e => e.SalesOfficeInfo).IsRequired();
 
@@ -50,13 +48,11 @@ namespace Husa.Quicklister.Abor.Data.Configuration
         {
             builder.Property(x => x.ConstructionCompletionDate).HasColumnName(nameof(PropertyInfo.ConstructionCompletionDate)).IsRequired(false);
             builder.Property(r => r.ConstructionStartYear).HasColumnName(nameof(PropertyInfo.ConstructionStartYear)).IsRequired(false);
-            builder.Property(r => r.LegalDescription).HasColumnName(nameof(PropertyInfo.LegalDescription)).HasMaxLength(LegalDescriptionLength).IsRequired(false);
-            builder.Property(r => r.TaxId).HasColumnName(nameof(PropertyInfo.TaxId)).HasMaxLength(TaxIdLength);
-            builder.Property(r => r.TaxLot).HasColumnName(nameof(PropertyInfo.TaxLot)).HasMaxLength(25);
             builder.Property(r => r.IsXmlManaged).HasColumnName(nameof(PropertyInfo.IsXmlManaged));
             builder.Property(r => r.UpdateGeocodes).HasColumnName(nameof(PropertyInfo.UpdateGeocodes));
             builder.Property(r => r.FemaFloodPlain).HasColumnName(nameof(PropertyInfo.FemaFloodPlain)).HasEnumCollectionValue<FemaFloodPlain>(25);
 
+            builder.ConfigureCommonProperty();
             builder.ConfigureProperty();
             builder.ConfigureGeocodes();
         }
@@ -73,6 +69,12 @@ namespace Husa.Quicklister.Abor.Data.Configuration
                 .HasMaxLength(50);
 
             builder.Property(x => x.SalesOfficeZip).HasColumnName(nameof(SalesOffice.SalesOfficeZip)).HasMaxLength(50);
+        }
+
+        private static void ConfigureAddressMapping(OwnedNavigationBuilder<SaleProperty, SaleAddressInfo> builder)
+        {
+            builder.ConfigureAddressInfoMapping();
+            builder.Property(r => r.UnitNumber).HasColumnName(nameof(SaleAddressInfo.UnitNumber)).HasMaxLength(20).IsRequired(false);
         }
 
         private static void ConfigureSpacesDimensionsMapping(OwnedNavigationBuilder<SaleProperty, SpacesDimensionsInfo> builder)
@@ -116,7 +118,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<SaleProperty, SchoolsInfo> builder)
         {
-            builder.ConfigureSchoolsInfo();
+            builder.ConfigureSchools();
         }
     }
 }

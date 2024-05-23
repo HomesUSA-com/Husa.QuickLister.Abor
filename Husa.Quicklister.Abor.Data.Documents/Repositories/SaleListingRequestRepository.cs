@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Data.Documents.Repositories
 {
     using Husa.Extensions.Document.Interfaces;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Microsoft.Azure.Cosmos;

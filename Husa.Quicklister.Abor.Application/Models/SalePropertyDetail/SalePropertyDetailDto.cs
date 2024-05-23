@@ -9,7 +9,7 @@ namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
 
         public virtual SalePropertyDto SalePropertyInfo { get; set; }
 
-        public virtual AddressDto AddressInfo { get; set; }
+        public virtual SaleAddressDto AddressInfo { get; set; }
 
         public virtual PropertyDto PropertyInfo { get; set; }
 

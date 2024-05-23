@@ -1,0 +1,156 @@
+namespace Husa.Quicklister.Abor.Domain.Common
+{
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using Husa.Extensions.Common.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Extensions;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Extensions.Domain.Common;
+
+    public static class ValidateListingStatus<TStatusFields>
+        where TStatusFields : IProvideStatusFields
+    {
+        private const string RequiredFieldMessage = "This field is required";
+        private const string GreaterThanErrorMessage = "This field must be greater than";
+        private const string GreaterThanEqualToErrorMessage = "This field must be greater or equal to";
+        private const string LessThanErrorMessage = "This field must be less than";
+        private const string LessThanOrEqualToErrorMessage = "This field must be less or equal to";
+
+        public static ValidationResult GetErrors(MarketStatuses mlsStatus, TStatusFields value)
+        {
+            var errors = GetValidations(mlsStatus, value).ToList();
+            var validationContext = new ValidationContext(value, serviceProvider: null, items: null);
+            Validator.TryValidateObject(value, validationContext, errors, validateAllProperties: true);
+
+            if (errors.Any())
+            {
+                CompositeValidationResult compositeValidationResult = new CompositeValidationResult($"Validation for StatusFields failed!");
+                errors.ToList().ForEach(compositeValidationResult.AddResult);
+                return compositeValidationResult;
+            }
+
+            return ValidationResult.Success;
+        }
+
+        private static IEnumerable<ValidationResult> GetValidations(MarketStatuses mlsStatus, TStatusFields value)
+        {
+            switch (mlsStatus)
+            {
+                case MarketStatuses.Pending:
+                    return PendingValidations(value);
+                case MarketStatuses.Hold:
+                    return HoldValidations(value);
+                case MarketStatuses.Closed:
+                    return SoldValidations(value);
+                case MarketStatuses.Canceled:
+                    return CanceledValidations(value);
+                case MarketStatuses.ActiveUnderContract:
+                    return ActiveUnderContractValidations(value);
+            }
+
+            return new List<ValidationResult>();
+        }
+
+        private static IEnumerable<ValidationResult> ActiveUnderContractValidations(TStatusFields record)
+        {
+            var requiredFields = new List<string>();
+
+            requiredFields.AddValue(!record.PendingDate.HasValue, nameof(record.PendingDate));
+            requiredFields.AddValue(!record.EstimatedClosedDate.HasValue, nameof(record.EstimatedClosedDate));
+
+            var results = ToRequiredFieldValidationResult(requiredFields);
+
+            return results;
+        }
+
+        private static IEnumerable<ValidationResult> CanceledValidations(TStatusFields record)
+        {
+            var result = new List<ValidationResult>();
+            result.AddValue(string.IsNullOrWhiteSpace(record.CancelledReason), new(RequiredFieldMessage, new[] { nameof(record.OffMarketDate) }));
+            return result;
+        }
+
+        private static IEnumerable<ValidationResult> PendingValidations(TStatusFields record)
+        {
+            var result = new List<ValidationResult>();
+
+            if (!record.PendingDate.HasValue)
+            {
+                result.Add(new(RequiredFieldMessage, new[] { nameof(record.PendingDate) }));
+            }
+            else if (record.PendingDate.Value > DateTime.Today.AddDays(1))
+            {
+                result.Add(new(GetErrorMessage("today", OperatorType.LessEqual), new[] { nameof(record.PendingDate) }));
+            }
+
+            if (!record.EstimatedClosedDate.HasValue)
+            {
+                result.Add(new(RequiredFieldMessage, new[] { nameof(record.EstimatedClosedDate) }));
+            }
+            else if (record.EstimatedClosedDate.Value < DateTime.Today)
+            {
+                result.Add(new(GetErrorMessage("today", OperatorType.GreaterEqual), new[] { nameof(record.EstimatedClosedDate) }));
+            }
+
+            result.AddValue(record.HasBuyerAgent && !record.AgentId.HasValue, new(RequiredFieldMessage, new[] { nameof(record.AgentId) }));
+
+            return result;
+        }
+
+        private static IEnumerable<ValidationResult> HoldValidations(TStatusFields record)
+        {
+            var requiredFields = new List<string>();
+            requiredFields.AddValue(!record.OffMarketDate.HasValue, nameof(record.OffMarketDate));
+            requiredFields.AddValue(!record.BackOnMarketDate.HasValue, nameof(record.BackOnMarketDate));
+            return ToRequiredFieldValidationResult(requiredFields);
+        }
+
+        private static IEnumerable<ValidationResult> SoldValidations(TStatusFields record)
+        {
+            var requiredFields = new List<string>();
+
+            requiredFields.AddValue(!record.ClosedDate.HasValue, nameof(record.ClosedDate));
+            requiredFields.AddValue(!record.PendingDate.HasValue, nameof(record.PendingDate));
+            requiredFields.AddValue(!record.ClosePrice.HasValue, nameof(record.ClosePrice));
+            requiredFields.AddValue(record.HasBuyerAgent && !record.AgentId.HasValue, nameof(record.AgentId));
+            requiredFields.AddValue(record.HasSecondBuyerAgent && !record.AgentIdSecond.HasValue, nameof(record.AgentIdSecond));
+            requiredFields.AddValue(record.SaleTerms == null || record.SaleTerms.Count < 1, nameof(record.SaleTerms));
+            requiredFields.AddValue(string.IsNullOrWhiteSpace(record.SellConcess), nameof(record.SellConcess));
+
+            var results = ToRequiredFieldValidationResult(requiredFields);
+            results.AddValue(record.ClosePrice.HasValue && record.ClosePrice.Value <= 0, new(GetErrorMessage("zero", OperatorType.GreaterThan)));
+
+            return results;
+        }
+
+        private static string GetErrorMessage(string fieldName, OperatorType option)
+        {
+            var message = string.Empty;
+            switch (option)
+            {
+                case OperatorType.LessThan:
+                    message = $"{LessThanErrorMessage} {fieldName}";
+                    break;
+                case OperatorType.LessEqual:
+                    message = $"{LessThanOrEqualToErrorMessage} {fieldName}";
+                    break;
+                case OperatorType.GreaterThan:
+                    message = $"{GreaterThanErrorMessage} {fieldName}";
+                    break;
+                case OperatorType.GreaterEqual:
+                    message = $"{GreaterThanEqualToErrorMessage} {fieldName}";
+                    break;
+            }
+
+            return message;
+        }
+
+        private static List<ValidationResult> ToRequiredFieldValidationResult(List<string> fields)
+        {
+            return fields.Count > 0 ? new List<ValidationResult> { new(RequiredFieldMessage, fields) } : new List<ValidationResult>();
+        }
+    }
+}

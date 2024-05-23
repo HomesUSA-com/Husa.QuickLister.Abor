@@ -8,10 +8,12 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.1.0</Version>
+        <Version>2.2.1</Version>
         <PackageReleaseNotes>
-            Release 2.1.0:
-            - Added lot contracts
+            Release 2.2.1:
+            - Updated Lot Size for lots data type
+            - Added Showing Contact Name and Water Body Name to Lots
+            - Set Required to submit Showing Contact Type Field to Lots
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

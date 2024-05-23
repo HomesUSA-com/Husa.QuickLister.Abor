@@ -8,7 +8,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Interfaces
     using Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using ExtensionInterfaces = Husa.Quicklister.Extensions.Data.Documents.Interfaces;
 
     public interface ISaleListingRequestQueriesRepository : ExtensionInterfaces.ISaleListingRequestQueriesRepository<SaleListingRequest, ListingSaleRequestQueryResult>

@@ -18,7 +18,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Quicklister.Abor.Api.Client.Tests.Authentication;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Extensions.Application.Interfaces.Media;
     using Husa.ReverseProspect.Api.Client;
     using Husa.Xml.Api.Client.Interface;

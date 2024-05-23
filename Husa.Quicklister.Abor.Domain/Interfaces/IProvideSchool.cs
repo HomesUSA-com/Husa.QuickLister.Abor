@@ -11,5 +11,11 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         MiddleSchool? MiddleSchool { get; set; }
 
         HighSchool? HighSchool { get; set; }
+
+        string OtherElementarySchool { get; set; }
+
+        string OtherMiddleSchool { get; set; }
+
+        string OtherHighSchool { get; set; }
     }
 }

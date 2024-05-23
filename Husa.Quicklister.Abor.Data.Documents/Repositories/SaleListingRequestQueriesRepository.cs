@@ -11,7 +11,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using Husa.Extensions.Document.Models;
     using Husa.Extensions.Document.Specifications;
     using Husa.Extensions.Document.ValueObjects;
-    using Husa.Quicklister.Abor.Crosscutting;
+    using Husa.Quicklister.Abor.Data.Documents.Extensions;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Documents.Models;
     using Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
@@ -22,8 +22,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
@@ -44,17 +44,13 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
             CosmosClient cosmosClient,
             ICosmosLinqQuery cosmosLinqQuery,
             IOptions<DocumentDbSettings> options,
-            IQueryMediaRepository mediaQueriesRepository,
+            IQuerySaleRequestMediaRepository mediaQueriesRepository,
             IListingSaleQueriesRepository listingSaleQueriesRepository,
             IAgentQueriesRepository agentQueriesRepository,
             IUserRepository userQueriesRepository)
              : base(cosmosClient, cosmosLinqQuery, options, mediaQueriesRepository)
         {
-            if (cosmosClient is null)
-            {
-                throw new ArgumentNullException(nameof(cosmosClient));
-            }
-
+            ArgumentNullException.ThrowIfNull(cosmosClient);
             this.listingSaleQueriesRepository = listingSaleQueriesRepository ?? throw new ArgumentNullException(nameof(listingSaleQueriesRepository));
             this.agentQueriesRepository = agentQueriesRepository ?? throw new ArgumentNullException(nameof(agentQueriesRepository));
             this.userQueriesRepository = userQueriesRepository ?? throw new ArgumentNullException(nameof(userQueriesRepository));
@@ -78,22 +74,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
             var queryResult = requestEntity.ToListingSaleRequestDetailQueryResult();
             var saleListing = await this.listingSaleQueriesRepository.GetListing(requestEntity.EntityId) ?? throw new NotFoundException<SaleListing>(requestEntity.EntityId);
             queryResult.IsFirstRequest = await this.CheckIsFirstListingRequestAsync(requestEntity.EntityId, cancellationToken);
-            if (saleListing.LockedStatus == LockedStatus.LockedBySystem)
-            {
-                queryResult.LockedByUsername = UserConstants.LockedBySystemLabel;
-            }
-            else
-            {
-                queryResult.LockedBy = saleListing.LockedBy;
-                queryResult.LockedByUsername = saleListing.LockedByUsername;
-            }
-
-            queryResult.LockedStatus = saleListing.LockedStatus;
-            queryResult.LockedOn = saleListing.LockedOn;
-            if (queryResult.PublishInfo.PublishType is null)
-            {
-                queryResult.PublishInfo.PublishType = saleListing.PublishInfo.PublishType;
-            }
+            queryResult.FillLockedInformation(saleListing);
 
             await this.userQueriesRepository.FillUserNameAsync(queryResult);
 
@@ -141,13 +122,13 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
                 _ => throw new NotImplementedException(),
             };
 
-        protected override IQueryable<SaleListingRequest> FilterBySaleListingRequestQuery(IQueryable<SaleListingRequest> records, SaleListingRequestQueryFilter queryFilter)
+        protected override IQueryable<SaleListingRequest> FilterByListingRequestQuery(IQueryable<SaleListingRequest> records, ListingRequestQueryFilter queryFilter)
             => records.FilterByQuery(queryFilter);
 
         protected override SummarySectionQueryResult TransformSummaryToQueryResult(SummarySection item)
         {
-            var agentId = item.Fields.FirstOrDefault(f => f.FieldName == nameof(StatusFieldsRecord.AgentId));
-            if (item.Name == StatusFieldsRecord.SummarySection && agentId != null)
+            var agentId = item.Fields.FirstOrDefault(f => f.FieldName == nameof(SaleStatusFieldsRecord.AgentId));
+            if (item.Name == SaleStatusFieldsRecord.SummarySection && agentId != null)
             {
                 var newAgent = agentId.NewValue is not null ? this.agentQueriesRepository.GetAgentByIdAsync(Guid.Parse(agentId.NewValue.ToString())).Result : null;
                 var oldAgent = agentId.OldValue is not null ? this.agentQueriesRepository.GetAgentByIdAsync(Guid.Parse(agentId.OldValue.ToString())).Result : null;

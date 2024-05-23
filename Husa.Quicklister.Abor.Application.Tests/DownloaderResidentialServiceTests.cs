@@ -8,14 +8,17 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Downloader.CTX.Api.Client;
     using Husa.Extensions.Common.Classes;
+    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
+    using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Services.Downloader;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Agent;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.ServiceBus.Contracts;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
@@ -32,6 +35,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
         private readonly Mock<IDownloaderCtxClient> downloaderCtxClient = new();
         private readonly Mock<ISaleListingMigrationService> listingMigrationService = new();
+        private readonly Mock<IMediaService> mediaService = new();
         private readonly Mock<ILogger<ResidentialService>> logger = new();
 
         public DownloaderResidentialServiceTests(ApplicationServicesFixture fixture)
@@ -43,6 +47,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.serviceSubscriptionClient.Object,
                 this.downloaderCtxClient.Object,
                 this.listingMigrationService.Object,
+                this.mediaService.Object,
                 this.fixture.Mapper,
                 this.logger.Object);
         }
@@ -129,6 +134,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.listingSaleRepository.Verify();
             this.listingSaleRepository.Verify(x => x.Attach(It.IsAny<SaleListing>()), Times.Once);
             this.listingSaleRepository.Verify(x => x.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Once);
+            this.listingMigrationService.Verify(x => x.SendMigrateListingMesage(It.IsAny<MarketCode>(), It.IsAny<MigrateListingMessage>()), Times.Once);
+            this.mediaService.Verify(x => x.ImportMediaFromMlsAsync(It.IsAny<Guid>(), It.IsAny<bool>()), Times.Once);
         }
 
         [Fact]
@@ -183,6 +190,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.listingSaleRepository.Verify();
             this.listingSaleRepository.Verify(x => x.Attach(It.IsAny<SaleListing>()), Times.Never);
             this.listingSaleRepository.Verify(x => x.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Once);
+            this.listingMigrationService.Verify(x => x.SendMigrateListingMesage(It.IsAny<MarketCode>(), It.IsAny<MigrateListingMessage>()), Times.Never);
+            this.mediaService.Verify(x => x.ImportMediaFromMlsAsync(It.IsAny<Guid>(), It.IsAny<bool>()), Times.Never);
         }
     }
 }

@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using System;
     using AutoMapper;
     using Husa.Extensions.Common.Enums;
+    using Husa.Quicklister.Abor.Api.Contracts.Request.LotListing;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.LotListing;
     using Husa.Quicklister.Abor.Application.Models.Lot;
@@ -19,14 +20,17 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<LotFinancialDto, LotFinancialInfo>();
             this.CreateMap<LotSchoolsDto, LotSchoolsInfo>();
             this.CreateMap<LotShowingDto, LotShowingInfo>();
+            this.CreateMap<LotAddressDto, LotAddressInfo>();
 
+            this.CreateMap<AddressQueryResult, AddressInfoResponse>();
+            this.CreateMap<LotAddressQueryResult, LotAddressResponse>();
             this.CreateMap<LotListingQueryResult, ListingResponse>()
                .ForMember(dest => dest.IsCompleteHome, config => config.MapFrom(x => false));
             this.CreateMap<LotPropertyQueryResult, LotPropertyResponse>();
             this.CreateMap<LotFeaturesQueryResult, LotFeaturesResponse>();
             this.CreateMap<LotFinancialQueryResult, LotFinancialResponse>();
             this.CreateMap<LotShowingQueryResult, LotShowingResponse>();
-            this.CreateMap<SchoolsQueryResult, LotSchoolsResponse>();
+            this.CreateMap<SchoolsInfoQueryResult, LotSchoolsResponse>();
             this.CreateMap<ListingStatusFieldsQueryResult, ListingStatusFieldsResponse>();
 
             this.CreateMap<LotListingQueryDetailResult, LotListingDetailResponse>()
@@ -47,7 +51,16 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                .ForMember(dest => dest.MarketCode, config => config.MapFrom(x => MarketCode.Austin))
                .ForMember(dest => dest.IsCompleteHome, config => config.MapFrom(x => false))
                .ForMember(dest => dest.PlanName, config => config.MapFrom(x => x.PlanName))
-               .ForMember(dest => dest.XmlListingId, config => config.MapFrom(x => x.XmlListingId == null || x.XmlListingId == Guid.Empty ? x.XmlDiscrepancyListingId : x.XmlListingId));
+               .ForMember(dest => dest.XmlListingId, config => config.MapFrom(x => x.XmlListingId == null || x.XmlListingId == Guid.Empty ? x.XmlDiscrepancyListingId : x.XmlListingId))
+               .ForMember(dest => dest.UnitNumber, config => config.MapFrom(x => x.AddressInfo.UnitNumber));
+
+            this.CreateMap<LotListingDetailRequest, LotListingDto>();
+            this.CreateMap<LotPropertyRequest, LotPropertyDto>();
+            this.CreateMap<LotFeaturesRequest, LotFeaturesDto>();
+            this.CreateMap<LotFinancialRequest, LotFinancialDto>();
+            this.CreateMap<LotSchoolsRequest, LotSchoolsDto>();
+            this.CreateMap<LotShowingRequest, LotShowingDto>();
+            this.CreateMap<LotAdressRequest, LotAddressDto>();
         }
     }
 }

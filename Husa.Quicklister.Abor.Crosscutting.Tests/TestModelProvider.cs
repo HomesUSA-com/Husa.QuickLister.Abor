@@ -39,9 +39,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Office;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
     using Husa.Quicklister.Abor.Domain.Entities.ReverseProspect;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
@@ -51,7 +51,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using HusaNoteType = Husa.Notes.Domain.Enums.NoteType;
     using MediaRequest = Husa.MediaService.Api.Contracts.Request;
     using MemberStatus = Husa.Downloader.CTX.Domain.Enums.MemberStatus;
-    using OpenHouseRecord = Husa.Quicklister.Abor.Domain.Entities.Request.Records.OpenHouseRecord;
+    using OpenHouseRecord = Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records.OpenHouseRecord;
     using RequestNote = Husa.Notes.Api.Contracts.Request;
     using RequestPhoto = Husa.PhotoService.Api.Contracts.Request;
     using ResponseNote = Husa.Notes.Api.Contracts.Response;
@@ -219,7 +219,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
             listingSale.SetupGet(c => c.Id).Returns(listingId ?? Guid.NewGuid());
             listingSale.SetupGet(c => c.SaleProperty).Returns(saleProperty);
-            listingSale.SetupGet(c => c.StatusFieldsInfo).Returns(new ListingSaleStatusFieldsInfo());
+            listingSale.SetupGet(c => c.StatusFieldsInfo).Returns(new ListingStatusFieldsInfo());
             listingSale.SetupGet(c => c.CompanyId).Returns(listingCompanyId);
             listingSale.SetupGet(c => c.IsInMls).Returns(true);
             listingSale.Setup(x => x.MlsNumber).Returns("12345");
@@ -455,9 +455,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             listingSaleRequest.Object.Id = id ?? Guid.NewGuid();
             listingSaleRequest.SetupGet(lr => lr.SaleProperty).Returns(propertyRecord.Object);
 
-            var statusFieldsRecord = new Mock<StatusFieldsRecord>();
+            var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
             statusFieldsRecord
-                .Setup(p => p.GetSummary(It.Is<StatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
+                .Setup(p => p.GetSummary(It.Is<SaleStatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
                 .Returns((SummarySection)null)
                 .Verifiable();
             listingSaleRequest.SetupGet(s => s.StatusFieldsInfo).Returns(statusFieldsRecord.Object);
@@ -804,7 +804,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
         public static SalePropertyDetailDto GetSalePropertyDtoObject() => new()
         {
-            AddressInfo = new Mock<AddressDto>().SetupAllProperties().Object,
+            AddressInfo = new Mock<SaleAddressDto>().SetupAllProperties().Object,
             PropertyInfo = new Mock<PropertyDto>().SetupAllProperties().Object,
             FeaturesInfo = new Mock<FeaturesDto>().SetupAllProperties().Object,
             FinancialInfo = new Mock<FinancialDto>().SetupAllProperties().Object,
@@ -853,7 +853,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             ListDate = DateTime.UtcNow,
             ListPrice = Faker.RandomNumber.Next(200000, 400000),
             ListType = ListType.Residential,
-            MarketModifiedOn = DateTime.UtcNow,
             MlsStatus = MarketStatuses.Active,
             MlsNumber = Faker.RandomNumber.Next(10000, 20000).ToString(),
             StatusFieldsInfo = GetListingSaleStatusFieldsDto(),
@@ -980,7 +979,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 planId: planProfileId)
             {
                 SalesOfficeInfo = new Mock<SalesOffice>().SetupAllProperties().Object,
-                AddressInfo = new Mock<AddressInfo>().SetupAllProperties().Object,
+                AddressInfo = new Mock<SaleAddressInfo>().SetupAllProperties().Object,
                 PropertyInfo = new Mock<PropertyInfo>().SetupAllProperties().Object,
                 FeaturesInfo = new Mock<FeaturesInfo>().SetupAllProperties().Object,
                 FinancialInfo = new Mock<FinancialInfo>().SetupAllProperties().Object,
@@ -1003,12 +1002,12 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             MarketModifiedOn = DateTime.UtcNow,
         };
 
-        public static ListingSaleStatusFieldsInfo GetListingStatusFieldsInfo() => new Mock<ListingSaleStatusFieldsInfo>().SetupAllProperties().Object;
+        public static ListingStatusFieldsInfo GetListingStatusFieldsInfo() => new Mock<ListingStatusFieldsInfo>().SetupAllProperties().Object;
 
         public static SalePropertyValueObject GetFullSalePropertyValueObject() => new()
         {
             OwnerName = Faker.Company.Name(),
-            AddressInfo = new Mock<AddressInfo>().SetupAllProperties().Object,
+            AddressInfo = new Mock<SaleAddressInfo>().SetupAllProperties().Object,
             PropertyInfo = new Mock<PropertyInfo>().SetupAllProperties().Object,
             FeaturesInfo = new Mock<FeaturesInfo>().SetupAllProperties().Object,
             SchoolsInfo = new Mock<SchoolsInfo>().SetupAllProperties().Object,
@@ -1203,7 +1202,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Id = agentId ?? Guid.NewGuid(),
         };
 
-        public static AddressInfo GetDefaultAddressInfo() => new()
+        public static SaleAddressInfo GetDefaultAddressInfo() => new()
         {
             StreetNumber = "1528",
             StreetName = "MULBERRY AVE",

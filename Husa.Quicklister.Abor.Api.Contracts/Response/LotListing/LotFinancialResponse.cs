@@ -22,5 +22,13 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.LotListing
         public decimal? AgentBonusAmount { get; set; }
         public CommissionType AgentBonusAmountType { get; set; }
         public DateTime? BonusExpirationDate { get; set; }
+        public string HoaName { get; set; }
+        public decimal? HoaFee { get; set; }
+        public decimal? EstimatedTax { get; set; }
+        public int? TaxYear { get; set; }
+        public ICollection<TaxExemptions> TaxExemptions { get; set; }
+        public int? TaxAssesedValue { get; set; }
+        public string PreferredTitleCompany { get; set; }
+        public LandTitleEvidence? LandTitleEvidence { get; set; }
     }
 }

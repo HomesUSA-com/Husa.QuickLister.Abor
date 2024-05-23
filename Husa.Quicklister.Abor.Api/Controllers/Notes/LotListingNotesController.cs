@@ -30,7 +30,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Notes
         }
 
         [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetNotes([FromRoute] Guid listingId)
         {
             this.logger.LogInformation("Starting to get the note resources for the entity {listingId}", listingId);
@@ -41,7 +41,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Notes
         }
 
         [HttpGet("{noteId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetNoteById([FromRoute] Guid listingId, [FromRoute] Guid noteId)
         {
             this.logger.LogInformation("Starting to get the note for the entity {listingId} and note Id '{noteId}'", listingId, noteId);

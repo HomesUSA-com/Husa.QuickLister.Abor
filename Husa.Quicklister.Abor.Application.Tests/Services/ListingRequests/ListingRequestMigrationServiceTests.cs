@@ -15,7 +15,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Services.ListingRequests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using Moq;

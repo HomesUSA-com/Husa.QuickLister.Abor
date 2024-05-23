@@ -8,7 +8,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Xunit;
 
     [ExcludeFromCodeCoverage]

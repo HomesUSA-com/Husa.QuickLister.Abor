@@ -14,5 +14,14 @@ namespace Husa.Quicklister.Abor.Application.Models.Lot
         public DistanceToWaterAccess? DistanceToWaterAccess { get; set; }
         public ICollection<Fencing> Fencing { get; set; }
         public ICollection<ExteriorFeatures> ExteriorFeatures { get; set; }
+        public virtual bool GroundWaterConservDistric { get; set; }
+        public virtual ICollection<HorseAmenities> HorseAmenities { get; set; }
+        public virtual ICollection<Minerals> MineralsFeatures { get; set; }
+        public virtual ICollection<RoadSurface> RoadSurface { get; set; }
+        public virtual ICollection<OtherStructures> OtherStructures { get; set; }
+        public virtual ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
+        public virtual ICollection<Disclosures> Disclosures { get; set; }
+        public virtual ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
+        public WaterBodyName? WaterBodyName { get; set; }
     }
 }

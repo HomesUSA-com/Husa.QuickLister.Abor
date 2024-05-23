@@ -6,6 +6,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest
 
     public class ListingRequestDetailResponse
     {
+        public Guid ListingId { get; set; }
+
         public Guid Id { get; set; }
 
         public Guid? SysCreatedBy { get; set; }

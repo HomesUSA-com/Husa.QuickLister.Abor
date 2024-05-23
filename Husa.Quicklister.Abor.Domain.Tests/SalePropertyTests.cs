@@ -577,12 +577,12 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             saleProperty
                 .Setup(sp => sp.AddListing(
                     It.IsAny<ListingValueObject>(),
-                    It.IsAny<ListingSaleStatusFieldsInfo>(),
+                    It.IsAny<ListingStatusFieldsInfo>(),
                     It.IsAny<SalePropertyValueObject>(),
                     It.IsAny<IEnumerable<ListingSaleRoom>>(),
                     It.IsAny<Guid>()))
                 .CallBase();
-            var listingStatusInfo = new Mock<ListingSaleStatusFieldsInfo>();
+            var listingStatusInfo = new Mock<ListingStatusFieldsInfo>();
             var salePropertyInfo = new Mock<SalePropertyValueObject>();
 
             // Act && Assert
@@ -603,7 +603,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             saleProperty
                 .Setup(sp => sp.AddListing(
                     It.IsAny<ListingValueObject>(),
-                    It.IsAny<ListingSaleStatusFieldsInfo>(),
+                    It.IsAny<ListingStatusFieldsInfo>(),
                     It.IsAny<SalePropertyValueObject>(),
                     It.IsAny<IEnumerable<ListingSaleRoom>>(),
                     It.IsAny<Guid>()))
@@ -629,13 +629,13 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             saleProperty
                 .Setup(sp => sp.AddListing(
                     It.IsAny<ListingValueObject>(),
-                    It.IsAny<ListingSaleStatusFieldsInfo>(),
+                    It.IsAny<ListingStatusFieldsInfo>(),
                     It.IsAny<SalePropertyValueObject>(),
                     It.IsAny<IEnumerable<ListingSaleRoom>>(),
                     It.IsAny<Guid>()))
                 .CallBase();
             var listingInfo = new Mock<ListingValueObject>();
-            var listingStatusInfo = new Mock<ListingSaleStatusFieldsInfo>();
+            var listingStatusInfo = new Mock<ListingStatusFieldsInfo>();
 
             // Act && Assert
             Assert.Throws<ArgumentNullException>(() => saleProperty.Object.AddListing(
@@ -661,7 +661,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             saleProperty
                 .Setup(sp => sp.AddListing(
                     It.IsAny<ListingValueObject>(),
-                    It.IsAny<ListingSaleStatusFieldsInfo>(),
+                    It.IsAny<ListingStatusFieldsInfo>(),
                     It.IsAny<SalePropertyValueObject>(),
                     It.IsAny<IEnumerable<ListingSaleRoom>>(),
                     It.IsAny<Guid>()))
@@ -679,7 +679,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             listingInfo.SetupGet(sp => sp.MlsNumber).Returns(mlsNumber);
             listingInfo.SetupGet(sp => sp.MlsStatus).Returns(MarketStatuses.Canceled);
 
-            var listingStatusInfo = new Mock<ListingSaleStatusFieldsInfo>();
+            var listingStatusInfo = new Mock<ListingStatusFieldsInfo>();
             var salePropertyInfo = new Mock<SalePropertyValueObject>();
 
             // Act
@@ -717,7 +717,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             saleProperty
                 .Setup(sp => sp.AddListing(
                     It.IsAny<ListingValueObject>(),
-                    It.IsAny<ListingSaleStatusFieldsInfo>(),
+                    It.IsAny<ListingStatusFieldsInfo>(),
                     It.IsAny<SalePropertyValueObject>(),
                     It.IsAny<IEnumerable<ListingSaleRoom>>(),
                     It.IsAny<Guid>()))
@@ -735,7 +735,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             listingInfo.SetupGet(sp => sp.MlsNumber).Returns(mlsNumber);
             listingInfo.SetupGet(sp => sp.MlsStatus).Returns(MarketStatuses.Active);
 
-            var listingStatusInfo = new Mock<ListingSaleStatusFieldsInfo>();
+            var listingStatusInfo = new Mock<ListingStatusFieldsInfo>();
             var salePropertyInfo = new Mock<SalePropertyValueObject>();
 
             // Act
@@ -853,7 +853,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var salePropertyInfo = new Mock<SalePropertyValueObject>();
             salePropertyInfo.SetupGet(sp => sp.OwnerName).Returns(owner);
             salePropertyInfo.SetupGet(sp => sp.PropertyInfo).Returns(new Mock<PropertyInfo>().Object);
-            salePropertyInfo.SetupGet(sp => sp.AddressInfo).Returns(new Mock<AddressInfo>().Object);
+            salePropertyInfo.SetupGet(sp => sp.AddressInfo).Returns(new Mock<SaleAddressInfo>().Object);
             salePropertyInfo.SetupGet(sp => sp.FeaturesInfo).Returns(featuresInfo.Object);
             salePropertyInfo.SetupGet(sp => sp.SchoolsInfo).Returns(new Mock<SchoolsInfo>().Object);
             salePropertyInfo.SetupGet(sp => sp.ShowingInfo).Returns(new Mock<ShowingInfo>().Object);

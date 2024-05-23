@@ -13,9 +13,9 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
     [Route("sale-listing-requests/{listingRequestId}/virtual-tour")]
     public class SaleListingRequestVirtualToursController : Controller
     {
-        private readonly IListingRequestMediaService requestMediaService;
-        private readonly ILogger<SaleListingMediaController> logger;
-        public SaleListingRequestVirtualToursController(IListingRequestMediaService requestMediaService, ILogger<SaleListingMediaController> logger)
+        private readonly ISaleListingRequestMediaService requestMediaService;
+        private readonly ILogger<SaleListingRequestVirtualToursController> logger;
+        public SaleListingRequestVirtualToursController(ISaleListingRequestMediaService requestMediaService, ILogger<SaleListingRequestVirtualToursController> logger)
         {
             this.requestMediaService = requestMediaService ?? throw new ArgumentNullException(nameof(requestMediaService));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));

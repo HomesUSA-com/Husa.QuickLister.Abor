@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using System.Linq.Expressions;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
+    using Husa.Quicklister.Abor.Data.Queries.Extensions.Lot;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
@@ -18,6 +19,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             StreetName = listing.AddressInfo.StreetName,
             StreetNum = listing.AddressInfo.StreetNumber,
             StreetType = listing.AddressInfo.StreetType,
+            State = listing.AddressInfo.State,
             City = listing.AddressInfo.City,
             County = listing.AddressInfo.County,
             ListDate = listing.ListDate,
@@ -64,69 +66,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             FeaturesInfo = listing.FeaturesInfo.ToProjectionFeatures(),
             PropertyInfo = listing.PropertyInfo.ToProjectionPropertyInfo(),
             FinancialInfo = listing.FinancialInfo.ToProjectionFinancial(),
+            ShowingInfo = listing.ShowingInfo.ToProjectionShowing(),
             PublishInfo = listing.PublishInfo.ToProjectionPublishInfo(),
             EmailLead = listing.Community.EmailLead.ToProjectionEmailLead(),
             StatusFieldsInfo = listing.StatusFieldsInfo.ToProjectionStatusFieldsInfo<ListingStatusFieldsInfo, ListingStatusFieldsQueryResult>(),
         };
-
-        public static LotPropertyQueryResult ToProjectionPropertyInfo<T>(this T propertyInfo)
-            where T : LotPropertyInfo
-        {
-            return new()
-            {
-                MlsArea = propertyInfo.MlsArea,
-                LotDescription = propertyInfo.LotDescription,
-                PropertyType = propertyInfo.PropertyType,
-                FemaFloodPlain = propertyInfo.FemaFloodPlain,
-            };
-        }
-
-        public static LotFinancialQueryResult ToProjectionFinancial<T>(this T financial)
-            where T : LotFinancialInfo
-        {
-            return new()
-            {
-                TaxRate = financial.TaxRate,
-                AcceptableFinancing = financial.AcceptableFinancing,
-                HoaIncludes = financial.HoaIncludes,
-                HasHoa = financial.HasHoa,
-                BillingFrequency = financial.BillingFrequency,
-                HOARequirement = financial.HOARequirement,
-                BuyersAgentCommission = financial.BuyersAgentCommission,
-                BuyersAgentCommissionType = financial.BuyersAgentCommissionType,
-                HasAgentBonus = financial.HasAgentBonus,
-                HasBonusWithAmount = financial.HasBonusWithAmount,
-                AgentBonusAmount = financial.AgentBonusAmount,
-                AgentBonusAmountType = financial.AgentBonusAmountType,
-                BonusExpirationDate = financial.BonusExpirationDate,
-                HasBuyerIncentive = financial.HasBuyerIncentive,
-            };
-        }
-
-        public static LotFeaturesQueryResult ToProjectionFeatures<T>(this T features)
-            where T : LotFeaturesInfo
-        {
-            return new()
-            {
-                RestrictionsDescription = features.RestrictionsDescription,
-                UtilitiesDescription = features.UtilitiesDescription,
-                WaterSource = features.WaterSource,
-                WaterSewer = features.WaterSewer,
-                Fencing = features.Fencing,
-                View = features.View,
-                ExteriorFeatures = features.ExteriorFeatures,
-                WaterfrontFeatures = features.WaterfrontFeatures,
-                DistanceToWaterAccess = features.DistanceToWaterAccess,
-            };
-        }
-
-        public static LotShowingQueryResult ToProjectionShowing<T>(this T showing)
-            where T : LotShowingInfo
-        {
-            return new()
-            {
-                ShowingRequirements = showing.ShowingRequirements,
-            };
-        }
     }
 }

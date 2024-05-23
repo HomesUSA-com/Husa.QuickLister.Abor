@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
 
     public static class EntityExtensions
     {
-        public static void SetListingProperties<T>(this EntityTypeBuilder<T> entity)
+        public static void ListingProperties<T>(this EntityTypeBuilder<T> entity)
             where T : Listing
         {
             entity.SetBaseListingProperties();

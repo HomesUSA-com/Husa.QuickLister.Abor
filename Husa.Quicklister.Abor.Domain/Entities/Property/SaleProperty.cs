@@ -53,10 +53,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
         public SaleProperty(SalePropertyValueObject saleProperty, Guid companyId)
             : this()
         {
-            if (saleProperty is null)
-            {
-                throw new ArgumentNullException(nameof(saleProperty));
-            }
+            ArgumentNullException.ThrowIfNull(saleProperty);
 
             this.CompanyId = companyId;
             this.InitializeEntity(saleProperty);
@@ -82,7 +79,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public virtual Guid? CommunityId { get; set; }
 
-        public virtual AddressInfo AddressInfo { get; set; }
+        public virtual SaleAddressInfo AddressInfo { get; set; }
 
         public virtual PropertyInfo PropertyInfo { get; set; }
 
@@ -125,7 +122,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
         }
 
-        public virtual void UpdateAddressInfo(AddressInfo addressInfo)
+        public virtual void UpdateAddressInfo(SaleAddressInfo addressInfo)
         {
             if (addressInfo is null)
             {
@@ -400,7 +397,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public virtual SaleListing AddListing(
             ListingValueObject listingInfo,
-            ListingSaleStatusFieldsInfo listingStatusInfo,
+            ListingStatusFieldsInfo listingStatusInfo,
             SalePropertyValueObject salePropertyInfo,
             IEnumerable<ListingSaleRoom> rooms,
             Guid companyId)
@@ -474,6 +471,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.processFullListing = processFullListing;
         }
 
+        public void SetMigrateFullListing(bool value) => this.migrateFullListing = value;
+
         public void ImportFromXml(XmlListingDetailResponse listing, string companyName)
         {
             this.OwnerName = companyName;
@@ -481,7 +480,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.CommunityId = listing.CommunityId;
             this.CompanyId = (Guid)listing.CompanyId;
 
-            var profile = AddressInfo.ImportFromXml(listing, this.AddressInfo);
+            var profile = SaleAddressInfo.ImportFromXml(listing, this.AddressInfo);
             this.UpdateAddressInfo(profile);
 
             var property = PropertyInfo.ImportFromXml(listing, this.PropertyInfo);
@@ -538,6 +537,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.PropertyInfo.LotDescription = property.LotDescription;
             this.PropertyInfo.LotSize = property.LotSize;
             this.PropertyInfo.PropertyType = property.PropertyType;
+            this.PropertyInfo.ConstructionStage = property.ConstructionStage;
         }
 
         private void CopyFireplaces(int? fireplaces)
@@ -580,6 +580,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.PropertyInfo.ConstructionCompletionDate = propertyInfo.ConstructionCompletionDate;
                 this.PropertyInfo.UpdateGeocodes = propertyInfo.UpdateGeocodes;
                 this.PropertyInfo.IsXmlManaged = propertyInfo.IsXmlManaged;
+                this.PropertyInfo.FemaFloodPlain = propertyInfo.FemaFloodPlain;
 
                 if (!this.migrateFullListing)
                 {
@@ -604,7 +605,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.PropertyInfo.Longitude = propertyInfo.Longitude;
         }
 
-        private void CopyAddressData(AddressInfo addressInfo)
+        private void CopyAddressData(SaleAddressInfo addressInfo)
         {
             if (addressInfo is null)
             {

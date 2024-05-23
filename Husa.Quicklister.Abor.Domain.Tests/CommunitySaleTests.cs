@@ -10,7 +10,9 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Xml.Api.Contracts.Response;
@@ -321,6 +323,36 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 
             // Assert
             Assert.Equal(subdivisionFromXml.SaleOffice.Email, leads.EmailLeadPrincipal);
+        }
+
+        [Fact]
+        public void GetActiveLotListings_Success()
+        {
+            // Arrange
+            var community = TestModelProvider.GetCommunitySaleEntity(Guid.NewGuid());
+            community.LotListings = new LotListing[]
+            {
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    LockedStatus = LockedStatus.NoLocked,
+                    MlsNumber = "54444",
+                    MlsStatus = MarketStatuses.Active,
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    LockedStatus = LockedStatus.LockedBySystem,
+                    MlsNumber = "1231431",
+                    MlsStatus = MarketStatuses.Active,
+                },
+            };
+
+            // Act
+            var listings = community.GetActiveLotListings();
+
+            // Assert
+            Assert.Equal(2, listings.Count());
         }
 
         private static ProfileInfo SetupProfileInfo(string subdivisionName, string companyName) => new()

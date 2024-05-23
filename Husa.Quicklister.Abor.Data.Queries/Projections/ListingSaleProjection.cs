@@ -4,7 +4,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using System.Linq.Expressions;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
+    using Husa.Quicklister.Abor.Data.Queries.Extensions.Sale;
     using Husa.Quicklister.Abor.Data.Queries.Models;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
@@ -18,6 +20,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             StreetNum = listingSale.SaleProperty.AddressInfo.StreetNumber,
             StreetType = listingSale.SaleProperty.AddressInfo.StreetType,
             City = listingSale.SaleProperty.AddressInfo.City,
+            State = listingSale.SaleProperty.AddressInfo.State,
             County = listingSale.SaleProperty.AddressInfo.County,
             ListDate = listingSale.ListDate,
             ListPrice = listingSale.ListPrice,
@@ -110,21 +113,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             OpenHouses = listingSale.SaleProperty.OpenHouses.ToProjectionOpenHouses(),
         };
 
-        private static ListingSaleStatusFieldQueryResult ToProjectionSaleStatusFieldsInfo(this ListingSaleStatusFieldsInfo statusFieldsInfo)
-        {
-            if (statusFieldsInfo == null)
-            {
-                return new();
-            }
-
-            var statusFields = statusFieldsInfo.ToProjectionStatusFieldsInfo<ListingSaleStatusFieldsInfo, ListingSaleStatusFieldQueryResult>();
-
-            statusFields.HasContingencyInfo = statusFieldsInfo.HasContingencyInfo;
-            statusFields.ContingencyInfo = statusFieldsInfo.ContingencyInfo;
-            statusFields.SaleTerms = statusFieldsInfo.SaleTerms;
-            statusFields.SellConcess = statusFieldsInfo.SellConcess;
-
-            return statusFields;
-        }
+        private static ListingSaleStatusFieldQueryResult ToProjectionSaleStatusFieldsInfo(this ListingStatusFieldsInfo statusFieldsInfo)
+            => statusFieldsInfo.ToProjectionStatusFieldsInfo<ListingStatusFieldsInfo, ListingSaleStatusFieldQueryResult>();
     }
 }

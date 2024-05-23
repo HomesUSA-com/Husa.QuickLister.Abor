@@ -6,6 +6,6 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Media
     public interface IMediaService
     {
         Task ProcessData(Guid listingId, DateTime updatedOn);
-        Task ImportMediaFromMlsAsync(Guid listingId);
+        Task ImportMediaFromMlsAsync(Guid listingId, bool dispose = true);
     }
 }

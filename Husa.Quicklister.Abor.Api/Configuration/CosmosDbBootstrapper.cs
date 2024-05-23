@@ -14,6 +14,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ICommunityHistoryQueriesRepository, CommunityHistoryQueriesRepository>();
             services.AddScoped<ISaleListingRequestRepository, SaleListingRequestRepository>();
             services.AddScoped<ISaleListingRequestQueriesRepository, SaleListingRequestQueriesRepository>();
+            services.AddScoped<ILotListingRequestRepository, LotListingRequestRepository>();
+            services.AddScoped<ILotListingRequestQueriesRepository, LotListingRequestQueriesRepository>();
 
             return services;
         }

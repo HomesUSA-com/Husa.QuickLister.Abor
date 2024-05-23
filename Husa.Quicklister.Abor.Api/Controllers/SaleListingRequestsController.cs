@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Extensions.Authorization.Filters;
     using Husa.Extensions.Common;
     using Husa.Extensions.Common.Classes;
-    using Husa.Extensions.Common.Enums;
+    using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleRequest;
     using Husa.Quicklister.Abor.Api.ValidationsRules;
@@ -18,9 +18,11 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
+    using Husa.Quicklister.Extensions.Api.Controllers;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -29,15 +31,13 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
     [ApiController]
     [Route("sale-listing-requests")]
-    public class SaleListingRequestsController : Controller
+    public class SaleListingRequestsController : ListingRequestsController<SaleListingRequest, ISaleListingRequestService>
     {
         private readonly ISaleListingRequestQueriesRepository saleRequestQueryRepository;
         private readonly ISaleListingRequestService saleRequestService;
         private readonly ISaleListingService listingSaleService;
         private readonly ISaleListingNotesService listingNotesService;
-        private readonly ILogger<SaleListingRequestsController> logger;
         private readonly IUserRepository userQueriesRepository;
-        private readonly IMapper mapper;
         private readonly IValidateListingStatusChanges<ListingSaleRequestForUpdate> validateListingStatusChanges;
 
         public SaleListingRequestsController(
@@ -49,19 +49,18 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             IMapper mapper,
             IValidateListingStatusChanges<ListingSaleRequestForUpdate> validateListingStatusChanges,
             ILogger<SaleListingRequestsController> logger)
+            : base(saleRequestService, mapper, logger)
         {
             this.saleRequestQueryRepository = saleRequestQueryRepository ?? throw new ArgumentNullException(nameof(saleRequestQueryRepository));
             this.listingSaleService = listingSaleService ?? throw new ArgumentNullException(nameof(listingSaleService));
             this.listingNotesService = listingNotesService ?? throw new ArgumentNullException(nameof(listingNotesService));
             this.saleRequestService = saleRequestService ?? throw new ArgumentNullException(nameof(saleRequestService));
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.validateListingStatusChanges = validateListingStatusChanges ?? throw new ArgumentNullException(nameof(validateListingStatusChanges));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.userQueriesRepository = userQueriesRepository ?? throw new ArgumentNullException(nameof(userQueriesRepository));
         }
 
         [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetListRequestAsync([FromQuery] SaleListingRequestFilter requestFilter, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Starting to get filtered ABOR sale listings request with company id {companyId}", requestFilter.CompanyId);
@@ -73,7 +72,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetListRequestSaleByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Starting to get listing sale request with id: {id}", id);
@@ -89,7 +88,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet("{id:guid}/summary")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetRequestSummaryAsync(Guid id, CancellationToken cancellationToken)
         {
             this.logger.LogInformation("Start to handle summary of sale listing request with {listingRequestId}", id);
@@ -105,25 +104,13 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             return this.Ok(result);
         }
 
-        [HttpPost]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> CreateAsync(Guid saleListingId, CancellationToken cancellationToken = default)
-        {
-            this.logger.LogInformation("Start to handle creation of request for sale listing with id {saleListingId}", saleListingId);
-            var queryResponse = await this.saleRequestService.CreateRequestAsync(saleListingId, cancellationToken);
-
-            return queryResponse.Code == ResponseCode.Error ?
-                this.BadRequest(queryResponse) :
-                this.Ok(queryResponse.Result);
-        }
-
         [HttpPost("submit")]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> SaveAndSubmitListingAsync(Guid saleListingId, ListingSaleRequestForUpdate listingSaleForUpdate, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> SaveAndSubmitListingAsync(Guid listingId, ListingSaleRequestForUpdate listingSaleForUpdate, CancellationToken cancellationToken = default)
         {
-            this.logger.LogInformation("Starting to update ABOR listing with id {saleListingId}", saleListingId);
+            this.logger.LogInformation("Starting to update ABOR listing with id {saleListingId}", listingId);
             var listingSaleDto = this.mapper.Map<ListingSaleRequestDto>(listingSaleForUpdate);
-            await this.listingSaleService.SaveListingChanges(saleListingId, listingSaleDto);
+            await this.listingSaleService.SaveListingChanges(listingId, listingSaleDto);
 
             var requestValidations = this.validateListingStatusChanges.Validate(listingSaleForUpdate);
             if (!requestValidations.IsValid)
@@ -132,7 +119,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.ToActionResult(errors);
             }
 
-            var result = await this.saleRequestService.CreateRequestAsync(saleListingId, cancellationToken);
+            var result = await this.saleRequestService.CreateRequestAsync(listingId, cancellationToken);
 
             return this.ToActionResult(result);
         }
@@ -163,27 +150,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             return this.Ok();
         }
 
-        [HttpPut("{id:guid}/approve")]
-        [ApiAuthorization(new RoleEmployee[0])]
-        public Task<IActionResult> ApproveRequestAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            return this.ChangesRequestState(id, ListingRequestState.Approved, cancellationToken);
-        }
-
-        [HttpPut("{id:guid}/process")]
-        [ApiAuthorization(new RoleEmployee[0])]
-        public Task<IActionResult> ProcessRequestAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            return this.ChangesRequestState(id, ListingRequestState.Processing, cancellationToken);
-        }
-
-        [HttpPut("{id:guid}/pending")]
-        [ApiAuthorization(new RoleEmployee[0])]
-        public Task<IActionResult> PendingRequestAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            return this.ChangesRequestState(id, ListingRequestState.Pending, cancellationToken);
-        }
-
         [HttpPut("{id:guid}/complete")]
         [ApiAuthorization(new RoleEmployee[0])]
         public async Task<IActionResult> CompleteRequestAsync(Guid id, string mlsNumber, ActionType actionType, CancellationToken cancellationToken = default)
@@ -198,20 +164,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
             await this.listingSaleService.AssignMlsNumberAsync(request.ListingSaleId, mlsNumber, request.MlsStatus, actionType);
             await this.saleRequestService.ChangeRequestStatus(request, ListingRequestState.Completed, cancellationToken: cancellationToken);
-            return this.Ok();
-        }
-
-        [HttpDelete("{id:guid}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public Task<IActionResult> DeleteRequestAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            this.logger.LogInformation("Deleting listing request {id}", id);
-            return this.ChangesRequestState(id, ListingRequestState.Deleted, cancellationToken);
-        }
-
-        private async Task<IActionResult> ChangesRequestState(Guid id, ListingRequestState toState, CancellationToken cancellationToken = default)
-        {
-            await this.saleRequestService.ChangeRequestStatus(id, toState, cancellationToken: cancellationToken);
             return this.Ok();
         }
     }

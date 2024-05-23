@@ -77,6 +77,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
             {
                 Id = listingPlanId,
             };
+            listing.SaleProperty.PropertyInfo.TaxLot = "TaxLot";
 
             return listing;
         }

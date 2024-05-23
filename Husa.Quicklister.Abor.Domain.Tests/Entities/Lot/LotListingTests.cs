@@ -2,11 +2,11 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
-    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Enums;
-    using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Tests.Providers;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Moq;
     using Xunit;
 
     [ExcludeFromCodeCoverage]
@@ -36,50 +36,22 @@ namespace Husa.Quicklister.Abor.Domain.Tests
         }
 
         [Fact]
-        public void CloneListing_ClonedListingHasSamePropertiesAsSourceListing()
+        public void GenerateRequestFromCommunity_Success()
         {
             // Arrange
-            var sourceListing = new LotListing();
-
-            // Set properties of sourceListing here
-            var targetListing = new LotListing();
-
-            // Act
-            targetListing.CloneListing(sourceListing);
-
-            // Assert
-            Assert.Equal(sourceListing.CommunityId, targetListing.CommunityId);
-            Assert.Equal(sourceListing.CompanyId, targetListing.CompanyId);
-            Assert.Equal(sourceListing.OwnerName, targetListing.OwnerName);
-            Assert.Equal(sourceListing.AddressInfo, targetListing.AddressInfo);
-            Assert.Equal(sourceListing.PropertyInfo, targetListing.PropertyInfo);
-            Assert.Equal(sourceListing.FeaturesInfo, targetListing.FeaturesInfo);
-            Assert.Equal(sourceListing.FinancialInfo, targetListing.FinancialInfo);
-            Assert.Equal(sourceListing.SchoolsInfo, targetListing.SchoolsInfo);
-            Assert.Equal(sourceListing.ShowingInfo, targetListing.ShowingInfo);
-        }
-
-        [Fact]
-        public void ImportDataFromCommunity_ImportedListingHasSamePropertiesAsCommunitySale()
-        {
-            // Arrange
-            var communitySale = new CommunitySale(Guid.NewGuid(), "CommunityName", "CompanyName")
+            var userId = Guid.NewGuid();
+            var listing = new LotListing()
             {
-                Utilities = new()
-                {
-                    WaterSource = new[] { WaterSource.Public },
-                },
+                Community = new(Guid.NewGuid(), "Company", "company"),
             };
-
-            // Set properties of communitySale here
-            var listing = new LotListing();
+            var request = TestProviderLotRequest.GetLotListingRequestMock();
+            request.Setup(x => x.Clone()).CallBase().Verifiable();
 
             // Act
-            listing.ImportDataFromCommunity(communitySale);
+            listing.GenerateRequestFromCommunity(request.Object, userId);
 
             // Assert
-            Assert.Equal(communitySale.Id, listing.CommunityId);
-            Assert.Equal(communitySale.Utilities.WaterSource, listing.FeaturesInfo.WaterSource);
+            request.Verify(r => r.UpdateTrackValues(userId, It.IsAny<bool>()), Times.Once);
         }
     }
 }

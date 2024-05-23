@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail
         public SpacesDimensionsRequest SpacesDimensionsInfo { get; set; }
 
         [Required]
-        public AddressInfoRequest AddressInfo { get; set; }
+        public SaleAddressRequest AddressInfo { get; set; }
 
         public PropertyInfoRequest PropertyInfo { get; set; }
 

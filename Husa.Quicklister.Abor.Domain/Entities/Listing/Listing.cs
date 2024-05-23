@@ -1,6 +1,8 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 {
     using System;
+    using System.Collections.Generic;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Attributes;
@@ -16,6 +18,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         protected Listing()
             : base()
         {
+            this.PublishInfo = new();
+            this.StatusFieldsInfo = new();
         }
 
         public virtual int? CDOM { get; set; }
@@ -33,6 +37,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         [XmlPropertyUpdate]
         public virtual MarketStatuses MlsStatus { get; set; }
+
+        public virtual PublishInfo PublishInfo { get; set; }
+
+        public virtual ListingStatusFieldsInfo StatusFieldsInfo { get; set; }
+
+        public virtual bool IsInMarket => !string.IsNullOrEmpty(this.MlsNumber);
+        public override bool HasStatusToBeClosed => this.MlsStatus == MarketStatuses.Closed || this.MlsStatus == MarketStatuses.Canceled;
 
         public virtual void SetMigrateFullListing(bool migrateFullListing)
         {
@@ -60,6 +71,55 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.CopyInformationFromValueObject(listingValue);
         }
 
+        public virtual void UpdateStatusFieldsInfo(ListingStatusFieldsInfo listingSaleStatusFields)
+        {
+            if (listingSaleStatusFields is null)
+            {
+                throw new ArgumentNullException(nameof(listingSaleStatusFields));
+            }
+
+            this.CopyInformationFromValueObject(listingSaleStatusFields);
+        }
+
+        public virtual void UpdateActionType(ActionType actionType)
+        {
+            this.PublishInfo.PublishType = actionType;
+        }
+
+        protected void CopyInformationFromValueObject(ListingStatusFieldsInfo listingSaleStatusFields)
+        {
+            this.StatusFieldsInfo = this.StatusFieldsInfo.Clone();
+
+            if (!this.isMarketUpdate)
+            {
+                this.StatusFieldsInfo.AgentId = listingSaleStatusFields.AgentId;
+                this.StatusFieldsInfo.AgentIdSecond = listingSaleStatusFields.AgentIdSecond;
+                this.StatusFieldsInfo.HasSecondBuyerAgent = listingSaleStatusFields.HasSecondBuyerAgent;
+                this.StatusFieldsInfo.HasContingencyInfo = listingSaleStatusFields.HasContingencyInfo;
+                this.StatusFieldsInfo.ContingencyInfo = listingSaleStatusFields.ContingencyInfo;
+                this.StatusFieldsInfo.CancelledReason = listingSaleStatusFields.CancelledReason;
+
+                if (!this.migrateFullListing)
+                {
+                    return;
+                }
+            }
+
+            if (this.processFullListing)
+            {
+                this.StatusFieldsInfo.SellConcess = listingSaleStatusFields.SellConcess;
+                this.StatusFieldsInfo.ClosePrice = listingSaleStatusFields.ClosePrice;
+                this.StatusFieldsInfo.HasBuyerAgent = listingSaleStatusFields.HasBuyerAgent;
+                this.StatusFieldsInfo.PendingDate = listingSaleStatusFields.PendingDate;
+                this.StatusFieldsInfo.ClosedDate = listingSaleStatusFields.ClosedDate;
+                this.StatusFieldsInfo.BackOnMarketDate = listingSaleStatusFields.BackOnMarketDate;
+                this.StatusFieldsInfo.OffMarketDate = listingSaleStatusFields.OffMarketDate;
+                this.StatusFieldsInfo.SaleTerms = listingSaleStatusFields.SaleTerms;
+            }
+
+            this.StatusFieldsInfo.EstimatedClosedDate = listingSaleStatusFields.EstimatedClosedDate;
+        }
+
         protected void CopyInformationFromValueObject(ListingValueObject listingValue)
         {
             if (this.processFullListing)
@@ -75,6 +135,20 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.MarketModifiedOn = listingValue.MarketModifiedOn;
             this.MlsStatus = listingValue.MlsStatus;
             this.ListPrice = listingValue.ListPrice;
+        }
+
+        protected override void DeleteChildren(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IEnumerable<object> GetEntityEqualityComponents()
+        {
+            yield return this.PublishInfo;
+            yield return this.StatusFieldsInfo;
+            yield return this.ListPrice;
+            yield return this.MlsNumber;
+            yield return this.MlsStatus;
         }
     }
 }

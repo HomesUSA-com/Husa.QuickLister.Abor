@@ -16,7 +16,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
@@ -67,12 +68,13 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.SysTimestamp, config => config.Ignore());
 
             this.CreateMap<RequestBaseFilter, RequestBaseQueryFilter>();
-            this.CreateMap<SaleListingRequestFilter, SaleListingRequestQueryFilter>();
+            this.CreateMap<SaleListingRequestFilter, SaleListingRequestQueryFilter>()
+                .ForMember(dest => dest.ListingId, config => config.MapFrom(dto => dto.SaleListingId));
 
             this.CreateMap<SummarySectionQueryResult, SummarySectionContract>();
             this.CreateMap<SummaryFieldQueryResult, SummaryFieldContract>();
 
-            this.CreateMap<ListingSaleStatusFieldsDto, StatusFieldsRecord>();
+            this.CreateMap<ListingSaleStatusFieldsDto, SaleStatusFieldsRecord>();
             this.CreateMap<ListingSalePublishInfoDto, PublishFieldsRecord>();
             this.CreateMap<SpacesDimensionsDto, SpacesDimensionsRecord>();
 
@@ -82,7 +84,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.ReadableBuyersAgentCommission, config => config.MapFrom(dto => dto.BuyersAgentCommission.GetCommissionAmount(dto.BuyersAgentCommissionType)));
             this.CreateMap<ShowingDto, ShowingRecord>();
             this.CreateMap<SchoolsDto, SchoolRecord>();
-            this.CreateMap<AddressDto, AddressRecord>()
+            this.CreateMap<SaleAddressDto, AddressRecord>()
                  .ForMember(dest => dest.FormalAddress, config => config.Ignore())
                 .ForMember(dest => dest.ReadableCity, config => config.Ignore());
 
@@ -128,12 +130,13 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.PlanName, config => config.Ignore())
                 .ForMember(dest => dest.SysTimestamp, config => config.Ignore());
 
-            this.CreateMap<DocumentModels.ListingRequest.ListingSaleRequestDetailQueryResult, ListingSaleRequestDetailResponse>();
+            this.CreateMap<DocumentModels.ListingRequest.ListingSaleRequestDetailQueryResult, ListingSaleRequestDetailResponse>()
+                .ForPath(dest => dest.ListingId, config => config.MapFrom(dto => dto.ListingSaleId));
 
             this.CreateMap<DocumentModels.ListingRequest.ListingRequestStatusFieldsQueryResult, ListingSaleStatusFieldsResponse>();
             this.CreateMap<DocumentModels.ListingRequest.ListingRequestSalePropertyQueryResult, SalePropertyDetailResponse>();
             this.CreateMap<DocumentModels.ListingRequest.SalePropertyQueryResult, SalePropertyResponse>();
-            this.CreateMap<DocumentModels.ListingRequest.AddressInfoQueryResult, AddressInfoResponse>();
+            this.CreateMap<DocumentModels.ListingRequest.AddressInfoQueryResult, SaleAddressResponse>();
             this.CreateMap<DocumentModels.ListingRequest.SpacesDimensionsInfoQueryResult, SpacesDimensionsResponse>();
             this.CreateMap<DocumentModels.ListingRequest.FeaturesInfoQueryResult, FeaturesResponse>()
                 .ForMember(dto => dto.NeighborhoodAmenities, c => c.MapFrom(dto => dto.NeighborhoodAmenities));
@@ -151,7 +154,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.ListingSaleId, config => config.Ignore())
                 .ForMember(dest => dest.SaleProperty, config => config.MapFrom(dto => dto.SaleProperty));
 
-            this.CreateMap<ListingSaleStatusFieldsInfo, ListingSaleStatusFieldsDto>().ReverseMap();
+            this.CreateMap<ListingStatusFieldsInfo, ListingSaleStatusFieldsDto>().ReverseMap();
 
             this.CreateMap<SaleProperty, SalePropertyDetailDto>()
                 .ForMember(dest => dest.FeaturesInfo, config => config.MapFrom(dto => dto.FeaturesInfo))
@@ -172,7 +175,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<FeaturesInfo, FeaturesDto>();
             this.CreateMap<FinancialInfo, FinancialDto>();
-            this.CreateMap<AddressInfo, AddressDto>();
+            this.CreateMap<SaleAddressInfo, SaleAddressDto>();
             this.CreateMap<PropertyInfo, PropertyDto>();
             this.CreateMap<ShowingInfo, ShowingDto>();
             this.CreateMap<SchoolsInfo, SchoolsDto>();
@@ -189,6 +192,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<ListingSaleRequestDto, SaleListingRequest>()
                 .ForMember(dest => dest.SaleProperty, config => config.Ignore())
+                .ForMember(dest => dest.EntityId, config => config.MapFrom(dto => dto.ListingSaleId))
                 .ForMember(dest => dest.CDOM, config => config.Ignore())
                 .ForMember(dest => dest.DOM, config => config.Ignore())
                 .ForMember(dest => dest.RequestState, config => config.Ignore())
@@ -202,8 +206,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.CompanyId, config => config.Ignore());
 
             this.CreateMap<ListingSaleStatusFieldQueryResult, ListingSaleStatusFieldsResponse>();
-            this.CreateMap<DocumentModels.ListingRequest.ListingRequestPublishInfoQueryResult, PublishInfoResponse>();
-
             this.CreateMap<SaleListingOpenHouseQueryResult, ListingSaleOpenHouseResponse>();
         }
     }

@@ -13,17 +13,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
     {
         private string subdivision;
 
-        public AddressInfo(string streetNum, string streetName, string unitNumber, string zipCode, Cities city, States state, Counties? county)
-        {
-            this.City = city;
-            this.State = state;
-            this.County = county;
-            this.ZipCode = zipCode;
-            this.StreetName = streetName;
-            this.StreetNumber = streetNum;
-            this.UnitNumber = unitNumber;
-        }
-
         public AddressInfo()
         {
         }
@@ -45,16 +34,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
         public Counties? County { get; set; }
 
         public StreetType? StreetType { get; set; }
-        public string UnitNumber { get; set; }
 
         public string Subdivision { get => this.subdivision; set => this.subdivision = value.ToTitleCase(); }
 
-        public static AddressInfo ImportFromXml(XmlListingDetailResponse listing, AddressInfo addressInfo)
+        public static TAddress ImportFromXml<TAddress>(XmlListingDetailResponse listing, TAddress addressInfo)
+            where TAddress : AddressInfo, new()
         {
-            var importedAddressInfo = new AddressInfo();
+            var importedAddressInfo = new TAddress();
             if (addressInfo != null)
             {
-                importedAddressInfo = addressInfo.Clone();
+                importedAddressInfo = addressInfo.Clone<TAddress>();
             }
 
             importedAddressInfo.StreetNumber = listing.StreetNum;
@@ -72,12 +61,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
             return importedAddressInfo;
         }
 
-        public AddressInfo Clone()
+        public virtual TAddress Clone<TAddress>()
+            where TAddress : AddressInfo
         {
-            return (AddressInfo)this.MemberwiseClone();
+            return (TAddress)this.MemberwiseClone();
         }
 
-        public void PartialClone(AddressInfo addressToClone)
+        public void PartialClone<TAddress>(TAddress addressToClone)
+            where TAddress : AddressInfo
         {
             this.City = addressToClone.City;
             this.State = addressToClone.State;
@@ -86,9 +77,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
             this.Subdivision = addressToClone.Subdivision;
         }
 
-        public AddressInfo ImportAddressInfoFromCommunity(Community.Property address)
+        public TAddress ImportAddressInfoFromCommunity<TAddress>(Community.Property address)
+            where TAddress : AddressInfo
         {
-            var clonedAddress = this.Clone();
+            var clonedAddress = this.Clone<TAddress>();
             clonedAddress.ZipCode = address.ZipCode ?? clonedAddress.ZipCode;
             clonedAddress.County = address.County;
 
@@ -111,7 +103,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
             yield return this.ZipCode;
             yield return this.County;
             yield return this.Subdivision;
-            yield return this.UnitNumber;
             yield return this.StreetType;
         }
     }

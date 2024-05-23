@@ -8,7 +8,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using Husa.Migration.Api.Contracts.Response;
     using Husa.Migration.Api.Contracts.Response.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -95,7 +96,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.SchoolDistrict, pr => pr.MapFrom(x => x.SchoolDistrict.ToEnumFromEnumMember<SchoolDistrict>()));
             this.CreateMap<SalesOfficeResponse, SalesOfficeRecord>()
                 .ForMember(dto => dto.SalesOfficeCity, pr => pr.MapFrom(x => x.SalesOfficeCity.ToCity()));
-            this.CreateMap<StatusFieldsResponse, StatusFieldsRecord>()
+            this.CreateMap<StatusFieldsResponse, SaleStatusFieldsRecord>()
                 .ForMember(dto => dto.ContingencyInfo, pr => pr.MapFrom(x => x.ContingencyInfo.CsvToEnum<ContingencyInfo>(true)))
                 .ForMember(dto => dto.SaleTerms, pr => pr.MapFrom(x => x.SellerConcessionDescription.CsvToEnum<SaleTerms>(true)))
                 .ForMember(dto => dto.AgentId, pr => pr.Ignore());
@@ -125,6 +126,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 });
 
             this.CreateMap<SaleListingRequestResponse, SaleListingRequest>()
+                .ForMember(dest => dest.EntityId, pr => pr.Ignore())
                 .ForMember(dto => dto.Id, pr => pr.Ignore())
                 .ForMember(dto => dto.IsDeleted, pr => pr.MapFrom(x => 0))
                 .ForMember(dto => dto.CompanyId, pr => pr.Ignore())

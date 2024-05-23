@@ -4,10 +4,10 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Request
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Quicklister.Abor.Application.Models.Request;
-    using Husa.Quicklister.Abor.Domain.Entities.Request;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Request;
 
-    public interface ISaleListingRequestService : ExtensionsInterfaces.ISaleListingRequestService<SaleListingRequest>
+    public interface ISaleListingRequestService : ExtensionsInterfaces.IListingRequestService<SaleListingRequest>
     {
         Task<SaleListingRequest> UpdateRequestAsync(SaleListingRequest request, ListingSaleRequestDto listingSaleRequestDto, CancellationToken cancellationToken = default);
 

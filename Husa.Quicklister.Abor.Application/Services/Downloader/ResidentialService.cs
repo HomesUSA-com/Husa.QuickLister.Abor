@@ -11,7 +11,9 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
+    using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Models.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
@@ -27,6 +29,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
         private readonly IDownloaderCtxClient downloaderClient;
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
         private readonly ISaleListingMigrationService listingMigrationService;
+        private readonly IMediaService mediaService;
 
         public ResidentialService(
             IListingSaleRepository listingSaleRepository,
@@ -34,6 +37,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             IServiceSubscriptionClient serviceSubscriptionClient,
             IDownloaderCtxClient downloaderClient,
             ISaleListingMigrationService listingMigrationService,
+            IMediaService mediaService,
             IMapper mapper,
             ILogger<ResidentialService> logger)
         {
@@ -42,13 +46,14 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
             this.downloaderClient = downloaderClient ?? throw new ArgumentNullException(nameof(downloaderClient));
             this.listingMigrationService = listingMigrationService ?? throw new ArgumentNullException(nameof(listingMigrationService));
+            this.mediaService = mediaService ?? throw new ArgumentNullException(nameof(mediaService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task ProcessData(string entityKey, bool processFullListing)
         {
-            var migrateLegacyInfo = false;
+            var isNewListing = false;
             var residential = await this.downloaderClient.Residential.GetByIdAsync(entityKey);
             var residentialDto = this.mapper.Map<FullListingSaleDto>(residential);
             var companyName = residentialDto.SaleProperty.SalePropertyInfo.OwnerName;
@@ -75,7 +80,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
                 residentialDto.SaleProperty.AddressInfo.ZipCode,
                 residentialDto.SaleProperty.AddressInfo.UnitNumber);
 
-            var listingStatusInfo = this.mapper.Map<ListingSaleStatusFieldsInfo>(residentialDto.StatusFieldsInfo);
+            var listingStatusInfo = this.mapper.Map<ListingStatusFieldsInfo>(residentialDto.StatusFieldsInfo);
             var agent = await this.agentRepository.GetAgentByMarketUniqueId(residentialDto.SellingAgentId);
             listingStatusInfo.SetStatusChangeAgent(agent);
             var listingInfo = this.mapper.Map<ListingValueObject>(residentialDto);
@@ -83,7 +88,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
 
             if (listingSale is null)
             {
-                migrateLegacyInfo = true;
+                isNewListing = true;
                 listingSale = new SaleListing(listingInfo, listingStatusInfo, salePropertyInfo, company.Id, true);
                 this.listingSaleRepository.Attach(listingSale);
             }
@@ -99,9 +104,11 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
 
             await this.listingSaleRepository.SaveChangesAsync(listingSale);
 
-            if (migrateLegacyInfo)
+            if (isNewListing)
             {
-                await this.listingMigrationService.SendMigrateListingMesage(MarketCode.DFW, new MigrateListingMessage
+                await this.mediaService.ImportMediaFromMlsAsync(listingSale.Id, dispose: false);
+
+                await this.listingMigrationService.SendMigrateListingMesage(MarketCode.Austin, new MigrateListingMessage
                 {
                     CompanyId = listingSale.CompanyId,
                     MlsNumber = listingSale.MlsNumber,

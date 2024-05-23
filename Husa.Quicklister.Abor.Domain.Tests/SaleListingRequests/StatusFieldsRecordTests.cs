@@ -3,8 +3,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Entities.Request.Records;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Xunit;
 
@@ -16,8 +16,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         public void UpdateInformation_Success()
         {
             // Arrange
-            var statusRecord = new StatusFieldsRecord();
-            var statusInfo = new ListingSaleStatusFieldsInfo()
+            var statusRecord = new SaleStatusFieldsRecord();
+            var statusInfo = new ListingStatusFieldsInfo()
             {
                 PendingDate = DateTime.Now,
                 EstimatedClosedDate = DateTime.Now,
@@ -35,8 +35,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         public void GetSummary_ActiveUnderContractFields_Success()
         {
             // Arrange
-            var statusRecord = new StatusFieldsRecord();
-            var statusInfo = new StatusFieldsRecord()
+            var statusRecord = new SaleStatusFieldsRecord();
+            var statusInfo = new SaleStatusFieldsRecord()
             {
                 PendingDate = DateTime.Now,
                 EstimatedClosedDate = DateTime.Now,
@@ -56,8 +56,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         public void GetSummary_ClosedFields_Success()
         {
             // Arrange
-            var statusRecord = new StatusFieldsRecord();
-            var statusInfo = new StatusFieldsRecord()
+            var statusRecord = new SaleStatusFieldsRecord();
+            var statusInfo = new SaleStatusFieldsRecord()
             {
                 PendingDate = DateTime.Now,
                 SellConcess = "1223",
@@ -76,8 +76,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         public void GetSummary_PendingFields_Success()
         {
             // Arrange
-            var statusRecord = new StatusFieldsRecord();
-            var statusInfo = new StatusFieldsRecord()
+            var statusRecord = new SaleStatusFieldsRecord();
+            var statusInfo = new SaleStatusFieldsRecord()
             {
                 EstimatedClosedDate = DateTime.Now.AddDays(1),
                 PendingDate = DateTime.Now,
@@ -97,8 +97,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         public void GetSummary_HoldFields_Success()
         {
             // Arrange
-            var statusRecord = new StatusFieldsRecord();
-            var statusInfo = new StatusFieldsRecord()
+            var statusRecord = new SaleStatusFieldsRecord();
+            var statusInfo = new SaleStatusFieldsRecord()
             {
                 BackOnMarketDate = DateTime.Now,
                 OffMarketDate = DateTime.Now,
@@ -118,8 +118,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         public void GetSummary_CanceledFields_Success()
         {
             // Arrange
-            var statusRecord = new StatusFieldsRecord();
-            var statusInfo = new StatusFieldsRecord()
+            var statusRecord = new SaleStatusFieldsRecord();
+            var statusInfo = new SaleStatusFieldsRecord()
             {
                 BackOnMarketDate = DateTime.Now,
                 CancelledReason = "Canceled",

@@ -15,6 +15,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public MiddleSchool? MiddleSchool { get; set; }
 
         public HighSchool? HighSchool { get; set; }
+        public string OtherElementarySchool { get; set; }
+        public string OtherMiddleSchool { get; set; }
+        public string OtherHighSchool { get; set; }
 
         public virtual LotSchoolsInfo Clone()
         {
@@ -28,6 +31,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             clonnedSchools.MiddleSchool = schools.MiddleSchool;
             clonnedSchools.ElementarySchool = schools.ElementarySchool;
             clonnedSchools.HighSchool = schools.HighSchool;
+            clonnedSchools.OtherHighSchool = schools.OtherHighSchool;
+            clonnedSchools.OtherMiddleSchool = schools.OtherMiddleSchool;
+            clonnedSchools.OtherElementarySchool = schools.OtherElementarySchool;
             return clonnedSchools;
         }
 
@@ -37,6 +43,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             yield return this.MiddleSchool;
             yield return this.ElementarySchool;
             yield return this.HighSchool;
+            yield return this.OtherHighSchool;
+            yield return this.OtherMiddleSchool;
+            yield return this.OtherElementarySchool;
         }
     }
 }

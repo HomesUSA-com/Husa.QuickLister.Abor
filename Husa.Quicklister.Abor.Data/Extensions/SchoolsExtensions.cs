@@ -2,7 +2,6 @@ namespace Husa.Quicklister.Abor.Data.Extensions
 {
     using System;
     using Husa.Extensions.Linq;
-    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Microsoft.EntityFrameworkCore;
@@ -31,25 +30,17 @@ namespace Husa.Quicklister.Abor.Data.Extensions
             builder.Property(r => r.HighSchool)
                 .HasColumnName(nameof(IProvideSchool.HighSchool))
                 .HasEnumFieldValue<HighSchool>(maxLength: 50);
-        }
-
-        public static void ConfigureSchoolsInfo<TOwnerEntity>(this OwnedNavigationBuilder<TOwnerEntity, SchoolsInfo> builder)
-            where TOwnerEntity : class
-        {
-            ArgumentNullException.ThrowIfNull(builder);
-
-            builder.ConfigureSchools();
 
             builder.Property(r => r.OtherElementarySchool)
-                .HasColumnName(nameof(SchoolsInfo.OtherElementarySchool))
+                .HasColumnName(nameof(IProvideSchool.OtherElementarySchool))
                 .HasMaxLength(50);
 
             builder.Property(r => r.OtherMiddleSchool)
-                .HasColumnName(nameof(SchoolsInfo.OtherMiddleSchool))
+                .HasColumnName(nameof(IProvideSchool.OtherMiddleSchool))
                 .HasMaxLength(50);
 
             builder.Property(r => r.OtherHighSchool)
-                .HasColumnName(nameof(SchoolsInfo.OtherHighSchool))
+                .HasColumnName(nameof(IProvideSchool.OtherHighSchool))
                 .HasMaxLength(50);
         }
     }

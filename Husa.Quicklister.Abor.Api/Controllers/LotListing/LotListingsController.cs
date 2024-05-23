@@ -15,11 +15,13 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
     using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Request.LotListing;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
+    using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.LotListing;
     using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Lot;
+    using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Microsoft.AspNetCore.Authorization;
@@ -31,6 +33,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
     public class LotListingsController : Controller
     {
         private readonly ILotListingQueriesRepository lotListingQueriesRepository;
+        private readonly ILotListingRequestQueriesRepository requestQueryRepository;
         private readonly IMediaService mediaService;
         private readonly ILotListingService listingService;
         private readonly ILogger<LotListingsController> logger;
@@ -38,6 +41,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
 
         public LotListingsController(
             ILotListingQueriesRepository lotListingQueriesRepository,
+            ILotListingRequestQueriesRepository requestQueryRepository,
             ILotListingService listingService,
             IMediaService mediaService,
             ILogger<LotListingsController> logger,
@@ -48,6 +52,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
             this.lotListingQueriesRepository = lotListingQueriesRepository ?? throw new ArgumentNullException(nameof(lotListingQueriesRepository));
             this.listingService = listingService ?? throw new ArgumentNullException(nameof(listingService));
             this.mediaService = mediaService ?? throw new ArgumentNullException(nameof(mediaService));
+            this.requestQueryRepository = requestQueryRepository ?? throw new ArgumentNullException(nameof(requestQueryRepository));
         }
 
         [HttpGet]
@@ -66,7 +71,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpGet("{listingId:guid}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly)]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetListing([FromRoute] Guid listingId)
         {
             this.logger.LogInformation("Received request to GET sale listing with Id '{listingId}'.", listingId);
@@ -187,6 +192,30 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
 
             await this.listingService.DeclinePhotos(listingId);
 
+            return this.Ok();
+        }
+
+        [HttpGet("{listingId:guid}/listing-requests")]
+        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
+        public async Task<IActionResult> GetRequestByListingAsync(Guid listingId, CancellationToken cancellationToken = default)
+        {
+            this.logger.LogInformation("Start to handle query request by listing Id {listingId}", listingId);
+
+            if (listingId == Guid.Empty)
+            {
+                return this.BadRequest(listingId);
+            }
+
+            var queryResponse = await this.requestQueryRepository.GetAsync(new() { ListingId = listingId }, cancellationToken);
+            return this.Ok(this.mapper.Map<IEnumerable<ListingRequestQueryResponse>>(queryResponse.Data));
+        }
+
+        [HttpPatch("{listingId:guid}/action-type")]
+        [ApiAuthorization([0])]
+        public async Task<IActionResult> UpdateActionTypeAsync(Guid listingId, ActionTypeRequest listingRequestForUpdate, CancellationToken cancellationToken = default)
+        {
+            this.logger.LogInformation("Start to update action type from listing {listingId}", listingId);
+            await this.listingService.UpdateActionTypeAsync(listingId, listingRequestForUpdate.ActionType, cancellationToken);
             return this.Ok();
         }
     }
