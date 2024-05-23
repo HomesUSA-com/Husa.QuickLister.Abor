@@ -209,5 +209,14 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
             var queryResponse = await this.requestQueryRepository.GetAsync(new() { ListingId = listingId }, cancellationToken);
             return this.Ok(this.mapper.Map<IEnumerable<ListingRequestQueryResponse>>(queryResponse.Data));
         }
+
+        [HttpPatch("{listingId:guid}/action-type")]
+        [ApiAuthorization([0])]
+        public async Task<IActionResult> UpdateActionTypeAsync(Guid listingId, ActionTypeRequest listingRequestForUpdate, CancellationToken cancellationToken = default)
+        {
+            this.logger.LogInformation("Start to update action type from listing {listingId}", listingId);
+            await this.listingService.UpdateActionTypeAsync(listingId, listingRequestForUpdate.ActionType, cancellationToken);
+            return this.Ok();
+        }
     }
 }

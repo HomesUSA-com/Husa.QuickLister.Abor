@@ -143,11 +143,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             return this.AddRequest(newRequest, userId);
         }
 
-        public virtual void UpdateActionType(ActionType actionType)
-        {
-            this.PublishInfo.PublishType = actionType;
-        }
-
         public override void UpdateManuallyManagement(bool manuallyManaged)
         {
             if (this.IsManuallyManaged != manuallyManaged)

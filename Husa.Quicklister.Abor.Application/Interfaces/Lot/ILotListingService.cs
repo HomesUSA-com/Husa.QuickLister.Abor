@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Application.Interfaces.Lot
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Application.Models;
@@ -16,5 +17,6 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Lot
         Task<CommandResult<LotListing>> QuickCreateAsync(QuickCreateListingDto lotListing, bool importFromListing);
         Task UpdateListing(Guid listingId, LotListingDto listingDto);
         Task AssignMlsNumberAsync(Guid listingId, string mlsNumber, MarketStatuses requestStatus, ActionType actionType);
+        Task UpdateActionTypeAsync(Guid listingId, ActionType actionType, CancellationToken cancellationToken = default);
     }
 }
