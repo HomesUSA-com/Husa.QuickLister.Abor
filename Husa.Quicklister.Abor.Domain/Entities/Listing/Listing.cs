@@ -81,6 +81,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.CopyInformationFromValueObject(listingSaleStatusFields);
         }
 
+        public virtual void UpdateActionType(ActionType actionType)
+        {
+            this.PublishInfo.PublishType = actionType;
+        }
+
         protected void CopyInformationFromValueObject(ListingStatusFieldsInfo listingSaleStatusFields)
         {
             this.StatusFieldsInfo = this.StatusFieldsInfo.Clone();

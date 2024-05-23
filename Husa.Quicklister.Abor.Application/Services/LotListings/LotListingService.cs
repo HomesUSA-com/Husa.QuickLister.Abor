@@ -229,6 +229,13 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             return CommandResult<string>.Success($"Unlocked lot listing with id {listingId}.");
         }
 
+        public async Task UpdateActionTypeAsync(Guid listingId, ActionType actionType, CancellationToken cancellationToken = default)
+        {
+            var lotListing = await this.ListingRepository.GetById(listingId) ?? throw new NotFoundException<LotListing>(listingId);
+            lotListing.UpdateActionType(actionType);
+            await this.ListingRepository.SaveChangesAsync(lotListing);
+        }
+
         protected override Task UpdatePhotoRequestProperty(LotListing listing)
         {
             throw new NotImplementedException();

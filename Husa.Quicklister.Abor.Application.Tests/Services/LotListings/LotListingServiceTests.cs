@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
@@ -227,6 +228,40 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
             // Assert
             Assert.Equal(ResponseCode.Error, result.Code);
             Assert.Equal($"The lot listing {listingId} has an open request, cannot be unlocked.", result.Message);
+        }
+
+        [Fact]
+        public async Task UpdateActionTypeAsync_ValidLotListing_UpdatesActionType()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var actionType = ActionType.PendingTransfer;
+            var lotListing = new LotListing { Id = listingId };
+            lotListing.PublishInfo.PublishType = ActionType.PendingTransfer;
+
+            this.lotListingRepositoryMock.Setup(r => r.GetById(listingId, false)).ReturnsAsync(lotListing);
+
+            // Act
+            await this.sut.UpdateActionTypeAsync(listingId, actionType);
+
+            // Assert
+            Assert.Equal(actionType, lotListing.PublishInfo.PublishType);
+            this.lotListingRepositoryMock.Verify(r => r.SaveChangesAsync(lotListing), Times.Once);
+        }
+
+        [Fact]
+        public async Task UpdateActionTypeAsync_LotListingNotFound_ThrowsNotFoundException()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var actionType = ActionType.PendingTransfer;
+
+            var mockRepository = new Mock<ILotListingRepository>();
+            mockRepository.Setup(r => r.GetById(listingId, false)).ReturnsAsync((LotListing)null);
+
+            // Act & Assert
+            await Assert.ThrowsAsync<NotFoundException<LotListing>>(async () =>
+                await this.sut.UpdateActionTypeAsync(listingId, actionType));
         }
 
         private void SetupSubscriptionClientCompany(Guid companyId, ServiceCode? service = null)
