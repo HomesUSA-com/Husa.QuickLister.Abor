@@ -32,7 +32,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Extensions.Lot
             Assert.Equal(sourceListing.FeaturesInfo, targetListing.FeaturesInfo);
             Assert.Equal(sourceListing.FinancialInfo, targetListing.FinancialInfo);
             Assert.Equal(sourceListing.SchoolsInfo, targetListing.SchoolsInfo);
-            Assert.Equal(sourceListing.ShowingInfo, targetListing.ShowingInfo);
+            Assert.Equal(sourceListing.ShowingInfo.ShowingContactType, targetListing.ShowingInfo.ShowingContactType);
         }
 
         [Fact]

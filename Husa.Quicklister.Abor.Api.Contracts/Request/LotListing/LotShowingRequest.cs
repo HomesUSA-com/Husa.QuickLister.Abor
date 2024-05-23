@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Request.LotListing
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
 
     public class LotShowingRequest
@@ -12,6 +13,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.LotListing
         public string ShowingInstructions { get; set; }
         public string PublicRemarks { get; set; }
         public string Directions { get; set; }
+
+        [Required]
         public ICollection<ShowingContactType> ShowingContactType { get; set; }
         public string ShowingContactName { get; set; }
     }
