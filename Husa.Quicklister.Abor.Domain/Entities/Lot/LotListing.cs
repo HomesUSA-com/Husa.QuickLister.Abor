@@ -58,6 +58,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         }
 
         public override ListType ListType { get; protected set; } = ListType.Lots;
+        public override bool IsManuallyManaged => true;
         public virtual string OwnerName { get; set; }
         public virtual Guid? CommunityId { get; set; }
         public virtual LotAddressInfo AddressInfo { get; set; }
