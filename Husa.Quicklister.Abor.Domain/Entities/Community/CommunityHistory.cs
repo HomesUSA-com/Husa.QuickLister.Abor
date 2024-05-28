@@ -9,7 +9,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Interfaces;
-    using Husa.Quicklister.Extensions.Domain.Extensions;
     using ExtensionsCommunity = Husa.Quicklister.Extensions.Domain.Entities.Community.CommunityHistory;
 
     public class CommunityHistory : ExtensionsCommunity, IEntityOpenHouse<OpenHouse>

@@ -199,7 +199,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Utilities = new(),
         };
 
-        public static Mock<DomainEntities.Listing.SaleListing> GetListingSaleEntityMock(Guid? listingId = null, bool createStub = false, Guid? companyId = null, Guid? communityId = null, bool generateRequest = false)
+        public static Mock<DomainEntities.Listing.SaleListing> GetListingSaleEntityMock(Guid? listingId = null, bool createStub = false, Guid? companyId = null, Guid? communityId = null, bool generateRequest = false, LockedStatus? lockedStatus = null)
         {
             var listingSale = new Mock<DomainEntities.Listing.SaleListing>();
             if (createStub)
@@ -218,6 +218,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             saleProperty.Plan = new Plan(listingCompanyId, Faker.Lorem.GetFirstWord(), Faker.Lorem.GetFirstWord());
 
             listingSale.SetupGet(c => c.Id).Returns(listingId ?? Guid.NewGuid());
+            listingSale.SetupGet(c => c.LockedStatus).Returns(lockedStatus ?? LockedStatus.NoLocked);
             listingSale.SetupGet(c => c.SaleProperty).Returns(saleProperty);
             listingSale.SetupGet(c => c.StatusFieldsInfo).Returns(new ListingStatusFieldsInfo());
             listingSale.SetupGet(c => c.CompanyId).Returns(listingCompanyId);
@@ -242,9 +243,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return listingSale;
         }
 
-        public static DomainEntities.Listing.SaleListing GetListingSaleEntity(Guid? listingId = null, bool createStub = false, Guid? companyId = null, Guid? communityId = null, bool generateRequest = false)
+        public static DomainEntities.Listing.SaleListing GetListingSaleEntity(Guid? listingId = null, bool createStub = false, Guid? companyId = null, Guid? communityId = null, bool generateRequest = false, LockedStatus? lockedStatus = null)
         {
-            var listingSale = GetListingSaleEntityMock(listingId, createStub, companyId, communityId, generateRequest);
+            var listingSale = GetListingSaleEntityMock(listingId, createStub, companyId, communityId, generateRequest, lockedStatus);
             return listingSale.Object;
         }
 
@@ -502,6 +503,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
             plan.SetupGet(c => c.Id).Returns(planProfileId);
             plan.SetupGet(c => c.CompanyId).Returns(company);
+            plan.SetupGet(c => c.Rooms).Returns(new List<PlanRoom>());
             plan.SetupGet(c => c.SaleProperties).Returns(saleProperties);
             return plan.Object;
         }

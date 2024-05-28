@@ -25,8 +25,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Xml.Api.Contracts.Response;
     using CompanyExtensions = Husa.CompanyServicesManager.Api.Contracts.Response;
     using ExtensionCommunity = Husa.Quicklister.Extensions.Domain.Entities.Community.Community;
+    using ExtensionsInterfaces = Husa.Quicklister.Extensions.Domain.Interfaces;
 
-    public class CommunitySale : ExtensionCommunity, IEntityOpenHouse<CommunityOpenHouse>, ICommunityEmployee<CommunityEmployee>, ISaleCommunity<SaleListing>, IProvideCommunityHistory<CommunityHistory>
+    public class CommunitySale :
+        ExtensionCommunity,
+        IEntityOpenHouse<CommunityOpenHouse>,
+        ICommunityEmployee<CommunityEmployee>,
+        ExtensionsInterfaces.IProvideActiveListings<SaleListing>,
+        IProvideCommunityHistory<CommunityHistory>
     {
         public CommunitySale(Guid companyId, string name, string ownerName)
             : this()

@@ -1,6 +1,5 @@
 namespace Husa.Quicklister.Abor.Api.Mappings
 {
-    using AutoMapper;
     using Husa.Extensions.Common;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Api.Contracts.Request;
@@ -18,13 +17,14 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
-    using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
+    using ExtensionMapping = Husa.Quicklister.Extensions.Api.Mappings.CommunityMappingProfile;
 
-    public class CommunityMappingProfile : Profile
+    public class CommunityMappingProfile : ExtensionMapping
     {
         public CommunityMappingProfile()
+            : base()
         {
             this.CreateMap<CommunityRequestFilter, CommunityQueryFilter>();
             this.CreateMap<CommunityQueryResult, CommunityDataQueryResponse>();
@@ -44,11 +44,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<CreateCommunityRequest, CommunitySaleCreateDto>();
 
-            this.CreateMap<CommunityEmployeesRequest, CommunityEmployeesCreateDto>()
-                .ForMember(dto => dto.CompanyId, c => c.Ignore())
-                .ForMember(dto => dto.CommunityId, c => c.Ignore());
-            this.CreateMap<CommunityEmployeesDeleteRequest, CommunityEmployeesDeleteDto>()
-                .ForMember(dto => dto.CommunityId, c => c.Ignore());
             this.CreateMap<CommunitySaleRequest, CommunitySaleDto>();
             this.CreateMap<CommunityProfileRequest, CommunityProfileDto>();
             this.CreateMap<CommunityPropertyRequest, CommunityPropertyDto>();

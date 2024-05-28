@@ -262,6 +262,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public virtual void ImportDataFromCommunity(CommunitySale communitySale)
         {
+            ArgumentNullException.ThrowIfNull(communitySale);
+
             this.CommunityId = communitySale.Id;
             this.SchoolsInfo = this.SchoolsInfo.ImportSchools(communitySale.SchoolsInfo);
             this.FeaturesInfo = this.FeaturesInfo.ImportFeaturesFromCommunity(communitySale.Utilities);
@@ -298,10 +300,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public virtual void ImportDataFromPlan(Plan plan)
         {
-            if (plan is null)
-            {
-                throw new ArgumentNullException(nameof(plan));
-            }
+            ArgumentNullException.ThrowIfNull(plan);
 
             this.PlanId = plan.Id;
             this.SpacesDimensionsInfo = this.SpacesDimensionsInfo.ImportSpacesDimensionsFromPlan(plan.BasePlan);
