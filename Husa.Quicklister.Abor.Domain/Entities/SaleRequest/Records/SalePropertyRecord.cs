@@ -195,6 +195,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
                 Name = OpenHouseRecord.SummarySection,
                 Fields = this.OpenHouses.SummaryOpenHouse(oldOpenHouses),
             };
+
+            if (!this.ShowingInfo.EnableOpenHouses)
+            {
+                return null;
+            }
+
             return section.Fields.Any() ? section : null;
         }
 
