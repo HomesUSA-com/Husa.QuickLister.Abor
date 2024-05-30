@@ -50,13 +50,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
 
             try
             {
-                var enumName = city.ToEnumNameFromEnumMember<Cities>();
-                if (enumName != null)
-                {
-                    return city.ToEnumFromEnumMember<Cities>();
-                }
-
-                return city.GetEnumValueFromDescription<Cities>(true);
+                return city.ToEnumOrNullFromEnumMember<Cities>() ?? city.GetEnumValueFromDescription<Cities>(true);
             }
             catch
             {
