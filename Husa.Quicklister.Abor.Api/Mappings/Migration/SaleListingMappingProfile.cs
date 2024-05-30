@@ -21,18 +21,18 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
         public SaleListingMappingProfile()
         {
             this.CreateMap<AddressResponse, SaleAddressDto>()
-                .ForMember(dto => dto.City, pr => pr.MapFrom(x => x.City.ToEnumFromEnumMember<Cities>()))
-                .ForMember(dto => dto.County, pr => pr.MapFrom(x => x.County.ToEnumFromEnumMember<Counties>()))
-                .ForMember(dto => dto.StreetType, pr => pr.MapFrom(x => x.StreetType.ToEnumFromEnumMember<StreetType>()))
+                .ForMember(dto => dto.City, pr => pr.MapFrom(x => x.City.ToCity()))
+                .ForMember(dto => dto.County, pr => pr.MapFrom(x => x.County.ToEnumOrNullFromEnumMember<Counties>()))
+                .ForMember(dto => dto.StreetType, pr => pr.MapFrom(x => x.StreetType.ToEnumOrNullFromEnumMember<StreetType>()))
                 .ForMember(dto => dto.UnitNumber, pr => pr.MapFrom(x => x.UnitNum))
-                .ForMember(dto => dto.State, pr => pr.MapFrom(x => x.State.ToEnumFromEnumMember<States>()));
+                .ForMember(dto => dto.State, pr => pr.MapFrom(x => x.State.ToEnumOrNullFromEnumMember<States>()));
             this.CreateMap<PropertyResponse, PropertyDto>()
-                .ForMember(dto => dto.ConstructionStage, pr => pr.MapFrom(x => x.ConstructionStage.ToEnumFromEnumMember<ConstructionStage>()))
+                .ForMember(dto => dto.ConstructionStage, pr => pr.MapFrom(x => x.ConstructionStage.ToEnumOrNullFromEnumMember<ConstructionStage>()))
                 .ForMember(dto => dto.LotDescription, pr => pr.MapFrom(x => x.LotDescription.ToLotDescription()))
                 .ForMember(dto => dto.LegalDescription, pr => pr.MapFrom(x => x.LegalDescription.GetSubstring(PropertyExtensions.LegalDescriptionLength)))
                 .ForMember(dto => dto.TaxId, pr => pr.MapFrom(x => x.TaxId.GetSubstring(PropertyExtensions.TaxIdLength)))
-                .ForMember(dto => dto.PropertyType, pr => pr.MapFrom(x => x.PropertyType.ToEnumFromEnumMember<PropertySubType>()))
-                .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(x => x.MlsArea.ToEnumFromEnumMember<MlsArea>()))
+                .ForMember(dto => dto.PropertyType, pr => pr.MapFrom(x => x.PropertyType.ToEnumOrNullFromEnumMember<PropertySubType>()))
+                .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(x => x.MlsArea.ToEnumOrNullFromEnumMember<MlsArea>()))
                 .ForMember(dto => dto.FemaFloodPlain, pr => pr.MapFrom(x => x.FemaFloodPlain.ToFemaFloodPlain()));
             this.CreateMap<FeaturesResponse, FeaturesDto>()
                 .ForMember(dto => dto.GarageDescription, pr => pr.Ignore())
@@ -54,7 +54,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.RestrictionsDescription, pr => pr.MapFrom(x => x.RestrictionsDescription.CsvToEnum<RestrictionsDescription>(true)))
                 .ForMember(dto => dto.Floors, pr => pr.MapFrom(x => x.Floors.CsvToEnum<Flooring>(true)))
                 .ForMember(dto => dto.FireplaceDescription, pr => pr.MapFrom(x => x.FireplaceDescription.ToFireplaceDescription()))
-                .ForMember(dto => dto.HomeFaces, pr => pr.MapFrom(x => x.HomeFaces.ToEnumFromEnumMember<HomeFaces>()))
+                .ForMember(dto => dto.HomeFaces, pr => pr.MapFrom(x => x.HomeFaces.ToEnumOrNullFromEnumMember<HomeFaces>()))
                 .ForMember(dto => dto.NeighborhoodAmenities, pr => pr.MapFrom(x => x.NeighborhoodAmenities.CsvToEnum<NeighborhoodAmenities>(true)))
                 .ForMember(dto => dto.ExteriorFeatures, pr => pr.MapFrom(x => x.ExteriorFeatures.CsvToEnum<ExteriorFeatures>(true)))
                 .ForMember(dto => dto.RoofDescription, pr => pr.MapFrom(x => x.RoofDescription.CsvToEnum<RoofDescription>(true)))
@@ -65,21 +65,21 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.WaterfrontFeatures, pr => pr.MapFrom(x => x.WaterfrontFeatures.CsvToEnum<WaterfrontFeatures>(true)))
                 .ForMember(dto => dto.UnitStyle, pr => pr.MapFrom(x => x.HousingStyle.CsvToEnum<UnitStyle>(true)))
                 .ForMember(dto => dto.GuestAccommodationsDescription, pr => pr.MapFrom(x => x.GuestAccommodationsDescription.CsvToEnum<GuestAccommodationsDescription>(true)))
-                .ForMember(dto => dto.WaterBodyName, pr => pr.MapFrom(x => x.WaterBodyName.ToEnumFromEnumMember<WaterBodyName>()))
-                .ForMember(dto => dto.DistanceToWaterAccess, pr => pr.MapFrom(x => x.DistanceToWaterAccess.ToEnumFromEnumMember<DistanceToWaterAccess>()));
+                .ForMember(dto => dto.WaterBodyName, pr => pr.MapFrom(x => x.WaterBodyName.ToEnumOrNullFromEnumMember<WaterBodyName>()))
+                .ForMember(dto => dto.DistanceToWaterAccess, pr => pr.MapFrom(x => x.DistanceToWaterAccess.ToEnumOrNullFromEnumMember<DistanceToWaterAccess>()));
             this.CreateMap<SpacesDimensionsResponse, SpacesDimensionsDto>()
                 .ForMember(dto => dto.MainLevelBedroomTotal, pr => pr.MapFrom(x => x.NumBedrooms))
                 .ForMember(dto => dto.HalfBathsTotal, pr => pr.MapFrom(x => x.BathsHalf))
                 .ForMember(dto => dto.FullBathsTotal, pr => pr.MapFrom(x => x.BathsFull))
-                .ForMember(dto => dto.StoriesTotal, pr => pr.MapFrom(x => x.Stories.ToEnumFromEnumMember<Stories>()));
+                .ForMember(dto => dto.StoriesTotal, pr => pr.MapFrom(x => x.Stories.ToEnumOrNullFromEnumMember<Stories>()));
             this.CreateMap<FinancialResponse, FinancialDto>()
                 .ForMember(dto => dto.AcceptableFinancing, pr => pr.MapFrom(x => x.AcceptableFinancing.ToAcceptableFinancing()))
                 .ForMember(dto => dto.TaxExemptions, pr => pr.MapFrom(x => x.TaxExemptions.ToTaxExemptions()))
                 .ForMember(dto => dto.HoaIncludes, pr => pr.MapFrom(x => x.HoaIncludes.ToHoaIncludes()))
-                .ForMember(dto => dto.BillingFrequency, pr => pr.MapFrom(x => x.BillingFrequency.ToEnumFromEnumMember<BillingFrequency>()))
-                .ForMember(dto => dto.HOARequirement, pr => pr.MapFrom(x => x.HOARequirement.ToEnumFromEnumMember<HoaRequirement>()))
-                .ForMember(dto => dto.AgentBonusAmountType, pr => pr.MapFrom(x => x.AgentBonusAmountType.ToEnumFromEnumMember<CommissionType>()))
-                .ForMember(dto => dto.BuyersAgentCommissionType, pr => pr.MapFrom(x => x.BuyersAgentCommissionType.ToEnumFromEnumMember<CommissionType>()));
+                .ForMember(dto => dto.BillingFrequency, pr => pr.MapFrom(x => x.BillingFrequency.ToEnumOrNullFromEnumMember<BillingFrequency>()))
+                .ForMember(dto => dto.HOARequirement, pr => pr.MapFrom(x => x.HOARequirement.ToEnumOrNullFromEnumMember<HoaRequirement>()))
+                .ForMember(dto => dto.AgentBonusAmountType, pr => pr.MapFrom(x => x.AgentBonusAmountType.ToEnumOrNullFromEnumMember<CommissionType>()))
+                .ForMember(dto => dto.BuyersAgentCommissionType, pr => pr.MapFrom(x => x.BuyersAgentCommissionType.ToEnumOrNullFromEnumMember<CommissionType>()));
             this.CreateMap<ShowingResponse, ShowingDto>()
                 .ForMember(dto => dto.OwnerName, pr => pr.Ignore())
                 .ForMember(dto => dto.OccupantPhone, pr => pr.MapFrom(x => x.AltPhoneCommunity.CleanPhoneValue()))
@@ -87,13 +87,13 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.RealtorContactEmail, pr => pr.MapFrom(x => x.RealtorContactEmail.ToCollectionFromString(";")))
                 .ForMember(dto => dto.ShowingInstructions, pr => pr.MapFrom(x => x.Showing))
                 .ForMember(dto => dto.ShowingRequirements, pr => pr.MapFrom(x => x.ShowingRequirements.CsvToEnum<ShowingRequirements>(true)))
-                .ForMember(dto => dto.LockBoxType, pr => pr.MapFrom(x => x.LockBoxType.ToEnumFromEnumMember<LockBoxType>()))
+                .ForMember(dto => dto.LockBoxType, pr => pr.MapFrom(x => x.LockBoxType.ToEnumOrNullFromEnumMember<LockBoxType>()))
                 .ForMember(dto => dto.AgentPrivateRemarks, cr => cr.MapFrom(x => x.AgentPrivateRemarks.GetSubstring(SalePropertyConfiguration.AgentPrivateRemarksLength)));
             this.CreateMap<SchoolsResponse, SchoolsDto>()
-                .ForMember(dto => dto.ElementarySchool, pr => pr.MapFrom(x => x.ElementarySchool.ToEnumFromEnumMember<ElementarySchool>()))
-                .ForMember(dto => dto.MiddleSchool, pr => pr.MapFrom(x => x.MiddleSchool.ToEnumFromEnumMember<MiddleSchool>()))
-                .ForMember(dto => dto.HighSchool, pr => pr.MapFrom(x => x.HighSchool.ToEnumFromEnumMember<HighSchool>()))
-                .ForMember(dto => dto.SchoolDistrict, pr => pr.MapFrom(x => x.SchoolDistrict.ToEnumFromEnumMember<SchoolDistrict>()));
+                .ForMember(dto => dto.ElementarySchool, pr => pr.MapFrom(x => x.ElementarySchool.ToEnumOrNullFromEnumMember<ElementarySchool>()))
+                .ForMember(dto => dto.MiddleSchool, pr => pr.MapFrom(x => x.MiddleSchool.ToEnumOrNullFromEnumMember<MiddleSchool>()))
+                .ForMember(dto => dto.HighSchool, pr => pr.MapFrom(x => x.HighSchool.ToEnumOrNullFromEnumMember<HighSchool>()))
+                .ForMember(dto => dto.SchoolDistrict, pr => pr.MapFrom(x => x.SchoolDistrict.ToEnumOrNullFromEnumMember<SchoolDistrict>()));
             this.CreateMap<StatusFieldsResponse, ListingSaleStatusFieldsDto>()
                 .ForMember(dto => dto.ContingencyInfo, pr => pr.MapFrom(x => x.ContingencyInfo.CsvToEnum<ContingencyInfo>(true)))
                 .ForMember(dto => dto.SaleTerms, pr => pr.MapFrom(x => x.SellerConcessionDescription.CsvToEnum<SaleTerms>(true)))
@@ -122,7 +122,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
             this.CreateMap<RoomResponse, RoomDto>()
                 .ForMember(dto => dto.Features, pr => pr.MapFrom(x => x.Features.CsvToEnum<RoomFeatures>(true)))
                 .ForMember(dto => dto.RoomType, pr => pr.MapFrom(x => x.RoomType.ToRoomType()))
-                .ForMember(dto => dto.Level, pr => pr.MapFrom(x => x.Level.ToEnumFromEnumMember<RoomLevel>()))
+                .ForMember(dto => dto.Level, pr => pr.MapFrom(x => x.Level.ToEnumOrNullFromEnumMember<RoomLevel>()))
                 .ForMember(dto => dto.Id, pr => pr.Ignore());
         }
     }
