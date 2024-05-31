@@ -8,7 +8,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Plan
     using Husa.Quicklister.Abor.Api.Contracts.Response.Plan;
     using Husa.Quicklister.Abor.Api.Controllers;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
-    using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Application.Models.Plan;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
@@ -27,7 +26,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Plan
         private readonly ApplicationServicesFixture fixture;
         private readonly Mock<IPlanQueriesRepository> planQueriesRepository = new();
         private readonly Mock<IPlanXmlService> planXmlService = new();
-        private readonly Mock<IPlanService> planService = new();
+        private readonly Mock<Husa.Quicklister.Abor.Application.Interfaces.Plan.IPlanService> planService = new();
         private readonly Mock<ILogger<PlansController>> logger = new();
 
         public PlanControllerTests(ApplicationServicesFixture fixture)

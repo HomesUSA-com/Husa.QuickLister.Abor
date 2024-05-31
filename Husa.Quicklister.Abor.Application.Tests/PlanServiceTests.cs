@@ -8,8 +8,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
+    using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
@@ -147,6 +151,35 @@ namespace Husa.Quicklister.Abor.Application.Tests
             await Assert.ThrowsAsync<NotFoundException<Plan>>(() => sut.UpdatePlanAsync(planId, planDto));
             this.planRepository.Verify(r => r.SaveChangesAsync(It.IsAny<Plan>()), Times.Never);
             this.planRepository.Verify(c => c.GetById(It.Is<Guid>(id => id == planId), It.Is<bool>(filterByCompany => filterByCompany)), Times.Once);
+        }
+
+        [Fact]
+        public async Task UpdateListingsFromPlanAsync_Success()
+        {
+            // Arrange
+            var planId = Guid.NewGuid();
+            var plan = PlanTestProvider.GetPlanEntity(planId);
+            var saleProperty = new Mock<SaleProperty>();
+            var listing = new Mock<SaleListing>();
+            listing.Setup(x => x.MlsNumber).Returns("3544");
+            listing.Setup(x => x.LockedStatus).Returns(LockedStatus.NoLocked);
+            listing.Setup(x => x.MlsStatus).Returns(MarketStatuses.Active);
+            listing.Setup(c => c.SaleProperty).Returns(saleProperty.Object);
+            saleProperty.Setup(c => c.SaleListings).Returns(new[] { listing.Object });
+            plan.SaleProperties = new[] { saleProperty.Object };
+
+            this.planRepository
+                .Setup(c => c.GetById(It.Is<Guid>(id => id == planId), It.IsAny<bool>()))
+                .ReturnsAsync(plan)
+                .Verifiable();
+            var sut = this.GetSut();
+
+            // Act
+            await sut.UpdateListingsAsync(planId);
+
+            // Assert
+            this.planRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
+            saleProperty.Verify(r => r.ImportDataFromPlan(It.Is<Plan>(x => x.Id == planId)), Times.Once);
         }
 
         private PlanService GetSut() => new(

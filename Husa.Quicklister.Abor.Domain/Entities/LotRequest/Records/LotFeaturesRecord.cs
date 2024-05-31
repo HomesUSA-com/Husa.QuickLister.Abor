@@ -33,6 +33,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         [MinLength(1)]
         public ICollection<WaterSource> WaterSource { get; set; }
 
+        [RequiredIfCollection(nameof(WaterfrontFeatures), Enums.Domain.WaterfrontFeatures.None, isIn: false)]
         public DistanceToWaterAccess? DistanceToWaterAccess { get; set; }
 
         public ICollection<Fencing> Fencing { get; set; }

@@ -107,12 +107,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "HarperISD")]
         [Description("Harper ISD")]
         Harper,
-        [EnumMember(Value = "HaysISD")]
-        [Description("Hays ISD")]
-        Hays,
         [EnumMember(Value = "HaysCISD")]
         [Description("Hays CISD")]
-        HaysCISD,
+        Hays,
         [EnumMember(Value = "HollandISD")]
         [Description("Holland ISD")]
         Holland,

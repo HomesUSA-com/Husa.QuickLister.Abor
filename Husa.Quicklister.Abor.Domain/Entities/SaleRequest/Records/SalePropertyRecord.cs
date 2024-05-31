@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Comparers;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
@@ -13,7 +14,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Common;
-    using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Request;
     using ExtensionsRecord = Husa.Quicklister.Extensions.Domain.Entities.Request.Records.SalePropertyRecord;
@@ -195,6 +195,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
                 Name = OpenHouseRecord.SummarySection,
                 Fields = this.OpenHouses.SummaryOpenHouse(oldOpenHouses),
             };
+
+            if (!this.ShowingInfo.EnableOpenHouses)
+            {
+                return null;
+            }
+
             return section.Fields.Any() ? section : null;
         }
 

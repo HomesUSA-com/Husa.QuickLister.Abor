@@ -13,8 +13,10 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Application.Models.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Extensions;
     using Microsoft.Extensions.Logging;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Communities;
 
@@ -96,6 +98,14 @@ namespace Husa.Quicklister.Abor.Application
 
             await this.CommunitySaleRepository.SaveChangesAsync();
             await this.communityHistoryService.CreateRecordAsync(communityId);
+        }
+
+        public async Task UpdateListingsAsync(Guid communityId)
+        {
+            var community = await this.CommunitySaleRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
+            this.Logger.LogInformation("Starting update listing from community with id {communityId}", communityId);
+            community.UpdateListingsFromCommunityAsync<SaleListing, CommunitySale>();
+            await this.CommunitySaleRepository.SaveChangesAsync();
         }
     }
 }

@@ -3,12 +3,11 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Plan
     using System;
     using System.Threading.Tasks;
     using Husa.Quicklister.Abor.Application.Models.Plan;
+    using IPlanExtensions = Husa.Quicklister.Extensions.Application.Interfaces.Plan.IPlanService;
 
-    public interface IPlanService
+    public interface IPlanService : IPlanExtensions
     {
         Task<Guid> CreateAsync(PlanCreateDto planDto);
-
-        Task DeletePlan(Guid planId, bool deleteInCascade = false);
 
         Task UpdatePlanAsync(Guid planId, UpdatePlanDto updatePlanDto);
     }

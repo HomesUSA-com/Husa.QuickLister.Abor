@@ -2,11 +2,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
 {
     using System;
     using System.Collections.Generic;
+    using Husa.Extensions.Document.Interfaces;
     using Husa.Extensions.Domain.Entities;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
-    using Husa.Quicklister.Extensions.Domain.Interfaces;
 
     public abstract class Room : Entity, IProvideType, IProvideRoomInfo
     {

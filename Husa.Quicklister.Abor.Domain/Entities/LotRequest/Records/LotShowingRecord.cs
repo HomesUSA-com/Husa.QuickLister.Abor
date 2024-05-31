@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         [Required]
         [MinLength(1)]
         public ICollection<ShowingContactType> ShowingContactType { get; set; }
+        [Required(AllowEmptyStrings = false)]
         public string ApptPhone { get; set; }
         public string ShowingServicePhone { get; set; }
 
