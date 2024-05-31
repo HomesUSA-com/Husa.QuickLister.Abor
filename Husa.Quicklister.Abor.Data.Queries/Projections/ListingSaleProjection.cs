@@ -68,6 +68,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             Directions = listingSale.SaleProperty.ShowingInfo.Directions,
             OwnerName = listingSale.SaleProperty.OwnerName,
             PlanName = listingSale.SaleProperty.Plan != null ? listingSale.SaleProperty.Plan.BasePlan.Name : null,
+            UnitNumber = listingSale.SaleProperty.AddressInfo.UnitNumber,
         };
 
         public static Expression<Func<SaleListing, ReversePorspectListingQueryResult>> ReverseProspectListingSaleQueryDetail => listingSale => new ReversePorspectListingQueryResult
