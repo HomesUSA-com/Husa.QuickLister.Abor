@@ -7,7 +7,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.CompanyServicesManager.Api.Contracts.Request;
-    using Husa.CompanyServicesManager.Domain.Enums;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Common.Classes;
@@ -23,6 +22,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Data.Queries.Repositories.SaleListing;
     using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -30,13 +30,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
-    public class ListingSaleQueriesRepository : IListingSaleQueriesRepository
+    public class ListingSaleQueriesRepository : SaleListingQueriesRepository, IListingSaleQueriesRepository
     {
         private readonly ApplicationQueriesDbContext context;
         private readonly IUserContextProvider userContext;
-        private readonly ILogger<ListingSaleQueriesRepository> logger;
-        private readonly IUserRepository userQueriesRepository;
-        private readonly IServiceSubscriptionClient serviceSubscriptionClient;
         private readonly IPhotoServiceClient photoServiceClient;
         private readonly ApplicationOptions options;
 
@@ -48,12 +45,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             IServiceSubscriptionClient serviceSubscriptionClient,
             IPhotoServiceClient photoServiceClient,
             IOptions<ApplicationOptions> options)
+            : base(serviceSubscriptionClient, userQueriesRepository, logger)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             this.userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.userQueriesRepository = userQueriesRepository ?? throw new ArgumentNullException(nameof(userQueriesRepository));
-            this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
             this.photoServiceClient = photoServiceClient ?? throw new ArgumentNullException(nameof(photoServiceClient));
             this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
@@ -170,7 +165,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 return listing;
             }
 
-            await this.userQueriesRepository.FillUserNameAsync(listing);
+            await this.FillSaleUserNameAsync(listing);
 
             if (listing.LockedStatus == LockedStatus.LockedBySystem)
             {
@@ -236,47 +231,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                  .ToListAsync();
 
             return new DataSet<SaleListingOpenHouseQueryResult>(data, total);
-        }
-
-        private static ServiceCode GetServiceCode(ActionType? actionType) => actionType switch
-        {
-            ActionType.Relist => ServiceCode.Relist,
-            ActionType.Comparable => ServiceCode.Comparable,
-            ActionType.ActiveTransfer => ServiceCode.ActiveTransfer,
-            ActionType.PendingTransfer => ServiceCode.PendingTransfer,
-            _ => ServiceCode.NewListing,
-        };
-
-        private async Task<EmailLeadQueryResult> GetCompanyEmailLeads(Guid? companyId)
-        {
-            if (!companyId.HasValue)
-            {
-                this.logger.LogInformation("CompanyId cannot be null");
-                return null;
-            }
-
-            var companyEmailLeads = await this.serviceSubscriptionClient.Company.GetEmailLeads(companyId.Value);
-
-            if (companyEmailLeads == null || !companyEmailLeads.Any())
-            {
-                this.logger.LogInformation("No email leads was found for company {companyId}", companyId);
-                return null;
-            }
-
-            var emailLeads = companyEmailLeads.Where(x => x.EntityType == EmailEntityType.Sale);
-            if (!emailLeads.Any())
-            {
-                this.logger.LogInformation("No email leads with type {type} was found for company {companyId}", EmailEntityType.Sale, companyId);
-                return null;
-            }
-
-            return new EmailLeadQueryResult
-            {
-                EmailLeadPrincipal = emailLeads.FirstOrDefault(x => x.EmailPriority == EmailPriority.One)?.Email,
-                EmailLeadSecondary = emailLeads.FirstOrDefault(x => x.EmailPriority == EmailPriority.Two)?.Email,
-                EmailLeadThird = emailLeads.FirstOrDefault(x => x.EmailPriority == EmailPriority.Three)?.Email,
-                EmailLeadOther = emailLeads.FirstOrDefault(x => x.EmailPriority == EmailPriority.Four)?.Email,
-            };
         }
     }
 }

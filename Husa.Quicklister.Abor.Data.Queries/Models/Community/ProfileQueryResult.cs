@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
 {
     using System.Collections.Generic;
+    using Husa.Quicklister.Extensions.Data.Queries.Models;
 
     public class ProfileQueryResult
     {

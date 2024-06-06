@@ -8,7 +8,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     using Husa.Extensions.Authorization;
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Response.Community;
-    using Husa.Migration.Crosscutting.Enums;
+    using Husa.Migration.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;

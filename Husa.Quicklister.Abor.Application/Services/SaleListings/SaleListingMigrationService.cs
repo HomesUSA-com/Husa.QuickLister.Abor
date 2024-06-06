@@ -9,7 +9,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Extensions.Common.Enums;
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Response.SaleListing;
-    using Husa.Migration.Crosscutting.Enums;
+    using Husa.Migration.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;

@@ -8,9 +8,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.3.1</Version>
+        <Version>2.3.2</Version>
         <PackageReleaseNotes>
-            Release 2.3.1:
+            Release 2.3.2:
             - Updated community employee contracts
             - Set Required to submit Showing Contact Type Field to Lots
             - Upgrade Extensions Api Client version.

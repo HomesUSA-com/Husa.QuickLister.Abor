@@ -7,9 +7,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using MigrationBillingType = Husa.Migration.Crosscutting.Enums.BillingType;
-    using MigrationOpenHouseType = Husa.Migration.Crosscutting.Enums.OpenHouseType;
-    using MigrationRoomType = Husa.Migration.Crosscutting.Enums.RoomType;
+    using MigrationBillingType = Husa.Migration.Enums.BillingType;
+    using MigrationOpenHouseType = Husa.Migration.Enums.OpenHouseType;
+    using MigrationRoomType = Husa.Migration.Enums.RoomType;
 
     public static class MigrationExtensions
     {
@@ -32,6 +32,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
 
         public static ICollection<FemaFloodPlain> ToFemaFloodPlain(this string value)
             => value.Replace("S", "SRMRKS").CsvToEnum<FemaFloodPlain>(true).ToList();
+
+        public static SchoolDistrict? ToSchoolDistrict(this string value)
+            => value.Replace("HaysISD", "HaysCISD").ToEnumOrNullFromEnumMember<SchoolDistrict>();
 
         public static ICollection<FireplaceDescription> ToFireplaceDescription(this string value)
             => value

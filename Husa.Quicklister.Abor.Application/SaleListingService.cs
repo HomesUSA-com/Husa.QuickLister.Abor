@@ -28,9 +28,10 @@ namespace Husa.Quicklister.Abor.Application
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using CompanyServiceSubscriptionFilter = Husa.CompanyServicesManager.Api.Contracts.Request.FilterServiceSubscriptionRequest;
-    using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services;
+    using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
+    using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
 
-    public class SaleListingService : ExtensionsServices.ListingService<SaleListing, IListingSaleRepository>, ISaleListingService
+    public class SaleListingService : ExtensionsServices.SaleListingService<SaleListing, IListingSaleRepository>, ISaleListingService
     {
         private readonly IMapper mapper;
         private readonly ISaleListingRequestRepository saleRequestRepository;
@@ -50,10 +51,11 @@ namespace Husa.Quicklister.Abor.Application
             IUserContextProvider userContextProvider,
             ISaleListingMediaService listingMediaService,
             ISaleListingPhotoService saleListingPhotoService,
+            ExtensionsInterfaces.ILockLegacyListingService lockLegacyListingService,
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<SaleListingService> logger)
-             : base(listingSaleRepository, logger, userContextProvider)
+             : base(listingSaleRepository, lockLegacyListingService, logger, userContextProvider)
         {
             this.saleRequestRepository = saleRequestRepository ?? throw new ArgumentNullException(nameof(saleRequestRepository));
             this.communitySaleRepository = communitySaleRepository ?? throw new ArgumentNullException(nameof(communitySaleRepository));
@@ -315,7 +317,7 @@ namespace Husa.Quicklister.Abor.Application
             await this.ListingRepository.SaveChangesAsync(listingSale);
         }
 
-        public async Task ChangePlan(Guid listingId, Guid planId, bool updateRooms = false)
+        public override async Task ChangePlan(Guid listingId, Guid planId, bool updateRooms = false)
         {
             var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
             var plan = await this.planRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
@@ -408,7 +410,7 @@ namespace Husa.Quicklister.Abor.Application
             return CommandResult<string>.Success($"Unlocked listing sale with id {listingId}.");
         }
 
-        public async Task UpdateActionTypeAsync(Guid listingId, ActionType actionType, CancellationToken cancellationToken = default)
+        public override async Task UpdateActionTypeAsync(Guid listingId, ActionType actionType, CancellationToken cancellationToken = default)
         {
             var listing = await this.ListingRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
             listing.UpdateActionType(actionType);

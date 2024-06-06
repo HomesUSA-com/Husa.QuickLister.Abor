@@ -68,6 +68,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             Directions = listingSale.SaleProperty.ShowingInfo.Directions,
             OwnerName = listingSale.SaleProperty.OwnerName,
             PlanName = listingSale.SaleProperty.Plan != null ? listingSale.SaleProperty.Plan.BasePlan.Name : null,
+            LockedByLegacy = listingSale.LockedByLegacy,
+            UnlockedFromLegacyBy = listingSale.UnlockedFromLegacyBy,
+            UnlockedFromLegacyOn = listingSale.UnlockedFromLegacyOn,
             UnitNumber = listingSale.SaleProperty.AddressInfo.UnitNumber,
         };
 

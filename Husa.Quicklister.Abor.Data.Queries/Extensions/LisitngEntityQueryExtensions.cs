@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Extensions.Data.Queries.Models;
 
     public static class LisitngEntityQueryExtensions
     {

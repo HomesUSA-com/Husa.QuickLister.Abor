@@ -4,9 +4,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Quickbooks.Models;
     using Husa.Quicklister.Abor.Api.Configuration;
     using Husa.Quicklister.Abor.Crosscutting;
-    using Husa.Quicklister.Extensions.Crosscutting;
     using Microsoft.Extensions.Options;
     using Moq;
+    using ExtensionsCrosscutting = Husa.Quicklister.Extensions.Crosscutting;
 
     public class ApplicationServicesFixture
     {
@@ -41,8 +41,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 },
             });
 
-            this.BusOptions = new Mock<IOptions<ServiceBusSettings>>();
-            this.BusOptions.Setup(o => o.Value).Returns(new ServiceBusSettings
+            this.BusOptions = new Mock<IOptions<ExtensionsCrosscutting.ServiceBusSettings>>();
+            this.BusOptions.Setup(o => o.Value).Returns(new ExtensionsCrosscutting.ServiceBusSettings
             {
                 MediaService = new()
                 {
@@ -59,7 +59,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
         public Mock<IOptions<ApplicationOptions>> Options { get; set; }
 
-        public Mock<IOptions<ServiceBusSettings>> BusOptions { get; set; }
+        public Mock<IOptions<ExtensionsCrosscutting.ServiceBusSettings>> BusOptions { get; set; }
 
         public IMapper Mapper { get; }
     }
