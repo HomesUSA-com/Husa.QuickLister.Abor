@@ -1,13 +1,10 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Request.LotRequest
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
     using Husa.Quicklister.Abor.Api.Contracts.Request.LotListing;
 
     public class LotListingRequestForUpdate : ListingRequest
     {
-        [Range(5000, 3000000, ErrorMessage = "{0} must be between {1} and {2}")]
-        public override decimal? ListPrice { get; set; }
         public Guid ListingId { get; set; }
         public string OwnerName { get; set; }
         public ListingStatusFieldsRequest StatusFieldsInfo { get; set; }
