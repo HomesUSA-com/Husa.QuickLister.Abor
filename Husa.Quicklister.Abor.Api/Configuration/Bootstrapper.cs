@@ -170,6 +170,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<ISaleListingBillService, SaleListingBillService>();
 
+            services.ConfigureLegacyListingService(Migration.Enums.MigrationMarketType.Austin);
             return services;
         }
 

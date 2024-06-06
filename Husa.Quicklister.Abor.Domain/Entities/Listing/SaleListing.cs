@@ -32,7 +32,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         IGenerateListingRequest<SaleListingRequest>,
         IListingInvoiceInfo,
         IListingPlan<Plan>,
-        IListingCommunity<CommunitySale>
+        IListingCommunity<CommunitySale>,
+        IProvideLegacy
     {
         public const int YearsInThePast = -2;
         public const int MaxExpirationDaysInTheFuture = 10;
@@ -100,6 +101,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.StatusFieldsInfo = new();
             this.InvoiceInfo = new();
         }
+
+        public bool LockedByLegacy { get; set; }
+        public Guid? UnlockedFromLegacyBy { get; set; }
+        public DateTime? UnlockedFromLegacyOn { get; set; }
 
         public virtual Guid SalePropertyId { get; set; }
 

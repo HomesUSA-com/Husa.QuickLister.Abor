@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Request;
     using Husa.Migration.Api.Contracts.Response;
-    using Husa.Migration.Crosscutting.Enums;
+    using Husa.Migration.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Services.ListingRequests;

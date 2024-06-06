@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Extensions.Data.Configuration;
+    using Husa.Quicklister.Extensions.Data.Extensions;
     using Husa.Quicklister.Extensions.Domain.Entities.Listing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -19,6 +20,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
                .HasForeignKey(e => e.SalePropertyId);
 
             builder.ListingProperties();
+            builder.ConfigureLegacyMapping();
             builder.OwnsOne(sf => sf.StatusFieldsInfo, StatusExtensions.ConfigureStatusInfoMapping).Navigation(e => e.StatusFieldsInfo);
             builder.OwnsOne(sf => sf.PublishInfo, PublishInfoExtensions.ConfigurePublishInfoMapping).Navigation(e => e.PublishInfo).IsRequired();
             builder.OwnsOne(sf => sf.InvoiceInfo, ConfigureInvoiceInfoMapping).Navigation(e => e.InvoiceInfo).IsRequired();

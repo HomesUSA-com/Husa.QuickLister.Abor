@@ -18,7 +18,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
     using Moq;
     using Xunit;
     using MigrationContracts = Husa.Migration.Api.Contracts.Response;
-    using MigrationEnums = Husa.Migration.Crosscutting.Enums;
+    using MigrationEnums = Husa.Migration.Enums;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Application.Test")]

@@ -2,7 +2,6 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Application.Models;
@@ -10,10 +9,10 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Listing;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using ExtensionInterface = Husa.Quicklister.Extensions.Application.Interfaces.Listing.ISaleListingService;
 
-    public interface ISaleListingService : IListingService
+    public interface ISaleListingService : ExtensionInterface
     {
         Task<CommandSingleResult<Guid, string>> CreateAsync(QuickCreateListingDto listingSale);
 
@@ -43,11 +42,8 @@ namespace Husa.Quicklister.Abor.Application.Interfaces.Listing
 
         Task<SaleListing> GetEntity(SaleListing entity = null, Guid listingId = default);
 
-        Task ChangePlan(Guid listingId, Guid planId, bool updateRooms = false);
-
         Task AssignMlsNumberAsync(Guid listingId, string mlsNumber, MarketStatuses requestStatus, ActionType actionType);
 
         Task<SaleListing> SaveListingChanges(Guid listingId, ListingSaleRequestDto listingSaleDto);
-        Task UpdateActionTypeAsync(Guid listingId, ActionType actionType, CancellationToken cancellationToken = default);
     }
 }

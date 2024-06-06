@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
     using Husa.Extensions.Authorization;
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Response;
-    using Husa.Migration.Crosscutting.Enums;
+    using Husa.Migration.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
