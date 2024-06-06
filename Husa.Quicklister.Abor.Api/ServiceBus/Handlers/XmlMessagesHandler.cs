@@ -10,8 +10,9 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Extensions.ServiceBus.Extensions;
     using Husa.Extensions.ServiceBus.Services;
     using Husa.Quicklister.Abor.Api.ServiceBus.Subscribers;
+    using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Application.Interfaces.Media;
+    using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
@@ -94,21 +95,21 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
             Task ImportPlanMedia(ImportPlanMedia importPlanMedia)
             {
                 this.Logger.LogInformation("Importing the media for the XML plan {planId} and companyId {companyId}", importPlanMedia.Id, importPlanMedia.CompanyId);
-                var mediaImportService = scope.ServiceProvider.GetRequiredService<IXmlMediaService>();
+                var mediaImportService = scope.ServiceProvider.GetRequiredService<IPlanXmlMediaService>();
                 return mediaImportService.ImportPlanMedia(importPlanMedia.Id, maxImagesAllowed: this.options.MediaAllowed.PlanMaxAllowedMedia);
             }
 
             Task ImportListingMedia(ImportListingMedia importListingMedia)
             {
                 this.Logger.LogInformation("Importing the media for the XML listing {listingId} and companyId {companyId}", importListingMedia.Id, importListingMedia.CompanyId);
-                var mediaImportService = scope.ServiceProvider.GetRequiredService<IXmlMediaService>();
+                var mediaImportService = scope.ServiceProvider.GetRequiredService<ISaleListingXmlMediaService>();
                 return mediaImportService.ImportListingMedia(importListingMedia.Id);
             }
 
             Task ImportSubdivisionMedia(ImportSubdivisionMedia importSubdivisionMedia)
             {
                 this.Logger.LogInformation("Importing the media for the XML subdivision {subdivisionId} and companyId {companyId}", importSubdivisionMedia.Id, importSubdivisionMedia.CompanyId);
-                var mediaImportService = scope.ServiceProvider.GetRequiredService<IXmlMediaService>();
+                var mediaImportService = scope.ServiceProvider.GetRequiredService<ICommunityXmlMediaService>();
                 return mediaImportService.ImportSubdivisionMedia(importSubdivisionMedia.Id, maxImagesAllowed: this.options.MediaAllowed.SaleCommunityMaxAllowedMedia);
             }
 
