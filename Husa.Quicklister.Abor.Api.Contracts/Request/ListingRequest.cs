@@ -9,7 +9,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
         public Guid Id { get; set; }
 
         [Range(100000, 3000000, ErrorMessage = "{0} must be between {1} and {2}")]
-        public decimal? ListPrice { get; set; }
+        public virtual decimal? ListPrice { get; set; }
 
         public DateTime? ExpirationDate { get; set; }
 
