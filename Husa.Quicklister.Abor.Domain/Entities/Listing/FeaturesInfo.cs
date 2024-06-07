@@ -78,8 +78,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             }
 
             importedFeatures.PropertyDescription = listing.Description
-                .GetSubstring(PropertyDescriptionLength)
-                    .CleanAfterKeyword(RemoveKeyword);
+                .CleanAfterKeyword(RemoveKeyword)
+                .GetSubstring(PropertyDescriptionLength);
             return importedFeatures;
         }
 
@@ -88,8 +88,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             if (!string.IsNullOrEmpty(listing.Description))
             {
                 this.PropertyDescription = listing.Description
-                    .GetSubstring(PropertyDescriptionLength)
-                    .CleanAfterKeyword(RemoveKeyword);
+                    .CleanAfterKeyword(RemoveKeyword)
+                    .GetSubstring(PropertyDescriptionLength);
             }
         }
 
