@@ -49,9 +49,15 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
             this.When(l => l.MlsStatus == MarketStatuses.ActiveUnderContract, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
-                    .NotEmpty().WithMessage(RequiredFieldMessage);
+                    .NotEmpty().WithMessage(RequiredFieldMessage)
+                    .LessThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
+
                 this.RuleFor(f => f.StatusFieldsInfo.EstimatedClosedDate)
-                    .NotEmpty().WithMessage(RequiredFieldMessage);
+                    .NotEmpty().WithMessage(RequiredFieldMessage)
+                    .GreaterThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("tomorrow", GreaterThanOrEqualTo));
+
+                this.RuleFor(f => f.StatusFieldsInfo.ClosedDate)
+                    .GreaterThanOrEqualTo(DateTime.Today).WithMessage(GetErrorMessage("today", GreaterThanOrEqualTo));
             });
         }
 

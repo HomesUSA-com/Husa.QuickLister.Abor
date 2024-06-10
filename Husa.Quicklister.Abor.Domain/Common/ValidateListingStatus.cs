@@ -50,14 +50,32 @@ namespace Husa.Quicklister.Abor.Domain.Common
 
         private static IEnumerable<ValidationResult> ActiveUnderContractValidations(TStatusFields record)
         {
-            var requiredFields = new List<string>();
+            var result = new List<ValidationResult>();
 
-            requiredFields.AddValue(!record.PendingDate.HasValue, nameof(record.PendingDate));
-            requiredFields.AddValue(!record.EstimatedClosedDate.HasValue, nameof(record.EstimatedClosedDate));
+            if (!record.PendingDate.HasValue)
+            {
+                result.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.PendingDate) }));
+            }
+            else if (record.PendingDate.Value > DateTime.Today.AddDays(1))
+            {
+                result.Add(new(OperatorType.LessEqual.GetErrorMessage("today"), new[] { nameof(record.PendingDate) }));
+            }
 
-            var results = ToRequiredFieldValidationResult(requiredFields);
+            if (!record.EstimatedClosedDate.HasValue)
+            {
+                result.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.EstimatedClosedDate) }));
+            }
+            else if (record.EstimatedClosedDate.Value < DateTime.Today.AddDays(1))
+            {
+                result.Add(new(OperatorType.GreaterEqual.GetErrorMessage("tomorrow"), new[] { nameof(record.EstimatedClosedDate) }));
+            }
 
-            return results;
+            if (record.ClosedDate.HasValue && record.ClosedDate.Value < DateTime.Today)
+            {
+                result.Add(new(OperatorType.GreaterEqual.GetErrorMessage("today"), new[] { nameof(record.ClosedDate) }));
+            }
+
+            return result;
         }
 
         private static IEnumerable<ValidationResult> CanceledValidations(TStatusFields record)
