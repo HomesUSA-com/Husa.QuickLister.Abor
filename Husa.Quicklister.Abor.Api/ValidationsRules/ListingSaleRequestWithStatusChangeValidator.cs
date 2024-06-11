@@ -50,7 +50,8 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
             {
                 this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .LessThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
+                    .LessThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo))
+                    .GreaterThanOrEqualTo(DateTime.Today.AddDays(-10)).WithMessage(GetErrorMessage("past ten days ago", GreaterThanOrEqualTo));
 
                 this.RuleFor(f => f.StatusFieldsInfo.EstimatedClosedDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
