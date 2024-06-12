@@ -60,6 +60,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
         public virtual int? DOM { get; set; }
 
         [Required]
+        [Range(5000, 3000000, ErrorMessage = "{0} must be between {1} and {2}")]
         public virtual decimal? ListPrice { get; set; }
 
         public virtual DateTime? MarketModifiedOn { get; }
