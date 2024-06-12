@@ -27,6 +27,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         [Required(AllowEmptyStrings = false)]
         public string LegalDescription { get; set; }
 
+        [Required(AllowEmptyStrings = false)]
+        [MaxLength(25, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string TaxLot { get; set; }
 
         [Required(AllowEmptyStrings = false)]
