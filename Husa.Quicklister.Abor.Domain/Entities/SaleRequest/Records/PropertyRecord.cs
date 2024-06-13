@@ -36,6 +36,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 
         public int ConstructionStartYear { get; set; }
 
+        [Required(AllowEmptyStrings = false)]
+        [MaxLength(25, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string TaxLot { get; set; }
 
         [Required]
