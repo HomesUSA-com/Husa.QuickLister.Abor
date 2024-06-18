@@ -50,14 +50,42 @@ namespace Husa.Quicklister.Abor.Domain.Common
 
         private static IEnumerable<ValidationResult> ActiveUnderContractValidations(TStatusFields record)
         {
-            var requiredFields = new List<string>();
+            var result = new List<ValidationResult>();
 
-            requiredFields.AddValue(!record.PendingDate.HasValue, nameof(record.PendingDate));
-            requiredFields.AddValue(!record.EstimatedClosedDate.HasValue, nameof(record.EstimatedClosedDate));
+            if (!record.PendingDate.HasValue)
+            {
+                result.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.PendingDate) }));
+            }
+            else
+            {
+                var pendingDate = record.PendingDate.Value;
+                var tenDaysAgo = DateTime.Today.AddDays(-10);
+                var tomorrow = DateTime.Today.AddDays(1);
+                if (pendingDate > tomorrow)
+                {
+                    result.Add(new ValidationResult(OperatorType.LessEqual.GetErrorMessage("today"), new[] { nameof(record.PendingDate) }));
+                }
+                else if (pendingDate < tenDaysAgo)
+                {
+                    result.Add(new ValidationResult($"Date must be within the last 10 days.", new[] { nameof(record.PendingDate) }));
+                }
+            }
 
-            var results = ToRequiredFieldValidationResult(requiredFields);
+            if (!record.EstimatedClosedDate.HasValue)
+            {
+                result.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.EstimatedClosedDate) }));
+            }
+            else if (record.EstimatedClosedDate.Value < DateTime.Today.AddDays(1))
+            {
+                result.Add(new(OperatorType.GreaterEqual.GetErrorMessage("tomorrow"), new[] { nameof(record.EstimatedClosedDate) }));
+            }
 
-            return results;
+            if (record.ClosedDate.HasValue && record.ClosedDate.Value < DateTime.Today)
+            {
+                result.Add(new(OperatorType.GreaterEqual.GetErrorMessage("today"), new[] { nameof(record.ClosedDate) }));
+            }
+
+            return result;
         }
 
         private static IEnumerable<ValidationResult> CanceledValidations(TStatusFields record)
