@@ -50,6 +50,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public string LotSize { get; set; }
 
+        [XmlPropertyUpdate]
         public ICollection<LotDescription> LotDescription { get; set; }
 
         public PropertySubType? PropertyType { get; set; }
