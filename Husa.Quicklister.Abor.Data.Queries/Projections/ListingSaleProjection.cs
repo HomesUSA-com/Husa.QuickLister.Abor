@@ -71,6 +71,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             LockedByLegacy = listingSale.LockedByLegacy,
             UnlockedFromLegacyBy = listingSale.UnlockedFromLegacyBy,
             UnlockedFromLegacyOn = listingSale.UnlockedFromLegacyOn,
+            UnitNumber = listingSale.SaleProperty.AddressInfo.UnitNumber,
         };
 
         public static Expression<Func<SaleListing, ReversePorspectListingQueryResult>> ReverseProspectListingSaleQueryDetail => listingSale => new ReversePorspectListingQueryResult
