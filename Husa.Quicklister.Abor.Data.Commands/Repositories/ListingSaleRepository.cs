@@ -180,6 +180,11 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             }
         }
 
+        public Task<IEnumerable<SaleListing>> GetListingsForDiscrepancyAsync(bool listingsInBoth)
+        {
+            throw new NotImplementedException();
+        }
+
         private IList<string> GetModifiedProperties<T>(EntityEntry<T> entry)
             where T : class
         {

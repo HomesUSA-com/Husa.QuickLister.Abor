@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Domain.Attributes;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
@@ -48,6 +49,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 
         [IfRequired(nameof(HOARequirement), HoaRequirement.Mandatory, OperatorType.Equal)]
         public BillingFrequency? BillingFrequency { get; set; }
+
+        [CommissionRange(nameof(BuyersAgentCommissionType), maxAmountValue: CommonFieldsValidation.MaxBuyersAgentAmount, maxPercentValue: CommonFieldsValidation.MaxCommissionPercent)]
         public decimal BuyersAgentCommission { get; set; }
         public CommissionType BuyersAgentCommissionType { get; set; }
         public string ReadableBuyersAgentCommission
@@ -58,6 +61,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 
         public bool HasAgentBonus { get; set; }
         public bool HasBonusWithAmount { get; set; }
+
+        [IfRequired(nameof(HasBonusWithAmount), true, OperatorType.Equal)]
+        [CommissionRange(nameof(AgentBonusAmountType), maxAmountValue: CommonFieldsValidation.MaxAgentBonusAmount, maxPercentValue: CommonFieldsValidation.MaxCommissionPercent)]
         public decimal? AgentBonusAmount { get; set; }
         public CommissionType AgentBonusAmountType { get; set; }
         public string ReadableAgentBonusAmount
@@ -76,11 +82,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
             if (financialInfo == null)
             {
                 return new();
-            }
-
-            if (!financialInfo.IsValidBuyersAgentCommissionRange())
-            {
-                throw new DomainException($"The range for Buyers Agent Commission is invalid for type {financialInfo.BuyersAgentCommissionType}");
             }
 
             if (!financialInfo.IsValidHoa())
