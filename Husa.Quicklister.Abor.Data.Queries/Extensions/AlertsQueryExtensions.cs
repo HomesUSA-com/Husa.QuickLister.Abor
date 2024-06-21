@@ -137,7 +137,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             !string.IsNullOrEmpty(listingSale.MlsNumber) &&
             SaleListing.ActiveListingStatuses.Contains(listingSale.MlsStatus) &&
             !string.IsNullOrEmpty(listingSale.SaleProperty.FeaturesInfo.PropertyDescription) &&
-            listingSale.SaleProperty.FeaturesInfo.PropertyDescription.Length < SaleListing.MinPropertyDescriptionLength;
+            (listingSale.SaleProperty.FeaturesInfo.PropertyDescription.Length < SaleListing.MinPropertyDescriptionLength ||
+            EF.Functions.Like(listingSale.SaleProperty.FeaturesInfo.PropertyDescription, "%bonus%"));
 
         // Orphan Listings
         public static Expression<Func<SaleListing, bool>> OrphanListingsExpression => listingSale =>
