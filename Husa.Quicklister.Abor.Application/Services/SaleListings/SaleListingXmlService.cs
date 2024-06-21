@@ -21,7 +21,6 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Extensions.Application.Extensions;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
-    using Husa.Xml.Api.Contracts.Response;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
@@ -140,24 +139,20 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             }
 
             listing.UpdateFromXml(xmlListing, currentUser.Id);
+            var newMediaFromXml = await this.XmlClient.Listing.Media(xmlListingId, excludeImported: true);
 
-            if (this.ListingSaleRepository.HasXmlChanges(listing))
+            if (this.ListingSaleRepository.HasXmlChanges(listing) || (newMediaFromXml != null && newMediaFromXml.Any()))
             {
                 var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value) ?? throw new NotFoundException<CompanyDetail>(xmlListing.CompanyId.Value);
                 var shouldProcessNewMedia = !companyDetail.SettingInfo.StopXMLMediaSyncOfExistingListings;
-                IEnumerable<ImageResponse> newMediaFromXml = null;
 
-                if (shouldProcessNewMedia)
+                if (shouldProcessNewMedia && newMediaFromXml != null && newMediaFromXml.Any())
                 {
-                    newMediaFromXml = await this.XmlClient.Listing.Media(xmlListingId, excludeImported: true);
-                    if (newMediaFromXml != null && newMediaFromXml.Any())
-                    {
-                        await this.xmlMediaService.ImportListingMedia(
-                            xmlListingId,
-                            checkMediaLimit: true,
-                            maxImagesAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia,
-                            useServiceBus: false);
-                    }
+                    await this.xmlMediaService.ImportListingMedia(
+                        xmlListingId,
+                        checkMediaLimit: true,
+                        maxImagesAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia,
+                        useServiceBus: false);
                 }
 
                 await this.ListingSaleRepository.SaveChangesAsync(listing);
