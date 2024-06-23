@@ -47,6 +47,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Application.Services.LotListings;
     using Husa.Quicklister.Abor.Application.Services.Notes;
     using Husa.Quicklister.Abor.Application.Services.Plans;
+    using Husa.Quicklister.Abor.Application.Services.Reports;
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Data;
@@ -58,6 +59,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Api.Configuration;
     using Husa.Quicklister.Extensions.Application.Interfaces.Migration;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Reports;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
@@ -169,6 +171,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IImportMlsMediaMessagingService, ImportMlsMediaMessagingService>();
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<ISaleListingBillService, SaleListingBillService>();
+            services.AddScoped<IDiscrepancyReportService, DiscrepancyReportService>();
 
             services.ConfigureLegacyListingService(Migration.Enums.MigrationMarketType.Austin);
             return services;
