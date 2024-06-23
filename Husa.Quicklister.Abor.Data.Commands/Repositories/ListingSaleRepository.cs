@@ -178,5 +178,23 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
                 await this.SaveChangesAsync();
             }
         }
+
+        public async Task<IEnumerable<SaleListing>> GetListingsForDiscrepancyAsync(bool listingsInBoth)
+        {
+            var query = this.context.ListingSale
+            .FilterNotDeleted()
+            .Where(l => (l.MlsStatus == MarketStatuses.Active || l.MlsStatus == MarketStatuses.Pending) &&
+                l.ListPrice > 0);
+            if (listingsInBoth)
+            {
+                query.Where(l => (l.XmlListingId != null || l.XmlDiscrepancyListingId != null) && !string.IsNullOrEmpty(l.MlsNumber));
+            }
+            else
+            {
+                query.Where(l => (l.XmlListingId != null || l.XmlDiscrepancyListingId != null || !string.IsNullOrEmpty(l.MlsNumber)));
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }
