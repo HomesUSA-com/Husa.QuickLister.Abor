@@ -316,6 +316,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             userContext.Object.UserRole = userRole;
             userContext.Object.CompanyId = userRole == UserRole.MLSAdministrator && companyId == null ? null : companyId ?? Guid.NewGuid();
             userContext.Object.IsMLSAdministrator = userRole == UserRole.MLSAdministrator;
+            userContext.Object.Market = MarketCode.Austin;
             return userContext.Object;
         }
 

@@ -2,7 +2,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 {
     using System;
     using AutoMapper;
-    using Husa.Downloader.CTX.Api.Contracts.Response;
     using Husa.Extensions.Common;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Quickbooks.Models.Invoice;
@@ -30,11 +29,14 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Alert;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.Reports;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Application.Models.Media;
+    using Husa.Quicklister.Extensions.Application.Models.Reports;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.ReverseProspect.Api.Contracts.Response;
+    using DownloaderCtxResponse = Husa.Downloader.CTX.Api.Contracts.Response;
     using HusaNotesTypes = Husa.Notes.Domain.Enums.NoteType;
 
     public class ListingsMappingProfile : Profile
@@ -213,7 +215,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<PublishInfo, PublishInfoResponse>();
 
-            this.CreateMap<MediaDetailResponse, ListingSaleMediaDto>()
+            this.CreateMap<DownloaderCtxResponse.MediaDetailResponse, ListingSaleMediaDto>()
                 .ForMember(ls => ls.MediaId, mr => mr.MapFrom(x => x.EntityKey))
                 .ForMember(ls => ls.UploadKey, mr => mr.Ignore());
 
@@ -221,6 +223,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<BaseFilterRequest, BaseQueryFilter>();
             this.CreateMap<Property, PhotoRequestPropertyResponse>()
                 .ForMember(ln => ln.UnitNumber, sl => sl.Ignore());
+
+            this.CreateMap<DiscrepancyAnalysisResult, DiscrepancyAnalysisResponse>();
+            this.CreateMap<DiscrepancyDetailResult, DiscrepancyDetailResponse>();
         }
 
         private static NoteType GetNoteType(HusaNotesTypes noteType) => noteType switch
