@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.CompanyServicesManager.Api.Client;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Downloader.CTX.Api.Client;
+    using Husa.Downloader.Sabor.Client;
     using Husa.Extensions.Api;
     using Husa.Extensions.Api.Client;
     using Husa.Extensions.Api.Cors;
@@ -300,6 +301,12 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             }).ConfigureHeaderHandling(withTokenRequest);
 
             services.AddHttpClient<IDownloaderCtxClient, DownloaderCtxClient>(async (provider, client) =>
+            {
+                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
+                await client.ConfigureClientAsync(provider, options.Services.Downloader);
+            }).ConfigureHeaderHandling(withTokenRequest);
+
+            services.AddHttpClient<IDownloaderSaborClient, DownloaderSaborClient>(async (provider, client) =>
             {
                 var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
                 await client.ConfigureClientAsync(provider, options.Services.Downloader);
