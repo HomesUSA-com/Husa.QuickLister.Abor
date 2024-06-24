@@ -19,7 +19,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Reports
             IDownloaderCtxClient downloaderCtxClient,
             IDownloaderSaborClient downloaderSaborClient,
             IMapper mapper,
-            ILogger logger)
+            ILogger<DiscrepancyReportService> logger)
             : base(listingRepository, userContextProvider, xmlClient, downloaderCtxClient, downloaderSaborClient, mapper, logger)
         {
         }
