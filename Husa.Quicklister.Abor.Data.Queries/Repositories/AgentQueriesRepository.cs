@@ -81,7 +81,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             }
 
             var agentInfo = await this.GetAgentByIdAsync((Guid)agentId);
-            return agentInfo?.AgentId ?? string.Empty;
+            return agentInfo?.MlsId ?? string.Empty;
         }
     }
 }
