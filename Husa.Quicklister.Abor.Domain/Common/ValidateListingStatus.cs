@@ -4,10 +4,10 @@ namespace Husa.Quicklister.Abor.Domain.Common
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Interfaces;
-    using Husa.Quicklister.Extensions.Domain.Common;
     using Husa.Quicklister.Extensions.Domain.Extensions;
 
     public static class ValidateListingStatus<TStatusFields>

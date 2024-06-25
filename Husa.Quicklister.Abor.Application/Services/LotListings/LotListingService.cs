@@ -113,6 +113,11 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             else
             {
                 await this.ImportDataFromCommunityAsync(lotListingEntity, lotListing.CommunityId);
+
+                if (lotListing.County.HasValue)
+                {
+                    lotListingEntity.AddressInfo.County = lotListing.County;
+                }
             }
 
             return CommandResult<LotListing>.Success(lotListingEntity);

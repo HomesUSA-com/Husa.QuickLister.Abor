@@ -25,7 +25,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
 
             if (!string.IsNullOrEmpty(filter.AgentId))
             {
-                query = query.Where(x => x.AgentId.Equals(filter.AgentId));
+                query = query.Where(x => x.MemberStateLicense.Equals(filter.AgentId));
             }
 
             return query;

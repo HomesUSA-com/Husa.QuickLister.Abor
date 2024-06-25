@@ -332,6 +332,12 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.AddScoped<IMediaServiceClient, MediaServiceClient>();
 
+            services.AddHttpClient<IDownloaderSaborClient, DownloaderSaborClient>(async (provider, client) =>
+            {
+                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
+                await client.ConfigureClientAsync(provider, options.Services.Downloader);
+            }).ConfigureHeaderHandling(withTokenRequest);
+
             return services;
         }
 

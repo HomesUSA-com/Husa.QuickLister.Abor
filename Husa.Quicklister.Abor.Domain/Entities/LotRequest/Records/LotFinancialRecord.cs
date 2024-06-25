@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces.LotListing;
+    using Husa.Quicklister.Extensions.Domain.Attributes;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Extensions;
 
@@ -40,6 +41,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public BillingFrequency? BillingFrequency { get; set; }
 
         [Required]
+        [CommissionRange(nameof(BuyersAgentCommissionType), maxAmountValue: CommonFieldsValidation.MaxBuyersAgentAmount, maxPercentValue: CommonFieldsValidation.MaxCommissionPercent)]
         public decimal? BuyersAgentCommission { get; set; }
         public CommissionType BuyersAgentCommissionType { get; set; }
         public string ReadableBuyersAgentCommission
@@ -50,6 +52,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
 
         public bool HasAgentBonus { get; set; }
         public bool HasBonusWithAmount { get; set; }
+
+        [IfRequired(nameof(HasBonusWithAmount), true, OperatorType.Equal)]
+        [CommissionRange(nameof(AgentBonusAmountType), maxAmountValue: CommonFieldsValidation.MaxAgentBonusAmount, maxPercentValue: CommonFieldsValidation.MaxCommissionPercent)]
         public decimal? AgentBonusAmount { get; set; }
         public CommissionType AgentBonusAmountType { get; set; }
         public string ReadableAgentBonusAmount
@@ -86,11 +91,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
             if (financialInfo == null)
             {
                 return new();
-            }
-
-            if (!financialInfo.IsValidBuyersAgentCommissionRange())
-            {
-                throw new DomainException($"The range for Buyers Agent Commission is invalid for type {financialInfo.BuyersAgentCommissionType}");
             }
 
             if (!financialInfo.IsValidHoa())

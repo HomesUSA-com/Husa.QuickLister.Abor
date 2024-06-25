@@ -429,6 +429,11 @@ namespace Husa.Quicklister.Abor.Application
         {
             await this.ImportCommunityDataAsync(listingSaleEntity, listingSale.CommunityId);
 
+            if (listingSale.County.HasValue)
+            {
+                listingSaleEntity.SaleProperty.AddressInfo.County = listingSale.County;
+            }
+
             if (listingSale.PlanId != null && !listingSale.PlanId.Equals(Guid.Empty))
             {
                 await this.ImportPlanDataAsync(listingSaleEntity, listingSale.PlanId.Value);

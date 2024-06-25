@@ -5,6 +5,8 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
     using System.Linq;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.Domain.Entities;
+    using Husa.Extensions.Domain.ValueObjects;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -13,6 +15,7 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Data.Specifications;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
     using Microsoft.Extensions.Logging;
     using HusaXmlExtensions = Husa.Quicklister.Extensions.Data.Extensions.XmlExtensions;
 
@@ -140,9 +143,7 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
 
             var decoratedProperties = HusaXmlExtensions.GetDecoratedProperties(typeof(SaleListing));
 
-            var modifiedProperties = entry.Properties
-                .Where(p => p.IsModified)
-                .Select(p => p.Metadata.Name);
+            var modifiedProperties = this.GetModifiedProperties(entry);
 
             return decoratedProperties.Intersect(modifiedProperties).Any();
         }
@@ -199,6 +200,47 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             }
 
             return await query.ToListAsync();
+        }
+
+        private IList<string> GetModifiedProperties<T>(EntityEntry<T> entry)
+            where T : class
+        {
+            var modifiedProperties = new List<string>();
+            var decoratedProperties = HusaXmlExtensions.GetDecoratedProperties(typeof(T));
+            modifiedProperties.AddRange(entry.Properties
+                .Where(p => p.IsModified && decoratedProperties.Contains(p.Metadata.Name))
+                .Select(p => p.Metadata.Name));
+
+            this.AddModifiedPropertiesFromOwnedEntities(entry, modifiedProperties, parentPath: string.Empty);
+            return modifiedProperties;
+        }
+
+        private void AddModifiedPropertiesFromOwnedEntities(EntityEntry entry, IList<string> modifiedProperties, string parentPath)
+        {
+            var navigations = entry.Navigations.Where(navigationEntry => navigationEntry.IsLoaded).ToList();
+            foreach (var navigationEntry in navigations)
+            {
+                var baseType = navigationEntry.Metadata.ClrType.BaseType;
+                if (baseType != typeof(ValueObject) && baseType != typeof(Entity))
+                {
+                    continue;
+                }
+
+                var ownedEntityEntry = navigationEntry.CurrentValue != null ? this.context.Entry(navigationEntry.CurrentValue) : null;
+                if (ownedEntityEntry != null)
+                {
+                    string currentPath = string.IsNullOrEmpty(parentPath) ? navigationEntry.Metadata.Name : $"{parentPath}.{navigationEntry.Metadata.Name}";
+                    foreach (var property in ownedEntityEntry.Properties)
+                    {
+                        if (property.IsModified)
+                        {
+                            modifiedProperties.Add($"{currentPath}.{property.Metadata.Name}");
+                        }
+                    }
+
+                    this.AddModifiedPropertiesFromOwnedEntities(ownedEntityEntry, modifiedProperties, currentPath);
+                }
+            }
         }
     }
 }
