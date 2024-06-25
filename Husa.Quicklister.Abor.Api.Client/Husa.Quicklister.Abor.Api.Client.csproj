@@ -11,8 +11,7 @@
         <Version>2.4.1</Version>
         <PackageReleaseNotes>
             Release 2.4.1:
-            - Set minimum list price to 5000 for lots
-            - Set Mls ID for searching Agent
+            - Set Plan Name to Sale Property Projection
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
