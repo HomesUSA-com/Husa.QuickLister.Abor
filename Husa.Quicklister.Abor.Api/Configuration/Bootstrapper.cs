@@ -306,6 +306,12 @@ namespace Husa.Quicklister.Abor.Api.Configuration
                 await client.ConfigureClientAsync(provider, options.Services.Downloader);
             }).ConfigureHeaderHandling(withTokenRequest);
 
+            services.AddHttpClient<IDownloaderSaborClient, DownloaderSaborClient>(async (provider, client) =>
+            {
+                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
+                await client.ConfigureClientAsync(provider, options.Services.Downloader);
+            }).ConfigureHeaderHandling(withTokenRequest);
+
             services.AddHttpClient<IPhotoServiceClient, PhotoServiceClient>(async (provider, client) =>
             {
                 var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
