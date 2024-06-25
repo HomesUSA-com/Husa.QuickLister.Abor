@@ -8,11 +8,12 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.5.1</Version>
+        <Version>2.5.2</Version>
         <PackageReleaseNotes>
-            Release 2.5.1:
+            Release 2.5.2:
             - Set Mls ID for searching Agent
             - Set Plan Name to Sale Property Projection
+            - Updated Nugets
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
