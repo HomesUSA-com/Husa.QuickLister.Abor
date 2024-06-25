@@ -18,8 +18,8 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
         protected readonly ApplicationDbContext context;
         protected readonly ILogger logger;
 
+        protected readonly IUserContextProvider userContextProvider;
         private readonly IEnumerable<EntityState> excludedStates = new[] { EntityState.Detached, EntityState.Unchanged };
-        private readonly IUserContextProvider userContextProvider;
 
         public Repository(
             ApplicationDbContext context,
