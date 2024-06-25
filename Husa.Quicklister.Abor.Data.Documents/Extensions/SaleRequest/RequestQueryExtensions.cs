@@ -55,6 +55,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions.SaleRequest
                 CompanyId = saleProperty.CompanyId,
                 OwnerName = saleProperty.OwnerName,
                 PlanId = saleProperty.PlanId,
+                PlanName = saleProperty.PlanName,
             };
 
         public static SpacesDimensionsInfoQueryResult ToProjectionSpacesDimensions<T>(this T spacesDimensions)
