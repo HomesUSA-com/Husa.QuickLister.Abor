@@ -11,6 +11,5 @@ namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
         public Guid CommunityId { get; set; }
 
         public Guid? PlanId { get; set; }
-        public string PlanName { get; set; }
     }
 }

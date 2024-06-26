@@ -101,8 +101,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.OwnerName, dto => dto.MapFrom(src => src.ListingMessage.OwnerName))
                 .ForMember(vo => vo.CompanyId, dto => dto.Ignore())
                 .ForMember(vo => vo.CommunityId, dto => dto.Ignore())
-                .ForMember(vo => vo.PlanId, dto => dto.Ignore())
-                .ForMember(vo => vo.PlanName, dto => dto.Ignore());
+                .ForMember(vo => vo.PlanId, dto => dto.Ignore());
 
             this.CreateMap<ResidentialResponse, SaleAddressDto>()
                 .ForMember(vo => vo.StreetNumber, dto => dto.MapFrom(src => src.ListingMessage.StreetNumber))
