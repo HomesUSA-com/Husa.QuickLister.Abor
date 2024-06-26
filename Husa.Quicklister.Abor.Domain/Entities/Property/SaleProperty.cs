@@ -104,7 +104,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
         public virtual CommunitySale Community { get; set; }
 
         public virtual Plan Plan { get; set; }
-        public virtual string PlanName => this.Plan.BasePlan.Name;
 
         public virtual string PlanName => this.Plan.BasePlan.Name;
 
