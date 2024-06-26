@@ -104,6 +104,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
         public virtual CommunitySale Community { get; set; }
 
         public virtual Plan Plan { get; set; }
+        public virtual string PlanName => this.Plan.BasePlan.Name;
 
         public virtual string Address => $"{this.AddressInfo.StreetNumber} {this.AddressInfo.StreetName}";
 
@@ -303,6 +304,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             ArgumentNullException.ThrowIfNull(plan);
 
             this.PlanId = plan.Id;
+            this.Plan.BasePlan.Name = plan.BasePlan.Name;
             this.SpacesDimensionsInfo = this.SpacesDimensionsInfo.ImportSpacesDimensionsFromPlan(plan.BasePlan);
             this.FeaturesInfo = this.FeaturesInfo.ImportFeaturesFromPlan(plan.BasePlan);
             this.ImportRoomsFromEntity(plan.Rooms);
