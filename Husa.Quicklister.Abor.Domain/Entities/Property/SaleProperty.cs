@@ -106,6 +106,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
         public virtual Plan Plan { get; set; }
         public virtual string PlanName => this.Plan.BasePlan.Name;
 
+        public virtual string PlanName => this.Plan.BasePlan.Name;
+
         public virtual string Address => $"{this.AddressInfo.StreetNumber} {this.AddressInfo.StreetName}";
 
         public virtual bool CanBeDeleted => !this.IsDeleted && this.SaleListings != null && this.SaleListings.Any(sl => sl.IsInMarket && sl.IsExisting);
