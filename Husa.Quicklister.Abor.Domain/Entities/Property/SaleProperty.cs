@@ -105,7 +105,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public virtual Plan Plan { get; set; }
 
-        public virtual string PlanName => this.Plan.BasePlan.Name;
+        public virtual string PlanName => this.PlanId.HasValue ? this.Plan.BasePlan.Name : null;
 
         public virtual string Address => $"{this.AddressInfo.StreetNumber} {this.AddressInfo.StreetName}";
 
