@@ -304,7 +304,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             ArgumentNullException.ThrowIfNull(plan);
 
             this.PlanId = plan.Id;
-            this.Plan.BasePlan.Name = plan.BasePlan.Name;
             this.SpacesDimensionsInfo = this.SpacesDimensionsInfo.ImportSpacesDimensionsFromPlan(plan.BasePlan);
             this.FeaturesInfo = this.FeaturesInfo.ImportFeaturesFromPlan(plan.BasePlan);
             this.ImportRoomsFromEntity(plan.Rooms);
