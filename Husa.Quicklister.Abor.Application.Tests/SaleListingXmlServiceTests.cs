@@ -421,6 +421,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Verifiable();
             var saleListing = saleListingMock.Object;
             var company = TestModelProvider.GetCompanyDetail(listingId);
+            company.SettingInfo = new()
+            {
+                StopXMLMediaSyncOfExistingListings = true,
+            };
+
             saleListing.XmlListingId = xmlListingId;
             saleListing.CompanyId = companyId;
 
@@ -488,12 +493,23 @@ namespace Husa.Quicklister.Abor.Application.Tests
             saleListing.MlsNumber = "123345";
             saleListing.ListPrice = 300555;
             var saleListingMock = Mock.Get(saleListing);
+            var company = TestModelProvider.GetCompanyDetail(listingId);
+            company.SettingInfo = new()
+            {
+                StopXMLMediaSyncOfExistingListings = false,
+            };
+
             var saleListingRequestMock = new Mock<SaleListingRequest>();
             saleListingMock.Setup(x => x.GenerateRequest(It.IsAny<Guid>())).Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Success(saleListingRequestMock.Object));
 
             var xmlListingClientMock = new Mock<IXmlListing>();
             this.xmlClient.SetupGet(x => x.Listing).Returns(xmlListingClientMock.Object);
             this.SetupGetXmlListingById(xmlListingId);
+
+            this.companyClient
+               .Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(company)
+               .Verifiable();
 
             this.listingSaleRepository
                .Setup(x => x.GetListingByXmlListingId(It.IsAny<Guid>()))
