@@ -139,22 +139,26 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             }
 
             listing.UpdateFromXml(xmlListing, currentUser.Id);
-            var newMediaFromXml = await this.XmlClient.Listing.Media(xmlListingId, excludeImported: true);
+            var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value) ?? throw new NotFoundException<CompanyDetail>(xmlListing.CompanyId.Value);
+            var shouldProcessNewMedia = !companyDetail.SettingInfo.StopXMLMediaSyncOfExistingListings;
+            var mediaHasChanges = false;
 
-            if (this.ListingSaleRepository.HasXmlChanges(listing) || (newMediaFromXml != null && newMediaFromXml.Any()))
+            if (shouldProcessNewMedia)
             {
-                var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value) ?? throw new NotFoundException<CompanyDetail>(xmlListing.CompanyId.Value);
-                var shouldProcessNewMedia = !companyDetail.SettingInfo.StopXMLMediaSyncOfExistingListings;
-
-                if (shouldProcessNewMedia && newMediaFromXml != null && newMediaFromXml.Any())
+                var newMediaFromXml = await this.XmlClient.Listing.Media(xmlListingId, excludeImported: true);
+                if (newMediaFromXml != null && newMediaFromXml.Any())
                 {
                     await this.xmlMediaService.ImportListingMedia(
                         xmlListingId,
                         checkMediaLimit: true,
                         maxImagesAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia,
                         useServiceBus: false);
+                    mediaHasChanges = true;
                 }
+            }
 
+            if (this.ListingSaleRepository.HasXmlChanges(listing) || mediaHasChanges)
+            {
                 await this.ListingSaleRepository.SaveChangesAsync(listing);
                 var requestResult = listing.GenerateRequest(currentUser.Id);
                 if (!requestResult.Errors.Any())

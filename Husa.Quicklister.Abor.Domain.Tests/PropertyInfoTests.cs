@@ -48,7 +48,10 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             {
                 Day = dateInput,
             };
-            var propertyInfo = new PropertyInfo();
+            var propertyInfo = new PropertyInfo()
+            {
+                ConstructionCompletionDate = dateInput.AddDays(1),
+            };
 
             // Arrange
             var xmlLsitng = new XmlListingDetailResponse
