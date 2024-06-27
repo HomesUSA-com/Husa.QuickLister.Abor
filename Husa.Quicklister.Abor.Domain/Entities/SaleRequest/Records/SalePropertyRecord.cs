@@ -120,6 +120,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
                 Id = saleProperty.Id,
                 OwnerName = saleProperty.OwnerName,
                 PlanId = saleProperty.PlanId,
+                PlanName = saleProperty.PlanName,
                 CommunityId = saleProperty.CommunityId,
                 Address = saleProperty.Address,
                 SysCreatedOn = saleProperty.SysCreatedOn,
