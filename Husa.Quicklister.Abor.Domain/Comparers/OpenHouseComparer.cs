@@ -22,8 +22,8 @@ namespace Husa.Quicklister.Abor.Domain.Comparers
                        x.StartTime == y.StartTime &&
                        x.EndTime == y.EndTime;
 
-            var compareRefreshments = new HashSet<Refreshments>(x.Refreshments);
-            compareRefreshments.SymmetricExceptWith(y.Refreshments);
+            var compareRefreshments = new HashSet<Refreshments>(x.Refreshments ?? new List<Refreshments>());
+            compareRefreshments.SymmetricExceptWith(y.Refreshments ?? new List<Refreshments>());
             var areRefreshmentsEqual = compareRefreshments.Count == 0;
 
             return arePropertiesEqual && areRefreshmentsEqual;
