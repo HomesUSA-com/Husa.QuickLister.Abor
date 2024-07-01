@@ -59,16 +59,11 @@ namespace Husa.Quicklister.Abor.Domain.Common
             else
             {
                 var pendingDate = record.PendingDate.Value;
-                var tenDaysAgo = DateTime.Today.AddDays(-10);
                 var tomorrow = DateTime.Today.AddDays(1);
 
                 if (pendingDate > tomorrow)
                 {
                     result.Add(new ValidationResult(OperatorType.LessEqual.GetErrorMessage("today"), new[] { nameof(record.PendingDate) }));
-                }
-                else if (pendingDate < tenDaysAgo)
-                {
-                    result.Add(new ValidationResult($"Date must be within the last 10 days.", new[] { nameof(record.PendingDate) }));
                 }
             }
 
