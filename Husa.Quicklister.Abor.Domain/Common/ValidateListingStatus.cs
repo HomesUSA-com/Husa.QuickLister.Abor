@@ -61,6 +61,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
                 var pendingDate = record.PendingDate.Value;
                 var tenDaysAgo = DateTime.Today.AddDays(-10);
                 var tomorrow = DateTime.Today.AddDays(1);
+
                 if (pendingDate > tomorrow)
                 {
                     result.Add(new ValidationResult(OperatorType.LessEqual.GetErrorMessage("today"), new[] { nameof(record.PendingDate) }));
