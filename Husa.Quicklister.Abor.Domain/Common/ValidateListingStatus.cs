@@ -60,6 +60,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
             {
                 var pendingDate = record.PendingDate.Value;
                 var tomorrow = DateTime.Today.AddDays(1);
+
                 if (pendingDate > tomorrow)
                 {
                     result.Add(new ValidationResult(OperatorType.LessEqual.GetErrorMessage("today"), new[] { nameof(record.PendingDate) }));

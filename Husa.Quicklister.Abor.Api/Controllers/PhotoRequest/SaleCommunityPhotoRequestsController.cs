@@ -1,59 +1,17 @@
 namespace Husa.Quicklister.Abor.Api.Controllers.PhotoRequest
 {
-    using System;
-    using System.Threading.Tasks;
-    using Husa.Extensions.Authorization.Enums;
-    using Husa.Extensions.Authorization.Filters;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
+    using Husa.Quicklister.Extensions.Api.Controllers.PhotoRequest;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    using Request = Husa.PhotoService.Api.Contracts.Request;
 
     [ApiController]
-    [Route("sale-communities/{communityId}/photo-requests")]
-    public class SaleCommunityPhotoRequestsController : Controller
+    [Route("sale-communities/{entityId}/photo-requests")]
+    public class SaleCommunityPhotoRequestsController : PhotoRequestsController<ICommunityPhotoService>
     {
-        private readonly ICommunityPhotoService photoService;
-        private readonly ILogger<SaleCommunityPhotoRequestsController> logger;
         public SaleCommunityPhotoRequestsController(ICommunityPhotoService photoService, ILogger<SaleCommunityPhotoRequestsController> logger)
+            : base(photoService, logger)
         {
-            this.photoService = photoService ?? throw new ArgumentNullException(nameof(photoService));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        }
-
-        [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
-        public async Task<IActionResult> GetAsync([FromRoute] Guid communityId, [FromQuery] Request.PhotoRequestFilter filter)
-        {
-            this.logger.LogInformation("Getting the photo request for the entity {communityId}.", communityId);
-            var photoRequests = await this.photoService.GetAsync(communityId, filter);
-            return this.Ok(photoRequests);
-        }
-
-        [HttpGet("{photoRequestId}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid communityId, [FromRoute] Guid photoRequestId)
-        {
-            this.logger.LogInformation("Getting the photorequest for community entity {communityId} and photoRequest Id '{photoRequestId}'", communityId, photoRequestId);
-            var photoRequest = await this.photoService.GetByIdAsync(communityId, photoRequestId);
-            return this.Ok(photoRequest);
-        }
-
-        [HttpPost]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> CreateAsync([FromRoute] Guid communityId, [FromBody] Request.PhotoRequest photoRequest)
-        {
-            this.logger.LogInformation("Creating a photo request to community {communityId}", communityId);
-            await this.photoService.CreateAsync(communityId, photoRequest);
-            return this.Ok();
-        }
-
-        [HttpDelete("{photoRequestId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> DeleteById([FromRoute] Guid communityId, [FromRoute] Guid photoRequestId)
-        {
-            this.logger.LogInformation("Deleting the photo request {photoRequestId} from the community {communityId}.", photoRequestId, communityId);
-            await this.photoService.DeleteByIdAsync(communityId, photoRequestId);
-            return this.Ok();
         }
     }
 }

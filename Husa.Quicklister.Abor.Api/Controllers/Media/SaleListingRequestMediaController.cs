@@ -9,7 +9,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
     using Microsoft.Extensions.Options;
 
     [ApiController]
-    [Route("sale-listing-requests/{listingRequestId}/media")]
+    [Route("sale-listing-requests/{entityId}/media")]
     public class SaleListingRequestMediaController : MediaController<ISaleListingRequestMediaService>
     {
         private readonly ApplicationOptions options;
