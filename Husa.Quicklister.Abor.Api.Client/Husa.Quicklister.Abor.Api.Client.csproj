@@ -8,10 +8,11 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.4.2</Version>
+        <Version>2.4.3</Version>
         <PackageReleaseNotes>
-            Release 2.4.2:
+            Release 2.4.3:
             - Set Plan Name to Sale Property Projection
+            - Add RequestFieldChange to filter in GetListRequestAsync.
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
