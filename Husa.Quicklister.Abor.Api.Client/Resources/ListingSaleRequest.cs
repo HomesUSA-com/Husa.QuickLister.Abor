@@ -32,6 +32,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             var endpoint = this.baseUri
                 .AddQueryString("companyId", requestFilter.CompanyId)
                 .AddQueryString("requestState", requestFilter.RequestState)
+                .AddQueryString("requestFieldChange", requestFilter.RequestFieldChange)
                 .AddQueryString("searchFilter", requestFilter.SearchFilter)
                 .AddQueryString("take", requestFilter.Take)
                 .AddQueryString("sortBy", requestFilter.SortBy)
