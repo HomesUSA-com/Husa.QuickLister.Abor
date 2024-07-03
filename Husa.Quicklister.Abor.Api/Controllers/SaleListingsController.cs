@@ -29,6 +29,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using ExtensionController = Husa.Quicklister.Extensions.Api.Controllers;
+    using ExtensionInterface = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
 
     public class SaleListingsController : ExtensionController.SaleListingsController<ISaleListingService>
     {
@@ -44,11 +45,12 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             ISaleListingRequestQueriesRepository saleRequestQueryRepository,
             IManagementTraceQueriesRepository managementTraceQueriesRepository,
             ISaleListingService listingSaleService,
+            ExtensionInterface.ICallForwardService callForwardService,
             IUploaderService austinUploaderService,
             IMediaService mediaService,
             ILogger<SaleListingsController> logger,
             IMapper mapper)
-            : base(listingSaleService, logger)
+            : base(listingSaleService, callForwardService, logger)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.austinUploaderService = austinUploaderService ?? throw new ArgumentNullException(nameof(austinUploaderService));
