@@ -30,6 +30,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
+    using ExtensionsInterface = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
 
     [ExcludeFromCodeCoverage]
     [Collection(nameof(ApplicationServicesFixture))]
@@ -41,6 +42,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
         private readonly Mock<IManagementTraceQueriesRepository> managementTraceQueriesRepository = new();
         private readonly Mock<IUploaderService> austinUploaderService = new();
         private readonly Mock<ISaleListingService> listingSaleService = new();
+        private readonly Mock<ExtensionsInterface.ICallForwardService> callForwardService = new();
         private readonly Mock<ILogger<SaleListingsController>> logger = new();
         private readonly Mock<IMediaService> downloaderMediaService = new();
         private readonly Mock<HttpContext> httpContextMock = new();
@@ -55,6 +57,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
                 this.saleListingRequestQueriesRepository.Object,
                 this.managementTraceQueriesRepository.Object,
                 this.listingSaleService.Object,
+                this.callForwardService.Object,
                 this.austinUploaderService.Object,
                 this.downloaderMediaService.Object,
                 this.logger.Object,
@@ -556,6 +559,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
             this.saleListingRequestQueriesRepository.Object,
             this.managementTraceQueriesRepository.Object,
             this.listingSaleService.Object,
+            this.callForwardService.Object,
             this.austinUploaderService.Object,
             this.downloaderMediaService.Object,
             this.logger.Object,
