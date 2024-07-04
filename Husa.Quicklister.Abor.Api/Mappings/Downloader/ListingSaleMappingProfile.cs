@@ -65,7 +65,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
             this.CreateMap<ResidentialResponse, ListingSaleStatusFieldsDto>()
                 .ForMember(vo => vo.SellConcess, dto => dto.MapFrom(src => src.ListingMessage.ConcessionsAmount))
                 .ForMember(vo => vo.ClosePrice, dto => dto.MapFrom(src => src.ListingMessage.ClosePrice))
-                .ForMember(vo => vo.EstimatedClosedDate, dto => dto.MapFrom(src => src.ListingMessage.CloseDate))
+                .ForMember(vo => vo.EstimatedClosedDate, dto => dto.MapFrom(src => src.ListingMessage.EstimatedCloseDate))
                 .ForMember(vo => vo.AgentId, dto => dto.Ignore())
                 .ForMember(vo => vo.AgentIdSecond, dto => dto.Ignore())
                 .ForMember(vo => vo.HasBuyerAgent, dto => dto.MapFrom(src => !string.IsNullOrEmpty(src.OtherMessage.AgentSell)))

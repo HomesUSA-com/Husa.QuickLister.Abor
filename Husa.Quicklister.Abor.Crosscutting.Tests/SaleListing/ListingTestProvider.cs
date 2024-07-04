@@ -1,15 +1,19 @@
 namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
 {
     using System;
+    using System.Collections.Generic;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
+    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.ValueObjects;
 
     public static class ListingTestProvider
     {
@@ -51,7 +55,8 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
             Guid? companyId = null,
             Guid? communityId = null,
             Guid? planId = null,
-            MarketStatuses? marketStatuses = null)
+            MarketStatuses? marketStatuses = null,
+            bool createCommunity = false)
         {
             var listingCompanyId = companyId ?? Guid.NewGuid();
             var listingPlanId = planId ?? Guid.NewGuid();
@@ -79,6 +84,62 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
             };
             listing.SaleProperty.PropertyInfo.TaxLot = "TaxLot";
 
+            if (createCommunity)
+            {
+                listing.SaleProperty.Community = new CommunitySale(listingCompanyId, Faker.Lorem.GetFirstWord(), Faker.Lorem.GetFirstWord())
+                {
+                    ProfileInfo = new ProfileInfo(Faker.Lorem.GetFirstWord(), Faker.Lorem.GetFirstWord()),
+                };
+            }
+
+            return listing;
+        }
+
+        public static SaleListing GetListingEntity(
+            ListType listType,
+            Guid? planId = null,
+            Guid? communityId = null,
+            Guid? companyId = null,
+            MarketStatuses mlsStatus = MarketStatuses.Active)
+        {
+            var listingInfo = new ListingValueObject()
+            {
+                ListType = listType,
+                MlsStatus = mlsStatus,
+            };
+            var statusFieldsInfo = new ListingStatusFieldsInfo();
+            var salePropertyInfo = new SalePropertyValueObject()
+            {
+                OwnerName = Faker.Company.Name(),
+                PlanId = planId ?? Guid.NewGuid(),
+                CommunityId = communityId ?? Guid.NewGuid(),
+                PropertyInfo = new PropertyInfo(),
+                AddressInfo = new SaleAddressInfo()
+                {
+                    StreetName = Faker.Address.StreetName(),
+                    StreetNumber = Faker.RandomNumber.Next(1, 100).ToString(),
+                    UnitNumber = Faker.RandomNumber.Next(1, 10).ToString(),
+                    City = Faker.Enum.Random<Cities>(),
+                    State = Faker.Enum.Random<States>(),
+                    ZipCode = Faker.Address.ZipCode()[..5],
+                    County = Faker.Enum.Random<Counties>(),
+                },
+                FeaturesInfo = new FeaturesInfo()
+                {
+                    WaterfrontFeatures = new List<WaterfrontFeatures> { WaterfrontFeatures.None },
+                },
+                SchoolsInfo = new SchoolsInfo(),
+                ShowingInfo = new ShowingInfo(),
+                SpacesDimensionsInfo = new SpacesDimensionsInfo(),
+                FinancialInfo = new FinancialInfo(),
+            };
+            var listing = new SaleListing(
+                listingInfo,
+                statusFieldsInfo,
+                salePropertyInfo,
+                companyId ?? Guid.NewGuid(),
+                false);
+            listing.UpdateTrackValues(Guid.NewGuid());
             return listing;
         }
 
