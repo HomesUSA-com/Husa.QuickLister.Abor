@@ -101,5 +101,13 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             this.logger.LogInformation("Update action type from listing with id {listingId}", listingId);
             await this.client.PatchAsJsonAsync($"{this.baseUri}/{listingId}/action-type", new { actionType }, token);
         }
+
+        public async Task<string> GetForwardingPhoneFromMlsNumber(string mlsNumber, CancellationToken token = default)
+        {
+            this.logger.LogInformation("Getting Forward phone for listing with MLS: {mlsNumber}.", mlsNumber);
+            var endpoint = $"{this.baseUri}/call-forward/{mlsNumber}";
+            var response = await this.client.GetAsync<string>(endpoint, token);
+            return response;
+        }
     }
 }

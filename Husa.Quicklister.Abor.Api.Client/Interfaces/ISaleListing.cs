@@ -7,11 +7,10 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Uploader;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
-    using Husa.Quicklister.Extensions.Domain.Enums;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request;
     using Response = Husa.Quicklister.Abor.Api.Contracts.Response;
 
-    public interface ISaleListing
+    public interface ISaleListing : Extensions.Api.Client.Interfaces.ISaleListing
     {
         Task<IEnumerable<Response.ListingResponse>> GetAsync(Request.ListingRequestFilter filters, CancellationToken token = default);
 
@@ -26,7 +25,5 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
         Task<Guid> CreateListing(Request.QuickCreateListingRequest listingSaleRequest, CancellationToken token = default);
 
         Task<CommandResult<ReverseProspectResponse>> GetReverseProspect(Guid listingId, CancellationToken token = default);
-
-        Task UpdateActionTypeAsync(Guid listingId, ActionType actionType, CancellationToken token = default);
     }
 }
