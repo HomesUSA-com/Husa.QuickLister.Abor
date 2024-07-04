@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Sale
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Extensions.Data.Queries.Projections;
     using OpenHousesQueryResult = Husa.Quicklister.Abor.Data.Queries.Models.OpenHousesQueryResult;
 
     public static class SaleLisitngEntityQueryExtensions

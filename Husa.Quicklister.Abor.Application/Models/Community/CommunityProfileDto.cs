@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Application.Models.Community
 {
     using System.Collections.Generic;
+    using Husa.Quicklister.Extensions.Application.Models.Community;
 
     public class CommunityProfileDto
     {

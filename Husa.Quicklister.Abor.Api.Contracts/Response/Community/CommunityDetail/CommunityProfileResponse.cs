@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Response.Community.CommunityDetail
 {
     using System.Collections.Generic;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response;
 
     public class CommunityProfileResponse
     {

@@ -38,7 +38,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.OwnsOne(o => o.SchoolsInfo, ConfigureSchoolsMapping).Navigation(e => e.SchoolsInfo).IsRequired();
             builder.OwnsOne(o => o.Financial, ConfigureFinancial);
             builder.OwnsOne(o => o.Showing, ConfigureShowing).Navigation(e => e.Showing).IsRequired();
-            builder.OwnsOne(o => o.EmailLead, ConfigureEmailLead).Navigation(e => e.EmailLead).IsRequired();
+            builder.OwnsOne(o => o.EmailLead, EmailLeadExtensions.ConfigureEmailLead).Navigation(e => e.EmailLead).IsRequired();
             builder.Property(x => x.Changes)
              .HasMaxLength(2000)
              .IsRequired(false)
@@ -82,13 +82,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
             builder.Property(x => x.SalesOfficeZip).HasColumnName(nameof(CommunitySaleOffice.SalesOfficeZip)).HasMaxLength(50);
             builder.Property(x => x.IsSalesOffice).HasColumnName(nameof(CommunitySaleOffice.IsSalesOffice));
-        }
-
-        private static void ConfigureEmailLead(OwnedNavigationBuilder<CommunitySale, EmailLead> builder)
-        {
-            builder.Property(x => x.EmailLeadPrincipal).HasColumnName(nameof(EmailLead.EmailLeadPrincipal)).HasMaxLength(60);
-            builder.Property(x => x.EmailLeadSecondary).HasColumnName(nameof(EmailLead.EmailLeadSecondary)).HasMaxLength(60);
-            builder.Property(x => x.EmailLeadOther).HasColumnName(nameof(EmailLead.EmailLeadOther)).HasMaxLength(60);
         }
 
         private static void ConfigureProperty(OwnedNavigationBuilder<CommunitySale, Property> builder)
