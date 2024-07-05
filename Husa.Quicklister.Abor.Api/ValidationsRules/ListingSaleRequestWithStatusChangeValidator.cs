@@ -80,7 +80,8 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
             this.When(l => l.MlsStatus == MarketStatuses.Closed, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
-                    .NotEmpty().WithMessage(RequiredFieldMessage);
+                    .NotEmpty().WithMessage(RequiredFieldMessage)
+                    .LessThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
                 this.RuleFor(f => f.StatusFieldsInfo.ClosedDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage);
                 this.RuleFor(f => f.StatusFieldsInfo.ClosePrice)

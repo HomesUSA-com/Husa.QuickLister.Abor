@@ -141,6 +141,15 @@ namespace Husa.Quicklister.Abor.Domain.Common
             var results = ToRequiredFieldValidationResult(requiredFields);
             results.AddValue(record.ClosePrice.HasValue && record.ClosePrice.Value <= 0, new(OperatorType.GreaterThan.GetErrorMessage("zero")));
 
+            if (!record.PendingDate.HasValue)
+            {
+                results.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.PendingDate) }));
+            }
+            else if (record.PendingDate.Value > DateTime.Today.AddDays(1))
+            {
+                results.Add(new(OperatorType.LessEqual.GetErrorMessage("today"), new[] { nameof(record.PendingDate) }));
+            }
+
             return results;
         }
 
