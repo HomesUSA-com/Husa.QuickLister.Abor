@@ -41,7 +41,6 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
         private readonly IEnumerable<MarketStatuses> notAlowedStatusForRequest = new[]
         {
-            MarketStatuses.Closed,
             MarketStatuses.Canceled,
         };
 
@@ -81,7 +80,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             var listing = await this.ListingSaleRepository.GetListingByLocationAsync(null, xmlListing.StreetNum, xmlListing.StreetName, xmlListing.Zip);
             var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value);
 
-            if (listing == null)
+            if (listing == null || xmlListing.ImportWithoutRematch)
             {
                 var listingSaleDto = this.mapper.Map<QuickCreateListingDto>(xmlListing);
                 var quickCreateResult = await this.listingSaleService.QuickCreateAsync(listingSaleDto, importFromListing: false);

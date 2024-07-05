@@ -463,6 +463,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var saleListing = saleListingMock.Object;
             saleListing.XmlListingId = xmlListingId;
             saleListing.CompanyId = companyId;
+            var company = TestModelProvider.GetCompanyDetail(listingId);
+            company.SettingInfo = new()
+            {
+                StopXMLMediaSyncOfExistingListings = false,
+            };
 
             this.SetupGetXmlListingById(xmlListingId);
 
@@ -473,6 +478,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             this.xmlMediaService
                .Setup(x => x.ImportListingMedia(xmlListingId, false, true, this.fixture.Options.Object.Value.MediaAllowed.SaleListingMaxAllowedMedia))
+               .Verifiable();
+
+            this.companyClient
+               .Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(company)
                .Verifiable();
 
             // Act and Assert

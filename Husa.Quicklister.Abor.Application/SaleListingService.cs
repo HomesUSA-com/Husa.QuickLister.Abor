@@ -25,6 +25,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using CompanyServiceSubscriptionFilter = Husa.CompanyServicesManager.Api.Contracts.Request.FilterServiceSubscriptionRequest;
@@ -40,7 +41,14 @@ namespace Husa.Quicklister.Abor.Application
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
         private readonly ISaleListingMediaService listingMediaService;
         private readonly ISaleListingPhotoService saleListingPhotoService;
+        private readonly IXmlClient xmlClient;
         private readonly FeatureFlags featureFlags;
+
+        private readonly IEnumerable<MarketStatuses> statusAllowedForReleaseXmlListing = new[]
+        {
+            MarketStatuses.Closed,
+            MarketStatuses.Canceled,
+        };
 
         public SaleListingService(
             ISaleListingRequestRepository saleRequestRepository,
@@ -52,6 +60,7 @@ namespace Husa.Quicklister.Abor.Application
             ISaleListingMediaService listingMediaService,
             ISaleListingPhotoService saleListingPhotoService,
             ExtensionsInterfaces.ILockLegacyListingService lockLegacyListingService,
+            IXmlClient xmlClient,
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<SaleListingService> logger)
@@ -63,6 +72,7 @@ namespace Husa.Quicklister.Abor.Application
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
             this.listingMediaService = listingMediaService ?? throw new ArgumentNullException(nameof(listingMediaService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.xmlClient = xmlClient ?? throw new ArgumentNullException(nameof(xmlClient));
             this.saleListingPhotoService = saleListingPhotoService ?? throw new ArgumentNullException(nameof(saleListingPhotoService));
             this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
         }
@@ -339,6 +349,11 @@ namespace Husa.Quicklister.Abor.Application
         {
             var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
             var listingWithMlsNumber = await this.ListingRepository.GetListingByMlsNumber(listingId, mlsNumber);
+            var xmlListingId = listingSale.XmlListingId ?? listingSale.XmlDiscrepancyListingId ?? Guid.Empty;
+            if (this.statusAllowedForReleaseXmlListing.Contains(listingSale.MlsStatus) && xmlListingId != Guid.Empty)
+            {
+                await this.xmlClient.Listing.ReleaseListingRelationship(xmlListingId);
+            }
 
             if (listingWithMlsNumber is not null)
             {
