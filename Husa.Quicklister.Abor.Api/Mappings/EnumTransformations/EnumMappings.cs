@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
 {
     using System;
+    using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -842,5 +843,11 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.Levels.MultiLevelUnit => Stories.MultiLevel,
             _ => null,
         };
-    }
+
+        public static ElementarySchool? ToElementarySchool(this string school) => school switch
+        {
+            "Callison" => ElementarySchool.NeysaCallison,
+            _ => school.GetEnumFromSchools<ElementarySchool>(),
+        };
+}
 }
