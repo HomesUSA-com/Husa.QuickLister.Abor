@@ -352,6 +352,8 @@ namespace Husa.Quicklister.Abor.Application
             var xmlListingId = listingSale.XmlListingId ?? listingSale.XmlDiscrepancyListingId ?? Guid.Empty;
             if (this.statusAllowedForReleaseXmlListing.Contains(listingSale.MlsStatus) && xmlListingId != Guid.Empty)
             {
+                listingSale.XmlListingId = null;
+                listingSale.XmlDiscrepancyListingId = null;
                 await this.xmlClient.Listing.ReleaseListingRelationship(xmlListingId);
             }
 
