@@ -4,7 +4,9 @@ namespace Husa.Quicklister.Abor.Api.Client
     using System.Net.Http;
     using Husa.Extensions.Api.Client;
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
+    using Husa.Quicklister.Abor.Api.Client.Interfaces.LotListing;
     using Husa.Quicklister.Abor.Api.Client.Resources;
+    using Husa.Quicklister.Abor.Api.Client.Resources.LotListing;
     using Microsoft.Extensions.Logging;
 
     public class QuicklisterAborClient : HusaStandardClient, IQuicklisterAborClient
@@ -14,6 +16,7 @@ namespace Husa.Quicklister.Abor.Api.Client
         {
             var logger = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
             this.ListingSaleRequest = new ListingSaleRequest(this, logger.CreateLogger<ListingSaleRequest>());
+            this.ListingLotRequest = new ListingLotRequest(this, logger.CreateLogger<ListingLotRequest>());
             this.SaleListing = new SaleListing(this, logger.CreateLogger<SaleListing>());
             this.SaleCommunity = new SaleCommunity(this, logger.CreateLogger<SaleCommunity>());
             this.Plan = new Plan(this, logger.CreateLogger<Plan>());
@@ -23,6 +26,7 @@ namespace Husa.Quicklister.Abor.Api.Client
         }
 
         public IListingSaleRequest ListingSaleRequest { get; }
+        public IListingLotRequest ListingLotRequest { get; }
         public ISaleListing SaleListing { get; }
         public ISaleCommunity SaleCommunity { get; }
         public IPlan Plan { get; }
