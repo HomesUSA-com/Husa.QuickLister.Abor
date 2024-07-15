@@ -1112,6 +1112,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "RedRock")]
         [Description("Red Rock")]
         RedRock,
+        [EnumMember(Value = "Redbud")]
+        [Description("Redbud")]
+        Redbud,
         [EnumMember(Value = "ReecesCreek")]
         [Description("Reeces Creek")]
         ReecesCreek,
