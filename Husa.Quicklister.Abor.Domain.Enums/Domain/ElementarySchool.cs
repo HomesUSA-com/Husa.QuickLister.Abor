@@ -626,6 +626,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "Iduma")]
         [Description("Iduma")]
         Iduma,
+        [EnumMember(Value = "Igo")]
+        [Description("Igo")]
+        Igo,
         [EnumMember(Value = "IndianSprings")]
         [Description("Indian Springs")]
         IndianSprings,
@@ -1112,6 +1115,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "RedRock")]
         [Description("Red Rock")]
         RedRock,
+        [EnumMember(Value = "Redbud")]
+        [Description("Redbud")]
+        Redbud,
         [EnumMember(Value = "ReecesCreek")]
         [Description("Reeces Creek")]
         ReecesCreek,

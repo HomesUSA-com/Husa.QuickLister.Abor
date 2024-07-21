@@ -8,14 +8,10 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.6.0-dev001</Version>
+        <Version>2.7.0-dev001</Version>
         <PackageReleaseNotes>
-            Release 2.6.0:
-            - Set Mls ID for searching Agent
-            - Set Plan Name to Sale Property Projection
-            - Updated Nugets
-            - Add RequestFieldChange to filter in GetListRequestAsync.
-            - Add ListingLotRequest to API client and Update Quicklister.Extensions.Api.Client to support Uploader Lot Requests.
+            Release 2.7.0:
+            - Add Igo and Redbud in Elementary School
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
