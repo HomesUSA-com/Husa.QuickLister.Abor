@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using Husa.Quicklister.Abor.Data.Queries.Models.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
+    using Husa.Quicklister.Extensions.Data.Queries.Projections;
 
     public static class LotListingProjection
     {

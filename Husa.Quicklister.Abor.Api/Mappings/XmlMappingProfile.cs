@@ -22,6 +22,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.ImportStatus, c => c.MapFrom(x => x.ImportStatus.GetXmlImportStatus()))
                 .ForMember(dto => dto.SortBy, c => c.Ignore())
                 .ForMember(dto => dto.CommunityIds, c => c.Ignore())
+                .ForMember(dto => dto.ListingsIds, c => c.Ignore())
                 .ForMember(dto => dto.MarketCode, c => c.Ignore())
                 .ForMember(dto => dto.IsDiscrepancyReport, c => c.Ignore())
                 .ForMember(dto => dto.CompanyName, c => c.Ignore());

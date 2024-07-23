@@ -17,9 +17,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
+    using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
-    using EmailLeadQueryResultExtensions = Husa.Quicklister.Extensions.Data.Queries.Models.EmailLeadQueryResult;
     using ExtensionMapping = Husa.Quicklister.Extensions.Api.Mappings.CommunityMappingProfile;
 
     public class CommunityMappingProfile : ExtensionMapping
@@ -56,7 +56,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<CommunityShowingRequest, CommunityShowingDto>();
             this.CreateMap<OpenHouseRequest, OpenHouseDto>();
             this.CreateMap<CommunitySalesOfficeRequest, CommunitySalesOfficeDto>();
-            this.CreateMap<EmailLeadRequest, EmailLeadDto>();
 
             this.CreateMap<CommunityProfileDto, ProfileInfo>();
             this.CreateMap<CommunityPropertyDto, Property>();
@@ -89,7 +88,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<SchoolsInfoQueryResult, SchoolsResponse>();
             this.CreateMap<ShowingQueryResult, CommunityShowingResponse>();
             this.CreateMap<OpenHousesQueryResult, OpenHouseResponse>();
-            this.CreateMap<EmailLeadQueryResultExtensions, Api.Contracts.Response.EmailLeadResponse>();
             this.CreateMap<CommunityDetailQueryResult, CommunitySaleResponse>()
                 .ForMember(dto => dto.City, pr => pr.MapFrom(dto => dto.Property.City))
                 .ForMember(dto => dto.ZipCode, pr => pr.MapFrom(dto => dto.Property.ZipCode))

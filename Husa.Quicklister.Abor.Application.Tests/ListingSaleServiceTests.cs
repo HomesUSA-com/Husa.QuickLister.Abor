@@ -23,6 +23,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
@@ -39,6 +40,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<ICommunitySaleRepository> communitySaleRepository = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
         private readonly Mock<IPlanRepository> planRepository = new();
+        private readonly Mock<IXmlClient> xXmlClient = new();
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
         private readonly Mock<ILogger<SaleListingService>> logger = new();
         private readonly Mock<ISaleListingMediaService> listingMediaService = new();
@@ -58,6 +60,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.listingMediaService.Object,
                 this.saleListingPhotoService.Object,
                 this.legacyListingService.Object,
+                this.xXmlClient.Object,
                 this.fixture.Options.Object,
                 this.fixture.Mapper,
                 this.logger.Object);

@@ -3,9 +3,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
-    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Interfaces;
-    using Husa.Quicklister.Extensions.Data.Queries.Models;
 
     public static class LisitngEntityQueryExtensions
     {
@@ -59,21 +57,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                 PublishDate = publishInfo.PublishDate,
                 PublishStatus = publishInfo.PublishStatus,
                 PublishUser = publishInfo.PublishUser,
-            };
-        }
-
-        public static EmailLeadQueryResult ToProjectionEmailLead(this EmailLead emailLeads)
-        {
-            if (emailLeads == null)
-            {
-                return new();
-            }
-
-            return new()
-            {
-                EmailLeadPrincipal = emailLeads.EmailLeadPrincipal,
-                EmailLeadSecondary = emailLeads.EmailLeadSecondary,
-                EmailLeadOther = emailLeads.EmailLeadOther,
             };
         }
 

@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Api.Mappings.Migration;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Extensions;
 
@@ -77,10 +78,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.ShowingRequirements, pr => pr.MapFrom(x => x.ShowingRequirements.CsvToEnum<ShowingRequirements>(true)))
                 .ForMember(dto => dto.LockBoxType, pr => pr.MapFrom(x => x.LockBoxType.ToLockBoxType()))
                 .ForMember(dto => dto.Directions, cr => cr.MapFrom(x => x.Directions.GetSubstring(CommunityShowingInfo.MaxDirectionsLength)));
-            this.CreateMap<EmailLeadResponse, EmailLead>()
-                .ForMember(dto => dto.EmailLeadPrincipal, cr => cr.MapFrom(x => x.Email))
-                .ForMember(dto => dto.EmailLeadSecondary, cr => cr.MapFrom(x => x.Email2))
-                .ForMember(dto => dto.EmailLeadOther, cr => cr.MapFrom(x => x.Email3));
+            this.EmailLeadMappingProfile<EmailLead>();
 
             this.CreateMap<OpenHouseResponse, CommunityOpenHouse>()
                 .ForMember(dto => dto.Refreshments, pr => pr.MapFrom(x => x.Refreshments.CsvToEnum<Refreshments>(true)))
