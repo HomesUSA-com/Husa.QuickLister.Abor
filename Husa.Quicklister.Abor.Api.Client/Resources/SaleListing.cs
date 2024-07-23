@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Uploader;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request;
@@ -102,11 +103,11 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             await this.client.PatchAsJsonAsync($"{this.baseUri}/{listingId}/action-type", new { actionType }, token);
         }
 
-        public async Task<string> GetForwardingPhoneFromMlsNumber(string mlsNumber, CancellationToken token = default)
+        public async Task<CallForwardResponse> GetForwardingPhoneFromMlsNumber(string mlsNumber, CancellationToken token = default)
         {
             this.logger.LogInformation("Getting Forward phone for listing with MLS: {mlsNumber}.", mlsNumber);
             var endpoint = $"{this.baseUri}/call-forward/{mlsNumber}";
-            var response = await this.client.GetAsync<string>(endpoint, token);
+            var response = await this.client.GetAsync<CallForwardResponse>(endpoint, token);
             return response;
         }
     }
