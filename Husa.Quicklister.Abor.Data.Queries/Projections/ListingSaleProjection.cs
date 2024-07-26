@@ -40,6 +40,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             Directions = listingSale.SaleProperty.ShowingInfo.Directions,
             PlanName = listingSale.SaleProperty.Plan != null ? listingSale.SaleProperty.Plan.BasePlan.Name : null,
             UnitNumber = listingSale.SaleProperty.AddressInfo.UnitNumber,
+            LockedStatus = listingSale.LockedStatus,
+            CompanyId = listingSale.CompanyId,
         };
 
         public static Expression<Func<SaleListing, ListingSaleQueryDetailResult>> ProjectToListingSaleQueryDetail => listingSale => new ListingSaleQueryDetailResult
@@ -73,6 +75,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             UnlockedFromLegacyBy = listingSale.UnlockedFromLegacyBy,
             UnlockedFromLegacyOn = listingSale.UnlockedFromLegacyOn,
             UnitNumber = listingSale.SaleProperty.AddressInfo.UnitNumber,
+            CompanyId = listingSale.CompanyId,
         };
 
         public static Expression<Func<SaleListing, ReversePorspectListingQueryResult>> ReverseProspectListingSaleQueryDetail => listingSale => new ReversePorspectListingQueryResult

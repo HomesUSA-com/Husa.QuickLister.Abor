@@ -5,8 +5,9 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using ExtensionsContract = Husa.Quicklister.Extensions.Api.Contracts.Request.Listing;
 
-    public class ListingRequestFilter : BaseFilterRequest
+    public class ListingRequestFilter : BaseFilterRequest, ExtensionsContract.IListingRequestFilter
     {
         public IEnumerable<MarketStatuses> MlsStatus { get; set; }
         public ListedType? ListedType { get; set; }
@@ -21,5 +22,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
         public string StreetName { get; set; }
         public string MlsNumber { get; set; }
         public bool? IsCompleteHome { get; set; }
+        public string ZipCode { get; set; }
     }
 }

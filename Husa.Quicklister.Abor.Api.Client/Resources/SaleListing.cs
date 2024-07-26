@@ -8,10 +8,9 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Uploader;
-    using Husa.Quicklister.Extensions.Api.Contracts.Request;
-    using Husa.Quicklister.Extensions.Api.Contracts.Response;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
+    using ExtensionsContract = Husa.Quicklister.Extensions.Api.Contracts;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request;
     using Response = Husa.Quicklister.Abor.Api.Contracts.Response;
 
@@ -39,11 +38,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
         public async Task<IEnumerable<Response.ListingResponse>> GetAsync(Request.ListingRequestFilter filters, CancellationToken token = default)
         {
             this.logger.LogInformation("Getting listings with the filter {@filters}", filters);
-            var endpoint = this.baseUri
+            var endpoint = this.GetListingsEndpoint(filters)
                 .AddQueryString("mlsStatus", filters.MlsStatus)
-                .AddQueryString("streetName", filters.StreetName)
-                .AddQueryString("streetNumber", filters.StreetNumber)
-                .AddQueryString("mlsNumber", filters.MlsNumber)
                 .AddQueryString("isCompleteHome", filters.IsCompleteHome);
             var response = await this.client.GetAsync<DataSet<Response.ListingResponse>>(endpoint, token);
             return response.Data;
@@ -66,7 +62,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             return response;
         }
 
-        public async Task<DataSet<Response.ListingSaleOpenHouseResponse>> GetListingsWithOpenHouse(BaseFilterRequest filters, CancellationToken token = default)
+        public async Task<DataSet<Response.ListingSaleOpenHouseResponse>> GetListingsWithOpenHouse(ExtensionsContract.Request.BaseFilterRequest filters, CancellationToken token = default)
         {
             this.logger.LogInformation("Getting listings with Open House with the filter {@filter}", filters);
             var endpoint = $"{this.baseUri}/open-house"
@@ -103,12 +99,29 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             await this.client.PatchAsJsonAsync($"{this.baseUri}/{listingId}/action-type", new { actionType }, token);
         }
 
-        public async Task<CallForwardResponse> GetForwardingPhoneFromMlsNumber(string mlsNumber, CancellationToken token = default)
+        public async Task<ExtensionsContract.Response.CallForwardResponse> GetForwardingPhoneFromMlsNumber(string mlsNumber, CancellationToken token = default)
         {
             this.logger.LogInformation("Getting Forward phone for listing with MLS: {mlsNumber}.", mlsNumber);
             var endpoint = $"{this.baseUri}/call-forward/{mlsNumber}";
-            var response = await this.client.GetAsync<CallForwardResponse>(endpoint, token);
+            var response = await this.client.GetAsync<ExtensionsContract.Response.CallForwardResponse>(endpoint, token);
             return response;
+        }
+
+        public async Task<IEnumerable<ExtensionsContract.Response.Listing.ListingResponse>> GetListings(ExtensionsContract.Request.Listing.IListingRequestFilter filters, CancellationToken token = default)
+        {
+            this.logger.LogInformation("Getting listings with the filter {@filters}", filters);
+            var endpoint = this.GetListingsEndpoint(filters);
+            var response = await this.client.GetAsync<DataSet<ExtensionsContract.Response.Listing.ListingResponse>>(endpoint, token);
+            return response.Data;
+        }
+
+        private string GetListingsEndpoint(ExtensionsContract.Request.Listing.IListingRequestFilter filters)
+        {
+            return this.baseUri
+                .AddQueryString("streetName", filters.StreetName)
+                .AddQueryString("streetNumber", filters.StreetNumber)
+                .AddQueryString("mlsNumber", filters.MlsNumber)
+                .AddQueryString("zipCode", filters.ZipCode);
         }
     }
 }

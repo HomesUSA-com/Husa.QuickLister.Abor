@@ -1,12 +1,9 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Response.LotListing
 {
-    using System;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;
 
     public class LotListingDetailResponse : ListingResponse
     {
-        public Guid? CompanyId { get; set; }
-
         public LotAddressResponse AddressInfo { get; set; }
         public LotSchoolsResponse SchoolsInfo { get; set; }
         public LotPropertyResponse PropertyInfo { get; set; }
