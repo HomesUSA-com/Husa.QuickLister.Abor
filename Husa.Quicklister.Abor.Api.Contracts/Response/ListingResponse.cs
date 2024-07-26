@@ -1,50 +1,27 @@
 namespace Husa.Quicklister.Abor.Api.Contracts.Response
 {
     using System;
-    using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Extensions.Domain.Enums;
+    using ExtensionsContract = Husa.Quicklister.Extensions.Api.Contracts.Response.Listing;
 
-    public class ListingResponse
+    public class ListingResponse : ExtensionsContract.ListingResponse
     {
-        public Guid Id { get; set; }
-
         public decimal? ListPrice { get; set; }
 
         public DateTime? ListDate { get; set; }
 
-        public string MlsNumber { get; set; }
-
         public MarketStatuses MlsStatus { get; set; }
-
-        public string UnitNumber { get; set; }
 
         public DateTime? SysModifiedOn { get; set; }
 
         public DateTime? MarketModifiedOn { get; set; }
 
-        public string StreetNum { get; set; }
-
-        public string StreetName { get; set; }
-
-        public string StreetType { get; set; }
-
         public Cities City { get; set; }
 
         public Counties? County { get; set; }
 
-        public string Subdivision { get; set; }
-
-        public string ZipCode { get; set; }
-
-        public string OwnerName { get; set; }
-
-        public MarketCode MarketCode { get; set; }
-
         public bool IsCompleteHome { get; set; }
-
-        public States State { get; set; }
 
         public string PlanName { get; set; }
 
@@ -66,7 +43,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
 
         public DateTime? LockedOn { get; set; }
 
-        public LockedStatus LockedStatus { get; set; } = LockedStatus.NoLocked;
         public string LockedByUsername { get; set; }
 
         public DateTime? LastPhotoRequestCreationDate { get; set; }
@@ -78,8 +54,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
         public bool IsManuallyManaged { get; set; }
 
         public Guid? XmlListingId { get; set; }
-
-        public Guid? CommunityId { get; set; }
 
         public string Directions { get; set; }
     }
