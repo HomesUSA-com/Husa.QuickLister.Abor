@@ -36,5 +36,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
         public Guid? XmlListingId { get; set; }
 
         public Guid? XmlDiscrepancyListingId { get; set; }
+
+        public Guid? CompanyId { get; set; }
     }
 }

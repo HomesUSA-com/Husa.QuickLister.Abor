@@ -796,13 +796,25 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 throw new ArgumentNullException(nameof(schoolsInfo));
             }
 
-            this.SchoolsInfo = new()
+            this.SchoolsInfo ??= new();
+            this.SchoolsInfo.ElementarySchool = schoolsInfo.ElementarySchool;
+            this.SchoolsInfo.MiddleSchool = schoolsInfo.MiddleSchool;
+            this.SchoolsInfo.HighSchool = schoolsInfo.HighSchool;
+            this.SchoolsInfo.SchoolDistrict = schoolsInfo.SchoolDistrict;
+            if (this.SchoolsInfo.ElementarySchool != null && this.SchoolsInfo.ElementarySchool != ElementarySchool.Other)
             {
-                ElementarySchool = schoolsInfo.ElementarySchool,
-                MiddleSchool = schoolsInfo.MiddleSchool,
-                HighSchool = schoolsInfo.HighSchool,
-                SchoolDistrict = schoolsInfo.SchoolDistrict,
-            };
+                this.SchoolsInfo.OtherElementarySchool = null;
+            }
+
+            if (this.SchoolsInfo.MiddleSchool != null)
+            {
+                this.SchoolsInfo.OtherMiddleSchool = null;
+            }
+
+            if (this.SchoolsInfo.HighSchool != null)
+            {
+                this.SchoolsInfo.OtherHighSchool = null;
+            }
         }
 
         private void InitializeEntity(SalePropertyValueObject salePropertyInfo)

@@ -5,7 +5,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Lot
     public class LotListingQueryDetailResult : ListingDetailsQueryResult
     {
         public Guid? CommunityId { get; set; }
-        public Guid? CompanyId { get; set; }
         public int? AlsoListedAs { get; set; }
 
         public bool BuilderRestrictions { get; set; }
