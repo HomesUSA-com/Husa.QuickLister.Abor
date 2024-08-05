@@ -137,9 +137,12 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 return;
             }
 
-            listing.UpdateFromXml(xmlListing, currentUser.Id);
             var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value) ?? throw new NotFoundException<CompanyDetail>(xmlListing.CompanyId.Value);
             var shouldProcessNewMedia = !companyDetail.SettingInfo.StopXMLMediaSyncOfExistingListings;
+            listing.UpdateFromXml(
+                xmlListing,
+                currentUser.Id,
+                ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate);
             var mediaHasChanges = false;
 
             if (shouldProcessNewMedia)

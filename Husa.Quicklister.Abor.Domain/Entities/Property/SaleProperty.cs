@@ -496,9 +496,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.UpdateFeatures(features);
         }
 
-        public void UpdateFromXml(XmlListingDetailResponse listing)
+        public void UpdateFromXml(XmlListingDetailResponse listing, bool ignoreRequestByCompletionDate = false)
         {
-            this.PropertyInfo.UpdateFromXml(listing);
+            this.PropertyInfo.UpdateFromXml(listing, ignoreRequestByCompletionDate);
             this.FeaturesInfo.UpdateFromXml(listing);
         }
 
