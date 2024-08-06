@@ -87,7 +87,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             return importedPropertyInfo;
         }
 
-        public void UpdateFromXml(XmlListingDetailResponse listing)
+        public void UpdateFromXml(XmlListingDetailResponse listing, bool ignoreRequestByCompletionDate = false)
         {
             if (!this.UpdateGeocodes)
             {
@@ -102,15 +102,20 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 }
             }
 
+            if (!string.IsNullOrEmpty(listing.LegalDescLot))
+            {
+                this.LotDescription = listing.LegalDescLot.CsvToEnum<LotDescription>().ToArray();
+            }
+
+            if (ignoreRequestByCompletionDate && this.ConstructionStage == Enums.Domain.ConstructionStage.Complete)
+            {
+                return;
+            }
+
             if (listing.Day.HasValue && (this.constructionCompletionDate.Value.Date != listing.Day.Value.Date))
             {
                 this.ConstructionCompletionDate = listing.Day;
                 this.ConstructionStage = listing.Day.Value.Date > DateTime.UtcNow.Date ? Enums.Domain.ConstructionStage.Incomplete : Enums.Domain.ConstructionStage.Complete;
-            }
-
-            if (!string.IsNullOrEmpty(listing.LegalDescLot))
-            {
-                this.LotDescription = listing.LegalDescLot.CsvToEnum<LotDescription>().ToArray();
             }
         }
 
