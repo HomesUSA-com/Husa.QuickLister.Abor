@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <AssemblyName>Husa.Quicklister.Abor.Api</AssemblyName>
@@ -20,7 +20,7 @@
         <PackageReference Include="Husa.Downloader.Sabor.ServiceBus.Contracts" Version="2.0.0" />
         <PackageReference Include="Husa.Quicklister.Extensions.Api" Version="0.4.2" />
         <PackageReference Include="Husa.Quicklister.Extensions.Api.Contracts" Version="1.5.3" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Application" Version="2.9.5" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Application" Version="2.9.7" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
         <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.38.1" />

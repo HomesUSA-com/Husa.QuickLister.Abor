@@ -8,17 +8,17 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.6.1</Version>
+        <Version>2.7.1</Version>
         <PackageReleaseNotes>
-            Release 2.6.1:
-            - Add Igo in Elementary School
+            Release 2.7.1:
+            - Add Igo and Redbud in Elementary School
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.0.1" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.4.3" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.5.0" />
     </ItemGroup>
 
     <ItemGroup>
