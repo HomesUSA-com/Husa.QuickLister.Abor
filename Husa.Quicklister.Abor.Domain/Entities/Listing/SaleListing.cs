@@ -277,6 +277,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.SaleProperty.ImportDataFromCommunity(community);
         }
 
+        public override void ChangeCompany(Guid companyId, string companyName)
+        {
+            this.CompanyId = companyId;
+            this.SaleProperty.OwnerName = companyName;
+            this.SaleProperty.CompanyId = companyId;
+        }
+
         protected override IEnumerable<object> GetEntityEqualityComponents()
         {
             yield return this.SalePropertyId;
