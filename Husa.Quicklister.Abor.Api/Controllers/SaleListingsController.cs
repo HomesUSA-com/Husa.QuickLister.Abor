@@ -38,7 +38,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         private readonly IManagementTraceQueriesRepository managementTraceQueriesRepository;
         private readonly IUploaderService austinUploaderService;
         private readonly IMediaService mediaService;
-        private readonly IMapper mapper;
 
         public SaleListingsController(
             IListingSaleQueriesRepository listingSaleQueriesRepository,
@@ -50,9 +49,8 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             IMediaService mediaService,
             ILogger<SaleListingsController> logger,
             IMapper mapper)
-            : base(listingSaleService, callForwardService, logger)
+            : base(listingSaleService, callForwardService, mapper, logger)
         {
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.austinUploaderService = austinUploaderService ?? throw new ArgumentNullException(nameof(austinUploaderService));
             this.listingSaleQueriesRepository = listingSaleQueriesRepository ?? throw new ArgumentNullException(nameof(listingSaleQueriesRepository));
             this.managementTraceQueriesRepository = managementTraceQueriesRepository ?? throw new ArgumentNullException(nameof(managementTraceQueriesRepository));
