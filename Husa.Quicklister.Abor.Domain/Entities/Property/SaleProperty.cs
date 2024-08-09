@@ -199,7 +199,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
         }
 
-        public virtual void UpdateSpacesDimensions(SpacesDimensionsInfo spacesDimensions, bool updateSquareFootage = false)
+        public virtual void UpdateSpacesDimensions(SpacesDimensionsInfo spacesDimensions, bool updateSquareFootage = false, bool fromXml = false)
         {
             if (spacesDimensions is null)
             {
@@ -214,9 +214,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.SpacesDimensionsInfo.FullBathsTotal = spacesDimensions.FullBathsTotal;
                 this.SpacesDimensionsInfo.HalfBathsTotal = spacesDimensions.HalfBathsTotal;
                 this.SpacesDimensionsInfo.StoriesTotal = spacesDimensions.StoriesTotal;
-                this.SpacesDimensionsInfo.MainLevelBedroomTotal = spacesDimensions.MainLevelBedroomTotal;
-                this.SpacesDimensionsInfo.OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal;
                 this.SpacesDimensionsInfo.LivingAreasTotal = spacesDimensions.LivingAreasTotal;
+
+                if (!fromXml)
+                {
+                    this.SpacesDimensionsInfo.MainLevelBedroomTotal = spacesDimensions.MainLevelBedroomTotal;
+                    this.SpacesDimensionsInfo.OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal;
+                }
 
                 if (updateSquareFootage)
                 {
@@ -490,7 +494,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.UpdatePropertyInfo(property);
 
             var spacesDimensions = SpacesDimensionsInfo.ImportFromXml(listing, this.SpacesDimensionsInfo);
-            this.UpdateSpacesDimensions(spacesDimensions);
+            this.UpdateSpacesDimensions(spacesDimensions, fromXml: true);
 
             var features = FeaturesInfo.ImportFromXml(listing, this.FeaturesInfo);
             this.UpdateFeatures(features);
