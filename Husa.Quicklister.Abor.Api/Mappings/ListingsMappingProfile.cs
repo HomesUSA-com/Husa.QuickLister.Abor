@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Api.Mappings
 {
     using System;
-    using AutoMapper;
     using Husa.Extensions.Common;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Quickbooks.Models.Invoice;
@@ -37,9 +36,10 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.ReverseProspect.Api.Contracts.Response;
     using DownloaderCtxResponse = Husa.Downloader.CTX.Api.Contracts.Response;
+    using ExtensionMapping = Husa.Quicklister.Extensions.Api.Mappings.ListingMappingProfile;
     using HusaNotesTypes = Husa.Notes.Domain.Enums.NoteType;
 
-    public class ListingsMappingProfile : Profile
+    public class ListingsMappingProfile : ExtensionMapping
     {
         public ListingsMappingProfile()
         {

@@ -35,7 +35,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             importedSpacesDimensions.StoriesTotal = listing.Stories.ToStories();
             importedSpacesDimensions.HalfBathsTotal = listing.HalfBaths;
             importedSpacesDimensions.FullBathsTotal = listing.Baths;
-            importedSpacesDimensions.MainLevelBedroomTotal = listing.Bedrooms;
 
             return importedSpacesDimensions;
         }

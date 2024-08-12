@@ -38,7 +38,6 @@ namespace Husa.Quicklister.Abor.Application
         private readonly ISaleListingRequestRepository saleRequestRepository;
         private readonly ICommunitySaleRepository communitySaleRepository;
         private readonly IPlanRepository planRepository;
-        private readonly IServiceSubscriptionClient serviceSubscriptionClient;
         private readonly ISaleListingMediaService listingMediaService;
         private readonly ISaleListingPhotoService saleListingPhotoService;
         private readonly IXmlClient xmlClient;
@@ -64,12 +63,11 @@ namespace Husa.Quicklister.Abor.Application
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<SaleListingService> logger)
-             : base(listingSaleRepository, lockLegacyListingService, logger, userContextProvider)
+             : base(listingSaleRepository, lockLegacyListingService, serviceSubscriptionClient, logger, userContextProvider)
         {
             this.saleRequestRepository = saleRequestRepository ?? throw new ArgumentNullException(nameof(saleRequestRepository));
             this.communitySaleRepository = communitySaleRepository ?? throw new ArgumentNullException(nameof(communitySaleRepository));
             this.planRepository = planRepository ?? throw new ArgumentNullException(nameof(planRepository));
-            this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
             this.listingMediaService = listingMediaService ?? throw new ArgumentNullException(nameof(listingMediaService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.xmlClient = xmlClient ?? throw new ArgumentNullException(nameof(xmlClient));
@@ -311,40 +309,6 @@ namespace Husa.Quicklister.Abor.Application
             return await this.ListingRepository.GetById(listingId, filterByCompany: true);
         }
 
-        public override async Task ChangeCommunity(Guid listingId, Guid communityId)
-        {
-            var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
-            var community = await this.communitySaleRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
-
-            if (listingSale.SaleProperty.CompanyId != community.CompanyId)
-            {
-                this.Logger.LogInformation("The selected Community with id: {communityId} was not found for the company id: '{CompanyId}'", communityId, community.CompanyId);
-                throw new NotFoundException<CommunitySale>(communityId);
-            }
-
-            listingSale.SaleProperty.CommunityId = communityId;
-
-            await this.ListingRepository.SaveChangesAsync(listingSale);
-        }
-
-        public override async Task ChangePlan(Guid listingId, Guid planId, bool updateRooms = false)
-        {
-            var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
-            var plan = await this.planRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
-
-            if (listingSale.SaleProperty.CompanyId != plan.CompanyId)
-            {
-                this.Logger.LogInformation("The selected Plan with id: {planId} was not found for the company id: '{companyId}'", planId, plan.CompanyId);
-                throw new NotFoundException<Plan>(planId);
-            }
-
-            listingSale.SaleProperty.UpdateRoomsInfoFromPlan(plan, listingId, updateRooms);
-
-            listingSale.SaleProperty.PlanId = planId;
-
-            await this.ListingRepository.SaveChangesAsync(listingSale);
-        }
-
         public async Task AssignMlsNumberAsync(Guid listingId, string mlsNumber, MarketStatuses requestStatus, ActionType actionType)
         {
             var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
@@ -440,6 +404,34 @@ namespace Husa.Quicklister.Abor.Application
             {
                 await this.saleListingPhotoService.SendUpdatePropertiesMessages(new[] { listing });
             }
+        }
+
+        protected override async Task UpdateCommunity(SaleListing listing, Guid communityId, bool filterByUserContext = true)
+        {
+            var community = await this.communitySaleRepository.GetById(communityId, filterByCompany: filterByUserContext) ?? throw new NotFoundException<CommunitySale>(communityId);
+
+            if (listing.SaleProperty.CompanyId != community.CompanyId)
+            {
+                this.Logger.LogInformation("The selected Community with id: {communityId} was not found for the company id: '{CompanyId}'", communityId, community.CompanyId);
+                throw new NotFoundException<CommunitySale>(communityId);
+            }
+
+            listing.SaleProperty.CommunityId = communityId;
+        }
+
+        protected override async Task UpdatePlan(SaleListing listing, Guid planId, bool updateRooms = false, bool filterByUserContext = true)
+        {
+            var plan = await this.planRepository.GetById(planId, filterByCompany: filterByUserContext) ?? throw new NotFoundException<Plan>(planId);
+
+            if (listing.SaleProperty.CompanyId != plan.CompanyId)
+            {
+                this.Logger.LogInformation("The selected Plan with id: {planId} was not found for the company id: '{companyId}'", planId, plan.CompanyId);
+                throw new NotFoundException<Plan>(planId);
+            }
+
+            listing.SaleProperty.UpdateRoomsInfoFromPlan(plan, listing.Id, updateRooms);
+
+            listing.SaleProperty.PlanId = planId;
         }
 
         private async Task ImportDataFromCommunityAndPlan(SaleListing listingSaleEntity, QuickCreateListingDto listingSale)
