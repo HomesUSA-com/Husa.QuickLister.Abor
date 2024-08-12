@@ -406,9 +406,9 @@ namespace Husa.Quicklister.Abor.Application
             }
         }
 
-        protected override async Task UpdateCommunity(SaleListing listing, Guid communityId)
+        protected override async Task UpdateCommunity(SaleListing listing, Guid communityId, bool filterByUserContext = true)
         {
-            var community = await this.communitySaleRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
+            var community = await this.communitySaleRepository.GetById(communityId, filterByCompany: filterByUserContext) ?? throw new NotFoundException<CommunitySale>(communityId);
 
             if (listing.SaleProperty.CompanyId != community.CompanyId)
             {
@@ -419,9 +419,9 @@ namespace Husa.Quicklister.Abor.Application
             listing.SaleProperty.CommunityId = communityId;
         }
 
-        protected override async Task UpdatePlan(SaleListing listing, Guid planId, bool updateRooms = false)
+        protected override async Task UpdatePlan(SaleListing listing, Guid planId, bool updateRooms = false, bool filterByUserContext = true)
         {
-            var plan = await this.planRepository.GetById(planId, filterByCompany: true) ?? throw new NotFoundException<Plan>(planId);
+            var plan = await this.planRepository.GetById(planId, filterByCompany: filterByUserContext) ?? throw new NotFoundException<Plan>(planId);
 
             if (listing.SaleProperty.CompanyId != plan.CompanyId)
             {
