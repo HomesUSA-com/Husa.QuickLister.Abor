@@ -74,7 +74,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 
         [TodayOrAfterAttribute]
         public DateTime? BonusExpirationDate { get; set; }
-        public bool HasBuyerIncentive { get; set; }
 
         public FinancialRecord CloneRecord() => (FinancialRecord)this.MemberwiseClone();
         public static FinancialRecord CreateRecord(FinancialInfo financialInfo)
@@ -109,7 +108,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
                 AgentBonusAmount = financialInfo.AgentBonusAmount,
                 AgentBonusAmountType = financialInfo.AgentBonusAmountType,
                 BonusExpirationDate = financialInfo.BonusExpirationDate,
-                HasBuyerIncentive = financialInfo.HasBuyerIncentive,
                 ReadableAgentBonusAmount = financialInfo.AgentBonusAmount.GetCommissionAmount(financialInfo.AgentBonusAmountType),
                 ReadableBuyersAgentCommission = financialInfo.BuyersAgentCommission.GetCommissionAmount(financialInfo.BuyersAgentCommissionType),
             };

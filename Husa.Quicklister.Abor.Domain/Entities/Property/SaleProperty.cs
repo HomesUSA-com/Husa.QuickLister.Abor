@@ -698,7 +698,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FinancialInfo.HasBonusWithAmount = financialInfo.HasBonusWithAmount;
                 this.FinancialInfo.BonusExpirationDate = financialInfo.BonusExpirationDate;
                 this.FinancialInfo.HasAgentBonus = financialInfo.AgentBonusAmount != null;
-                this.FinancialInfo.HasBuyerIncentive = financialInfo.HasBuyerIncentive;
                 this.FinancialInfo.HOARequirement = financialInfo.HOARequirement;
                 this.FinancialInfo.TaxRate = financialInfo.TaxRate;
 

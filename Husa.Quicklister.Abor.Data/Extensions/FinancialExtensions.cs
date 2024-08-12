@@ -53,8 +53,6 @@ namespace Husa.Quicklister.Abor.Data.Extensions
             builder.Property(r => r.HasAgentBonus).HasColumnName(nameof(IProvideCommonFinancial.HasAgentBonus));
             builder.Property(r => r.HasBonusWithAmount).HasColumnName(nameof(IProvideCommonFinancial.HasBonusWithAmount));
             builder.Property(r => r.BonusExpirationDate).HasColumnName(nameof(IProvideCommonFinancial.BonusExpirationDate));
-            builder.Property(r => r.HasBuyerIncentive).HasColumnName(nameof(IProvideCommonFinancial.HasBuyerIncentive)).HasColumnType("bit")
-                .IsRequired();
 
             builder
                 .Property(r => r.TaxRate)

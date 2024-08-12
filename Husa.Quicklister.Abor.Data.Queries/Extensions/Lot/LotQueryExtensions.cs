@@ -87,7 +87,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Lot
                 AgentBonusAmount = financial.AgentBonusAmount,
                 AgentBonusAmountType = financial.AgentBonusAmountType,
                 BonusExpirationDate = financial.BonusExpirationDate,
-                HasBuyerIncentive = financial.HasBuyerIncentive,
                 EstimatedTax = financial.EstimatedTax,
                 HoaFee = financial.HoaFee,
                 HoaName = financial.HoaName,
