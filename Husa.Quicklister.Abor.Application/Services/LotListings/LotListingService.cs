@@ -220,9 +220,9 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             throw new NotImplementedException();
         }
 
-        protected override async Task UpdateCommunity(LotListing listing, Guid communityId)
+        protected override async Task UpdateCommunity(LotListing listing, Guid communityId, bool filterByUserContext = true)
         {
-            var community = await this.communityRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
+            var community = await this.communityRepository.GetById(communityId, filterByCompany: filterByUserContext) ?? throw new NotFoundException<CommunitySale>(communityId);
 
             if (listing.CompanyId != community.CompanyId)
             {
