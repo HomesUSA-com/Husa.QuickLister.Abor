@@ -19,7 +19,6 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         bool HasAgentBonus { get; set; }
         bool HasBonusWithAmount { get; set; }
         DateTime? BonusExpirationDate { get; set; }
-        bool HasBuyerIncentive { get; set; }
         string HoaName { get; set; }
         decimal? HoaFee { get; set; }
     }

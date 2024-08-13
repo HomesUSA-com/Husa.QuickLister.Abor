@@ -41,7 +41,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
         public CommissionType AgentBonusAmountType { get; set; }
 
         public DateTime? BonusExpirationDate { get; set; }
-        public bool HasBuyerIncentive { get; set; }
         public SchoolsInfoQueryResult Schools { get; set; }
     }
 }

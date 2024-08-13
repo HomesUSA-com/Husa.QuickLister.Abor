@@ -65,7 +65,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
 
         [TodayOrAfter]
         public DateTime? BonusExpirationDate { get; set; }
-        public bool HasBuyerIncentive { get; set; }
 
         [Required]
         public decimal? EstimatedTax { get; set; }
@@ -113,7 +112,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
                 AgentBonusAmount = financialInfo.AgentBonusAmount,
                 AgentBonusAmountType = financialInfo.AgentBonusAmountType,
                 BonusExpirationDate = financialInfo.BonusExpirationDate,
-                HasBuyerIncentive = financialInfo.HasBuyerIncentive,
                 ReadableAgentBonusAmount = financialInfo.AgentBonusAmount.GetCommissionAmount(financialInfo.AgentBonusAmountType),
                 ReadableBuyersAgentCommission = financialInfo.BuyersAgentCommission.GetCommissionAmount(financialInfo.BuyersAgentCommissionType),
                 EstimatedTax = financialInfo.EstimatedTax,
