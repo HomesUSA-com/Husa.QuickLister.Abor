@@ -216,7 +216,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.SpacesDimensionsInfo.StoriesTotal = spacesDimensions.StoriesTotal;
                 this.SpacesDimensionsInfo.LivingAreasTotal = spacesDimensions.LivingAreasTotal;
 
-                if (!fromXml)
+                if (fromXml)
+                {
+                    this.SpacesDimensionsInfo.MainLevelBedroomTotal = null;
+                    this.SpacesDimensionsInfo.OtherLevelsBedroomTotal = null;
+                }
+                else
                 {
                     this.SpacesDimensionsInfo.MainLevelBedroomTotal = spacesDimensions.MainLevelBedroomTotal;
                     this.SpacesDimensionsInfo.OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal;
