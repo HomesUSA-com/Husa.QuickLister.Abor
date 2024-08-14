@@ -44,7 +44,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => throw new ArgumentException("Invalid MlsStatus value.", nameof(value)),
         };
 
-        public static StreetType? ToCtxEnum(this Trestle.StreetSuffix value) => value switch
+        public static StreetType? ToCtxEnum(this Trestle.StreetSuffix? value) => value switch
         {
             Trestle.StreetSuffix.Alley => StreetType.ALY,
             Trestle.StreetSuffix.Arcade => StreetType.ARC,
