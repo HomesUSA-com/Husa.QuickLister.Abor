@@ -44,7 +44,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
             {
                 FullBathsTotal = xmlPlan.Baths,
                 HalfBathsTotal = xmlPlan.HalfBaths,
-                MainLevelBedroomTotal = xmlPlan.Bedrooms,
+                MainLevelBedroomTotal = null,
                 StoriesTotal = xmlPlan.Stories.ToStories(),
             };
         }

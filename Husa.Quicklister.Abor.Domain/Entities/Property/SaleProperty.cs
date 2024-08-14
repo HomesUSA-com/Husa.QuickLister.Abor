@@ -215,12 +215,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.SpacesDimensionsInfo.HalfBathsTotal = spacesDimensions.HalfBathsTotal;
                 this.SpacesDimensionsInfo.StoriesTotal = spacesDimensions.StoriesTotal;
                 this.SpacesDimensionsInfo.LivingAreasTotal = spacesDimensions.LivingAreasTotal;
-
-                if (!fromXml)
-                {
-                    this.SpacesDimensionsInfo.MainLevelBedroomTotal = spacesDimensions.MainLevelBedroomTotal;
-                    this.SpacesDimensionsInfo.OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal;
-                }
+                this.SpacesDimensionsInfo.MainLevelBedroomTotal = spacesDimensions.MainLevelBedroomTotal;
+                this.SpacesDimensionsInfo.OtherLevelsBedroomTotal = spacesDimensions.OtherLevelsBedroomTotal;
 
                 if (updateSquareFootage)
                 {
@@ -702,7 +698,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FinancialInfo.HasBonusWithAmount = financialInfo.HasBonusWithAmount;
                 this.FinancialInfo.BonusExpirationDate = financialInfo.BonusExpirationDate;
                 this.FinancialInfo.HasAgentBonus = financialInfo.AgentBonusAmount != null;
-                this.FinancialInfo.HasBuyerIncentive = financialInfo.HasBuyerIncentive;
                 this.FinancialInfo.HOARequirement = financialInfo.HOARequirement;
                 this.FinancialInfo.TaxRate = financialInfo.TaxRate;
 

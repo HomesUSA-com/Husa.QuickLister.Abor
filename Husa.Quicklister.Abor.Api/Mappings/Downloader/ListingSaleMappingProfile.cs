@@ -197,7 +197,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.HasBonusWithAmount, dto => dto.Ignore())
                 .ForMember(vo => vo.BonusExpirationDate, dto => dto.Ignore())
                 .ForMember(vo => vo.HasAgentBonus, dto => dto.Ignore())
-                .ForMember(vo => vo.HasBuyerIncentive, dto => dto.Ignore())
                 .ForMember(vo => vo.BillingFrequency, dto => dto.MapFrom(src => src.FinancialMessage.HoaFeeFrequency.ToCtxEnum()));
 
             this.CreateMap<ResidentialResponse, ShowingDto>()

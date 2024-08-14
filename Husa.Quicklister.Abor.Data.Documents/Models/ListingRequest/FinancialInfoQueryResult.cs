@@ -26,6 +26,5 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public decimal? AgentBonusAmount { get; set; }
         public CommissionType AgentBonusAmountType { get; set; }
         public DateTime? BonusExpirationDate { get; set; }
-        public bool HasBuyerIncentive { get; set; }
     }
 }

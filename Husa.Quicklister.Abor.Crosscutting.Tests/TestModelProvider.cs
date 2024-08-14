@@ -1336,7 +1336,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 HasAgentBonus = false,
                 HasBonusWithAmount = false,
                 AgentBonusAmount = 0,
-                HasBuyerIncentive = false,
                 TaxRate = communityFinancialInfo.TaxRate,
                 TitleCompany = communityFinancialInfo.TitleCompany,
                 HOARequirement = communityFinancialInfo.HOARequirement,
