@@ -89,19 +89,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public void UpdateFromXml(XmlListingDetailResponse listing, bool ignoreRequestByCompletionDate = false)
         {
-            if (!this.UpdateGeocodes)
-            {
-                if (listing.Latitude != null)
-                {
-                    this.Latitude = listing.Latitude;
-                }
-
-                if (listing.Longitude != null)
-                {
-                    this.Longitude = listing.Longitude;
-                }
-            }
-
             if (!string.IsNullOrEmpty(listing.LegalDescLot))
             {
                 this.LotDescription = listing.LegalDescLot.CsvToEnum<LotDescription>().ToArray();
