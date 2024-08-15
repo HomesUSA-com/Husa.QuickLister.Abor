@@ -119,7 +119,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.LotListings
                     EstimatedTax = 12,
                     HasAgentBonus = true,
                     HasBonusWithAmount = true,
-                    HasBuyerIncentive = true,
                     HasHoa = false,
                     HoaFee = (decimal?)12.2,
                     HoaIncludes = new List<HoaIncludes>() { HoaIncludes.Cable },

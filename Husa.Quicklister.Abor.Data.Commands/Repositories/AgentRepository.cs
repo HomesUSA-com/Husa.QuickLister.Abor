@@ -28,6 +28,11 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
 
         public Task<Agent> GetAgentByMlsId(string mlsId)
         {
+            if (string.IsNullOrEmpty(mlsId))
+            {
+                return Task.FromResult<Agent>(null);
+            }
+
             this.logger.LogInformation("Starting to get agent with mlsId {mlsId}", mlsId);
             return this.context.Agent.SingleOrDefaultAsync(x => x.AgentValue.MlsId == mlsId);
         }

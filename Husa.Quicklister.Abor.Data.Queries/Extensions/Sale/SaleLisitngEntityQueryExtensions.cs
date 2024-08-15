@@ -115,7 +115,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Sale
                 AgentBonusAmount = financial.AgentBonusAmount,
                 AgentBonusAmountType = financial.AgentBonusAmountType,
                 BonusExpirationDate = financial.BonusExpirationDate,
-                HasBuyerIncentive = financial.HasBuyerIncentive,
             };
         }
 
@@ -286,7 +285,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Sale
                 AgentBonusAmount = community.Financial.AgentBonusAmount,
                 AgentBonusAmountType = community.Financial.AgentBonusAmountType,
                 BonusExpirationDate = community.Financial.BonusExpirationDate,
-                HasBuyerIncentive = community.Financial.HasBuyerIncentive,
                 Schools = community.SchoolsInfo?.ToProjectionSchoolsInfo(),
             };
         }

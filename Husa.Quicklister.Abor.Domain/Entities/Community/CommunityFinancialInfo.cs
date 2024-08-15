@@ -50,7 +50,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public CommissionType AgentBonusAmountType { get; set; }
 
         public DateTime? BonusExpirationDate { get; set; }
-        public bool HasBuyerIncentive { get; set; }
 
         public virtual string ReadableBuyersAgentCommission => this.BuyersAgentCommissionType == CommissionType.Percent ?
                 $"{this.BuyersAgentCommission ?? 0}%" :
@@ -105,7 +104,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             clonedFinancial.AgentBonusAmount = info.AgentBonusAmount;
             clonedFinancial.AgentBonusAmountType = info.AgentBonusAmountType;
             clonedFinancial.BonusExpirationDate = info.BonusExpirationDate;
-            clonedFinancial.HasBuyerIncentive = info.HasBuyerIncentive;
 
             return clonedFinancial;
         }
@@ -129,7 +127,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             yield return this.AgentBonusAmount;
             yield return this.AgentBonusAmountType;
             yield return this.BonusExpirationDate;
-            yield return this.HasBuyerIncentive;
         }
     }
 }

@@ -698,9 +698,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FinancialInfo.HasBonusWithAmount = financialInfo.HasBonusWithAmount;
                 this.FinancialInfo.BonusExpirationDate = financialInfo.BonusExpirationDate;
                 this.FinancialInfo.HasAgentBonus = financialInfo.AgentBonusAmount != null;
-                this.FinancialInfo.HasBuyerIncentive = financialInfo.HasBuyerIncentive;
                 this.FinancialInfo.HOARequirement = financialInfo.HOARequirement;
                 this.FinancialInfo.TaxRate = financialInfo.TaxRate;
+                this.FinancialInfo.BuyersAgentCommission = financialInfo.BuyersAgentCommission;
+                this.FinancialInfo.BuyersAgentCommissionType = financialInfo.BuyersAgentCommissionType;
 
                 if (!this.migrateFullListing)
                 {
@@ -718,8 +719,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FinancialInfo.BillingFrequency = financialInfo.BillingFrequency;
             }
 
-            this.FinancialInfo.BuyersAgentCommission = financialInfo.BuyersAgentCommission;
-            this.FinancialInfo.BuyersAgentCommissionType = financialInfo.BuyersAgentCommissionType;
             this.FinancialInfo.HoaFee = financialInfo.HoaFee;
         }
 

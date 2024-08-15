@@ -190,14 +190,13 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.HasHoa, dto => dto.MapFrom(src => src.FinancialMessage.HoaRequirement))
                 .ForMember(vo => vo.HoaIncludes, dto => dto.MapFrom(src => src.FinancialMessage.HoaFeeIncludes.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.HoaFee, dto => dto.MapFrom(src => src.FinancialMessage.HoaAmount))
-                .ForMember(vo => vo.BuyersAgentCommission, dto => dto.MapFrom(src => src.ShowingMessage.BuyersAgentCommission.ConvertToDecimal()))
-                .ForMember(vo => vo.BuyersAgentCommissionType, dto => dto.MapFrom(src => src.ShowingMessage.BuyersAgentCommissionType.FirstOrDefault().ToCtxEnum()))
+                .ForMember(vo => vo.BuyersAgentCommission, dto => dto.Ignore())
+                .ForMember(vo => vo.BuyersAgentCommissionType, dto => dto.Ignore())
                 .ForMember(vo => vo.AgentBonusAmount, dto => dto.Ignore())
                 .ForMember(vo => vo.AgentBonusAmountType, dto => dto.Ignore())
                 .ForMember(vo => vo.HasBonusWithAmount, dto => dto.Ignore())
                 .ForMember(vo => vo.BonusExpirationDate, dto => dto.Ignore())
                 .ForMember(vo => vo.HasAgentBonus, dto => dto.Ignore())
-                .ForMember(vo => vo.HasBuyerIncentive, dto => dto.Ignore())
                 .ForMember(vo => vo.BillingFrequency, dto => dto.MapFrom(src => src.FinancialMessage.HoaFeeFrequency.ToCtxEnum()));
 
             this.CreateMap<ResidentialResponse, ShowingDto>()

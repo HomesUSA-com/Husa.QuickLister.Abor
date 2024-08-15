@@ -19,7 +19,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public HoaRequirement? HOARequirement { get; set; }
         public BillingFrequency? BillingFrequency { get; set; }
         public ICollection<HoaIncludes> HoaIncludes { get; set; }
-        public bool HasBuyerIncentive { get; set; }
         public decimal? BuyersAgentCommission { get; set; }
         public CommissionType BuyersAgentCommissionType { get; set; }
         public bool HasAgentBonus { get; set; }
@@ -66,7 +65,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             clonedFinancial.AgentBonusAmount = financial.AgentBonusAmount;
             clonedFinancial.AgentBonusAmountType = financial.AgentBonusAmountType;
             clonedFinancial.BonusExpirationDate = financial.BonusExpirationDate;
-            clonedFinancial.HasBuyerIncentive = financial.HasBuyerIncentive;
             clonedFinancial.TaxExemptions = financial.TaxExemptions;
             clonedFinancial.PreferredTitleCompany = financial.TitleCompany;
             clonedFinancial.HoaFee = financial.HoaFee;
@@ -90,7 +88,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             yield return this.AgentBonusAmount;
             yield return this.AgentBonusAmountType;
             yield return this.BonusExpirationDate;
-            yield return this.HasBuyerIncentive;
             yield return this.HoaFee;
             yield return this.HoaName;
             yield return this.EstimatedTax;

@@ -14,7 +14,6 @@ namespace Husa.Quicklister.Abor.Application.Models.Lot
         public HoaRequirement? HOARequirement { get; set; }
         public BillingFrequency? BillingFrequency { get; set; }
         public ICollection<HoaIncludes> HoaIncludes { get; set; }
-        public bool HasBuyerIncentive { get; set; }
         public decimal? BuyersAgentCommission { get; set; }
         public CommissionType BuyersAgentCommissionType { get; set; }
         public bool HasAgentBonus { get; set; }

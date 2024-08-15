@@ -162,7 +162,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions.SaleRequest
                 AgentBonusAmount = financial.AgentBonusAmount,
                 AgentBonusAmountType = financial.AgentBonusAmountType,
                 BonusExpirationDate = financial.BonusExpirationDate,
-                HasBuyerIncentive = financial.HasBuyerIncentive,
             };
 
         public static PropertyInfoQueryResult ToProjectionPropertyInfo<T>(this T property)
