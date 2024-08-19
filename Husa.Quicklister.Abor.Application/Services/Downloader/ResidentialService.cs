@@ -81,7 +81,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
                 residentialDto.SaleProperty.AddressInfo.UnitNumber);
 
             var listingStatusInfo = this.mapper.Map<ListingStatusFieldsInfo>(residentialDto.StatusFieldsInfo);
-            var agent = await this.agentRepository.GetAgentByMarketUniqueId(residentialDto.SellingAgentId);
+            var agent = await this.agentRepository.GetAgentByMlsId(residentialDto.SellingAgentId);
             listingStatusInfo.SetStatusChangeAgent(agent);
             var listingInfo = this.mapper.Map<ListingValueObject>(residentialDto);
             var salePropertyInfo = this.mapper.Map<SalePropertyValueObject>(residentialDto.SaleProperty);
