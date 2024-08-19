@@ -11,10 +11,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
 
         public MarketStatuses MlsStatus { get; set; }
 
-        public string Subdivision { get; set; }
-
-        public string OwnerName { get; set; }
-
         public string ModifiedBy { get; set; }
 
         public DateTime? ExpirationDate { get; set; }
@@ -54,12 +50,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
         public string Name { get; set; }
 
         public string Title { get; set; }
-
-        public Guid CompanyId { get; set; }
-
-        public Guid CommunityId { get; set; }
-
-        public string CommunityName { get; set; }
 
         public Guid ListingId { get; set; }
 
