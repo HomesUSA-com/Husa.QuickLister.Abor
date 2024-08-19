@@ -32,6 +32,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             { AlertType.OrphanListings, OrphanListingsExpression },
             { AlertType.ActiveAndPendingListing, ActiveAndPendingListingsExpression },
             { AlertType.ComparableAndRelistListing, ComparableAndRelistListingsExpression },
+            { AlertType.CompletedHomesWithoutPhotoRequest, CompletedHomesWithoutPhotoRequestExpression },
         };
 
         // Temp Off Market - Back on Market (BOM) Date - Due in 7 days or Less
@@ -144,5 +145,13 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         public static Expression<Func<SaleListing, bool>> OrphanListingsExpression => listingSale =>
             listingSale.SaleProperty.Community == null &&
             SaleListing.OrphanListingStatuses.Contains(listingSale.MlsStatus);
+
+        // Completed Homes Without PhotoRequest
+        public static Expression<Func<SaleListing, bool>> CompletedHomesWithoutPhotoRequestExpression => listing =>
+            SaleListing.ActivePhotoRequestListingStatuses.Contains(listing.MlsStatus) &&
+            !string.IsNullOrEmpty(listing.MlsNumber) && !listing.LastPhotoRequestId.HasValue &&
+            listing.SaleProperty.PropertyInfo.ConstructionCompletionDate.HasValue &&
+            listing.SaleProperty.PropertyInfo.ConstructionCompletionDate.Value <= DateTime.UtcNow &&
+            !listing.IsPhotosDeclined;
     }
 }

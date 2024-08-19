@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Common.Classes;
@@ -33,9 +34,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             ApplicationQueriesDbContext context,
             IUserRepository userQueriesRepository,
             IPhotoServiceClient photoService,
+            IServiceSubscriptionClient serviceSubscriptionClient,
             ILogger<AlertQueriesRepository> logger,
             IUserContextProvider userContext)
-            : base(userQueriesRepository, logger, photoService, userContext)
+            : base(userQueriesRepository, logger, photoService, serviceSubscriptionClient, userContext)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -66,19 +68,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .ToListAsync();
 
             return await this.FillCommunityEmployeeName(employees, filter);
-        }
-
-        protected override Task<DataSet<DetailAlertQueryResult>> GetCompletedHomesWithoutPhotoRequestAsync(BaseAlertQueryFilter filter)
-        {
-            var query = this.GetSaleListingAlerts(filter.SearchBy)
-                .FilterByStatus(SaleListing.ActivePhotoRequestListingStatuses)
-                .Where(listing =>
-                    !string.IsNullOrEmpty(listing.MlsNumber) && !listing.LastPhotoRequestId.HasValue &&
-                    listing.SaleProperty.PropertyInfo.ConstructionCompletionDate.HasValue &&
-                    listing.SaleProperty.PropertyInfo.ConstructionCompletionDate.Value <= DateTime.UtcNow &&
-                    !listing.IsPhotosDeclined);
-
-            return this.ToDetailAlertQueryResultDataSet(query, filter);
         }
 
         protected override Task<DataSet<DetailAlertQueryResult>> GetXmlListingUpdatedWithoutRequestAsync(BaseAlertQueryFilter filter)

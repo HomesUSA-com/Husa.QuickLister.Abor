@@ -19,7 +19,7 @@
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.0.1" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.5.1" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.5.4" />
     </ItemGroup>
 
     <ItemGroup>
