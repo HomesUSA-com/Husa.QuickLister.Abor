@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
+    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Models;
@@ -29,6 +30,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
         private readonly Mock<IPhotoServiceClient> photoService = new();
         private readonly Mock<IUserContextProvider> userContex = new();
         private readonly Mock<ILogger<AlertQueriesRepository>> logger = new();
+        private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
+
         public AlertQueriesRepositoryTest()
         {
             this.userContex.Setup(u => u.GetCurrentUser()).Returns(GetRealUser());
@@ -101,6 +104,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
                 queriesDbContext,
                 this.userQueriesRepository.Object,
                 this.photoService.Object,
+                this.serviceSubscriptionClient.Object,
                 this.logger.Object,
                 this.userContex.Object);
         }
