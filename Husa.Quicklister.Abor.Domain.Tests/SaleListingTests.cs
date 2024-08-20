@@ -170,5 +170,23 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             // Assert
             Assert.Equal(ResponseCode.Success, result.Code);
         }
+
+        [Fact]
+        public void ChangeCompany_Success()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var newCompanyId = Guid.NewGuid();
+            var newCompanyName = "New Company Name";
+            var listing = ListingTestProvider.GetListingEntity(listingId);
+
+            // Act
+            listing.ChangeCompany(newCompanyId, newCompanyName);
+
+            // Assert
+            Assert.Equal(newCompanyId, listing.CompanyId);
+            Assert.Equal(newCompanyId, listing.SaleProperty.CompanyId);
+            Assert.Equal(newCompanyName, listing.SaleProperty.OwnerName);
+        }
     }
 }

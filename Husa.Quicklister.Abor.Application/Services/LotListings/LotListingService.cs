@@ -168,21 +168,6 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             await this.ListingRepository.SaveChangesAsync(lotListing);
         }
 
-        public override async Task ChangeCommunity(Guid listingId, Guid communityId)
-        {
-            var lotListing = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<LotListing>(listingId);
-            var community = await this.communityRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
-
-            if (lotListing.CompanyId != community.CompanyId)
-            {
-                this.Logger.LogInformation("The selected Community with id: {communityId} was not found for the company id: '{CompanyId}'", communityId, community.CompanyId);
-                throw new NotFoundException<CommunitySale>(communityId);
-            }
-
-            lotListing.CommunityId = communityId;
-            await this.ListingRepository.SaveChangesAsync(lotListing);
-        }
-
         public async Task AssignMlsNumberAsync(Guid listingId, string mlsNumber, MarketStatuses requestStatus, ActionType actionType)
         {
             var lotListing = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<LotListing>(listingId);
@@ -233,6 +218,19 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
         protected override Task UpdatePhotoRequestProperty(LotListing listing)
         {
             throw new NotImplementedException();
+        }
+
+        protected override async Task UpdateCommunity(LotListing listing, Guid communityId, bool filterByUserContext = true)
+        {
+            var community = await this.communityRepository.GetById(communityId, filterByCompany: filterByUserContext) ?? throw new NotFoundException<CommunitySale>(communityId);
+
+            if (listing.CompanyId != community.CompanyId)
+            {
+                this.Logger.LogInformation("The selected Community with id: {communityId} was not found for the company id: '{CompanyId}'", communityId, community.CompanyId);
+                throw new NotFoundException<CommunitySale>(communityId);
+            }
+
+            listing.CommunityId = communityId;
         }
 
         private async Task ImportDataFromListingAsync(LotListing lotListingEntity, Guid listingIdToImport)
