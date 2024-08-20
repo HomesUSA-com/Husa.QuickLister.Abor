@@ -50,5 +50,11 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "WTRCN")]
         [Description("Water Connected")]
         WaterConnected,
+        [EnumMember(Value = "None")]
+        [Description("None")]
+        None,
+        [EnumMember(Value = "SRMRKS")]
+        [Description("See Remarks")]
+        SeeRemarks,
     }
 }
