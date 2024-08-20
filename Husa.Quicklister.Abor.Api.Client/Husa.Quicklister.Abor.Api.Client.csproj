@@ -11,6 +11,8 @@
         <Version>2.8.1</Version>
         <PackageReleaseNotes>
             Release 2.8.1:
+            - Updated Husa.Quicklister.Extensions.Api.Client
+            - Removed HasBuyerIncentive field
             - Add more constants to Utilities
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
