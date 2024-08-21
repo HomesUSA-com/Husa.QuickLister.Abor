@@ -9,24 +9,24 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Alert;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Alert;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
-    [ApiController]
-    [Route("alerts")]
-    public class AlertsController : ControllerBase
+    public class AlertsController : Husa.Quicklister.Extensions.Api.Controllers.AlertsController
     {
         private readonly IAlertQueriesRepository alertQueriesRepository;
-        private readonly ILogger<AlertsController> logger;
-        private readonly IMapper mapper;
 
-        public AlertsController(IAlertQueriesRepository alertQueriesRepository, ILogger<AlertsController> logger, IMapper mapper)
+        public AlertsController(
+           IAlertQueriesRepository alertQueriesRepository,
+           IViolationWarningAlertService violationWarningAlertService,
+           ILogger<AlertsController> logger,
+           IMapper mapper)
+           : base(violationWarningAlertService, logger, mapper)
         {
             this.alertQueriesRepository = alertQueriesRepository ?? throw new ArgumentNullException(nameof(alertQueriesRepository));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet("{alertType}")]
