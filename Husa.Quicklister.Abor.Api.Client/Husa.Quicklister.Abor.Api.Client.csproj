@@ -8,11 +8,12 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.8.0</Version>
+        <Version>2.8.1</Version>
         <PackageReleaseNotes>
-            Release 2.8.0:
+            Release 2.8.1:
             - Updated Husa.Quicklister.Extensions.Api.Client
             - Removed HasBuyerIncentive field
+            - Add more constants to Utilities
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
