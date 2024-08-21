@@ -100,6 +100,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IAgentRepository, AgentRepository>();
             services.AddScoped<IOfficeRepository, OfficeRepository>();
             services.AddScoped<ILotListingRepository, LotListingRepository>();
+            services.AddScoped<IViolationWarningAlertRepository, ViolationWarningAlertRepository>();
 
             return services;
         }
@@ -124,6 +125,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddExtensionServices();
             services.AddTransient<IValidateListingStatusChanges<ListingSaleRequestForUpdate>, ListingSaleRequestWithStatusChangeValidator>();
             services.AddScoped<IAgentService, AgentService>();
             services.AddScoped<IOfficeService, OfficeService>();
