@@ -46,5 +46,12 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
                 .AddQueryString("isOnlyCount", filters.IsOnlyCount);
             return this.client.GetAsync<DataSet<AlertDetailResponse>>(endpoint, token);
         }
+
+        public Task AddViolationWarning(ViolationWarningAlertRequest body, CancellationToken token = default)
+        {
+            this.logger.LogInformation("Add Violation Warning {@body}", body);
+            var endpoint = $"{this.baseUri}/violation-warning";
+            return this.client.PostAsJsonAsync(endpoint, body, token: token);
+        }
     }
 }

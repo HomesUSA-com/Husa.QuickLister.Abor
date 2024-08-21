@@ -11,9 +11,11 @@ namespace Husa.Quicklister.Abor.Data
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.ReverseProspect;
+    using Husa.Quicklister.Extensions.Data.Interfaces;
+    using Husa.Quicklister.Extensions.Domain.Entities;
     using Microsoft.EntityFrameworkCore;
 
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IDbSetViolationWarningAlert
     {
         public const string Schema = "dbo";
         public const string ConnectionName = "HomesUSAConnection";
@@ -56,6 +58,8 @@ namespace Husa.Quicklister.Abor.Data
         public virtual DbSet<LotListing> LotListing { get; set; }
 
         public virtual DbSet<LotManagementTrace> LotManagementTrace { get; set; }
+
+        public virtual DbSet<ViolationWarningAlert> ViolationWarningAlert { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
