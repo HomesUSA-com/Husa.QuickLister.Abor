@@ -31,11 +31,11 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
 
         [HttpPost("import")]
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
-        public async Task<IActionResult> ImportMediaAsync([FromRoute] Guid listingId, [FromBody] IEnumerable<ImportMedia> media)
+        public async Task<IActionResult> ImportMediaAsync([FromRoute] Guid entityId, [FromBody] IEnumerable<ImportMedia> media)
         {
-            this.Logger.LogInformation("Importing resources for entity id {listingId}", listingId);
+            this.Logger.LogInformation("Importing resources for entity id {entityId}", entityId);
 
-            await this.MediaService.Resource.ImportAsync(listingId, media, mediaLimitAllowed: this.MediaLimitAllowed);
+            await this.MediaService.Resource.ImportAsync(entityId, media, mediaLimitAllowed: this.MediaLimitAllowed);
 
             return this.Ok();
         }
