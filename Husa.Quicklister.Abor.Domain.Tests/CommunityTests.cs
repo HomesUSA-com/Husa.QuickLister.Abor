@@ -133,7 +133,10 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             {
                 new CompanyExtensions.EmailLead { EmailPriority = EmailPriority.One, EntityType = EmailEntityType.Sale, Email = "principal@example.com" },
                 new CompanyExtensions.EmailLead { EmailPriority = EmailPriority.Two, EntityType = EmailEntityType.Sale, Email = "secondary@example.com" },
-                new CompanyExtensions.EmailLead { EmailPriority = EmailPriority.Three, EntityType = EmailEntityType.Sale, Email = "other@example.com" },
+                new CompanyExtensions.EmailLead { EmailPriority = EmailPriority.Three, EntityType = EmailEntityType.Sale, Email = "third@example.com" },
+                new() { EmailPriority = EmailPriority.Four, EntityType = EmailEntityType.Sale, Email = "fourth@example.com" },
+                new() { EmailPriority = EmailPriority.Five, EntityType = EmailEntityType.Sale, Email = "fifth@example.com" },
+                new() { EmailPriority = EmailPriority.Six, EntityType = EmailEntityType.Sale, Email = "other@example.com" },
             };
 
             // Act
@@ -142,6 +145,9 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             // Assert
             Assert.Equal("principal@example.com", community.EmailLead.EmailLeadPrincipal);
             Assert.Equal("secondary@example.com", community.EmailLead.EmailLeadSecondary);
+            Assert.Equal("third@example.com", community.EmailLead.EmailLeadThird);
+            Assert.Equal("fourth@example.com", community.EmailLead.EmailLeadFourth);
+            Assert.Equal("fifth@example.com", community.EmailLead.EmailLeadFifth);
             Assert.Equal("other@example.com", community.EmailLead.EmailLeadOther);
         }
 
