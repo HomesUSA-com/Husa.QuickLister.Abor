@@ -383,7 +383,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
 
             this.EmailLead.EmailLeadPrincipal = emailLeads.Where(x => x.EmailPriority == EmailPriority.One && x.EntityType == EmailEntityType.Sale).Select(x => x.Email).FirstOrDefault();
             this.EmailLead.EmailLeadSecondary = emailLeads.Where(x => x.EmailPriority == EmailPriority.Two && x.EntityType == EmailEntityType.Sale).Select(x => x.Email).FirstOrDefault();
-            this.EmailLead.EmailLeadOther = emailLeads.Where(x => x.EmailPriority == EmailPriority.Three && x.EntityType == EmailEntityType.Sale).Select(x => x.Email).FirstOrDefault();
+            this.EmailLead.EmailLeadThird = emailLeads.Where(x => x.EmailPriority == EmailPriority.Three && x.EntityType == EmailEntityType.Sale).Select(x => x.Email).FirstOrDefault();
+            this.EmailLead.EmailLeadFourth = emailLeads.Where(x => x.EmailPriority == EmailPriority.Four && x.EntityType == EmailEntityType.Sale).Select(x => x.Email).FirstOrDefault();
+            this.EmailLead.EmailLeadFifth = emailLeads.Where(x => x.EmailPriority == EmailPriority.Five && x.EntityType == EmailEntityType.Sale).Select(x => x.Email).FirstOrDefault();
+            this.EmailLead.EmailLeadOther = emailLeads.Where(x => x.EmailPriority == EmailPriority.Six && x.EntityType == EmailEntityType.Sale).Select(x => x.Email).FirstOrDefault();
         }
 
         public virtual void Update(
