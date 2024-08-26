@@ -19,6 +19,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.ServiceBus.Contracts;
     using Microsoft.Extensions.Logging;
+    using QLExtEnum = Husa.Quicklister.Extensions.Domain.Enums;
 
     public class ResidentialService : IResidentialService
     {
@@ -92,7 +93,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
                 listingSale = new SaleListing(listingInfo, listingStatusInfo, salePropertyInfo, company.Id, true);
                 this.listingSaleRepository.Attach(listingSale);
             }
-            else
+            else if (listingSale.LockedStatus == QLExtEnum.LockedStatus.NoLocked || listingSale.LockedStatus == QLExtEnum.LockedStatus.LockedBySystem)
             {
                 listingSale.ApplyMarketUpdate(
                     listingInfo,
@@ -100,6 +101,10 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
                     salePropertyInfo,
                     companyId: company.Id,
                     processFullListing);
+            }
+            else
+            {
+                return;
             }
 
             await this.listingSaleRepository.SaveChangesAsync(listingSale);

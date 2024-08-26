@@ -264,7 +264,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
             this.XmlListingId = listing.Id;
             this.SaleProperty.UpdateFromXml(listing, ignoreRequestByCompletionDate);
-            this.LockByUser(userId);
         }
 
         public void ImportDataFromPlan(Plan plan)
