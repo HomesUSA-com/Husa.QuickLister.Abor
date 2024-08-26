@@ -9,7 +9,7 @@
         <PackageReference Include="Husa.Extensions.Authorization" Version="4.1.0" />
         <PackageReference Include="Husa.Extensions.Common" Version="4.1.4" />
         <PackageReference Include="Husa.Extensions.Quickbooks" Version="1.0.0" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Crosscutting" Version="2.2.1" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Crosscutting" Version="2.3.0" />
         <PackageReference Include="Husa.Xml.Client" Version="2.3.1" />
     </ItemGroup>
 
