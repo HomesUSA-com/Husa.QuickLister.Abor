@@ -59,14 +59,10 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Api.Configuration;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Migration;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Reports;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
-    using Husa.Quicklister.Extensions.Domain.Repositories;
     using Husa.ReverseProspect.Api.Client;
     using Husa.Xml.Api.Client;
     using Husa.Xml.Api.Client.Interface;
@@ -76,8 +72,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
     using Microsoft.OpenApi.Models;
-    using CommunityInterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces.Community;
-    using PlanInterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces.Plan;
+    using InterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces;
+    using RepositoriesExtensions = Husa.Quicklister.Extensions.Domain.Repositories;
 
     public static class Bootstrapper
     {
@@ -100,12 +96,14 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IAgentRepository, AgentRepository>();
             services.AddScoped<IOfficeRepository, OfficeRepository>();
             services.AddScoped<ILotListingRepository, LotListingRepository>();
-            services.AddScoped<IViolationWarningAlertRepository, ViolationWarningAlertRepository>();
+            services.AddScoped<RepositoriesExtensions.IViolationWarningAlertRepository, ViolationWarningAlertRepository>();
+            services.AddScoped<ILegacySaleListingRepository, LegacySaleListingRepository>();
 
             return services;
         }
 
-        public static IServiceCollection AddCommonRepositories(this IServiceCollection services) => services.AddScoped<IUserRepository, UserRepository>();
+        public static IServiceCollection AddCommonRepositories(this IServiceCollection services)
+            => services.AddScoped<RepositoriesExtensions.IUserRepository, UserRepository>();
 
         public static IServiceCollection AddQueriesRepositories(this IServiceCollection services)
         {
@@ -126,6 +124,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddExtensionServices();
+            services.AddScoped<InterfaceExtensions.Listing.ILegacyListingService, LegacyListingService>();
             services.AddTransient<IValidateListingStatusChanges<ListingSaleRequestForUpdate>, ListingSaleRequestWithStatusChangeValidator>();
             services.AddScoped<IAgentService, AgentService>();
             services.AddScoped<IOfficeService, OfficeService>();
@@ -143,26 +142,26 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ILotListingPhotoService, LotListingPhotoService>();
             services.AddScoped<ILotListingMediaService, LotListingMediaService>();
             services.AddScoped<ILotListingRequestService, LotListingRequestService>();
-            services.AddScoped<ILotListingRequestMediaService, LotListingRequestMediaService>();
+            services.AddScoped<InterfaceExtensions.Request.ILotListingRequestMediaService, LotListingRequestMediaService>();
 
             services.AddScoped<ICommunityHistoryService, CommunityHistoryService>();
             services.AddScoped<ISaleListingRequestService, SaleListingRequestService>();
-            services.AddScoped<ISaleListingRequestMediaService, SaleListingRequestMediaService>();
-            services.AddScoped<IListingRequestMigrationService, ListingRequestMigrationService>();
+            services.AddScoped<InterfaceExtensions.Request.ISaleListingRequestMediaService, SaleListingRequestMediaService>();
+            services.AddScoped<InterfaceExtensions.Migration.IListingRequestMigrationService, ListingRequestMigrationService>();
             services.AddScoped<ISaleListingMigrationService, SaleListingMigrationService>();
 
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<IPlanPhotoService, PlanPhotoService>();
-            services.AddScoped<PlanInterfaceExtensions.IPlanXmlService, PlanXmlService>();
-            services.AddScoped<IPlanMigrationService, PlanMigrationService>();
+            services.AddScoped<InterfaceExtensions.Plan.IPlanXmlService, PlanXmlService>();
+            services.AddScoped<InterfaceExtensions.Migration.IPlanMigrationService, PlanMigrationService>();
             services.AddScoped<IPlanMediaService, PlanMediaService>();
             services.AddScoped<IPlanNotesService, PlanNotesService>();
 
             services.AddScoped<ISaleCommunityService, SaleCommunityService>();
             services.AddScoped<ICommunityPhotoService, CommunityPhotoService>();
-            services.AddScoped<CommunityInterfaceExtensions.ICommunityXmlService, CommunityXmlService>();
+            services.AddScoped<InterfaceExtensions.Community.ICommunityXmlService, CommunityXmlService>();
             services.AddScoped<ICommunityMigrationService, CommunityMigrationService>();
-            services.AddScoped<ICommunityHistoryMigrationService, CommunityHistoryMigrationService>();
+            services.AddScoped<InterfaceExtensions.Migration.ICommunityHistoryMigrationService, CommunityHistoryMigrationService>();
             services.AddScoped<ICommunityMediaService, CommunityMediaService>();
             services.AddScoped<ICommunityNotesService, CommunityNotesService>();
 
@@ -174,7 +173,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IImportMlsMediaMessagingService, ImportMlsMediaMessagingService>();
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<ISaleListingBillService, SaleListingBillService>();
-            services.AddScoped<IDiscrepancyReportService, DiscrepancyReportService>();
+            services.AddScoped<InterfaceExtensions.Reports.IDiscrepancyReportService, DiscrepancyReportService>();
             services.AddScoped<Extensions.Application.Interfaces.Listing.ICallForwardService, CallForwardService>();
 
             services.ConfigureLegacyListingService(Migration.Enums.MigrationMarketType.Austin);
@@ -375,6 +374,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
         public static IServiceCollection AddServiceBusHandlers(this IServiceCollection services)
         {
+            services.AddExtensionServiceBusHandlers();
             services.AddSingleton<IDownloaderSubscriber, DownloaderSubscriber>();
             services.AddSingleton<IDownloaderMessagesHandler, DownloaderMessagesHandler>();
             services.AddSingleton<IPhotoServiceMessagesHandler, PhotoServiceMessagesHandler>();
