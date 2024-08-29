@@ -26,10 +26,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Microsoft.Extensions.Logging;
     using AlertExtension = Husa.Quicklister.Extensions.Data.Queries.Repositories;
 
-    public class AlertQueriesRepository : AlertExtension.AlertQueriesRepository<SaleListing, DetailAlertQueryResult, MarketStatuses>, IAlertQueriesRepository
+    public class AlertQueriesRepository : AlertExtension.AlertQueriesRepository<ApplicationQueriesDbContext, SaleListing, DetailAlertQueryResult, MarketStatuses>, IAlertQueriesRepository
     {
-        private readonly ApplicationQueriesDbContext context;
-
         public AlertQueriesRepository(
             ApplicationQueriesDbContext context,
             IUserRepository userQueriesRepository,
@@ -37,9 +35,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             IServiceSubscriptionClient serviceSubscriptionClient,
             ILogger<AlertQueriesRepository> logger,
             IUserContextProvider userContext)
-            : base(userQueriesRepository, logger, photoService, serviceSubscriptionClient, userContext)
+            : base(userQueriesRepository, logger, photoService, serviceSubscriptionClient, userContext, context)
         {
-            this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         protected override IReadOnlyDictionary<AlertType, Expression<Func<SaleListing, bool>>> AlertDictionary => AlertsQueryExtensions.AlertsDictionary;
@@ -51,9 +48,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
         protected override async Task<DataSet<DetailAlertQueryResult>> GetActiveEmployeesAsync(BaseAlertQueryFilter filter)
         {
             var currentUser = this.UserContext.GetCurrentUser();
-            var employeesQueriable = this.context.Community
+            var employeesQueriable = this.Context.Community
                 .FilterByCompany(currentUser)
-                .Join(this.context.CommunityEmployee, comm => comm.Id, emp => emp.CommunityId, (community, employee) => new { community, employee })
+                .Join(this.Context.CommunityEmployee, comm => comm.Id, emp => emp.CommunityId, (community, employee) => new { community, employee })
                 .Where(communityEmployee => !communityEmployee.community.IsDeleted && !communityEmployee.employee.IsDeleted);
 
             var employees = await employeesQueriable
@@ -73,7 +70,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
         protected override Task<DataSet<DetailAlertQueryResult>> GetXmlListingUpdatedWithoutRequestAsync(BaseAlertQueryFilter filter)
         {
             var query = this.GetSaleListingAlerts(filter.SearchBy)
-               .Join(this.context.XmlRequestError, listing => listing.Id, error => error.ListingId, (listing, error) => listing)
+               .Join(this.Context.XmlRequestError, listing => listing.Id, error => error.ListingId, (listing, error) => listing)
                .Include(x => x.XmlRequestError);
             return this.ToDetailAlertQueryResultDataSet(query, filter);
         }
@@ -83,7 +80,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             var currentUser = this.UserContext.GetCurrentUser();
             if (currentUser.UserRole == UserRole.User && currentUser.EmployeeRole == RoleEmployee.SalesEmployee)
             {
-                var communityIds = this.context.CommunityEmployee.Where(x => x.UserId == currentUser.Id && !x.IsDeleted).Select(x => x.CommunityId).ToList();
+                var communityIds = this.Context.CommunityEmployee.Where(x => x.UserId == currentUser.Id && !x.IsDeleted).Select(x => x.CommunityId).ToList();
                 query = query.Where(x => x.SaleProperty.CommunityId.HasValue && communityIds.Contains(x.SaleProperty.CommunityId.Value));
             }
 
@@ -93,7 +90,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
         protected override IQueryable<SaleListing> GetSaleListingAlerts(string search = null)
         {
             var currentUser = this.UserContext.GetCurrentUser();
-            var query = this.context.ListingSale
+            var query = this.Context.ListingSale
                 .Include(d => d.SaleProperty)
                 .Include(d => d.SaleProperty.Community)
                 .Include(d => d.SaleProperty.Community.Employees)
