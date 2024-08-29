@@ -14,6 +14,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
         public static Expression<Func<SaleListing, DetailAlertQueryResult>> ProjectListingSaleQueryResult => listingSale => new()
         {
             Id = listingSale.Id,
+            CompanyId = listingSale.CompanyId,
+            ListingId = listingSale.Id,
             MarketCode = MarketCode.Austin,
             MlsNumber = listingSale.MlsNumber,
             MlsStatus = listingSale.MlsStatus,
