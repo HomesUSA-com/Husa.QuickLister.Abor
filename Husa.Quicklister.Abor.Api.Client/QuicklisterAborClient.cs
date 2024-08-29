@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Api.Client
     using Husa.Quicklister.Abor.Api.Client.Resources;
     using Husa.Quicklister.Abor.Api.Client.Resources.LotListing;
     using Microsoft.Extensions.Logging;
+    using ExtensionsClient = Husa.Quicklister.Extensions.Api.Client;
 
     public class QuicklisterAborClient : HusaStandardClient, IQuicklisterAborClient
     {
@@ -20,7 +21,7 @@ namespace Husa.Quicklister.Abor.Api.Client
             this.SaleListing = new SaleListing(this, logger.CreateLogger<SaleListing>());
             this.SaleCommunity = new SaleCommunity(this, logger.CreateLogger<SaleCommunity>());
             this.Plan = new Plan(this, logger.CreateLogger<Plan>());
-            this.Alert = new Alert(this, logger.CreateLogger<Alert>());
+            this.Alert = new ExtensionsClient.Resources.Alert(this, logger.CreateLogger<ExtensionsClient.Resources.Alert>());
             this.Report = new Report(this, logger.CreateLogger<Report>());
             this.Xml = new Xml(this, logger.CreateLogger<Xml>());
         }
@@ -30,7 +31,7 @@ namespace Husa.Quicklister.Abor.Api.Client
         public ISaleListing SaleListing { get; }
         public ISaleCommunity SaleCommunity { get; }
         public IPlan Plan { get; }
-        public IAlert Alert { get; }
+        public ExtensionsClient.Interfaces.IAlert Alert { get; }
         public IReport Report { get; }
         public IXml Xml { get; }
     }
