@@ -95,6 +95,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "RSSWR")]
         [Description("Separate Shower")]
         SeparateShower,
+        [EnumMember(Value = "SRMRKS")]
+        [Description("See Remarks")]
+        SeeRemarks,
         [EnumMember(Value = "STCON")]
         [Description("Stackable W/D Connections")]
         StackableConnections,
