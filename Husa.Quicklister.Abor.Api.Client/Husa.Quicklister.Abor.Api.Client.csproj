@@ -12,6 +12,7 @@
         <PackageReleaseNotes>
             Release 2.9.0:
             - Updated Alert Reource
+            - Added See Remarks Option in Room Features
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

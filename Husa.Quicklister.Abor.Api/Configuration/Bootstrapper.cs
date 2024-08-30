@@ -9,12 +9,9 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Downloader.Sabor.Client;
     using Husa.Extensions.Api;
     using Husa.Extensions.Api.Client;
-    using Husa.Extensions.Api.Cors;
-    using Husa.Extensions.Api.Mvc;
     using Husa.Extensions.Authorization.Extensions;
     using Husa.Extensions.Cache.Extensions;
     using Husa.Extensions.Common;
-    using Husa.Extensions.Common.Exceptions.Filters;
     using Husa.Extensions.Media.Interfaces;
     using Husa.Extensions.Media.Services;
     using Husa.MediaService.Client;
@@ -24,7 +21,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.PhotoService.Api.Client;
     using Husa.PhotoService.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest;
-    using Husa.Quicklister.Abor.Api.Filters;
     using Husa.Quicklister.Abor.Api.Mappings;
     using Husa.Quicklister.Abor.Api.ServiceBus.Handlers;
     using Husa.Quicklister.Abor.Api.ServiceBus.Subscribers;
@@ -209,21 +205,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
                 .UseCache()
                 .UseTraceIdProvider();
 
-        public static IServiceCollection AddMvcOptions(this IServiceCollection services)
-        {
-            services.AddScoped<ExceptionLoggingFilterAttribute>();
-            services.AddScoped<QuicklisterAuthorizationFilter>();
-
-            services
-                .AddMvc(options =>
-                {
-                    options.EnableEndpointRouting = false;
-                    options.Filters.Add<ExceptionLoggingFilterAttribute>();
-                    options.Filters.Add<QuicklisterAuthorizationFilter>();
-                });
-            return services;
-        }
-
         public static IServiceCollection SwaggerConfiguration(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
@@ -273,18 +254,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
         public static IServiceCollection ControllerConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             var applicationOptions = configuration.GetSection(ApplicationOptions.Section).Get<ApplicationOptions>();
-
-            services
-                .RegisterCors(new[] { applicationOptions.QuicklisterUIUri })
-                .AddMvcOptions()
-                .AddControllersWithViews(options => options.AddControllerPrefixConventions("api"))
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions
-                        .SetConfiguration()
-                        .Converters.Add(new TimeSpanToStringConverter());
-                });
-
+            services.CorsAndControllerConfiguration(configuration, corsAllowedOrigins: applicationOptions.QuicklisterUIUri);
             return services;
         }
 
