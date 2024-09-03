@@ -7,14 +7,13 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
     using Husa.Quicklister.Abor.Api.ServiceBus.Handlers;
     using Husa.Quicklister.Abor.Api.ServiceBus.Subscribers;
     using Husa.Quicklister.Abor.Crosscutting;
-    using Microsoft.Extensions.Hosting;
+    using Husa.Quicklister.Extensions.Api.ServiceBus.Handlers;
+    using Husa.Quicklister.Extensions.Api.ServiceBus.Subscribers;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
-    public class Worker : IHostedService
+    public class Worker : Husa.Quicklister.Extensions.Api.ServiceBus.Worker
     {
-        private const string RegisterHandlerMsg = "Registering handler client: {subscriber}";
-        private const string CloseSubscriptionClientMsg = "Closing subcription client connection of {subscriber}";
         private readonly IPhotoServiceSubscriber photoSubscriber;
         private readonly IPhotoServiceMessagesHandler photoMessagesHandler;
         private readonly IDownloaderSubscriber downloaderSubscriber;
@@ -24,7 +23,6 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
         private readonly IMigrationSubscriber migrationSubscriber;
         private readonly IMigrationMessagesHandler migrationMessagesHandler;
         private readonly FeatureFlags featureFlags;
-        private readonly ILogger<Worker> logger;
 
         public Worker(
             IPhotoServiceSubscriber photoSubscriber,
@@ -35,10 +33,12 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
             IXmlMessagesHandler xmlMessagesHandler,
             IMigrationSubscriber migrationSubscriber,
             IMigrationMessagesHandler migrationMessagesHandler,
+            ICompanyServiceSubscriber companySubscriber,
+            ICompanyServiceMessagesHandler companyMessagesHandler,
             IOptions<ApplicationOptions> options,
             ILogger<Worker> logger)
+            : base(companySubscriber, companyMessagesHandler, logger)
         {
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.downloaderSubscriber = downloaderSubscriber ?? throw new ArgumentNullException(nameof(downloaderSubscriber));
             this.featureFlags = options?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(options));
             this.downloaderMessagesHandler = downloaderMessagesHandler ?? throw new ArgumentNullException(nameof(downloaderMessagesHandler));
@@ -50,56 +50,60 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
             this.migrationMessagesHandler = migrationMessagesHandler ?? throw new ArgumentNullException(nameof(migrationMessagesHandler));
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public override Task StartAsync(CancellationToken cancellationToken)
         {
             try
             {
-                this.logger.LogInformation(RegisterHandlerMsg, nameof(this.photoMessagesHandler));
+                this.Logger.LogInformation(RegisterHandlerMsg, nameof(this.photoMessagesHandler));
                 this.photoSubscriber.ConfigureClient(this.photoMessagesHandler);
 
-                this.logger.LogInformation(RegisterHandlerMsg, nameof(this.migrationMessagesHandler));
+                this.Logger.LogInformation(RegisterHandlerMsg, nameof(this.migrationMessagesHandler));
                 this.migrationSubscriber.ConfigureClient(this.migrationMessagesHandler);
 
                 if (this.featureFlags.IsDownloaderEnabled)
                 {
-                    this.logger.LogInformation(RegisterHandlerMsg, nameof(this.downloaderSubscriber));
+                    this.Logger.LogInformation(RegisterHandlerMsg, nameof(this.downloaderSubscriber));
                     this.downloaderSubscriber.ConfigureClient(this.downloaderMessagesHandler);
                 }
 
                 if (this.featureFlags.IsXmlBusHandlerEnabled)
                 {
-                    this.logger.LogInformation(RegisterHandlerMsg, nameof(this.xmlMessagesHandler));
+                    this.Logger.LogInformation(RegisterHandlerMsg, nameof(this.xmlMessagesHandler));
                     this.xmlSubscriber.ConfigureClient(this.xmlMessagesHandler);
                 }
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "Failed to register the client handlers");
+                this.Logger.LogError(ex, "Failed to register the client handlers");
                 throw;
             }
+
+            base.StartAsync(cancellationToken);
 
             return Task.CompletedTask;
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken)
+        public override async Task StopAsync(CancellationToken cancellationToken)
         {
-            this.logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.photoSubscriber));
+            this.Logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.photoSubscriber));
             await this.photoSubscriber.CloseClient();
 
-            this.logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.migrationSubscriber));
+            this.Logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.migrationSubscriber));
             await this.migrationSubscriber.CloseClient();
 
             if (this.featureFlags.IsDownloaderEnabled)
             {
-                this.logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.downloaderSubscriber));
+                this.Logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.downloaderSubscriber));
                 await this.downloaderSubscriber.CloseClient();
             }
 
             if (this.featureFlags.IsXmlBusHandlerEnabled)
             {
-                this.logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.xmlSubscriber));
+                this.Logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.xmlSubscriber));
                 await this.xmlSubscriber.CloseClient();
             }
+
+            await base.StopAsync(cancellationToken);
         }
     }
 }

@@ -8,13 +8,10 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.8.3</Version>
+        <Version>2.9.0</Version>
         <PackageReleaseNotes>
-            Release 2.8.3:
-            - Updated Husa.Quicklister.Extensions.Api.Client
-            - Removed HasBuyerIncentive field
-            - Add more constants to Utilities
-            - Added ViolationWarning to alerts
+            Release 2.9.0:
+            - Updated Alert Reource
             - Added See Remarks Option in Room Features
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
@@ -22,7 +19,7 @@
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.0.1" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.6.2" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.7.0" />
     </ItemGroup>
 
     <ItemGroup>
