@@ -20,5 +20,8 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "UPR")]
         [Description("Upper Level")]
         UpperLevel,
+        [EnumMember(Value = "Inside")]
+        [Description("Inside")]
+        Inside,
     }
 }
