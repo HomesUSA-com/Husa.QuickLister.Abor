@@ -847,6 +847,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
         public static ElementarySchool? ToElementarySchool(this string school) => school switch
         {
             "Callison" => ElementarySchool.NeysaCallison,
+            "Igo Elementary" => ElementarySchool.Igo,
             _ => school.GetEnumFromSchools<ElementarySchool>(),
         };
 }
