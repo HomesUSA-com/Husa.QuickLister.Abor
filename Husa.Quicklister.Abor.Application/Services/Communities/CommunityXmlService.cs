@@ -2,6 +2,8 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
 {
     using System;
     using System.Threading.Tasks;
+    using Husa.CompanyServicesManager.Api.Client.Interfaces;
+    using Husa.CompanyServicesManager.Api.Contracts.Response;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
@@ -18,8 +20,9 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             IXmlClient xmlClient,
             ICommunitySaleRepository communityRepository,
             IUserContextProvider userContextProvider,
+            IServiceSubscriptionClient serviceSubscriptionClient,
             ILogger<CommunityXmlService> logger)
-            : base(xmlClient, communityRepository, userContextProvider, logger)
+            : base(xmlClient, communityRepository, userContextProvider, serviceSubscriptionClient, logger)
         {
         }
 
@@ -27,9 +30,10 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
         {
             this.Logger.LogInformation("Importing xml subdivision with id {subdivisionId} to company with id {companyId}", entityId, companyId);
             var subdivision = await this.XmlClient.Subdivision.GetByIdAsync(entityId);
+            var companyDetail = await this.ServiceSubscriptionClient.Company.GetCompany(companyId) ?? throw new NotFoundException<CompanyDetail>(companyId);
             var community = await this.CreateCommunity(subdivision, companyId, subdivision.Name, companyName, subdivision.City, subdivision.County);
             this.Logger.LogDebug("Importing xml subdivision {subdivisionId} with the values: {@subdivision}", entityId, subdivision);
-            community.ProcessXmlData(subdivision, companyName);
+            community.ProcessXmlData(subdivision, companyName, isCentralizedEmailLeads: companyDetail.EmailLeadInfo.LockedEmailLeads);
             await this.CommunitySaleRepository.SaveChangesAsync();
             await this.XmlClient.Subdivision.ProcessSubdivision(entityId, community.Id);
         }
