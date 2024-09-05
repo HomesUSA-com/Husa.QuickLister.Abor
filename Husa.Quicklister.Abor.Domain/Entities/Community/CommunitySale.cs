@@ -92,7 +92,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
                 throw new ArgumentNullException(nameof(property));
             }
 
-            this.UpdateChanges(nameof(this.Property), this.Property.GetDifferences(property));
+            this.UpdateChanges(nameof(this.Property), this.Property.GetDifferences(property, exclude: new[] { nameof(this.Property.ConstructionStage) }));
 
             if (this.Property != property)
             {

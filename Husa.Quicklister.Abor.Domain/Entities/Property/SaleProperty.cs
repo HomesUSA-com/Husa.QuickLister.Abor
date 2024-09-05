@@ -290,10 +290,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             communitySale.Utilities.CopyProperties(this.SpacesDimensionsInfo, utilitiesChanges);
 
             var propertyChanges = communitySale.GetChangedProperties(nameof(communitySale.Property));
-            var oldConstructionStage = this.PropertyInfo.ConstructionStage;
             communitySale.Property.CopyProperties(this.AddressInfo, propertyChanges);
             communitySale.Property.CopyProperties(this.PropertyInfo, propertyChanges);
-            this.PropertyInfo.ConstructionStage = oldConstructionStage;
         }
 
         public virtual void ImportOpenHouseFromCommunity(CommunitySale communitySale)
