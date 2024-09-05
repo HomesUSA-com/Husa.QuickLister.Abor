@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Api
     using Husa.Extensions.EmailNotification;
     using Husa.Extensions.Logger.Enrichers;
     using Husa.Extensions.Media.Extensions;
+    using Husa.Extensions.OpenAI.Configuration;
     using Husa.Extensions.Quickbooks.Extensions;
     using Husa.Quicklister.Abor.Api.Configuration;
     using Husa.Quicklister.Abor.Api.Middlewares;
@@ -34,7 +35,8 @@ namespace Husa.Quicklister.Abor.Api
             services
                 .BindOptions()
                 .AddServiceBusOptions()
-                .BindIdentitySettings();
+                .BindIdentitySettings()
+                .ConfigureOpenAiApiClient();
 
             services.AddLocalization();
             services.AddApplicationInsightsTelemetry();
