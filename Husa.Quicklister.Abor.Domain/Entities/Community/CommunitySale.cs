@@ -296,18 +296,18 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             this.CompanyId = companyId;
         }
 
-        public virtual void ProcessXmlData(SubdivisionResponse subdivision, string companyName)
+        public virtual void ProcessXmlData(SubdivisionResponse subdivision, string companyName, bool isCentralizedEmailLeads = false)
         {
             if (!subdivision.CommunityProfileId.HasValue || subdivision.CommunityProfileId == Guid.Empty)
             {
-                this.ImportFromXml(subdivision, companyName);
+                this.ImportFromXml(subdivision, companyName, isCentralizedEmailLeads);
                 return;
             }
 
-            this.UpdateFromXml(subdivision, companyName);
+            this.UpdateFromXml(subdivision, companyName, isCentralizedEmailLeads);
         }
 
-        public virtual void UpdateFromXml(SubdivisionResponse subdivision, string companyName)
+        public virtual void UpdateFromXml(SubdivisionResponse subdivision, string companyName, bool isCentralizedEmailLeads = false)
         {
             var profile = this.ProfileInfo.UpdateFromXml(subdivision.SaleOffice, companyName);
             this.UpdateProfile(profile);
@@ -319,14 +319,18 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             this.UpdateFinancial(financialInfo);
             var showingInfo = this.Showing.UpdateFromXml(subdivision);
             this.UpdateShowing(showingInfo);
-            var emailLeads = this.EmailLead.UpdateFromXml(subdivision);
-            this.UpdateEmailLeads(emailLeads);
+
+            if (!isCentralizedEmailLeads)
+            {
+                var emailLeads = this.EmailLead.UpdateFromXml(subdivision);
+                this.UpdateEmailLeads(emailLeads);
+            }
 
             var openHouses = subdivision.OpenHouses.Select(openHouse => CommunityOpenHouse.ImportFromXml(openHouse, openHouse.Day));
             this.UpdateOpenHouse(openHouses);
         }
 
-        public virtual void ImportFromXml(SubdivisionResponse subdivision, string companyName)
+        public virtual void ImportFromXml(SubdivisionResponse subdivision, string companyName, bool isCentralizedEmailLeads = false)
         {
             this.XmlStatus = XmlStatus.AwaitingApproval;
             var cityEnum = subdivision.City.ToCity(isExactValue: false);
@@ -354,8 +358,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             var utilitiesInfo = Utilities.ImportFromXml(subdivision, this.Utilities);
             this.UpdateUtilities(utilitiesInfo);
 
-            var emailLeads = EmailLead.ImportFromXml(subdivision, this.EmailLead);
-            this.UpdateEmailLeads(emailLeads);
+            if (!isCentralizedEmailLeads)
+            {
+                var emailLeads = EmailLead.ImportFromXml(subdivision, this.EmailLead);
+                this.UpdateEmailLeads(emailLeads);
+            }
 
             var openHouses = subdivision.OpenHouses.Select(openHouse => CommunityOpenHouse.ImportFromXml(openHouse, openHouse.Day));
             this.UpdateOpenHouse(openHouses);

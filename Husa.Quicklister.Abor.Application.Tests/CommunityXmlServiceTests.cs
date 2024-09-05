@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Services.Communities;
@@ -27,6 +28,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<ICommunitySaleRepository> communitySaleRepository = new();
         private readonly Mock<ILogger<CommunityXmlService>> logger = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
+        private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
         private readonly Mock<IXmlClient> xmlClient = new();
         private readonly ITestOutputHelper outputHelper;
 
@@ -39,6 +41,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.xmlClient.Object,
                 this.communitySaleRepository.Object,
                 this.userContextProvider.Object,
+                this.serviceSubscriptionClient.Object,
                 this.logger.Object);
             this.outputHelper = outputHelper ?? throw new ArgumentNullException(nameof(outputHelper));
         }
@@ -52,11 +55,15 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var companyId = Guid.NewGuid();
             var companyName = Faker.Company.Name();
             var subdivisionId = Guid.NewGuid();
+            var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
+            companyDetail.EmailLeadInfo = new() { LockedEmailLeads = true };
 
             this.xmlClient
                 .Setup(x => x.Subdivision.GetByIdAsync(It.Is<Guid>(id => id == subdivisionId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(XmlTestProvider.GetSubdivisionResponse(subdivisionId))
                 .Verifiable();
+
+            this.serviceSubscriptionClient.Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail).Verifiable();
 
             // Act
             await this.Sut.ImportEntity(companyId, companyName, subdivisionId);
@@ -75,6 +82,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var subdivisionId = Guid.NewGuid();
             var communityId = Guid.NewGuid();
             var communitySale = TestModelProvider.GetCommunitySaleEntity(communityId);
+            var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
+            companyDetail.EmailLeadInfo = new() { LockedEmailLeads = true };
 
             var subdivisionResponse = XmlTestProvider.GetSubdivisionResponse(subdivisionId, communityId);
             this.xmlClient
@@ -85,6 +94,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Setup(x => x.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()))
                 .ReturnsAsync(communitySale)
             .Verifiable();
+
+            this.serviceSubscriptionClient.Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail).Verifiable();
 
             this.outputHelper.WriteLine("This is the school for the subdivision: {0}", subdivisionResponse.SchoolDistrict.First().School.Single(t => t.Type == SchoolType.Elementary).Name);
 
@@ -104,6 +115,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var companyName = "company-name";
             var subdivisionId = Guid.NewGuid();
             var communityId = Guid.NewGuid();
+            var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
+            companyDetail.EmailLeadInfo = new() { LockedEmailLeads = true };
 
             this.xmlClient
                 .Setup(x => x.Subdivision.GetByIdAsync(It.Is<Guid>(id => id == subdivisionId), It.IsAny<CancellationToken>()))
@@ -112,7 +125,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.communitySaleRepository
                 .Setup(x => x.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()))
                 .ReturnsAsync((CommunitySale)null)
-                .Verifiable();
+            .Verifiable();
+
+            this.serviceSubscriptionClient.Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail).Verifiable();
 
             // Act & Assert
             await Assert.ThrowsAsync<NotFoundException<CommunitySale>>(() => this.Sut.ImportEntity(companyId, companyName, subdivisionId));
