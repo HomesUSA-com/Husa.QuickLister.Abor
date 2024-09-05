@@ -16,6 +16,7 @@
         <PackageReference Include="Husa.Extensions.EmailNotification" Version="4.0.0" />
         <PackageReference Include="Husa.Extensions.Logger.Enrichers" Version="1.0.0" />
         <PackageReference Include="Husa.Extensions.ServiceBus" Version="5.0.1" />
+        <PackageReference Include="Husa.Extensions.OpenAI" Version="0.1.0" />
         <PackageReference Include="Husa.MediaService.Client" Version="2.1.0" />
         <PackageReference Include="Husa.Downloader.Sabor.ServiceBus.Contracts" Version="2.0.0" />
         <PackageReference Include="Husa.Quicklister.Extensions.Api" Version="0.6.4" />
@@ -29,12 +30,6 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.2" />
         <PackageReference Include="System.Text.Json" Version="8.0.4" />
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
-        <PackageReference Include="Serilog" Version="3.1.1" />
-        <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
-        <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
-        <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
-        <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
-        <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
