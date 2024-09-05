@@ -171,7 +171,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             communitySale
                 .Setup(c => c.ImportFromXml(
                     It.IsAny<SubdivisionResponse>(),
-                    It.IsAny<string>()))
+                    It.IsAny<string>(),
+                    It.IsAny<bool>()))
                 .CallBase()
                 .Verifiable();
 
