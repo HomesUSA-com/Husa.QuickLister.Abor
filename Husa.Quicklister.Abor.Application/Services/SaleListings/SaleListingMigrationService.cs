@@ -97,6 +97,10 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             {
                 await this.saleListingService.AssignMlsNumberAsync(listing.Id, listingDto.MlsNumber, listingDto.MlsStatus, ActionType.NewListing);
             }
+            else if (listing.PublishInfo?.PublishType == null)
+            {
+                await this.saleListingService.UpdateActionTypeAsync(listing.Id, ActionType.NewListing);
+            }
 
             await this.saleListingService.UnlockListing(listing.Id);
         }
