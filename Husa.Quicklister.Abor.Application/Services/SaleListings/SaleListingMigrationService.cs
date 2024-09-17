@@ -63,10 +63,11 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             listingDto.SaleProperty.Id = listing.SaleProperty.Id;
             listingDto.SaleProperty.SalePropertyInfo.OwnerName = listing.SaleProperty.OwnerName;
             listingDto.SaleProperty.SalePropertyInfo.CompanyId = listing.SaleProperty.CompanyId;
-            listingDto.SaleProperty.SalePropertyInfo.PlanId = listing.SaleProperty.PlanId;
-            if (listing.SaleProperty.CommunityId.HasValue)
+            listingDto.SaleProperty.SalePropertyInfo.PlanId = listing.SaleProperty.PlanId ?? await this.GetPlanId(legacyListing);
+            var communityId = listing.SaleProperty.CommunityId ?? await this.GetCommunityId(legacyListing);
+            if (communityId.HasValue)
             {
-                listingDto.SaleProperty.SalePropertyInfo.CommunityId = listing.SaleProperty.CommunityId.Value;
+                listingDto.SaleProperty.SalePropertyInfo.CommunityId = communityId.Value;
             }
 
             listingDto.StatusFieldsInfo.AgentId = await this.GetAgentIdByMarketUniqueId(legacyListing.StatusFieldsInfo.AgentId);
@@ -134,6 +135,18 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 ReadableCity = listing.SaleProperty.AddressInfo.ReadableCity,
                 Subdivision = listing.SaleProperty.AddressInfo.Subdivision,
             };
+        }
+
+        protected override async Task UpdateProfiles(SaleListing listing, SaleListingResponse legacyListing)
+        {
+            if (listing.SaleProperty.PlanId.HasValue && listing.SaleProperty.CommunityId.HasValue)
+            {
+                return;
+            }
+
+            listing.SaleProperty.PlanId = listing.SaleProperty.PlanId ?? await this.GetPlanId(legacyListing);
+            listing.SaleProperty.CommunityId = listing.SaleProperty.CommunityId ?? await this.GetCommunityId(legacyListing);
+            await this.ListingRepository.SaveChangesAsync(listing);
         }
 
         private async Task<Guid?> GetAgentIdByMarketUniqueId(string marketUniqueId)
