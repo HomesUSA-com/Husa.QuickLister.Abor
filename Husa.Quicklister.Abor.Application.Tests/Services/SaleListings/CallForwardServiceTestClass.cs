@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Models.Listing;
     using Microsoft.Extensions.Logging;
     public class CallForwardServiceTestClass : CallForwardService
     {
@@ -26,6 +27,11 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
         public (bool Centralized, string Phone) PublicGetCentralizedPhone(SaleListing listing, CompanyDetail company)
         {
             return this.GetCentralizedPhone(listing, company);
+        }
+
+        public ListingDetails PublicGetListingDetails(SaleListing listing)
+        {
+            return this.GetListingDetails(listing);
         }
     }
 }
