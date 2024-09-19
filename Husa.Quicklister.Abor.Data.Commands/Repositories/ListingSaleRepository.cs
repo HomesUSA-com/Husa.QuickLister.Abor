@@ -91,6 +91,7 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             this.logger.LogInformation("Starting to get ABOR list sale by mls number: {mlsNumber}", mlsNumber);
             return await this.context.ListingSale
                  .Include(x => x.SaleProperty)
+                 .Include(x => x.SaleProperty.AddressInfo)
                  .FirstOrDefaultAsync(x => !x.IsDeleted && x.MlsNumber == mlsNumber);
         }
 
