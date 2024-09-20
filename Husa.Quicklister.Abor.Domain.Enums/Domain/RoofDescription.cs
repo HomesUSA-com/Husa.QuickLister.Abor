@@ -38,5 +38,8 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "WD")]
         [Description("Wood")]
         Wood,
+        [EnumMember(Value ="MTL")]
+        [Description("Metal")]
+        Metal,
     }
 }
