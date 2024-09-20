@@ -98,6 +98,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "SRMRKS")]
         [Description("See Remarks")]
         SeeRemarks,
+        [EnumMember(Value = "SKTUB")]
+        [Description("Soaking Tub")]
+        SoakingTub,
         [EnumMember(Value = "STCON")]
         [Description("Stackable W/D Connections")]
         StackableConnections,
@@ -113,6 +116,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "VULC")]
         [Description("Vaulted Ceiling(s)")]
         VaultedCeilings,
+        [EnumMember(Value = "WSHWR")]
+        [Description("Walk-In Shower")]
+        WalkInShower,
         [EnumMember(Value = "WSHCN")]
         [Description("Washer Hookup")]
         WasherHookup,

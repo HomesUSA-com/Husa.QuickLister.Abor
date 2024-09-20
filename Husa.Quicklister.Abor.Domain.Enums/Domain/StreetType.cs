@@ -617,5 +617,8 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "XRDS")]
         [Description("XRDS")]
         XRDS,
+        [EnumMember(Value = "None")]
+        [Description("None")]
+        None,
     }
 }
