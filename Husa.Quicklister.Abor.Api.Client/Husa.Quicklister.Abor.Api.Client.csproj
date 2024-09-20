@@ -8,14 +8,15 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.10.2</Version>
+        <Version>2.10.3</Version>
         <PackageReleaseNotes>
-            Release 2.10.0:
+            Release 2.10.3:
             - Updated Alert Reource
             - Added See Remarks Option in Room Features
             - Add option Inside into Laundry Location Enum
             - Add option Metal into RoofDescription Enum
             - Add options SoakingTub and WalkInShower to RoomFeatures Enum
+            - Add None to StreetType Enum
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
