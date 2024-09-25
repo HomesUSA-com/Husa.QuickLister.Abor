@@ -308,6 +308,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.Roof.Copper => RoofDescription.Copper,
             Trestle.Roof.FlatTile => RoofDescription.FlatTile,
             Trestle.Roof.GreenRoof => RoofDescription.GreenRoof,
+            Trestle.Roof.Metal => RoofDescription.Metal,
             Trestle.Roof.Shingle => RoofDescription.Shingle,
             Trestle.Roof.Slate => RoofDescription.Slate,
             Trestle.Roof.SpanishTile => RoofDescription.SpanishTile,
