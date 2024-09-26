@@ -165,6 +165,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.HeatSystem, dto => dto.MapFrom(src => src.OtherMessage.HeatingSystem.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.CoolingSystem, dto => dto.MapFrom(src => src.OtherMessage.CoolingSystem.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.WaterSewer, dto => dto.MapFrom(src => src.OtherMessage.WaterSewer.Select(x => x.ToCtxEnum()).Where(y => y != null)))
+                .ForMember(vo => vo.Disclosures, dto => dto.Ignore())
+                .ForMember(vo => vo.DocumentsAvailable, dto => dto.Ignore())
                 .ForMember(vo => vo.UtilitiesDescription, dto => dto.MapFrom(src => src.OtherMessage.OtherUtilities.Select(x => x.ToCtxEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.IsNewConstruction, dto => dto.Ignore())
                 .ForMember(vo => vo.PropertyDescription, dto => dto.MapFrom(src => src.ListingMessage.PublicRemarks))

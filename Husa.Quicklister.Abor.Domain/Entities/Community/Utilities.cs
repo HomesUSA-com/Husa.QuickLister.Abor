@@ -15,6 +15,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         private ICollection<DomainEnums.FireplaceDescription> fireplaceDescription;
         public virtual ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
         public virtual ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
+        public virtual ICollection<Disclosures> Disclosures { get; set; }
+        public virtual ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
         public virtual ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
         public virtual ICollection<WaterSource> WaterSource { get; set; }
         public virtual ICollection<WaterSewer> WaterSewer { get; set; }

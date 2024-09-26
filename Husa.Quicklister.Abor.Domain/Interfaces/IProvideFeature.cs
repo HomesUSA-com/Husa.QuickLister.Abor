@@ -7,12 +7,13 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
     {
         ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
         ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
+        ICollection<Disclosures> Disclosures { get; set; }
+        ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
         ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
         ICollection<WaterSource> WaterSource { get; set; }
         ICollection<WaterSewer> WaterSewer { get; set; }
         ICollection<HeatingSystem> HeatSystem { get; set; }
         ICollection<CoolingSystem> CoolingSystem { get; set; }
-
         ICollection<Appliances> Appliances { get; set; }
         int? GarageSpaces { get; set; }
         ICollection<GarageDescription> GarageDescription { get; set; }

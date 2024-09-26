@@ -91,6 +91,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions.SaleRequest
                 FireplaceDescription = features.FireplaceDescription,
                 NeighborhoodAmenities = features.NeighborhoodAmenities,
                 RestrictionsDescription = features.RestrictionsDescription,
+                Disclosures = features.Disclosures,
+                DocumentsAvailable = features.DocumentsAvailable,
                 UtilitiesDescription = features.UtilitiesDescription,
                 WaterSource = features.WaterSource,
                 WaterSewer = features.WaterSewer,
