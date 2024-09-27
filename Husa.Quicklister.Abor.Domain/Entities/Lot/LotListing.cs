@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Extensions.Lot;
+    using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
@@ -54,6 +55,21 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             this.ShowingInfo = new();
             this.PropertyInfo = new();
             this.AddressInfo = new();
+            this.ManagementTraces = new List<LotManagementTrace>();
+        }
+
+        public LotListing(LotValueObject lotInfo, Guid companyId, bool manuallyManaged = false)
+        {
+            this.CompanyId = companyId;
+            this.MlsStatus = lotInfo.MlsStatus;
+            this.OwnerName = lotInfo.OwnerName;
+            this.FeaturesInfo = lotInfo.FeaturesInfo;
+            this.SchoolsInfo = lotInfo.SchoolsInfo;
+            this.FinancialInfo = lotInfo.FinancialInfo;
+            this.ShowingInfo = lotInfo.ShowingInfo;
+            this.PropertyInfo = lotInfo.PropertyInfo;
+            this.AddressInfo = lotInfo.AddressInfo;
+            this.IsManuallyManaged = manuallyManaged;
             this.ManagementTraces = new List<LotManagementTrace>();
         }
 
