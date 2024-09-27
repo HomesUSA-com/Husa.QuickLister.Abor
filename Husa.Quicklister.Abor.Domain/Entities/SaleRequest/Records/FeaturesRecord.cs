@@ -36,6 +36,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 
         [Required]
         [MinLength(1)]
+        public ICollection<Disclosures> Disclosures { get; set; }
+
+        [Required]
+        [MinLength(1)]
+        public ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
+
+        [Required]
+        [MinLength(1)]
         public ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
 
         [Required]
@@ -143,6 +151,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
             {
                 NeighborhoodAmenities = featuresInfo.NeighborhoodAmenities,
                 RestrictionsDescription = featuresInfo.RestrictionsDescription,
+                Disclosures = featuresInfo.Disclosures,
+                DocumentsAvailable = featuresInfo.DocumentsAvailable,
                 UtilitiesDescription = featuresInfo.UtilitiesDescription,
                 WaterSource = featuresInfo.WaterSource,
                 WaterSewer = featuresInfo.WaterSewer,

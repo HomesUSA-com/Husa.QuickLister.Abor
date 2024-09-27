@@ -7,12 +7,13 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.Community.CommunityDetail
     {
         public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
         public ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
+        public ICollection<Disclosures> Disclosures { get; set; }
+        public ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
         public ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
         public ICollection<WaterSource> WaterSource { get; set; }
         public ICollection<WaterSewer> WaterSewer { get; set; }
         public ICollection<HeatingSystem> HeatSystem { get; set; }
         public ICollection<CoolingSystem> CoolingSystem { get; set; }
-
         public ICollection<Appliances> Appliances { get; set; }
         public int? GarageSpaces { get; set; }
         public ICollection<GarageDescription> GarageDescription { get; set; }
