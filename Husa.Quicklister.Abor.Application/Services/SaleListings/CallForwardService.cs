@@ -28,7 +28,11 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             var community = listing.SaleProperty.Community;
             if (community != null)
             {
-                if (!string.IsNullOrEmpty(community.ProfileInfo.OfficePhone))
+                if (!string.IsNullOrEmpty(community.Showing.ContactPhone))
+                {
+                    phone = community.Showing.ContactPhone;
+                }
+                else if (!string.IsNullOrEmpty(community.ProfileInfo.OfficePhone))
                 {
                     phone = community.ProfileInfo.OfficePhone;
                 }
