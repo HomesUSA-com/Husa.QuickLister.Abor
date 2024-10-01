@@ -34,8 +34,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         [MinLength(1)]
         public ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
 
+        [Required]
+        [MinLength(1)]
         public ICollection<Disclosures> Disclosures { get; set; }
 
+        [Required]
+        [MinLength(1)]
         public ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
 
         [Required]
