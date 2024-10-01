@@ -10,11 +10,13 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
+    using Husa.Quicklister.Abor.Domain.ValueObjects;
 
     public class LotMappingProfile : Profile
     {
         public LotMappingProfile()
         {
+            this.CreateMap<LotListingDto, LotValueObject>();
             this.CreateMap<LotPropertyDto, LotPropertyInfo>();
             this.CreateMap<LotFeaturesDto, LotFeaturesInfo>();
             this.CreateMap<LotFinancialDto, LotFinancialInfo>();

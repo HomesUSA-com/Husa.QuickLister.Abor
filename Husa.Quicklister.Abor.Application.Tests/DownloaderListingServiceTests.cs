@@ -17,6 +17,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Agent;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.ServiceBus.Contracts;
     using Microsoft.Extensions.Logging;
@@ -24,25 +25,28 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Xunit;
     using Request = Husa.CompanyServicesManager.Api.Contracts.Request;
     using Response = Husa.CompanyServicesManager.Api.Contracts.Response;
+    using TrestleEnums = Husa.Downloader.CTX.Domain.Enums;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Application.Test")]
-    public class DownloaderResidentialServiceTests
+    public class DownloaderListingServiceTests
     {
         private readonly ApplicationServicesFixture fixture;
         private readonly Mock<IListingSaleRepository> listingSaleRepository = new();
+        private readonly Mock<ILotListingRepository> lotListingRepository = new();
         private readonly Mock<IAgentRepository> agentRepository = new();
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
         private readonly Mock<IDownloaderCtxClient> downloaderCtxClient = new();
         private readonly Mock<ISaleListingMigrationService> listingMigrationService = new();
         private readonly Mock<IMediaService> mediaService = new();
-        private readonly Mock<ILogger<ResidentialService>> logger = new();
+        private readonly Mock<ILogger<ListingService>> logger = new();
 
-        public DownloaderResidentialServiceTests(ApplicationServicesFixture fixture)
+        public DownloaderListingServiceTests(ApplicationServicesFixture fixture)
         {
             this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
-            this.Sut = new ResidentialService(
+            this.Sut = new ListingService(
                 this.listingSaleRepository.Object,
+                this.lotListingRepository.Object,
                 this.agentRepository.Object,
                 this.serviceSubscriptionClient.Object,
                 this.downloaderCtxClient.Object,
@@ -52,7 +56,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.logger.Object);
         }
 
-        public IResidentialService Sut { get; set; }
+        public IListingService Sut { get; set; }
 
         [Fact]
         public async Task ProcessDataFromDownloaderThrowsNotFoundExceptionWhenCompanyIsNotFoundAsync()
@@ -192,6 +196,87 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.listingSaleRepository.Verify(x => x.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Once);
             this.listingMigrationService.Verify(x => x.SendMigrateListingMesage(It.IsAny<MarketCode>(), It.IsAny<MigrateListingMessage>()), Times.Never);
             this.mediaService.Verify(x => x.ImportMediaFromMlsAsync(It.IsAny<Guid>(), It.IsAny<bool>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task ProcessDataFromDownloaderLotCreatedSuccess()
+        {
+            // Arrange
+            const string agentMarketUniqueId = "some-agent-unique-id";
+            const string entityKey = "some-entity-key";
+            const bool processFullListing = true;
+            var residentialResponse = TestModelProvider.GetResidentialResponse(TrestleEnums.PropertyType.Land);
+            var mlsNumber = Faker.RandomNumber.Next(10000, 19000).ToString();
+            residentialResponse.OtherMessage.AgentSell = agentMarketUniqueId;
+            residentialResponse.ListingMessage.MlsId = mlsNumber;
+
+            this.downloaderCtxClient.Setup(s => s.Residential.GetByIdAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
+                .ReturnsAsync(residentialResponse)
+            .Verifiable();
+
+            this.serviceSubscriptionClient.Setup(s => s.Company.GetAsync(
+                It.IsAny<Request.CompanyRequest>(),
+                It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataSet<Response.Company>(TestModelProvider.GetCompanyInfo(), TestModelProvider.GetCompanyInfo().Count()))
+                .Verifiable();
+
+            this.lotListingRepository.Setup(
+                r => r.GetListingByMlsNumber(
+                    It.Is<string>(x => x == mlsNumber)))
+                .ReturnsAsync((LotListing)null)
+                .Verifiable();
+
+            // Act
+            await this.Sut.ProcessData(entityKey, processFullListing);
+
+            // Assert
+            this.serviceSubscriptionClient.Verify();
+            this.lotListingRepository.Verify();
+            this.lotListingRepository.Verify(x => x.Attach(It.IsAny<LotListing>()), Times.Once);
+            this.lotListingRepository.Verify(x => x.SaveChangesAsync(It.IsAny<LotListing>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ProcessDataFromDownloaderLotUpdatedSuccess()
+        {
+            // Arrange
+            const string entityKey = "some-entity-key";
+            const bool processFullListing = true;
+            const string agentMarketUniqueId = "some-agent-unique-id";
+            var listingSaleId = Guid.NewGuid();
+            var residentialResponse = TestModelProvider.GetResidentialResponse(TrestleEnums.PropertyType.Land);
+
+            var mlsNumber = Faker.RandomNumber.Next(10000, 19000).ToString();
+            residentialResponse.OtherMessage.AgentSell = agentMarketUniqueId;
+            residentialResponse.ListingMessage.MlsId = mlsNumber;
+
+            this.downloaderCtxClient.Setup(s => s.Residential.GetByIdAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
+                .ReturnsAsync(residentialResponse)
+            .Verifiable();
+
+            this.serviceSubscriptionClient.Setup(s => s.Company.GetAsync(
+                It.IsAny<Request.CompanyRequest>(),
+                It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataSet<Response.Company>(TestModelProvider.GetCompanyInfo(), TestModelProvider.GetCompanyInfo().Count()));
+
+            this.lotListingRepository.Setup(
+                r => r.GetListingByMlsNumber(
+                    It.Is<string>(x => x == mlsNumber)))
+                .ReturnsAsync(TestModelProvider.GetLotListingEntity(listingSaleId))
+                .Verifiable();
+
+            // Act
+            await this.Sut.ProcessData(entityKey, processFullListing);
+
+            // Assert
+            this.serviceSubscriptionClient.Verify();
+            this.lotListingRepository.Verify();
+            this.lotListingRepository.Verify(x => x.Attach(It.IsAny<LotListing>()), Times.Never);
+            this.lotListingRepository.Verify(x => x.SaveChangesAsync(It.IsAny<LotListing>()), Times.Once);
         }
     }
 }

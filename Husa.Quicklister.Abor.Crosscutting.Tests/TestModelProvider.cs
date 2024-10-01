@@ -36,6 +36,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.Office;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
@@ -243,9 +244,41 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return listingSale;
         }
 
+        public static Mock<DomainEntities.Lot.LotListing> GetLotListingEntityMock(Guid? listingId = null, bool createStub = false, Guid? companyId = null, Guid? communityId = null, bool generateRequest = false, LockedStatus? lockedStatus = null)
+        {
+            var lotListing = new Mock<DomainEntities.Lot.LotListing>();
+            if (createStub)
+            {
+                lotListing.SetupAllProperties();
+            }
+
+            var listingCompanyId = companyId ?? Guid.NewGuid();
+
+            lotListing.SetupGet(c => c.Id).Returns(listingId ?? Guid.NewGuid());
+            lotListing.SetupGet(c => c.LockedStatus).Returns(lockedStatus ?? LockedStatus.NoLocked);
+            lotListing.SetupGet(c => c.StatusFieldsInfo).Returns(new ListingStatusFieldsInfo());
+            lotListing.SetupGet(c => c.AddressInfo).Returns(new LotAddressInfo());
+            lotListing.SetupGet(c => c.SchoolsInfo).Returns(new LotSchoolsInfo());
+            lotListing.SetupGet(c => c.PropertyInfo).Returns(new LotPropertyInfo());
+            lotListing.SetupGet(c => c.FeaturesInfo).Returns(new LotFeaturesInfo());
+            lotListing.SetupGet(c => c.FinancialInfo).Returns(new LotFinancialInfo());
+            lotListing.SetupGet(c => c.ShowingInfo).Returns(new LotShowingInfo());
+            lotListing.SetupGet(c => c.CompanyId).Returns(listingCompanyId);
+            lotListing.SetupGet(c => c.IsInMls).Returns(true);
+            lotListing.Setup(x => x.MlsNumber).Returns("12345");
+
+            return lotListing;
+        }
+
         public static DomainEntities.Listing.SaleListing GetListingSaleEntity(Guid? listingId = null, bool createStub = false, Guid? companyId = null, Guid? communityId = null, bool generateRequest = false, LockedStatus? lockedStatus = null)
         {
             var listingSale = GetListingSaleEntityMock(listingId, createStub, companyId, communityId, generateRequest, lockedStatus);
+            return listingSale.Object;
+        }
+
+        public static DomainEntities.Lot.LotListing GetLotListingEntity(Guid? listingId = null, bool createStub = false, Guid? companyId = null, Guid? communityId = null, bool generateRequest = false, LockedStatus? lockedStatus = null)
+        {
+            var listingSale = GetLotListingEntityMock(listingId, createStub, companyId, communityId, generateRequest, lockedStatus);
             return listingSale.Object;
         }
 
@@ -681,10 +714,10 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             MarketCode = MarketCode.Austin,
         };
 
-        public static ResidentialResponse GetResidentialResponse() => new()
+        public static ResidentialResponse GetResidentialResponse(TrestleEnums.PropertyType propertyType = TrestleEnums.PropertyType.Residential) => new()
         {
             EntityKey = "EntityKey",
-            ListingMessage = GetListingResponse(),
+            ListingMessage = GetListingResponse(propertyType),
             RoomsMessage = GetRoomsMessage(),
             FeaturesMessage = GetFeaturesMessage(),
             FinancialMessage = GetFinancialMessage(),
@@ -692,12 +725,12 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             ShowingMessage = GetShowingMessage(),
         };
 
-        public static Downloader.CTX.Api.Contracts.Response.Residential.ListingResponse GetListingResponse() => new()
+        public static Downloader.CTX.Api.Contracts.Response.Residential.ListingResponse GetListingResponse(TrestleEnums.PropertyType propertyType) => new()
         {
             ListPrice = 100000,
             ExpirationDate = DateTime.UtcNow,
             ListDate = DateTime.UtcNow,
-            ListingType = new List<TrestleEnums.PropertyType> { TrestleEnums.PropertyType.Residential },
+            ListingType = new List<TrestleEnums.PropertyType> { propertyType },
             ModificationTimestamp = DateTime.UtcNow,
             MlsId = "123456",
             MlsStatus = TrestleEnums.MlsStatus.Active,

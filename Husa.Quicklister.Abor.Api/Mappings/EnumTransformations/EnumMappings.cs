@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
 
     public static class EnumMappings
     {
-        public static HoaIncludes? ToCtxEnum(this Trestle.AssociationFeeIncludes value) => value switch
+        public static HoaIncludes? ToAborEnum(this Trestle.AssociationFeeIncludes value) => value switch
         {
             Trestle.AssociationFeeIncludes.CableTV => HoaIncludes.Cable,
             Trestle.AssociationFeeIncludes.CommonAreaMaintenance => HoaIncludes.CommonAreasMaintenance,
@@ -22,7 +22,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static ListType? ToCtxEnum(this Trestle.PropertyType value) => value switch
+        public static ListType? ToAborEnum(this Trestle.PropertyType value) => value switch
         {
             Trestle.PropertyType.Residential or
             Trestle.PropertyType.CommercialSale => ListType.Residential,
@@ -32,7 +32,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static MarketStatuses? ToCtxEnum(this Trestle.MlsStatus value) => value switch
+        public static MarketStatuses? ToAborEnum(this Trestle.MlsStatus value) => value switch
         {
             Trestle.MlsStatus.Active => MarketStatuses.Active,
             Trestle.MlsStatus.ActiveUnderContract => MarketStatuses.ActiveUnderContract,
@@ -44,7 +44,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => throw new ArgumentException("Invalid MlsStatus value.", nameof(value)),
         };
 
-        public static StreetType? ToCtxEnum(this Trestle.StreetSuffix? value) => value switch
+        public static StreetType? ToAborEnum(this Trestle.StreetSuffix? value) => value switch
         {
             Trestle.StreetSuffix.Alley => StreetType.ALY,
             Trestle.StreetSuffix.Arcade => StreetType.ARC,
@@ -173,8 +173,20 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.StreetSuffix.Wells => StreetType.WLS,
             _ => null,
         };
+        public static StreetDirPrefix? ToAborEnum(this Trestle.StreetDirection value) => value switch
+        {
+            Trestle.StreetDirection.E => StreetDirPrefix.East,
+            Trestle.StreetDirection.N => StreetDirPrefix.North,
+            Trestle.StreetDirection.NE => StreetDirPrefix.NorthEast,
+            Trestle.StreetDirection.NW => StreetDirPrefix.NorthWest,
+            Trestle.StreetDirection.S => StreetDirPrefix.South,
+            Trestle.StreetDirection.SE => StreetDirPrefix.SouthEast,
+            Trestle.StreetDirection.SW => StreetDirPrefix.SouthWest,
+            Trestle.StreetDirection.W => StreetDirPrefix.West,
+            _ => null,
+        };
 
-        public static States? ToCtxEnum(this Trestle.StateOrProvince value) => value switch
+        public static States? ToAborEnum(this Trestle.StateOrProvince value) => value switch
         {
             Trestle.StateOrProvince.AL => States.Alabama,
             Trestle.StateOrProvince.AK => States.Alaska,
@@ -230,7 +242,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static PropertySubType? ToCtxEnum(this Trestle.PropertySubType value) => value switch
+        public static PropertySubType? ToAborEnum(this Trestle.PropertySubType value) => value switch
         {
             Trestle.PropertySubType.Condominium => PropertySubType.Condominium,
             Trestle.PropertySubType.SingleFamilyResidence => PropertySubType.SingleFamilyResidence,
@@ -238,7 +250,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static LotDescription? ToCtxEnum(this Trestle.LotFeatures value) => value switch
+        public static LotDescription? ToAborEnum(this Trestle.LotFeatures value) => value switch
         {
             Trestle.LotFeatures.BackstoGreenbeltPark => LotDescription.BackstoGreenbeltPark,
             Trestle.LotFeatures.BackYard => LotDescription.BackYard,
@@ -281,7 +293,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static HomeFaces? ToCtxEnum(this Trestle.DirectionFaces value) => value switch
+        public static HomeFaces? ToAborEnum(this Trestle.DirectionFaces value) => value switch
         {
             Trestle.DirectionFaces.East => HomeFaces.East,
             Trestle.DirectionFaces.North => HomeFaces.North,
@@ -294,14 +306,14 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static Foundation? ToCtxEnum(this Trestle.FoundationDetails value) => value switch
+        public static Foundation? ToAborEnum(this Trestle.FoundationDetails value) => value switch
         {
             Trestle.FoundationDetails.PillarPostPier => Foundation.PillarPostPier,
             Trestle.FoundationDetails.Slab => Foundation.Slab,
             _ => null,
         };
 
-        public static RoofDescription? ToCtxEnum(this Trestle.Roof value) => value switch
+        public static RoofDescription? ToAborEnum(this Trestle.Roof value) => value switch
         {
             Trestle.Roof.BuiltUp => RoofDescription.BuiltUp,
             Trestle.Roof.Composition => RoofDescription.Composition,
@@ -318,7 +330,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static ConstructionMaterials? ToCtxEnum(this Trestle.ConstructionMaterials value) => value switch
+        public static ConstructionMaterials? ToAborEnum(this Trestle.ConstructionMaterials value) => value switch
         {
             Trestle.ConstructionMaterials.Adobe => ConstructionMaterials.Adobe,
             Trestle.ConstructionMaterials.Asphalt => ConstructionMaterials.Asphalt,
@@ -350,7 +362,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static FireplaceDescription? ToCtxEnum(this Trestle.FireplaceFeatures value) => value switch
+        public static FireplaceDescription? ToAborEnum(this Trestle.FireplaceFeatures value) => value switch
         {
             Trestle.FireplaceFeatures.Bath => FireplaceDescription.Bathroom,
             Trestle.FireplaceFeatures.Bedroom => FireplaceDescription.Bedroom,
@@ -376,7 +388,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static Flooring? ToCtxEnum(this Trestle.Flooring value) => value switch
+        public static Flooring? ToAborEnum(this Trestle.Flooring value) => value switch
         {
             Trestle.Flooring.Carpet => Flooring.Carpet,
             Trestle.Flooring.Concrete => Flooring.Concrete,
@@ -393,7 +405,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static LaundryLocation? ToCtxEnum(this Trestle.LaundryFeatures value) => value switch
+        public static LaundryLocation? ToAborEnum(this Trestle.LaundryFeatures value) => value switch
         {
             Trestle.LaundryFeatures.InKitchen => LaundryLocation.Kitchen,
             Trestle.LaundryFeatures.LaundryCloset => LaundryLocation.LaundryCloset,
@@ -403,7 +415,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static GarageDescription? ToCtxEnum(this Trestle.ParkingFeatures value) => value switch
+        public static GarageDescription? ToAborEnum(this Trestle.ParkingFeatures value) => value switch
         {
             Trestle.ParkingFeatures.AlleyAccess => GarageDescription.AlleyAccess,
             Trestle.ParkingFeatures.Attached => GarageDescription.Attached,
@@ -432,7 +444,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.ParkingFeatures.Tandem => GarageDescription.Tandem,
             _ => null,
         };
-        public static PatioAndPorchFeatures? ToCtxEnum(this Trestle.PatioAndPorchFeatures value) => value switch
+        public static PatioAndPorchFeatures? ToAborEnum(this Trestle.PatioAndPorchFeatures value) => value switch
         {
             Trestle.PatioAndPorchFeatures.Awnings => PatioAndPorchFeatures.Awnings,
             Trestle.PatioAndPorchFeatures.Covered => PatioAndPorchFeatures.Covered,
@@ -453,7 +465,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static InteriorFeatures? ToCtxEnum(this Trestle.InteriorOrRoomFeatures value) => value switch
+        public static InteriorFeatures? ToAborEnum(this Trestle.InteriorOrRoomFeatures value) => value switch
         {
             Trestle.InteriorOrRoomFeatures.MultiplePrimarySuites => InteriorFeatures.TwoPrimarySuites,
             Trestle.InteriorOrRoomFeatures.Bar => InteriorFeatures.Bar,
@@ -502,7 +514,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static Appliances? ToCtxEnum(this Trestle.Appliances value) => value switch
+        public static Appliances? ToAborEnum(this Trestle.Appliances value) => value switch
         {
             Trestle.Appliances.BarFridge => Appliances.BarFridge,
             Trestle.Appliances.BuiltInElectricOven => Appliances.BuiltInElectricOven,
@@ -561,7 +573,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static Fencing? ToCtxEnum(this Trestle.Fencing value) => value switch
+        public static Fencing? ToAborEnum(this Trestle.Fencing value) => value switch
         {
             Trestle.Fencing.BackYard => Fencing.BackYard,
             Trestle.Fencing.Block => Fencing.Block,
@@ -579,7 +591,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static WaterSource? ToCtxEnum(this Trestle.WaterSource value) => value switch
+        public static WaterSource? ToAborEnum(this Trestle.WaterSource value) => value switch
         {
             Trestle.WaterSource.Public => WaterSource.Public,
             Trestle.WaterSource.Private => WaterSource.Private,
@@ -587,7 +599,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static View? ToCtxEnum(this Trestle.ViewTrestle value) => value switch
+        public static View? ToAborEnum(this Trestle.ViewTrestle value) => value switch
         {
             Trestle.ViewTrestle.Bridges => View.Bridges,
             Trestle.ViewTrestle.Canal => View.Canal,
@@ -618,7 +630,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static ExteriorFeatures? ToCtxEnum(this Trestle.ExteriorFeatures value) => value switch
+        public static ExteriorFeatures? ToAborEnum(this Trestle.ExteriorFeatures value) => value switch
         {
             Trestle.ExteriorFeatures.Balcony => ExteriorFeatures.Balcony,
             Trestle.ExteriorFeatures.ExteriorSteps => ExteriorFeatures.ExteriorSteps,
@@ -634,7 +646,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static NeighborhoodAmenities? ToCtxEnum(this Trestle.CommunityFeatures value) => value switch
+        public static NeighborhoodAmenities? ToAborEnum(this Trestle.CommunityFeatures value) => value switch
         {
             Trestle.CommunityFeatures.Clubhouse => NeighborhoodAmenities.Clubhouse,
             Trestle.CommunityFeatures.CommunityMailbox => NeighborhoodAmenities.ClusterMailbox,
@@ -667,7 +679,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static HeatingSystem? ToCtxEnum(this Trestle.Heating value) => value switch
+        public static HeatingSystem? ToAborEnum(this Trestle.Heating value) => value switch
         {
             Trestle.Heating.Ceiling => HeatingSystem.Ceiling,
             Trestle.Heating.Central => HeatingSystem.Central,
@@ -682,7 +694,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static CoolingSystem? ToCtxEnum(this Trestle.Cooling value) => value switch
+        public static CoolingSystem? ToAborEnum(this Trestle.Cooling value) => value switch
         {
             Trestle.Cooling.CeilingFans => CoolingSystem.CeilingFan,
             Trestle.Cooling.CentralAir => CoolingSystem.CentralAir,
@@ -694,7 +706,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static WaterSewer? ToCtxEnum(this Trestle.Sewer value) => value switch
+        public static WaterSewer? ToAborEnum(this Trestle.Sewer value) => value switch
         {
             Trestle.Sewer.AerobicSeptic => WaterSewer.AerobicSeptic,
             Trestle.Sewer.EngineeredSeptic => WaterSewer.EngineeredSeptic,
@@ -705,7 +717,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static UtilitiesDescription? ToCtxEnum(this Trestle.Utilities value) => value switch
+        public static UtilitiesDescription? ToAborEnum(this Trestle.Utilities value) => value switch
         {
             Trestle.Utilities.AboveGroundUtilities => UtilitiesDescription.AboveGroundUtilities,
             Trestle.Utilities.CableAvailable => UtilitiesDescription.CableAvailable,
@@ -724,7 +736,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static AcceptableFinancing? ToCtxEnum(this Trestle.ListingTerms value) => value switch
+        public static AcceptableFinancing? ToAborEnum(this Trestle.ListingTerms value) => value switch
         {
             Trestle.ListingTerms.Cash => AcceptableFinancing.Cash,
             Trestle.ListingTerms.Conventional => AcceptableFinancing.Conventional,
@@ -737,14 +749,14 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static CommissionType? ToCtxEnum(this Trestle.CompensationType value) => value switch
+        public static CommissionType? ToAborEnum(this Trestle.CompensationType value) => value switch
         {
             Trestle.CompensationType.Item => CommissionType.Amount,
             Trestle.CompensationType.Item1 => CommissionType.Percent,
             _ => null,
         };
 
-        public static BillingFrequency? ToCtxEnum(this Trestle.FeeFrequency value) => value switch
+        public static BillingFrequency? ToAborEnum(this Trestle.FeeFrequency value) => value switch
         {
             Trestle.FeeFrequency.Annually => BillingFrequency.Annually,
             Trestle.FeeFrequency.Monthly => BillingFrequency.Monthly,
@@ -753,7 +765,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static LockBoxType? ToCtxEnum(this Trestle.LockBoxType value) => value switch
+        public static LockBoxType? ToAborEnum(this Trestle.LockBoxType value) => value switch
         {
             Trestle.LockBoxType.Combo => LockBoxType.Combo,
             Trestle.LockBoxType.Electronic or
@@ -763,7 +775,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static ShowingRequirements? ToCtxEnum(this Trestle.ShowingRequirements value) => value switch
+        public static ShowingRequirements? ToAborEnum(this Trestle.ShowingRequirements value) => value switch
         {
             Trestle.ShowingRequirements.ListingAgentPresent => ShowingRequirements.AgentOrOwnerPresent,
             Trestle.ShowingRequirements.AppointmentOnly => ShowingRequirements.AppointmentOnly,
@@ -778,7 +790,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static SecurityFeatures? ToCtxEnum(this Trestle.SecurityFeatures value) => value switch
+        public static SecurityFeatures? ToAborEnum(this Trestle.SecurityFeatures value) => value switch
         {
             Trestle.SecurityFeatures.CarbonMonoxideDetectors => SecurityFeatures.CarbonMonoxideDetectors,
             Trestle.SecurityFeatures.FireAlarm => SecurityFeatures.FireAlarm,
@@ -795,7 +807,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static WindowFeatures? ToCtxEnum(this Trestle.WindowFeatures value) => value switch
+        public static WindowFeatures? ToAborEnum(this Trestle.WindowFeatures value) => value switch
         {
             Trestle.WindowFeatures.BayWindows => WindowFeatures.BayWindows,
             Trestle.WindowFeatures.Blinds => WindowFeatures.Blinds,
@@ -811,7 +823,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static WaterfrontFeatures? ToCtxEnum(this Trestle.WaterfrontFeatures value) => value switch
+        public static WaterfrontFeatures? ToAborEnum(this Trestle.WaterfrontFeatures value) => value switch
         {
             Trestle.WaterfrontFeatures.CanalFront => WaterfrontFeatures.CanalFront,
             Trestle.WaterfrontFeatures.Creek => WaterfrontFeatures.Creek,
@@ -824,7 +836,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             _ => null,
         };
 
-        public static SaleTerms? ToCtxEnum(this Trestle.BuyerFinancing value) => value switch
+        public static SaleTerms? ToAborEnum(this Trestle.BuyerFinancing value) => value switch
         {
             Trestle.BuyerFinancing.Cash => SaleTerms.Cash,
             Trestle.BuyerFinancing.TexasVet => SaleTerms.TexasVet,
