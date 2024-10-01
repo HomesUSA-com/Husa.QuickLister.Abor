@@ -36,7 +36,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
         private readonly Mock<IAgentService> agentServiceMock = new();
         private readonly Mock<IOfficeService> officeServiceMock = new();
         private readonly Mock<IMediaService> mediaServiceMock = new();
-        private readonly Mock<IResidentialService> residentialServiceMock = new();
+        private readonly Mock<IListingService> residentialServiceMock = new();
 
         private readonly Mock<IServiceScopeFactory> serviceScopeFactoryMock = new();
         private readonly Mock<ILogger<DownloaderMessagesHandler>> loggerMock = new();
