@@ -7,6 +7,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
     {
         public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
         public ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
+        public ICollection<Disclosures> Disclosures { get; set; }
+        public ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
         public ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
         public ICollection<WaterSource> WaterSource { get; set; }
         public ICollection<WaterSewer> WaterSewer { get; set; }

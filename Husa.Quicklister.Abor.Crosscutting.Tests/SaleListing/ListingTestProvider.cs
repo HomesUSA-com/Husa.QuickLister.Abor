@@ -183,6 +183,8 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
             DistanceToWaterAccess = DistanceToWaterAccess.SeeRemarks,
             NeighborhoodAmenities = new[] { NeighborhoodAmenities.GameRoom },
             RestrictionsDescription = new[] { RestrictionsDescription.Environmental },
+            Disclosures = new[] { Disclosures.HomeProtectionPlan },
+            DocumentsAvailable = new[] { DocumentsAvailable.BuildingPlans },
             UtilitiesDescription = new[] { UtilitiesDescription.Solar },
             WaterSource = new[] { WaterSource.Public },
             WaterSewer = new[] { WaterSewer.AerobicSeptic },

@@ -19,6 +19,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Sale
             {
                 NeighborhoodAmenities = features.NeighborhoodAmenities,
                 RestrictionsDescription = features.RestrictionsDescription,
+                Disclosures = features.Disclosures,
+                DocumentsAvailable = features.DocumentsAvailable,
                 UtilitiesDescription = features.UtilitiesDescription,
                 WaterSource = features.WaterSource,
                 WaterSewer = features.WaterSewer,
@@ -318,6 +320,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Sale
             {
                 NeighborhoodAmenities = utilities.NeighborhoodAmenities,
                 RestrictionsDescription = utilities.RestrictionsDescription,
+                Disclosures = utilities.Disclosures,
+                DocumentsAvailable = utilities.DocumentsAvailable,
                 UtilitiesDescription = utilities.UtilitiesDescription,
                 WaterSource = utilities.WaterSource,
                 WaterSewer = utilities.WaterSewer,

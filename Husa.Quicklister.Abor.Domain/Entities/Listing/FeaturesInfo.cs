@@ -24,6 +24,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
         public virtual ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
+        public virtual ICollection<Disclosures> Disclosures { get; set; }
+        public virtual ICollection<DocumentsAvailable> DocumentsAvailable { get; set; }
         public virtual ICollection<UtilitiesDescription> UtilitiesDescription { get; set; }
         public virtual ICollection<WaterSource> WaterSource { get; set; }
         public virtual ICollection<WaterSewer> WaterSewer { get; set; }
@@ -103,6 +105,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             var clonnedFeatures = this.Clone();
             clonnedFeatures.NeighborhoodAmenities = utilities.NeighborhoodAmenities;
             clonnedFeatures.RestrictionsDescription = utilities.RestrictionsDescription;
+            clonnedFeatures.Disclosures = utilities.Disclosures;
+            clonnedFeatures.DocumentsAvailable = utilities.DocumentsAvailable;
             clonnedFeatures.UtilitiesDescription = utilities.UtilitiesDescription;
             clonnedFeatures.WaterSource = utilities.WaterSource;
             clonnedFeatures.WaterSewer = utilities.WaterSewer;
@@ -140,6 +144,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
             yield return this.NeighborhoodAmenities;
             yield return this.RestrictionsDescription;
+            yield return this.Disclosures;
+            yield return this.DocumentsAvailable;
             yield return this.UtilitiesDescription;
             yield return this.WaterSource;
             yield return this.WaterSewer;

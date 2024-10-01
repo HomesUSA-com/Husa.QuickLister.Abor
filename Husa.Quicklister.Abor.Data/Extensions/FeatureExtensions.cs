@@ -24,6 +24,8 @@ namespace Husa.Quicklister.Abor.Data.Extensions
             builder.Property(x => x.WaterSewer).HasColumnName(nameof(IProvideFeature.WaterSewer)).HasEnumCollectionValue<WaterSewer>(255);
             builder.Property(r => r.HeatSystem).HasColumnName(nameof(IProvideFeature.HeatSystem)).HasEnumCollectionValue<HeatingSystem>(255);
             builder.Property(r => r.CoolingSystem).HasColumnName(nameof(IProvideFeature.CoolingSystem)).HasEnumCollectionValue<CoolingSystem>(100);
+            builder.Property(r => r.Disclosures).HasColumnName(nameof(IProvideFeature.Disclosures)).HasEnumCollectionValue<Disclosures>(255);
+            builder.Property(r => r.DocumentsAvailable).HasColumnName(nameof(IProvideFeature.DocumentsAvailable)).HasEnumCollectionValue<DocumentsAvailable>(255);
             builder.Property(r => r.RestrictionsDescription).HasColumnName(nameof(IProvideFeature.RestrictionsDescription))
                 .HasEnumCollectionValue<RestrictionsDescription>(255);
             builder.Property(r => r.UtilitiesDescription).HasColumnName(nameof(IProvideFeature.UtilitiesDescription))
