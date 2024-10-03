@@ -9,7 +9,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Data.Extensions;
-    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,19 +16,8 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<CommunitySale> builder)
         {
-            if (builder is null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-
-            builder.SetSysProperties();
-            builder.Property(r => r.CommunityType).HasConversion<string>().HasMaxLength(20);
-            builder.Property(r => r.XmlStatus)
-                .HasConversion<string>()
-                .HasMaxLength(20)
-                .HasDefaultValue(XmlStatus.NotFromXml)
-                .IsRequired();
-            builder.Property(f => f.LastPhotoRequestCreationDate).HasColumnType("datetime");
+            ArgumentNullException.ThrowIfNull(builder);
+            builder.ConfigureCommunity();
 
             builder.OwnsOne(o => o.SaleOffice, ConfigureSaleOffice);
             builder.OwnsOne(o => o.ProfileInfo, ConfigureProFile);
@@ -39,10 +27,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.OwnsOne(o => o.Financial, ConfigureFinancial);
             builder.OwnsOne(o => o.Showing, ConfigureShowing).Navigation(e => e.Showing).IsRequired();
             builder.OwnsOne(o => o.EmailLead, EmailLeadExtensions.ConfigureEmailLead).Navigation(e => e.EmailLead).IsRequired();
-            builder.Property(x => x.Changes)
-             .HasMaxLength(2000)
-             .IsRequired(false)
-             .HasConversion(new StringCollectionValueConverter(), valueComparer: new StringCollectionValueComparer());
         }
 
         private static void ConfigureShowing(OwnedNavigationBuilder<CommunitySale, CommunityShowingInfo> builder)
