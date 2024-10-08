@@ -68,6 +68,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
     using Microsoft.OpenApi.Models;
+    using ApplicationOptions = Husa.Quicklister.Abor.Crosscutting.ApplicationOptions;
     using InterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces;
     using RepositoriesExtensions = Husa.Quicklister.Extensions.Domain.Repositories;
 
@@ -148,6 +149,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<IPlanPhotoService, PlanPhotoService>();
+            services.AddScoped<InterfaceExtensions.Plan.IPlanJsonImportService, PlanJsonImportService>();
             services.AddScoped<InterfaceExtensions.Plan.IPlanXmlService, PlanXmlService>();
             services.AddScoped<InterfaceExtensions.Migration.IPlanMigrationService, PlanMigrationService>();
             services.AddScoped<IPlanMediaService, PlanMediaService>();
@@ -170,7 +172,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<ISaleListingBillService, SaleListingBillService>();
             services.AddScoped<InterfaceExtensions.Reports.IDiscrepancyReportService, DiscrepancyReportService>();
-            services.AddScoped<Extensions.Application.Interfaces.Listing.ICallForwardService, CallForwardService>();
+            services.AddScoped<InterfaceExtensions.Listing.ICallForwardService, CallForwardService>();
 
             services.ConfigureLegacyListingService(Migration.Enums.MigrationMarketType.Austin);
             return services;
@@ -309,6 +311,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
                 var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
                 await client.ConfigureClientAsync(provider, options.Services.Downloader);
             }).ConfigureHeaderHandling(withTokenRequest);
+
+            services.ConfigureJsonImportClient<ApplicationOptions>(withTokenRequest);
 
             return services;
         }

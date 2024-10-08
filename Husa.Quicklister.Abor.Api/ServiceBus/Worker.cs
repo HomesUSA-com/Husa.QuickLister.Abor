@@ -35,9 +35,11 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
             IMigrationMessagesHandler migrationMessagesHandler,
             ICompanyServiceSubscriber companySubscriber,
             ICompanyServiceMessagesHandler companyMessagesHandler,
+            IJsonImportSubscriber jsonImportSubscriber,
+            IJsonImportMessagesHandler jsonImportMessagesHandler,
             IOptions<ApplicationOptions> options,
             ILogger<Worker> logger)
-            : base(companySubscriber, companyMessagesHandler, logger)
+            : base(companySubscriber, companyMessagesHandler, jsonImportSubscriber, jsonImportMessagesHandler, logger)
         {
             this.downloaderSubscriber = downloaderSubscriber ?? throw new ArgumentNullException(nameof(downloaderSubscriber));
             this.featureFlags = options?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(options));

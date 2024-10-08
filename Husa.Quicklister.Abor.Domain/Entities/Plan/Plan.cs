@@ -6,12 +6,19 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
     using Husa.Quicklister.Abor.Domain.Comparers;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
     using ExtensionPlan = Husa.Quicklister.Extensions.Domain.Entities.Plan.Plan;
 
     public class Plan : ExtensionPlan, IProvideActiveListings<SaleListing>
     {
+        public Plan(Guid companyId, string name, string ownerName, JsonImportStatus jsonStatus)
+            : this(companyId, name, ownerName)
+        {
+            this.JsonImportStatus = jsonStatus;
+        }
+
         public Plan(Guid companyId, string name, string ownerName, XmlStatus xmlStatus)
             : this(companyId, name, ownerName)
         {

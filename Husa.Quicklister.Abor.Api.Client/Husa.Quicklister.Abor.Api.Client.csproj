@@ -8,17 +8,17 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.10.5</Version>
+        <Version>2.11.0-dev001</Version>
         <PackageReleaseNotes>
-            Release 2.10.5:
-            - Updated Quicklister Extensions Client
+            Release 2.11.0:
+            - Added jsonStatusImport
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Husa.Extensions.Api" Version="5.0.1" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.7.2" />
+        <PackageReference Include="Husa.Extensions.Api" Version="5.0.2" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.8.0-dev001" />
     </ItemGroup>
 
     <ItemGroup>
