@@ -861,6 +861,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
         {
             "Callison" => ElementarySchool.NeysaCallison,
             "Igo Elementary" => ElementarySchool.Igo,
+            "Wolf Ranch Elementary" => ElementarySchool.WolfRanch,
             _ => school.GetEnumFromSchools<ElementarySchool>(),
         };
 }
