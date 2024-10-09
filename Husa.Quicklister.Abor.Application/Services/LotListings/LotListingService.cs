@@ -24,6 +24,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using ExtensionsCrosscutting = Husa.Quicklister.Extensions.Crosscutting;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services;
 
     public class LotListingService : ExtensionsServices.ListingService<LotListing, ILotListingRepository>, ILotListingService
@@ -33,7 +34,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
         private readonly ILotListingRequestRepository lotListingRequestRepository;
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
         private readonly ILotListingMediaService listingMediaService;
-        private readonly FeatureFlags featureFlags;
+        private readonly ExtensionsCrosscutting.FeatureFlags featureFlags;
 
         public LotListingService(
             ILotListingRepository lotListingRepository,

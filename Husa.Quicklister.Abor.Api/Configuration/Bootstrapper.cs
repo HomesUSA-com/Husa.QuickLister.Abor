@@ -158,6 +158,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ISaleCommunityService, SaleCommunityService>();
             services.AddScoped<ICommunityPhotoService, CommunityPhotoService>();
             services.AddScoped<InterfaceExtensions.Community.ICommunityXmlService, CommunityXmlService>();
+            services.AddScoped<InterfaceExtensions.Community.ICommunityJsonImportService, CommunityJsonImportService>();
             services.AddScoped<ICommunityMigrationService, CommunityMigrationService>();
             services.AddScoped<InterfaceExtensions.Migration.ICommunityHistoryMigrationService, CommunityHistoryMigrationService>();
             services.AddScoped<ICommunityMediaService, CommunityMediaService>();

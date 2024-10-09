@@ -4,7 +4,7 @@ namespace Husa.Quicklister.Abor.Api
     using Figgle;
     using Husa.Extensions.Api;
     using Husa.Quicklister.Abor.Api.ServiceBus;
-    using Husa.Quicklister.Abor.Crosscutting;
+    using Husa.Quicklister.Extensions.Crosscutting;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

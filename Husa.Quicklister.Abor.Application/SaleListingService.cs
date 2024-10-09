@@ -29,6 +29,7 @@ namespace Husa.Quicklister.Abor.Application
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using CompanyServiceSubscriptionFilter = Husa.CompanyServicesManager.Api.Contracts.Request.FilterServiceSubscriptionRequest;
+    using ExtensionsCrosscutting = Husa.Quicklister.Extensions.Crosscutting;
     using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
 
@@ -41,7 +42,7 @@ namespace Husa.Quicklister.Abor.Application
         private readonly ISaleListingMediaService listingMediaService;
         private readonly ISaleListingPhotoService saleListingPhotoService;
         private readonly IXmlClient xmlClient;
-        private readonly FeatureFlags featureFlags;
+        private readonly ExtensionsCrosscutting.FeatureFlags featureFlags;
 
         private readonly IEnumerable<MarketStatuses> statusAllowedForReleaseXmlListing = new[]
         {

@@ -9,8 +9,6 @@ namespace Husa.Quicklister.Abor.Crosscutting
 
         public static CultureInfo ApplicationCultureInfo => ApplicationCulture;
 
-        public FeatureFlags FeatureFlags { get; set; }
-
         public ListingRequestSettings ListingRequest { get; set; }
 
         public MediaAllowedSettings MediaAllowed { get; set; }

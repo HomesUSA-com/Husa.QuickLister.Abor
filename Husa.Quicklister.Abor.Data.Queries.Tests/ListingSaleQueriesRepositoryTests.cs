@@ -26,6 +26,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using Moq;
     using Xunit;
     using CompanyResponse = Husa.CompanyServicesManager.Api.Contracts.Response;
+    using ExtensionsCrosscutting = Husa.Quicklister.Extensions.Crosscutting;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Data.Queries.Test")]
@@ -42,7 +43,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
         {
             this.applicationOptions.SetupGet(o => o.Value).Returns(new ApplicationOptions
             {
-                FeatureFlags = new FeatureFlags
+                FeatureFlags = new ExtensionsCrosscutting.FeatureFlags
                 {
                     FindEmailLeads = true,
                 },
