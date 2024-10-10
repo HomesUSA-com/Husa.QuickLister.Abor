@@ -68,7 +68,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.Lot
             listing.PropertyInfo.MlsArea = propertyInfo.MlsArea;
             listing.PropertyInfo.Latitude = propertyInfo.Latitude;
             listing.PropertyInfo.Longitude = propertyInfo.Longitude;
-            listing.PropertyInfo.LotDescription = propertyInfo.LotDescription;
+            listing.PropertyInfo.CopyLotDescription(propertyInfo.LotDescription);
             listing.PropertyInfo.LotSize = propertyInfo.LotSize;
             listing.PropertyInfo.LotDimension = propertyInfo.LotDimension;
             listing.PropertyInfo.TaxLot = propertyInfo.TaxLot;

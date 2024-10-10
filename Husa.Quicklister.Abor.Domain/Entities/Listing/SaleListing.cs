@@ -231,7 +231,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             }
         }
 
-        public virtual void ImportFromXml(XmlListingDetailResponse listing, string companyName, ListActionType listAction, Guid userId)
+        public virtual void ImportFromXml(XmlListingDetailResponse listing, string companyName, ListActionType listAction, Guid userId, CommunitySale community = null)
         {
             this.MlsStatus = listing.Status.ToStatus();
             this.ListPrice = listing.Price;
@@ -246,7 +246,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                     closeDate: listing.ClosedDate);
             }
 
-            this.SaleProperty.ImportFromXml(listing, companyName);
+            var county = community?.Property?.County;
+            this.SaleProperty.ImportFromXml(listing, companyName, county);
             this.Lock(userId, LockedStatus.LockedNotSubmitted);
         }
 

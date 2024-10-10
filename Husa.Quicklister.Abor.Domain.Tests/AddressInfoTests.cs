@@ -49,7 +49,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             };
 
             // Act
-            var result = AddressInfo.ImportFromXml(xmlListing, addressInfo);
+            var result = AddressInfo.ImportFromXml(xmlListing, addressInfo, Counties.Anderson);
 
             // Assert
             Assert.NotNull(result);

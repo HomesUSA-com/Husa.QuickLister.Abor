@@ -12,7 +12,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
     {
         public static HoaIncludes? ToAborEnum(this Trestle.AssociationFeeIncludes value) => value switch
         {
-            Trestle.AssociationFeeIncludes.CableTV => HoaIncludes.Cable,
+            Trestle.AssociationFeeIncludes.CableTv => HoaIncludes.Cable,
             Trestle.AssociationFeeIncludes.CommonAreaMaintenance => HoaIncludes.CommonAreasMaintenance,
             Trestle.AssociationFeeIncludes.MaintenanceGrounds => HoaIncludes.MaintenanceGrounds,
             Trestle.AssociationFeeIncludes.MaintenanceStructure => HoaIncludes.MaintenanceStructure,
@@ -252,11 +252,11 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
 
         public static LotDescription? ToAborEnum(this Trestle.LotFeatures value) => value switch
         {
-            Trestle.LotFeatures.BackstoGreenbeltPark => LotDescription.BackstoGreenbeltPark,
+            Trestle.LotFeatures.BacksToGreenbeltPark => LotDescription.BackstoGreenbeltPark,
             Trestle.LotFeatures.BackYard => LotDescription.BackYard,
             Trestle.LotFeatures.Bluff => LotDescription.Bluff,
             Trestle.LotFeatures.CityLot => LotDescription.CityLot,
-            Trestle.LotFeatures.ClosetoClubhouse => LotDescription.ClosetoClubhouse,
+            Trestle.LotFeatures.CloseToClubhouse => LotDescription.ClosetoClubhouse,
             Trestle.LotFeatures.CornerLot => LotDescription.CornerLot,
             Trestle.LotFeatures.CulDeSac => LotDescription.CulDeSac,
             Trestle.LotFeatures.FewTrees => LotDescription.FewTree,
@@ -343,9 +343,9 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.ConstructionMaterials.Concrete => ConstructionMaterials.Concrete,
             Trestle.ConstructionMaterials.Frame => ConstructionMaterials.Frame,
             Trestle.ConstructionMaterials.Glass => ConstructionMaterials.Glass,
-            Trestle.ConstructionMaterials.HardiPlankType => ConstructionMaterials.HardiPlankType,
-            Trestle.ConstructionMaterials.ICATRecessedLighting => ConstructionMaterials.ICatRecessedLighting,
-            Trestle.ConstructionMaterials.ICFsInsulatedConcreteForms => ConstructionMaterials.InsulatedConcreteForms,
+            Trestle.ConstructionMaterials.HardiplankType => ConstructionMaterials.HardiPlankType,
+            Trestle.ConstructionMaterials.IcatRecessedLighting => ConstructionMaterials.ICatRecessedLighting,
+            Trestle.ConstructionMaterials.InsulatedConcreteForms => ConstructionMaterials.InsulatedConcreteForms,
             Trestle.ConstructionMaterials.Log => ConstructionMaterials.Log,
             Trestle.ConstructionMaterials.Masonry => ConstructionMaterials.MasonryAllSides,
             Trestle.ConstructionMaterials.NaturalBuilding => ConstructionMaterials.NaturalBuilding,
@@ -371,7 +371,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.FireplaceFeatures.Den => FireplaceDescription.Den,
             Trestle.FireplaceFeatures.DoubleSided => FireplaceDescription.DoubleSided,
             Trestle.FireplaceFeatures.Electric => FireplaceDescription.Electric,
-            Trestle.FireplaceFeatures.EPACertifiedWoodStove => FireplaceDescription.EPACertifiedWoodStove,
+            Trestle.FireplaceFeatures.EpaCertifiedWoodStove => FireplaceDescription.EPACertifiedWoodStove,
             Trestle.FireplaceFeatures.FamilyRoom => FireplaceDescription.FamilyRoom,
             Trestle.FireplaceFeatures.Gas => FireplaceDescription.Gas,
             Trestle.FireplaceFeatures.GasLog => FireplaceDescription.GasLog,
@@ -471,7 +471,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.InteriorOrRoomFeatures.Bar => InteriorFeatures.Bar,
             Trestle.InteriorOrRoomFeatures.Bookcases => InteriorFeatures.Bookcases,
             Trestle.InteriorOrRoomFeatures.BreakfastBar => InteriorFeatures.BreakfastBar,
-            Trestle.InteriorOrRoomFeatures.BuiltinFeatures => InteriorFeatures.BuiltinFeatures,
+            Trestle.InteriorOrRoomFeatures.BuiltInFeatures => InteriorFeatures.BuiltinFeatures,
             Trestle.InteriorOrRoomFeatures.CeilingFans => InteriorFeatures.CeilingFans,
             Trestle.InteriorOrRoomFeatures.BeamedCeilings => InteriorFeatures.CeilingsBeamed,
             Trestle.InteriorOrRoomFeatures.CathedralCeilings => InteriorFeatures.CeilingsCathedral,
@@ -482,7 +482,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.InteriorOrRoomFeatures.Chandelier => InteriorFeatures.Chandelier,
             Trestle.InteriorOrRoomFeatures.CrownMolding => InteriorFeatures.CrownMolding,
             Trestle.InteriorOrRoomFeatures.DoubleVanity => InteriorFeatures.DoubleVanity,
-            Trestle.InteriorOrRoomFeatures.EatinKitchen => InteriorFeatures.EatinKitchen,
+            Trestle.InteriorOrRoomFeatures.EatInKitchen => InteriorFeatures.EatinKitchen,
             Trestle.InteriorOrRoomFeatures.EntranceFoyer => InteriorFeatures.EntranceFoyer,
             Trestle.InteriorOrRoomFeatures.FrenchDoorsAtriumDoors => InteriorFeatures.FrenchDoors,
             Trestle.InteriorOrRoomFeatures.HighSpeedInternet => InteriorFeatures.HighSpeedInternet,
@@ -509,8 +509,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.InteriorOrRoomFeatures.TrackLighting => InteriorFeatures.TrackLighting,
             Trestle.InteriorOrRoomFeatures.WalkInClosets => InteriorFeatures.WalkInClosets,
             Trestle.InteriorOrRoomFeatures.WaterSenseFixtures => InteriorFeatures.WaterSenseFixtures,
-            Trestle.InteriorOrRoomFeatures.WiredforData => InteriorFeatures.WiredforData,
-            Trestle.InteriorOrRoomFeatures.WiredforSound => InteriorFeatures.WiredforSound,
+            Trestle.InteriorOrRoomFeatures.WiredForData => InteriorFeatures.WiredforData,
+            Trestle.InteriorOrRoomFeatures.WiredForSound => InteriorFeatures.WiredforSound,
             _ => null,
         };
 
@@ -533,13 +533,13 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.Appliances.Dryer => Appliances.Dryer,
             Trestle.Appliances.ElectricCooktop => Appliances.ElectricCooktop,
             Trestle.Appliances.ElectricRange => Appliances.ElectricRange,
-            Trestle.Appliances.ENERGYSTARQualifiedAppliances => Appliances.EnergyStarQualifiedAppliances,
-            Trestle.Appliances.ENERGYSTARQualifiedDishwasher => Appliances.EnergyStarQualifiedDishwasher,
-            Trestle.Appliances.ENERGYSTARQualifiedDryer => Appliances.EnergyStarQualifiedDryer,
-            Trestle.Appliances.ENERGYSTARQualifiedFreezer => Appliances.EnergyStarQualifiedFreezer,
-            Trestle.Appliances.ENERGYSTARQualifiedRefrigerator => Appliances.EnergyStarQualifiedRefrigerator,
-            Trestle.Appliances.ENERGYSTARQualifiedWasher => Appliances.EnergyStarQualifiedWasher,
-            Trestle.Appliances.ENERGYSTARQualifiedWaterHeater => Appliances.EnergyStarQualifiedWaterHeater,
+            Trestle.Appliances.EnergyStarQualifiedAppliances => Appliances.EnergyStarQualifiedAppliances,
+            Trestle.Appliances.EnergyStarQualifiedDishwasher => Appliances.EnergyStarQualifiedDishwasher,
+            Trestle.Appliances.EnergyStarQualifiedDryer => Appliances.EnergyStarQualifiedDryer,
+            Trestle.Appliances.EnergyStarQualifiedFreezer => Appliances.EnergyStarQualifiedFreezer,
+            Trestle.Appliances.EnergyStarQualifiedRefrigerator => Appliances.EnergyStarQualifiedRefrigerator,
+            Trestle.Appliances.EnergyStarQualifiedWasher => Appliances.EnergyStarQualifiedWasher,
+            Trestle.Appliances.EnergyStarQualifiedWaterHeater => Appliances.EnergyStarQualifiedWaterHeater,
             Trestle.Appliances.ExhaustFan => Appliances.ExhaustFan,
             Trestle.Appliances.GasCooktop => Appliances.GasCooktop,
             Trestle.Appliances.GasRange => Appliances.GasRange,
@@ -684,7 +684,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.Heating.Ceiling => HeatingSystem.Ceiling,
             Trestle.Heating.Central => HeatingSystem.Central,
             Trestle.Heating.Electric => HeatingSystem.Electric,
-            Trestle.Heating.ENERGYSTARQualifiedEquipment => HeatingSystem.EnergyStarQualifiedEquipment,
+            Trestle.Heating.EnergyStarQualifiedEquipment => HeatingSystem.EnergyStarQualifiedEquipment,
             Trestle.Heating.ExhaustFan => HeatingSystem.ExhaustFan,
             Trestle.Heating.Fireplaces => HeatingSystem.Fireplace,
             Trestle.Heating.NaturalGas => HeatingSystem.NaturalGas,
@@ -700,7 +700,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.Cooling.CentralAir => CoolingSystem.CentralAir,
             Trestle.Cooling.Dual => CoolingSystem.Dual,
             Trestle.Cooling.Electric => CoolingSystem.Electric,
-            Trestle.Cooling.ENERGYSTARQualifiedEquipment => CoolingSystem.EnergyStarQualifiedEquipment,
+            Trestle.Cooling.EnergyStarQualifiedEquipment => CoolingSystem.EnergyStarQualifiedEquipment,
             Trestle.Cooling.MultiUnits => CoolingSystem.MultiUnits,
             Trestle.Cooling.Zoned => CoolingSystem.Zoned,
             _ => null,
@@ -744,15 +744,15 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.ListingTerms.SeeRemarks => AcceptableFinancing.SeeRemarks,
             Trestle.ListingTerms.LeaseBack => AcceptableFinancing.LeaseBack,
             Trestle.ListingTerms.TexasVet => AcceptableFinancing.TexasVet,
-            Trestle.ListingTerms.USDALoan => AcceptableFinancing.USDALoan,
-            Trestle.ListingTerms.VALoan => AcceptableFinancing.VALoan,
+            Trestle.ListingTerms.UsdaLoan => AcceptableFinancing.USDALoan,
+            Trestle.ListingTerms.VaLoan => AcceptableFinancing.VALoan,
             _ => null,
         };
 
         public static CommissionType? ToAborEnum(this Trestle.CompensationType value) => value switch
         {
-            Trestle.CompensationType.Item => CommissionType.Amount,
-            Trestle.CompensationType.Item1 => CommissionType.Percent,
+            Trestle.CompensationType.Dollars => CommissionType.Amount,
+            Trestle.CompensationType.Percent => CommissionType.Percent,
             _ => null,
         };
 
@@ -795,7 +795,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.SecurityFeatures.CarbonMonoxideDetectors => SecurityFeatures.CarbonMonoxideDetectors,
             Trestle.SecurityFeatures.FireAlarm => SecurityFeatures.FireAlarm,
             Trestle.SecurityFeatures.FireSprinklerSystem => SecurityFeatures.FireSprinklerSystem,
-            Trestle.SecurityFeatures.GatedwithGuard => SecurityFeatures.GatedwithGuard,
+            Trestle.SecurityFeatures.GatedWithGuard => SecurityFeatures.GatedwithGuard,
             Trestle.SecurityFeatures.None => SecurityFeatures.None,
             Trestle.SecurityFeatures.Prewired => SecurityFeatures.Prewired,
             Trestle.SecurityFeatures.SecuredGarageParking => SecurityFeatures.SecuredGarageParking,
@@ -812,7 +812,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.WindowFeatures.BayWindows => WindowFeatures.BayWindows,
             Trestle.WindowFeatures.Blinds => WindowFeatures.Blinds,
             Trestle.WindowFeatures.DoublePaneWindows => WindowFeatures.DoublePaneWindows,
-            Trestle.WindowFeatures.ENERGYSTARQualifiedWindows => WindowFeatures.EnergyStarQualifiedWindows,
+            Trestle.WindowFeatures.EnergyStarQualifiedWindows => WindowFeatures.EnergyStarQualifiedWindows,
             Trestle.WindowFeatures.InsulatedWindows => WindowFeatures.InsulatedWindows,
             Trestle.WindowFeatures.None => WindowFeatures.None,
             Trestle.WindowFeatures.PlantationShutters => WindowFeatures.PlantationShutters,
@@ -841,16 +841,16 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.BuyerFinancing.Cash => SaleTerms.Cash,
             Trestle.BuyerFinancing.TexasVet => SaleTerms.TexasVet,
             Trestle.BuyerFinancing.Conventional => SaleTerms.Conventional,
-            Trestle.BuyerFinancing.USDA => SaleTerms.UsdaEligible,
-            Trestle.BuyerFinancing.FHA => SaleTerms.FHA,
-            Trestle.BuyerFinancing.VA => SaleTerms.VA,
+            Trestle.BuyerFinancing.Usda => SaleTerms.UsdaEligible,
+            Trestle.BuyerFinancing.Fha => SaleTerms.FHA,
+            Trestle.BuyerFinancing.Va => SaleTerms.VA,
             _ => null,
         };
 
         public static Stories? ToStories(this Trestle.Levels? value) => value switch
         {
             Trestle.Levels.One => Stories.One,
-            Trestle.Levels.OneandOneHalf => Stories.OnePointFive,
+            Trestle.Levels.OneAndOneHalf => Stories.OnePointFive,
             Trestle.Levels.Two => Stories.Two,
             Trestle.Levels.ThreeOrMore => Stories.ThreePlus,
             Trestle.Levels.MultiLevelUnit => Stories.MultiLevel,
@@ -861,6 +861,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
         {
             "Callison" => ElementarySchool.NeysaCallison,
             "Igo Elementary" => ElementarySchool.Igo,
+            "Wolf Ranch Elementary" => ElementarySchool.WolfRanch,
             _ => school.GetEnumFromSchools<ElementarySchool>(),
         };
 }

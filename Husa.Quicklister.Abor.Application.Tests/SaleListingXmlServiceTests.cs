@@ -91,11 +91,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             this.SetupCompanyDetail();
             this.SetupMlsAdministrator(userId);
-            this.SetupGetXmlListingById(xmlListingId);
+            this.SetupGetXmlListingById(xmlListingId, companyId, communityId);
             this.SetupListingQuickCreate();
 
             this.communitySaleRepository
-              .Setup(x => x.GetById(It.Is<Guid>(x => x == xmlListingId), It.IsAny<bool>()))
+              .Setup(x => x.GetById(It.Is<Guid>(x => x == communityId), It.IsAny<bool>()))
               .ReturnsAsync(community)
               .Verifiable();
 
