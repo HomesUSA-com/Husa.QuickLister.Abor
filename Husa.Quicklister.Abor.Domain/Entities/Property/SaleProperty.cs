@@ -476,14 +476,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public void SetMigrateFullListing(bool value) => this.migrateFullListing = value;
 
-        public void ImportFromXml(XmlListingDetailResponse listing, string companyName)
+        public void ImportFromXml(XmlListingDetailResponse listing, string companyName, Counties? county = null)
         {
             this.OwnerName = companyName;
             this.PlanId = listing.PlanId;
             this.CommunityId = listing.CommunityId;
             this.CompanyId = (Guid)listing.CompanyId;
 
-            var profile = SaleAddressInfo.ImportFromXml(listing, this.AddressInfo);
+            var profile = SaleAddressInfo.ImportFromXml(listing, this.AddressInfo, county);
             this.UpdateAddressInfo(profile);
 
             var property = PropertyInfo.ImportFromXml(listing, this.PropertyInfo);
