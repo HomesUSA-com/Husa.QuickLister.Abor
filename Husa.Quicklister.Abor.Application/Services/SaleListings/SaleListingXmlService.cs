@@ -19,7 +19,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Extensions;
-    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -66,7 +66,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
-        public async Task<Guid> ProcessListingAsync(Guid xmlListingId, ListActionType listAction)
+        public async Task<Guid> ProcessListingAsync(Guid xmlListingId, ImportActionType listAction)
         {
             var xmlListing = await this.GetListingFromXml(xmlListingId);
             this.Logger.LogInformation("Process xml listing with id {xmlListingId}, action type: {actionType}", xmlListingId, listAction);

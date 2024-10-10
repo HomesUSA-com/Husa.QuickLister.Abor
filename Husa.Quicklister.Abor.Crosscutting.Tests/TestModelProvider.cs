@@ -341,7 +341,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return listing.Object;
         }
 
-        public static UserContext GetCurrentUser(Guid? userId = null, Guid? companyId = null, UserRole userRole = UserRole.User)
+        public static UserContext GetCurrentUser(Guid? userId = null, Guid? companyId = null, UserRole userRole = UserRole.User, RoleEmployee roleEmployee = RoleEmployee.CompanyAdmin)
         {
             var userContext = new Mock<UserContext>();
             userContext.SetupAllProperties();
@@ -350,6 +350,12 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             userContext.Object.CompanyId = userRole == UserRole.MLSAdministrator && companyId == null ? null : companyId ?? Guid.NewGuid();
             userContext.Object.IsMLSAdministrator = userRole == UserRole.MLSAdministrator;
             userContext.Object.Market = MarketCode.Austin;
+
+            if (userRole == UserRole.User)
+            {
+                userContext.Object.EmployeeRole = roleEmployee;
+            }
+
             return userContext.Object;
         }
 

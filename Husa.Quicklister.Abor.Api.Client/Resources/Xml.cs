@@ -8,7 +8,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Xml;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Xml;
-    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
 
     public class Xml : IXml
@@ -35,7 +35,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             return this.client.GetAsync<DataSet<XmlListingResponse>>(endpoint, token);
         }
 
-        public async Task ProcessListingAsync(Guid xmlListingId, ListActionType type, CancellationToken token = default)
+        public async Task ProcessListingAsync(Guid xmlListingId, ImportActionType type, CancellationToken token = default)
         {
             this.logger.LogInformation("Process xml listing with id '{listingId}'", xmlListingId);
             var endpoint = $"{this.baseUri}/{xmlListingId}";

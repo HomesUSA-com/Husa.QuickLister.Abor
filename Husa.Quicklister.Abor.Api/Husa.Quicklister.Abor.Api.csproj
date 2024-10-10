@@ -19,7 +19,7 @@
         <PackageReference Include="Husa.Extensions.OpenAI" Version="0.1.0" />
         <PackageReference Include="Husa.MediaService.Client" Version="2.1.0" />
         <PackageReference Include="Husa.Downloader.Sabor.ServiceBus.Contracts" Version="2.0.0" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api" Version="0.7.0-dev002" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api" Version="0.7.0-dev006" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
         <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.38.1" />
@@ -28,7 +28,7 @@
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.2" />
-        <PackageReference Include="System.Text.Json" Version="8.0.4" />
+        <PackageReference Include="System.Text.Json" Version="8.0.5" />
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
             <PrivateAssets>all</PrivateAssets>

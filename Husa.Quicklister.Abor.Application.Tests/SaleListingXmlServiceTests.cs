@@ -25,7 +25,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Request;
     using Microsoft.Extensions.Logging;
@@ -72,9 +72,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private SaleListingXmlService Sut { get; set; }
 
         [Theory]
-        [InlineData(ListActionType.ListNow, XmlListActionType.ListNow)]
-        [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare)]
-        public async Task ProcessListingAsync_AsMlsAdministrator_Success(ListActionType actionType, XmlListActionType xmlListActionType)
+        [InlineData(ImportActionType.ListNow, XmlListActionType.ListNow)]
+        [InlineData(ImportActionType.ListCompare, XmlListActionType.ListCompare)]
+        public async Task ProcessListingAsync_AsMlsAdministrator_Success(ImportActionType actionType, XmlListActionType xmlListActionType)
         {
             // Arrange
             var xmlListingId = Guid.NewGuid();
@@ -115,9 +115,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Theory]
-        [InlineData(ListActionType.ListNow, XmlListActionType.ListNow)]
-        [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare)]
-        public async Task ProcessListingAsync_AsCompanyAdmin_Success(ListActionType actionType, XmlListActionType xmlListActionType)
+        [InlineData(ImportActionType.ListNow, XmlListActionType.ListNow)]
+        [InlineData(ImportActionType.ListCompare, XmlListActionType.ListCompare)]
+        public async Task ProcessListingAsync_AsCompanyAdmin_Success(ImportActionType actionType, XmlListActionType xmlListActionType)
         {
             // Arrange
             var xmlListingId = Guid.NewGuid();
@@ -156,9 +156,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Theory]
-        [InlineData(ListActionType.ListNow, XmlListActionType.ListNow)]
-        [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare)]
-        public async Task ProcessListingAsync_AsCommunityEmployee_Success(ListActionType actionType, XmlListActionType xmlListActionType)
+        [InlineData(ImportActionType.ListNow, XmlListActionType.ListNow)]
+        [InlineData(ImportActionType.ListCompare, XmlListActionType.ListCompare)]
+        public async Task ProcessListingAsync_AsCommunityEmployee_Success(ImportActionType actionType, XmlListActionType xmlListActionType)
         {
             // Arrange
             var xmlListingId = Guid.NewGuid();
@@ -201,9 +201,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Theory]
-        [InlineData(ListActionType.ListNow)]
-        [InlineData(ListActionType.ListCompare)]
-        public async Task ProcessListingAsync_AsCommunityEmployee_Fail(ListActionType actionType)
+        [InlineData(ImportActionType.ListNow)]
+        [InlineData(ImportActionType.ListCompare)]
+        public async Task ProcessListingAsync_AsCommunityEmployee_Fail(ImportActionType actionType)
         {
             // Arrange
             var xmlListingId = Guid.NewGuid();
@@ -588,9 +588,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Theory]
-        [InlineData(ListActionType.ListNow, XmlListActionType.ListNow)]
-        [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare)]
-        public async Task ProcessListingThrowsDomainExceptionWhenMarketIsNotAustin(ListActionType listAction, XmlListActionType xmlListActionType)
+        [InlineData(ImportActionType.ListNow, XmlListActionType.ListNow)]
+        [InlineData(ImportActionType.ListCompare, XmlListActionType.ListCompare)]
+        public async Task ProcessListingThrowsDomainExceptionWhenMarketIsNotAustin(ImportActionType listAction, XmlListActionType xmlListActionType)
         {
             // Arrange
             var xmlListingId = Guid.NewGuid();
@@ -620,9 +620,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Theory]
-        [InlineData(ListActionType.ListNow, XmlListActionType.ListNow)]
-        [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare)]
-        public async Task ProcessListingThrowsDomainExceptionWhenListingCompanyIsNotSet(ListActionType listAction, XmlListActionType xmlListActionType)
+        [InlineData(ImportActionType.ListNow, XmlListActionType.ListNow)]
+        [InlineData(ImportActionType.ListCompare, XmlListActionType.ListCompare)]
+        public async Task ProcessListingThrowsDomainExceptionWhenListingCompanyIsNotSet(ImportActionType listAction, XmlListActionType xmlListActionType)
         {
             // Arrange
             var xmlListingId = Guid.NewGuid();
@@ -652,9 +652,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Theory]
-        [InlineData(ListActionType.ListNow, XmlListActionType.ListNow, UserRole.User)]
-        [InlineData(ListActionType.ListCompare, XmlListActionType.ListCompare, UserRole.Photographer)]
-        public async Task ProcessListingThrowsDomainExceptionWhenCurrentUserIsNotFromListingCompany(ListActionType listAction, XmlListActionType xmlListActionType, UserRole userRole)
+        [InlineData(ImportActionType.ListNow, XmlListActionType.ListNow, UserRole.User)]
+        [InlineData(ImportActionType.ListCompare, XmlListActionType.ListCompare, UserRole.Photographer)]
+        public async Task ProcessListingThrowsDomainExceptionWhenCurrentUserIsNotFromListingCompany(ImportActionType listAction, XmlListActionType xmlListActionType, UserRole userRole)
         {
             // Arrange
             var xmlListingId = Guid.NewGuid();
