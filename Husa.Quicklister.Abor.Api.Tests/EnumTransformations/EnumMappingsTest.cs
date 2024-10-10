@@ -15,7 +15,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
     {
         [Theory]
         [InlineData(Trestle.Levels.One, Stories.One)]
-        [InlineData(Trestle.Levels.OneandOneHalf, Stories.OnePointFive)]
+        [InlineData(Trestle.Levels.OneAndOneHalf, Stories.OnePointFive)]
         [InlineData(Trestle.Levels.Two, Stories.Two)]
         [InlineData(Trestle.Levels.ThreeOrMore, Stories.ThreePlus)]
         [InlineData(Trestle.Levels.MultiLevelUnit, Stories.MultiLevel)]
@@ -43,7 +43,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         }
 
         [Theory]
-        [InlineData(Trestle.AssociationFeeIncludes.CableTV, HoaIncludes.Cable)]
+        [InlineData(Trestle.AssociationFeeIncludes.CableTv, HoaIncludes.Cable)]
         [InlineData(Trestle.AssociationFeeIncludes.CommonAreaMaintenance, HoaIncludes.CommonAreasMaintenance)]
         [InlineData(Trestle.AssociationFeeIncludes.MaintenanceGrounds, HoaIncludes.MaintenanceGrounds)]
         [InlineData(Trestle.AssociationFeeIncludes.MaintenanceStructure, HoaIncludes.MaintenanceStructure)]
@@ -274,7 +274,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         public void ConvertsToStreetTypeReturnsNull()
         {
             // Arrange
-            var unknownInput = (Trestle.StreetSuffix)200;
+            var unknownInput = (Trestle.StreetSuffix)300;
 
             // Act
             var result = EnumMappings.ToAborEnum(unknownInput);
@@ -421,11 +421,11 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         }
 
         [Theory]
-        [InlineData(Trestle.LotFeatures.BackstoGreenbeltPark, LotDescription.BackstoGreenbeltPark)]
+        [InlineData(Trestle.LotFeatures.BacksToGreenbeltPark, LotDescription.BackstoGreenbeltPark)]
         [InlineData(Trestle.LotFeatures.BackYard, LotDescription.BackYard)]
         [InlineData(Trestle.LotFeatures.Bluff, LotDescription.Bluff)]
         [InlineData(Trestle.LotFeatures.CityLot, LotDescription.CityLot)]
-        [InlineData(Trestle.LotFeatures.ClosetoClubhouse, LotDescription.ClosetoClubhouse)]
+        [InlineData(Trestle.LotFeatures.CloseToClubhouse, LotDescription.ClosetoClubhouse)]
         [InlineData(Trestle.LotFeatures.CornerLot, LotDescription.CornerLot)]
         [InlineData(Trestle.LotFeatures.CulDeSac, LotDescription.CulDeSac)]
         [InlineData(Trestle.LotFeatures.FewTrees, LotDescription.FewTree)]
@@ -592,9 +592,9 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.ConstructionMaterials.Concrete, ConstructionMaterials.Concrete)]
         [InlineData(Trestle.ConstructionMaterials.Frame, ConstructionMaterials.Frame)]
         [InlineData(Trestle.ConstructionMaterials.Glass, ConstructionMaterials.Glass)]
-        [InlineData(Trestle.ConstructionMaterials.HardiPlankType, ConstructionMaterials.HardiPlankType)]
-        [InlineData(Trestle.ConstructionMaterials.ICATRecessedLighting, ConstructionMaterials.ICatRecessedLighting)]
-        [InlineData(Trestle.ConstructionMaterials.ICFsInsulatedConcreteForms, ConstructionMaterials.InsulatedConcreteForms)]
+        [InlineData(Trestle.ConstructionMaterials.HardiplankType, ConstructionMaterials.HardiPlankType)]
+        [InlineData(Trestle.ConstructionMaterials.IcatRecessedLighting, ConstructionMaterials.ICatRecessedLighting)]
+        [InlineData(Trestle.ConstructionMaterials.InsulatedConcreteForms, ConstructionMaterials.InsulatedConcreteForms)]
         [InlineData(Trestle.ConstructionMaterials.Log, ConstructionMaterials.Log)]
         [InlineData(Trestle.ConstructionMaterials.Masonry, ConstructionMaterials.MasonryAllSides)]
         [InlineData(Trestle.ConstructionMaterials.NaturalBuilding, ConstructionMaterials.NaturalBuilding)]
@@ -640,7 +640,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.FireplaceFeatures.Den, FireplaceDescription.Den)]
         [InlineData(Trestle.FireplaceFeatures.DoubleSided, FireplaceDescription.DoubleSided)]
         [InlineData(Trestle.FireplaceFeatures.Electric, FireplaceDescription.Electric)]
-        [InlineData(Trestle.FireplaceFeatures.EPACertifiedWoodStove, FireplaceDescription.EPACertifiedWoodStove)]
+        [InlineData(Trestle.FireplaceFeatures.EpaCertifiedWoodStove, FireplaceDescription.EPACertifiedWoodStove)]
         [InlineData(Trestle.FireplaceFeatures.FamilyRoom, FireplaceDescription.FamilyRoom)]
         [InlineData(Trestle.FireplaceFeatures.Gas, FireplaceDescription.Gas)]
         [InlineData(Trestle.FireplaceFeatures.GasLog, FireplaceDescription.GasLog)]
@@ -841,7 +841,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.InteriorOrRoomFeatures.Bar, InteriorFeatures.Bar)]
         [InlineData(Trestle.InteriorOrRoomFeatures.Bookcases, InteriorFeatures.Bookcases)]
         [InlineData(Trestle.InteriorOrRoomFeatures.BreakfastBar, InteriorFeatures.BreakfastBar)]
-        [InlineData(Trestle.InteriorOrRoomFeatures.BuiltinFeatures, InteriorFeatures.BuiltinFeatures)]
+        [InlineData(Trestle.InteriorOrRoomFeatures.BuiltInFeatures, InteriorFeatures.BuiltinFeatures)]
         [InlineData(Trestle.InteriorOrRoomFeatures.CeilingFans, InteriorFeatures.CeilingFans)]
         [InlineData(Trestle.InteriorOrRoomFeatures.BeamedCeilings, InteriorFeatures.CeilingsBeamed)]
         [InlineData(Trestle.InteriorOrRoomFeatures.CathedralCeilings, InteriorFeatures.CeilingsCathedral)]
@@ -852,7 +852,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.InteriorOrRoomFeatures.Chandelier, InteriorFeatures.Chandelier)]
         [InlineData(Trestle.InteriorOrRoomFeatures.CrownMolding, InteriorFeatures.CrownMolding)]
         [InlineData(Trestle.InteriorOrRoomFeatures.DoubleVanity, InteriorFeatures.DoubleVanity)]
-        [InlineData(Trestle.InteriorOrRoomFeatures.EatinKitchen, InteriorFeatures.EatinKitchen)]
+        [InlineData(Trestle.InteriorOrRoomFeatures.EatInKitchen, InteriorFeatures.EatinKitchen)]
         [InlineData(Trestle.InteriorOrRoomFeatures.EntranceFoyer, InteriorFeatures.EntranceFoyer)]
         [InlineData(Trestle.InteriorOrRoomFeatures.FrenchDoorsAtriumDoors, InteriorFeatures.FrenchDoors)]
         [InlineData(Trestle.InteriorOrRoomFeatures.HighSpeedInternet, InteriorFeatures.HighSpeedInternet)]
@@ -879,8 +879,8 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.InteriorOrRoomFeatures.TrackLighting, InteriorFeatures.TrackLighting)]
         [InlineData(Trestle.InteriorOrRoomFeatures.WalkInClosets, InteriorFeatures.WalkInClosets)]
         [InlineData(Trestle.InteriorOrRoomFeatures.WaterSenseFixtures, InteriorFeatures.WaterSenseFixtures)]
-        [InlineData(Trestle.InteriorOrRoomFeatures.WiredforData, InteriorFeatures.WiredforData)]
-        [InlineData(Trestle.InteriorOrRoomFeatures.WiredforSound, InteriorFeatures.WiredforSound)]
+        [InlineData(Trestle.InteriorOrRoomFeatures.WiredForData, InteriorFeatures.WiredforData)]
+        [InlineData(Trestle.InteriorOrRoomFeatures.WiredForSound, InteriorFeatures.WiredforSound)]
         public void ConvertsTInteriorFeaturesCorrectly(Trestle.InteriorOrRoomFeatures input, InteriorFeatures? expected)
         {
             // Arrange
@@ -923,13 +923,13 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.Appliances.Dryer, Appliances.Dryer)]
         [InlineData(Trestle.Appliances.ElectricCooktop, Appliances.ElectricCooktop)]
         [InlineData(Trestle.Appliances.ElectricRange, Appliances.ElectricRange)]
-        [InlineData(Trestle.Appliances.ENERGYSTARQualifiedAppliances, Appliances.EnergyStarQualifiedAppliances)]
-        [InlineData(Trestle.Appliances.ENERGYSTARQualifiedDishwasher, Appliances.EnergyStarQualifiedDishwasher)]
-        [InlineData(Trestle.Appliances.ENERGYSTARQualifiedDryer, Appliances.EnergyStarQualifiedDryer)]
-        [InlineData(Trestle.Appliances.ENERGYSTARQualifiedFreezer, Appliances.EnergyStarQualifiedFreezer)]
-        [InlineData(Trestle.Appliances.ENERGYSTARQualifiedRefrigerator, Appliances.EnergyStarQualifiedRefrigerator)]
-        [InlineData(Trestle.Appliances.ENERGYSTARQualifiedWasher, Appliances.EnergyStarQualifiedWasher)]
-        [InlineData(Trestle.Appliances.ENERGYSTARQualifiedWaterHeater, Appliances.EnergyStarQualifiedWaterHeater)]
+        [InlineData(Trestle.Appliances.EnergyStarQualifiedAppliances, Appliances.EnergyStarQualifiedAppliances)]
+        [InlineData(Trestle.Appliances.EnergyStarQualifiedDishwasher, Appliances.EnergyStarQualifiedDishwasher)]
+        [InlineData(Trestle.Appliances.EnergyStarQualifiedDryer, Appliances.EnergyStarQualifiedDryer)]
+        [InlineData(Trestle.Appliances.EnergyStarQualifiedFreezer, Appliances.EnergyStarQualifiedFreezer)]
+        [InlineData(Trestle.Appliances.EnergyStarQualifiedRefrigerator, Appliances.EnergyStarQualifiedRefrigerator)]
+        [InlineData(Trestle.Appliances.EnergyStarQualifiedWasher, Appliances.EnergyStarQualifiedWasher)]
+        [InlineData(Trestle.Appliances.EnergyStarQualifiedWaterHeater, Appliances.EnergyStarQualifiedWaterHeater)]
         [InlineData(Trestle.Appliances.ExhaustFan, Appliances.ExhaustFan)]
         [InlineData(Trestle.Appliances.GasCooktop, Appliances.GasCooktop)]
         [InlineData(Trestle.Appliances.GasRange, Appliances.GasRange)]
@@ -1194,7 +1194,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.Heating.Ceiling, HeatingSystem.Ceiling)]
         [InlineData(Trestle.Heating.Central, HeatingSystem.Central)]
         [InlineData(Trestle.Heating.Electric, HeatingSystem.Electric)]
-        [InlineData(Trestle.Heating.ENERGYSTARQualifiedEquipment, HeatingSystem.EnergyStarQualifiedEquipment)]
+        [InlineData(Trestle.Heating.EnergyStarQualifiedEquipment, HeatingSystem.EnergyStarQualifiedEquipment)]
         [InlineData(Trestle.Heating.ExhaustFan, HeatingSystem.ExhaustFan)]
         [InlineData(Trestle.Heating.Fireplaces, HeatingSystem.Fireplace)]
         [InlineData(Trestle.Heating.NaturalGas, HeatingSystem.NaturalGas)]
@@ -1230,7 +1230,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.Cooling.CentralAir, CoolingSystem.CentralAir)]
         [InlineData(Trestle.Cooling.Dual, CoolingSystem.Dual)]
         [InlineData(Trestle.Cooling.Electric, CoolingSystem.Electric)]
-        [InlineData(Trestle.Cooling.ENERGYSTARQualifiedEquipment, CoolingSystem.EnergyStarQualifiedEquipment)]
+        [InlineData(Trestle.Cooling.EnergyStarQualifiedEquipment, CoolingSystem.EnergyStarQualifiedEquipment)]
         [InlineData(Trestle.Cooling.MultiUnits, CoolingSystem.MultiUnits)]
         [InlineData(Trestle.Cooling.Zoned, CoolingSystem.Zoned)]
         public void ConvertsToCoolingSystemCorrectly(Trestle.Cooling input, CoolingSystem? expected)
@@ -1334,8 +1334,8 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.ListingTerms.SeeRemarks, AcceptableFinancing.SeeRemarks)]
         [InlineData(Trestle.ListingTerms.LeaseBack, AcceptableFinancing.LeaseBack)]
         [InlineData(Trestle.ListingTerms.TexasVet, AcceptableFinancing.TexasVet)]
-        [InlineData(Trestle.ListingTerms.USDALoan, AcceptableFinancing.USDALoan)]
-        [InlineData(Trestle.ListingTerms.VALoan, AcceptableFinancing.VALoan)]
+        [InlineData(Trestle.ListingTerms.UsdaLoan, AcceptableFinancing.USDALoan)]
+        [InlineData(Trestle.ListingTerms.VaLoan, AcceptableFinancing.VALoan)]
         public void ConvertsToAcceptableFinancingCorrectly(Trestle.ListingTerms input, AcceptableFinancing? expected)
         {
             // Arrange
@@ -1361,8 +1361,8 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         }
 
         [Theory]
-        [InlineData(Trestle.CompensationType.Item, CommissionType.Amount)]
-        [InlineData(Trestle.CompensationType.Item1, CommissionType.Percent)]
+        [InlineData(Trestle.CompensationType.Dollars, CommissionType.Amount)]
+        [InlineData(Trestle.CompensationType.Percent, CommissionType.Percent)]
         public void ConvertsToCommissionTypeCorrectly(Trestle.CompensationType input, CommissionType? expected)
         {
             // Arrange
@@ -1485,7 +1485,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.SecurityFeatures.CarbonMonoxideDetectors, SecurityFeatures.CarbonMonoxideDetectors)]
         [InlineData(Trestle.SecurityFeatures.FireAlarm, SecurityFeatures.FireAlarm)]
         [InlineData(Trestle.SecurityFeatures.FireSprinklerSystem, SecurityFeatures.FireSprinklerSystem)]
-        [InlineData(Trestle.SecurityFeatures.GatedwithGuard, SecurityFeatures.GatedwithGuard)]
+        [InlineData(Trestle.SecurityFeatures.GatedWithGuard, SecurityFeatures.GatedwithGuard)]
         [InlineData(Trestle.SecurityFeatures.None, SecurityFeatures.None)]
         [InlineData(Trestle.SecurityFeatures.Prewired, SecurityFeatures.Prewired)]
         [InlineData(Trestle.SecurityFeatures.SecuredGarageParking, SecurityFeatures.SecuredGarageParking)]
@@ -1522,7 +1522,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.WindowFeatures.BayWindows, WindowFeatures.BayWindows)]
         [InlineData(Trestle.WindowFeatures.Blinds, WindowFeatures.Blinds)]
         [InlineData(Trestle.WindowFeatures.DoublePaneWindows, WindowFeatures.DoublePaneWindows)]
-        [InlineData(Trestle.WindowFeatures.ENERGYSTARQualifiedWindows, WindowFeatures.EnergyStarQualifiedWindows)]
+        [InlineData(Trestle.WindowFeatures.EnergyStarQualifiedWindows, WindowFeatures.EnergyStarQualifiedWindows)]
         [InlineData(Trestle.WindowFeatures.InsulatedWindows, WindowFeatures.InsulatedWindows)]
         [InlineData(Trestle.WindowFeatures.None, WindowFeatures.None)]
         [InlineData(Trestle.WindowFeatures.PlantationShutters, WindowFeatures.PlantationShutters)]
@@ -1591,9 +1591,9 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.BuyerFinancing.Cash, SaleTerms.Cash)]
         [InlineData(Trestle.BuyerFinancing.TexasVet, SaleTerms.TexasVet)]
         [InlineData(Trestle.BuyerFinancing.Conventional, SaleTerms.Conventional)]
-        [InlineData(Trestle.BuyerFinancing.USDA, SaleTerms.UsdaEligible)]
-        [InlineData(Trestle.BuyerFinancing.FHA, SaleTerms.FHA)]
-        [InlineData(Trestle.BuyerFinancing.VA, SaleTerms.VA)]
+        [InlineData(Trestle.BuyerFinancing.Usda, SaleTerms.UsdaEligible)]
+        [InlineData(Trestle.BuyerFinancing.Fha, SaleTerms.FHA)]
+        [InlineData(Trestle.BuyerFinancing.Va, SaleTerms.VA)]
         public void ConvertsToSaleTermsCorrectly(Trestle.BuyerFinancing input, SaleTerms? expected)
         {
             // Arrange
