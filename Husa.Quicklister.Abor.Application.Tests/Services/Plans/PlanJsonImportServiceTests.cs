@@ -5,11 +5,9 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
-    using Husa.Extensions.Common.Exceptions;
     using Husa.JsonImport.Api.Client.Interface;
     using Husa.JsonImport.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Application.Services.Plans;
-    using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
