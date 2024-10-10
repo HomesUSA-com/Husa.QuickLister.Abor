@@ -21,7 +21,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Extensions.Domain.Attributes;
     using Husa.Quicklister.Extensions.Domain.Entities.Listing;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
     using Husa.Xml.Api.Contracts.Response;
@@ -231,13 +230,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             }
         }
 
-        public virtual void ImportFromXml(XmlListingDetailResponse listing, string companyName, ListActionType listAction, Guid userId, CommunitySale community = null)
+        public virtual void ImportFromXml(XmlListingDetailResponse listing, string companyName, ImportActionType listAction, Guid userId, CommunitySale community = null)
         {
             this.MlsStatus = listing.Status.ToStatus();
             this.ListPrice = listing.Price;
             this.XmlListingId = listing.Id;
 
-            if (listAction == ListActionType.ListCompare)
+            if (listAction == ImportActionType.ListCompare)
             {
                 this.MlsStatus = MarketStatuses.Closed;
                 this.StatusFieldsInfo.SetSold(

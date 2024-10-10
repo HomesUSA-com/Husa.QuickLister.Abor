@@ -5,11 +5,9 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
-    using Husa.Extensions.Common.Exceptions;
     using Husa.JsonImport.Api.Client.Interface;
     using Husa.JsonImport.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Application.Services.Communities;
-    using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
@@ -40,56 +38,6 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
         }
 
         public ICommunityJsonImportService Sut { get; set; }
-
-        [Fact]
-        public async Task ImportCommunity_UpdateCommunity_Success()
-        {
-            // Arrange
-            var companyId = Guid.NewGuid();
-            var companyName = Faker.Company.Name();
-            var jsonCommunityId = Guid.NewGuid();
-            var communityId = Guid.NewGuid();
-            var communitySale = TestModelProvider.GetCommunitySaleEntity(communityId);
-
-            this.jsonClient
-                .Setup(x => x.Community.GetByIdAsync(It.Is<Guid>(id => id == jsonCommunityId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(GetCommunityResponse(jsonCommunityId, communityId))
-                .Verifiable();
-            this.communitySaleRepository
-                .Setup(x => x.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()))
-                .ReturnsAsync(communitySale)
-                .Verifiable();
-
-            // Act
-            await this.Sut.ImportEntity(companyId, companyName, jsonCommunityId);
-
-            // Assert
-            this.communitySaleRepository.Verify(r => r.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()), Times.Once);
-            this.communitySaleRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
-        }
-
-        [Fact]
-        public async Task ImportCommunity_UpdateCommunity_NotFound()
-        {
-            // Arrange
-            var companyId = Guid.NewGuid();
-            var companyName = Faker.Company.Name();
-            var jsonCommunityId = Guid.NewGuid();
-            var communityId = Guid.NewGuid();
-
-            this.jsonClient
-                .Setup(x => x.Community.GetByIdAsync(It.Is<Guid>(id => id == jsonCommunityId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(GetCommunityResponse(jsonCommunityId, communityId))
-                .Verifiable();
-            this.communitySaleRepository
-                .Setup(x => x.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()))
-                .ReturnsAsync((CommunitySale)null)
-                .Verifiable();
-
-            // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException<CommunitySale>>(() => this.Sut.ImportEntity(companyId, companyName, jsonCommunityId));
-            this.communitySaleRepository.Verify(r => r.SaveChangesAsync(), Times.Never);
-        }
 
         [Fact]
         public async Task ImportCommunity_CreateNewCommunity_Success()

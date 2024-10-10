@@ -111,6 +111,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IAlertQueriesRepository, AlertQueriesRepository>();
             services.AddScoped<IScrapedListingQueriesRepository, ScrapedListingQueriesRepository>();
             services.AddScoped<IQueryXmlRepository, QueryXmlRepository>();
+            services.AddScoped<IQueryJsonRepository, QueryJsonRepository>();
             services.AddScoped<IManagementTraceQueriesRepository, ManagementTraceQueriesRepository>();
             services.AddScoped<IMigrationQueryRepository, RequestMigrationQueryRepository>();
             services.AddScoped<ILotListingQueriesRepository, LotListingQueriesRepository>();
@@ -174,6 +175,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ISaleListingBillService, SaleListingBillService>();
             services.AddScoped<InterfaceExtensions.Reports.IDiscrepancyReportService, DiscrepancyReportService>();
             services.AddScoped<InterfaceExtensions.Listing.ICallForwardService, CallForwardService>();
+            services.AddScoped<InterfaceExtensions.Listing.IListingJsonImportService, ListingJsonImportService>();
 
             services.ConfigureLegacyListingService(Migration.Enums.MigrationMarketType.Austin);
             return services;

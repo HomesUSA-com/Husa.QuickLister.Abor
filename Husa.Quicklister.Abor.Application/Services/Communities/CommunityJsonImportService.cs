@@ -3,14 +3,13 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     using System;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
-    using Husa.Extensions.Common.Exceptions;
     using Husa.JsonImport.Api.Client.Interface;
     using Husa.JsonImport.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Microsoft.Extensions.Logging;
-    using CommunityExtensions = Husa.Quicklister.Extensions.Application.Services.Communities;
+    using CommunityExtensions = Husa.Quicklister.Extensions.Application.Services.JsonImport;
 
     public class CommunityJsonImportService : CommunityExtensions.CommunityJsonImportService<CommunitySale, ICommunitySaleRepository>
     {
@@ -23,26 +22,17 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
         {
         }
 
-        protected override async Task<CommunitySale> CreateOrUpdateCommunity(CommunityResponse jsonCommunity, Guid companyId, string companyName)
-        {
-            CommunitySale community;
-
-            if (jsonCommunity.QuicklisterId.HasValue && jsonCommunity.QuicklisterId != Guid.Empty)
-            {
-                community = await this.CommunityRepository.GetById(jsonCommunity.QuicklisterId.Value, filterByCompany: true) ??
-                    throw new NotFoundException<CommunitySale>(jsonCommunity.QuicklisterId);
-            }
-            else
-            {
-                community = new CommunitySale(
+        protected override Task<CommunitySale> CreateCommunity(CommunityResponse jsonCommunity, Guid companyId, string companyName)
+            => Task.FromResult(new CommunitySale(
                     companyId,
                     jsonCommunity.Name,
                     companyName,
-                    jsonStatus: JsonImportStatus.AwaitingApproval);
-                this.CommunityRepository.Attach(community);
-            }
+                    jsonStatus: JsonImportStatus.AwaitingApproval));
 
-            return community;
+        protected override Task UpdateCommunity(CommunitySale community, CommunityResponse jsonCommunity)
+        {
+            community.Showing.Directions = jsonCommunity.Directions;
+            return Task.CompletedTask;
         }
     }
 }

@@ -5,11 +5,9 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
-    using Husa.Extensions.Common.Exceptions;
     using Husa.JsonImport.Api.Client.Interface;
     using Husa.JsonImport.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Application.Services.Plans;
-    using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
@@ -36,54 +34,6 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
         }
 
         public IPlanJsonImportService Sut { get; set; }
-
-        [Fact]
-        public async Task ImportPlan_UpdatePlan_Success()
-        {
-            // Arrange
-            var companyId = Guid.NewGuid();
-            var companyName = Faker.Company.Name();
-            var jsonPlanId = Guid.NewGuid();
-            var planId = Guid.NewGuid();
-            var planSale = TestModelProvider.GetPlanEntity(planId);
-            this.jsonClient
-                .Setup(x => x.Plan.GetByIdAsync(It.Is<Guid>(id => id == jsonPlanId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(GetPlanResponse(jsonPlanId, planId))
-                .Verifiable();
-            this.planSaleRepository
-                .Setup(x => x.GetById(It.Is<Guid>(id => id == planId), It.IsAny<bool>()))
-                .ReturnsAsync(planSale)
-                .Verifiable();
-
-            // Act
-            await this.Sut.ImportEntity(companyId, companyName, jsonPlanId);
-
-            // Assert
-            this.planSaleRepository.Verify(r => r.GetById(It.Is<Guid>(id => id == planId), It.IsAny<bool>()), Times.Once);
-            this.planSaleRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
-        }
-
-        [Fact]
-        public async Task ImportPlan_UpdatePlan_NotFound()
-        {
-            // Arrange
-            var companyId = Guid.NewGuid();
-            var companyName = Faker.Company.Name();
-            var jsonPlanId = Guid.NewGuid();
-            var planId = Guid.NewGuid();
-            this.jsonClient
-                .Setup(x => x.Plan.GetByIdAsync(It.Is<Guid>(id => id == jsonPlanId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(GetPlanResponse(jsonPlanId, planId))
-                .Verifiable();
-            this.planSaleRepository
-                .Setup(x => x.GetById(It.Is<Guid>(id => id == planId), It.IsAny<bool>()))
-                .ReturnsAsync((Plan)null)
-                .Verifiable();
-
-            // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException<Plan>>(() => this.Sut.ImportEntity(companyId, companyName, jsonPlanId));
-            this.planSaleRepository.Verify(r => r.SaveChangesAsync(), Times.Never);
-        }
 
         [Fact]
         public async Task ImportPlan_CreateNewPlan_Success()
