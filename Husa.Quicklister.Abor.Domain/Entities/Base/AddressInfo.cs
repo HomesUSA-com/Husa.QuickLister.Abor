@@ -37,7 +37,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
 
         public string Subdivision { get => this.subdivision; set => this.subdivision = value.ToTitleCase(); }
 
-        public static TAddress ImportFromXml<TAddress>(XmlListingDetailResponse listing, TAddress addressInfo)
+        public static TAddress ImportFromXml<TAddress>(XmlListingDetailResponse listing, TAddress addressInfo, Counties? county)
             where TAddress : AddressInfo, new()
         {
             var importedAddressInfo = new TAddress();
@@ -57,6 +57,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
             importedAddressInfo.ZipCode = listing.Zip;
             importedAddressInfo.County = listing.County.ToCounty(isExactValue: false);
             importedAddressInfo.Subdivision = listing.Subdivision;
+
+            if (!string.IsNullOrEmpty(listing.County))
+            {
+                importedAddressInfo.County = listing.County.ToCounty(isExactValue: false);
+            }
+            else if (county.HasValue)
+            {
+                importedAddressInfo.County = county.Value;
+            }
 
             return importedAddressInfo;
         }

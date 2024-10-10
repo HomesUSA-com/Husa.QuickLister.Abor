@@ -78,7 +78,8 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
             var importMedia = false;
             var listing = await this.ListingSaleRepository.GetListingByLocationAsync(null, xmlListing.StreetNum, xmlListing.StreetName, xmlListing.Zip);
-            var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value);
+            var community = await this.CommunitySaleRepository.GetById(xmlListing.CommunityId.Value, filterByCompany: false) ?? throw new NotFoundException<CommunitySale>(xmlListing.CommunityId.Value);
+            var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value) ?? throw new NotFoundException<CompanyDetail>(xmlListing.CompanyId);
 
             if (listing == null || xmlListing.ImportWithoutRematch)
             {
@@ -93,7 +94,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 listing = quickCreateResult.Results.Single();
                 this.ListingSaleRepository.Attach(listing);
                 importMedia = true;
-                listing.ImportFromXml(xmlListing, companyName: companyDetail.Name, listAction, currentUser.Id);
+                listing.ImportFromXml(xmlListing, companyName: companyDetail.Name, listAction, currentUser.Id, community);
             }
             else
             {

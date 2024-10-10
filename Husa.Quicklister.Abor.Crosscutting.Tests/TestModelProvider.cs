@@ -800,7 +800,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             AcceptableFinancing = new List<TrestleEnums.ListingTerms> { TrestleEnums.ListingTerms.Cash, TrestleEnums.ListingTerms.FHA },
             HoaRequirement = false,
             HoaName = "HoaName",
-            HoaFeeIncludes = new List<TrestleEnums.AssociationFeeIncludes> { TrestleEnums.AssociationFeeIncludes.CableTV },
+            HoaFeeIncludes = new List<TrestleEnums.AssociationFeeIncludes> { TrestleEnums.AssociationFeeIncludes.CableTv },
             HoaAmount = 123.0m,
         };
 
@@ -826,7 +826,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         public static ShowingResponse GetShowingMessage() => new()
         {
             BuyersAgentCommission = "300",
-            BuyersAgentCommissionType = new List<TrestleEnums.CompensationType> { TrestleEnums.CompensationType.Item1 },
+            BuyersAgentCommissionType = new List<TrestleEnums.CompensationType> { TrestleEnums.CompensationType.Dollars },
             LockBoxType = TrestleEnums.LockBoxType.Electronic,
             ShowingPhone = "123951486",
             AccessCode = "123456",

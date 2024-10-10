@@ -55,6 +55,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             return clonnedProperty;
         }
 
+        internal void CopyLotDescription(ICollection<LotDescription> lotDescription)
+        {
+            if (this.LotDescription != null && this.LotDescription.Contains(Enums.Domain.LotDescription.Curbs))
+            {
+                lotDescription.Add(Enums.Domain.LotDescription.Curbs);
+            }
+
+            this.LotDescription = lotDescription;
+        }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return this.MlsArea;
