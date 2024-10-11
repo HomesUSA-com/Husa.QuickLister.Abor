@@ -382,7 +382,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var xmlResourceMock = Mock.Get(xmlClient.Listing);
             xmlResourceMock.Setup(c => c.GetByIdAsync(It.Is<Guid>(x => x == Factory.XmlListingId), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(xmlListingDetailResponse);
 
-            var companyResponse = new Response.CompanyDetail() { Id = Factory.CompanyId, Name = "fakeName" };
+            var companyResponse = new Response.CompanyDetail() { Id = Factory.CompanyId, Name = "fakeName", SettingInfo = new() { IgnoreRequestByCompletionDate = false } };
             var companyClient = this.customWebApplicationFactory.Services.GetRequiredService<IServiceSubscriptionClient>();
             var companyResourceMock = Mock.Get(companyClient.Company);
             companyResourceMock.Setup(c => c.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyResponse);
