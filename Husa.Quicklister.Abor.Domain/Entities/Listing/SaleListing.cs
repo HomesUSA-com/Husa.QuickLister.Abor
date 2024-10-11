@@ -239,11 +239,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
             if (listAction == ListActionType.ListCompare)
             {
-                this.MlsStatus = MarketStatuses.Closed;
-                this.StatusFieldsInfo.SetSold(
-                    listPrice: this.ListPrice.Value,
-                    closePrice: listing.SalesPrice,
-                    closeDate: listing.ClosedDate);
+                this.MlsStatus = MarketStatuses.Pending;
             }
 
             var county = community?.Property?.County;
