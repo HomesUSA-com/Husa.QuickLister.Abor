@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests.Repositories
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Diagnostics;
     using Microsoft.EntityFrameworkCore.Storage;
     using Moq;
     using Xunit;
@@ -75,7 +76,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests.Repositories
 
         private QueryJsonRepository GetInMemoryRepository(IEnumerable<CommunitySale> communities)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot());
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot())
+                .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.ManyServiceProvidersCreatedWarning));
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
