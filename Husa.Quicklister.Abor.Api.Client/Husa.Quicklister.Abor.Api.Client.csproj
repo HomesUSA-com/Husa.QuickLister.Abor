@@ -8,10 +8,13 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.10.5</Version>
+        <Version>2.10.6</Version>
         <PackageReleaseNotes>
-            Release 2.10.5:
-            - Updated Quicklister Extensions Client
+            Release 2.10.6:
+            - Include Chandelier to RoomFeatures Enum
+            - Include DryBar to RoomFeatures Enum
+            - Include CountryKitchen to RoomFeatures Enum
+            - Include LaminateCounter to RoomFeatures Enum
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

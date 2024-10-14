@@ -20,6 +20,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "FAN")]
         [Description("Ceiling Fan(s)")]
         CeilingFans,
+        [EnumMember(Value = "CHNDL")]
+        [Description("Chandelier")]
+        Chandelier,
         [EnumMember(Value = "CORTP")]
         [Description("Corian Counters")]
         CorianCounters,
@@ -32,6 +35,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "DBVAN")]
         [Description("Double Vanity")]
         DoubleVanity,
+        [EnumMember(Value = "DBR")]
+        [Description("Dry Bar")]
+        DryBar,
         [EnumMember(Value = "EIKT")]
         [Description("Eat In Kitchen")]
         EatInKitchen,
@@ -62,6 +68,12 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "RJTUB")]
         [Description("Jetted Tub")]
         JettedTub,
+        [EnumMember(Value = "CNTKT")]
+        [Description("Country Kitchen")]
+        CountryKitchen,
+        [EnumMember(Value = "LMNC")]
+        [Description("Laminate Counter")]
+        LaminateCounter,
         [EnumMember(Value = "CHTE")]
         [Description("Laundry Chute")]
         LaundryChute,
