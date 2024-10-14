@@ -25,8 +25,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
         protected override MarketCode MarketCode => MarketCode.Austin;
 
         protected override IEnumerable<Guid> GetUserCommunityIds(IUserContext currentUser)
-        {
-            return this.context.Community
+        => this.context.Community
                    .FilterNotDeleted()
                    .FilterByImportStatus(XmlStatus.Approved)
                    .FilterByCompany(currentUser)
@@ -34,6 +33,5 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                    .Where(employeeCommunties => !employeeCommunties.employee.IsDeleted && employeeCommunties.employee.UserId == currentUser.Id)
                    .Select(employeeCommunties => employeeCommunties.communities.Id)
                    .ToList();
-        }
     }
 }

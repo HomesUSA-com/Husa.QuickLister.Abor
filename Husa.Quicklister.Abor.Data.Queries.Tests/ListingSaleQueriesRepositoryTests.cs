@@ -20,12 +20,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Diagnostics;
     using Microsoft.EntityFrameworkCore.Storage;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Moq;
     using Xunit;
     using CompanyResponse = Husa.CompanyServicesManager.Api.Contracts.Response;
+    using ExtensionsCrosscutting = Husa.Quicklister.Extensions.Crosscutting;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Data.Queries.Test")]
@@ -42,7 +44,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
         {
             this.applicationOptions.SetupGet(o => o.Value).Returns(new ApplicationOptions
             {
-                FeatureFlags = new FeatureFlags
+                FeatureFlags = new ExtensionsCrosscutting.FeatureFlags
                 {
                     FindEmailLeads = true,
                 },
@@ -295,7 +297,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
 
         private ListingSaleQueriesRepository GetInMemoryRepository(IEnumerable<SaleListing> listings, IEnumerable<CommunitySale> communities)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot());
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot())
+                .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.ManyServiceProvidersCreatedWarning));
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();

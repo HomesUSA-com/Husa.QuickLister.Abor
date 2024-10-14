@@ -24,6 +24,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
     using Microsoft.Extensions.Options;
     using Moq;
     using Xunit;
+    using ServiceBusOptions = Husa.Extensions.ServiceBus.Attributes.ServiceBusOptions;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Application.Test")]

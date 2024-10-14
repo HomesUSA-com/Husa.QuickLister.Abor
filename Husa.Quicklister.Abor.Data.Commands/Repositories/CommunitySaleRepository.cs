@@ -33,13 +33,6 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<Guid?> GetIdByLegacyId(Guid legacyId)
-        {
-            this.logger.LogInformation("Starting to get the Community by legacy id {legacyId}", legacyId);
-            var community = await this.context.Community.FirstOrDefaultAsync(p => p.LegacyId.HasValue && p.LegacyId.Value == legacyId);
-            return community?.Id;
-        }
-
         public async Task<Guid?> GetIdByLegacyId(int legacyId)
         {
             this.logger.LogInformation("Starting to get the Community by legacy id {legacyId}", legacyId);

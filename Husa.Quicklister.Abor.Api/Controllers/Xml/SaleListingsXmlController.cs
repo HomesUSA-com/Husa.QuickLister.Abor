@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Xml
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Xml;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Xml;
     using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Models.Xml;

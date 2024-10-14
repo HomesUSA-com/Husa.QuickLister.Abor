@@ -24,13 +24,6 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<Guid?> GetIdByLegacyId(Guid legacyId)
-        {
-            this.logger.LogInformation("Starting to get the Plan by legacy id {legacyId}", legacyId);
-            var plan = await this.context.Plan.FirstOrDefaultAsync(p => p.LegacyId.HasValue && p.LegacyId.Value == legacyId);
-            return plan?.Id;
-        }
-
         public async Task<Guid?> GetIdByLegacyId(int legacyId)
         {
             this.logger.LogInformation("Starting to get the Plan by legacy id {legacyId}", legacyId);

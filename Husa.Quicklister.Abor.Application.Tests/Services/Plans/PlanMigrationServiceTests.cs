@@ -86,7 +86,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
 
             var planId = Guid.NewGuid();
             var plan = PlanTestProvider.GetPlanEntity(planId);
-            this.planRepository.Setup(x => x.GetIdByLegacyId(It.IsAny<Guid>())).ReturnsAsync(planId);
+            this.planRepository.Setup(x => x.GetIdByLegacyId(It.IsAny<int>())).ReturnsAsync(planId);
             this.planRepository.Setup(x => x.GetById(It.Is<Guid>(id => id == planId), It.IsAny<bool>())).ReturnsAsync(plan);
 
             // Act

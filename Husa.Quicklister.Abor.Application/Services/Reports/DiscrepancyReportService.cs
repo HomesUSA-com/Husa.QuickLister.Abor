@@ -9,7 +9,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Reports
     using Husa.Quicklister.Extensions.Application.Interfaces.Reports;
     using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
-    using QLExtensions = Husa.Quicklister.Extensions.Application.Services.SaleListings;
+    using QLExtensions = Husa.Quicklister.Extensions.Application.Services.Reports;
     public class DiscrepancyReportService : QLExtensions.DiscrepancyReportService<SaleListing, IListingSaleRepository>, IDiscrepancyReportService
     {
         public DiscrepancyReportService(
