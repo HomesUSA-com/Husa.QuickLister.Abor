@@ -8,9 +8,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.11.1-dev002</Version>
+        <Version>2.11.0-dev003</Version>
         <PackageReleaseNotes>
-          Release 2.11.1:
+          Release 2.11.0:
           - Include Chandelier to RoomFeatures Enum
           - Include DryBar to RoomFeatures Enum
           - Include CountryKitchen to RoomFeatures Enum
