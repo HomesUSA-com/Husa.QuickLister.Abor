@@ -20,6 +20,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "LIGHTN")]
         [Description("Lighting")]
         Lighting,
+        [EnumMember(Value = "GUTPL")]
+        [Description("Gutters-Partial")]
+        GuttersPartial,
         [EnumMember(Value = "NOENS")]
         [Description("No Exterior Steps")]
         NoExteriorSteps,
@@ -38,5 +41,8 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "TNNS")]
         [Description("Tennis Court(s)")]
         TennisCourts,
+        [EnumMember(Value = "SRMRKS")]
+        [Description("See Remarks")]
+        SeeRemarks,
     }
 }
