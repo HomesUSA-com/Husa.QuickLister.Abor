@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.MediaService.Domain.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models;
@@ -33,6 +34,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
         ICommunitySaleRepository>, ISaleListingXmlService
     {
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
+        private readonly ISaleListingMediaService saleListingMediaService;
         private readonly IMapper mapper;
         private readonly ApplicationOptions options;
         private readonly ISaleListingService listingSaleService;
@@ -54,11 +56,13 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             ISaleListingService listingSaleService,
             ISaleListingRequestService saleListingRequestService,
             IServiceSubscriptionClient serviceSubscriptionClient,
+            ISaleListingMediaService saleListingMediaService,
             IOptions<ApplicationOptions> options,
             IMapper mapper)
             : base(listingSaleRepository, communityRepository, userContextProvider, xmlClient, logger)
         {
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
+            this.saleListingMediaService = saleListingMediaService ?? throw new ArgumentNullException(nameof(saleListingMediaService));
             this.listingSaleService = listingSaleService ?? throw new ArgumentNullException(nameof(listingSaleService));
             this.saleListingRequestService = saleListingRequestService ?? throw new ArgumentNullException(nameof(saleListingRequestService));
             this.xmlMediaService = xmlMediaService ?? throw new ArgumentNullException(nameof(xmlMediaService));
@@ -121,6 +125,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
         public async Task UpdateListingFromXmlAsync(Guid xmlListingId)
         {
+            var mediaLimitAllowed = this.options.MediaAllowed.SaleListingMaxAllowedMedia;
             var listing = await this.ListingSaleRepository.GetListingByXmlListingId(xmlListingId) ?? throw new NotFoundException<SaleListing>(xmlListingId);
             var skipPlanAndCommunity = listing.XmlDiscrepancyListingId != null && listing.XmlDiscrepancyListingId.Value != Guid.Empty;
             var xmlListing = await this.GetListingFromXml(skipPlanAndCommunity ? listing.XmlDiscrepancyListingId.Value : xmlListingId, skipPlanAndCommunity: skipPlanAndCommunity);
@@ -155,13 +160,14 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
             if (shouldProcessNewMedia)
             {
+                var currentListingMedia = await this.saleListingMediaService.MediaClient.GetResources(listing.Id, MediaType.Residential);
                 var newMediaFromXml = await this.XmlClient.Listing.Media(xmlListingId, excludeImported: true);
-                if (newMediaFromXml != null && newMediaFromXml.Any())
+                if (newMediaFromXml != null && newMediaFromXml.Any() && currentListingMedia.Media.Count() < mediaLimitAllowed)
                 {
                     await this.xmlMediaService.ImportListingMedia(
                         xmlListingId,
                         checkMediaLimit: true,
-                        maxImagesAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia,
+                        maxImagesAllowed: mediaLimitAllowed,
                         useServiceBus: false);
                     mediaHasChanges = true;
                 }
