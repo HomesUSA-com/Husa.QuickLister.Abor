@@ -582,7 +582,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             // Act and Assert
             await this.Sut.UpdateListingFromXmlAsync(xmlListingId);
             this.listingSaleRepository.Verify(x => x.GetListingByXmlListingId(It.Is<Guid>(r => r == xmlListingId)), Times.Once);
-            this.saleListingRequestService.Verify(x => x.GenerateRequestFromXmlAsync(It.IsAny<SaleListingRequest>(), It.IsAny<CancellationToken>()), Times.Once);
+            this.saleListingRequestService.Verify(x => x.GenerateRequestAsync(It.IsAny<SaleListingRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]

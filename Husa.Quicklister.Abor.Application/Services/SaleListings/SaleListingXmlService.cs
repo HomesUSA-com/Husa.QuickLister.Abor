@@ -180,7 +180,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 var requestResult = listing.GenerateRequest(currentUser.Id);
                 if (!requestResult.Errors.Any())
                 {
-                    await this.saleListingRequestService.GenerateRequestFromXmlAsync(requestResult.Result);
+                    await this.saleListingRequestService.GenerateRequestAsync(requestResult.Result, disposeServiceBus: false);
                 }
                 else
                 {
