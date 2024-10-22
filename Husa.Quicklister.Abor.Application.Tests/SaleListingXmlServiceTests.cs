@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
@@ -14,6 +15,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.MediaService.Api.Contracts.Response;
+    using Husa.MediaService.Client;
+    using Husa.MediaService.Domain.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models;
@@ -44,6 +48,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<IUserContextProvider> contextProvider = new();
         private readonly Mock<IListingSaleRepository> listingSaleRepository = new();
         private readonly Mock<ISaleListingService> listingSaleService = new();
+        private readonly Mock<ISaleListingMediaService> saleListingMediaService = new();
         private readonly Mock<ICommunitySaleRepository> communitySaleRepository = new();
         private readonly Mock<ISaleListingRequestService> saleListingRequestService = new();
         private readonly Mock<ISaleListingXmlMediaService> xmlMediaService = new();
@@ -65,6 +70,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.listingSaleService.Object,
                 this.saleListingRequestService.Object,
                 this.companyClient.Object,
+                this.saleListingMediaService.Object,
                 this.fixture.Options.Object,
                 this.fixture.Mapper);
         }
@@ -98,6 +104,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
               .Setup(x => x.GetById(It.Is<Guid>(x => x == communityId), It.IsAny<bool>()))
               .ReturnsAsync(community)
               .Verifiable();
+
+            this.saleListingMediaService
+                .Setup(x => x.MediaClient.GetResources(It.IsAny<Guid>(), It.IsAny<MediaType>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(this.SetupListingGetMedia())
+                .Verifiable();
 
             // Act
             await this.Sut.ProcessListingAsync(xmlListingId, actionType);
@@ -469,6 +480,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 StopXMLMediaSyncOfExistingListings = false,
             };
 
+            this.saleListingMediaService
+                .Setup(x => x.MediaClient.GetResources(It.IsAny<Guid>(), It.IsAny<MediaType>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(this.SetupListingGetMedia())
+                .Verifiable();
+
             this.SetupGetXmlListingById(xmlListingId);
 
             this.listingSaleRepository
@@ -526,6 +542,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
                .ReturnsAsync(saleListing)
                .Verifiable();
 
+            this.saleListingMediaService
+                .Setup(x => x.MediaClient.GetResources(It.IsAny<Guid>(), It.IsAny<MediaType>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(this.SetupListingGetMedia())
+                .Verifiable();
+
             this.xmlMediaService
                .Setup(x => x.ImportListingMedia(xmlListingId, false, true, this.fixture.Options.Object.Value.MediaAllowed.SaleListingMaxAllowedMedia))
                .Verifiable();
@@ -561,7 +582,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             // Act and Assert
             await this.Sut.UpdateListingFromXmlAsync(xmlListingId);
             this.listingSaleRepository.Verify(x => x.GetListingByXmlListingId(It.Is<Guid>(r => r == xmlListingId)), Times.Once);
-            this.saleListingRequestService.Verify(x => x.GenerateRequestFromXmlAsync(It.IsAny<SaleListingRequest>(), It.IsAny<CancellationToken>()), Times.Once);
+            this.saleListingRequestService.Verify(x => x.GenerateRequestAsync(It.IsAny<SaleListingRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -744,6 +765,25 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(commandResult);
         }
 
+        private ResourceResponse SetupListingGetMedia()
+        {
+            var media = new List<MediaDetail>
+            {
+                new MediaDetail
+                {
+                    Id = Guid.NewGuid(),
+                    Uri = new Uri("http://www.google.com"),
+                    MimeType = MimeType.Image,
+                    UriMedium = new Uri("http://www.google.com"),
+                },
+            };
+
+            return new ResourceResponse
+            {
+                Media = media.AsEnumerable(),
+            };
+        }
+
         private void SetupServicesToUpdateListingFromXml(SaleListing listing)
         {
             this.SetupGetXmlListingById(listing.XmlListingId.Value);
@@ -766,6 +806,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.saleListingRequestService
                .Setup(x => x.GenerateRequestFromXmlAsync(It.IsAny<SaleListingRequest>(), It.IsAny<CancellationToken>()))
                .Verifiable();
+
+            this.saleListingMediaService
+                .Setup(x => x.MediaClient)
+                .Returns(new Mock<IMediaServiceClient>().Object)
+                .Verifiable();
         }
     }
 }
