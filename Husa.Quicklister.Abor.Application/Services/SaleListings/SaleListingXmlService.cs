@@ -168,7 +168,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                         xmlListingId,
                         checkMediaLimit: true,
                         maxImagesAllowed: mediaLimitAllowed,
-                        useServiceBus: false);
+                        useServiceBus: true);
                     mediaHasChanges = true;
                 }
             }
