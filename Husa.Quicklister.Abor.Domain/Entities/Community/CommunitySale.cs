@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Quicklister.Abor.Domain.Extensions.Listing;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Communities;
     using Husa.Xml.Api.Contracts.Response;
@@ -34,6 +35,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         ExtensionsInterfaces.IProvideActiveListings<SaleListing>,
         IProvideCommunityHistory<CommunityHistory>
     {
+        public CommunitySale(Guid companyId, string name, string ownerName, JsonImportStatus jsonStatus)
+            : this(companyId, name, ownerName)
+        {
+            this.JsonImportStatus = jsonStatus;
+        }
+
         public CommunitySale(Guid companyId, string name, string ownerName)
             : this()
         {
@@ -92,7 +99,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
                 throw new ArgumentNullException(nameof(property));
             }
 
-            this.UpdateChanges(nameof(this.Property), this.Property.GetDifferences(property, exclude: new[] { nameof(this.Property.ConstructionStage) }));
+            this.UpdateChanges(nameof(this.Property), this.Property.GetDifferences(property, exclude: new[] { nameof(this.Property.ConstructionStage), nameof(this.Property.LotDimension) }));
 
             if (this.Property != property)
             {

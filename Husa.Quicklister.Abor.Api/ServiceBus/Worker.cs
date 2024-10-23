@@ -22,7 +22,6 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
         private readonly IXmlMessagesHandler xmlMessagesHandler;
         private readonly IMigrationSubscriber migrationSubscriber;
         private readonly IMigrationMessagesHandler migrationMessagesHandler;
-        private readonly FeatureFlags featureFlags;
 
         public Worker(
             IPhotoServiceSubscriber photoSubscriber,
@@ -35,12 +34,13 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
             IMigrationMessagesHandler migrationMessagesHandler,
             ICompanyServiceSubscriber companySubscriber,
             ICompanyServiceMessagesHandler companyMessagesHandler,
+            IJsonImportSubscriber jsonImportSubscriber,
+            IJsonImportMessagesHandler jsonImportMessagesHandler,
             IOptions<ApplicationOptions> options,
             ILogger<Worker> logger)
-            : base(companySubscriber, companyMessagesHandler, logger)
+            : base(companySubscriber, companyMessagesHandler, jsonImportSubscriber, jsonImportMessagesHandler, options?.Value?.FeatureFlags, logger)
         {
             this.downloaderSubscriber = downloaderSubscriber ?? throw new ArgumentNullException(nameof(downloaderSubscriber));
-            this.featureFlags = options?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(options));
             this.downloaderMessagesHandler = downloaderMessagesHandler ?? throw new ArgumentNullException(nameof(downloaderMessagesHandler));
             this.photoSubscriber = photoSubscriber ?? throw new ArgumentNullException(nameof(photoSubscriber));
             this.photoMessagesHandler = photoMessagesHandler ?? throw new ArgumentNullException(nameof(photoMessagesHandler));
@@ -60,13 +60,13 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
                 this.Logger.LogInformation(RegisterHandlerMsg, nameof(this.migrationMessagesHandler));
                 this.migrationSubscriber.ConfigureClient(this.migrationMessagesHandler);
 
-                if (this.featureFlags.IsDownloaderEnabled)
+                if (this.FeatureFlags.IsDownloaderEnabled)
                 {
                     this.Logger.LogInformation(RegisterHandlerMsg, nameof(this.downloaderSubscriber));
                     this.downloaderSubscriber.ConfigureClient(this.downloaderMessagesHandler);
                 }
 
-                if (this.featureFlags.IsXmlBusHandlerEnabled)
+                if (this.FeatureFlags.IsXmlBusHandlerEnabled)
                 {
                     this.Logger.LogInformation(RegisterHandlerMsg, nameof(this.xmlMessagesHandler));
                     this.xmlSubscriber.ConfigureClient(this.xmlMessagesHandler);
@@ -91,13 +91,13 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
             this.Logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.migrationSubscriber));
             await this.migrationSubscriber.CloseClient();
 
-            if (this.featureFlags.IsDownloaderEnabled)
+            if (this.FeatureFlags.IsDownloaderEnabled)
             {
                 this.Logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.downloaderSubscriber));
                 await this.downloaderSubscriber.CloseClient();
             }
 
-            if (this.featureFlags.IsXmlBusHandlerEnabled)
+            if (this.FeatureFlags.IsXmlBusHandlerEnabled)
             {
                 this.Logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.xmlSubscriber));
                 await this.xmlSubscriber.CloseClient();
