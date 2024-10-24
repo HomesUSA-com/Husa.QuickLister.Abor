@@ -18,9 +18,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
         }
 
         public static bool IsValidStage(MarketStatuses mlsStatus, ConstructionStage constructionStage)
-        {
-            return mlsStatus != MarketStatuses.Closed || constructionStage == ConstructionStage.Complete;
-        }
+        => mlsStatus != MarketStatuses.Closed || constructionStage == ConstructionStage.Complete;
 
         public static bool IsValidBuyersAgentCommissionRange(this IProvideAgentCommission agentCommission)
         {
