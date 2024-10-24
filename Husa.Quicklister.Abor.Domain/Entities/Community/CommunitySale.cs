@@ -256,6 +256,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             .SelectMany(p => p.SaleListings)
             .Where(listing => !listing.IsDeleted && SaleListing.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber));
 
+        public virtual IEnumerable<SaleListing> GetListingsToUpdate() => this.SaleProperties.GetListingsToUpdate();
+
         public virtual IEnumerable<LotListing> GetActiveLotListings() => this.LotListings
             .Where(listing => !listing.IsDeleted && MarketStatusesExtensions.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber));
 
