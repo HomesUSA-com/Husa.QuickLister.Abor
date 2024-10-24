@@ -4,7 +4,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Document.ValueObjects;
+    using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
@@ -86,6 +88,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
             this.MlsStatus = listingRequestValue.MlsStatus;
             this.StatusFieldsInfo.UpdateInformation(statusFieldsInfo);
             this.SaleProperty.UpdateInformation(salePropertyValue);
+        }
+
+        public override IEnumerable<ValidationResult> IsValidForSubmit()
+        {
+            if (!CommonFieldsValidation.IsValidStage(this.MlsStatus, this.SaleProperty.PropertyInfo.ConstructionStage))
+            {
+                throw new DomainException(nameof(this.SaleProperty.PropertyInfo.ConstructionStage));
+            }
+
+            return base.IsValidForSubmit();
         }
 
         public override IEnumerable<SummarySection> GetSummary<TListingRequest>(TListingRequest previousRequest)
