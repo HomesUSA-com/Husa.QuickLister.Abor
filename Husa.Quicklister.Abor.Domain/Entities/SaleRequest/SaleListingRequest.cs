@@ -92,9 +92,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
 
         public override IEnumerable<ValidationResult> IsValidForSubmit()
         {
-            if (!CommonFieldsValidation.IsValidStage(this.MlsStatus, this.SaleProperty.PropertyInfo.ConstructionStage))
+            if (!CommonFieldsValidation.IsValidStage(this.MlsStatus, this.SaleProperty.PropertyInfo.ConstructionStage, this.SaleProperty.PropertyInfo.ConstructionCompletionDate))
             {
-                throw new DomainException(nameof(this.SaleProperty.PropertyInfo.ConstructionStage));
+                throw new DomainException(nameof(this.SaleProperty.PropertyInfo.ConstructionStage) + " should be complete and " + nameof(this.SaleProperty.PropertyInfo.ConstructionCompletionDate) + " must be on or before today");
             }
 
             return base.IsValidForSubmit();
