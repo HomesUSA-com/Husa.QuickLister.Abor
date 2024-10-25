@@ -13,5 +13,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
         public Counties? County { get; set; }
         public StreetType? StreetType { get; set; }
         public string Subdivision { get; set; }
+        public string UnitNumber { get; set; }
     }
 }
