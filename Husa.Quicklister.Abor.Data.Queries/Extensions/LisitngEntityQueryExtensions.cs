@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
                     RoomType = r.RoomType,
                     IsDeleted = r.IsDeleted,
                     Features = r.Features,
+                    Description = r.Description,
                 };
 
                 roomsCollection.Add(room);

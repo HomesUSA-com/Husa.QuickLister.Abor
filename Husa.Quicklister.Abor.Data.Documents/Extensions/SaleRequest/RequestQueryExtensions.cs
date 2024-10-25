@@ -198,6 +198,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions.SaleRequest
                 RoomType = room.RoomType,
                 IsDeleted = room.IsDeleted,
                 Features = room.Features,
+                Description = room.Description,
             });
     }
 }

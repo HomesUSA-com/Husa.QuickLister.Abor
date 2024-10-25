@@ -36,6 +36,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 
         public Guid CompanyId { get; set; }
 
+        public string Description { get; set; }
+
         public string FieldType => this.RoomType.ToString();
 
         public RoomRecord CloneRecord() => (RoomRecord)this.MemberwiseClone();
@@ -60,6 +62,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
                 SysCreatedBy = room.SysCreatedBy,
                 SysTimestamp = room.SysTimestamp,
                 CompanyId = room.CompanyId,
+                Description = room.Description,
             };
         }
 

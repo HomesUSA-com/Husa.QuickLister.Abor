@@ -358,7 +358,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var listing = TestModelProvider.GetListingSaleEntity(listingId, true);
             var listingMock = Mock.Get(listing);
             var rooms = new Mock<List<ListingSaleRoom>>();
-            rooms.Object.Add(new ListingSaleRoom(Guid.NewGuid(), RoomType.PrimaryBedroom, RoomLevel.Main, new RoomFeatures[] { RoomFeatures.BreakfastArea }));
+            rooms.Object.Add(new ListingSaleRoom(Guid.NewGuid(), RoomType.PrimaryBedroom, RoomLevel.Main, new RoomFeatures[] { RoomFeatures.BreakfastArea }, "desc"));
 
             listingMock
                 .Setup(x => x.SaleProperty.UpdateRooms(It.IsAny<List<ListingSaleRoom>>()))

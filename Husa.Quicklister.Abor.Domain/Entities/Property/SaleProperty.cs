@@ -240,7 +240,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                     this.Id,
                     roomDetail.RoomType,
                     roomDetail.Level,
-                    roomDetail.Features);
+                    roomDetail.Features,
+                    roomDetail.Description);
 
                 this.Rooms.Add(room);
             }
@@ -338,7 +339,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                     this.Id,
                     roomDetail.RoomType,
                     roomDetail.Level,
-                    roomDetail.Features);
+                    roomDetail.Features,
+                    roomDetail.Description);
 
                 this.Rooms.Add(room);
             }
@@ -387,7 +389,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                     this.Id,
                     roomDetail.RoomType,
                     roomDetail.Level,
-                    roomDetail.Features);
+                    roomDetail.Features,
+                    roomDetail.Description);
 
                 this.Rooms.Add(room);
             }
