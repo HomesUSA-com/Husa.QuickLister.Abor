@@ -9,8 +9,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
 
     public class PlanRoom : Room
     {
-        public PlanRoom(Guid planId, RoomType roomType, RoomLevel level, ICollection<RoomFeatures> features)
-            : base(roomType, level, features)
+        public PlanRoom(Guid planId, RoomType roomType, RoomLevel level, ICollection<RoomFeatures> features, string description)
+            : base(roomType, level, features, description)
         {
             this.PlanId = planId;
             this.EntityOwnerType = EntityType.Plan.ToString();

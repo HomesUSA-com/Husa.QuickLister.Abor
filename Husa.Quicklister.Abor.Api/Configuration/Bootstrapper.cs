@@ -115,6 +115,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IManagementTraceQueriesRepository, ManagementTraceQueriesRepository>();
             services.AddScoped<IMigrationQueryRepository, RequestMigrationQueryRepository>();
             services.AddScoped<ILotListingQueriesRepository, LotListingQueriesRepository>();
+            services.AddScoped<IResidentialIdxQueriesRepository, ResidentialIdxQueriesRepository>();
             services.AddExtensionRepositories();
             return services;
         }
@@ -271,10 +272,10 @@ namespace Husa.Quicklister.Abor.Api.Configuration
                 await client.ConfigureClientAsync(provider, options.Services.ReverseProspect);
             }).AddHeaderPropagation();
 
-            services.AddHttpClient<IServiceSubscriptionClient, ServiceSubscriptionClient>(async (provider, client) =>
+            services.AddHttpClient<IServiceSubscriptionClient, ServiceSubscriptionClient>((provider, client) =>
             {
                 var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                await client.ConfigureClientAsync(provider, options.Services.CompanyServicesManager);
+                client.BaseAddress = new Uri(options.Services.CompanyServicesManager);
             }).ConfigureHeaderHandling(withTokenRequest);
 
             services.AddHttpClient<IDownloaderCtxClient, DownloaderCtxClient>(async (provider, client) =>

@@ -24,7 +24,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.SysTimestamp, am => am.Ignore())
                 .ForMember(dto => dto.CompanyId, am => am.Ignore())
                 .ForMember(dto => dto.PlanId, am => am.Ignore())
-                .ForMember(dto => dto.EntityOwnerType, am => am.Ignore());
+                .ForMember(dto => dto.EntityOwnerType, am => am.Ignore())
+                .ForMember(dto => dto.Description, am => am.Ignore());
 
             this.CreateMap<PlanResponse, BasePlan>()
                 .ForMember(dto => dto.Name, pr => pr.MapFrom(x => x.PlanName))

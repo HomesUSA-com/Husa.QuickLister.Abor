@@ -125,7 +125,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.Features, pr => pr.MapFrom(x => x.Features.CsvToEnum<RoomFeatures>(true)))
                 .ForMember(dto => dto.RoomType, pr => pr.MapFrom(x => x.RoomType.ToRoomType()))
                 .ForMember(dto => dto.Level, pr => pr.MapFrom(x => x.Level.ToEnumOrNullFromEnumMember<RoomLevel>()))
-                .ForMember(dto => dto.Id, pr => pr.Ignore());
+                .ForMember(dto => dto.Id, pr => pr.Ignore())
+                .ForMember(dto => dto.Description, pr => pr.Ignore());
         }
     }
 }

@@ -76,6 +76,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                  .ApplySortByFields(queryFilter.SortBy)
                  .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take, queryFilter.IsForDownloading)
                  .ToListAsync();
+            await this.userQueriesRepository.FillUsersNameAsync(data);
 
             return new DataSet<LotListingQueryResult>(data, total);
         }

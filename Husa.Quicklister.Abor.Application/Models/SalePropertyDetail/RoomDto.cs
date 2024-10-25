@@ -14,5 +14,7 @@ namespace Husa.Quicklister.Abor.Application.Models.SalePropertyDetail
         public RoomType RoomType { get; set; }
 
         public ICollection<RoomFeatures> Features { get; set; }
+
+        public string Description { get; set; }
     }
 }

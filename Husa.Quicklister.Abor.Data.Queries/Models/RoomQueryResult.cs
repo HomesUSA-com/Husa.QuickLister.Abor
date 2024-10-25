@@ -12,5 +12,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
         public RoomType RoomType { get; set; }
         public bool IsDeleted { get; set; }
         public ICollection<RoomFeatures> Features { get; set; }
+
+        public string Description { get; set; }
     }
 }

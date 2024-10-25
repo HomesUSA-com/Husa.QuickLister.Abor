@@ -8,7 +8,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.11.0</Version>
+        <Version>2.11.1</Version>
         <PackageReleaseNotes>
           Release 2.11.0:
           - Include Chandelier to RoomFeatures Enum
@@ -17,6 +17,7 @@
           - Include LaminateCounter to RoomFeatures Enum
           - Added jsonStatusImport
           - Include options in Exterior Features
+          - Add Description for Rooms
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

@@ -158,7 +158,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.SysModifiedBy, pr => pr.Ignore())
                 .ForMember(dto => dto.SysCreatedBy, pr => pr.Ignore())
                 .ForMember(dto => dto.SysTimestamp, pr => pr.Ignore())
-                .ForMember(dto => dto.CompanyId, pr => pr.Ignore());
+                .ForMember(dto => dto.CompanyId, pr => pr.Ignore())
+                .ForMember(dto => dto.Description, pr => pr.Ignore());
         }
     }
 }
