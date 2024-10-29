@@ -9,6 +9,10 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             : base()
         {
             this.CreateMap<ResidentialIdxQueryResult, ResidentialIdxResponse>();
+            this.CreateMap<FinancialIdxQueryResult, FinancialIdxResponse>();
+            this.CreateMap<PropertyIdxQueryResult, PropertyIdxResponse>();
+            this.CreateMap<SchoolsIdxQueryResult, SchoolsIdxResponse>();
+            this.CreateMap<SpacesDimensionsIdxQueryResult, SpacesDimensionsIdxResponse>();
         }
     }
 }
