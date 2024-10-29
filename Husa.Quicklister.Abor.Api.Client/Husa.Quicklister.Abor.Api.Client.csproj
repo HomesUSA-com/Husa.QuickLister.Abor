@@ -8,9 +8,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.11.1</Version>
+        <Version>2.11.2</Version>
         <PackageReleaseNotes>
-          Release 2.11.0:
+          Release 2.11.2:
           - Include Chandelier to RoomFeatures Enum
           - Include DryBar to RoomFeatures Enum
           - Include CountryKitchen to RoomFeatures Enum
@@ -18,13 +18,14 @@
           - Added jsonStatusImport
           - Include options in Exterior Features
           - Add Description for Rooms
+          - Added idx constracts
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.0.2" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.8.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.8.1" />
     </ItemGroup>
 
     <ItemGroup>

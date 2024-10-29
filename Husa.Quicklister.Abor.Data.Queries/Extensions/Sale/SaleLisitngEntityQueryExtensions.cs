@@ -347,7 +347,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Sale
             };
         }
 
-        public static SaleAddressQueryResult ToProjectionSaleAddressInfo(this SaleAddressInfo addressInfo)
+        private static SaleAddressQueryResult ToProjectionSaleAddressInfo(this SaleAddressInfo addressInfo)
         {
             if (addressInfo == null)
             {
