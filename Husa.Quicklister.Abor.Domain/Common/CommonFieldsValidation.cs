@@ -1,5 +1,8 @@
 namespace Husa.Quicklister.Abor.Domain.Common
 {
+    using System;
+    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
@@ -14,6 +17,9 @@ namespace Husa.Quicklister.Abor.Domain.Common
         {
             return !financialInfo.HasHoa || financialInfo.HOARequirement.HasValue;
         }
+
+        public static bool IsValidStage(MarketStatuses mlsStatus, ConstructionStage constructionStage, DateTime constructionCompletionDate)
+        => mlsStatus != MarketStatuses.Closed || (constructionStage == ConstructionStage.Complete && constructionCompletionDate <= DateTime.Now.Date);
 
         public static bool IsValidBuyersAgentCommissionRange(this IProvideAgentCommission agentCommission)
         {

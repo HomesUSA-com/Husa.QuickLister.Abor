@@ -17,6 +17,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Moq;
     using Xunit;
     using MediaRequest = Husa.MediaService.Api.Contracts.Request;
+    using ServiceBusOptions = Husa.Extensions.ServiceBus.Attributes.ServiceBusOptions;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Application.Test")]

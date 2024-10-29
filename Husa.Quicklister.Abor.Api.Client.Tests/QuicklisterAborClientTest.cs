@@ -21,7 +21,6 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Alert;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Xml;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Request;
     using Microsoft.Extensions.DependencyInjection;
@@ -359,7 +358,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
 
         [Theory]
         [ClassData(typeof(DataGenerator))]
-        public async Task ProcessListingAsyncSuccess(ListActionType actionType, decimal? salesPrice)
+        public async Task ProcessListingAsyncSuccess(ImportActionType actionType, decimal? salesPrice)
         {
             var xmlListingId = Factory.XmlListingId;
 
@@ -397,9 +396,9 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         }
 
         [Theory]
-        [InlineData(ListActionType.ListNow)]
-        [InlineData(ListActionType.ListCompare)]
-        public async Task ProcessListingQuickCreateFails(ListActionType actionType)
+        [InlineData(ImportActionType.ListNow)]
+        [InlineData(ImportActionType.ListCompare)]
+        public async Task ProcessListingQuickCreateFails(ImportActionType actionType)
         {
             var xmlListingId = Guid.NewGuid();
 
@@ -625,9 +624,9 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         {
             private readonly List<object[]> data = new()
             {
-                new object[] { ListActionType.ListNow, 120000M },
-                new object[] { ListActionType.ListCompare, 950000M },
-                new object[] { ListActionType.ListCompare, null },
+                new object[] { ImportActionType.ListNow, 120000M },
+                new object[] { ImportActionType.ListCompare, 950000M },
+                new object[] { ImportActionType.ListCompare, null },
             };
 
             public IEnumerator<object[]> GetEnumerator() => this.data.GetEnumerator();

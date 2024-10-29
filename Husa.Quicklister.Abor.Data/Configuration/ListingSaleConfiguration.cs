@@ -3,7 +3,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using System;
     using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Extensions.Data.Configuration;
     using Husa.Quicklister.Extensions.Data.Extensions;
     using Husa.Quicklister.Extensions.Domain.Entities.Listing;
     using Microsoft.EntityFrameworkCore;

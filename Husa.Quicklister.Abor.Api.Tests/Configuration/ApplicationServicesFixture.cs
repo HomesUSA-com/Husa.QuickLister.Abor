@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Configuration
     using Microsoft.Azure.ServiceBus;
     using Microsoft.Extensions.Options;
     using Moq;
+    using ExtensionsCrosscutting = Husa.Quicklister.Extensions.Crosscutting;
 
     public class ApplicationServicesFixture
     {
@@ -19,7 +20,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Configuration
             this.Options = new Mock<IOptions<ApplicationOptions>>();
             this.Options.Setup(o => o.Value).Returns(new ApplicationOptions
             {
-                FeatureFlags = new FeatureFlags
+                FeatureFlags = new ExtensionsCrosscutting.FeatureFlags
                 {
                     IsDownloaderEnabled = false,
                     IsXmlBusHandlerEnabled = false,

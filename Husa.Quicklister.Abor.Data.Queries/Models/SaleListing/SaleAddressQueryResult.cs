@@ -2,6 +2,5 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.SaleListing
 {
     public class SaleAddressQueryResult : AddressQueryResult
     {
-        public string UnitNumber { get; set; }
     }
 }

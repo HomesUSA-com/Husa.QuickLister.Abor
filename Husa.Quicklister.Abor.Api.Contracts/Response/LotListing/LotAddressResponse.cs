@@ -6,6 +6,5 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.LotListing
     {
         public StreetDirPrefix? StreetDirPrefix { get; set; }
         public StreetDirPrefix? StreetDirSuffix { get; set; }
-        public string UnitNumber { get; set; }
     }
 }

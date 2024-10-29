@@ -10,11 +10,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
 
     public abstract class Room : Entity, IProvideType, IProvideRoomInfo
     {
-        protected Room(RoomType roomType, RoomLevel level, ICollection<RoomFeatures> features)
+        protected Room(RoomType roomType, RoomLevel level, ICollection<RoomFeatures> features, string description)
         {
             this.RoomType = roomType;
             this.Level = level;
             this.Features = features;
+            this.Description = description;
         }
 
         protected Room()
@@ -26,6 +27,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
         public RoomLevel Level { get; set; }
 
         public string EntityOwnerType { get; protected set; }
+        public string Description { get; set; }
 
         public string FieldType => this.RoomType.ToString();
         public ICollection<RoomFeatures> Features { get; set; }

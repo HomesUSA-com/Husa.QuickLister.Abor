@@ -17,7 +17,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.Options = new Mock<IOptions<ApplicationOptions>>();
             this.Options.Setup(o => o.Value).Returns(new ApplicationOptions
             {
-                FeatureFlags = new FeatureFlags
+                FeatureFlags = new ExtensionsCrosscutting.FeatureFlags
                 {
                     IsXmlBusHandlerEnabled = false,
                     IsDownloaderEnabled = false,

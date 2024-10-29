@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Diagnostics;
     using Microsoft.EntityFrameworkCore.Storage;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -92,7 +93,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
 
         private AlertQueriesRepository GetInMemoryRepository(IEnumerable<SaleListing> listings)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot());
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot())
+                .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.ManyServiceProvidersCreatedWarning));
             var dbContext = new ApplicationDbContext(optionsBuilder.Options);
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();

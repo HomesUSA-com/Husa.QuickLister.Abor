@@ -6,12 +6,20 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
     using Husa.Quicklister.Abor.Domain.Comparers;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Abor.Domain.Extensions;
+    using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
     using ExtensionPlan = Husa.Quicklister.Extensions.Domain.Entities.Plan.Plan;
 
     public class Plan : ExtensionPlan, IProvideActiveListings<SaleListing>
     {
+        public Plan(Guid companyId, string name, string ownerName, JsonImportStatus jsonStatus)
+            : this(companyId, name, ownerName)
+        {
+            this.JsonImportStatus = jsonStatus;
+        }
+
         public Plan(Guid companyId, string name, string ownerName, XmlStatus xmlStatus)
             : this(companyId, name, ownerName)
         {
@@ -50,6 +58,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
             .SelectMany(p => p.SaleListings)
             .Where(listing => !listing.IsDeleted && SaleListing.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber));
 
+        public virtual IEnumerable<SaleListing> GetListingsToUpdate() => this.SaleProperties.GetListingsToUpdate();
+
         public virtual void UpdateBasePlanInformation(BasePlan plan)
         {
             if (plan is null)
@@ -78,7 +88,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
                     this.Id,
                     roomDetail.RoomType,
                     roomDetail.Level,
-                    roomDetail.Features);
+                    roomDetail.Features,
+                    roomDetail.Description);
 
                 this.Rooms.Add(room);
             }
@@ -103,7 +114,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
             this.BasePlan.LivingAreasTotal = listing.SaleProperty.SpacesDimensionsInfo.LivingAreasTotal;
 
             var rooms = listing.SaleProperty.Rooms.Select(room => new PlanRoom(
-                    room.Id, room.RoomType, room.Level, room.Features));
+                    room.Id, room.RoomType, room.Level, room.Features, room.Description));
 
             this.UpdateRooms(rooms);
         }
