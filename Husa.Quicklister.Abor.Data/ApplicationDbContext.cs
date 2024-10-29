@@ -18,7 +18,8 @@ namespace Husa.Quicklister.Abor.Data
     public class ApplicationDbContext :
         DbContext,
         IDbSetViolationWarningAlert,
-        IDbSetSaleListing<SaleListing>
+        IDbSetSaleListing<SaleListing>,
+        IDbSetXmlSaleListing<SaleListing>
     {
         public const string Schema = "dbo";
         public const string ConnectionName = "HomesUSAConnection";
