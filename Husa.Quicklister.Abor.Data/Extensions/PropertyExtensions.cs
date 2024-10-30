@@ -9,7 +9,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
 
     public static class PropertyExtensions
     {
-        public const int LegalDescriptionLength = 255;
+        public const int LegalDescriptionLength = 40;
         public const int TaxIdLength = 50;
 
         public static void ConfigureProperty<TOwnerEntity, TDependentEntity>(this OwnedNavigationBuilder<TOwnerEntity, TDependentEntity> builder)
