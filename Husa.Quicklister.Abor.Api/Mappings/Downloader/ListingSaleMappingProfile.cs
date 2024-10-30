@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
     using Husa.Quicklister.Abor.Application.Models.Listing;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
+    using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
@@ -118,7 +119,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.ConstructionStartYear, dto => dto.MapFrom(src => src.ListingMessage.YearBuilt))
                 .ForMember(vo => vo.ConstructionStage, dto => dto.Ignore())
                 .ForMember(vo => vo.ConstructionCompletionDate, dto => dto.Ignore())
-                .ForMember(vo => vo.LegalDescription, dto => dto.MapFrom(src => src.ListingMessage.LegalDescription))
+                .ForMember(vo => vo.LegalDescription, dto => dto.MapFrom(src => src.ListingMessage.LegalDescription.GetSubstring(PropertyExtensions.LegalDescriptionLength)))
                 .ForMember(vo => vo.TaxId, dto => dto.MapFrom(src => src.ListingMessage.PropertyId))
                 .ForMember(vo => vo.PropertyType, dto => dto.MapFrom(src => src.ListingMessage.PropertySubType.FirstOrDefault().ToAborEnum()))
                 .ForMember(vo => vo.MlsArea, dto => dto.MapFrom(src => src.ListingMessage.MLSAreaMajor.GetEnumFromText<MlsArea>()))
