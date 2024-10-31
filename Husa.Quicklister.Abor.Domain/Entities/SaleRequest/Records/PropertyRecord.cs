@@ -10,17 +10,19 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces.Listing;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 
-    public record PropertyRecord : IProvideSummary
+    public record PropertyRecord : IProvideSummary, IPropertyInfo
     {
         public const string SummarySection = "PropertyInfo";
 
         [Required]
         [DataType(DataType.DateTime, ErrorMessage = "The {0} value is invalid for datetime.")]
-        public DateTime ConstructionCompletionDate { get; set; }
+        public DateTime? ConstructionCompletionDate { get; set; }
 
-        public ConstructionStage ConstructionStage { get; set; }
+        [Required]
+        public ConstructionStage? ConstructionStage { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         [MaxLength(255, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
@@ -44,7 +46,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         [MinLength(1)]
         public ICollection<LotDescription> LotDescription { get; set; }
 
-        public PropertySubType PropertyType { get; set; }
+        [Required]
+        public PropertySubType? PropertyType { get; set; }
 
         public bool UpdateGeocodes { get; set; }
 

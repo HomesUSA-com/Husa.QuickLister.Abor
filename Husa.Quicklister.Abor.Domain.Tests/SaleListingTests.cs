@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
@@ -10,6 +11,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -61,13 +63,81 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             listingMock.Verify(r => r.SaleProperty.UpdatePropertyInfo(propertyInfo), Times.Once);
         }
 
+        [Theory]
+        [InlineData(MarketStatuses.Closed)]
+        public void IsValidForSubmit_PropertyFieldAreRequired(MarketStatuses mlsStatus)
+        {
+            var requestId = Guid.NewGuid();
+            var listing = TestModelProvider.GetListingSaleRequestEntity(requestId);
+            listing.Setup(sp => sp.MlsStatus).Returns(mlsStatus);
+            listing.Setup(x => x.SaleProperty.PropertyInfo).Returns(new PropertyRecord());
+            listing.Setup(sp => sp.IsValidForSubmit()).CallBase();
+
+            var result = listing.Object.IsValidForSubmit();
+
+            var propertyError = result.FirstOrDefault(x => x.ErrorMessage.Contains("PropertyFields"));
+            Assert.NotNull(propertyError);
+        }
+
+        [Theory]
+        [InlineData(MarketStatuses.Closed)]
+        public void IsValidForSubmit_PropertyFieldAreNotRequired(MarketStatuses mlsStatus)
+        {
+            var requestId = Guid.NewGuid();
+            var listing = TestModelProvider.GetListingSaleRequestEntity(requestId);
+            listing.Setup(sp => sp.MlsStatus).Returns(mlsStatus);
+            listing.Setup(x => x.SaleProperty.PropertyInfo).Returns(new PropertyRecord()
+            {
+                ConstructionStage = ConstructionStage.Complete,
+                ConstructionCompletionDate = DateTime.UtcNow,
+                LegalDescription = "Legal descrption test",
+                TaxId = "1245",
+                LotSize = "5",
+                TaxLot = "2",
+                LotDescription = new List<LotDescription>() { LotDescription.Agricultural },
+                PropertyType = PropertySubType.Condominium,
+            });
+            listing.Setup(sp => sp.IsValidForSubmit()).CallBase();
+
+            var result = listing.Object.IsValidForSubmit();
+
+            var propertyError = result.FirstOrDefault(x => x.ErrorMessage.Contains("PropertyFields"));
+            Assert.Null(propertyError);
+        }
+
+        [Theory]
+        [InlineData(MarketStatuses.Closed)]
+        public void IsValidForSubmit_ConstructionComplete_Fail(MarketStatuses mlsStatus)
+        {
+            var requestId = Guid.NewGuid();
+            var listing = TestModelProvider.GetListingSaleRequestEntity(requestId);
+            listing.Setup(sp => sp.MlsStatus).Returns(mlsStatus);
+            listing.Setup(x => x.SaleProperty.PropertyInfo).Returns(new PropertyRecord()
+            {
+                ConstructionStage = ConstructionStage.Incomplete,
+                ConstructionCompletionDate = DateTime.UtcNow.AddDays(1),
+                LegalDescription = "Legal descrption test",
+                TaxId = "1245",
+                LotSize = "5",
+                TaxLot = "2",
+                LotDescription = new List<LotDescription>() { LotDescription.Agricultural },
+                PropertyType = PropertySubType.Condominium,
+            });
+            listing.Setup(sp => sp.IsValidForSubmit()).CallBase();
+
+            var result = listing.Object.IsValidForSubmit();
+
+            var propertyError = result.FirstOrDefault(x => x.ErrorMessage.Contains("PropertyFields"));
+            Assert.NotNull(propertyError);
+        }
+
         [Fact]
         public void ListingSaleRequestIsNotValidForSubmit()
         {
             var requestId = Guid.NewGuid();
             var listing = TestModelProvider.GetListingSaleRequestEntity(requestId);
 
-            var result = listing.IsValidForSubmit();
+            var result = listing.Object.IsValidForSubmit();
 
             Assert.NotNull(result);
         }
