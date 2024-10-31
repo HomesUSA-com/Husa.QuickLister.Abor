@@ -80,15 +80,15 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             var listingId = Guid.NewGuid();
 
             var newRequest = TestModelProvider.GetListingSaleRequestEntity(Guid.NewGuid(), currentRooms);
-            newRequest.ListingSaleId = listingId;
-            newRequest.SaleProperty.UpdateRooms(currentRooms.ToList());
+            newRequest.Object.ListingSaleId = listingId;
+            newRequest.Object.SaleProperty.UpdateRooms(currentRooms.ToList());
 
             var oldRequest = TestModelProvider.GetListingSaleRequestEntity(Guid.NewGuid(), oldRooms);
-            oldRequest.ListingSaleId = listingId;
-            oldRequest.SaleProperty.UpdateRooms(oldRooms.ToList());
+            oldRequest.Object.ListingSaleId = listingId;
+            oldRequest.Object.SaleProperty.UpdateRooms(oldRooms.ToList());
 
             // Act
-            var summary = newRequest.SaleProperty.GetSummarySections(oldRequest.SaleProperty);
+            var summary = newRequest.Object.SaleProperty.GetSummarySections(oldRequest.Object.SaleProperty);
             return summary.FirstOrDefault(x => x != null && x.Name == RoomRecord.SummarySection);
         }
     }
