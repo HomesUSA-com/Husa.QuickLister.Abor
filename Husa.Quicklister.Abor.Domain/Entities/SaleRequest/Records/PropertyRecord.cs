@@ -23,7 +23,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         public ConstructionStage ConstructionStage { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [MaxLength(255, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
+        [MaxLength(40, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string LegalDescription { get; set; }
 
         [Required(AllowEmptyStrings = false)]
