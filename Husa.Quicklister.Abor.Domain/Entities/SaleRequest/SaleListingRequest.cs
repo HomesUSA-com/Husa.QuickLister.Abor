@@ -4,7 +4,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
@@ -92,12 +91,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
 
         public override IEnumerable<ValidationResult> IsValidForSubmit()
         {
-            if (!CommonFieldsValidation.IsValidStage(this.MlsStatus, this.SaleProperty.PropertyInfo.ConstructionStage, this.SaleProperty.PropertyInfo.ConstructionCompletionDate))
+            var validationResults = base.IsValidForSubmit();
+            var propertyResults = ValidateListingProperty<PropertyRecord>.GetErrors(this.MlsStatus, this.SaleProperty.PropertyInfo);
+
+            if (propertyResults != null)
             {
-                throw new DomainException(nameof(this.SaleProperty.PropertyInfo.ConstructionStage) + " should be complete and " + nameof(this.SaleProperty.PropertyInfo.ConstructionCompletionDate) + " must be on or before today");
+                validationResults = validationResults.Concat(new[] { propertyResults });
             }
 
-            return base.IsValidForSubmit();
+            return validationResults;
         }
 
         public override IEnumerable<SummarySection> GetSummary<TListingRequest>(TListingRequest previousRequest)
