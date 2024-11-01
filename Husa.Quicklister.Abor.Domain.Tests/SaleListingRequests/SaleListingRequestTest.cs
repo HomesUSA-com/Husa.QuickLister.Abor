@@ -195,29 +195,29 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             var listingId = Guid.NewGuid();
 
             var newRequest = TestModelProvider.GetListingSaleRequestEntity(Guid.NewGuid());
-            newRequest.ListingSaleId = listingId;
-            newRequest.SaleProperty.SalesOfficeInfo = new SalesOfficeRecord
+            newRequest.Object.ListingSaleId = listingId;
+            newRequest.Object.SaleProperty.SalesOfficeInfo = new SalesOfficeRecord
             {
                 StreetName = "newRequest",
             };
 
             var oldRequest = TestModelProvider.GetListingSaleRequestEntity(Guid.NewGuid());
-            oldRequest.ListingSaleId = listingId;
-            oldRequest.SaleProperty.SalesOfficeInfo = new SalesOfficeRecord
+            oldRequest.Object.ListingSaleId = listingId;
+            oldRequest.Object.SaleProperty.SalesOfficeInfo = new SalesOfficeRecord
             {
                 StreetName = "oldRequest",
             };
 
             // Act
-            var summary = newRequest.SaleProperty.GetSummarySections(oldRequest.SaleProperty);
+            var summary = newRequest.Object.SaleProperty.GetSummarySections(oldRequest.Object.SaleProperty);
 
             // Assert
             var summarySection = Assert.Single(summary, sc => sc != null && sc.Name == SalesOfficeRecord.SummarySection);
             Assert.Single(summarySection.Fields);
             Assert.Contains(summarySection.Fields, x =>
                 x.FieldName == "StreetName" &&
-                x.NewValue.ToString() == newRequest.SaleProperty.SalesOfficeInfo.StreetName &&
-                x.OldValue.ToString() == oldRequest.SaleProperty.SalesOfficeInfo.StreetName);
+                x.NewValue.ToString() == newRequest.Object.SaleProperty.SalesOfficeInfo.StreetName &&
+                x.OldValue.ToString() == oldRequest.Object.SaleProperty.SalesOfficeInfo.StreetName);
         }
 
         [Fact]
