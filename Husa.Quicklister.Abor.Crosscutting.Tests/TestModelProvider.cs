@@ -464,7 +464,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return salePropertyDto.Object;
         }
 
-        public static SaleListingRequest GetListingSaleRequestEntity(
+        public static Mock<SaleListingRequest> GetListingSaleRequestEntity(
             Guid? id,
             IEnumerable<ListingSaleRoom> rooms = null)
         {
@@ -503,7 +503,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 .Verifiable();
             listingSaleRequest.SetupGet(s => s.StatusFieldsInfo).Returns(statusFieldsRecord.Object);
 
-            return listingSaleRequest.Object;
+            return listingSaleRequest;
         }
 
         public static UpdatePlanRequest GetPlanUpdateRequest()
