@@ -94,12 +94,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 this.LotDescription = listing.LegalDescLot.CsvToEnum<LotDescription>().ToArray();
             }
 
-            if (ignoreRequestByCompletionDate && this.ConstructionStage == Enums.Domain.ConstructionStage.Complete)
+            if (ignoreRequestByCompletionDate && this.ConstructionStage.HasValue && this.ConstructionStage.Value == Enums.Domain.ConstructionStage.Complete)
             {
                 return;
             }
 
-            if (listing.Day.HasValue && (this.constructionCompletionDate.Value.Date != listing.Day.Value.Date))
+            if (listing.Day.HasValue && this.constructionCompletionDate.HasValue && (this.constructionCompletionDate.Value.Date != listing.Day.Value.Date))
             {
                 this.ConstructionCompletionDate = listing.Day;
                 this.ConstructionStage = listing.Day.Value.Date > DateTime.UtcNow.Date ? Enums.Domain.ConstructionStage.Incomplete : Enums.Domain.ConstructionStage.Complete;
