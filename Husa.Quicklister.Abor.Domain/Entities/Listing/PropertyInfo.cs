@@ -94,7 +94,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 this.LotDescription = listing.LegalDescLot.CsvToEnum<LotDescription>().ToArray();
             }
 
-            if (ignoreRequestByCompletionDate && this.ConstructionStage.HasValue && this.ConstructionStage == Enums.Domain.ConstructionStage.Complete)
+            if (ignoreRequestByCompletionDate && this.ConstructionStage.HasValue && this.ConstructionStage.Value == Enums.Domain.ConstructionStage.Complete)
             {
                 return;
             }
