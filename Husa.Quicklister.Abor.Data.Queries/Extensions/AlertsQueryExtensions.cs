@@ -33,6 +33,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             { AlertType.ActiveAndPendingListing, ActiveAndPendingListingsExpression },
             { AlertType.ComparableAndRelistListing, ComparableAndRelistListingsExpression },
             { AlertType.CompletedHomesWithoutPhotoRequest, CompletedHomesWithoutPhotoRequestExpression },
+            { AlertType.LockedListingsImported, LockedListingsExpression },
         };
 
         // Temp Off Market - Back on Market (BOM) Date - Due in 7 days or Less
