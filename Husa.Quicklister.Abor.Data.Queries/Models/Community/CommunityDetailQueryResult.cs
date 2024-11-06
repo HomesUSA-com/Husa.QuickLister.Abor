@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
     using System;
     using System.Collections.Generic;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
 
     public class CommunityDetailQueryResult : BaseQueryResult
@@ -18,5 +19,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
         public Guid? LastPhotoRequestId { get; set; }
         public IEnumerable<OpenHousesQueryResult> OpenHouses { get; set; }
         public XmlStatus XmlStatus { get; set; }
+        public JsonImportStatus JsonImportStatus { get; set; }
     }
 }

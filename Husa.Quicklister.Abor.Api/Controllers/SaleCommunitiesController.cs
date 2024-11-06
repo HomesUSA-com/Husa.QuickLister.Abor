@@ -17,10 +17,10 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models.Community;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Contracts.Response;
     using Microsoft.AspNetCore.Mvc;
@@ -38,19 +38,20 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             ISaleCommunityService communityService,
             ISaleListingRequestService saleRequestService,
             ICommunityXmlService communityXmlService,
+            ICommunityJsonImportService communityJsonImportService,
             IMapper mapper)
-            : base(communityService, communityXmlService, logger, mapper)
+            : base(communityService, communityXmlService, communityJsonImportService, logger, mapper)
         {
             this.saleRequestService = saleRequestService ?? throw new ArgumentNullException(nameof(saleRequestService));
             this.communityQueriesRepository = communityQueriesRepository ?? throw new ArgumentNullException(nameof(communityQueriesRepository));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery] CommunityRequestFilter filter)
+        public async Task<IActionResult> GetAsync([FromQuery] ProfileRequestFilter filter)
         {
             this.Logger.LogInformation("Starting to get community profiles in ABOR");
 
-            var requestFilter = this.Mapper.Map<CommunityQueryFilter>(filter);
+            var requestFilter = this.Mapper.Map<ProfileQueryFilter>(filter);
             var queryResponse = await this.communityQueriesRepository.GetAsync(requestFilter);
             var data = this.Mapper.Map<IEnumerable<CommunityDataQueryResponse>>(queryResponse.Data);
             return this.Ok(new DataSet<CommunityDataQueryResponse>(data, queryResponse.Total));

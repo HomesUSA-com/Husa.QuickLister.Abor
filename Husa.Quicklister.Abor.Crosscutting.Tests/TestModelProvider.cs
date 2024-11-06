@@ -31,7 +31,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
     using Husa.Quicklister.Abor.Data.Queries.Models.Plan;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Entities.Agent;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
@@ -46,6 +45,8 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Moq;
     using DomainEntities = Husa.Quicklister.Abor.Domain.Entities;
@@ -374,18 +375,18 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return communityQueryResult.Object;
         }
 
-        public static CommunityQueryFilter GetCommunityQueryFilter(Guid? companyId)
+        public static ProfileQueryFilter GetProfileQueryFilter(Guid? companyId)
         {
-            var communityQueryFilter = new Mock<CommunityQueryFilter>();
-            communityQueryFilter.SetupAllProperties();
-            communityQueryFilter.Object.Skip = 0;
-            communityQueryFilter.Object.Take = 50;
-            return communityQueryFilter.Object;
+            var profileQueryFilter = new Mock<ProfileQueryFilter>();
+            profileQueryFilter.SetupAllProperties();
+            profileQueryFilter.Object.Skip = 0;
+            profileQueryFilter.Object.Take = 50;
+            return profileQueryFilter.Object;
         }
 
-        public static CommunityRequestFilter GetCommunityByCompanyRequestFilter(Guid? companyId)
+        public static ProfileRequestFilter GetCommunityByCompanyRequestFilter(Guid? companyId)
         {
-            var communityByCompanyRequestFilter = new Mock<CommunityRequestFilter>();
+            var communityByCompanyRequestFilter = new Mock<ProfileRequestFilter>();
             communityByCompanyRequestFilter.SetupAllProperties();
             communityByCompanyRequestFilter.Object.SearchBy = string.Empty;
             communityByCompanyRequestFilter.Object.Skip = 0;
@@ -412,9 +413,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return planQueryResult.Object;
         }
 
-        public static PlanRequestFilter GetPlanByCompanyRequestFilter(Guid? companyId)
+        public static ProfileRequestFilter GetPlanByCompanyRequestFilter(Guid? companyId)
         {
-            var planByCompanyRequestFilter = new Mock<PlanRequestFilter>();
+            var planByCompanyRequestFilter = new Mock<ProfileRequestFilter>();
             planByCompanyRequestFilter.SetupAllProperties();
             planByCompanyRequestFilter.Object.SearchBy = string.Empty;
             planByCompanyRequestFilter.Object.Skip = 0;

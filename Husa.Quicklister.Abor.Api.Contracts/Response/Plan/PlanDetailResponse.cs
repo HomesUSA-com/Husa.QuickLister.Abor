@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Plan
     using System;
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
 
     public class PlanDetailResponse
@@ -20,7 +21,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Plan
         public Guid? SysModifiedBy { get; set; }
         public DateTime SysCreatedOn { get; set; }
         public XmlStatus XmlStatus { get; set; }
-
+        public JsonImportStatus JsonImportStatus { get; set; }
         public Stories? StoriesTotal { get; set; }
         public int? SqFtTotal { get; set; }
         public int? DiningAreasTotal { get; set; }

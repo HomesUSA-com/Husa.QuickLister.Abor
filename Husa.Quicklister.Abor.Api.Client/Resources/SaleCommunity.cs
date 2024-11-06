@@ -7,8 +7,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using Husa.Extensions.Api.Client;
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
-    using Husa.Quicklister.Abor.Api.Contracts.Request.Community;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Community;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
     using Microsoft.Extensions.Logging;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request.Community;
@@ -34,7 +34,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             return response;
         }
 
-        public async Task<IEnumerable<CommunityDataQueryResponse>> GetAsync(CommunityRequestFilter filter, CancellationToken token = default)
+        public async Task<IEnumerable<CommunityDataQueryResponse>> GetAsync(ProfileRequestFilter filter, CancellationToken token = default)
         {
             this.logger.LogInformation("Getting communities with the filter {@filters}", filter);
             var endpoint = this.baseUri

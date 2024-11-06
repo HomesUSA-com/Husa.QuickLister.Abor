@@ -18,6 +18,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Alert;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Xml;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -28,7 +29,6 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Moq;
     using Xunit;
     using BaseFilterRequest = Husa.Quicklister.Extensions.Api.Contracts.Request.BaseFilterRequest;
-    using PlanRequest = Husa.Quicklister.Abor.Api.Contracts.Request.Plan;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request;
     using Response = Husa.CompanyServicesManager.Api.Contracts.Response;
     using XmlResponse = Husa.Xml.Api.Contracts.Response;
@@ -68,7 +68,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         public async Task PlanGetAsyncSuccess()
         {
             // Arrange
-            var filter = new PlanRequest.PlanRequestFilter()
+            var filter = new ProfileRequestFilter()
             {
                 SearchBy = Factory.PlanName,
             };
@@ -531,7 +531,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
         ////public async Task CommunityGetAsyncSuccess()
         ////{
         ////    // Arrange
-        ////    var filter = new CommunityRequest.CommunityRequestFilter();
+        ////    var filter = new CommunityRequest.ProfileRequestFilter();
 
         ////    // Act
         ////    var communities = await this.quicklisterAborClient.SaleCommunity.GetAsync(filter);

@@ -44,6 +44,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             SysModifiedBy = community.SysModifiedBy,
             SysModifiedOn = community.SysModifiedOn,
             XmlStatus = community.XmlStatus,
+            JsonImportStatus = community.JsonImportStatus,
             Directions = community.Showing.Directions,
             BackupPhone = community.ProfileInfo.BackupPhone,
             OfficePhone = community.ProfileInfo.OfficePhone,

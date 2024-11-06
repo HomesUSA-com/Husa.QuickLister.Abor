@@ -12,7 +12,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Application.Models.Community;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
@@ -27,7 +26,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
         public CommunityMappingProfile()
             : base()
         {
-            this.CreateMap<CommunityRequestFilter, CommunityQueryFilter>();
             this.CreateMap<CommunityQueryResult, CommunityDataQueryResponse>();
             this.CreateMap<CommunitySale, CommunityDataQueryResponse>()
                 .ForMember(dto => dto.OfficePhone, c => c.MapFrom(x => x.ProfileInfo.OfficePhone))

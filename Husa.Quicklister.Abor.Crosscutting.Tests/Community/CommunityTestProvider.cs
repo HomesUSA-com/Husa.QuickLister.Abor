@@ -28,6 +28,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.Community
                 EmailLead = new(),
                 Showing = new(),
                 SchoolsInfo = new(),
+                JsonImportStatus = Quicklister.Extensions.Domain.Enums.Json.JsonImportStatus.NotFromJson,
             };
         }
     }

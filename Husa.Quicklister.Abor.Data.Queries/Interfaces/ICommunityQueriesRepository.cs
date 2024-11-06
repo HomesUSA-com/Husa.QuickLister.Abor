@@ -4,11 +4,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Interfaces
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
 
     public interface ICommunityQueriesRepository
     {
-        Task<DataSet<CommunityQueryResult>> GetAsync(CommunityQueryFilter queryFilter);
+        Task<DataSet<CommunityQueryResult>> GetAsync(ProfileQueryFilter queryFilter);
 
         Task<CommunityDetailQueryResult> GetCommunityById(Guid id);
 

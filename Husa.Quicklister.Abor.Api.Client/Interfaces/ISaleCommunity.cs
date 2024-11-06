@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using CommunityExtension = Husa.Quicklister.Extensions.Api.Client.Interfaces.ISaleCommunity;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request.Community;
     using Response = Husa.Quicklister.Abor.Api.Contracts.Response.Community;
@@ -12,7 +13,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
     {
         Task<Guid> CreateCommunity(Request.CreateCommunityRequest communityRequest, CancellationToken token = default);
 
-        Task<IEnumerable<Response.CommunityDataQueryResponse>> GetAsync(Request.CommunityRequestFilter filter, CancellationToken token = default);
+        Task<IEnumerable<Response.CommunityDataQueryResponse>> GetAsync(ProfileRequestFilter filter, CancellationToken token = default);
 
         Task<Response.CommunitySaleResponse> GetByIdAsync(Guid id, CancellationToken token = default);
 

@@ -7,7 +7,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
     public class ListingSaleBillingRequestFilter : BaseFilterRequest
     {
         public ActionType? ActionType { get; set; }
-        public string SearchBy { get; set; }
         public Guid CompanyId { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
