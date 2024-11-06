@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Extensions.Document.Interfaces;
     using Husa.Extensions.EmailNotification.Services;
     using Husa.Extensions.Media.Interfaces;
+    using Husa.JsonImport.Api.Client.Interface;
     using Husa.MediaService.Client;
     using Husa.Notes.Client;
     using Husa.PhotoService.Api.Client.Interfaces;
@@ -41,6 +42,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             services.MockServiceSubscriptionClient();
             services.MockXmlClient();
             services.AddSingleton(new Mock<IDownloaderCtxClient>().Object);
+            services.AddSingleton(new Mock<IJsonImportClient>().Object);
             services.AddSingleton(new Mock<IPhotoServiceClient>().Object);
             services.AddSingleton(new Mock<IMediaServiceClient>().Object);
             services.AddSingleton(new Mock<IBlobService>().Object);

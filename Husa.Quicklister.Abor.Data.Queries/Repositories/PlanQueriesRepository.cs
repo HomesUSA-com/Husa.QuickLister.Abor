@@ -9,11 +9,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Extensions.Linq.Specifications;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.Plan;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.EntityFrameworkCore;
@@ -38,7 +38,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             this.userQueriesRepository = userQueriesRepository ?? throw new ArgumentNullException(nameof(userQueriesRepository));
         }
 
-        public async Task<DataSet<PlanQueryResult>> GetAsync(PlanQueryFilter queryFilter)
+        public async Task<DataSet<PlanQueryResult>> GetAsync(ProfileQueryFilter queryFilter)
         {
             var currentUser = this.userContext.GetCurrentUser();
             this.logger.LogInformation("Starting to get the ABOR List Plan Profile with company {companyId} and filter {@filterOptions}", queryFilter, currentUser.CompanyId);
@@ -46,6 +46,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             var query = this.context.Plan
                 .FilterNotDeleted()
                 .FilterByImportStatus(queryFilter.XmlStatus)
+                .FilterByJsonImportStatus(queryFilter.JsonImportStatus)
                 .FilterByCompany(currentUser)
                 .ApplySearchByFilter(queryFilter.SearchBy);
 

@@ -4,11 +4,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Interfaces
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Data.Queries.Models.Plan;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
 
     public interface IPlanQueriesRepository
     {
-        Task<DataSet<PlanQueryResult>> GetAsync(PlanQueryFilter queryFilter);
+        Task<DataSet<PlanQueryResult>> GetAsync(ProfileQueryFilter queryFilter);
 
         Task<PlanDetailQueryResult> GetPlanById(Guid id);
 

@@ -11,7 +11,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
     {
         public IEnumerable<MarketStatuses> MlsStatus { get; set; }
         public ListedType? ListedType { get; set; }
-        public string SearchBy { get; set; }
         public Guid? CommunityId { get; set; }
         public Guid? PlanId { get; set; }
         public int? SqftMin { get; set; }

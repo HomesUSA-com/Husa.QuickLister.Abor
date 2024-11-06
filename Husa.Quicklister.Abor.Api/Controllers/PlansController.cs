@@ -13,10 +13,12 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Application.Models.Plan;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using ExtensionController = Husa.Quicklister.Extensions.Api.Controllers.Plan;
+    using ExtensionInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Plan;
 
     public class PlansController : ExtensionController.PlansController<IPlanService>
     {
@@ -26,20 +28,21 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         public PlansController(
             IPlanQueriesRepository planQueriesRepository,
             IPlanService planService,
-            Husa.Quicklister.Extensions.Application.Interfaces.Plan.IPlanXmlService planXmlService,
+            ExtensionInterfaces.IPlanXmlService planXmlService,
+            ExtensionInterfaces.IPlanJsonImportService planJsonImportService,
             ILogger<PlansController> logger,
             IMapper mapper)
-            : base(planService, planXmlService, logger)
+            : base(planService, planXmlService, planJsonImportService, logger)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.planQueriesRepository = planQueriesRepository ?? throw new ArgumentNullException(nameof(planQueriesRepository));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery] PlanRequestFilter filter)
+        public async Task<IActionResult> GetAsync([FromQuery] ProfileRequestFilter filter)
         {
             this.Logger.LogInformation("Starting to get plan profiles in ABOR filtered by {@filters}", filter);
-            var requestFilter = this.mapper.Map<PlanQueryFilter>(filter);
+            var requestFilter = this.mapper.Map<ProfileQueryFilter>(filter);
             var queryResponse = await this.planQueriesRepository.GetAsync(requestFilter);
             var data = this.mapper.Map<IEnumerable<PlanDataQueryResponse>>(queryResponse.Data);
             return this.Ok(new DataSet<PlanDataQueryResponse>(data, queryResponse.Total));

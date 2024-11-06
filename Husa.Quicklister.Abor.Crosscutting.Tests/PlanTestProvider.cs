@@ -17,6 +17,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return new Plan(company, Faker.Lorem.GetFirstWord(), Faker.Lorem.GetFirstWord())
             {
                 Id = id,
+                JsonImportStatus = Quicklister.Extensions.Domain.Enums.Json.JsonImportStatus.NotFromJson,
             };
         }
 

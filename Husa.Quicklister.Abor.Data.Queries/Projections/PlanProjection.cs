@@ -35,6 +35,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             SysModifiedBy = plan.SysModifiedBy,
             SysModifiedOn = plan.SysModifiedOn,
             XmlStatus = plan.XmlStatus,
+            JsonImportStatus = plan.JsonImportStatus,
 
             StoriesTotal = plan.BasePlan.StoriesTotal,
             SqFtTotal = plan.BasePlan.SqFtTotal,

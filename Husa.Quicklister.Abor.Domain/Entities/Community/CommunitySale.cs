@@ -50,6 +50,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         }
 
         protected CommunitySale()
+            : base()
         {
             this.ProfileInfo = new();
             this.SaleOffice = new();
