@@ -135,7 +135,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         {
             this.Logger.LogInformation("Submitting community sale with id {communityId}", communityId);
             var communitySaleDto = this.Mapper.Map<CommunitySaleDto>(communitySaleRequest);
-            await this.CommunityService.UpdateCommunity(communityId, communitySaleDto);
+            await this.CommunityService.UpdateCommunity(communityId, communitySaleDto, isSubmitted: true);
             var response = await this.saleRequestService.CreateRequestsFromCommunityAsync(communityId, cancellationToken);
 
             if (response.Code == ResponseCode.Information)

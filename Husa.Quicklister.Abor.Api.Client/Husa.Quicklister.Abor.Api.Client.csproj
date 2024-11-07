@@ -8,10 +8,10 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.12.0</Version>
+        <Version>2.13.0</Version>
         <PackageReleaseNotes>
-            Release 2.12.0:
-            - Update extensions package
+            Release 2.13.0:
+            - Extend IsSubmitted property to CommunityHistory
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

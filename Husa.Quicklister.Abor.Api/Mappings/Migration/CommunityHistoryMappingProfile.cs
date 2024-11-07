@@ -26,7 +26,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.SysCreatedBy, cr => cr.Ignore())
                 .ForMember(dto => dto.XmlStatus, cr => cr.Ignore())
                 .ForMember(dto => dto.LastPhotoRequestCreationDate, cr => cr.Ignore())
-                .ForMember(dto => dto.LastPhotoRequestId, cr => cr.Ignore());
+                .ForMember(dto => dto.LastPhotoRequestId, cr => cr.Ignore())
+                .ForMember(dto => dto.IsSubmitted, cr => cr.Ignore());
         }
     }
 }
