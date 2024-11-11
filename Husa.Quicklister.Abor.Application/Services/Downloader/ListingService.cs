@@ -22,6 +22,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
     using Husa.Quicklister.Abor.Domain.Extensions.Lot;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.ServiceBus.Contracts;
     using Microsoft.Extensions.Logging;
     using QLExtEnum = Husa.Quicklister.Extensions.Domain.Enums;
@@ -110,7 +111,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             var listingInfo = this.mapper.Map<ListingValueObject>(residential);
             var salePropertyInfo = this.mapper.Map<SalePropertyValueObject>(residential.SaleProperty);
 
-            if (listingSale is null)
+            if (listingSale is null || (listingSale.LockedStatus == LockedStatus.Closed && listingSale.MlsNumber != listingInfo.MlsNumber))
             {
                 isNewListing = true;
                 listingSale = new SaleListing(listingInfo, listingStatusInfo, salePropertyInfo, companyId, true);
