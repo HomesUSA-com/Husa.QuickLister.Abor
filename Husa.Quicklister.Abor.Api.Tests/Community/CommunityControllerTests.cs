@@ -108,7 +108,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
 
             // Assert
             Assert.NotNull(result);
-            this.communitySaleService.Verify(x => x.UpdateCommunity(communityId, It.IsAny<CommunitySaleDto>()), Times.Once);
+            this.communitySaleService.Verify(x => x.UpdateCommunity(communityId, It.IsAny<CommunitySaleDto>(), It.IsAny<bool>()), Times.Once);
         }
 
         [Fact]
@@ -244,7 +244,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
 
             // Assert
             Assert.NotNull(result);
-            this.communitySaleService.Verify(x => x.UpdateCommunity(communityId, It.IsAny<CommunitySaleDto>()), Times.Once);
+            this.communitySaleService.Verify(x => x.UpdateCommunity(communityId, It.IsAny<CommunitySaleDto>(), It.IsAny<bool>()), Times.Once);
         }
 
         [Fact]

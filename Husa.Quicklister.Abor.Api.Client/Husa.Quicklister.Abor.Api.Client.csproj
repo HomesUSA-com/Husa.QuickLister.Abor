@@ -12,6 +12,7 @@
         <PackageReleaseNotes>
             Release 2.12.0:
             - Update extensions package
+            - Extend IsSubmitted property to CommunityHistory
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
