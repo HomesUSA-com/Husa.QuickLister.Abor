@@ -8,16 +8,17 @@ namespace Husa.Quicklister.Abor.Api.Tests.Plan
     using Husa.Quicklister.Abor.Api.Contracts.Response.Plan;
     using Husa.Quicklister.Abor.Api.Controllers;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
+    using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Application.Models.Plan;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.Plan;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
+    using ExtensionInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Plan;
 
     [ExcludeFromCodeCoverage]
     [Collection(nameof(ApplicationServicesFixture))]
@@ -25,14 +26,15 @@ namespace Husa.Quicklister.Abor.Api.Tests.Plan
     {
         private readonly ApplicationServicesFixture fixture;
         private readonly Mock<IPlanQueriesRepository> planQueriesRepository = new();
-        private readonly Mock<IPlanXmlService> planXmlService = new();
-        private readonly Mock<Husa.Quicklister.Abor.Application.Interfaces.Plan.IPlanService> planService = new();
+        private readonly Mock<ExtensionInterfaces.IPlanXmlService> planXmlService = new();
+        private readonly Mock<ExtensionInterfaces.IPlanJsonImportService> planJsonImportService = new();
+        private readonly Mock<IPlanService> planService = new();
         private readonly Mock<ILogger<PlansController>> logger = new();
 
         public PlanControllerTests(ApplicationServicesFixture fixture)
         {
             this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
-            this.Sut = new PlansController(this.planQueriesRepository.Object, this.planService.Object, this.planXmlService.Object, this.logger.Object, this.fixture.Mapper);
+            this.Sut = new PlansController(this.planQueriesRepository.Object, this.planService.Object, this.planXmlService.Object, this.planJsonImportService.Object, this.logger.Object, this.fixture.Mapper);
         }
 
         public PlansController Sut { get; set; }
@@ -55,7 +57,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Plan
             var dataSet = new DataSet<PlanQueryResult>(planQueryResult, planQueryResult.Count);
 
             this.planQueriesRepository
-            .Setup(c => c.GetAsync(It.IsAny<PlanQueryFilter>()))
+            .Setup(c => c.GetAsync(It.IsAny<ProfileQueryFilter>()))
             .ReturnsAsync(dataSet)
             .Verifiable();
 
@@ -80,7 +82,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Plan
             var dataSet = new DataSet<PlanQueryResult>(planQueryResult, planQueryResult.Count);
 
             this.planQueriesRepository
-            .Setup(c => c.GetAsync(It.IsAny<PlanQueryFilter>()))
+            .Setup(c => c.GetAsync(It.IsAny<ProfileQueryFilter>()))
             .ReturnsAsync(dataSet)
             .Verifiable();
 

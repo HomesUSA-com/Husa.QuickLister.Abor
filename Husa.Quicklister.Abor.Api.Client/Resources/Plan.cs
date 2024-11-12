@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using Husa.Extensions.Api.Client;
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
-    using Husa.Quicklister.Abor.Api.Contracts.Request.Plan;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Microsoft.Extensions.Logging;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request.Plan;
     using Response = Husa.Quicklister.Abor.Api.Contracts.Response.Plan;
@@ -33,7 +33,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             return response;
         }
 
-        public async Task<IEnumerable<Response.PlanDataQueryResponse>> GetAsync(PlanRequestFilter filter, CancellationToken token = default)
+        public async Task<IEnumerable<Response.PlanDataQueryResponse>> GetAsync(ProfileRequestFilter filter, CancellationToken token = default)
         {
             this.logger.LogInformation("Getting plan filtered by {@filters}", filter);
             var endpoint = this.baseUri

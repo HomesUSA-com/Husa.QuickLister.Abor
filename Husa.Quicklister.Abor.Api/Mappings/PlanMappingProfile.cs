@@ -6,7 +6,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Application.Models.Plan;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Data.Queries.Models.Plan;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
@@ -14,7 +13,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     {
         public PlanMappingProfile()
         {
-            this.CreateMap<PlanRequestFilter, PlanQueryFilter>();
             this.CreateMap<PlanQueryResult, PlanDataQueryResponse>();
             this.CreateMap<PlanDetailQueryResult, PlanDetailResponse>();
 

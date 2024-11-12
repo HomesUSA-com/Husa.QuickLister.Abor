@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request.Plan;
     using Response = Husa.Quicklister.Abor.Api.Contracts.Response.Plan;
 
@@ -11,7 +12,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Interfaces
     {
         Task<Guid> CreatePlan(Request.CreatePlanRequest planRequest, CancellationToken token = default);
 
-        Task<IEnumerable<Response.PlanDataQueryResponse>> GetAsync(Request.PlanRequestFilter filter, CancellationToken token = default);
+        Task<IEnumerable<Response.PlanDataQueryResponse>> GetAsync(ProfileRequestFilter filter, CancellationToken token = default);
 
         Task<Response.PlanDetailResponse> GetByIdAsync(Guid id, CancellationToken token = default);
 

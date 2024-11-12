@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Community
     using Husa.Quicklister.Abor.Api.Contracts.Response.Community.CommunityDetail;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
 
     public class CommunitySaleResponse
@@ -27,6 +28,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Community
         public DateTime? LastPhotoRequestCreationDate { get; set; }
         public Guid? LastPhotoRequestId { get; set; }
         public XmlStatus XmlStatus { get; set; }
+        public JsonImportStatus JsonImportStatus { get; set; }
         public Guid? XmlSubdivisionId { get; set; }
         public string Directions { get; set; }
         public string OfficePhone { get; set; }

@@ -8,7 +8,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters
 
     public class ListingQueryFilter : BaseQueryFilter
     {
-        public string SearchBy { get; set; }
         public IEnumerable<MarketStatuses> MlsStatus { get; set; }
         public ListedType? ListedType { get; set; }
         public Guid? CommunityId { get; set; }

@@ -16,11 +16,11 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Application.Models.Community;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -36,6 +36,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
         private readonly Mock<ICommunityXmlService> communityXmlService = new();
         private readonly Mock<ISaleListingRequestService> listingSaleRequestService = new();
         private readonly Mock<ILogger<SaleCommunitiesController>> logger = new();
+        private readonly Mock<ICommunityJsonImportService> communityJsonImportService = new();
 
         public CommunityControllerTests(ApplicationServicesFixture fixture)
         {
@@ -46,6 +47,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
                 this.communitySaleService.Object,
                 this.listingSaleRequestService.Object,
                 this.communityXmlService.Object,
+                this.communityJsonImportService.Object,
                 this.fixture.Mapper);
         }
 
@@ -106,7 +108,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
 
             // Assert
             Assert.NotNull(result);
-            this.communitySaleService.Verify(x => x.UpdateCommunity(communityId, It.IsAny<CommunitySaleDto>()), Times.Once);
+            this.communitySaleService.Verify(x => x.UpdateCommunity(communityId, It.IsAny<CommunitySaleDto>(), It.IsAny<bool>()), Times.Once);
         }
 
         [Fact]
@@ -127,7 +129,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
             var dataSet = new DataSet<CommunityQueryResult>(communityQueryResult, communityQueryResult.Count);
 
             this.communityQueriesRepository
-            .Setup(c => c.GetAsync(It.IsAny<CommunityQueryFilter>()))
+            .Setup(c => c.GetAsync(It.IsAny<ProfileQueryFilter>()))
             .ReturnsAsync(dataSet)
             .Verifiable();
 
@@ -152,7 +154,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
             var dataSet = new DataSet<CommunityQueryResult>(communityQueryResult, communityQueryResult.Count);
 
             this.communityQueriesRepository
-            .Setup(c => c.GetAsync(It.IsAny<CommunityQueryFilter>()))
+            .Setup(c => c.GetAsync(It.IsAny<ProfileQueryFilter>()))
             .ReturnsAsync(dataSet)
             .Verifiable();
 
@@ -242,7 +244,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
 
             // Assert
             Assert.NotNull(result);
-            this.communitySaleService.Verify(x => x.UpdateCommunity(communityId, It.IsAny<CommunitySaleDto>()), Times.Once);
+            this.communitySaleService.Verify(x => x.UpdateCommunity(communityId, It.IsAny<CommunitySaleDto>(), It.IsAny<bool>()), Times.Once);
         }
 
         [Fact]

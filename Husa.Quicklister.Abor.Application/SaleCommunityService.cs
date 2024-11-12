@@ -64,11 +64,11 @@ namespace Husa.Quicklister.Abor.Application
 
             this.CommunitySaleRepository.Attach(community);
             await this.CommunitySaleRepository.SaveChangesAsync();
-            await this.communityHistoryService.CreateRecordAsync(community.Id);
+            await this.communityHistoryService.CreateRecordAsync(community.Id, isSubmitted: false);
             return CommandSingleResult<Guid, string>.Success(community.Id);
         }
 
-        public async Task UpdateCommunity(Guid communityId, CommunitySaleDto communitySaleDto)
+        public async Task UpdateCommunity(Guid communityId, CommunitySaleDto communitySaleDto, bool isSubmitted = false)
         {
             var community = await this.CommunitySaleRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
             this.Logger.LogInformation("Starting update sale community with id {communityId}", communityId);
@@ -97,7 +97,7 @@ namespace Husa.Quicklister.Abor.Application
             community.Update(communityInfo, communityOpenHouses);
 
             await this.CommunitySaleRepository.SaveChangesAsync();
-            await this.communityHistoryService.CreateRecordAsync(communityId);
+            await this.communityHistoryService.CreateRecordAsync(communityId, isSubmitted);
         }
 
         public async Task UpdateListingsAsync(Guid communityId)

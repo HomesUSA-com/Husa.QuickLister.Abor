@@ -40,6 +40,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             PublishUser = listingSale.PublishInfo.PublishUser,
             XmlErrorMessage = listingSale.XmlRequestError != null ? listingSale.XmlRequestError.ErrorMessage : null,
             CommunityEmployees = ProjectToUserQueryResults(listingSale),
+            City = listingSale.SaleProperty.AddressInfo.City.ToString(),
         };
 
         public static IEnumerable<UserQueryResult> ProjectToUserQueryResults(SaleListing listingSale) =>

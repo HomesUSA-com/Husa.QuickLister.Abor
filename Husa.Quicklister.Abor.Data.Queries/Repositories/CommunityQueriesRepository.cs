@@ -9,11 +9,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Extensions.Linq.Specifications;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.EntityFrameworkCore;
@@ -38,13 +38,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             this.userQueriesRepository = userQueriesRepository ?? throw new ArgumentNullException(nameof(userQueriesRepository));
         }
 
-        public async Task<DataSet<CommunityQueryResult>> GetAsync(CommunityQueryFilter queryFilter)
+        public async Task<DataSet<CommunityQueryResult>> GetAsync(ProfileQueryFilter queryFilter)
         {
             var currentUser = this.userContext.GetCurrentUser();
             this.logger.LogInformation("Getting the communities for the user {@user}", currentUser);
             var query = this.context.Community
                 .FilterNotDeleted()
                 .FilterByImportStatus(queryFilter.XmlStatus)
+                .FilterByJsonImportStatus(queryFilter.JsonImportStatus)
                 .FilterByCompany(currentUser)
                 .FilterByCommunityName(queryFilter.Name)
                 .ApplySearchByFilter(queryFilter.SearchBy);
