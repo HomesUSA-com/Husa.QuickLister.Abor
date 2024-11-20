@@ -5,11 +5,9 @@ namespace Husa.Quicklister.Abor.Domain.Common
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using Husa.Extensions.Common.Classes;
-    using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces.Listing;
-    using Husa.Quicklister.Extensions.Domain.Extensions;
 
     public static class ValidateListingProperty<TPropertyFields>
         where TPropertyFields : IPropertyInfo
@@ -17,12 +15,10 @@ namespace Husa.Quicklister.Abor.Domain.Common
         public static ValidationResult GetErrors(MarketStatuses mlsStatus, TPropertyFields value)
         {
             var errors = GetValidations(mlsStatus, value).ToList();
-            var validationContext = new ValidationContext(value, serviceProvider: null, items: null);
-            Validator.TryValidateObject(value, validationContext, errors, validateAllProperties: true);
 
             if (errors.Count > 0)
             {
-                CompositeValidationResult compositeValidationResult = new CompositeValidationResult($"Validation for PropertyFields failed!");
+                CompositeValidationResult compositeValidationResult = new CompositeValidationResult($"Validation for PropertyInfo failed!");
                 errors.ToList().ForEach(compositeValidationResult.AddResult);
                 return compositeValidationResult;
             }
@@ -47,12 +43,12 @@ namespace Husa.Quicklister.Abor.Domain.Common
 
             if (record.ConstructionStage.HasValue && record.ConstructionStage.Value != ConstructionStage.Complete)
             {
-                results.Add(new("This field should be complete", new[] { nameof(record.ConstructionStage) }));
+                results.Add(new("The " + nameof(record.ConstructionStage) + " should be complete", new[] { nameof(record.ConstructionStage) }));
             }
 
             if (record.ConstructionCompletionDate.HasValue && record.ConstructionCompletionDate.Value.Date > DateTime.UtcNow.Date)
             {
-                results.Add(new ValidationResult(OperatorType.LessEqual.GetErrorMessage("today"), new[] { nameof(record.ConstructionCompletionDate) }));
+                results.Add(new("The " + nameof(record.ConstructionCompletionDate) + " must be less or equal to today", new[] { nameof(record.ConstructionCompletionDate) }));
             }
 
             return results;
