@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
@@ -92,11 +93,32 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
         public override IEnumerable<ValidationResult> IsValidForSubmit()
         {
             var validationResults = base.IsValidForSubmit();
-            var propertyResults = ValidateListingProperty<PropertyRecord>.GetErrors(this.MlsStatus, this.SaleProperty.PropertyInfo);
+            var propertyResults = (CompositeValidationResult)ValidateListingProperty<PropertyRecord>.GetErrors(this.MlsStatus, this.SaleProperty.PropertyInfo);
 
-            if (propertyResults != null)
+            if (validationResults.Any() && propertyResults != null)
             {
-                validationResults = validationResults.Concat(new[] { propertyResults });
+                var salePropertyError = (CompositeValidationResult)validationResults.FirstOrDefault(x => x.ErrorMessage.Contains("SaleProperty"));
+
+                if (salePropertyError != null)
+                {
+                    var propertyInfoError = (CompositeValidationResult)salePropertyError.Results.FirstOrDefault(x => x.ErrorMessage.Contains("PropertyInfo"));
+
+                    if (propertyInfoError != null)
+                    {
+                            propertyResults.Results.ToList().ForEach(propertyInfoError.AddResult);
+                    }
+                    else
+                    {
+                        salePropertyError.AddResult(propertyResults);
+                    }
+                }
+            }
+            else
+            {
+                if (propertyResults != null)
+                {
+                    validationResults = validationResults.Concat(new[] { propertyResults });
+                }
             }
 
             return validationResults;
