@@ -2,8 +2,10 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
@@ -75,7 +77,13 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 
             var result = listing.Object.IsValidForSubmit();
 
-            var propertyError = result.FirstOrDefault(x => x.ErrorMessage.Contains("PropertyFields"));
+            var saleError = result.FirstOrDefault(x => x.ErrorMessage.Contains("SaleProperty"));
+            ValidationResult propertyError = null;
+            if (saleError is CompositeValidationResult saleCompositeValidation)
+            {
+                propertyError = saleCompositeValidation.Results.FirstOrDefault(x => x.ErrorMessage.Contains("PropertyInfo"));
+            }
+
             Assert.NotNull(propertyError);
         }
 
@@ -101,7 +109,13 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 
             var result = listing.Object.IsValidForSubmit();
 
-            var propertyError = result.FirstOrDefault(x => x.ErrorMessage.Contains("PropertyFields"));
+            var saleError = result.FirstOrDefault(x => x.ErrorMessage.Contains("SaleProperty"));
+            ValidationResult propertyError = null;
+            if (saleError is CompositeValidationResult saleCompositeValidation)
+            {
+                propertyError = saleCompositeValidation.Results.FirstOrDefault(x => x.ErrorMessage.Contains("PropertyInfo"));
+            }
+
             Assert.Null(propertyError);
         }
 
@@ -127,7 +141,13 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 
             var result = listing.Object.IsValidForSubmit();
 
-            var propertyError = result.FirstOrDefault(x => x.ErrorMessage.Contains("PropertyFields"));
+            var saleError = result.FirstOrDefault(x => x.ErrorMessage.Contains("SaleProperty"));
+            ValidationResult propertyError = null;
+            if (saleError is CompositeValidationResult saleCompositeValidation)
+            {
+                propertyError = saleCompositeValidation.Results.FirstOrDefault(x => x.ErrorMessage.Contains("PropertyInfo"));
+            }
+
             Assert.NotNull(propertyError);
         }
 
