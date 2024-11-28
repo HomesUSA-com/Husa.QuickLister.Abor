@@ -1,15 +1,8 @@
 namespace Husa.Quicklister.Abor.Domain.Repositories
 {
-    using System.Threading.Tasks;
-    using Husa.Extensions.Domain.Repositories;
-    using Husa.Quicklister.Abor.Domain.Entities.Agent;
+    using QLExtensions = Husa.Quicklister.Extensions.Domain.Repositories;
 
-    public interface IAgentRepository : IRepository<Agent>
+    public interface IAgentRepository : QLExtensions.IAgentRepository
     {
-        Task<Agent> GetAgentByMarketUniqueId(string marketUniqueId);
-
-        Task<Agent> GetAgentByMemberStateLicense(string input);
-
-        Task<Agent> GetAgentByMlsId(string mlsId);
     }
 }

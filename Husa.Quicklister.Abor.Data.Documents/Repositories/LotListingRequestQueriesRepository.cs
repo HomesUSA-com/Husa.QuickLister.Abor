@@ -17,13 +17,13 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using Husa.Quicklister.Abor.Data.Documents.Projections;
     using Husa.Quicklister.Abor.Data.Documents.Specifications;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
-    using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.Agent;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Azure.Cosmos;
     using Microsoft.Extensions.Options;
@@ -31,7 +31,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
 
     public class LotListingRequestQueriesRepository : ExtensionRepositories.LotListingRequestQueriesRepository<LotListingRequest, ListingRequestQueryResult>, ILotListingRequestQueriesRepository
     {
-        private readonly IAgentQueriesRepository agentQueriesRepository;
+        private readonly Queries.Interfaces.IAgentQueriesRepository agentQueriesRepository;
         private readonly ILotListingQueriesRepository listingQueriesRepository;
         private readonly IUserRepository userQueriesRepository;
 
@@ -40,7 +40,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
             ICosmosLinqQuery cosmosLinqQuery,
             IOptions<DocumentDbSettings> options,
             IQueryLotRequestMediaRepository mediaQueriesRepository,
-            IAgentQueriesRepository agentQueriesRepository,
+            Queries.Interfaces.IAgentQueriesRepository agentQueriesRepository,
             IUserRepository userQueriesRepository,
             ILotListingQueriesRepository listingQueriesRepository)
              : base(cosmosClient, cosmosLinqQuery, options, mediaQueriesRepository)

@@ -3,12 +3,13 @@ namespace Husa.Quicklister.Abor.Api.Tests
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
-    using Husa.Quicklister.Abor.Api.Contracts.Response.Agent;
     using Husa.Quicklister.Abor.Api.Controllers;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
+    using Husa.Quicklister.Abor.Application.Interfaces.Agent;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
-    using Husa.Quicklister.Abor.Data.Queries.Models;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.Agent;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.Agent;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -20,14 +21,17 @@ namespace Husa.Quicklister.Abor.Api.Tests
     {
         private readonly ApplicationServicesFixture fixture;
         private readonly Mock<IAgentQueriesRepository> agentQueriesRepository;
+        private readonly Mock<IAgentService> agentService;
         private readonly Mock<ILogger<AgentsController>> logger;
         public AgentControllerTests(ApplicationServicesFixture fixture)
         {
             this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
             this.agentQueriesRepository = new Mock<IAgentQueriesRepository>();
+            this.agentService = new Mock<IAgentService>();
             this.logger = new Mock<ILogger<AgentsController>>();
             this.Sut = new AgentsController(
                 this.agentQueriesRepository.Object,
+                this.agentService.Object,
                 this.fixture.Mapper,
                 this.logger.Object);
         }
@@ -53,8 +57,8 @@ namespace Husa.Quicklister.Abor.Api.Tests
             Assert.NotNull(result);
             var objectResult = Assert.IsAssignableFrom<OkObjectResult>(result);
             Assert.NotNull(objectResult.Value);
-            Assert.IsType<AgentQueryResponse>(objectResult.Value);
-            var agentDetail = Assert.IsAssignableFrom<AgentQueryResponse>(objectResult.Value);
+            Assert.IsType<AgentResponse>(objectResult.Value);
+            var agentDetail = Assert.IsAssignableFrom<AgentResponse>(objectResult.Value);
             Assert.Equal(agentId, agentDetail.Id);
         }
 

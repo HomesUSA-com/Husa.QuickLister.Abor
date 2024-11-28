@@ -1,10 +1,8 @@
 namespace Husa.Quicklister.Abor.Application.Interfaces.Agent
 {
-    using System.Threading.Tasks;
-    using Husa.Quicklister.Abor.Application.Models.Agent;
+    using QLExtensions = Husa.Quicklister.Extensions.Application.Interfaces.Agents;
 
-    public interface IAgentService
+    public interface IAgentService : QLExtensions.IAgentService
     {
-        Task ProcessDataFromDownloaderAsync(AgentDto agentDto);
     }
 }

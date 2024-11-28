@@ -3,7 +3,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
     using AutoMapper;
     using Husa.Downloader.CTX.ServiceBus.Contracts;
     using Husa.Quicklister.Abor.Application.Models.Agent;
-    using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Entities.Agent;
 
     public class AgentMappingProfile : Profile
     {
