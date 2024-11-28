@@ -3,20 +3,19 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
     using System;
     using System.Threading.Tasks;
     using AutoMapper;
-    using Husa.Quicklister.Abor.Application.Interfaces.Agent;
+    using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Models.Agent;
-    using Husa.Quicklister.Abor.Domain.Entities.Agent;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Entities.Agent;
     using Microsoft.Extensions.Logging;
 
-    public class AgentService : IAgentService
+    public class AgentServiceDownloader : IAgentServiceDownloader
     {
         private readonly IAgentRepository agentRepository;
-        private readonly ILogger<AgentService> logger;
+        private readonly ILogger<AgentServiceDownloader> logger;
         private readonly IMapper mapper;
 
-        public AgentService(IAgentRepository agentRepository, IMapper mapper, ILogger<AgentService> logger)
+        public AgentServiceDownloader(IAgentRepository agentRepository, IMapper mapper, ILogger<AgentServiceDownloader> logger)
         {
             this.agentRepository = agentRepository ?? throw new ArgumentNullException(nameof(agentRepository));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

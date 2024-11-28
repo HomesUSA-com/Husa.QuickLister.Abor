@@ -2,8 +2,8 @@ namespace Husa.Quicklister.Abor.Application.Tests.Mocks
 {
     using System.Threading.Tasks;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
-    using Husa.Quicklister.Abor.Domain.Entities.Agent;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Domain.Entities.Agent;
     using Moq;
 
     public class AgentRepositoryMock : Mock<IAgentRepository>

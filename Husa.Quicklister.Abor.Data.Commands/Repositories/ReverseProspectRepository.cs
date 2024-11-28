@@ -12,7 +12,7 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
 
     public class ReverseProspectRepository : Repository<ReverseProspect>, IReverseProspectRepository
     {
-        public ReverseProspectRepository(ApplicationDbContext context, IUserContextProvider userContextProvider, ILogger<AgentRepository> logger)
+        public ReverseProspectRepository(ApplicationDbContext context, IUserContextProvider userContextProvider, ILogger<ReverseProspectRepository> logger)
             : base(context, userContextProvider, logger)
         {
         }

@@ -4,7 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Specifications
     using System.Linq;
     using System.Linq.Expressions;
     using Husa.Extensions.Linq;
-    using Husa.Quicklister.Abor.Domain.Entities.Agent;
+    using Husa.Quicklister.Extensions.Domain.Entities.Agent;
 
     public static class AgentSpecifications
     {

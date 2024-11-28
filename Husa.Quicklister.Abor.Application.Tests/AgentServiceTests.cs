@@ -6,8 +6,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Application.Services.Downloader;
     using Husa.Quicklister.Abor.Application.Tests.Mocks;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
-    using Husa.Quicklister.Abor.Domain.Entities.Agent;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Domain.Entities.Agent;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
@@ -17,16 +17,16 @@ namespace Husa.Quicklister.Abor.Application.Tests
     public class AgentServiceTests
     {
         private readonly ApplicationServicesFixture fixture;
-        private readonly AgentService agentService;
+        private readonly AgentServiceDownloader agentService;
         private readonly Mock<IAgentRepository> agentRepository;
-        private readonly Mock<ILogger<AgentService>> logger;
+        private readonly Mock<ILogger<AgentServiceDownloader>> logger;
 
         public AgentServiceTests(ApplicationServicesFixture fixture)
         {
             this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
             this.agentRepository = new AgentRepositoryMock();
-            this.logger = new Mock<ILogger<AgentService>>();
-            this.agentService = new AgentService(this.agentRepository.Object, this.fixture.Mapper, this.logger.Object);
+            this.logger = new Mock<ILogger<AgentServiceDownloader>>();
+            this.agentService = new AgentServiceDownloader(this.agentRepository.Object, this.fixture.Mapper, this.logger.Object);
         }
 
         [Fact]

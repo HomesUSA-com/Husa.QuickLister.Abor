@@ -12,7 +12,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
     using Husa.Quicklister.Abor.Api.ServiceBus.Handlers;
     using Husa.Quicklister.Abor.Api.ServiceBus.Subscribers;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
-    using Husa.Quicklister.Abor.Application.Interfaces.Agent;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Office;
@@ -33,7 +32,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
         private readonly Mock<IDownloaderSubscriber> subscriberMock = new();
         private readonly Mock<ISubscriptionClient> subscriptionClientMock = new();
 
-        private readonly Mock<IAgentService> agentServiceMock = new();
+        private readonly Mock<IAgentServiceDownloader> agentServiceMock = new();
         private readonly Mock<IOfficeService> officeServiceMock = new();
         private readonly Mock<IMediaService> mediaServiceMock = new();
         private readonly Mock<IListingService> residentialServiceMock = new();
