@@ -7,7 +7,7 @@
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Linq" Version="4.0.8" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Data.Documents" Version="2.12.2" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Data.Documents" Version="2.12.3" />
         <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.46.0" />
     </ItemGroup>
 

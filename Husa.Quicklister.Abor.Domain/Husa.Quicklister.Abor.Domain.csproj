@@ -6,10 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Husa.Downloader.CTX.Api.Client" Version="2.2.11" />
+        <PackageReference Include="Husa.Downloader.CTX.Api.Client" Version="2.2.12" />
         <PackageReference Include="Husa.Extensions.Authorization" Version="4.1.2" />
         <PackageReference Include="Husa.Extensions.Domain" Version="2.1.2" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Domain" Version="2.13.4" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Domain" Version="2.13.5" />
     </ItemGroup>
 
     <ItemGroup>
