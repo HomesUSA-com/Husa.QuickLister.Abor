@@ -31,7 +31,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
     using Husa.Quicklister.Abor.Data.Queries.Models.Plan;
-    using Husa.Quicklister.Abor.Domain.Entities.Agent;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -46,13 +45,14 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.Agent;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Domain.Entities.Agent;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Moq;
     using DomainEntities = Husa.Quicklister.Abor.Domain.Entities;
     using HusaNoteType = Husa.Notes.Domain.Enums.NoteType;
     using MediaRequest = Husa.MediaService.Api.Contracts.Request;
-    using MemberStatus = Husa.Downloader.CTX.Domain.Enums.MemberStatus;
     using OpenHouseRecord = Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records.OpenHouseRecord;
     using RequestNote = Husa.Notes.Api.Contracts.Request;
     using RequestPhoto = Husa.PhotoService.Api.Contracts.Request;

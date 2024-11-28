@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Attributes;
-    using Agent = Husa.Quicklister.Abor.Domain.Entities.Agent.Agent;
+    using Husa.Quicklister.Extensions.Domain.Entities.Agent;
 
     public class ListingStatusFieldsInfo : ValueObject, IProvideStatusFields
     {

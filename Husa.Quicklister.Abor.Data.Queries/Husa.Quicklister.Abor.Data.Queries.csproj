@@ -8,7 +8,7 @@
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Cache" Version="4.0.0" />
         <PackageReference Include="Husa.Notes.Client" Version="2.1.2" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Data.Queries" Version="2.13.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Data.Queries" Version="2.13.5" />
         <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
     </ItemGroup>
 

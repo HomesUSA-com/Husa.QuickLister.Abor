@@ -1,9 +1,8 @@
 namespace Husa.Quicklister.Abor.Data.Configuration
 {
     using System;
-    using Husa.Quicklister.Abor.Domain.Entities.Agent;
-    using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Data.Extensions;
+    using Husa.Quicklister.Extensions.Domain.Entities.Agent;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
