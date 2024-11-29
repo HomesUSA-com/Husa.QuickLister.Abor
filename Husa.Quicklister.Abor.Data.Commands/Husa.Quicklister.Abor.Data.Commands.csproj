@@ -8,7 +8,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Husa.Quicklister.Extensions.Data" Version="1.12.3" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Data" Version="1.12.4" />
     </ItemGroup>
 
     <ItemGroup>
