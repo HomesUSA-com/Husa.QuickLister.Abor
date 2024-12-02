@@ -69,6 +69,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Microsoft.Extensions.Options;
     using Microsoft.OpenApi.Models;
     using ApplicationOptions = Husa.Quicklister.Abor.Crosscutting.ApplicationOptions;
+    using IAgentQueriesRepository = Husa.Quicklister.Abor.Data.Queries.Interfaces.IAgentQueriesRepository;
     using InterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces;
     using RepositoriesExtensions = Husa.Quicklister.Extensions.Domain.Repositories;
 
@@ -126,6 +127,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<InterfaceExtensions.Listing.ILegacyListingService, LegacyListingService>();
             services.AddTransient<IValidateListingStatusChanges<ListingSaleRequestForUpdate>, ListingSaleRequestWithStatusChangeValidator>();
             services.AddScoped<IAgentService, AgentService>();
+            services.AddScoped<IAgentServiceDownloader, AgentServiceDownloader>();
             services.AddScoped<IOfficeService, OfficeService>();
             services.AddScoped<IListingService, ListingService>();
             services.AddScoped<IMediaService, MediaService>();

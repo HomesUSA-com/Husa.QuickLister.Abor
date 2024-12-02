@@ -1,8 +1,8 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Extensions
 {
     using System.Linq;
-    using Husa.Quicklister.Abor.Data.Queries.Models;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.Agent;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
 
     public static class AgentQueryExtensions
     {

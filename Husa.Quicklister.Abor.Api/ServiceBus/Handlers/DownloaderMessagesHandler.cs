@@ -9,7 +9,6 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Extensions.ServiceBus.Services;
     using Husa.Quicklister.Abor.Api.ServiceBus.Helpers;
     using Husa.Quicklister.Abor.Api.ServiceBus.Subscribers;
-    using Husa.Quicklister.Abor.Application.Interfaces.Agent;
     using Husa.Quicklister.Abor.Application.Interfaces.Downloader;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Office;
@@ -76,7 +75,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                 this.Logger.LogInformation("Processing message for agent {agentFullName} with id {agentId} ", agentMessage.FullName, agentMessage.EntityKey);
                 var agentDto = this.mapper.Map<AgentDto>(agentMessage);
 
-                var agentService = scope.ServiceProvider.GetRequiredService<IAgentService>();
+                var agentService = scope.ServiceProvider.GetRequiredService<IAgentServiceDownloader>();
                 return agentService.ProcessDataFromDownloaderAsync(agentDto);
             }
 

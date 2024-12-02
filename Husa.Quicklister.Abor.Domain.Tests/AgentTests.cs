@@ -2,8 +2,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
-    using Husa.Quicklister.Abor.Domain.Entities.Agent;
-    using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Entities.Agent;
     using Xunit;
 
     [ExcludeFromCodeCoverage]

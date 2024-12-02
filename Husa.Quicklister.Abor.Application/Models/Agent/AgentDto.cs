@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Application.Models.Agent
 {
     using System;
-    using Husa.Downloader.CTX.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class AgentDto
     {
@@ -35,7 +35,7 @@ namespace Husa.Quicklister.Abor.Application.Models.Agent
 
         public bool MlsAccess { get; set; }
 
-        public MemberMlsSecurityClass MlsSecurityClass { get; set; }
+        public Downloader.CTX.Domain.Enums.MemberMlsSecurityClass MlsSecurityClass { get; set; }
 
         public DateTime SysModified { get; set; }
         public string MemberStateLicense { get; set; }

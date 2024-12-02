@@ -28,6 +28,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using Husa.Quicklister.Extensions.Data.Documents.Models;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.Agent;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Azure.Cosmos;
@@ -37,7 +38,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     public class SaleListingRequestQueriesRepository : ExtensionRepositories.SaleListingRequestQueriesRepository<SaleListingRequest, ListingSaleRequestQueryResult>, ISaleListingRequestQueriesRepository
     {
         private readonly IListingSaleQueriesRepository listingSaleQueriesRepository;
-        private readonly IAgentQueriesRepository agentQueriesRepository;
+        private readonly Queries.Interfaces.IAgentQueriesRepository agentQueriesRepository;
         private readonly IUserRepository userQueriesRepository;
 
         public SaleListingRequestQueriesRepository(
@@ -46,7 +47,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
             IOptions<DocumentDbSettings> options,
             IQuerySaleRequestMediaRepository mediaQueriesRepository,
             IListingSaleQueriesRepository listingSaleQueriesRepository,
-            IAgentQueriesRepository agentQueriesRepository,
+            Queries.Interfaces.IAgentQueriesRepository agentQueriesRepository,
             IUserRepository userQueriesRepository)
              : base(cosmosClient, cosmosLinqQuery, options, mediaQueriesRepository)
         {

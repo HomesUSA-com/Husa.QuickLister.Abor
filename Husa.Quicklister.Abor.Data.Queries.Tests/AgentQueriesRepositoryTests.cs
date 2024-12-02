@@ -5,10 +5,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
-    using Husa.Quicklister.Abor.Domain.Entities.Agent;
     using Husa.Quicklister.Abor.Domain.Entities.Office;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Domain.Entities.Agent;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Diagnostics;
     using Microsoft.EntityFrameworkCore.Storage;
@@ -35,7 +35,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
             // Arrange && Act && Assert
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot());
             var dbContext = new ApplicationQueriesDbContext(optionsBuilder.Options);
-            Assert.Throws<ArgumentNullException>(() => new AgentQueriesRepository(dbContext, null));
+            Assert.Throws<ArgumentNullException>(() => new AgentQueriesRepository(null, dbContext));
         }
 
         [Fact]
@@ -138,8 +138,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
 
             var queriesDbContext = new ApplicationQueriesDbContext(optionsBuilder.Options);
             return new AgentQueriesRepository(
-                queriesDbContext,
-                this.logger.Object);
+                this.logger.Object,
+                queriesDbContext);
         }
     }
 }

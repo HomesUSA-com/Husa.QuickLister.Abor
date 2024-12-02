@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Data
 {
+    using Husa.Downloader.CTX.Domain.Enums;
     using Husa.Extensions.Linq;
-    using Husa.Quicklister.Abor.Domain.Entities.Agent;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -11,15 +11,20 @@ namespace Husa.Quicklister.Abor.Data
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.ReverseProspect;
+    using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Data.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Entities;
+    using Husa.Quicklister.Extensions.Domain.Entities.Agent;
     using Microsoft.EntityFrameworkCore;
+    using Cities = Husa.Quicklister.Abor.Domain.Enums.Domain.Cities;
 
     public class ApplicationDbContext :
         DbContext,
         IDbSetViolationWarningAlert,
         IDbSetSaleListing<SaleListing>,
-        IDbSetXmlSaleListing<SaleListing>
+        IDbSetXmlSaleListing<SaleListing>,
+        IDbSetAgent,
+        IDbSetOffice<Office, OfficeValueObject, Cities, StateOrProvince>
     {
         public const string Schema = "dbo";
         public const string ConnectionName = "HomesUSAConnection";
