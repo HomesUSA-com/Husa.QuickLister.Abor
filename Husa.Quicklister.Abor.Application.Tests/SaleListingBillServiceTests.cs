@@ -76,7 +76,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             };
             CompanyDetail companyDetail = null;
             this.serviceSubscriptionClient
-                .Setup(x => x.Company.GetCompany(It.Is<Guid>(x => x == companyId), It.IsAny<CancellationToken>()))
+                .Setup(x => x.Company.GetCompany(It.Is<Guid>(x => x == companyId), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(companyDetail);
 
             // Act && Assert
@@ -84,6 +84,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.serviceSubscriptionClient.Verify(
                 sl => sl.Company.GetCompany(
                     It.Is<Guid>(id => id == companyId),
+                    It.IsAny<bool>(),
                     It.IsAny<CancellationToken>()),
                 Times.Once());
         }
@@ -108,7 +109,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
             };
             var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
             this.serviceSubscriptionClient
-                .Setup(x => x.Company.GetCompany(It.Is<Guid>(x => x == companyId), It.IsAny<CancellationToken>()))
+                .Setup(x => x.Company.GetCompany(
+                    It.Is<Guid>(x => x == companyId), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(companyDetail);
 
             // Act && Assert
@@ -116,6 +118,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.serviceSubscriptionClient.Verify(
                 sl => sl.Company.GetCompany(
                     It.Is<Guid>(id => id == companyId),
+                    It.IsAny<bool>(),
                     It.IsAny<CancellationToken>()),
                 Times.Once());
         }
@@ -177,7 +180,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
             };
             companyDetail.CustomerRef = 34;
             this.serviceSubscriptionClient
-                .Setup(x => x.Company.GetCompany(It.Is<Guid>(x => x == companyId), It.IsAny<CancellationToken>()))
+                .Setup(x => x.Company.GetCompany(
+                    It.Is<Guid>(x => x == companyId), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(companyDetail).Verifiable();
             this.serviceSubscriptionClient
                 .Setup(x => x.Company
@@ -209,6 +213,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.serviceSubscriptionClient.Verify(
                 sl => sl.Company.GetCompany(
                     It.Is<Guid>(id => id == companyId),
+                    It.IsAny<bool>(),
                     It.IsAny<CancellationToken>()),
                 Times.Once());
             this.listingSaleRepository.Verify(

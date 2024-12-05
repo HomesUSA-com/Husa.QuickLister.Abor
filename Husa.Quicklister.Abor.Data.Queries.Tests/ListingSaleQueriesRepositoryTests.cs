@@ -129,7 +129,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
 
             var companyId = Guid.NewGuid();
             var company = new CompanyResponse.CompanyDetail() { Id = companyId };
-            this.serviceSubscriptionClient.Setup(u => u.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            this.serviceSubscriptionClient.Setup(u => u.Company.GetCompany(
+                It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(company)
                 .Verifiable();
 
@@ -167,7 +168,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
                 new List<SaleListing> { listing },
                 new List<CommunitySale> { community });
 
-            this.serviceSubscriptionClient.Setup(u => u.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            this.serviceSubscriptionClient.Setup(u => u.Company.GetCompany(
+                It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(company)
                 .Verifiable();
 
@@ -208,7 +210,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
                 new List<SaleListing> { listing },
                 new List<CommunitySale> { community });
 
-            this.serviceSubscriptionClient.Setup(u => u.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            this.serviceSubscriptionClient.Setup(u => u.Company.GetCompany(
+                It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(company)
                 .Verifiable();
 

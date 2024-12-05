@@ -68,7 +68,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var companyMock = new Mock<ICompany>();
             companyMock.SetupAllProperties();
             var companyDetail = TestModelProvider.GetCompanyDetail(Factory.CompanyId);
-            companyMock.Setup(s => s.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail);
+            companyMock.Setup(s => s.GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail);
 
             var companyServices = Array.Empty<ServiceSubscriptionResponse>();
             companyMock
