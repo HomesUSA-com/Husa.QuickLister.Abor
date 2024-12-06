@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
+    using Husa.Quicklister.Abor.Application.Tests.Providers;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -99,6 +100,8 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
                 AcceptableFinancing = new[] { AcceptableFinancing.Cash, AcceptableFinancing.USDA },
             },
             ConstructionStage = ConstructionStage.Complete,
+            OpenHouses = JsonModelProviders.GetOpenHouses(),
+            Rooms = JsonModelProviders.GetRooms(),
         };
 
         private void SetupListingQuickCreate()

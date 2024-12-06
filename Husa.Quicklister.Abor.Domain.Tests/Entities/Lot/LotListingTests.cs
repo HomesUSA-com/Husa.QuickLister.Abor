@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Tests
+namespace Husa.Quicklister.Abor.Domain.Tests.Entities.Lot
 {
     using System;
     using System.Diagnostics.CodeAnalysis;

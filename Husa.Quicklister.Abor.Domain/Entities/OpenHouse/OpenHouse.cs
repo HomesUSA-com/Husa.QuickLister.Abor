@@ -14,7 +14,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.OpenHouse
           OpenHouseTypeEnum type,
           TimeSpan startTime,
           TimeSpan endTime,
-          ICollection<Refreshments> refreshments)
+          ICollection<Refreshments> refreshments = null)
             : this()
         {
             this.Type = type;
@@ -24,6 +24,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.OpenHouse
         }
 
         protected OpenHouse()
+            : base()
         {
             this.Refreshments = new List<Refreshments>();
         }

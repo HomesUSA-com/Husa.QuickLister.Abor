@@ -8,9 +8,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
 
-    public abstract class Room : Entity, IProvideType, IProvideRoomInfo
+    public class Room : Entity, IProvideType, IProvideRoomInfo
     {
-        protected Room(RoomType roomType, RoomLevel level, ICollection<RoomFeatures> features, string description)
+        public Room(RoomType roomType, RoomLevel level, ICollection<RoomFeatures> features, string description)
+            : this()
         {
             this.RoomType = roomType;
             this.Level = level;
@@ -19,6 +20,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
         }
 
         protected Room()
+            : base()
         {
         }
 
@@ -37,5 +39,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Base
         }
 
         protected override void DeleteChildren(Guid userId) => throw new NotImplementedException();
+
+        protected override IEnumerable<object> GetEntityEqualityComponents()
+        {
+            yield return this.Level;
+            yield return this.RoomType;
+            yield return this.EntityOwnerType;
+            yield return this.Features;
+            yield return this.Description;
+        }
     }
 }
