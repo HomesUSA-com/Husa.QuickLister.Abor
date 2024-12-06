@@ -63,7 +63,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(XmlTestProvider.GetSubdivisionResponse(subdivisionId))
                 .Verifiable();
 
-            this.serviceSubscriptionClient.Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail).Verifiable();
+            this.serviceSubscriptionClient.Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail).Verifiable();
 
             // Act
             await this.Sut.ImportEntity(companyId, companyName, subdivisionId);
@@ -95,7 +95,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync(communitySale)
             .Verifiable();
 
-            this.serviceSubscriptionClient.Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail).Verifiable();
+            this.serviceSubscriptionClient.Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail).Verifiable();
 
             this.outputHelper.WriteLine("This is the school for the subdivision: {0}", subdivisionResponse.SchoolDistrict.First().School.Single(t => t.Type == SchoolType.Elementary).Name);
 
@@ -127,7 +127,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .ReturnsAsync((CommunitySale)null)
             .Verifiable();
 
-            this.serviceSubscriptionClient.Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail).Verifiable();
+            this.serviceSubscriptionClient.Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail).Verifiable();
 
             // Act & Assert
             await Assert.ThrowsAsync<NotFoundException<CommunitySale>>(() => this.Sut.ImportEntity(companyId, companyName, subdivisionId));

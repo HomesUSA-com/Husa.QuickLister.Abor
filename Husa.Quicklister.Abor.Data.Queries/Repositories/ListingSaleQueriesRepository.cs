@@ -91,8 +91,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .FilterByCreationRange(queryFilter.CreationStartDate, queryFilter.CreationEndDate)
                 .FilterBySqftRange(queryFilter.SqftMin, queryFilter.SqftMax);
             var total = await query.CountAsync();
-            var data = await query.Select(ListingSaleProjection.ProjectToListingSaleQueryResult)
-                 .ApplySortByFields(queryFilter.SortBy)
+            var data = await query.ApplySortByNotProjectedFields(queryFilter.SortBy)
+                 .Select(ListingSaleProjection.ProjectToListingSaleQueryResult)
                  .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take, queryFilter.IsForDownloading)
                  .ToListAsync();
             await this.userQueriesRepository.FillUsersNameAsync(data);

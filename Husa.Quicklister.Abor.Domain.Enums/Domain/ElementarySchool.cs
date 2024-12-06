@@ -317,9 +317,6 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "Creedmoor")]
         [Description("Creedmoor")]
         Creedmoor,
-        [EnumMember(Value = "Creedmor")]
-        [Description("Creedmor")]
-        Creedmor,
         [EnumMember(Value = "Crockett")]
         [Description("Crockett")]
         Crockett,

@@ -60,7 +60,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
             var companyDetail = TestModelProvider.GetCompanyDetail();
             companyDetail.LegacyId = legacyCompanyId;
             this.serviceSubscriptionClient
-                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<CancellationToken>()))
+                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(companyDetail);
 
             var listingReponse = new SaleListingResponse()

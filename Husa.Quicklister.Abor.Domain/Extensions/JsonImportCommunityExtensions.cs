@@ -7,7 +7,9 @@ namespace Husa.Quicklister.Abor.Domain.Extensions
     using Husa.JsonImport.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Dfw.Domain.Extensions;
     using JsonEnums = Husa.JsonImport.Domain.Enums;
 
     public static class JsonImportCommunityExtensions
@@ -21,6 +23,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions
             community.ProfileInfo.Import(jsonCommunity);
             community.SchoolsInfo.Import(jsonCommunity);
             community.Property.Import(jsonCommunity);
+            community.ImportOpenHouse<OpenHouse, CommunityOpenHouse, CommunitySale>(jsonCommunity.OpenHouses.ToOpenHouses());
         }
 
         private static void Import(this Property fields, CommunityResponse jsonCommunity)

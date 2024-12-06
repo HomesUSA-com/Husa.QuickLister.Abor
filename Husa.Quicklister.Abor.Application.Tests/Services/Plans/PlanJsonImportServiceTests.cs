@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
     using Husa.JsonImport.Api.Client.Interface;
     using Husa.JsonImport.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Application.Services.Plans;
+    using Husa.Quicklister.Abor.Application.Tests.Providers;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
@@ -64,6 +65,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
             HalfBaths = 4,
             Bedrooms = 5,
             QuicklisterId = qlId,
+            Rooms = JsonModelProviders.GetRooms(),
         };
     }
 }

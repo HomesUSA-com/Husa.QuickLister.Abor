@@ -7,6 +7,18 @@ namespace Husa.Quicklister.Abor.Domain.Extensions
 
     public static class JsonImportPlanExtensions
     {
+        public static void Import(this Plan plan, PlanResponse jsonPlan)
+        {
+            var basePlan = Import(jsonPlan, companyName: plan.BasePlan.OwnerName);
+            plan.UpdateBasePlanInformation(basePlan);
+
+            var rooms = jsonPlan.Rooms.ToRooms();
+            if (rooms.Count > 0)
+            {
+                plan.ImportRooms(rooms);
+            }
+        }
+
         public static BasePlan Import(PlanResponse jsonPlan, string companyName)
         {
             ArgumentNullException.ThrowIfNull(jsonPlan);

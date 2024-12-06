@@ -34,11 +34,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         protected override IEnumerable<object> GetEntityEqualityComponents()
         {
             yield return this.SalePropertyId;
-            yield return this.Level;
-            yield return this.RoomType;
-            yield return this.EntityOwnerType;
-            yield return this.Features;
-            yield return this.Description;
+            yield return base.GetEntityEqualityComponents();
         }
     }
 }

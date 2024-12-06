@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Tests
+namespace Husa.Quicklister.Abor.Domain.Tests.Common
 {
     using System;
     using Husa.Quicklister.Abor.Domain.Common;
