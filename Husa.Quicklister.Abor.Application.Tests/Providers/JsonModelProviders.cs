@@ -4,7 +4,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Providers
     using System.Collections.Generic;
     using System.Globalization;
     using Husa.JsonImport.Api.Contracts.Response;
-    using JsonRoomType = JsonImport.Domain.Enums.RoomType;
+    using JsonRoomType = Husa.JsonImport.Domain.Enums.RoomType;
 
     public static class JsonModelProviders
     {

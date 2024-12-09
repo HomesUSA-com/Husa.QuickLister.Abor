@@ -19,7 +19,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(dto => dto.WorkPhone, am => am.MapFrom(x => x.DirectWorkPhone))
                 .ForMember(dto => dto.SysModified, am => am.Ignore());
 
-            this.CreateMap<AgentDto, AgentValueObject>();
+            this.CreateMap<AgentDto, AgentValueObject>()
+                .ForMember(dto => dto.OfficeName, am => am.Ignore());
         }
     }
 }

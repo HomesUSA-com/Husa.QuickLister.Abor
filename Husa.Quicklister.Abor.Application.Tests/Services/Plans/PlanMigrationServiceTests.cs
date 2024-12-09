@@ -29,6 +29,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
         private readonly Mock<IMigrationClient> migrationClient = new();
         private readonly Mock<IPlanPhotoService> photoService = new();
+        private readonly Mock<IPlanMediaService> mediaService = new();
 
         public PlanMigrationServiceTests(ApplicationServicesFixture fixture)
         {
@@ -37,6 +38,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
                 this.migrationClient.Object,
                 this.serviceSubscriptionClient.Object,
                 this.photoService.Object,
+                this.mediaService.Object,
                 this.logger.Object,
                 fixture.Mapper);
         }
