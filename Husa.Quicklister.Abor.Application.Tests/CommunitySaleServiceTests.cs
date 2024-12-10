@@ -64,7 +64,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Verifiable();
 
             this.serviceSubscriptionClient
-                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<CancellationToken>()))
+                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(companyDetail);
 
             // Act

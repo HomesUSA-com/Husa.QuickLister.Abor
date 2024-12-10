@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
     using System.Collections.Generic;
     using System.Linq;
     using Husa.Quicklister.Abor.Domain.Comparers;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Extensions;
@@ -74,6 +75,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
         }
 
         public virtual void UpdateRooms(IEnumerable<PlanRoom> rooms)
+            => this.ImportRooms(rooms);
+
+        public virtual void ImportRooms<TRoom>(IEnumerable<TRoom> rooms)
+            where TRoom : Room
         {
             if (rooms is null)
             {

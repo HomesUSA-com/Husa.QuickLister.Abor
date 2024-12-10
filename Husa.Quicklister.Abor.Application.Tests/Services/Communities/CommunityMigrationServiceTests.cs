@@ -55,7 +55,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
             var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
             companyDetail.LegacyId = legacyCompanyId;
             this.serviceSubscriptionClient
-                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<CancellationToken>()))
+                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(companyDetail);
 
             var communitysReponse = MigrationCommunitiesResponse(20);
@@ -81,7 +81,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
             var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
             companyDetail.LegacyId = legacyCompanyId;
             this.serviceSubscriptionClient
-                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<CancellationToken>()))
+                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(companyDetail);
 
             var communitysReponse = MigrationCommunitiesResponse(20);

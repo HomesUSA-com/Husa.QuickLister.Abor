@@ -303,7 +303,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var companyResponse = new Response.CompanyDetail() { Id = Factory.CompanyId, Name = "fakeName", MlsInfo = new() { BlockSquareFootage = true } };
             var companyClient = this.customWebApplicationFactory.Services.GetRequiredService<IServiceSubscriptionClient>();
             var companyResourceMock = Mock.Get(companyClient.Company);
-            companyResourceMock.Setup(c => c.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyResponse);
+            companyResourceMock.Setup(c => c.GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyResponse);
 
             // Act
             await this.quicklisterAborClient.SaleListing.UpdateListing(listingId, listingSaleRequest);
@@ -385,7 +385,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var companyResponse = new Response.CompanyDetail() { Id = Factory.CompanyId, Name = "fakeName", SettingInfo = new() { IgnoreRequestByCompletionDate = false } };
             var companyClient = this.customWebApplicationFactory.Services.GetRequiredService<IServiceSubscriptionClient>();
             var companyResourceMock = Mock.Get(companyClient.Company);
-            companyResourceMock.Setup(c => c.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyResponse);
+            companyResourceMock.Setup(c => c.GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyResponse);
 
             // Act
             var task = Task.Run(() => this.quicklisterAborClient.Xml.ProcessListingAsync(xmlListingId, actionType));
@@ -424,7 +424,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var companyResponse = new Response.CompanyDetail() { Id = Factory.CompanyId, Name = "fakeName" };
             var companyClient = this.customWebApplicationFactory.Services.GetRequiredService<IServiceSubscriptionClient>();
             var companyResourceMock = Mock.Get(companyClient.Company);
-            companyResourceMock.Setup(c => c.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyResponse);
+            companyResourceMock.Setup(c => c.GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(companyResponse);
 
             // Act and Assert
             var exception = await Assert.ThrowsAsync<HttpRequestException>(() => this.quicklisterAborClient.Xml.ProcessListingAsync(xmlListingId, actionType));

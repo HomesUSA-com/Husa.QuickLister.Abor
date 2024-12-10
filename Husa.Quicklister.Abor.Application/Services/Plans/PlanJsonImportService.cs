@@ -31,8 +31,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
 
         protected override Task UpdatePlan(Plan plan, PlanResponse jsonPlan)
         {
-            var basePlan = JsonImportPlanExtensions.Import(jsonPlan, companyName: plan.BasePlan.OwnerName);
-            plan.UpdateBasePlanInformation(basePlan);
+            plan.Import(jsonPlan);
             return Task.CompletedTask;
         }
     }

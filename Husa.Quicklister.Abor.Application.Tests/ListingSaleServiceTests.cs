@@ -827,7 +827,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         {
             var companyDetail = TestModelProvider.GetCompanyDetail(companyId, blockSquareFootage: blockSquareFootage);
             this.serviceSubscriptionClient
-                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<CancellationToken>()))
+                .Setup(c => c.Company.GetCompany(companyId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(companyDetail);
 
             var services = service.HasValue

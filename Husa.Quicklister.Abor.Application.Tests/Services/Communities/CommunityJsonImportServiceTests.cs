@@ -7,7 +7,9 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
     using Husa.Extensions.Authorization;
     using Husa.JsonImport.Api.Client.Interface;
     using Husa.JsonImport.Api.Contracts.Response;
+    using Husa.JsonImport.Domain.Enums;
     using Husa.Quicklister.Abor.Application.Services.Communities;
+    using Husa.Quicklister.Abor.Application.Tests.Providers;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
@@ -66,6 +68,38 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
             Id = jsonCommunityId,
             Name = Faker.Company.Name(),
             QuicklisterId = qlId,
+            SchoolInformation = new()
+            {
+                SchoolDistrict = "BartlettISD",
+                ElementarySchool = "Alma Brewer Strawn",
+            },
+            Location = new()
+            {
+                ZipCode = "45444",
+            },
+            SalesOfficeLocation = new()
+            {
+                StreetName = "SO StreetName",
+                StreetNum = "SO StreetNum",
+            },
+            Amenities = new[]
+            {
+                Amenities.BoatRamp,
+                Amenities.ClubHouse,
+                Amenities.CommunityPool,
+                Amenities.ElectricChargingStation,
+                Amenities.FitnessCenter,
+                Amenities.Golf,
+                Amenities.GuardedEntrance,
+                Amenities.JoggingOrBikePath,
+                Amenities.Lake,
+                Amenities.Park,
+                Amenities.Playground,
+                Amenities.Sauna,
+                Amenities.Spa,
+                Amenities.TennisCourts,
+            },
+            OpenHouses = JsonModelProviders.GetOpenHouses(),
         };
     }
 }

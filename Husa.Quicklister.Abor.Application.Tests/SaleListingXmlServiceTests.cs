@@ -452,7 +452,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                .Verifiable();
 
             this.companyClient
-               .Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+               .Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                .ReturnsAsync(company)
                .Verifiable();
 
@@ -497,7 +497,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                .Verifiable();
 
             this.companyClient
-               .Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+               .Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                .ReturnsAsync(company)
                .Verifiable();
 
@@ -533,7 +533,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.SetupGetXmlListingById(xmlListingId);
 
             this.companyClient
-               .Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+               .Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                .ReturnsAsync(company)
                .Verifiable();
 
@@ -745,7 +745,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private void SetupCompanyDetail()
         {
             this.companyClient
-                .Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new CompanyDetail
                 {
                     Name = "fakeName",

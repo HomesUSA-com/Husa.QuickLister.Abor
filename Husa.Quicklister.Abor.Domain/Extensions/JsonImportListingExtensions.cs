@@ -7,8 +7,11 @@ namespace Husa.Quicklister.Abor.Domain.Extensions
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
+    using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Dfw.Domain.Extensions;
     using JsonEnums = Husa.JsonImport.Domain.Enums;
 
     public static class JsonImportListingExtensions
@@ -30,6 +33,18 @@ namespace Husa.Quicklister.Abor.Domain.Extensions
             if (listing.MlsStatus != MarketStatuses.Active)
             {
                 listing.StatusFieldsInfo.Import(spec.StatusFields);
+            }
+
+            var rooms = spec.Rooms.ToRooms();
+            if (rooms.Count > 0)
+            {
+                listing.SaleProperty.ImportRoomsFromEntity(rooms);
+            }
+
+            listing.SaleProperty.ImportOpenHouse<OpenHouse, SaleListingOpenHouse, SaleProperty>(spec.OpenHouses.ToOpenHouses());
+            if (listing.SaleProperty.OpenHouses.Count > 0)
+            {
+                listing.SaleProperty.ShowingInfo.EnableOpenHouse();
             }
         }
 
