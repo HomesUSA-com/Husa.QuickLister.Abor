@@ -3,7 +3,6 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
@@ -30,6 +29,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
         private readonly Mock<IMigrationClient> migrationClient = new();
         private readonly Mock<ICommunityPhotoService> photoService = new();
         private readonly Mock<ISaleCommunityService> communityService = new();
+        private readonly Mock<ICommunityMediaService> mediaService = new();
 
         public CommunityMigrationServiceTests(ApplicationServicesFixture fixture)
         {
@@ -39,6 +39,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
                 this.serviceSubscriptionClient.Object,
                 this.photoService.Object,
                 this.communityService.Object,
+                this.mediaService.Object,
                 this.logger.Object,
                 fixture.Mapper);
         }
@@ -67,7 +68,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
             });
 
             // Assert
-            this.communityRepository.Verify(r => r.Attach(It.IsAny<CommunitySale>()), Times.Exactly(communitysReponse.Count()));
+            this.communityRepository.Verify(r => r.Attach(It.IsAny<IEnumerable<CommunitySale>>()), Times.Once);
             this.communityRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
         }
 

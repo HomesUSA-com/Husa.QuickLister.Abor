@@ -19,6 +19,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<TrestleDownloader.FullAgentResponse, AgentValueObject>()
                 .ForMember(dto => dto.MarketUniqueId, a => a.MapFrom(dto => dto.MlsId))
                 .ForMember(dto => dto.OfficeId, a => a.MapFrom(dto => dto.OfficeKey))
+                .ForMember(dto => dto.OfficeName, a => a.MapFrom(dto => dto.OfficeName))
                 .ForMember(dto => dto.Status, a => a.MapFrom(dto => dto.MLSStatus))
                 .ForMember(dto => dto.CellPhone, a => a.MapFrom(dto => dto.MobilePhone))
                 .ForMember(dto => dto.WorkPhone, a => a.MapFrom(dto => dto.DirectWorkPhone))

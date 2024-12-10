@@ -50,7 +50,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
             var clonnedSpacesDimensions = this.Clone();
             clonnedSpacesDimensions.StoriesTotal = basePlan.StoriesTotal;
-            clonnedSpacesDimensions.SqFtTotal = basePlan.SqFtTotal;
+            clonnedSpacesDimensions.SqFtTotal = basePlan.SqFtTotal ?? clonnedSpacesDimensions.SqFtTotal;
             clonnedSpacesDimensions.DiningAreasTotal = basePlan.DiningAreasTotal;
             clonnedSpacesDimensions.MainLevelBedroomTotal = basePlan.MainLevelBedroomTotal;
             clonnedSpacesDimensions.OtherLevelsBedroomTotal = basePlan.OtherLevelsBedroomTotal;

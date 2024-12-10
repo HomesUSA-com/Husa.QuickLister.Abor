@@ -21,13 +21,13 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureValueObject(OwnedNavigationBuilder<Agent, AgentValueObject> builder)
         {
-            builder.Property(f => f.MarketUniqueId).HasMaxLength(10).HasColumnName(nameof(AgentValueObject.MarketUniqueId));
+            builder.Property(f => f.MarketUniqueId).HasMaxLength(50).HasColumnName(nameof(AgentValueObject.MarketUniqueId));
             builder.Property(f => f.MemberStateLicense).HasMaxLength(100).HasColumnName(nameof(AgentValueObject.MemberStateLicense));
             builder.Property(f => f.Web).HasMaxLength(50).HasColumnName(nameof(AgentValueObject.Web));
-            builder.Property(f => f.OfficeId).HasMaxLength(10).HasColumnName(nameof(AgentValueObject.OfficeId));
-            builder.Property(f => f.FirstName).HasMaxLength(20).HasColumnName(nameof(AgentValueObject.FirstName));
-            builder.Property(x => x.MiddleName).HasMaxLength(20).HasColumnName(nameof(AgentValueObject.MiddleName));
-            builder.Property(f => f.LastName).HasMaxLength(20).HasColumnName(nameof(AgentValueObject.LastName));
+            builder.Property(f => f.OfficeId).HasMaxLength(30).HasColumnName(nameof(AgentValueObject.OfficeId));
+            builder.Property(f => f.FirstName).HasMaxLength(50).HasColumnName(nameof(AgentValueObject.FirstName));
+            builder.Property(x => x.MiddleName).HasMaxLength(50).HasColumnName(nameof(AgentValueObject.MiddleName));
+            builder.Property(f => f.LastName).HasMaxLength(50).HasColumnName(nameof(AgentValueObject.LastName));
             builder.Property(x => x.FullName).HasMaxLength(65).HasColumnName(nameof(AgentValueObject.FullName));
             builder.Property(f => f.Status).HasMaxLength(20).HasColumnName(nameof(AgentValueObject.Status));
             builder.Property(f => f.CellPhone).HasMaxLength(20).HasColumnName(nameof(AgentValueObject.CellPhone));

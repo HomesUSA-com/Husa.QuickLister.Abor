@@ -28,9 +28,10 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             IServiceSubscriptionClient serviceSubscriptionClient,
             ICommunityPhotoService photoService,
             ISaleCommunityService communityService,
+            ICommunityMediaService mediaService,
             ILogger<CommunityMigrationService> logger,
             IMapper mapper)
-            : base(communityRepository, migrationClient, serviceSubscriptionClient, photoService, communityService, logger)
+            : base(communityRepository, migrationClient, serviceSubscriptionClient, photoService, communityService, mediaService, logger)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
