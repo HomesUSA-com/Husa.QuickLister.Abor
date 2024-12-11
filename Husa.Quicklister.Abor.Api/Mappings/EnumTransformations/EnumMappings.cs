@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
 {
     using System;
+    using Husa.Extensions.Common;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
@@ -864,5 +865,11 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             "Wolf Ranch Elementary" => ElementarySchool.WolfRanch,
             _ => school.GetEnumFromSchools<ElementarySchool>(),
         };
-}
+
+        public static SchoolDistrict? ToSchoolDistric(this string schoolDistrict) => schoolDistrict switch
+        {
+            "San Marcos CISD" => SchoolDistrict.SanMarcos,
+            _ => schoolDistrict.GetEnumFromText<SchoolDistrict>(),
+        };
+    }
 }
