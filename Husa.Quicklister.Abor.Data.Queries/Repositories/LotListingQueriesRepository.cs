@@ -72,8 +72,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .FilterByStreetName(queryFilter.StreetName)
                 .FilterByMlsNumber(queryFilter.MlsNumber);
             var total = await query.CountAsync();
-            var data = await query.ApplySortByCustomFields(queryFilter.SortBy)
-                 .Select(LotListingProjection.ProjectToLotListingQueryResult)
+            var data = await query.Select(LotListingProjection.ProjectToLotListingQueryResult)
+                 .ApplySortByCustomFields(queryFilter.SortBy)
                  .ApplyPaginationFilter(queryFilter.Skip, queryFilter.Take, queryFilter.IsForDownloading)
                  .ToListAsync();
             await this.userQueriesRepository.FillUsersNameAsync(data);
