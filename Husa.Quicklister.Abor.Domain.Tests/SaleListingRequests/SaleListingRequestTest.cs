@@ -164,6 +164,50 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         }
 
         [Fact]
+        public void GetSummaryWhenStatusChangesFromPendingToSold()
+        {
+            const int expectedSummarySections = 11;
+            var creationDateTime = DateTime.UtcNow;
+            var oldCompleteRequest = GetListingRequest(creationDateTime);
+            var sut = GetListingRequest(creationDateTime);
+            sut.Setup(s => s.GetSummary(It.IsAny<SaleListingRequest>())).CallBase();
+
+            var propertyRecord = new Mock<SalePropertyRecord>();
+            propertyRecord
+                .Setup(p => p.GetSummarySections(It.IsAny<SalePropertyRecord>()))
+                .Returns(GetSalePropertySummary())
+                .Verifiable();
+
+            sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
+
+            var saleStatusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
+            saleStatusFieldsRecord
+                .Setup(p => p.GetSummary(It.IsAny<SaleStatusFieldsRecord>(), It.IsAny<MarketStatuses>()))
+                .Returns(GetStatusFieldSummary())
+                .Verifiable();
+            sut.SetupGet(s => s.StatusFieldsInfo).Returns(saleStatusFieldsRecord.Object);
+
+            sut.Setup(s => s.GetRequestSummary(It.IsAny<SaleListingRequest>())).Returns(new[]
+            {
+                new SummaryField()
+                {
+                    FieldName = "MlsStatus",
+                    NewValue = MarketStatuses.Closed,
+                    OldValue = MarketStatuses.Pending,
+                },
+            });
+
+            // Act
+            var summaryResult = sut.Object.GetSummary(oldCompleteRequest.Object);
+
+            // Assert
+            Assert.NotEmpty(summaryResult);
+            Assert.Equal(expectedSummarySections, summaryResult.Count());
+            propertyRecord.Verify();
+            saleStatusFieldsRecord.Verify();
+        }
+
+        [Fact]
         public void CreateSalePropertyRecordAndCopySalesOfficeInfoSuccess()
         {
             // Arrange
