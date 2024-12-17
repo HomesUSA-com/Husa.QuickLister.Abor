@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using Husa.Extensions.Common.Classes;
+    using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
@@ -12,6 +13,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
+    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Common;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -146,6 +148,23 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
             this.SaleProperty.SysModifiedBy = userId;
         }
 
+        private static void AddValuesToSummaryFieldWhenTransitioningMarketStatus(
+            MarketStatuses oldMarketStatus,
+            MarketStatuses newMarketStatus,
+            SummaryField listStatusField,
+            List<SummarySection> summarySections,
+            string sectionName,
+            params SummaryField[] fieldsToAdd)
+        {
+            if (HasMarketStatusChangedFromOldToNew(listStatusField, oldMarketStatus, newMarketStatus))
+            {
+                SummaryExtensions.AddFieldsToSummary(
+                        summarySections,
+                        sectionName,
+                        fieldsToAdd);
+            }
+        }
+
         private IEnumerable<SummarySection> GetSummary(SaleListingRequest previousRequest)
         {
             var summarySections = new List<SummarySection>();
@@ -159,7 +178,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
 
             var rootFieldChanges = this.GetRequestSummary(previousRequest);
 
-            if (summarySections.Count == 0 && !rootFieldChanges.Any())
+            if (!summarySections.Any() && !rootFieldChanges.Any())
             {
                 return Array.Empty<SummarySection>();
             }
@@ -172,6 +191,22 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
                     NewValue = this.MlsStatus,
                     OldValue = this.MlsStatus,
                 });
+            }
+            else
+            {
+                var listStatusField = rootFieldChanges.FirstOrDefault(x => x.FieldName == nameof(this.MlsStatus));
+                AddValuesToSummaryFieldWhenTransitioningMarketStatus(
+                    MarketStatuses.Pending,
+                    MarketStatuses.Closed,
+                    listStatusField,
+                    summarySections,
+                    SaleStatusFieldsRecord.SummarySection,
+                    new SummaryField
+                    {
+                        FieldName = nameof(StatusFieldsRecord.AgentId),
+                        NewValue = this.StatusFieldsInfo.AgentId,
+                        OldValue = this.StatusFieldsInfo.AgentId,
+                    });
             }
 
             return new List<SummarySection> { new() { Name = SummarySection, Fields = rootFieldChanges } }.Concat(summarySections);
