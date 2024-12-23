@@ -7,9 +7,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading.Tasks;
     using Azure.Messaging.ServiceBus;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.PhotoService.Api.Client.Interfaces;
     using Husa.Quicklister.Extensions.Application.Interfaces;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Moq;
     using Xunit;
 

@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.PhotoService.Domain.Enums;
     using Husa.PhotoService.ServiceBus.Messages;
     using Husa.Quicklister.Abor.Api.ServiceBus.Handlers;
@@ -11,7 +12,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Extensions.Application.Models.Migration;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Husa.Quicklister.Extensions.ServiceBus.Contracts;
     using Microsoft.AspNetCore.HeaderPropagation;
     using Microsoft.Azure.ServiceBus;

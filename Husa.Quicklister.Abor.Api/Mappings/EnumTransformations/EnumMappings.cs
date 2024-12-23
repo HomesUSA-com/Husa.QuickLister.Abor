@@ -864,5 +864,5 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             "Wolf Ranch Elementary" => ElementarySchool.WolfRanch,
             _ => school.GetEnumFromSchools<ElementarySchool>(),
         };
-}
+    }
 }

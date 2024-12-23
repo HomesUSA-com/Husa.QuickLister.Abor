@@ -11,8 +11,6 @@ namespace Husa.Quicklister.Abor.Crosscutting
 
         public ListingRequestSettings ListingRequest { get; set; }
 
-        public MediaAllowedSettings MediaAllowed { get; set; }
-
         public DownloaderAuthenticationOptions DownloaderConfiguration { get; set; }
 
         public InvoiceSettings InvoiceSettings { get; set; }

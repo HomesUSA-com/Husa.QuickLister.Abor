@@ -19,6 +19,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
             this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
-        protected override int MediaLimitAllowed => this.options.MediaAllowed.SaleCommunityMaxAllowedMedia;
+        protected override int MediaLimitAllowed => this.options.MediaAllowed.CommunityMaxAllowedMedia;
     }
 }

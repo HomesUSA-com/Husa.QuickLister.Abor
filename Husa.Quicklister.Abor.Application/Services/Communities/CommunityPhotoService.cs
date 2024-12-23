@@ -4,12 +4,12 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Enums;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.PhotoService.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Crosscutting;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using PhotoExtensions = Husa.Quicklister.Extensions.Application.Services.PhotoServices;

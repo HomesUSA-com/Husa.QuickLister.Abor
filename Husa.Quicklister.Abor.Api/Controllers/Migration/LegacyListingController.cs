@@ -36,11 +36,11 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Migration
             this.logger.LogInformation("Migrate listings from v1 related to company {companyId}.", companyId);
             await this.listingMigrationService.MigrateListings(companyId, new()
             {
-               MlsNumber = mlsNumber,
-               MlsStatus = mlsStatus?.ToStringFromEnumMember(),
-               CreateListing = createListing,
-               UpdateListing = updateListing,
-               FromDate = fromDate,
+                MlsNumber = mlsNumber,
+                MlsStatus = mlsStatus?.ToStringFromEnumMember(),
+                CreateListing = createListing,
+                UpdateListing = updateListing,
+                FromDate = fromDate,
             });
             return this.Ok();
         }
