@@ -219,7 +219,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.RealtorContactEmail, dto => dto.Ignore());
 
             this.CreateMap<ResidentialResponse, SchoolsDto>()
-                .ForMember(vo => vo.SchoolDistrict, dto => dto.MapFrom(src => src.ListingMessage.HighSchoolDistrict.GetEnumFromText<SchoolDistrict>()))
+                .ForMember(vo => vo.SchoolDistrict, dto => dto.MapFrom(src => src.ListingMessage.HighSchoolDistrict.ToSchoolDistric()))
                 .ForMember(vo => vo.MiddleSchool, dto => dto.MapFrom(src => src.ListingMessage.MiddleSchool.GetEnumFromSchools<MiddleSchool>()))
                 .ForMember(vo => vo.ElementarySchool, dto => dto.MapFrom(src => src.ListingMessage.ElementarySchool.ToElementarySchool()))
                 .ForMember(vo => vo.HighSchool, dto => dto.MapFrom(src => src.ListingMessage.HighSchool.GetEnumFromSchools<HighSchool>()))
