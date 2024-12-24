@@ -81,7 +81,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             }
 
             var importMedia = false;
-            var listing = await this.ListingSaleRepository.GetListingByLocationAsync(null, xmlListing.StreetNum, xmlListing.StreetName, xmlListing.Zip);
+            var listing = await this.ListingSaleRepository.GetListingByLocationAsync(null, xmlListing.StreetNum, xmlListing.StreetName, xmlListing.Zip, xmlListing.UnitIndicator);
             var community = await this.CommunitySaleRepository.GetById(xmlListing.CommunityId.Value, filterByCompany: false) ?? throw new NotFoundException<CommunitySale>(xmlListing.CommunityId.Value);
             var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value) ?? throw new NotFoundException<CompanyDetail>(xmlListing.CompanyId);
 
