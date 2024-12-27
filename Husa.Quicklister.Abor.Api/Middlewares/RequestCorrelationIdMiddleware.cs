@@ -2,7 +2,7 @@ namespace Husa.Quicklister.Abor.Api.Middlewares
 {
     using System;
     using System.Threading.Tasks;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Microsoft.AspNetCore.Http;
 
     public class RequestCorrelationIdMiddleware

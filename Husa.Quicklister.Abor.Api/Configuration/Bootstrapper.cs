@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Extensions.Common;
     using Husa.Extensions.Media.Interfaces;
     using Husa.Extensions.Media.Services;
+    using Husa.Extensions.ServiceBus.Extensions;
     using Husa.MediaService.Client;
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Client.Options;
@@ -56,7 +57,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Api.Configuration;
     using Husa.Quicklister.Extensions.Crosscutting;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
     using Husa.ReverseProspect.Api.Client;
@@ -394,14 +394,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
                 .Configure<IConfiguration>((settings, config) => config.GetSection(XmlUserSettings.Section).Bind(settings));
 
             return services;
-        }
-
-        private static IServiceCollection UseTraceIdProvider(this IServiceCollection services)
-        {
-            return services
-                   .AddScoped<TraceIdProvider>()
-                   .AddScoped<IProvideTraceId>(x => x.GetRequiredService<TraceIdProvider>())
-                   .AddScoped<IConfigureTraceId>(x => x.GetRequiredService<TraceIdProvider>());
         }
     }
 }

@@ -30,17 +30,17 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             => addressInfo == null
             ? new()
             : new()
-                {
-                    StreetNumber = addressInfo.StreetNumber,
-                    StreetName = addressInfo.StreetName,
-                    City = addressInfo.City.ToString(),
-                    State = addressInfo.State,
-                    ZipCode = addressInfo.ZipCode,
-                    County = addressInfo.County.ToString(),
-                    StreetType = addressInfo.StreetType.ToString(),
-                    Subdivision = addressInfo.Subdivision,
-                    UnitNumber = addressInfo.UnitNumber,
-                };
+            {
+                StreetNumber = addressInfo.StreetNumber,
+                StreetName = addressInfo.StreetName,
+                City = addressInfo.City.ToString(),
+                State = addressInfo.State,
+                ZipCode = addressInfo.ZipCode,
+                County = addressInfo.County.ToString(),
+                StreetType = addressInfo.StreetType.ToString(),
+                Subdivision = addressInfo.Subdivision,
+                UnitNumber = addressInfo.UnitNumber,
+            };
 
         private static SchoolsIdxQueryResult ToSchoolsQueryResult(this SchoolsInfo info)
             => info == null

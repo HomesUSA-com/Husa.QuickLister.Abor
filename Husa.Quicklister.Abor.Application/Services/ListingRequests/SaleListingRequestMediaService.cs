@@ -5,13 +5,13 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
     using Husa.Extensions.Cache;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Media.Interfaces;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.MediaService.Client;
     using Husa.MediaService.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Crosscutting;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using ExtensionServices = Husa.Quicklister.Extensions.Application.Media;
