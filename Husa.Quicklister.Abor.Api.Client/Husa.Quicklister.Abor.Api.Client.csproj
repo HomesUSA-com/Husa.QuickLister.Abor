@@ -12,6 +12,7 @@
         <PackageReleaseNotes>
             Release 2.14.0:
             - Active alert when EstimatedClosedDate field is expired
+            - Added HarvestRidge in elementary school
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
