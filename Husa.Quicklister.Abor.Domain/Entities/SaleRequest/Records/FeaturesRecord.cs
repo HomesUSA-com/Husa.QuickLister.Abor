@@ -17,6 +17,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         public const string SummarySection = "Features";
 
         [Required(AllowEmptyStrings = false)]
+        [DataChecker]
         public string PropertyDescription { get; set; }
 
         [Required]
