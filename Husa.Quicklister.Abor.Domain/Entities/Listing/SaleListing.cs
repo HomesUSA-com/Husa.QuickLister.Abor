@@ -47,6 +47,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public static readonly IEnumerable<MarketStatuses> ActivePhotoRequestListingStatuses = MarketStatusesExtensions.ActivePhotoRequestListingStatuses;
         public static readonly IEnumerable<MarketStatuses> ActiveAndPendingListingStatuses = MarketStatusesExtensions.ActiveAndPendingListingStatuses;
         public static readonly IEnumerable<MarketStatuses> ExistingListingStatuses = MarketStatusesExtensions.ExistingListingStatuses;
+        public static readonly IEnumerable<MarketStatuses> PendingAndActiveUnderContractStatuses = MarketStatusesExtensions.PendingAndActiveUnderContractStatuses;
 
         public SaleListing(
                 MarketStatuses mlsStatus,
