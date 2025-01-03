@@ -8,14 +8,15 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.13.1</Version>
+        <Version>2.13.2</Version>
         <PackageReleaseNotes>
-            Release 2.13.1:
+            Release 2.13.2:
             - Update extensions package
             - Extend IsSubmitted property to CommunityHistory
             - Updated Quicklister Extensions Client
             - Fixed vulnerabilites
             - Update agent private remarks field max length
+            - Added HarvestRidge in elementary school
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
