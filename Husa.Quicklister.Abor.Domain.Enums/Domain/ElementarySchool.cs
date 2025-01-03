@@ -551,6 +551,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "HayBranch")]
         [Description("Hay Branch")]
         HayBranch,
+        [EnumMember(Value = "HarvestRidge")]
+        [Description("Harvest Ridge")]
+        HarvestRidge,
         [EnumMember(Value = "Haynes")]
         [Description("Haynes")]
         Haynes,
