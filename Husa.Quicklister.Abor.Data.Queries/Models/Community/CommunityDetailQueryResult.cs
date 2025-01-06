@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
 {
     using System;
     using System.Collections.Generic;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
@@ -20,5 +21,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
         public IEnumerable<OpenHousesQueryResult> OpenHouses { get; set; }
         public XmlStatus XmlStatus { get; set; }
         public JsonImportStatus JsonImportStatus { get; set; }
+        public ShowingTimeQueryResult ShowingTime { get; set; }
     }
 }

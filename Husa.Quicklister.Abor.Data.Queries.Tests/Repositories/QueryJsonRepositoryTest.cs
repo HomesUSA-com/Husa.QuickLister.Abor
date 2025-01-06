@@ -58,7 +58,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests.Repositories
             var sut = this.GetInMemoryRepository(new CommunitySale[] { community });
             var jsonListings = new SpecResponse[] { new(), new() };
             this.jsonClient
-                .Setup(u => u.Spec.GetAsync(It.Is<SpecRequestFilter>(x => x.CommunityIds.Contains(communityId)), It.IsAny<CancellationToken>()))
+                .Setup(u => u.Spec.GetAsync(It.Is<SpecFilterRequest>(x => x.CommunityIds.Contains(communityId)), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DataSet<SpecResponse>(jsonListings.ToList(), jsonListings.Length));
             var filter = new JsonListingQueryFilter()
             {

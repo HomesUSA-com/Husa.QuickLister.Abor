@@ -6,10 +6,6 @@
         <!-- Exclude the project from analysis -->
         <SonarQubeExclude>true</SonarQubeExclude>
     </PropertyGroup>
-    
-    <ItemGroup>
-        <PackageReference Include="Husa.Quicklister.Extensions.Data" Version="1.14.2" />
-    </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Husa.Quicklister.Abor.Data\Husa.Quicklister.Abor.Data.csproj" />

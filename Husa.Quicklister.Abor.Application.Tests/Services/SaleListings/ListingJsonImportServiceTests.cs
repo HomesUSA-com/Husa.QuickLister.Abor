@@ -98,7 +98,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
             StatusFields = new()
             {
                 ContractDate = DateTime.UtcNow,
-                AcceptableFinancing = new[] { AcceptableFinancing.Cash, AcceptableFinancing.USDA },
+                Financing = new[] { AcceptableFinancing.Cash, AcceptableFinancing.USDA },
             },
             ConstructionStage = ConstructionStage.Complete,
             OpenHouses = JsonModelProviders.GetOpenHouses(),

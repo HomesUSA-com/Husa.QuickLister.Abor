@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Extensions;
@@ -115,6 +116,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<SaleListingTrace> ListingSaleTraces { get; set; }
 
         public virtual ICollection<ManagementTrace> ManagementTraces { get; set; }
+
+        public virtual ICollection<ShowingTimeContact> ShowingTimeContacts { get; set; }
 
         [IgnoreXmlProperty]
         public virtual XmlRequestError XmlRequestError { get; set; }

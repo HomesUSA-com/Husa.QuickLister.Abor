@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Extensions.Listing;
@@ -90,6 +91,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual ICollection<CommunityEmployee> Employees { get; set; }
 
         public virtual ICollection<LotListing> LotListings { get; set; }
+
+        public virtual ICollection<ShowingTimeContact> ShowingTimeContacts { get; set; }
 
         public override bool CanBeDeleted => !this.SaleProperties.Any(s => s.CanBeDeleted);
 
@@ -424,6 +427,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             this.UpdateSchools(schools: communityInfo.SchoolsInfo);
             this.UpdateShowing(showing: communityInfo.ShowingInfo);
             this.UpdateOpenHouse(openHouses: communityOpenHouses);
+
+            if (communityInfo.ShowingTime is not null)
+            {
+                this.UpdateShowingTime(communityInfo.ShowingTime);
+            }
         }
 
         public CommunityHistory GenerateRecord()
@@ -465,6 +473,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             yield return this.Property;
             yield return this.Utilities;
             yield return this.SchoolsInfo;
+            yield return this.AccessInformation;
+            yield return this.AdditionalInstructions;
+            yield return this.AppointmentRestrictions;
         }
     }
 }
