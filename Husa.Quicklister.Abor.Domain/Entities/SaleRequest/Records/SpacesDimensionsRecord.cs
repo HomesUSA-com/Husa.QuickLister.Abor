@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 {
+    using System.ComponentModel.DataAnnotations;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
@@ -14,6 +15,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         public int SqFtTotal { get; set; }
         public int DiningAreasTotal { get; set; }
         public int MainLevelBedroomTotal { get; set; }
+
+        [Required]
+        [Range(0, 9, ErrorMessage = "{0} must be between {1} and {2}")]
         public int? OtherLevelsBedroomTotal { get; set; }
         public int HalfBathsTotal { get; set; }
         public int FullBathsTotal { get; set; }

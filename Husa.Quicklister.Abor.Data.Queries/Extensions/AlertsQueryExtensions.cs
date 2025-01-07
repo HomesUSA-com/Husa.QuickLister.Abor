@@ -76,7 +76,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         // Past Due Estimated Closing Date
         public static Expression<Func<SaleListing, bool>> PastDueEstimatedClosingDateExpression => listingSale =>
             !string.IsNullOrEmpty(listingSale.MlsNumber) &&
-            SaleListing.PendingListingStatuses.Contains(listingSale.MlsStatus) &&
+            SaleListing.PendingAndActiveUnderContractStatuses.Contains(listingSale.MlsStatus) &&
             listingSale.StatusFieldsInfo.EstimatedClosedDate.HasValue &&
             listingSale.StatusFieldsInfo.EstimatedClosedDate.Value <= DateTime.UtcNow;
 
