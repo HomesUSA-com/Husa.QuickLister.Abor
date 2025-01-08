@@ -8,8 +8,6 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Common.Classes;
     using Husa.JsonImport.Api.Client.Interface;
-    using Husa.JsonImport.Api.Contracts.Response.Listing;
-    using Husa.JsonImport.Domain.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
@@ -18,6 +16,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.JsonImport;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -34,6 +33,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
         private readonly Mock<IJsonImportClient> jsonClient = new();
         private readonly Mock<ICommunitySaleRepository> communityRepository = new();
         private readonly Mock<ISaleListingService> listingService = new();
+        private readonly Mock<IListingRequestJsonImportService> requestJsonImportService = new();
 
         public ListingJsonImportServiceTests(ApplicationServicesFixture fixture)
         {
@@ -48,6 +48,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
                 this.userContextProvider.Object,
                 this.jsonClient.Object,
                 this.listingService.Object,
+                this.requestJsonImportService.Object,
                 fixture.Options.Object,
                 this.logger.Object);
         }
@@ -64,7 +65,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
 
             this.jsonClient
                 .Setup(x => x.Spec.GetById(It.Is<Guid>(id => id == jsonListingId), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(GetListingResponse(jsonListingId))
+                .ReturnsAsync(JsonModelProviders.GetListingResponse(jsonListingId))
                 .Verifiable();
             this.SetupListingQuickCreate();
 
@@ -76,34 +77,6 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
             this.listingRepository.Verify(r => r.Attach(It.IsAny<SaleListing>()), Times.Once);
             this.listingRepository.Verify(r => r.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Once);
         }
-
-        private static SpecDetailResponse GetListingResponse(Guid jsonListingId, Guid? qlId = null) => new()
-        {
-            Id = jsonListingId,
-            QuicklisterId = qlId,
-            QlCompanyId = Guid.NewGuid(),
-            QlPlanId = Guid.NewGuid(),
-            QlCommunityId = Guid.NewGuid(),
-            Location = new()
-            {
-                StreetName = "StreetName",
-                StreetNum = "123",
-            },
-            Bathrooms = 2,
-            Stories = 3,
-            HalfBaths = 4,
-            Bedrooms = 5,
-            LivingAreas = 6,
-            ListStatus = ListStatus.Pending,
-            StatusFields = new()
-            {
-                ContractDate = DateTime.UtcNow,
-                Financing = new[] { AcceptableFinancing.Cash, AcceptableFinancing.USDA },
-            },
-            ConstructionStage = ConstructionStage.Complete,
-            OpenHouses = JsonModelProviders.GetOpenHouses(),
-            Rooms = JsonModelProviders.GetRooms(),
-        };
 
         private void SetupListingQuickCreate()
         {

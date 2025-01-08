@@ -8,11 +8,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Abor.Domain.Interfaces.SaleListing;
     using Husa.Quicklister.Extensions.Domain.Attributes;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class PropertyInfo : ValueObject, IProvideProperty, IProvidePropertyCommon, IProvideGeocodes
+    public class PropertyInfo : ValueObject, IProvideSaleProperty, IProvidePropertyCommon, IProvideGeocodes
     {
         private DateTime? constructionCompletionDate;
 

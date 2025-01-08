@@ -15,7 +15,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public string AgentPrivateRemarksAdditional { get; set; }
         public string LockBoxSerialNumber { get; set; }
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
-        public LockBoxType LockBoxType { get; set; }
+        public LockBoxType? LockBoxType { get; set; }
         public bool EnableOpenHouses { get; set; }
         public bool ShowOpenHousesPending { get; set; }
     }

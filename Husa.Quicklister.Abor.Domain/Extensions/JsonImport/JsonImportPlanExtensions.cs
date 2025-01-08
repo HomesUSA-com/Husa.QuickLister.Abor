@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Extensions
+namespace Husa.Quicklister.Abor.Domain.Extensions.JsonImport
 {
     using System;
     using Husa.JsonImport.Api.Contracts.Response;

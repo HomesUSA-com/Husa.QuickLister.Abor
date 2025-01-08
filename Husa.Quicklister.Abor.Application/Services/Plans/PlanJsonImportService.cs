@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
     using Husa.JsonImport.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
-    using Husa.Quicklister.Abor.Domain.Extensions;
+    using Husa.Quicklister.Abor.Domain.Extensions.JsonImport;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Microsoft.Extensions.Logging;

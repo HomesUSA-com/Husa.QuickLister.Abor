@@ -6,11 +6,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Abor.Domain.Interfaces.SaleListing;
     using Husa.Quicklister.Extensions.Crosscutting.Extensions;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class FeaturesInfo : ValueObject, IProvideFeature
+    public class FeaturesInfo : ValueObject, IProvideSaleFeature
     {
         private static readonly string RemoveKeyword = "MLS Num";
         private static readonly int PropertyDescriptionLength = 4000;

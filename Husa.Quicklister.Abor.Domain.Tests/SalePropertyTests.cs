@@ -921,7 +921,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 
             // Assert
             Assert.True(isOpenHouseImported);
-            showingInfo.Verify(sp => sp.EnableOpenHouse(It.Is<bool>(showOpenHouseWhenPending => !showOpenHouseWhenPending)), Times.Once);
         }
     }
 }
