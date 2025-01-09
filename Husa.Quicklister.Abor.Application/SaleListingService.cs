@@ -475,6 +475,10 @@ namespace Husa.Quicklister.Abor.Application
             }
 
             listingSale.SaleProperty.ImportDataFromCommunity(communitySale);
+            listingSale.AppointmentType = communitySale.AppointmentType;
+            listingSale.AccessInformation = communitySale.AccessInformation;
+            listingSale.AppointmentRestrictions = communitySale.AppointmentRestrictions;
+            listingSale.AdditionalInstructions = communitySale.AdditionalInstructions;
         }
 
         private async Task ImportPlanDataAsync(SaleListing listingSale, Guid planId)
