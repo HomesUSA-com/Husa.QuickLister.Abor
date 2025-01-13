@@ -3,11 +3,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using System.Collections.Generic;
     using Husa.Extensions.Domain.Extensions;
     using Husa.Extensions.Domain.ValueObjects;
+    using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
     public class ProfileInfo : ValueObject, IProvideGeocodes
     {
+        private const int CommunityNameMaxLength = 50;
         private string officePhone;
         private string backupPhone;
 
@@ -55,7 +57,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
                 importedProfile = profile.Clone();
             }
 
-            importedProfile.Name = subdivision.Name;
+            importedProfile.Name = subdivision.Name.GetSubstring(CommunityNameMaxLength);
             importedProfile.Latitude = subdivision.Latitude;
             importedProfile.Longitude = subdivision.Longitude;
             importedProfile.UseLatLong = subdivision.Latitude.HasValue && subdivision.Longitude.HasValue;
