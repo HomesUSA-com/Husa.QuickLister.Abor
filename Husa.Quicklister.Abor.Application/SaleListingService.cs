@@ -442,6 +442,11 @@ namespace Husa.Quicklister.Abor.Application
             listing.SaleProperty.PlanId = planId;
         }
 
+        protected override void ImportListingInfoToPlan(SaleListing listingSale)
+        {
+            throw new NotImplementedException();
+        }
+
         private async Task ImportDataFromCommunityAndPlan(SaleListing listingSaleEntity, QuickCreateListingDto listingSale)
         {
             await this.ImportCommunityDataAsync(listingSaleEntity, listingSale.CommunityId);

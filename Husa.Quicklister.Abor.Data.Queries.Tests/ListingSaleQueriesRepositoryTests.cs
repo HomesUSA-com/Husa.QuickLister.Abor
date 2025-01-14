@@ -63,6 +63,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
             var listingId = Guid.NewGuid();
             var listing = ListingTestProvider.GetListingEntity(listingId, companyId: companyId, communityId: communityId);
             var community = CommunityTestProvider.GetCommunityEntity(communityId: communityId, companyId: companyId);
+            community.Employees = new List<CommunityEmployee>()
+            {
+                new(user.Id, communityId, companyId),
+            };
             var sut = this.GetInMemoryRepository(
                 new List<SaleListing> { listing },
                 new List<CommunitySale> { community });
