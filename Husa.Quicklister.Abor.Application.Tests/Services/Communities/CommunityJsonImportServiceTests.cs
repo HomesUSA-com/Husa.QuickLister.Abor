@@ -12,7 +12,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
     using Husa.Quicklister.Abor.Application.Tests.Providers;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
+    using Husa.Quicklister.Extensions.Application.Interfaces.JsonImport;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;

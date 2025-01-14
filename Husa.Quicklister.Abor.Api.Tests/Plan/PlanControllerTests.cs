@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Plan
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.Plan;
+    using Husa.Quicklister.Extensions.Application.Interfaces.JsonImport;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -27,7 +28,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Plan
         private readonly ApplicationServicesFixture fixture;
         private readonly Mock<IPlanQueriesRepository> planQueriesRepository = new();
         private readonly Mock<ExtensionInterfaces.IPlanXmlService> planXmlService = new();
-        private readonly Mock<ExtensionInterfaces.IPlanJsonImportService> planJsonImportService = new();
+        private readonly Mock<IPlanJsonImportService> planJsonImportService = new();
         private readonly Mock<IPlanService> planService = new();
         private readonly Mock<ILogger<PlansController>> logger = new();
 

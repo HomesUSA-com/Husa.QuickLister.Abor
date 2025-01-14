@@ -16,8 +16,9 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Extensions;
+    using Husa.Quicklister.Abor.Domain.Extensions.JsonImport;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.JsonImport;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using JsonExtensions = Husa.Quicklister.Extensions.Application.Services.JsonImport;
@@ -35,9 +36,10 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             IUserContextProvider userContextProvider,
             IJsonImportClient jsonClient,
             ISaleListingService listingService,
+            IListingRequestJsonImportService requestJsonImportService,
             IOptions<ApplicationOptions> applicationOptions,
             ILogger<ListingJsonImportService> logger)
-            : base(listingRepository, communitySaleRepository, userContextProvider, jsonClient, applicationOptions, logger)
+            : base(listingRepository, communitySaleRepository, userContextProvider, jsonClient, applicationOptions, requestJsonImportService, logger)
         {
             this.listingService = listingService ?? throw new ArgumentNullException(nameof(listingService));
         }

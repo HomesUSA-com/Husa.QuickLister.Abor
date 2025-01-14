@@ -14,12 +14,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.EmailNotification.Services;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Application.Services;
+    using Husa.Quicklister.Abor.Application.Tests.Providers;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.Community;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
-    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -99,7 +99,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             // Arrange
             const int listPrice = 230000;
             var requestId = Guid.NewGuid();
-            var saleListingRequest = this.GetSaleListingRequestMock(requestId, Guid.NewGuid(), Guid.NewGuid());
+            var saleListingRequest = ListingRequestProviders.GetSaleListingRequestMock(requestId, Guid.NewGuid(), Guid.NewGuid());
             saleListingRequest.SetupProperty(sl => sl.ListPrice, initialValue: 0);
             saleListingRequest.SetupProperty(sl => sl.RequestState, initialValue: ListingRequestState.Processing);
 
@@ -136,7 +136,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             // Unlocked Listing
             var unlockedListingMock = TestModelProvider.GetListingSaleEntityMock(unlockedListingId, createStub: true, communityId: communityId, lockedStatus: LockedStatus.NoLocked);
-            var saleListingRequest = this.GetSaleListingRequestMock(newRequestId, unlockedListingId, Guid.NewGuid());
+            var saleListingRequest = ListingRequestProviders.GetSaleListingRequestMock(newRequestId, unlockedListingId, Guid.NewGuid());
             unlockedListingMock
                 .Setup(x => x.GenerateRequestFromCommunity(It.IsAny<SaleListingRequest>(), It.IsAny<Guid>()))
                 .Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Success(saleListingRequest.Object))
@@ -152,20 +152,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             saleCommunity.SaleProperties = new[] { unlockedListing.SaleProperty, lockedListing.SaleProperty };
             return saleCommunity;
-        }
-
-        private Mock<SaleListingRequest> GetSaleListingRequestMock(Guid requestId, Guid listingId, Guid companyId)
-        {
-            var saleListingRequest = new Mock<SaleListingRequest>();
-
-            saleListingRequest.SetupGet(sl => sl.Id).Returns(requestId).Verifiable();
-            saleListingRequest.SetupGet(sl => sl.EntityId).Returns(listingId).Verifiable();
-            saleListingRequest.SetupGet(sl => sl.ListingSaleId).Returns(listingId).Verifiable();
-            saleListingRequest.SetupGet(sl => sl.CompanyId).Returns(companyId).Verifiable();
-
-            var salePropertyRecord = new Mock<SalePropertyRecord>();
-            saleListingRequest.SetupGet(sl => sl.SaleProperty).Returns(salePropertyRecord.Object).Verifiable();
-            return saleListingRequest;
         }
 
         private SaleListingRequestService GetSut() => new(

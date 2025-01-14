@@ -98,6 +98,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             {
                 ConstructionStage = ConstructionStage.Complete,
                 ConstructionCompletionDate = DateTime.UtcNow,
+                ConstructionStartYear = 2024,
                 LegalDescription = "Legal descrption test",
                 TaxId = "1245",
                 LotSize = "5",

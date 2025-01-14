@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
     public class FeaturesInfoQueryResult
     {
         public string PropertyDescription { get; set; }
-        public int Fireplaces { get; set; }
+        public int? Fireplaces { get; set; }
         public ICollection<FireplaceDescription> FireplaceDescription { get; set; }
         public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }
         public ICollection<RestrictionsDescription> RestrictionsDescription { get; set; }
@@ -18,7 +18,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public ICollection<HeatingSystem> HeatSystem { get; set; }
         public ICollection<CoolingSystem> CoolingSystem { get; set; }
         public ICollection<Appliances> Appliances { get; set; }
-        public int GarageSpaces { get; set; }
+        public int? GarageSpaces { get; set; }
         public ICollection<GarageDescription> GarageDescription { get; set; }
         public ICollection<LaundryLocation> LaundryLocation { get; set; }
         public ICollection<InteriorFeatures> InteriorFeatures { get; set; }
