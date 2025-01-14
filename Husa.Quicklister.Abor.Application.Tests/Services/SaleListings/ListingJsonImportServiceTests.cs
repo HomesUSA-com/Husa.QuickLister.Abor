@@ -35,7 +35,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
         private readonly Mock<ICommunitySaleRepository> communityRepository = new();
         private readonly Mock<ISaleListingService> listingService = new();
 
-        public ListingJsonImportServiceTests()
+        public ListingJsonImportServiceTests(ApplicationServicesFixture fixture)
         {
             var jsonListingClientMock = new Mock<IJsonImportSpec>();
             this.jsonClient.SetupGet(x => x.Spec).Returns(jsonListingClientMock.Object);
@@ -48,6 +48,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
                 this.userContextProvider.Object,
                 this.jsonClient.Object,
                 this.listingService.Object,
+                fixture.Options.Object,
                 this.logger.Object);
         }
 
@@ -97,7 +98,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
             StatusFields = new()
             {
                 ContractDate = DateTime.UtcNow,
-                AcceptableFinancing = new[] { AcceptableFinancing.Cash, AcceptableFinancing.USDA },
+                Financing = new[] { AcceptableFinancing.Cash, AcceptableFinancing.USDA },
             },
             ConstructionStage = ConstructionStage.Complete,
             OpenHouses = JsonModelProviders.GetOpenHouses(),

@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Extensions.Common;
     using Husa.Extensions.Media.Interfaces;
     using Husa.Extensions.Media.Services;
+    using Husa.Extensions.ServiceBus.Extensions;
     using Husa.MediaService.Client;
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Client.Options;
@@ -46,17 +47,19 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Application.Services.Plans;
     using Husa.Quicklister.Abor.Application.Services.Reports;
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
+    using Husa.Quicklister.Abor.Application.Services.ShowingTime;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Data;
     using Husa.Quicklister.Abor.Data.Commands.Repositories;
     using Husa.Quicklister.Abor.Data.Documents.Repositories;
     using Husa.Quicklister.Abor.Data.Queries;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
+    using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Api.Configuration;
+    using Husa.Quicklister.Extensions.Application.Interfaces.ShowingTime;
     using Husa.Quicklister.Extensions.Crosscutting;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
     using Husa.ReverseProspect.Api.Client;
@@ -96,6 +99,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ILotListingRepository, LotListingRepository>();
             services.AddScoped<RepositoriesExtensions.IViolationWarningAlertRepository, ViolationWarningAlertRepository>();
             services.AddScoped<ILegacySaleListingRepository, LegacySaleListingRepository>();
+            services.AddScoped<IShowingTimeContactRepository, ShowingTimeContactRepository>();
 
             return services;
         }
@@ -105,6 +109,9 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
         public static IServiceCollection AddQueriesRepositories(this IServiceCollection services)
         {
+            services.AddSingleton<ShowingTimeContactProjection>();
+            services.AddSingleton<CommunityShowingTimeContactOrderProjection>();
+            services.AddSingleton<ListingShowingTimeContactOrderProjection>();
             services.AddScoped<IListingSaleQueriesRepository, ListingSaleQueriesRepository>();
             services.AddScoped<ICommunityQueriesRepository, CommunityQueriesRepository>();
             services.AddScoped<IPlanQueriesRepository, PlanQueriesRepository>();
@@ -117,6 +124,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IMigrationQueryRepository, RequestMigrationQueryRepository>();
             services.AddScoped<ILotListingQueriesRepository, LotListingQueriesRepository>();
             services.AddScoped<IResidentialIdxQueriesRepository, ResidentialIdxQueriesRepository>();
+            services.AddScoped<IShowingTimeContactQueriesRepository, ShowingTimeContactQueriesRepository>();
             services.AddExtensionRepositories();
             return services;
         }
@@ -179,6 +187,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<InterfaceExtensions.Reports.IDiscrepancyReportService, DiscrepancyReportService>();
             services.AddScoped<InterfaceExtensions.Listing.ICallForwardService, CallForwardService>();
             services.AddScoped<InterfaceExtensions.Listing.IListingJsonImportService, ListingJsonImportService>();
+
+            services.AddScoped<IShowingTimeContactService, ShowingTimeContactService>();
 
             services.ConfigureLegacyListingService(Migration.Enums.MigrationMarketType.Austin);
             return services;
@@ -394,14 +404,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
                 .Configure<IConfiguration>((settings, config) => config.GetSection(XmlUserSettings.Section).Bind(settings));
 
             return services;
-        }
-
-        private static IServiceCollection UseTraceIdProvider(this IServiceCollection services)
-        {
-            return services
-                   .AddScoped<TraceIdProvider>()
-                   .AddScoped<IProvideTraceId>(x => x.GetRequiredService<TraceIdProvider>())
-                   .AddScoped<IConfigureTraceId>(x => x.GetRequiredService<TraceIdProvider>());
         }
     }
 }

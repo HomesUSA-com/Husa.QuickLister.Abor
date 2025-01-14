@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Data.Extensions;
     using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,10 @@ namespace Husa.Quicklister.Abor.Data.Configuration
         {
             ArgumentNullException.ThrowIfNull(builder);
             builder.ConfigureCommunity();
+            builder.ConfigureShowingTime();
+            builder.HasMany(o => o.ShowingTimeContacts)
+                .WithMany(o => o.Communities)
+                .UsingEntity<CommunityShowingTimeContact>();
 
             builder.OwnsOne(o => o.SaleOffice, ConfigureSaleOffice);
             builder.OwnsOne(o => o.ProfileInfo, ConfigureProFile);

@@ -4,13 +4,13 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Enums;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.PhotoService.Api.Client.Interfaces;
     using Husa.PhotoService.ServiceBus.Messages.Contracts;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Crosscutting;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using PhotoExtensions = Husa.Quicklister.Extensions.Application.Services.PhotoServices;

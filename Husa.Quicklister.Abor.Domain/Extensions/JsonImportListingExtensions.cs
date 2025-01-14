@@ -115,7 +115,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions
             fields.ClosedDate = spec.CloseDate;
             fields.ClosePrice = spec.SalesPrice;
             fields.BackOnMarketDate = spec.MoveInDate;
-            fields.SaleTerms = spec.AcceptableFinancing.ToMarket();
+            fields.SaleTerms = spec.Financing.ToMarket();
         }
     }
 }

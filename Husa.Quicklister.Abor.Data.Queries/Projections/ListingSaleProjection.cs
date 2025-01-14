@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Data.Queries.Extensions;
     using Husa.Quicklister.Extensions.Data.Queries.Projections;
 
     public static class ListingSaleProjection
@@ -64,6 +65,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             IsManuallyManaged = listingSale.IsManuallyManaged,
             StatusFieldsInfo = listingSale.StatusFieldsInfo.ToProjectionSaleStatusFieldsInfo(),
             SaleProperty = listingSale.SaleProperty.ToProjection(),
+            ShowingTime = listingSale.ToProjectionShowingTime(),
             PublishInfo = listingSale.PublishInfo.ToProjectionPublishInfo(),
             EmailLead = listingSale.SaleProperty.Community.EmailLead.ToProjectionEmailLead(),
             XmlListingId = listingSale.XmlListingId,

@@ -118,5 +118,5 @@ namespace Husa.Quicklister.Abor.Application.Tests
             Name = Faker.Company.Name(),
             PlanProfileId = planId,
         };
-}
+    }
 }

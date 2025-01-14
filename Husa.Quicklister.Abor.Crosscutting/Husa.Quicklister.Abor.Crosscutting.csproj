@@ -6,11 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Husa.JsonImport.Api.Client" Version="0.3.1" />
+        <PackageReference Include="Husa.JsonImport.Api.Client" Version="0.5.0" />
         <PackageReference Include="Husa.Extensions.Authorization" Version="4.1.2" />
-        <PackageReference Include="Husa.Extensions.Common" Version="4.1.8" />
+        <PackageReference Include="Husa.Extensions.Common" Version="4.1.10" />
         <PackageReference Include="Husa.Extensions.Quickbooks" Version="1.0.2" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Crosscutting" Version="2.6.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Crosscutting" Version="2.7.0" />
         <PackageReference Include="Husa.Xml.Client" Version="2.3.8" />
     </ItemGroup>
 

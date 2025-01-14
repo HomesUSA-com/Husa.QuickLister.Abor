@@ -6,14 +6,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Husa.Quicklister.Extensions.Data" Version="1.14.2" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Data" Version="1.15.0" />
         <PackageReference Include="Husa.Extensions.Authorization" Version="4.1.2" />
         <PackageReference Include="Husa.Extensions.Cache" Version="4.0.0" />
         <PackageReference Include="Husa.Extensions.Linq" Version="4.0.8" />
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

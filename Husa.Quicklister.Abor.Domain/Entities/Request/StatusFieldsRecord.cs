@@ -32,23 +32,23 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
             where T : ListingStatusFieldsInfo
             where TResult : StatusFieldsRecord, new()
             => new()
-        {
-            PendingDate = statusFieldInfo.PendingDate,
-            ClosedDate = statusFieldInfo.ClosedDate,
-            EstimatedClosedDate = statusFieldInfo.EstimatedClosedDate,
-            CancelledReason = statusFieldInfo.CancelledReason,
-            ClosePrice = statusFieldInfo.ClosePrice,
-            AgentId = statusFieldInfo.AgentId,
-            HasBuyerAgent = statusFieldInfo.HasBuyerAgent,
-            HasSecondBuyerAgent = statusFieldInfo.HasSecondBuyerAgent,
-            AgentIdSecond = statusFieldInfo.AgentIdSecond,
-            BackOnMarketDate = statusFieldInfo.BackOnMarketDate,
-            OffMarketDate = statusFieldInfo.OffMarketDate,
-            HasContingencyInfo = statusFieldInfo.HasContingencyInfo,
-            SaleTerms = statusFieldInfo.SaleTerms,
-            SellConcess = statusFieldInfo.SellConcess,
-            ContingencyInfo = statusFieldInfo.ContingencyInfo,
-        };
+            {
+                PendingDate = statusFieldInfo.PendingDate,
+                ClosedDate = statusFieldInfo.ClosedDate,
+                EstimatedClosedDate = statusFieldInfo.EstimatedClosedDate,
+                CancelledReason = statusFieldInfo.CancelledReason,
+                ClosePrice = statusFieldInfo.ClosePrice,
+                AgentId = statusFieldInfo.AgentId,
+                HasBuyerAgent = statusFieldInfo.HasBuyerAgent,
+                HasSecondBuyerAgent = statusFieldInfo.HasSecondBuyerAgent,
+                AgentIdSecond = statusFieldInfo.AgentIdSecond,
+                BackOnMarketDate = statusFieldInfo.BackOnMarketDate,
+                OffMarketDate = statusFieldInfo.OffMarketDate,
+                HasContingencyInfo = statusFieldInfo.HasContingencyInfo,
+                SaleTerms = statusFieldInfo.SaleTerms,
+                SellConcess = statusFieldInfo.SellConcess,
+                ContingencyInfo = statusFieldInfo.ContingencyInfo,
+            };
 
         public virtual void UpdateInformation<T>(T statusFieldInfo)
             where T : ListingStatusFieldsInfo

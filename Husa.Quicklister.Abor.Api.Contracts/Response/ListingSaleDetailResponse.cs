@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
 {
     using System;
     using Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail;
+    using Husa.Quicklister.Extensions.Api.Contracts.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;
 
     public class ListingSaleDetailResponse : ListingResponse
@@ -11,6 +12,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
         public PublishInfoResponse PublishInfo { get; set; }
 
         public SalePropertyDetailResponse SaleProperty { get; set; }
+
+        public ShowingTimeInfo ShowingTime { get; set; }
 
         public EmailLeadResponse EmailLead { get; set; }
         public bool LockedByLegacy { get; set; }

@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Extensions;
@@ -116,6 +117,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual ICollection<ManagementTrace> ManagementTraces { get; set; }
 
+        public virtual ICollection<ShowingTimeContact> ShowingTimeContacts { get; set; }
+
         [IgnoreXmlProperty]
         public virtual XmlRequestError XmlRequestError { get; set; }
 
@@ -199,6 +202,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
             this.SaleProperty.ImportRoomsFromEntity(saleListingToClone.SaleProperty.Rooms);
             this.SaleProperty.UpdateOpenHouse(saleListingToClone.SaleProperty.OpenHouses);
+            this.AppointmentType = saleListingToClone.AppointmentType;
+            this.AccessInformation = saleListingToClone.AccessInformation;
+            this.AppointmentRestrictions = saleListingToClone.AppointmentRestrictions;
+            this.AdditionalInstructions = saleListingToClone.AdditionalInstructions;
         }
 
         public virtual void ApplyMarketUpdate(

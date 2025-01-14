@@ -107,7 +107,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
 
                     if (propertyInfoError != null)
                     {
-                            propertyResults.Results.ToList().ForEach(propertyInfoError.AddResult);
+                        propertyResults.Results.ToList().ForEach(propertyInfoError.AddResult);
                     }
                     else
                     {

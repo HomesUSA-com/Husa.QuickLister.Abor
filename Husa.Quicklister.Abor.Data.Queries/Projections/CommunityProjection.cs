@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using Husa.Quicklister.Abor.Data.Queries.Extensions.Sale;
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Extensions.Data.Queries.Extensions;
 
     public static class CommunityProjection
     {
@@ -48,6 +49,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             Directions = community.Showing.Directions,
             BackupPhone = community.ProfileInfo.BackupPhone,
             OfficePhone = community.ProfileInfo.OfficePhone,
+            ShowingTime = community.ToProjectionShowingTime(),
         };
 
         public static Expression<Func<CommunityEmployee, CommunityEmployeeQueryResult>> ProjectionToCommunityEmployeeQueryResult => communityEmployee => new CommunityEmployeeQueryResult

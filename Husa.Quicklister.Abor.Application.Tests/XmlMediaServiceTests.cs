@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.MediaService.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
@@ -21,7 +22,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Request;
     using Husa.Xml.Api.Contracts.Response;
