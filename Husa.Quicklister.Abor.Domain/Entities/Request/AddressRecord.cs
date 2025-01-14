@@ -34,6 +34,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
         public Counties County { get; set; }
 
         [Required(AllowEmptyStrings = false)]
+        [MaxLength(65, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string Subdivision { get => this.subdivision; set => this.subdivision = value.ToTitleCase(); }
 
         [Required]
