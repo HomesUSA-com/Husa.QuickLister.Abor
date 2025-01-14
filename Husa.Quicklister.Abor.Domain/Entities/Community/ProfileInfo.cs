@@ -9,7 +9,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
 
     public class ProfileInfo : ValueObject, IProvideGeocodes
     {
-        private const int CommunityNameMaxLength = 65;
+        public const int CommunityNameMaxLength = 65;
         private string officePhone;
         private string backupPhone;
 
