@@ -110,7 +110,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
         protected override IQueryable<ListingRequestForSummaryQueryResult<SaleListingRequest>> FilterByFieldChange(IQueryable<ListingRequestForSummaryQueryResult<SaleListingRequest>> requests, RequestFieldChange fieldChange)
             => fieldChange switch
             {
-                RequestFieldChange.FullUpload or RequestFieldChange.PartialUpload =>
+                RequestFieldChange.FullUpload or RequestFieldChange.PartialUpload or RequestFieldChange.UploadMedia =>
                     requests,
                 RequestFieldChange.ListPrice =>
                     requests.Where(result => result.CurrentRequest.ListPrice != result.PreviousRequest.ListPrice),
