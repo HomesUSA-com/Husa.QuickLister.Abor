@@ -47,7 +47,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
         private static void ConfigureProFile(OwnedNavigationBuilder<CommunitySale, ProfileInfo> builder)
         {
-            builder.Property(r => r.Name).HasColumnName(nameof(ProfileInfo.Name)).IsRequired().HasMaxLength(50);
+            builder.Property(r => r.Name).HasColumnName(nameof(ProfileInfo.Name)).IsRequired().HasMaxLength(65);
             builder.Property(r => r.OwnerName).HasColumnName(nameof(ProfileInfo.OwnerName)).HasMaxLength(100);
             builder.Property(r => r.OfficePhone).HasColumnName(nameof(ProfileInfo.OfficePhone)).HasMaxLength(14);
             builder.Property(r => r.BackupPhone).HasColumnName(nameof(ProfileInfo.BackupPhone)).HasMaxLength(14);
