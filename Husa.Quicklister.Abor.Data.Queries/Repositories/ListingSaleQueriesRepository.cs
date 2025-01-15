@@ -154,6 +154,12 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 return listing;
             }
 
+            var (isSalesEmployee, communityIds) = await currentUser.GetSalesEmployeeCommunities(this.context.CommunityEmployee, listing.SaleProperty.SalePropertyInfo.CommunityId);
+            if (isSalesEmployee && !communityIds.Any())
+            {
+                throw new UnauthorizedAccessException("User does not belong to the community.");
+            }
+
             await this.FillSaleUserNameAsync(listing);
 
             if (listing.LockedStatus == LockedStatus.LockedBySystem)
