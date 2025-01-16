@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.JsonImport
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Extensions;
 
     public static class JsonImportListingRequestExtensions
     {

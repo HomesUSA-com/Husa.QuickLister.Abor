@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.JsonImport
     using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Extensions;
 
     public static class JsonImportListingExtensions
     {
