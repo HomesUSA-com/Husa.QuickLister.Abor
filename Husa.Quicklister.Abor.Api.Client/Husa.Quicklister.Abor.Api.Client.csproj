@@ -8,9 +8,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.15.0-dev001</Version>
+        <Version>2.15.0</Version>
         <PackageReleaseNotes>
-            Release 2.15.0-dev001:
+            Release 2.15.0:
             - Implement Plan Auto Fill
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
