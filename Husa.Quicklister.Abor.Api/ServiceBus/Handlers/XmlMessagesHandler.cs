@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Extensions.Authorization.Models;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.ServiceBus.Extensions;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.Extensions.ServiceBus.Services;
     using Husa.Quicklister.Abor.Api.ServiceBus.Subscribers;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
@@ -17,7 +18,6 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
     using Husa.Quicklister.Extensions.Application.Interfaces.XmlCommon;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Husa.Xml.ServiceBus.Messages;
     using Husa.Xml.ServiceBus.Messages.Messages;
     using Microsoft.AspNetCore.HeaderPropagation;
@@ -110,7 +110,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
             {
                 this.Logger.LogInformation("Importing the media for the XML subdivision {subdivisionId} and companyId {companyId}", importSubdivisionMedia.Id, importSubdivisionMedia.CompanyId);
                 var mediaImportService = scope.ServiceProvider.GetRequiredService<ICommunityXmlMediaService>();
-                return mediaImportService.ImportSubdivisionMedia(importSubdivisionMedia.Id, maxImagesAllowed: this.options.MediaAllowed.SaleCommunityMaxAllowedMedia);
+                return mediaImportService.ImportSubdivisionMedia(importSubdivisionMedia.Id, maxImagesAllowed: this.options.MediaAllowed.CommunityMaxAllowedMedia);
             }
 
             Task ImportEntity<TService>(ImportProfileMessage meessage)

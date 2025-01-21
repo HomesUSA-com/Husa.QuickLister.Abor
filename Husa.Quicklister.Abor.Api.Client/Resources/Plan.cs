@@ -19,7 +19,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
 
         private readonly string baseUri;
 
-        public Plan(QuicklisterAborClient client,  ILogger<Plan> logger)
+        public Plan(QuicklisterAborClient client, ILogger<Plan> logger)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));

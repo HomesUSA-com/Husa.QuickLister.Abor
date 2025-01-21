@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Microsoft.Extensions.Logging;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Communities;
@@ -91,6 +92,7 @@ namespace Husa.Quicklister.Abor.Application
                 FinancialInfo = this.mapper.Map<CommunityFinancialInfo>(communitySaleDto.FinancialSchools),
                 SchoolsInfo = this.mapper.Map<SchoolsInfo>(communitySaleDto.FinancialSchools.Schools),
                 ShowingInfo = this.mapper.Map<CommunityShowingInfo>(communitySaleDto.Showing),
+                ShowingTime = this.mapper.Map<ShowingTime>(communitySaleDto.ShowingTime),
             };
             var communityOpenHouses = this.mapper.Map<IEnumerable<CommunityOpenHouse>>(communitySaleDto.OpenHouses);
 

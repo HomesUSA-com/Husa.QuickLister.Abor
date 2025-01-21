@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using Husa.Extensions.Cache;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Media.Interfaces;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.MediaService.Client;
     using Husa.MediaService.Domain.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Lot;
@@ -12,7 +13,6 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Media;
     using Husa.Quicklister.Extensions.Crosscutting;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 

@@ -4,8 +4,8 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Helpers
     using System.Collections.Generic;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Models;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.Quicklister.Abor.Crosscutting;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.AspNetCore.HeaderPropagation;
     using Microsoft.Azure.ServiceBus;
     using Microsoft.Extensions.DependencyInjection;

@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     using Microsoft.EntityFrameworkCore.Migrations;
-    #nullable disable
+#nullable disable
 
     /// <inheritdoc />
     public partial class V260_SetDefaultValueForSellConcess : Migration

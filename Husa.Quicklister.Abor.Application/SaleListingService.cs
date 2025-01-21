@@ -24,6 +24,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
@@ -194,6 +195,12 @@ namespace Husa.Quicklister.Abor.Application
 
             await this.UpdateRooms(listingDto.SaleProperty.Rooms, entity: listingSale);
             await this.UpdateOpenHouse(listingDto.SaleProperty.OpenHouses, entity: listingSale);
+
+            if (listingDto.ShowingTime is not null)
+            {
+                var showingTime = this.mapper.Map<ShowingTime>(listingDto.ShowingTime);
+                listingSale.UpdateShowingTime(showingTime);
+            }
 
             await this.ListingRepository.UpdateAsync(listingSale);
         }
@@ -468,6 +475,10 @@ namespace Husa.Quicklister.Abor.Application
             }
 
             listingSale.SaleProperty.ImportDataFromCommunity(communitySale);
+            listingSale.AppointmentType = communitySale.AppointmentType;
+            listingSale.AccessInformation = communitySale.AccessInformation;
+            listingSale.AppointmentRestrictions = communitySale.AppointmentRestrictions;
+            listingSale.AdditionalInstructions = communitySale.AdditionalInstructions;
         }
 
         private async Task ImportPlanDataAsync(SaleListing listingSale, Guid planId)

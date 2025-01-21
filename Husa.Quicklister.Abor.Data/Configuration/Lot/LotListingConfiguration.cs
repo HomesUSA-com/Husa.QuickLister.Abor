@@ -16,6 +16,10 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
             ArgumentNullException.ThrowIfNull(builder);
 
             builder.ListingProperties();
+            builder.Ignore(p => p.AppointmentType);
+            builder.Ignore(p => p.AccessInformation);
+            builder.Ignore(p => p.AppointmentRestrictions);
+            builder.Ignore(p => p.AdditionalInstructions);
 
             builder.OwnsOne(o => o.StatusFieldsInfo, StatusExtensions.ConfigureStatusInfoMapping).Navigation(e => e.StatusFieldsInfo);
             builder.OwnsOne(o => o.PublishInfo, PublishInfoExtensions.ConfigurePublishInfoMapping);

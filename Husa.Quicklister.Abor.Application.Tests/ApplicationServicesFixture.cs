@@ -27,11 +27,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
                     MinRequiredMedia = 4,
                     MaxAllowedMedia = 40,
                 },
-                MediaAllowed = new MediaAllowedSettings()
+                MediaAllowed = new Husa.Quicklister.Extensions.Crosscutting.MediaAllowedSettings()
                 {
                     PlanMaxAllowedMedia = 25,
                     SaleListingMaxAllowedMedia = 40,
-                    SaleCommunityMaxAllowedMedia = 60,
+                    CommunityMaxAllowedMedia = 60,
                 },
                 InvoiceSettings = new InvoiceSettings()
                 {

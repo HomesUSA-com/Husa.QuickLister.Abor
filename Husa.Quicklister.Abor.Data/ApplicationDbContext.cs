@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Data
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.ReverseProspect;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Data.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Entities;
@@ -69,6 +70,12 @@ namespace Husa.Quicklister.Abor.Data
         public virtual DbSet<LotManagementTrace> LotManagementTrace { get; set; }
 
         public virtual DbSet<ViolationWarningAlert> ViolationWarningAlert { get; set; }
+
+        public virtual DbSet<ShowingTimeContact> ShowingTimeContacts { get; set; }
+
+        public virtual DbSet<CommunityShowingTimeContact> CommunityShowingTimeContacts { get; set; }
+
+        public virtual DbSet<ListingShowingTimeContact> ListingShowingTimeContacts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

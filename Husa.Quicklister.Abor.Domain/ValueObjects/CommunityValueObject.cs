@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.ValueObjects
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
+    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
 
     public class CommunityValueObject : ValueObject
     {
@@ -23,6 +24,8 @@ namespace Husa.Quicklister.Abor.Domain.ValueObjects
 
         public virtual CommunityShowingInfo ShowingInfo { get; set; }
 
+        public virtual ShowingTime ShowingTime { get; set; }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return this.PropertyInfo;
@@ -33,6 +36,7 @@ namespace Husa.Quicklister.Abor.Domain.ValueObjects
             yield return this.FinancialInfo;
             yield return this.SchoolsInfo;
             yield return this.ShowingInfo;
+            yield return this.ShowingTime;
         }
     }
 }

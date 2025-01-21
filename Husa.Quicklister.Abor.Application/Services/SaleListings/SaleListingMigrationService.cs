@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Enums;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Response.SaleListing;
     using Husa.Migration.Enums;
@@ -17,7 +18,6 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Crosscutting;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;

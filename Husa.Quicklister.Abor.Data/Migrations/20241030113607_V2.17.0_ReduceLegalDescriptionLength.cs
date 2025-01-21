@@ -2,7 +2,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
 {
     using Microsoft.EntityFrameworkCore.Migrations;
 
-    #nullable disable
+#nullable disable
 
     /// <inheritdoc />
     public partial class V2170_ReduceLegalDescriptionLength : Migration

@@ -33,10 +33,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests.Repositories
         private readonly Mock<IJsonImportClient> jsonClient = new();
         private readonly Mock<IUserContextProvider> userContex = new();
         private readonly ApplicationServicesFixture fixture;
+        private readonly DbContextOptions<ApplicationDbContext> dbContextOptions;
 
         public QueryJsonRepositoryTest(ApplicationServicesFixture fixture)
         {
             this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
+            this.dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot())
+                .Options;
         }
 
         [Theory]
@@ -58,7 +62,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests.Repositories
             var sut = this.GetInMemoryRepository(new CommunitySale[] { community });
             var jsonListings = new SpecResponse[] { new(), new() };
             this.jsonClient
-                .Setup(u => u.Spec.GetAsync(It.Is<SpecRequestFilter>(x => x.CommunityIds.Contains(communityId)), It.IsAny<CancellationToken>()))
+                .Setup(u => u.Spec.GetAsync(It.Is<SpecFilterRequest>(x => x.CommunityIds.Contains(communityId)), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DataSet<SpecResponse>(jsonListings.ToList(), jsonListings.Length));
             var filter = new JsonListingQueryFilter()
             {
@@ -75,15 +79,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests.Repositories
 
         private QueryJsonRepository GetInMemoryRepository(IEnumerable<CommunitySale> communities)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot());
-            var dbContext = new ApplicationDbContext(optionsBuilder.Options);
+            var dbContext = new ApplicationDbContext(this.dbContextOptions);
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
             dbContext.Community.AddRange(communities);
             dbContext.CommunityEmployee.AddRange(communities.SelectMany(x => x.Employees));
             dbContext.SaveChanges();
 
-            var queriesDbContext = new ApplicationQueriesDbContext(optionsBuilder.Options);
+            var queriesDbContext = new ApplicationQueriesDbContext(this.dbContextOptions);
             return new QueryJsonRepository(
                 queriesDbContext,
                 this.jsonClient.Object,

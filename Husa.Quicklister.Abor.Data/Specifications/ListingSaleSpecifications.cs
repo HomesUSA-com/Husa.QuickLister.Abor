@@ -65,7 +65,7 @@ namespace Husa.Quicklister.Abor.Data.Specifications
             return listings.Where(p => p.MlsStatus != MarketStatuses.Closed);
         }
 
-        public static IQueryable<T> FilterByCommunities<T>(this IQueryable<T> listings, ICollection<Guid> communityIds)
+        public static IQueryable<T> FilterByCommunities<T>(this IQueryable<T> listings, IEnumerable<Guid> communityIds)
            where T : SaleListing
         {
             if (communityIds != null && communityIds.Any())

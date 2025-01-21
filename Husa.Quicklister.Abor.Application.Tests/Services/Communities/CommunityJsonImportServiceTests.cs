@@ -27,7 +27,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
         private readonly Mock<IUserContextProvider> userContextProvider = new();
         private readonly Mock<IJsonImportClient> jsonClient = new();
 
-        public CommunityJsonImportServiceTests()
+        public CommunityJsonImportServiceTests(ApplicationServicesFixture fixture)
         {
             var jsonCommunityClientMock = new Mock<IJsonImportCommunity>();
             this.jsonClient.SetupGet(x => x.Community).Returns(jsonCommunityClientMock.Object);
@@ -36,6 +36,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
                 this.jsonClient.Object,
                 this.communitySaleRepository.Object,
                 this.userContextProvider.Object,
+                fixture.Options.Object,
                 this.logger.Object);
         }
 

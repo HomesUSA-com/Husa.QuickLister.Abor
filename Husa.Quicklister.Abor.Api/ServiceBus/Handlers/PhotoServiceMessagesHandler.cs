@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Models;
     using Husa.Extensions.ServiceBus.Extensions;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.Extensions.ServiceBus.Services;
     using Husa.PhotoService.Domain.Enums;
     using Husa.PhotoService.ServiceBus.Messages;
@@ -15,7 +16,6 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Extensions.Application.Interfaces;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.AspNetCore.HeaderPropagation;
     using Microsoft.Azure.ServiceBus;
     using Microsoft.Extensions.DependencyInjection;

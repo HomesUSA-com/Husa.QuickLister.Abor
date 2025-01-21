@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
     using System;
     using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Data.Extensions;
     using Husa.Quicklister.Extensions.Domain.Entities.Listing;
     using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,10 @@ namespace Husa.Quicklister.Abor.Data.Configuration
         {
             ArgumentNullException.ThrowIfNull(builder);
 
+            builder.ConfigureShowingTime();
+            builder.HasMany(o => o.ShowingTimeContacts)
+                .WithMany(o => o.Listings)
+                .UsingEntity<ListingShowingTimeContact>();
             builder.HasOne(p => p.SaleProperty)
                .WithMany(b => b.SaleListings)
                .HasForeignKey(e => e.SalePropertyId);

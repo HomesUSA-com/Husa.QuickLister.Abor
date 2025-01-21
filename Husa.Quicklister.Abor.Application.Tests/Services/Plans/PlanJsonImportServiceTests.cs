@@ -23,7 +23,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
         private readonly Mock<ILogger<PlanJsonImportService>> logger = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
         private readonly Mock<IJsonImportClient> jsonClient = new();
-        public PlanJsonImportServiceTests()
+        public PlanJsonImportServiceTests(ApplicationServicesFixture fixture)
         {
             var jsonPlanClientMock = new Mock<IJsonImportPlan>();
             this.jsonClient.SetupGet(x => x.Plan).Returns(jsonPlanClientMock.Object);
@@ -31,6 +31,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
                 this.jsonClient.Object,
                 this.planSaleRepository.Object,
                 this.userContextProvider.Object,
+                fixture.Options.Object,
                 this.logger.Object);
         }
 

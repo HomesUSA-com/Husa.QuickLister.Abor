@@ -6,13 +6,13 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading;
     using System.Threading.Tasks;
     using Azure.Messaging.ServiceBus;
+    using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.MediaService.Api.Contracts.Response;
     using Husa.MediaService.Client;
     using Husa.MediaService.Domain.Enums;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Extensions.Application.Interfaces.Media;
     using Husa.Quicklister.Extensions.Crosscutting;
-    using Husa.Quicklister.Extensions.Crosscutting.Providers;
     using Microsoft.Extensions.Options;
     using Moq;
     using Xunit;
