@@ -228,7 +228,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.SaleProperty.UpdateFromMarket(processFullListing);
             this.SaleProperty.ApplyMarketUpdate(salePropertyInfo, new List<ListingSaleRoom>());
 
-            if (listingInfo.MlsStatus == MarketStatuses.Closed || listingInfo.MlsStatus == MarketStatuses.Canceled)
+            if (listingInfo.MlsStatus == MarketStatuses.Closed || listingInfo.MlsStatus == MarketStatuses.Canceled || listingInfo.MlsStatus == MarketStatuses.Expired)
             {
                 this.LockAndClose();
             }
