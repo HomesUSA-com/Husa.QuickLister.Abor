@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Attributes;
     using Husa.Quicklister.Extensions.Domain.Entities.Listing;
+    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
@@ -203,9 +204,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.SaleProperty.ImportRoomsFromEntity(saleListingToClone.SaleProperty.Rooms);
             this.SaleProperty.UpdateOpenHouse(saleListingToClone.SaleProperty.OpenHouses);
             this.AppointmentType = saleListingToClone.AppointmentType;
-            this.AccessInformation = saleListingToClone.AccessInformation;
-            this.AppointmentRestrictions = saleListingToClone.AppointmentRestrictions;
-            this.AdditionalInstructions = saleListingToClone.AdditionalInstructions;
+            this.AccessInformation = saleListingToClone.AccessInformation.GetCopy() as AccessInformation;
+            this.AppointmentRestrictions = saleListingToClone.AppointmentRestrictions.GetCopy() as AppointmentRestrictions;
+            this.AdditionalInstructions = saleListingToClone.AdditionalInstructions.GetCopy() as AdditionalInstructions;
         }
 
         public virtual void ApplyMarketUpdate(
