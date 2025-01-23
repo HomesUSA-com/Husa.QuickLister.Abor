@@ -113,6 +113,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddSingleton<CommunityShowingTimeContactOrderProjection>();
             services.AddSingleton<ListingShowingTimeContactOrderProjection>();
             services.AddScoped<IListingSaleQueriesRepository, ListingSaleQueriesRepository>();
+            services.AddScoped<IQueryCommunityEmployeeRepository, CommunityEmployeeQueriesRepository>();
             services.AddScoped<ICommunityQueriesRepository, CommunityQueriesRepository>();
             services.AddScoped<IPlanQueriesRepository, PlanQueriesRepository>();
             services.AddScoped<IAgentQueriesRepository, AgentQueriesRepository>();

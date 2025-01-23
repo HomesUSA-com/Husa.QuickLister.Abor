@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Api.Controllers
+namespace Husa.Quicklister.Abor.Api.Controllers.Community
 {
     using System;
     using System.Collections.Generic;
@@ -18,7 +18,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Application.Models.Community;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
-    using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Application.Interfaces.JsonImport;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
@@ -80,7 +79,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
             if (result == null)
             {
-                return this.Ok(new { });
+                return this.Ok(new());
             }
 
             return this.Ok(result);
@@ -146,18 +145,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             }
 
             return this.Ok(response.Result);
-        }
-
-        [HttpGet("{communityId}/employees")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
-        public async Task<IActionResult> GetEmployeesAsync([FromRoute] Guid communityId, [FromQuery] BaseFilterRequest filter)
-        {
-            this.Logger.LogInformation("Getting the employees for the community id {communityId}", communityId);
-            var queryResponse = await this.communityQueriesRepository.GetCommunityEmployees(communityId, filter.SortBy);
-
-            var data = this.Mapper.Map<IEnumerable<CommunityEmployeeResponse>>(queryResponse.Data);
-
-            return this.Ok(new DataSet<CommunityEmployeeResponse>(data, queryResponse.Total));
         }
 
         [HttpGet("{communityId:guid}/sale-listings/{listingId:guid}")]

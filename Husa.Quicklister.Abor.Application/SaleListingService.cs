@@ -454,6 +454,11 @@ namespace Husa.Quicklister.Abor.Application
             listing.SaleProperty.PlanId = planId;
         }
 
+        protected override void ImportListingToCommunity(SaleListing listingSale)
+        {
+            throw new NotImplementedException();
+        }
+
         private async Task ImportDataFromCommunityAndPlan(SaleListing listingSaleEntity, QuickCreateListingDto listingSale)
         {
             await this.ImportCommunityDataAsync(listingSaleEntity, listingSale.CommunityId);
@@ -488,9 +493,9 @@ namespace Husa.Quicklister.Abor.Application
 
             listingSale.SaleProperty.ImportDataFromCommunity(communitySale);
             listingSale.AppointmentType = communitySale.AppointmentType;
-            listingSale.AccessInformation = communitySale.AccessInformation;
-            listingSale.AppointmentRestrictions = communitySale.AppointmentRestrictions;
-            listingSale.AdditionalInstructions = communitySale.AdditionalInstructions;
+            listingSale.AccessInformation = communitySale.AccessInformation?.GetCopy() as AccessInformation;
+            listingSale.AppointmentRestrictions = communitySale.AppointmentRestrictions?.GetCopy() as AppointmentRestrictions;
+            listingSale.AdditionalInstructions = communitySale.AdditionalInstructions?.GetCopy() as AdditionalInstructions;
         }
 
         private async Task ImportPlanDataAsync(SaleListing listingSale, Guid planId)

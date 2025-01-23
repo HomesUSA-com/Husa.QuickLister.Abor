@@ -48,7 +48,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using Husa.Quicklister.Extensions.Data.Queries.Models.Agent;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Entities.Agent;
+    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Moq;
     using DomainEntities = Husa.Quicklister.Abor.Domain.Entities;
     using HusaNoteType = Husa.Notes.Domain.Enums.NoteType;
@@ -176,6 +178,10 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                     City = Faker.Enum.Random<Cities>(),
                     County = Faker.Enum.Random<Counties>(),
                 },
+                AppointmentType = AppointmentType.AppointmentRequired,
+                AppointmentRestrictions = new(),
+                AccessInformation = new(),
+                AdditionalInstructions = new(),
             };
 
             return communitySale;
@@ -225,6 +231,10 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             listingSale.SetupGet(c => c.StatusFieldsInfo).Returns(new ListingStatusFieldsInfo());
             listingSale.SetupGet(c => c.CompanyId).Returns(listingCompanyId);
             listingSale.SetupGet(c => c.IsInMls).Returns(true);
+            listingSale.SetupGet(c => c.AppointmentType).Returns(AppointmentType.AppointmentRequired);
+            listingSale.SetupGet(c => c.AccessInformation).Returns(new AccessInformation());
+            listingSale.SetupGet(c => c.AdditionalInstructions).Returns(new AdditionalInstructions());
+            listingSale.SetupGet(c => c.AppointmentRestrictions).Returns(new AppointmentRestrictions());
             listingSale.Setup(x => x.MlsNumber).Returns("12345");
             saleProperty.SaleListings = new[] { listingSale.Object };
 
@@ -1185,17 +1195,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                 Id = Guid.NewGuid(),
                 Name = "Kindred Homes",
             },
-        };
-
-        public static CommunityEmployeeQueryResult GetCommunityEmployeeQueryResult(Guid? id, Guid? userId, string title) => new()
-        {
-            Id = id ?? Guid.NewGuid(),
-            Email = Faker.Internet.Email(),
-            FirstName = Faker.Name.First(),
-            LastName = Faker.Name.Last(),
-            Title = !string.IsNullOrEmpty(title) ? title : "Test",
-            UserName = Faker.Internet.UserName(),
-            UserId = userId ?? Guid.NewGuid(),
         };
 
         public static CommunityEmployee GetCommunityEmployee(Guid? id, Guid? communityId, Guid? userId)
