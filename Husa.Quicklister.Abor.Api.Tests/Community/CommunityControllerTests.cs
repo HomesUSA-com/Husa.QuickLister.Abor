@@ -8,7 +8,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Community;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Community;
-    using Husa.Quicklister.Abor.Api.Controllers;
+    using Husa.Quicklister.Abor.Api.Controllers.Community;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
@@ -16,8 +16,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
-    using Husa.Quicklister.Extensions.Api.Contracts.Request;
-    using Husa.Quicklister.Extensions.Api.Contracts.Response.Community;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Application.Interfaces.JsonImport;
     using Husa.Quicklister.Extensions.Application.Models.Community;
@@ -249,60 +247,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
         }
 
         [Fact]
-        public async Task GetEmployees_EmployeesNotFound_Success()
-        {
-            // Arrange
-            var communityId = Guid.NewGuid();
-            var newFilter = new BaseFilterRequest();
-            var employees = new List<CommunityEmployeeQueryResult>();
-            var dataSet = new DataSet<CommunityEmployeeQueryResult>(employees, employees.Count);
-
-            this.communityQueriesRepository
-                .Setup(c => c.GetCommunityEmployees(It.Is<Guid>(x => x == communityId), It.IsAny<string>()))
-                .ReturnsAsync(dataSet)
-                .Verifiable();
-
-            // Act
-            var result = await this.Sut.GetEmployeesAsync(communityId, newFilter);
-
-            // Assert
-            this.communityQueriesRepository.Verify();
-            Assert.NotNull(result);
-            var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(result);
-            var employeeResult = Assert.IsAssignableFrom<DataSet<CommunityEmployeeResponse>>(okObjectResult.Value);
-            Assert.Empty(employeeResult.Data);
-        }
-
-        [Fact]
-        public async Task GetEmployees_EmployeesFound_Success()
-        {
-            // Arrange
-            var communityId = Guid.NewGuid();
-            var employeeId1 = Guid.NewGuid();
-            var employeeId2 = Guid.NewGuid();
-            var newFilter = new BaseFilterRequest();
-            var employee1 = TestModelProvider.GetCommunityEmployeeQueryResult(employeeId1, employeeId1, "Test");
-            var employee2 = TestModelProvider.GetCommunityEmployeeQueryResult(employeeId2, employeeId2, "Test");
-            var employees = new List<CommunityEmployeeQueryResult>() { employee1, employee2 };
-            var dataSet = new DataSet<CommunityEmployeeQueryResult>(employees, employees.Count);
-
-            this.communityQueriesRepository
-                .Setup(c => c.GetCommunityEmployees(It.Is<Guid>(x => x == communityId), It.IsAny<string>()))
-                .ReturnsAsync(dataSet)
-                .Verifiable();
-
-            // Act
-            var result = await this.Sut.GetEmployeesAsync(communityId, newFilter);
-
-            // Assert
-            this.communityQueriesRepository.Verify();
-            Assert.NotNull(result);
-            var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(result);
-            var employeeResult = Assert.IsAssignableFrom<DataSet<CommunityEmployeeResponse>>(okObjectResult.Value);
-            Assert.Equal(2, employeeResult.Total);
-        }
-
-        [Fact]
         public async Task GetCommunityWithListingProjection_Succcess()
         {
             // Arrange
@@ -320,6 +264,62 @@ namespace Husa.Quicklister.Abor.Api.Tests.Community
             // Assert
             var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(result);
             Assert.IsAssignableFrom<CommunitySaleResponse>(okObjectResult.Value);
+        }
+
+        [Fact]
+        public async Task GetCommunityByName_WhenCommunityExists_ReturnsOkWithCommunity()
+        {
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var communityName = "Test Community";
+            var filter = new CommunityByNameFilter
+            {
+                CompanyId = companyId,
+                CommunityName = communityName,
+            };
+
+            var communityData = new CommunityDetailQueryResult
+            {
+                Id = Guid.NewGuid(),
+                Profile = new()
+                {
+                    Name = communityName,
+                },
+            };
+
+            this.communityQueriesRepository
+                .Setup(x => x.GetCommunityByName(companyId, communityName))
+                .ReturnsAsync(communityData);
+
+            // Act
+            var result = await this.Sut.GetCommunityByName(filter);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<CommunitySaleResponse>(okResult.Value);
+            Assert.Equal(communityName, returnValue.Name);
+        }
+
+        [Fact]
+        public async Task GetCommunityByName_WhenCommunityDoesNotExist_ReturnsEmptyObject()
+        {
+            // Arrange
+            var filter = new CommunityByNameFilter
+            {
+                CompanyId = Guid.NewGuid(),
+                CommunityName = "NonExistent",
+            };
+
+            this.communityQueriesRepository
+                .Setup(x => x.GetCommunityByName(filter.CompanyId, filter.CommunityName))
+                .ReturnsAsync((CommunityDetailQueryResult)null);
+
+            // Act
+            var result = await this.Sut.GetCommunityByName(filter);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.IsType<object>(okResult.Value);
         }
     }
 }

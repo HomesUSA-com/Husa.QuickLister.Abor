@@ -39,7 +39,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.Market, c => c.MapFrom(x => MarketCode.Austin))
                 .ForMember(dto => dto.Directions, c => c.MapFrom(x => x.Showing.Directions))
                 .ForMember(dto => dto.ModifiedBy, c => c.MapFrom(x => x.SysModifiedBy));
-            this.CreateMap<CommunityEmployeeQueryResult, CommunityEmployeeResponse>();
 
             this.CreateMap<CreateCommunityRequest, CommunitySaleCreateDto>();
 

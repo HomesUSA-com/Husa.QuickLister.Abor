@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Api.Controllers
+namespace Husa.Quicklister.Abor.Api.Controllers.Community
 {
     using System;
     using System.Collections.Generic;

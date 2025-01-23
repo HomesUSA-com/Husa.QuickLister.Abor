@@ -78,39 +78,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             return community;
         }
 
-        public async Task<DataSet<CommunityEmployeeQueryResult>> GetCommunityEmployees(Guid communityId, string sortBy)
-        {
-            this.logger.LogInformation("Getting the Community employees for the communityId: '{communityId}'", communityId);
-            var employees = await this.context.CommunityEmployee
-                .Where(e => !e.IsDeleted && e.CommunityId == communityId)
-                .Select(CommunityProjection.ProjectionToCommunityEmployeeQueryResult)
-                .ToListAsync();
-
-            if (!employees.Any())
-            {
-                return new DataSet<CommunityEmployeeQueryResult>(employees, employees.Count);
-            }
-
-            var users = await this.userQueriesRepository.GetUsersById(employees.Select(u => u.UserId));
-
-            foreach (var employee in employees)
-            {
-                var user = users.FirstOrDefault(u => u.Id == employee.UserId);
-                if (user != null)
-                {
-                    employee.UserName = user.UserName;
-                    employee.FirstName = user.FirstName;
-                    employee.LastName = user.LastName;
-                    employee.Email = user.Email;
-                    employee.Title = user.CompanyEmployees.Where(x => x.CompanyId == employee.CompanyId).Select(x => x.Title).FirstOrDefault();
-                }
-            }
-
-            var employeesQuery = employees.AsQueryable().ApplySortByFields(sortBy).ToList();
-
-            return new DataSet<CommunityEmployeeQueryResult>(employeesQuery, employees.Count);
-        }
-
         public async Task<CommunityDetailQueryResult> GetCommunityByName(Guid companyId, string communityName)
         {
             this.logger.LogInformation("Getting the Community by Name {communityName} from companyId: {companyId}", companyId, communityName);

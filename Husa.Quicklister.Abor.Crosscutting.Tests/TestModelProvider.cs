@@ -1197,17 +1197,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             },
         };
 
-        public static CommunityEmployeeQueryResult GetCommunityEmployeeQueryResult(Guid? id, Guid? userId, string title) => new()
-        {
-            Id = id ?? Guid.NewGuid(),
-            Email = Faker.Internet.Email(),
-            FirstName = Faker.Name.First(),
-            LastName = Faker.Name.Last(),
-            Title = !string.IsNullOrEmpty(title) ? title : "Test",
-            UserName = Faker.Internet.UserName(),
-            UserId = userId ?? Guid.NewGuid(),
-        };
-
         public static CommunityEmployee GetCommunityEmployee(Guid? id, Guid? communityId, Guid? userId)
         {
             var employeeId = id ?? Guid.NewGuid();

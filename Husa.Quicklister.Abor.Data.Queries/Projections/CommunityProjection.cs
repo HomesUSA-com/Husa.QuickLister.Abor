@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using Husa.Quicklister.Abor.Data.Queries.Models.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Extensions.Data.Queries.Extensions;
+    using Husa.Quicklister.Extensions.Data.Queries.Models;
 
     public static class CommunityProjection
     {
@@ -58,6 +59,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             UserId = communityEmployee.UserId,
             CommunityId = communityEmployee.CommunityId,
             CompanyId = communityEmployee.CompanyId,
+            CommunityName = communityEmployee.Community != null ? communityEmployee.Community.ProfileInfo.Name : null,
         };
     }
 }
