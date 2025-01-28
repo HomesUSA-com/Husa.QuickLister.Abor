@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
+    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.JsonImport.Api.Client.Interface;
     using Husa.JsonImport.Api.Contracts.Response;
@@ -15,6 +16,8 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
+    using CompanyResponse = Husa.CompanyServicesManager.Api.Contracts.Response;
+
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Application.Test")]
     public class PlanJsonImportServiceTests
@@ -23,6 +26,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
         private readonly Mock<ILogger<PlanJsonImportService>> logger = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
         private readonly Mock<IJsonImportClient> jsonClient = new();
+        private readonly Mock<IServiceSubscriptionClient> companyClient = new();
         public PlanJsonImportServiceTests(ApplicationServicesFixture fixture)
         {
             var jsonPlanClientMock = new Mock<IJsonImportPlan>();
@@ -31,6 +35,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
                 this.jsonClient.Object,
                 this.planSaleRepository.Object,
                 this.userContextProvider.Object,
+                this.companyClient.Object,
                 fixture.Options.Object,
                 this.logger.Object);
         }
@@ -48,6 +53,11 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
                 .Setup(x => x.Plan.GetByIdAsync(It.Is<Guid>(id => id == jsonPlanId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(GetPlanResponse(jsonPlanId))
                 .Verifiable();
+            this.companyClient.Setup(x => x.Company.GetCompany(companyId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new CompanyResponse.CompanyDetail()
+                {
+                    SettingInfo = new() { DisableDirectSavingForApi = false },
+                });
 
             // Act
             await this.Sut.ImportEntity(companyId, companyName, jsonPlanId);

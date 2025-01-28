@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
 {
     using System;
     using System.Threading.Tasks;
+    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.JsonImport.Api.Client.Interface;
     using Husa.JsonImport.Api.Contracts.Response;
@@ -19,9 +20,10 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
             IJsonImportClient client,
             IPlanRepository planRepository,
             IUserContextProvider userContextProvider,
+            IServiceSubscriptionClient companyClient,
             IOptions<ApplicationOptions> applicationOptions,
             ILogger<PlanJsonImportService> logger)
-            : base(client, planRepository, userContextProvider, applicationOptions, logger)
+            : base(client, planRepository, userContextProvider, companyClient, applicationOptions, logger)
         {
         }
 
