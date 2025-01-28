@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
@@ -37,9 +38,10 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             IJsonImportClient jsonClient,
             ISaleListingService listingService,
             IListingRequestJsonImportService requestJsonImportService,
+            IServiceSubscriptionClient companyClient,
             IOptions<ApplicationOptions> applicationOptions,
             ILogger<ListingJsonImportService> logger)
-            : base(listingRepository, communitySaleRepository, userContextProvider, jsonClient, applicationOptions, requestJsonImportService, logger)
+            : base(listingRepository, communitySaleRepository, userContextProvider, jsonClient, applicationOptions, requestJsonImportService, companyClient, logger)
         {
             this.listingService = listingService ?? throw new ArgumentNullException(nameof(listingService));
         }

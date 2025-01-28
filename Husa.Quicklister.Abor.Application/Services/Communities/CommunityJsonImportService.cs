@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
 {
     using System;
     using System.Threading.Tasks;
+    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.JsonImport.Api.Client.Interface;
     using Husa.JsonImport.Api.Contracts.Response;
@@ -20,9 +21,10 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             IJsonImportClient client,
             ICommunitySaleRepository communityRepository,
             IUserContextProvider userContextProvider,
+            IServiceSubscriptionClient companyClient,
             IOptions<ApplicationOptions> applicationOptions,
             ILogger<CommunityJsonImportService> logger)
-            : base(client, communityRepository, userContextProvider, applicationOptions, logger)
+            : base(client, communityRepository, userContextProvider, companyClient, applicationOptions, logger)
         {
         }
 

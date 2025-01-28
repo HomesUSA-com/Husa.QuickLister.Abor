@@ -108,6 +108,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.LegacyProfileId, cr => cr.MapFrom(x => x.LegacyCommunityId))
                 .ForMember(dto => dto.IsDeleted, cr => cr.MapFrom(x => false))
                 .ForMember(dto => dto.CommunityType, cr => cr.MapFrom(x => CommunityType.SaleCommunity))
+                .ForMember(dto => dto.LastJsonImportDate, cr => cr.Ignore())
                 .ForMember(dto => dto.Id, cr => cr.Ignore())
                 .ForMember(dto => dto.JsonImportStatus, cr => cr.Ignore())
                 .ForMember(dto => dto.OpenHouses, cr => cr.Ignore())

@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
+    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Common.Classes;
@@ -34,6 +35,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
         private readonly Mock<ICommunitySaleRepository> communityRepository = new();
         private readonly Mock<ISaleListingService> listingService = new();
         private readonly Mock<IListingRequestJsonImportService> requestJsonImportService = new();
+        private readonly Mock<IServiceSubscriptionClient> companyClient = new();
 
         public ListingJsonImportServiceTests(ApplicationServicesFixture fixture)
         {
@@ -49,6 +51,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
                 this.jsonClient.Object,
                 this.listingService.Object,
                 this.requestJsonImportService.Object,
+                this.companyClient.Object,
                 fixture.Options.Object,
                 this.logger.Object);
         }
