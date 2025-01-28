@@ -205,9 +205,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.SaleProperty.UpdateOpenHouse(saleListingToClone.SaleProperty.OpenHouses);
 
             this.AppointmentType = saleListingToClone.AppointmentType;
-            this.AccessInformation = saleListingToClone.AccessInformation.GetCopy() as AccessInformation;
-            this.AppointmentRestrictions = saleListingToClone.AppointmentRestrictions.GetCopy() as AppointmentRestrictions;
-            this.AdditionalInstructions = saleListingToClone.AdditionalInstructions.GetCopy() as AdditionalInstructions;
+            this.AccessInformation = saleListingToClone.AccessInformation.Clone();
+            this.AppointmentRestrictions = saleListingToClone.AppointmentRestrictions.Clone();
+            this.AdditionalInstructions = saleListingToClone.AdditionalInstructions.Clone();
         }
 
         public virtual void ApplyMarketUpdate(

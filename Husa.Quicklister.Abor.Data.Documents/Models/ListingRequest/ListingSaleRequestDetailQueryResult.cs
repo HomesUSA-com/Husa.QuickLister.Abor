@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
 {
     using System;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.ShowingTime;
 
     public class ListingSaleRequestDetailQueryResult : ListingRequestDetailQueryResult
     {
@@ -9,5 +10,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public ListingRequestSalePropertyQueryResult SaleProperty { get; set; }
 
         public ListingRequestStatusFieldsQueryResult StatusFieldsInfo { get; set; }
+
+        public ShowingTimeQueryResult ShowingTime { get; set; }
     }
 }

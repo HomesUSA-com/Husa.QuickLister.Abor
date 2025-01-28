@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Common;
+    using Husa.Quicklister.Extensions.Domain.Entities.Request;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class SaleListingRequest : ListingRequest
@@ -34,6 +35,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
             this.ListingSaleId = saleListing.Id;
             this.StatusFieldsInfo = SaleStatusFieldsRecord.CreateRecord(saleListing.StatusFieldsInfo);
             this.SaleProperty = SalePropertyRecord.CreateRecord(saleListing.SaleProperty);
+            this.ShowingTimeInfo = ShowingTimeRecord.CreateRecord(saleListing);
             this.PublishInfo = PublishFieldsRecord.CreateRecord(saleListing.PublishInfo);
             this.UpdateTrackValues(userId, isNewRecord: true);
             this.CompanyId = this.SaleProperty.CompanyId;
@@ -45,6 +47,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
             this.StatusFieldsInfo = new();
             this.SaleProperty = new();
             this.PublishInfo = new();
+            this.ShowingTimeInfo = new();
         }
 
         [Required]
@@ -54,6 +57,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
         public virtual SaleStatusFieldsRecord StatusFieldsInfo { get; set; }
 
         public virtual PublishFieldsRecord PublishInfo { get; set; }
+
+        public virtual ShowingTimeRecord ShowingTimeInfo { get; set; }
 
         public override Guid CompanyId
         {
@@ -174,6 +179,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
             }
 
             summarySections.Add(this.StatusFieldsInfo.GetSummary(previousRequest?.StatusFieldsInfo, this.MlsStatus));
+            summarySections.AddRange(this.ShowingTimeInfo?.GetSummarySections(previousRequest?.ShowingTimeInfo));
             summarySections = summarySections.Where(summary => summary != null).ToList();
 
             var rootFieldChanges = this.GetRequestSummary(previousRequest);

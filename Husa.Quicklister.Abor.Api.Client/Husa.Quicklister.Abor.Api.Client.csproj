@@ -8,17 +8,17 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.15.0</Version>
+        <Version>2.16.0-dev001</Version>
         <PackageReleaseNotes>
-            Release 2.15.0:
-            - Implement Plan Auto Fill
+            Release 2.16.0:
+            - Upgrade quicklister extensionas api client apackage
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.0.5" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.11.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.12.0-dev001" />
     </ItemGroup>
 
     <ItemGroup>

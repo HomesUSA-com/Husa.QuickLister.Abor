@@ -493,9 +493,9 @@ namespace Husa.Quicklister.Abor.Application
 
             listingSale.SaleProperty.ImportDataFromCommunity(communitySale);
             listingSale.AppointmentType = communitySale.AppointmentType;
-            listingSale.AccessInformation = communitySale.AccessInformation?.GetCopy() as AccessInformation;
-            listingSale.AppointmentRestrictions = communitySale.AppointmentRestrictions?.GetCopy() as AppointmentRestrictions;
-            listingSale.AdditionalInstructions = communitySale.AdditionalInstructions?.GetCopy() as AdditionalInstructions;
+            listingSale.AccessInformation = communitySale.AccessInformation?.Clone();
+            listingSale.AppointmentRestrictions = communitySale.AppointmentRestrictions?.Clone();
+            listingSale.AdditionalInstructions = communitySale.AdditionalInstructions?.Clone();
         }
 
         private async Task ImportPlanDataAsync(SaleListing listingSale, Guid planId)

@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
     using Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Extensions.Data.Documents.Extensions;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
     public static class SaleRequestQueryProjection
@@ -73,6 +74,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
                 StatusFieldsInfo = listingRequest.StatusFieldsInfo.ToListingRequestStatusFieldsQueryResult(),
                 SaleProperty = listingRequest.SaleProperty.ToProjectionListingSaleRequestSalePropertyQueryResult(),
                 PublishInfo = listingRequest.PublishInfo.ToProjectionPublishInfo(),
+                ShowingTime = listingRequest.ShowingTimeInfo?.ToProjectionShowingTime(),
             };
     }
 }
