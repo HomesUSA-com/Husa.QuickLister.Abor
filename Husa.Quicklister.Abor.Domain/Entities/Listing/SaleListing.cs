@@ -203,6 +203,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
             this.SaleProperty.ImportRoomsFromEntity(saleListingToClone.SaleProperty.Rooms);
             this.SaleProperty.UpdateOpenHouse(saleListingToClone.SaleProperty.OpenHouses);
+
             this.AppointmentType = saleListingToClone.AppointmentType;
             this.AccessInformation = saleListingToClone.AccessInformation.GetCopy() as AccessInformation;
             this.AppointmentRestrictions = saleListingToClone.AppointmentRestrictions.GetCopy() as AppointmentRestrictions;

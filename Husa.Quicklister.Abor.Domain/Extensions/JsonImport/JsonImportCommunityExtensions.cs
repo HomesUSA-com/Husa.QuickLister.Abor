@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Abor.Domain.Extensions
+namespace Husa.Quicklister.Abor.Domain.Extensions.JsonImport
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,6 @@ namespace Husa.Quicklister.Abor.Domain.Extensions
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.OpenHouse;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Dfw.Domain.Extensions;
     using JsonEnums = Husa.JsonImport.Domain.Enums;
 
     public static class JsonImportCommunityExtensions

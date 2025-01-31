@@ -10,10 +10,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Interfaces.Listing;
+    using Husa.Quicklister.Abor.Domain.Interfaces.SaleListing;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 
-    public record PropertyRecord : IProvideSummary, IPropertyInfo
+    public record PropertyRecord : IProvideSummary, IProvideSaleProperty
     {
         public const string SummarySection = "PropertyInfo";
 
@@ -36,7 +36,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         [Required(AllowEmptyStrings = false)]
         public string LotSize { get; set; }
 
-        public int ConstructionStartYear { get; set; }
+        [Required]
+        public int? ConstructionStartYear { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         [MaxLength(25, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]

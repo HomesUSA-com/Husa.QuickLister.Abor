@@ -7,10 +7,10 @@ namespace Husa.Quicklister.Abor.Domain.Common
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Interfaces.Listing;
+    using Husa.Quicklister.Abor.Domain.Interfaces.SaleListing;
 
     public static class ValidateListingProperty<TPropertyFields>
-        where TPropertyFields : IPropertyInfo
+        where TPropertyFields : IProvideSaleProperty
     {
         public static ValidationResult GetErrors(MarketStatuses mlsStatus, TPropertyFields value)
         {

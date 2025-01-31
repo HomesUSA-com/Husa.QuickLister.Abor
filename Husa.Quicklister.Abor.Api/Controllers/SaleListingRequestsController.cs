@@ -162,6 +162,8 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.BadRequest(id);
             }
 
+            await this.listingSaleService.CopyListingInfoToListingPlan(request.ListingSaleId);
+
             await this.listingSaleService.AssignMlsNumberAsync(request.ListingSaleId, mlsNumber, request.MlsStatus, actionType);
             await this.saleRequestService.ChangeRequestStatus(request, ListingRequestState.Completed, cancellationToken: cancellationToken);
             return this.Ok();

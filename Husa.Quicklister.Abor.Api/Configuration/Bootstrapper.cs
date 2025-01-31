@@ -113,6 +113,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddSingleton<CommunityShowingTimeContactOrderProjection>();
             services.AddSingleton<ListingShowingTimeContactOrderProjection>();
             services.AddScoped<IListingSaleQueriesRepository, ListingSaleQueriesRepository>();
+            services.AddScoped<IQueryCommunityEmployeeRepository, CommunityEmployeeQueriesRepository>();
             services.AddScoped<ICommunityQueriesRepository, CommunityQueriesRepository>();
             services.AddScoped<IPlanQueriesRepository, PlanQueriesRepository>();
             services.AddScoped<IAgentQueriesRepository, AgentQueriesRepository>();
@@ -155,13 +156,14 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.AddScoped<ICommunityHistoryService, CommunityHistoryService>();
             services.AddScoped<ISaleListingRequestService, SaleListingRequestService>();
+            services.AddScoped<InterfaceExtensions.JsonImport.IListingRequestJsonImportService, ListingRequestJsonImportService>();
             services.AddScoped<InterfaceExtensions.Request.ISaleListingRequestMediaService, SaleListingRequestMediaService>();
             services.AddScoped<InterfaceExtensions.Migration.IListingRequestMigrationService, ListingRequestMigrationService>();
             services.AddScoped<ISaleListingMigrationService, SaleListingMigrationService>();
 
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<IPlanPhotoService, PlanPhotoService>();
-            services.AddScoped<InterfaceExtensions.Plan.IPlanJsonImportService, PlanJsonImportService>();
+            services.AddScoped<InterfaceExtensions.JsonImport.IPlanJsonImportService, PlanJsonImportService>();
             services.AddScoped<InterfaceExtensions.Plan.IPlanXmlService, PlanXmlService>();
             services.AddScoped<InterfaceExtensions.Migration.IPlanMigrationService, PlanMigrationService>();
             services.AddScoped<IPlanMediaService, PlanMediaService>();
@@ -170,7 +172,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ISaleCommunityService, SaleCommunityService>();
             services.AddScoped<ICommunityPhotoService, CommunityPhotoService>();
             services.AddScoped<InterfaceExtensions.Community.ICommunityXmlService, CommunityXmlService>();
-            services.AddScoped<InterfaceExtensions.Community.ICommunityJsonImportService, CommunityJsonImportService>();
+            services.AddScoped<InterfaceExtensions.JsonImport.ICommunityJsonImportService, CommunityJsonImportService>();
             services.AddScoped<ICommunityMigrationService, CommunityMigrationService>();
             services.AddScoped<InterfaceExtensions.Migration.ICommunityHistoryMigrationService, CommunityHistoryMigrationService>();
             services.AddScoped<ICommunityMediaService, CommunityMediaService>();
@@ -186,7 +188,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ISaleListingBillService, SaleListingBillService>();
             services.AddScoped<InterfaceExtensions.Reports.IDiscrepancyReportService, DiscrepancyReportService>();
             services.AddScoped<InterfaceExtensions.Listing.ICallForwardService, CallForwardService>();
-            services.AddScoped<InterfaceExtensions.Listing.IListingJsonImportService, ListingJsonImportService>();
+            services.AddScoped<InterfaceExtensions.JsonImport.IListingJsonImportService, ListingJsonImportService>();
 
             services.AddScoped<IShowingTimeContactService, ShowingTimeContactService>();
 

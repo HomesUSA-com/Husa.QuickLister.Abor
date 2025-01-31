@@ -168,10 +168,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
 
                     b.Property<string>("JsonImportStatus")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasDefaultValue("NotFromJson");
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("LastJsonImportDate")
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("LastPhotoRequestCreationDate")
                         .HasColumnType("datetime");
@@ -289,8 +290,16 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Property<bool>("IsPhotosDeclined")
                         .HasColumnType("bit");
 
+                    b.Property<string>("JsonImportStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<Guid?>("JsonListingId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastJsonImportDate")
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("LastPhotoRequestCreationDate")
                         .HasColumnType("datetime");
@@ -544,8 +553,16 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Property<bool>("IsPhotosDeclined")
                         .HasColumnType("bit");
 
+                    b.Property<string>("JsonImportStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<Guid?>("JsonListingId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastJsonImportDate")
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("LastPhotoRequestCreationDate")
                         .HasColumnType("datetime");
@@ -807,10 +824,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
 
                     b.Property<string>("JsonImportStatus")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasDefaultValue("NotFromJson");
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("LastJsonImportDate")
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("LastPhotoRequestCreationDate")
                         .HasColumnType("datetime");

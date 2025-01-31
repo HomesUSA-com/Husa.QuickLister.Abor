@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Domain.Tests.Extensions
 {
     using Husa.Quicklister.Abor.Domain.Enums;
-    using Husa.Quicklister.Abor.Domain.Extensions;
+    using Husa.Quicklister.Abor.Domain.Extensions.JsonImport;
     using Xunit;
     using JsonRoomType = Husa.JsonImport.Domain.Enums.RoomType;
 

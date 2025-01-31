@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Extensions;
     using Xunit;
     using XmlResponse = Husa.Xml.Api.Contracts.Response;
 
@@ -13,7 +14,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     public class PlanTests
     {
         [Fact]
-        public void ImportFromListing_Complete_Success()
+        public void ImportFromSaleProperty_Complete_Success()
         {
             // Arrange
             var listingId = Guid.NewGuid();
@@ -26,7 +27,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             plan.BasePlan.FullBathsTotal = 1;
 
             // Act
-            plan.ImportFromListing(listing);
+            plan.ImportFromSaleProperty(listing.SaleProperty);
 
             // Assert
             Assert.Equal(listing.SaleProperty.SpacesDimensionsInfo.FullBathsTotal, plan.BasePlan.FullBathsTotal);
@@ -52,6 +53,96 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 
             // Assert
             Assert.Equal(stories, basePlan.StoriesTotal);
+        }
+
+        [Fact]
+        public void ImportFromListingIfFieldsAreEmpty()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var listing = TestModelProvider.GetListingSaleEntity(listingId, true);
+            listing.SaleProperty.SpacesDimensionsInfo = TestModelProvider.GetSpacesDimensionsInfo();
+
+            var companyId = Guid.NewGuid();
+            var plan = new Plan(companyId, "testName", "testOwnerName");
+
+            // Act
+            plan.ImportFromSaleProperty(listing.SaleProperty, updateRooms: false, overwriteFieldsOnlyIfNull: true);
+
+            // Assert
+            Assert.Equal(listing.SaleProperty.SpacesDimensionsInfo.StoriesTotal, plan.BasePlan.StoriesTotal);
+            Assert.Equal(listing.SaleProperty.SpacesDimensionsInfo.HalfBathsTotal, plan.BasePlan.HalfBathsTotal);
+            Assert.Equal(listing.SaleProperty.SpacesDimensionsInfo.FullBathsTotal, plan.BasePlan.FullBathsTotal);
+            Assert.Equal(listing.SaleProperty.SpacesDimensionsInfo.SqFtTotal, plan.BasePlan.SqFtTotal);
+            Assert.Equal(listing.SaleProperty.SpacesDimensionsInfo.DiningAreasTotal, plan.BasePlan.DiningAreasTotal);
+            Assert.Equal(listing.SaleProperty.SpacesDimensionsInfo.MainLevelBedroomTotal, plan.BasePlan.MainLevelBedroomTotal);
+            Assert.Equal(listing.SaleProperty.SpacesDimensionsInfo.OtherLevelsBedroomTotal, plan.BasePlan.OtherLevelsBedroomTotal);
+            Assert.Equal(listing.SaleProperty.SpacesDimensionsInfo.LivingAreasTotal, plan.BasePlan.LivingAreasTotal);
+        }
+
+        [Fact]
+        public void ImportFromListingIfFieldsAreEmpty_FieldsNotEmpty()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var listing = TestModelProvider.GetListingSaleEntity(listingId, true);
+            listing.SaleProperty.SpacesDimensionsInfo = TestModelProvider.GetSpacesDimensionsInfo();
+
+            var companyId = Guid.NewGuid();
+            var plan = new Plan(companyId, "testName", "testOwnerName");
+
+            var planStories = Stories.Two;
+            var bathsHalfTotal = 2;
+            var bathsFullTotal = 3;
+            var sqFtTotal = 2;
+            var diningAreasTotal = 2;
+            var mainLevelBedroomTotal = 2;
+            var otherLevelsBedroomTotal = 3;
+            var livingAreasTotal = 2;
+            this.SetBasePlanSpaceDimensionsFields(
+                basePlan: plan.BasePlan,
+                planStories: planStories,
+                bathsHalfTotal: bathsHalfTotal,
+                bathsFullTotal: bathsFullTotal,
+                sqFtTotal: sqFtTotal,
+                diningAreasTotal: diningAreasTotal,
+                mainLevelBedroomTotal: mainLevelBedroomTotal,
+                otherLevelsBedroomTotal: otherLevelsBedroomTotal,
+                livingAreasTotal: livingAreasTotal);
+
+            // Act
+            plan.ImportFromSaleProperty(listing.SaleProperty, updateRooms: false, overwriteFieldsOnlyIfNull: true);
+
+            // Assert
+            Assert.Equal(planStories, plan.BasePlan.StoriesTotal);
+            Assert.Equal(bathsHalfTotal, plan.BasePlan.HalfBathsTotal);
+            Assert.Equal(bathsFullTotal, plan.BasePlan.FullBathsTotal);
+            Assert.Equal(sqFtTotal, plan.BasePlan.SqFtTotal);
+            Assert.Equal(diningAreasTotal, plan.BasePlan.DiningAreasTotal);
+            Assert.Equal(mainLevelBedroomTotal, plan.BasePlan.MainLevelBedroomTotal);
+            Assert.Equal(otherLevelsBedroomTotal, plan.BasePlan.OtherLevelsBedroomTotal);
+            Assert.Equal(livingAreasTotal, plan.BasePlan.LivingAreasTotal);
+        }
+
+        private void SetBasePlanSpaceDimensionsFields(
+            BasePlan basePlan,
+            Stories planStories,
+            int bathsHalfTotal,
+            int bathsFullTotal,
+            int sqFtTotal,
+            int diningAreasTotal,
+            int mainLevelBedroomTotal,
+            int otherLevelsBedroomTotal,
+            int livingAreasTotal)
+        {
+            basePlan.StoriesTotal = planStories;
+            basePlan.HalfBathsTotal = bathsHalfTotal;
+            basePlan.FullBathsTotal = bathsFullTotal;
+            basePlan.SqFtTotal = sqFtTotal;
+            basePlan.DiningAreasTotal = diningAreasTotal;
+            basePlan.MainLevelBedroomTotal = mainLevelBedroomTotal;
+            basePlan.OtherLevelsBedroomTotal = otherLevelsBedroomTotal;
+            basePlan.LivingAreasTotal = livingAreasTotal;
         }
     }
 }
