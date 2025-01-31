@@ -99,7 +99,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 return;
             }
 
-            if (listing.Day.HasValue && this.constructionCompletionDate.HasValue && (this.constructionCompletionDate.Value.Date != listing.Day.Value.Date))
+            if (listing.Day.HasValue && this.constructionCompletionDate.HasValue && this.constructionCompletionDate.Value.Date != listing.Day.Value.Date)
             {
                 this.ConstructionCompletionDate = listing.Day;
                 this.ConstructionStage = listing.Day.Value.Date > DateTime.UtcNow.Date ? Enums.Domain.ConstructionStage.Incomplete : Enums.Domain.ConstructionStage.Complete;
