@@ -58,8 +58,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
 
         public virtual PublishFieldsRecord PublishInfo { get; set; }
 
-        public virtual ShowingTimeRecord ShowingTimeInfo { get; set; }
-
         public override Guid CompanyId
         {
             get { return this.companyId ?? this.SaleProperty.CompanyId; }

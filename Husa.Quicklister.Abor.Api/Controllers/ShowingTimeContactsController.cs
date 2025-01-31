@@ -5,12 +5,12 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.Extensions.Common.Classes;
+    using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Api.Contracts.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.ShowingTime;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ShowingTime;
     using Husa.Quicklister.Extensions.Application.Interfaces.ShowingTime;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
-    using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -41,7 +41,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         {
             this.logger.LogInformation("Starting to get ShowingTime contacts in DFW");
             var queryFilter = this.mapper.Map<ShowingTimeContactQueryFilter>(requestFilter);
-            var queryResponse = await this.showingTimeContactQueryRepository.GetAsync(queryFilter);
+            var queryResponse = await this.showingTimeContactQueryRepository.Search(queryFilter);
             var data = this.mapper.Map<IEnumerable<ContactResponse>>(queryResponse.Data);
             return this.Ok(new DataSet<ContactResponse>(data, queryResponse.Total));
         }

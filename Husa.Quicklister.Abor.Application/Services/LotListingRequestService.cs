@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
@@ -31,7 +32,8 @@ namespace Husa.Quicklister.Abor.Application.Services
             LotListingRequest,
             ICommunitySaleRepository,
             ILotListingRepository,
-            ILotListingRequestRepository>,
+            ILotListingRequestRepository,
+            ShowingTimeContact>,
         ILotListingRequestService
     {
         private readonly ApplicationOptions options;

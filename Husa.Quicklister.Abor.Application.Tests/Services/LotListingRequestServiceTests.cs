@@ -89,7 +89,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
             var sut = this.GetSut();
 
             // Act
-            var result = await sut.CreateRequestAsync(listingId, cancellationToken: default);
+            var result = await sut.CreateRequestAsync(listingId, null, cancellationToken: default);
 
             // Assert
             Assert.NotNull(result);

@@ -1,9 +1,9 @@
-﻿namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
+namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
 {
     using System.Collections.Generic;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Entities.Request;
-    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
+    using ShowingTimeEnums = Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
 
     public record ShowingTimeRecordDummyTest : ShowingTimeRecord
     {
@@ -17,7 +17,7 @@
                     new SummaryField
                     {
                         FieldName = nameof(ShowingTimeRecord.AppointmentType),
-                        NewValue = AppointmentType.AppointmentRequired,
+                        NewValue = ShowingTimeEnums.AppointmentType.AppointmentRequired,
                         OldValue = null,
                     },
                 ],
@@ -86,7 +86,7 @@
                     new SummaryField
                     {
                         FieldName = nameof(AccessInformationRecord.AccessMethod),
-                        NewValue = AccessMethod.GateGuardDoormanConcierge,
+                        NewValue = ShowingTimeEnums.AccessMethod.GateGuardDoormanConcierge,
                         OldValue = null,
                     },
                     new SummaryField

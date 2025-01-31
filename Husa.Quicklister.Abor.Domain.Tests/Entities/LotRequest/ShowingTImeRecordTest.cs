@@ -1,13 +1,13 @@
 namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
 {
     using Husa.Quicklister.Extensions.Domain.Entities.Request;
-    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
+    using ShowingTimeEnums = Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
 
     public record ShowingTimeRecordTest : ShowingTimeRecord
     {
         public ShowingTimeRecordTest()
         {
-            this.AppointmentType = AppointmentType.AppointmentRequired;
+            this.AppointmentType = ShowingTimeEnums.AppointmentType.AppointmentRequired;
             this.AppointmentRestrictions = new()
             {
                 AllowAppraisals = true,
@@ -23,7 +23,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
             };
             this.AccessInformation = new()
             {
-                AccessMethod = AccessMethod.GateGuardDoormanConcierge,
+                AccessMethod = ShowingTimeEnums.AccessMethod.GateGuardDoormanConcierge,
                 Location = "Test",
                 Serial = "Test",
                 Combination = "Test",
