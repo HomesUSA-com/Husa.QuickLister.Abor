@@ -173,8 +173,14 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 }
             }
 
-            if (this.ListingSaleRepository.HasXmlChanges(listing) || mediaHasChanges)
+            var listingHasXmlChanges = this.ListingSaleRepository.HasXmlChanges(listing);
+            if (listingHasXmlChanges || mediaHasChanges)
             {
+                this.Logger.LogInformation(
+                    "The listing with XmlId: {xmlListingId} has xml changes by properties {listingHasXmlChanges} or mediaChanges: {mediaHasChanges}",
+                    xmlListingId,
+                    listingHasXmlChanges,
+                    mediaHasChanges);
                 listing.LockByUser(currentUser.Id);
                 await this.ListingSaleRepository.SaveChangesAsync(listing);
                 var requestResult = listing.GenerateRequest(currentUser.Id);
