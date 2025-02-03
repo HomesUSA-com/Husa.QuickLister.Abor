@@ -141,13 +141,22 @@ namespace Husa.Quicklister.Abor.Domain.Common
             var results = ToRequiredFieldValidationResult(requiredFields);
             results.AddValue(record.ClosePrice.HasValue && record.ClosePrice.Value <= 0, new(OperatorType.GreaterThan.GetErrorMessage("zero")));
 
-            if (!record.PendingDate.HasValue)
+            if (record.PendingDate.HasValue && record.PendingDate.Value.Date > DateTime.Today.AddDays(-1).Date)
             {
-                results.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.PendingDate) }));
+                results.Add(new ValidationResult(OperatorType.LessEqual.GetErrorMessage("yesterday"), new[] { nameof(record.PendingDate) }));
             }
-            else if (record.PendingDate.Value > DateTime.Today.AddDays(1))
+
+            if (record.ClosedDate.HasValue)
             {
-                results.Add(new(OperatorType.LessEqual.GetErrorMessage("today"), new[] { nameof(record.PendingDate) }));
+                if (record.ClosedDate.Value.Date > DateTime.Today.Date)
+                {
+                    results.Add(new ValidationResult("The close date cannot be in the future.", new[] { nameof(record.ClosedDate) }));
+                }
+
+                if (record.PendingDate.HasValue && record.ClosedDate.Value.Date < record.PendingDate.Value.AddDays(1).Date)
+                {
+                    results.Add(new ValidationResult("The close date must be at least one day after the pending date.", new[] { nameof(record.ClosedDate) }));
+                }
             }
 
             return results;

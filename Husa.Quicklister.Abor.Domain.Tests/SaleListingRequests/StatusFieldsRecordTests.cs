@@ -59,7 +59,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             var statusRecord = new SaleStatusFieldsRecord();
             var statusInfo = new SaleStatusFieldsRecord()
             {
-                PendingDate = DateTime.Now,
+                ClosedDate = DateTime.Now,
+                PendingDate = DateTime.Today.AddDays(-1),
                 SellConcess = "1223",
             };
 
@@ -67,7 +68,8 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             var summary = statusRecord.GetSummary(statusInfo, MarketStatuses.Closed);
 
             // Assert
-            Assert.Equal(2, summary.Fields.Count());
+            Assert.Equal(3, summary.Fields.Count());
+            Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.ClosedDate));
             Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.PendingDate));
             Assert.Contains(summary.Fields, x => x.FieldName == nameof(statusInfo.SellConcess));
         }

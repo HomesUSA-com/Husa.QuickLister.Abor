@@ -20,6 +20,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums
         [EnumMember(Value = "Closed")]
         [Description("Closed")]
         Closed,
+        [EnumMember(Value = "Expired")]
+        [Description("Expired")]
+        Expired,
         [EnumMember(Value = "Hold")]
         [Description("Hold")]
         Hold,
