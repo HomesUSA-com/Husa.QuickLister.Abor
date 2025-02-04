@@ -178,6 +178,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
 
             summarySections.Add(this.StatusFieldsInfo.GetSummary(previousRequest?.StatusFieldsInfo, this.MlsStatus));
             summarySections.AddRange(this.ShowingTimeInfo?.GetSummarySections(previousRequest?.ShowingTimeInfo));
+            summarySections.AddRange(this.ShowingTimeInfo?.GetSummaryContacts(previousRequest?.ShowingTimeInfo));
             summarySections = summarySections.Where(summary => summary != null).ToList();
 
             var rootFieldChanges = this.GetRequestSummary(previousRequest);
