@@ -21,7 +21,7 @@ namespace Husa.Quicklister.Abor.Data
 
     public class ApplicationDbContext :
         DbContext,
-        IDbSetViolationWarningAlert,
+        IDbSetViolationWarningLog,
         IDbSetSaleListing<SaleListing>,
         IDbSetXmlSaleListing<SaleListing>,
         IDbSetAgent,
@@ -69,7 +69,7 @@ namespace Husa.Quicklister.Abor.Data
 
         public virtual DbSet<LotManagementTrace> LotManagementTrace { get; set; }
 
-        public virtual DbSet<ViolationWarningAlert> ViolationWarningAlert { get; set; }
+        public virtual DbSet<ViolationWarningLog> ViolationWarningLog { get; set; }
 
         public virtual DbSet<ShowingTimeContact> ShowingTimeContacts { get; set; }
 
