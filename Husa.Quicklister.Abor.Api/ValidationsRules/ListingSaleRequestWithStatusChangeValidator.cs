@@ -79,11 +79,20 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
         {
             this.When(l => l.MlsStatus == MarketStatuses.Closed, () =>
             {
-                this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
+                this.RuleFor(f => f.StatusFieldsInfo.PendingDate.Value.Date)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .LessThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
-                this.RuleFor(f => f.StatusFieldsInfo.ClosedDate)
-                    .NotEmpty().WithMessage(RequiredFieldMessage);
+                    .LessThanOrEqualTo(DateTime.Today.AddDays(-1).Date)
+                    .WithMessage(GetErrorMessage("yesterday", LessThanOrEqualTo));
+
+                this.RuleFor(f => f.StatusFieldsInfo.ClosedDate.Value.Date)
+                    .NotEmpty().WithMessage(RequiredFieldMessage)
+                    .LessThanOrEqualTo(DateTime.Today.Date)
+                    .WithMessage("The close date cannot be in the future.");
+
+                this.RuleFor(f => f.StatusFieldsInfo.ClosedDate.Value.Date)
+                    .GreaterThanOrEqualTo(f => f.StatusFieldsInfo.PendingDate.Value.AddDays(1).Date)
+                    .WithMessage("The close date must be at least one day after the contract date.");
+
                 this.RuleFor(f => f.StatusFieldsInfo.ClosePrice)
                     .NotNull().WithMessage(RequiredFieldMessage)
                     .GreaterThan(0).WithMessage(GetErrorMessage("zero", GreaterThan));
