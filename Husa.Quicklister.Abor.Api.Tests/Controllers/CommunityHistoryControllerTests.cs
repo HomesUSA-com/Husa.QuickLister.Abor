@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Document.Models;
-    using Husa.Quicklister.Abor.Api.Controllers;
+    using Husa.Quicklister.Abor.Api.Controllers.Community;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;

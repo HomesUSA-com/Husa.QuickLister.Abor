@@ -7,9 +7,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces.SaleListing;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 
-    public record ShowingRecord : IProvideSummary
+    public record ShowingRecord : IProvideSummary, IProvideSaleShowing
     {
         public const string SummarySection = "Showing";
 
@@ -37,7 +38,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         [MinLength(1)]
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
 
-        public LockBoxType LockBoxType { get; set; }
+        [Required]
+        public LockBoxType? LockBoxType { get; set; }
         public bool EnableOpenHouses { get; set; }
         public bool ShowOpenHousesPending { get; set; }
 

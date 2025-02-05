@@ -10,9 +10,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     using Husa.Extensions.Domain.Validations;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces.SaleListing;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 
-    public record FeaturesRecord : IProvideSummary
+    public record FeaturesRecord : IProvideSummary, IProvideSaleFeature
     {
         public const string SummarySection = "Features";
 
@@ -21,7 +22,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         public string PropertyDescription { get; set; }
 
         [Required]
-        public int Fireplaces { get; set; }
+        public int? Fireplaces { get; set; }
 
         [IfRequired(nameof(Fireplaces), "0", OperatorType.GreaterThan)]
         public ICollection<FireplaceDescription> FireplaceDescription { get; set; }
@@ -66,7 +67,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         [Required]
         [MinLength(1)]
         public ICollection<Appliances> Appliances { get; set; }
-        public int GarageSpaces { get; set; }
+        [Required]
+        public int? GarageSpaces { get; set; }
 
         [IfRequired(nameof(GarageSpaces), 0, OperatorType.GreaterThan)]
         public ICollection<GarageDescription> GarageDescription { get; set; }

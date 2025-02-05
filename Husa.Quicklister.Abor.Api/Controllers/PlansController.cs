@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Application.Models.Plan;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Api.Contracts.Request;
+    using Husa.Quicklister.Extensions.Application.Interfaces.JsonImport;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -29,7 +30,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             IPlanQueriesRepository planQueriesRepository,
             IPlanService planService,
             ExtensionInterfaces.IPlanXmlService planXmlService,
-            ExtensionInterfaces.IPlanJsonImportService planJsonImportService,
+            IPlanJsonImportService planJsonImportService,
             ILogger<PlansController> logger,
             IMapper mapper)
             : base(planService, planXmlService, planJsonImportService, logger)

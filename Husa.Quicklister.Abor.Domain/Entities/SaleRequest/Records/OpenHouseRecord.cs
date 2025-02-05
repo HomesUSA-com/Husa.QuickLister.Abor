@@ -3,7 +3,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     using System;
     using System.Collections.Generic;
     using Husa.Extensions.Document.Interfaces;
-    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using AborIProvideOpenHouseInfo = Husa.Quicklister.Abor.Domain.Interfaces.IProvideOpenHouseInfo;
@@ -29,7 +28,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         public string FieldType => this.Type.ToString();
 
         public OpenHouseRecord CloneRecord() => (OpenHouseRecord)this.MemberwiseClone();
-        public static OpenHouseRecord CreateOpenHouse(SaleListingOpenHouse openHouse)
+        public static OpenHouseRecord CreateOpenHouse<T>(T openHouse)
+            where T : OpenHouse.OpenHouse
         {
             if (openHouse == null)
             {

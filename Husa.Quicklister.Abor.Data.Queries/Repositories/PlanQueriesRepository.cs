@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
+    using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -105,7 +106,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .FilterByCompany(currentUser)
                 .SingleOrDefaultAsync(x => x.Id == listingId) ?? throw new NotFoundException<SaleListing>(listingId);
 
-            plan.ImportFromListing(listingSale);
+            plan.ImportFromSaleProperty(listingSale.SaleProperty);
             var compiledLambda = PlanProjection.ProjectionToPlanDetailQueryResult.Compile();
             return compiledLambda.Invoke(plan);
         }

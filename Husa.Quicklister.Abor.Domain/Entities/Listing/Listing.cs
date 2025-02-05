@@ -4,12 +4,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Attributes;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using ExtensionListing = Husa.Quicklister.Extensions.Domain.Entities.Listing.Listing;
 
-    public abstract class Listing : ExtensionListing
+    public abstract class Listing : ExtensionListing, IProvideListingInfo
     {
         protected bool isMarketUpdate = false;
         protected bool processFullListing = true;

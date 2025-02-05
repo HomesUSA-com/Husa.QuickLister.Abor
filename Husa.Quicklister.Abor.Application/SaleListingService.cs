@@ -406,6 +406,18 @@ namespace Husa.Quicklister.Abor.Application
             await this.ListingRepository.SaveChangesAsync(listing);
         }
 
+        protected override void ImportListingInfoToPlan(SaleListing listingSale)
+        {
+            var plan = listingSale.SaleProperty.Plan;
+            if (plan is null)
+            {
+                this.Logger.LogInformation("Plan not found for listing sale with Id: {listingSaleId}. Skipping info import.", listingSale.Id);
+                return;
+            }
+
+            plan.ImportFromSaleProperty(listingSale.SaleProperty, updateRooms: false, overwriteFieldsOnlyIfNull: true);
+        }
+
         protected override async Task UpdatePhotoRequestProperty(SaleListing listing)
         {
             if (listing.LastPhotoRequestCreationDate.HasValue)
@@ -440,6 +452,11 @@ namespace Husa.Quicklister.Abor.Application
             listing.SaleProperty.UpdateRoomsInfoFromPlan(plan, listing.Id, updateRooms);
 
             listing.SaleProperty.PlanId = planId;
+        }
+
+        protected override void ImportListingToCommunity(SaleListing listingSale)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task ImportDataFromCommunityAndPlan(SaleListing listingSaleEntity, QuickCreateListingDto listingSale)

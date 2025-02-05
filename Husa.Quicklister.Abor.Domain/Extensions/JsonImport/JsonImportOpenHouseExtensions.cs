@@ -1,4 +1,4 @@
-namespace Husa.Quicklister.Dfw.Domain.Extensions
+namespace Husa.Quicklister.Abor.Domain.Extensions.JsonImport
 {
     using System.Collections.Generic;
     using System.Linq;

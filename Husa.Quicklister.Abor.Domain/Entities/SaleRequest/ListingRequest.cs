@@ -6,10 +6,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
     using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using ExtensionsEntities = Husa.Quicklister.Extensions.Domain.Entities.Request;
 
-    public abstract class ListingRequest : ExtensionsEntities.SaleListingRequest
+    public abstract class ListingRequest : ExtensionsEntities.SaleListingRequest, IProvideListingInfo
     {
         protected ListingRequest(ListingRequestValueObject listingRequestValue)
             : this(
@@ -42,8 +43,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
 
         public virtual int? DOM { get; set; }
 
+        [Required]
         [Range(100000, 3000000, ErrorMessage = "{0} must be between {1} and {2}")]
-        public virtual decimal ListPrice { get; set; }
+        public virtual decimal? ListPrice { get; set; }
 
         public virtual DateTime? MarketModifiedOn { get; }
 

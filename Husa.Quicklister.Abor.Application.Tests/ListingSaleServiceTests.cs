@@ -796,6 +796,32 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.listingSaleRepository.Verify(r => r.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Once);
         }
 
+        [Fact]
+        public async Task ImportListingInfoToPlan()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var listingSale = TestModelProvider.GetListingSaleEntity(Guid.NewGuid(), true);
+            this.listingSaleRepository
+                 .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()))
+            .ReturnsAsync(listingSale)
+                 .Verifiable();
+            listingSale.SaleProperty.SpacesDimensionsInfo = TestModelProvider.GetSpacesDimensionsInfo();
+
+            // Act
+            await this.Sut.CopyListingInfoToListingPlan(listingId);
+
+            // Assert
+            Assert.Equal(listingSale.SaleProperty.SpacesDimensionsInfo.StoriesTotal, listingSale.SaleProperty.Plan.BasePlan.StoriesTotal);
+            Assert.Equal(listingSale.SaleProperty.SpacesDimensionsInfo.HalfBathsTotal, listingSale.SaleProperty.Plan.BasePlan.HalfBathsTotal);
+            Assert.Equal(listingSale.SaleProperty.SpacesDimensionsInfo.FullBathsTotal, listingSale.SaleProperty.Plan.BasePlan.FullBathsTotal);
+            Assert.Equal(listingSale.SaleProperty.SpacesDimensionsInfo.SqFtTotal, listingSale.SaleProperty.Plan.BasePlan.SqFtTotal);
+            Assert.Equal(listingSale.SaleProperty.SpacesDimensionsInfo.DiningAreasTotal, listingSale.SaleProperty.Plan.BasePlan.DiningAreasTotal);
+            Assert.Equal(listingSale.SaleProperty.SpacesDimensionsInfo.MainLevelBedroomTotal, listingSale.SaleProperty.Plan.BasePlan.MainLevelBedroomTotal);
+            Assert.Equal(listingSale.SaleProperty.SpacesDimensionsInfo.OtherLevelsBedroomTotal, listingSale.SaleProperty.Plan.BasePlan.OtherLevelsBedroomTotal);
+            Assert.Equal(listingSale.SaleProperty.SpacesDimensionsInfo.LivingAreasTotal, listingSale.SaleProperty.Plan.BasePlan.LivingAreasTotal);
+        }
+
         private async Task UnlockListing_Success(UserContext user, LockedStatus lockedStatus, Guid lockedBy)
         {
             // Arrange

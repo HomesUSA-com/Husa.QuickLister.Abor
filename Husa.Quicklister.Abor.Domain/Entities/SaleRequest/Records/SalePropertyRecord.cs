@@ -62,7 +62,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         public virtual ICollection<OpenHouseRecord> OpenHouses { get; set; }
 
         public virtual ICollection<RoomRecord> Rooms { get; set; }
-        public void UpdateOpenHouse(ICollection<SaleListingOpenHouse> openHouses)
+        public void UpdateOpenHouse<T>(ICollection<T> openHouses)
+            where T : OpenHouse.OpenHouse
         {
             if (openHouses != null && openHouses.Count > 0)
             {

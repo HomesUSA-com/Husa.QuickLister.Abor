@@ -168,10 +168,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
 
                     b.Property<string>("JsonImportStatus")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasDefaultValue("NotFromJson");
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("LastJsonImportDate")
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("LastPhotoRequestCreationDate")
                         .HasColumnType("datetime");
@@ -289,8 +290,16 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Property<bool>("IsPhotosDeclined")
                         .HasColumnType("bit");
 
+                    b.Property<string>("JsonImportStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<Guid?>("JsonListingId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastJsonImportDate")
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("LastPhotoRequestCreationDate")
                         .HasColumnType("datetime");
@@ -544,8 +553,16 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Property<bool>("IsPhotosDeclined")
                         .HasColumnType("bit");
 
+                    b.Property<string>("JsonImportStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<Guid?>("JsonListingId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastJsonImportDate")
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("LastPhotoRequestCreationDate")
                         .HasColumnType("datetime");
@@ -807,10 +824,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
 
                     b.Property<string>("JsonImportStatus")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasDefaultValue("NotFromJson");
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("LastJsonImportDate")
+                        .HasColumnType("datetime");
 
                     b.Property<DateTime?>("LastPhotoRequestCreationDate")
                         .HasColumnType("datetime");
@@ -1179,7 +1197,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.ToTable("Agent");
                 });
 
-            modelBuilder.Entity("Husa.Quicklister.Extensions.Domain.Entities.ViolationWarningAlert", b =>
+            modelBuilder.Entity("Husa.Quicklister.Extensions.Domain.Entities.ViolationWarningLog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1193,6 +1211,10 @@ namespace Husa.Quicklister.Abor.Data.Migrations
 
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Emails")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1224,20 +1246,13 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
-                    b.Property<int>("WarningCount")
-                        .HasMaxLength(5)
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique()
-                        .HasDatabaseName("IX_ViolationWarningAlert");
+                        .HasDatabaseName("IX_ViolationWarningLog");
 
-                    b.HasIndex("CompanyId", "ListingId", "AlertType")
-                        .IsUnique();
-
-                    b.ToTable("ViolationWarningAlert");
+                    b.ToTable("ViolationWarningLog");
                 });
 
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.ListingSaleRoom", b =>

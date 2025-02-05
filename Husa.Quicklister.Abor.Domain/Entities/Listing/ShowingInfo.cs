@@ -5,10 +5,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Extensions.Domain.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Abor.Domain.Interfaces.SaleListing;
     using Husa.Quicklister.Extensions.Domain.Attributes;
 
-    public class ShowingInfo : ValueObject, IProvideShowingInfo
+    public class ShowingInfo : ValueObject, IProvideSaleShowing
     {
         private string occupantPhone;
         private string contactPhone;
@@ -45,8 +45,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         [XmlPropertyUpdate]
         public virtual string Directions { get; set; }
         public virtual string OwnerName { get; set; }
-        public virtual bool EnableOpenHouses { get; protected set; }
-        public virtual bool ShowOpenHousesPending { get; protected set; }
+        public virtual bool EnableOpenHouses { get; set; }
+        public virtual bool ShowOpenHousesPending { get; set; }
 
         public ShowingInfo Clone()
         {
@@ -66,16 +66,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             clonnedShowing.RealtorContactEmail = showing.RealtorContactEmail;
 
             return clonnedShowing;
-        }
-
-        public virtual void EnableOpenHouse(bool showOpenHouseWhenPending = false)
-        {
-            this.EnableOpenHouses = true;
-
-            if (showOpenHouseWhenPending)
-            {
-                this.ShowOpenHousesPending = true;
-            }
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

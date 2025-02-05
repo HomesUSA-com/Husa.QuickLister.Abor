@@ -14,8 +14,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Interfaces
 
         Task<CommunityDetailQueryResult> GetCommunityByName(Guid companyId, string communityName);
 
-        Task<DataSet<CommunityEmployeeQueryResult>> GetCommunityEmployees(Guid communityId, string sortBy);
-
         Task<CommunityDetailQueryResult> GetByIdWithListingImportProjection(Guid id, Guid listingId);
     }
 }

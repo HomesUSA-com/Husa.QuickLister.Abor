@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
             where T : Listing
         {
             entity.SetBaseListingProperties();
+            entity.ConfigureJsonListingInfoMapping();
             entity.Property(p => p.ListPrice).HasPrecision(18, 2);
             entity.Property(p => p.ListType).HasConversion<string>().HasMaxLength(30);
             entity.Property(p => p.MarketUniqueId).HasMaxLength(50);

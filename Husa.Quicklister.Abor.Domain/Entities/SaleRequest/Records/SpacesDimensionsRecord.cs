@@ -6,22 +6,32 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 
-    public record SpacesDimensionsRecord : IProvideSummary
+    public record SpacesDimensionsRecord : IProvideSummary, IProvideSpacesDimensions
     {
         public const string SummarySection = "Spaces and Dimensions";
-        public Stories StoriesTotal { get; set; }
-        public int SqFtTotal { get; set; }
-        public int DiningAreasTotal { get; set; }
-        public int MainLevelBedroomTotal { get; set; }
+
+        [Required]
+        public Stories? StoriesTotal { get; set; }
+
+        [Required]
+        public int? SqFtTotal { get; set; }
+        [Required]
+        public int? DiningAreasTotal { get; set; }
+        [Required]
+        public int? MainLevelBedroomTotal { get; set; }
 
         [Required]
         [Range(0, 9, ErrorMessage = "{0} must be between {1} and {2}")]
         public int? OtherLevelsBedroomTotal { get; set; }
-        public int HalfBathsTotal { get; set; }
-        public int FullBathsTotal { get; set; }
-        public int LivingAreasTotal { get; set; }
+        [Required]
+        public int? HalfBathsTotal { get; set; }
+        [Required]
+        public int? FullBathsTotal { get; set; }
+        [Required]
+        public int? LivingAreasTotal { get; set; }
 
         public SpacesDimensionsRecord CloneRecord() => (SpacesDimensionsRecord)this.MemberwiseClone();
 

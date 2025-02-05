@@ -8,20 +8,17 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.14.3</Version>
+        <Version>2.15.1</Version>
         <PackageReleaseNotes>
-            Release 2.14.3:
-            - Active alert when EstimatedClosedDate field is expired
-            - Added HarvestRidge in elementary school
-            - Update the FilterByFieldChange to support bulk upload media
-            - Increase Max Length in Community Name Field
+            Release 2.15.1:
+            - Implement Plan Auto Fill
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.0.5" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.11.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.12.0" />
     </ItemGroup>
 
     <ItemGroup>

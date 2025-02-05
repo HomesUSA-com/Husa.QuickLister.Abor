@@ -107,23 +107,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
             this.UpdateRooms(rooms);
         }
 
-        public virtual void ImportFromListing(SaleListing listing)
-        {
-            this.BasePlan.StoriesTotal = listing.SaleProperty.SpacesDimensionsInfo.StoriesTotal;
-            this.BasePlan.SqFtTotal = listing.SaleProperty.SpacesDimensionsInfo.SqFtTotal;
-            this.BasePlan.DiningAreasTotal = listing.SaleProperty.SpacesDimensionsInfo.DiningAreasTotal;
-            this.BasePlan.MainLevelBedroomTotal = listing.SaleProperty.SpacesDimensionsInfo.MainLevelBedroomTotal;
-            this.BasePlan.OtherLevelsBedroomTotal = listing.SaleProperty.SpacesDimensionsInfo.OtherLevelsBedroomTotal;
-            this.BasePlan.HalfBathsTotal = listing.SaleProperty.SpacesDimensionsInfo.HalfBathsTotal;
-            this.BasePlan.FullBathsTotal = listing.SaleProperty.SpacesDimensionsInfo.FullBathsTotal;
-            this.BasePlan.LivingAreasTotal = listing.SaleProperty.SpacesDimensionsInfo.LivingAreasTotal;
-
-            var rooms = listing.SaleProperty.Rooms.Select(room => new PlanRoom(
-                    room.Id, room.RoomType, room.Level, room.Features, room.Description));
-
-            this.UpdateRooms(rooms);
-        }
-
         protected bool AreRoomsEqual(ICollection<PlanRoom> other)
         {
             return this.Rooms
