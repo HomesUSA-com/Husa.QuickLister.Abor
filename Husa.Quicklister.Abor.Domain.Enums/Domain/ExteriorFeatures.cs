@@ -23,6 +23,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "GUTPL")]
         [Description("Gutters-Partial")]
         GuttersPartial,
+        [EnumMember(Value = "GUTFL")]
+        [Description("Gutters-Full")]
+        GuttersFull,
         [EnumMember(Value = "NOENS")]
         [Description("No Exterior Steps")]
         NoExteriorSteps,
