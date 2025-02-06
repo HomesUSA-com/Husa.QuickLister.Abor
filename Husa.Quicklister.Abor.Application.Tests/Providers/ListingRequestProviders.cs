@@ -5,7 +5,9 @@ namespace Husa.Quicklister.Abor.Application.Tests.Providers
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Moq;
+    using ShowingTimeRecord = Husa.Quicklister.Extensions.Domain.Entities.Request.ShowingTimeRecord;
 
     public static class ListingRequestProviders
     {
@@ -32,6 +34,13 @@ namespace Husa.Quicklister.Abor.Application.Tests.Providers
             saleListingRequest.SetupGet(sl => sl.SaleProperty).Returns(salePropertyRecord).Verifiable();
             saleListingRequest.SetupGet(sl => sl.StatusFieldsInfo).Returns(new SaleStatusFieldsRecord()).Verifiable();
             saleListingRequest.SetupGet(sl => sl.PublishInfo).Returns(new PublishFieldsRecord()).Verifiable();
+            saleListingRequest.SetupGet(sl => sl.ShowingTimeInfo).Returns(new ShowingTimeRecord()
+            {
+                AppointmentType = AppointmentType.AppointmentRequired,
+                AppointmentRestrictions = new(),
+                AdditionalInstructions = new(),
+                AccessInformation = new(),
+            });
             if (requestState.HasValue)
             {
                 saleListingRequest.SetupGet(sl => sl.RequestState).Returns(requestState.Value).Verifiable();

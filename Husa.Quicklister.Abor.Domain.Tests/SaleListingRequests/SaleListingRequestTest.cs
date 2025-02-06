@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest;
     using Husa.Quicklister.Extensions.Domain.Common;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Moq;
@@ -46,7 +47,9 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
                 .Returns(GetSalePropertySummary())
                 .Verifiable();
 
+            var showingTimeRecord = new ShowingTimeRecordTest();
             sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
+            sut.SetupGet(s => s.ShowingTimeInfo).Returns(showingTimeRecord);
 
             var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
             statusFieldsRecord
@@ -79,7 +82,9 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
                 .Returns(GetSalePropertySummary())
                 .Verifiable();
 
+            var showingTimeRecord = new ShowingTimeRecordTest();
             sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
+            sut.SetupGet(s => s.ShowingTimeInfo).Returns(showingTimeRecord);
 
             var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
             statusFieldsRecord
@@ -99,7 +104,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         public void GetSummaryWhenNoPreviousRequestExistsSuccess()
         {
             // Arrange
-            const int expectedSummarySections = 10;
+            const int expectedSummarySections = 14;
             var creationDateTime = DateTime.UtcNow;
             var sut = GetListingRequest(creationDateTime);
             sut.Setup(s => s.GetSummary(It.IsAny<SaleListingRequest>())).CallBase();
@@ -109,8 +114,10 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
                 .Setup(p => p.GetSummarySections(It.Is<SalePropertyRecord>(p => p == null)))
                 .Returns(GetSalePropertySummary())
                 .Verifiable();
+            var showingTimeRecord = new ShowingTimeRecordDummyTest();
 
             sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
+            sut.SetupGet(s => s.ShowingTimeInfo).Returns(showingTimeRecord);
 
             var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
             statusFieldsRecord
@@ -133,7 +140,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         public void GetSummaryWhenNoPreviousRequestExistsWithStatusSummarySuccess()
         {
             // Arrange
-            const int expectedSummarySections = 11;
+            const int expectedSummarySections = 15;
             var creationDateTime = DateTime.UtcNow;
             var sut = GetListingRequest(creationDateTime);
             sut.Setup(s => s.GetSummary(It.IsAny<SaleListingRequest>())).CallBase();
@@ -145,6 +152,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
                 .Verifiable();
 
             sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
+            sut.SetupGet(s => s.ShowingTimeInfo).Returns(new ShowingTimeRecordDummyTest());
 
             var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
             statusFieldsRecord
@@ -166,7 +174,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         [Fact]
         public void GetSummaryWhenStatusChangesFromPendingToSold()
         {
-            const int expectedSummarySections = 11;
+            const int expectedSummarySections = 15;
             var creationDateTime = DateTime.UtcNow;
             var oldCompleteRequest = GetListingRequest(creationDateTime);
             var sut = GetListingRequest(creationDateTime);
@@ -179,6 +187,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
                 .Verifiable();
 
             sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
+            sut.SetupGet(s => s.ShowingTimeInfo).Returns(new ShowingTimeRecordDummyTest());
 
             var saleStatusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
             saleStatusFieldsRecord
@@ -280,6 +289,10 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             Assert.Equal(saleListingRequest.SaleProperty.FinancialInfo.HOARequirement, requestCloned.SaleProperty.FinancialInfo.HOARequirement);
             Assert.Equal(saleListingRequest.SaleProperty.ShowingInfo.ShowingInstructions, requestCloned.SaleProperty.ShowingInfo.ShowingInstructions);
             Assert.Equal(saleListingRequest.SaleProperty.SchoolsInfo.HighSchool, requestCloned.SaleProperty.SchoolsInfo.HighSchool);
+            Assert.Equal(saleListingRequest.ShowingTimeInfo.AppointmentType, requestCloned.ShowingTimeInfo.AppointmentType);
+            Assert.Equal(saleListingRequest.ShowingTimeInfo.AppointmentRestrictions.LeadTime, requestCloned.ShowingTimeInfo.AppointmentRestrictions.LeadTime);
+            Assert.Equal(saleListingRequest.ShowingTimeInfo.AdditionalInstructions.NotesForApptStaff, requestCloned.ShowingTimeInfo.AdditionalInstructions.NotesForApptStaff);
+            Assert.Equal(saleListingRequest.ShowingTimeInfo.AccessInformation.AccessMethod, requestCloned.ShowingTimeInfo.AccessInformation.AccessMethod);
         }
 
         [Fact]
@@ -381,6 +394,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             listingRequest.SetupGet(s => s.SysCreatedOn).Returns(creationDateTime);
             listingRequest.SetupGet(s => s.SysModifiedOn).Returns(creationDateTime);
             listingRequest.SetupGet(s => s.SysTimestamp).Returns(creationDateTime);
+            listingRequest.SetupGet(s => s.ShowingTimeInfo).Returns(new ShowingTimeRecordTest());
 
             return listingRequest;
         }
