@@ -17,7 +17,9 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
     using Husa.Quicklister.Abor.Application.Models.Lot;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
+    using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Extensions.Api.Controllers;
@@ -30,7 +32,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
 
     [ApiController]
     [Route("lot-listing-requests")]
-    public class LotListingRequestsController : ListingRequestsController<LotListingRequest, ILotListingRequestService>
+    public class LotListingRequestsController : ListingRequestsController<LotListingRequest, ILotListingRequestService, ShowingTimeContact>
     {
         private readonly ILotListingRequestQueriesRepository requestQueryRepository;
         private readonly ILotListingService listingService;
@@ -38,6 +40,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         private readonly IUserRepository userQueriesRepository;
 
         public LotListingRequestsController(
+            IShowingTimeContactQueriesRepository showingTimeContactQueriesRepository,
             ILotListingRequestQueriesRepository lotRequestQueryRepository,
             ILotListingService listingService,
             ILotListingNotesService listingNotesService,
@@ -45,7 +48,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
             IUserRepository userQueriesRepository,
             IMapper mapper,
             ILogger<LotListingRequestsController> logger)
-            : base(requestService, mapper, logger)
+            : base(showingTimeContactQueriesRepository, requestService, mapper, logger)
         {
             this.requestQueryRepository = lotRequestQueryRepository ?? throw new ArgumentNullException(nameof(lotRequestQueryRepository));
             this.listingService = listingService ?? throw new ArgumentNullException(nameof(listingService));
@@ -105,7 +108,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
             this.logger.LogInformation("Starting to update ABOR listing with id {lotListingId}", listingId);
             var listingLotDto = this.mapper.Map<LotListingDto>(listingLotForUpdate);
             await this.listingService.UpdateListing(listingId, listingLotDto);
-            var result = await this.requestService.CreateRequestAsync(listingId, cancellationToken);
+            var result = await this.requestService.CreateRequestAsync(listingId, null, cancellationToken);
 
             return this.ToActionResult(result);
         }

@@ -6,10 +6,10 @@ namespace Husa.Quicklister.Abor.Api.Tests.ShowingTime
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Controllers;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
+    using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.ShowingTime;
     using Husa.Quicklister.Extensions.Application.Interfaces.ShowingTime;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
-    using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Queries.Models.ShowingTime;
     using Microsoft.Extensions.Logging;
@@ -40,7 +40,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ShowingTime
         public async Task SearchAsync_Success()
         {
             var data = Array.Empty<ShowingTimeContactQueryResult>();
-            this.contactQueriesRepository.Setup(x => x.GetAsync(It.IsAny<ShowingTimeContactQueryFilter>()))
+            this.contactQueriesRepository.Setup(x => x.Search(It.IsAny<ShowingTimeContactQueryFilter>()))
                 .ReturnsAsync(new DataSet<ShowingTimeContactQueryResult>(data, data.Length))
                 .Verifiable();
 
@@ -48,7 +48,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ShowingTime
             await this.Sut.SearchAsync(filtersRequest);
 
             this.contactQueriesRepository
-                .Verify(x => x.GetAsync(It.IsAny<ShowingTimeContactQueryFilter>()), Times.Once);
+                .Verify(x => x.Search(It.IsAny<ShowingTimeContactQueryFilter>()), Times.Once);
         }
 
         [Fact]

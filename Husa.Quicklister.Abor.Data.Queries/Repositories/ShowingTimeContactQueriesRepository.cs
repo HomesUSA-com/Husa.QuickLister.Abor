@@ -1,13 +1,15 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Repositories
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Linq.Specifications;
+    using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Projections;
-    using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Queries.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Data.Specifications;
@@ -40,7 +42,27 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             this.logger = logger;
         }
 
-        public async Task<DataSet<ShowingTimeContactQueryResult>> GetAsync(ShowingTimeContactQueryFilter filters)
+        public async Task<DataSet<ShowingTimeContactQueryResult>> Search(ShowingTimeContactQueryFilter filters)
+        {
+            var data = await this.GetAsync(filters);
+
+            return new DataSet<ShowingTimeContactQueryResult>(data, data.Count);
+        }
+
+        public async Task<ShowingTimeContactDetailQueryResult> GetContactById(Guid contactId)
+        {
+            var currentUser = this.userContext.GetCurrentUser();
+            this.logger.LogInformation("Getting the showing time contacts for the user {@user}", currentUser);
+
+            return await this.context.ShowingTimeContacts
+                .FilterNotDeleted()
+                .FilterByCompany(currentUser)
+                .FilterById(contactId)
+                .Select(this.contactProjections.ToShowingTimeContactDetailQueryResult)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<ICollection<ShowingTimeContactQueryResult>> GetAsync(ShowingTimeContactQueryFilter filters)
         {
             var currentUser = this.userContext.GetCurrentUser();
             this.logger.LogInformation("Getting the showing time contacts for the user {@user}", currentUser);
@@ -65,7 +87,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .Select(this.listingContactProjections.ToScopedShowingTimeContactQueryResult)
                 .ToListAsync();
 
-            var data = contacts.GroupJoin(orders, a => a.Id, b => b.ContactId, (a, b) => new
+            return contacts.GroupJoin(orders, a => a.Id, b => b.ContactId, (a, b) => new
             {
                 Contact = a,
                 Scope = b,
@@ -77,21 +99,13 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             }).Where(x => !filters.LimitToScope || x.InScope)
             .Distinct()
             .ToList();
-
-            return new DataSet<ShowingTimeContactQueryResult>(data, data.Count);
         }
 
-        public async Task<ShowingTimeContactDetailQueryResult> GetContactById(Guid contactId)
+        public async Task<ICollection<ShowingTimeContact>> GetDetailedAsync(ShowingTimeContactQueryFilter filters)
         {
-            var currentUser = this.userContext.GetCurrentUser();
-            this.logger.LogInformation("Getting the showing time contacts for the user {@user}", currentUser);
-
-            return await this.context.ShowingTimeContacts
-                .FilterNotDeleted()
-                .FilterByCompany(currentUser)
-                .FilterById(contactId)
-                .Select(this.contactProjections.ToShowingTimeContactDetailQueryResult)
-                .FirstOrDefaultAsync();
+            var data = await this.GetAsync(filters);
+            var q = data.Join(this.context.ShowingTimeContacts, a => a.Id, b => b.Id, (a, b) => b);
+            return q.ToList();
         }
     }
 }
