@@ -27,7 +27,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Extensions.Api.Controllers;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -123,14 +122,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.ToActionResult(errors);
             }
 
-            var contacts = await this.contactQueriesRepository.GetDetailedAsync(new()
-            {
-                LimitToScope = true,
-                Scope = ContactScope.Listing,
-                ScopeId = listingId,
-                SortBy = "+order",
-            });
-            var result = await this.saleRequestService.CreateRequestAsync(listingId, contacts, cancellationToken);
+            var result = await this.saleRequestService.CreateRequestAsync(listingId, cancellationToken);
 
             return this.ToActionResult(result);
         }

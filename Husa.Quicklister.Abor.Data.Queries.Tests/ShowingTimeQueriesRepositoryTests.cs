@@ -62,32 +62,17 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
         [Fact]
         public async Task GetAsync_AllInCommunity()
         {
-            var filters = new ShowingTimeContactQueryFilter
-            {
-                ScopeId = DatabaseIds.CommunityOneId,
-                Scope = ContactScope.Community,
-                LimitToScope = true,
-                CompanyId = DatabaseIds.CompanyOneId,
-            };
-            var response = await this.Sut.Search(filters);
+            var response = await this.Sut.GetScopedContacts(ContactScope.Community, DatabaseIds.CommunityOneId);
 
-            Assert.Equal(2, response.Total);
-            Assert.Contains(3, response.Data.Select(x => x.Order).ToList());
+            Assert.Equal(2, response.Count);
         }
 
         [Fact]
         public async Task GetAsync_AllInCompany()
         {
-            var filters = new ShowingTimeContactQueryFilter
-            {
-                Scope = ContactScope.Community,
-                LimitToScope = false,
-                CompanyId = DatabaseIds.CompanyOneId,
-            };
-            var response = await this.Sut.Search(filters);
+            var response = await this.Sut.GetCompanyContacts(DatabaseIds.CompanyOneId);
 
-            Assert.Equal(3, response.Total);
-            Assert.Contains(false, response.Data.Select(x => x.InScope).ToList());
+            Assert.Equal(3, response.Count);
         }
 
         [Fact]
