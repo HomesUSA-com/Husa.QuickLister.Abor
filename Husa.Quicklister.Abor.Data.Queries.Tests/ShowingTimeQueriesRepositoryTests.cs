@@ -53,7 +53,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
                 LimitToScope = false,
                 CompanyId = DatabaseIds.CompanyTwoId,
             };
-            var response = await this.Sut.GetAsync(filters);
+            var response = await this.Sut.Search(filters);
 
             Assert.Equal(1, response.Total);
             Assert.True(response.Data.FirstOrDefault()?.IsFixed);
@@ -69,7 +69,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
                 LimitToScope = true,
                 CompanyId = DatabaseIds.CompanyOneId,
             };
-            var response = await this.Sut.GetAsync(filters);
+            var response = await this.Sut.Search(filters);
 
             Assert.Equal(2, response.Total);
             Assert.Contains(3, response.Data.Select(x => x.Order).ToList());
@@ -84,7 +84,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
                 LimitToScope = false,
                 CompanyId = DatabaseIds.CompanyOneId,
             };
-            var response = await this.Sut.GetAsync(filters);
+            var response = await this.Sut.Search(filters);
 
             Assert.Equal(3, response.Total);
             Assert.Contains(false, response.Data.Select(x => x.InScope).ToList());

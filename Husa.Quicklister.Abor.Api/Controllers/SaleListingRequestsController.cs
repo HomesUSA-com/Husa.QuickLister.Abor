@@ -18,20 +18,23 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
+    using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Extensions.Api.Controllers;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
     [ApiController]
     [Route("sale-listing-requests")]
-    public class SaleListingRequestsController : ListingRequestsController<SaleListingRequest, ISaleListingRequestService>
+    public class SaleListingRequestsController : ListingRequestsController<SaleListingRequest, ISaleListingRequestService, ShowingTimeContact>
     {
         private readonly ISaleListingRequestQueriesRepository saleRequestQueryRepository;
         private readonly ISaleListingRequestService saleRequestService;
@@ -48,8 +51,9 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             IUserRepository userQueriesRepository,
             IMapper mapper,
             IValidateListingStatusChanges<ListingSaleRequestForUpdate> validateListingStatusChanges,
+            IShowingTimeContactQueriesRepository showingTimeContactQueriesRepository,
             ILogger<SaleListingRequestsController> logger)
-            : base(saleRequestService, mapper, logger)
+            : base(showingTimeContactQueriesRepository, saleRequestService, mapper, logger)
         {
             this.saleRequestQueryRepository = saleRequestQueryRepository ?? throw new ArgumentNullException(nameof(saleRequestQueryRepository));
             this.listingSaleService = listingSaleService ?? throw new ArgumentNullException(nameof(listingSaleService));
@@ -119,7 +123,14 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.ToActionResult(errors);
             }
 
-            var result = await this.saleRequestService.CreateRequestAsync(listingId, cancellationToken);
+            var contacts = await this.contactQueriesRepository.GetDetailedAsync(new()
+            {
+                LimitToScope = true,
+                Scope = ContactScope.Listing,
+                ScopeId = listingId,
+                SortBy = "+order",
+            });
+            var result = await this.saleRequestService.CreateRequestAsync(listingId, contacts, cancellationToken);
 
             return this.ToActionResult(result);
         }
