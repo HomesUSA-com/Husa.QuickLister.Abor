@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Queries.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Data.Specifications;
@@ -17,7 +18,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
-    public class ShowingTimeContactQueriesRepository : IShowingTimeContactQueriesRepository
+    public class ShowingTimeContactQueriesRepository : IShowingTimeContactQueriesRepository, IProvideShowingTimeContacts
     {
         private readonly ShowingTimeContactProjection contactProjections;
         private readonly CommunityShowingTimeContactOrderProjection communityContactProjections;
@@ -106,6 +107,16 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             var data = await this.GetAsync(filters);
             var q = data.Join(this.context.ShowingTimeContacts, a => a.Id, b => b.Id, (a, b) => b);
             return q.ToList();
+        }
+
+        public Task<ICollection<ShowingTimeContact>> GetCompanyContacts(Guid companyId)
+        {
+            return this.GetDetailedAsync(new() { CompanyId = companyId, LimitToScope = false });
+        }
+
+        public Task<ICollection<ShowingTimeContact>> GetScopedContacts(ContactScope scope, Guid scopeId)
+        {
+            return this.GetDetailedAsync(new() { Scope = scope, ScopeId = scopeId, LimitToScope = true });
         }
     }
 }

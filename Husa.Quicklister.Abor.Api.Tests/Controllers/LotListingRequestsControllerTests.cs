@@ -90,7 +90,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
         public async Task SaveAndSubmitListingAsync_Success()
         {
             this.requestService
-                .Setup(x => x.CreateRequestAsync(It.IsAny<Guid>(), null, It.IsAny<CancellationToken>()))
+                .Setup(x => x.CreateRequestAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(CommandSingleResult<Guid, System.ComponentModel.DataAnnotations.ValidationResult>.Success(Guid.NewGuid()))
                 .Verifiable();
 

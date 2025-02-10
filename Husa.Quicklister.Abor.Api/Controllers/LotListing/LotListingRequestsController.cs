@@ -108,7 +108,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
             this.logger.LogInformation("Starting to update ABOR listing with id {lotListingId}", listingId);
             var listingLotDto = this.mapper.Map<LotListingDto>(listingLotForUpdate);
             await this.listingService.UpdateListing(listingId, listingLotDto);
-            var result = await this.requestService.CreateRequestAsync(listingId, null, cancellationToken);
+            var result = await this.requestService.CreateRequestAsync(listingId, cancellationToken);
 
             return this.ToActionResult(result);
         }
