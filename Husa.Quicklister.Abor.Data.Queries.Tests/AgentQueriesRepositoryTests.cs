@@ -33,7 +33,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
         public void NullLoggerFails()
         {
             // Arrange && Act && Assert
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot());
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot())
+                .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.ManyServiceProvidersCreatedWarning));
             var dbContext = new ApplicationQueriesDbContext(optionsBuilder.Options);
             Assert.Throws<ArgumentNullException>(() => new AgentQueriesRepository(null, dbContext));
         }
