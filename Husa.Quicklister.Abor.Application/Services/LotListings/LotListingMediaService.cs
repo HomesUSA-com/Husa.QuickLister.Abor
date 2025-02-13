@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Application.Services.LotListings
 {
+    using AutoMapper;
     using Azure.Messaging.ServiceBus;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Cache;
@@ -27,7 +28,8 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             ILotListingRepository listingRepository,
             IBlobService blobService,
             ICache cache,
-            ILogger<LotListingMediaService> logger)
+            ILogger<LotListingMediaService> logger,
+            IMapper mapper)
          : base(
                serviceBusSettings,
                userContextProvider,
@@ -37,7 +39,8 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
                listingRepository,
                blobService,
                cache,
-               logger)
+               logger,
+               mapper)
         {
         }
 

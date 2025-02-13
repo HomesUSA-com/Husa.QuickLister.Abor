@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
 {
+    using AutoMapper;
     using Azure.Messaging.ServiceBus;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Cache;
@@ -27,7 +28,8 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
             IProvideTraceId traceIdProvider,
             IBlobService blobService,
             ICache cache,
-            ILogger<SaleListingRequestMediaService> logger)
+            ILogger<SaleListingRequestMediaService> logger,
+            IMapper mapper)
             : base(
                 serviceBusSettings,
                 userContextProvider,
@@ -37,7 +39,8 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
                 traceIdProvider,
                 blobService,
                 cache,
-                logger)
+                logger,
+                mapper)
         {
         }
 

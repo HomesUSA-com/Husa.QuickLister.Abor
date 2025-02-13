@@ -38,7 +38,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             PublishStatus = listingSale.PublishInfo.PublishStatus,
             PublishType = listingSale.PublishInfo.PublishType,
             PublishUser = listingSale.PublishInfo.PublishUser,
-            XmlErrorMessage = listingSale.XmlRequestError != null ? listingSale.XmlRequestError.ErrorMessage : null,
             CommunityEmployees = ProjectToUserQueryResults(listingSale),
             City = listingSale.SaleProperty.AddressInfo.City.ToString(),
         };

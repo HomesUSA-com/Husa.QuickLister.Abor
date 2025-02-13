@@ -42,7 +42,8 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.communitySaleRepository.Object,
                 this.blobService.Object,
                 this.cache.Object,
-                this.logger.Object);
+                this.logger.Object,
+                fixture.Mapper);
         }
 
         [Fact]

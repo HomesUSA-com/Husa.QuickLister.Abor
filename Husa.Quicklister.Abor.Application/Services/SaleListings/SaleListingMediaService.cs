@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 {
+    using AutoMapper;
     using Azure.Messaging.ServiceBus;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Cache;
@@ -27,7 +28,8 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             IListingSaleRepository listingSaleRepository,
             IBlobService blobService,
             ICache cache,
-            ILogger<SaleListingMediaService> logger)
+            ILogger<SaleListingMediaService> logger,
+            IMapper mapper)
          : base(
                serviceBusSettings,
                userContextProvider,
@@ -37,7 +39,8 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                listingSaleRepository,
                blobService,
                cache,
-               logger)
+               logger,
+               mapper)
         {
         }
 
