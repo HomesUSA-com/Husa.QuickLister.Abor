@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Cache;
     using Husa.Extensions.Common.Exceptions;
@@ -27,6 +28,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<IUserContextProvider> userContextProvider;
         private readonly Mock<ICache> cache = new();
         private readonly Mock<IBlobService> blobService = new();
+        private readonly Mock<IMapper> mapper = new();
 
         public SaleListingMediaServiceTests(ApplicationServicesFixture fixture)
             : base(fixture)
@@ -44,7 +46,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.blobService.Object,
                 this.cache.Object,
                 this.logger.Object,
-                fixture.Mapper);
+                this.mapper.Object);
         }
 
         [Fact]
