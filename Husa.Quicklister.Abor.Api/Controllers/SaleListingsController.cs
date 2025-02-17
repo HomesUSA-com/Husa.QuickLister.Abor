@@ -49,7 +49,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             IMediaService mediaService,
             ILogger<SaleListingsController> logger,
             IMapper mapper)
-            : base(listingSaleService, callForwardService, mapper, logger)
+            : base(listingSaleService, callForwardService, listingSaleQueriesRepository, mapper, logger)
         {
             this.austinUploaderService = austinUploaderService ?? throw new ArgumentNullException(nameof(austinUploaderService));
             this.listingSaleQueriesRepository = listingSaleQueriesRepository ?? throw new ArgumentNullException(nameof(listingSaleQueriesRepository));

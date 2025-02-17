@@ -115,6 +115,13 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             return response.Data;
         }
 
+        public Task<ExtensionsContract.Response.EmailLeadResponse> GetEmailLeads(Guid listingId, CancellationToken token = default)
+        {
+            this.logger.LogInformation("Getting email leads for listing with id: {listingId}.", listingId);
+            var endpoint = $"{this.baseUri}/{listingId}/email-leads";
+            return this.client.GetAsync<ExtensionsContract.Response.EmailLeadResponse>(endpoint, token);
+        }
+
         private string GetListingsEndpoint(ExtensionsContract.Request.Listing.IListingRequestFilter filters)
         {
             return this.baseUri
