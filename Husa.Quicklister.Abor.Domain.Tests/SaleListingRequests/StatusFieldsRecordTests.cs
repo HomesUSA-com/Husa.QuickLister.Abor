@@ -102,7 +102,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             var statusRecord = new SaleStatusFieldsRecord();
             var statusInfo = new SaleStatusFieldsRecord()
             {
-                BackOnMarketDate = DateTime.Now,
+                BackOnMarketDate = DateTime.Today.AddDays(1),
                 OffMarketDate = DateTime.Now,
                 SellConcess = "1223",
             };
