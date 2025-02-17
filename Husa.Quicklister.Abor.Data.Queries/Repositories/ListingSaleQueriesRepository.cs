@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Extensions.Data.Queries.Extensions;
+    using Husa.Quicklister.Extensions.Data.Queries.Models;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Queries.Repositories.SaleListing;
     using Husa.Quicklister.Extensions.Data.Specifications;
@@ -226,6 +227,27 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                  .ToListAsync();
 
             return new DataSet<SaleListingOpenHouseQueryResult>(data, total);
+        }
+
+        public async Task<EmailLeadQueryResult> GetEmailLeads(Guid listingId)
+        {
+            var listing = await this.context.ListingSale
+                .Include(x => x.SaleProperty)
+                .Include(x => x.SaleProperty.Community)
+                .FirstOrDefaultAsync(x => x.Id == listingId && x.SaleProperty.CommunityId.HasValue);
+            if (listing == null)
+            {
+                return null;
+            }
+
+            var communityLeads = listing.SaleProperty.Community.ToProjectionEmailLead();
+            if (string.IsNullOrWhiteSpace(communityLeads.EmailLeadPrincipal))
+            {
+                var companyEmail = await this.GetCompanyEmailLeads(listing.SaleProperty.CompanyId);
+                return companyEmail;
+            }
+
+            return communityLeads;
         }
     }
 }
