@@ -107,7 +107,10 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
         {
             this.When(l => l.MlsStatus == MarketStatuses.Hold, () =>
             {
-                this.RuleFor(f => f.StatusFieldsInfo.OffMarketDate).NotEmpty().WithMessage(RequiredFieldMessage);
+                this.RuleFor(f => f.StatusFieldsInfo.BackOnMarketDate)
+                    .NotEmpty().WithMessage(RequiredFieldMessage)
+                    .GreaterThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("tomorrow", GreaterThanOrEqualTo));
+
                 this.RuleFor(f => f.StatusFieldsInfo.BackOnMarketDate).NotEmpty().WithMessage(RequiredFieldMessage);
             });
         }

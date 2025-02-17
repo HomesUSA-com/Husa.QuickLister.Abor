@@ -123,7 +123,18 @@ namespace Husa.Quicklister.Abor.Domain.Common
             var requiredFields = new List<string>();
             requiredFields.AddValue(!record.OffMarketDate.HasValue, nameof(record.OffMarketDate));
             requiredFields.AddValue(!record.BackOnMarketDate.HasValue, nameof(record.BackOnMarketDate));
-            return ToRequiredFieldValidationResult(requiredFields);
+
+            var results = ToRequiredFieldValidationResult(requiredFields);
+            if (!record.BackOnMarketDate.HasValue)
+            {
+                results.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.BackOnMarketDate) }));
+            }
+            else if (record.BackOnMarketDate.Value < DateTime.Today.AddDays(1))
+            {
+                results.Add(new(OperatorType.GreaterEqual.GetErrorMessage("tomorrow"), new[] { nameof(record.BackOnMarketDate) }));
+            }
+
+            return results;
         }
 
         private static IEnumerable<ValidationResult> SoldValidations(TStatusFields record)
