@@ -232,9 +232,12 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             listingSale.SetupGet(c => c.CompanyId).Returns(listingCompanyId);
             listingSale.SetupGet(c => c.IsInMls).Returns(true);
             listingSale.SetupGet(c => c.AppointmentType).Returns(AppointmentType.AppointmentRequired);
-            listingSale.SetupGet(c => c.AccessInformation).Returns(new AccessInformation());
-            listingSale.SetupGet(c => c.AdditionalInstructions).Returns(new AdditionalInstructions());
             listingSale.SetupGet(c => c.AppointmentRestrictions).Returns(new AppointmentRestrictions());
+            listingSale.SetupGet(c => c.AdditionalInstructions).Returns(new AdditionalInstructions());
+            listingSale.SetupGet(c => c.AccessInformation).Returns(new AccessInformation()
+            {
+                AccessMethod = AccessMethod.GateGuardDoormanConcierge,
+            });
             listingSale.Setup(x => x.MlsNumber).Returns("12345");
             saleProperty.SaleListings = new[] { listingSale.Object };
 

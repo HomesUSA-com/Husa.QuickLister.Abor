@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Application.Services.Plans
 {
+    using AutoMapper;
     using Azure.Messaging.ServiceBus;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Cache;
@@ -27,7 +28,8 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
             IPlanRepository planRepository,
             IBlobService blobService,
             ICache cache,
-            ILogger<PlanMediaService> logger)
+            ILogger<PlanMediaService> logger,
+            IMapper mapper)
          : base(
                serviceBusSettings,
                userContextProvider,
@@ -37,7 +39,8 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
                planRepository,
                blobService,
                cache,
-               logger)
+               logger,
+               mapper)
         {
         }
 

@@ -8,9 +8,11 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.15.3</Version>
+        <Version>2.16.2</Version>
         <PackageReleaseNotes>
-            Release 2.15.3:
+            Release 2.16.2:
+            - Upgrade quicklister extensionas api client package
+            - Upgrade domain package
             - Include Gutters Full in Exterior Features Enum
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
@@ -18,7 +20,7 @@
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.0.5" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.12.1" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.13.1" />
     </ItemGroup>
 
     <ItemGroup>

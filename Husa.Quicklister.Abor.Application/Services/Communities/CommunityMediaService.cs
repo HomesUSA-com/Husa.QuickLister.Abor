@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Application.Services.Communities
 {
+    using AutoMapper;
     using Azure.Messaging.ServiceBus;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Cache;
@@ -27,7 +28,8 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             ICommunitySaleRepository communitySaleRepository,
             IBlobService blobService,
             ICache cache,
-            ILogger<CommunityMediaService> logger)
+            ILogger<CommunityMediaService> logger,
+            IMapper mapper)
          : base(
                serviceBusSettings,
                userContextProvider,
@@ -37,7 +39,8 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
                communitySaleRepository,
                blobService,
                cache,
-               logger)
+               logger,
+               mapper)
         {
         }
 

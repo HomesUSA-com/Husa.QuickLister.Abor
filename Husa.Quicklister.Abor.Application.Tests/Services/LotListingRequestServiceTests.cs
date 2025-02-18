@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -44,6 +45,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
         private readonly Mock<ILotListingRequestRepository> requestRepository = new();
         private readonly Mock<ILotListingRepository> listingRepository = new();
         private readonly Mock<ICommunitySaleRepository> communityRepository = new();
+        private readonly Mock<IProvideShowingTimeContacts> showingTimeContactsProvider = new();
 
         public LotListingRequestServiceTests(ApplicationServicesFixture fixture)
         {
@@ -255,6 +257,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
             this.fixture.Options.Object,
             this.serviceSubscriptionClient.Object,
             this.emailSender.Object,
-            this.userQueriesRepository.Object);
+            this.userQueriesRepository.Object,
+            this.showingTimeContactsProvider.Object);
     }
 }

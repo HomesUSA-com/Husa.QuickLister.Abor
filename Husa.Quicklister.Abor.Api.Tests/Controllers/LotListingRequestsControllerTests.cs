@@ -18,6 +18,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Documents.Models;
     using Husa.Quicklister.Abor.Data.Documents.Models.LotRequest;
+    using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.ListingRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;
@@ -40,11 +41,13 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
         private readonly Mock<ILotListingRequestService> requestService = new();
         private readonly Mock<IUserRepository> userQueriesRepository = new();
         private readonly Mock<ILogger<LotListingRequestsController>> logger = new();
+        private readonly Mock<IShowingTimeContactQueriesRepository> showingTimeConactQueriesRepository = new();
 
         public LotListingRequestsControllerTests(ApplicationServicesFixture fixture)
         {
             this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
             this.Sut = new LotListingRequestsController(
+                this.showingTimeConactQueriesRepository.Object,
                 this.requestQueryRepository.Object,
                 this.listingLotService.Object,
                 this.listingNotesService.Object,

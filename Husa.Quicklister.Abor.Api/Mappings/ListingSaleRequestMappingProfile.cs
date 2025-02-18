@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
+    using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using DocumentModels = Husa.Quicklister.Abor.Data.Documents.Models;
@@ -150,9 +151,12 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<SummaryField, SummaryFieldContract>();
             this.CreateMap<SummarySection, SummarySectionContract>();
 
+            this.CreateMap<SaleListing, ShowingTimeDto>();
+
             this.CreateMap<SaleListing, ListingSaleRequestDto>()
                 .ForMember(dest => dest.ListingSaleId, config => config.Ignore())
-                .ForMember(dest => dest.SaleProperty, config => config.MapFrom(dto => dto.SaleProperty));
+                .ForMember(dest => dest.SaleProperty, config => config.MapFrom(dto => dto.SaleProperty))
+                .ForMember(dest => dest.ShowingTime, config => config.MapFrom(dto => dto));
 
             this.CreateMap<ListingStatusFieldsInfo, ListingSaleStatusFieldsDto>().ReverseMap();
 
@@ -192,6 +196,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<ListingSaleRequestDto, SaleListingRequest>()
                 .ForMember(dest => dest.SaleProperty, config => config.Ignore())
+                .ForMember(dest => dest.ShowingTimeInfo, config => config.Ignore())
                 .ForMember(dest => dest.EntityId, config => config.MapFrom(dto => dto.ListingSaleId))
                 .ForMember(dest => dest.CDOM, config => config.Ignore())
                 .ForMember(dest => dest.DOM, config => config.Ignore())

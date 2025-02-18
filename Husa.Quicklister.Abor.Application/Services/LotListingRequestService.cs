@@ -16,6 +16,8 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
@@ -31,7 +33,9 @@ namespace Husa.Quicklister.Abor.Application.Services
             LotListingRequest,
             ICommunitySaleRepository,
             ILotListingRepository,
-            ILotListingRequestRepository>,
+            ILotListingRequestRepository,
+            ShowingTimeContact,
+            IProvideShowingTimeContacts>,
         ILotListingRequestService
     {
         private readonly ApplicationOptions options;
@@ -49,7 +53,8 @@ namespace Husa.Quicklister.Abor.Application.Services
             IOptions<ApplicationOptions> options,
             IServiceSubscriptionClient serviceSubscriptionClient,
             IEmailSender emailSender,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IProvideShowingTimeContacts showingTimeContactsProvider)
             : base(
                   saleRequestRepository,
                   mediaService,
@@ -58,7 +63,8 @@ namespace Husa.Quicklister.Abor.Application.Services
                   listingRepository,
                   mapper,
                   logger,
-                  userRepository)
+                  userRepository,
+                  showingTimeContactsProvider)
         {
             this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));

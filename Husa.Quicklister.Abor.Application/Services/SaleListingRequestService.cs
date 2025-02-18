@@ -17,13 +17,17 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
+    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.ListingRequests;
+    using ShowingTimeValueObject = Husa.Quicklister.Extensions.Domain.Entities.ShowingTime.ShowingTime;
 
     public class SaleListingRequestService :
         ExtensionsServices.SaleListingRequestService<
@@ -32,7 +36,9 @@ namespace Husa.Quicklister.Abor.Application.Services
             SaleListingRequest,
             ICommunitySaleRepository,
             IListingSaleRepository,
-            ISaleListingRequestRepository>,
+            ISaleListingRequestRepository,
+            ShowingTimeContact,
+            IProvideShowingTimeContacts>,
         ISaleListingRequestService
     {
         private readonly ApplicationOptions options;
@@ -50,7 +56,8 @@ namespace Husa.Quicklister.Abor.Application.Services
             IOptions<ApplicationOptions> options,
             IServiceSubscriptionClient serviceSubscriptionClient,
             IEmailSender emailSender,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IProvideShowingTimeContacts showingTimeContactsProvider)
             : base(
                   saleRequestRepository,
                   mediaService,
@@ -59,7 +66,8 @@ namespace Husa.Quicklister.Abor.Application.Services
                   listingSaleRepository,
                   mapper,
                   logger,
-                  userRepository)
+                  userRepository,
+                  showingTimeContactsProvider)
         {
             this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
@@ -86,9 +94,12 @@ namespace Husa.Quicklister.Abor.Application.Services
             var listingRequestValueObject = this.Mapper.Map<ListingRequestValueObject>(listingSaleRequestDto);
             var statusFieldInfo = this.Mapper.Map<ListingStatusFieldsInfo>(listingSaleRequestDto.StatusFieldsInfo);
             var salePropertyInfo = this.Mapper.Map<SalePropertyValueObject>(listingSaleRequestDto.SaleProperty);
+            var showingTime = this.Mapper.Map<ShowingTimeValueObject>(listingSaleRequestDto.ShowingTime);
 
             var listingRequest = await this.RequestRepository.GetByIdAsync(listingRequestId, cancellationToken);
             listingRequest.UpdateRequestInformation(listingRequestValueObject, statusFieldInfo, salePropertyInfo);
+            var contacts = await this.ShowingTimeContactsProvider.GetScopedContacts(ContactScope.Listing, listingSaleRequestDto.ListingSaleId);
+            listingRequest.ShowingTimeInfo?.UpdateInformation(showingTime, contacts);
             var userId = this.UserContextProvider.GetCurrentUserId();
 
             await this.RequestRepository.UpdateDocumentAsync(listingRequestId, listingRequest, userId, cancellationToken);

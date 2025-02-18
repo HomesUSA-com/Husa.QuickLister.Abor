@@ -56,6 +56,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
+    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Api.Configuration;
     using Husa.Quicklister.Extensions.Application.Interfaces.ShowingTime;
@@ -126,6 +127,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ILotListingQueriesRepository, LotListingQueriesRepository>();
             services.AddScoped<IResidentialIdxQueriesRepository, ResidentialIdxQueriesRepository>();
             services.AddScoped<IShowingTimeContactQueriesRepository, ShowingTimeContactQueriesRepository>();
+            services.AddScoped<IProvideShowingTimeContacts, ShowingTimeContactQueriesRepository>();
             services.AddExtensionRepositories();
             return services;
         }
