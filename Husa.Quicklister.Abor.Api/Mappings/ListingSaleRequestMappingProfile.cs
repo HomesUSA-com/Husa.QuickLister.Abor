@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Data.Queries.Models;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
+    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
@@ -212,6 +213,47 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<ListingSaleStatusFieldQueryResult, ListingSaleStatusFieldsResponse>();
             this.CreateMap<SaleListingOpenHouseQueryResult, ListingSaleOpenHouseResponse>();
+
+            this.CreateMap<PropertyInfo, Property>()
+                .ForMember(dst => dst.ZipCode, ops => ops.Ignore())
+                .ForMember(dst => dst.County, ops => ops.Ignore())
+                .ForMember(dst => dst.City, ops => ops.Ignore())
+                .ForMember(dst => dst.Subdivision, ops => ops.Ignore());
+            this.CreateMap<FinancialInfo, CommunityFinancialInfo>();
+            this.CreateMap<ShowingInfo, CommunityShowingInfo>();
+            this.CreateMap<FeaturesInfo, Utilities>();
+            this.CreateMap<SaleListingOpenHouse, CommunityOpenHouse>()
+                .ForMember(dst => dst.CommunityId, ops => ops.Ignore())
+                .ForMember(dst => dst.Community, ops => ops.Ignore());
+            this.CreateMap<SaleListing, CommunitySale>()
+                .ForMember(dst => dst.ProfileInfo, ops => ops.Ignore())
+                .ForMember(dst => dst.Financial, ops => ops.MapFrom(src => src.SaleProperty.FinancialInfo))
+                .ForMember(dst => dst.Showing, ops => ops.MapFrom(src => src.SaleProperty.ShowingInfo))
+                .ForMember(dst => dst.Utilities, ops => ops.MapFrom(src => src.SaleProperty.FeaturesInfo))
+                .ForMember(dst => dst.SchoolsInfo, ops => ops.MapFrom(src => src.SaleProperty.SchoolsInfo))
+                .ForMember(dst => dst.Property, ops => ops.MapFrom(src => src.SaleProperty.PropertyInfo))
+                .ForMember(dst => dst.OpenHouses, ops => ops.MapFrom(src => src.SaleProperty.OpenHouses))
+                .ForMember(dst => dst.SaleOffice, ops => ops.Ignore())
+                .ForMember(dst => dst.EmailLead, ops => ops.Ignore())
+                .ForMember(dst => dst.SaleProperties, ops => ops.Ignore())
+                .ForMember(dst => dst.Employees, ops => ops.Ignore())
+                .ForMember(dst => dst.CommunityType, ops => ops.Ignore())
+                .ForMember(dst => dst.LegacyProfileId, ops => ops.Ignore())
+                .ForMember(dst => dst.XmlStatus, ops => ops.Ignore())
+                .ForMember(dst => dst.Changes, ops => ops.Ignore())
+                .ForMember(dst => dst.LotListings, ops => ops.Ignore())
+                .AfterMap((src, dst) =>
+                {
+                    dst.Property.ZipCode = src.SaleProperty.AddressInfo.ZipCode;
+                    dst.Property.County = src.SaleProperty.AddressInfo.County;
+                    dst.Property.City = src.SaleProperty.AddressInfo.City;
+                    dst.Property.Subdivision = src.SaleProperty.AddressInfo.Subdivision;
+                    foreach (var openHouse in dst.OpenHouses)
+                    {
+                        openHouse.CommunityId = src.SaleProperty.CommunityId.Value;
+                        openHouse.Community = src.SaleProperty.Community;
+                    }
+                });
         }
     }
 }

@@ -124,6 +124,11 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
             var result = await this.saleRequestService.CreateRequestAsync(listingId, cancellationToken);
 
+            if (!result.HasErrors())
+            {
+                await this.listingSaleService.CopyListingInfoToCommunity(listingId);
+            }
+
             return this.ToActionResult(result);
         }
 
