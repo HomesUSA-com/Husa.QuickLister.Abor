@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Migration
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using Husa.Extensions.Api.Configuration;
+    using Husa.Quicklister.Extensions.Api.Controllers.Migration;
     using Husa.Quicklister.Extensions.Application.Interfaces.Migration;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,12 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Migration
 
     [ApiController]
     [Route("legacy-plans")]
-    public class LegacyPlansController : Controller
+    public class LegacyPlansController : LegacyPhotoRequestController
     {
         private readonly IPlanMigrationService planMigrationService;
         private readonly ILogger<LegacyPlansController> logger;
         public LegacyPlansController(IPlanMigrationService planMigrationService, ILogger<LegacyPlansController> logger)
+            : base(planMigrationService, logger)
         {
             this.planMigrationService = planMigrationService ?? throw new ArgumentNullException(nameof(planMigrationService));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -33,15 +35,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Migration
                 UpdateEntity = updatePlan ?? false,
                 FromDate = fromDate,
             });
-            return this.Ok();
-        }
-
-        [HttpPut("photo")]
-        [Authorize(Roles.MLSAdministrator)]
-        public async Task<ActionResult> MigratePhotoRequests([FromQuery][Required] Guid companyId, [FromQuery] DateTime? fromDate = null)
-        {
-            this.logger.LogInformation("Migrate plan photo requests from v1 related to company {companyId}", companyId);
-            await this.planMigrationService.MigratePhotoRequests(companyId, fromDate);
             return this.Ok();
         }
     }
