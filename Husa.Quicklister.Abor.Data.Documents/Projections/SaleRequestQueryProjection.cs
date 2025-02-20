@@ -74,7 +74,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
                 StatusFieldsInfo = listingRequest.StatusFieldsInfo.ToListingRequestStatusFieldsQueryResult(),
                 SaleProperty = listingRequest.SaleProperty.ToProjectionListingSaleRequestSalePropertyQueryResult(),
                 PublishInfo = listingRequest.PublishInfo.ToProjectionPublishInfo(),
-                ShowingTime = listingRequest.ShowingTimeInfo?.ToProjectionShowingTime(),
+                ShowingTime = listingRequest.UseShowingTime ? listingRequest.ShowingTimeInfo?.ToProjectionShowingTime() : null,
+                UseShowingTime = listingRequest.UseShowingTime,
             };
     }
 }

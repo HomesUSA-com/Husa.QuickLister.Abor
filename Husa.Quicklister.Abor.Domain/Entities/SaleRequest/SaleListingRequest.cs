@@ -35,7 +35,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
             this.ListingSaleId = saleListing.Id;
             this.StatusFieldsInfo = SaleStatusFieldsRecord.CreateRecord(saleListing.StatusFieldsInfo);
             this.SaleProperty = SalePropertyRecord.CreateRecord(saleListing.SaleProperty);
-            this.ShowingTimeInfo = ShowingTimeRecord.CreateRecord(saleListing);
+            this.ShowingTimeInfo = saleListing.UseShowingTime ?
+                ShowingTimeRecord.CreateRecord(saleListing) : null;
+            this.UseShowingTime = saleListing.UseShowingTime;
             this.PublishInfo = PublishFieldsRecord.CreateRecord(saleListing.PublishInfo);
             this.UpdateTrackValues(userId, isNewRecord: true);
             this.CompanyId = this.SaleProperty.CompanyId;
@@ -177,10 +179,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
             }
 
             summarySections.Add(this.StatusFieldsInfo.GetSummary(previousRequest?.StatusFieldsInfo, this.MlsStatus));
-            summarySections.AddRange(
-                this.ShowingTimeInfo?.GetSummarySections(previousRequest?.ShowingTimeInfo) ?? Array.Empty<SummarySection>());
-            summarySections.AddRange(
-                this.ShowingTimeInfo?.GetSummaryContacts(previousRequest?.ShowingTimeInfo) ?? Array.Empty<SummarySection>());
+            if (this.UseShowingTime)
+            {
+                summarySections.AddRange(
+                    this.ShowingTimeInfo?.GetSummarySections(previousRequest?.ShowingTimeInfo)
+                    ?? Array.Empty<SummarySection>());
+                summarySections.AddRange(
+                    this.ShowingTimeInfo?.GetSummaryContacts(previousRequest?.ShowingTimeInfo)
+                    ?? Array.Empty<SummarySection>());
+            }
+
             summarySections = summarySections.Where(summary => summary != null).ToList();
 
             var rootFieldChanges = this.GetRequestSummary(previousRequest);

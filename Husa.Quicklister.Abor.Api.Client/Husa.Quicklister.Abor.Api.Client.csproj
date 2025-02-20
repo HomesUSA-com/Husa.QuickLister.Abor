@@ -10,8 +10,8 @@
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
         <Version>2.17.0</Version>
         <PackageReleaseNotes>
-            Release 2.17.0:
-            - Updated Husa.Quicklister.Extensions.Api.Client
+            Release 2.17.1:
+            - Handle ShowingTimeInfo in ListingRequests
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
