@@ -30,6 +30,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Primitives;
 
     [ApiController]
     [Route("sale-listing-requests")]
@@ -66,8 +67,15 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetListRequestAsync([FromQuery] SaleListingRequestFilter requestFilter, CancellationToken cancellationToken = default)
         {
+            StringValues continuationToken = string.Empty;
             this.logger.LogInformation("Starting to get filtered ABOR sale listings request with company id {companyId}", requestFilter.CompanyId);
             var queryFilter = this.mapper.Map<SaleListingRequestQueryFilter>(requestFilter);
+            this.Request?.Headers?.TryGetValue("Continuation-Token", out continuationToken);
+            if (!string.IsNullOrEmpty(continuationToken))
+            {
+                queryFilter.ContinuationToken = continuationToken;
+            }
+
             var queryResponse = await this.saleRequestQueryRepository.GetAsync(queryFilter, cancellationToken);
             await this.userQueriesRepository.FillUsersNameAsync(queryResponse.Data);
             var data = this.mapper.Map<IEnumerable<ListingSaleRequestQueryResponse>>(queryResponse.Data);
