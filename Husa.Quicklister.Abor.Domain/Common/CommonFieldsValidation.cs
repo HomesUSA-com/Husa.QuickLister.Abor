@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
     public static class CommonFieldsValidation
     {
         public const double MaxBuyersAgentAmount = 40000;
-        public const double MaxAgentBonusAmount = 30000;
+        public const double MaxAgentBonusAmount = 100000;
         public const double MaxCommissionPercent = 8;
 
         public static bool IsValidHoa(this IProvideCommonFinancial financialInfo)
