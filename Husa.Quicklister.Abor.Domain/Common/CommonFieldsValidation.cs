@@ -6,8 +6,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
 
     public static class CommonFieldsValidation
     {
-        public const double MaxBuyersAgentAmount = 40000;
-        public const double MaxAgentBonusAmount = 100000;
+        public const double MaxAgentAmount = 100000;
         public const double MaxCommissionPercent = 8;
 
         public static bool IsValidHoa(this IProvideCommonFinancial financialInfo)
@@ -30,7 +29,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
             return agentCommission.BuyersAgentCommissionType switch
             {
                 CommissionType.Percent => agentCommission.BuyersAgentCommission <= (decimal)MaxCommissionPercent,
-                CommissionType.Amount => agentCommission.BuyersAgentCommission <= (decimal)MaxBuyersAgentAmount,
+                CommissionType.Amount => agentCommission.BuyersAgentCommission <= (decimal)MaxAgentAmount,
                 _ => false,
             };
         }
@@ -50,7 +49,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
             return agentBonusCommision.AgentBonusAmountType switch
             {
                 CommissionType.Percent => agentBonusCommision.AgentBonusAmount <= (decimal)MaxCommissionPercent,
-                CommissionType.Amount => agentBonusCommision.AgentBonusAmount <= (decimal)MaxAgentBonusAmount,
+                CommissionType.Amount => agentBonusCommision.AgentBonusAmount <= (decimal)MaxAgentAmount,
                 _ => false,
             };
         }
