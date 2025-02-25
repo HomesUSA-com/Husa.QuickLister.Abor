@@ -10,7 +10,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
     public class LotFinancialRecordTests
     {
         [Theory]
-        [InlineData(45000, CommissionType.Amount)]
+        [InlineData(101000, CommissionType.Amount)]
         [InlineData(10, CommissionType.Percent)]
         public void CommissionRangeAttribute_Fail(decimal amount, CommissionType commissionType)
         {
