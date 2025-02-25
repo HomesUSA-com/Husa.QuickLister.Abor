@@ -16,7 +16,7 @@
         <PackageReference Include="Husa.Extensions.EmailNotification" Version="4.0.1" />
         <PackageReference Include="Husa.Extensions.Logger.Enrichers" Version="1.0.0" />
         <PackageReference Include="Husa.Extensions.ServiceBus" Version="5.0.10" />
-        <PackageReference Include="Husa.Extensions.OpenAI" Version="0.1.3" />
+        <PackageReference Include="Husa.Extensions.OpenAI" Version="0.1.4" />
         <PackageReference Include="Husa.MediaService.Client" Version="2.3.0" />
         <PackageReference Include="Husa.Downloader.Sabor.ServiceBus.Contracts" Version="2.0.0" />
         <PackageReference Include="Husa.Quicklister.Extensions.Api" Version="0.15.0-dev002" />
