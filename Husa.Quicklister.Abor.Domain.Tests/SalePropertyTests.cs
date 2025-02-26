@@ -152,7 +152,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var listingMock = Mock.Get(listing);
             var financial = new FinancialInfo();
             financial.HasAgentBonus = true;
-            financial.BuyersAgentCommission = 51000;
+            financial.BuyersAgentCommission = 101000;
             financial.BuyersAgentCommissionType = CommissionType.Amount;
 
             listingMock
@@ -217,7 +217,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var listingMock = Mock.Get(listing);
             var financial = new FinancialInfo();
             financial.HasAgentBonus = true;
-            financial.AgentBonusAmount = 51000;
+            financial.AgentBonusAmount = 101000;
             financial.AgentBonusAmountType = CommissionType.Amount;
 
             listingMock

@@ -41,7 +41,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public BillingFrequency? BillingFrequency { get; set; }
 
         [Required]
-        [CommissionRange(nameof(BuyersAgentCommissionType), maxAmountValue: CommonFieldsValidation.MaxBuyersAgentAmount, maxPercentValue: CommonFieldsValidation.MaxCommissionPercent)]
+        [CommissionRange(nameof(BuyersAgentCommissionType), maxAmountValue: CommonFieldsValidation.MaxAgentAmount, maxPercentValue: CommonFieldsValidation.MaxCommissionPercent)]
         public decimal? BuyersAgentCommission { get; set; }
         public CommissionType BuyersAgentCommissionType { get; set; }
         public string ReadableBuyersAgentCommission
@@ -54,7 +54,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records
         public bool HasBonusWithAmount { get; set; }
 
         [IfRequired(nameof(HasBonusWithAmount), true, OperatorType.Equal)]
-        [CommissionRange(nameof(AgentBonusAmountType), maxAmountValue: CommonFieldsValidation.MaxAgentBonusAmount, maxPercentValue: CommonFieldsValidation.MaxCommissionPercent)]
+        [CommissionRange(nameof(AgentBonusAmountType), maxAmountValue: CommonFieldsValidation.MaxAgentAmount, maxPercentValue: CommonFieldsValidation.MaxCommissionPercent)]
         public decimal? AgentBonusAmount { get; set; }
         public CommissionType AgentBonusAmountType { get; set; }
         public string ReadableAgentBonusAmount
