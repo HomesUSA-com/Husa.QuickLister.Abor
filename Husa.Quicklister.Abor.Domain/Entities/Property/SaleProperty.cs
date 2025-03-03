@@ -537,6 +537,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             yield return this.SalesOfficeInfo;
         }
 
+        private static T AssignIfNotNull<T>(T currentValue, T newValue)
+        {
+            return !EqualityComparer<T>.Default.Equals(newValue, default(T))
+                ? newValue
+                : currentValue;
+        }
+
         private void ImportPropertyFromCommunity(Property property)
         {
             this.PropertyInfo.MlsArea = property.MlsArea;
@@ -800,10 +807,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
 
             this.SchoolsInfo ??= new();
-            this.SchoolsInfo.ElementarySchool = schoolsInfo.ElementarySchool;
-            this.SchoolsInfo.MiddleSchool = schoolsInfo.MiddleSchool;
-            this.SchoolsInfo.HighSchool = schoolsInfo.HighSchool;
-            this.SchoolsInfo.SchoolDistrict = schoolsInfo.SchoolDistrict;
+
+            this.SchoolsInfo.ElementarySchool = AssignIfNotNull(this.SchoolsInfo.ElementarySchool, schoolsInfo.ElementarySchool);
+            this.SchoolsInfo.MiddleSchool = AssignIfNotNull(this.SchoolsInfo.MiddleSchool, schoolsInfo.MiddleSchool);
+            this.SchoolsInfo.HighSchool = AssignIfNotNull(this.SchoolsInfo.HighSchool, schoolsInfo.HighSchool);
+            this.SchoolsInfo.SchoolDistrict = AssignIfNotNull(this.SchoolsInfo.SchoolDistrict, schoolsInfo.SchoolDistrict);
+
             if (this.SchoolsInfo.ElementarySchool != null && this.SchoolsInfo.ElementarySchool != ElementarySchool.Other)
             {
                 this.SchoolsInfo.OtherElementarySchool = null;
