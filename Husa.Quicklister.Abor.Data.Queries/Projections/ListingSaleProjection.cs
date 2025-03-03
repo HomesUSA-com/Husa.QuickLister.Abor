@@ -96,27 +96,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             MlsNumber = listingSale.MlsNumber,
         };
 
-        public static Expression<Func<SaleListing, ListingSaleBillingQueryResult>> ProjectToListingSaleBillingQueryResult => listingSale => new ListingSaleBillingQueryResult
-        {
-            Id = listingSale.Id,
-            MlsNumber = listingSale.MlsNumber,
-            StreetName = listingSale.SaleProperty.AddressInfo.StreetName,
-            StreetNum = listingSale.SaleProperty.AddressInfo.StreetNumber,
-            ListDate = listingSale.ListDate,
-            MlsStatus = listingSale.MlsStatus,
-            SysModifiedOn = listingSale.SysModifiedOn,
-            SysModifiedBy = listingSale.SysModifiedBy,
-            Subdivision = listingSale.SaleProperty.AddressInfo.Subdivision,
-            ZipCode = listingSale.SaleProperty.AddressInfo.ZipCode,
-            OwnerName = listingSale.SaleProperty.OwnerName,
-            SysCreatedOn = listingSale.SysCreatedOn,
-            SysCreatedBy = listingSale.SysCreatedBy,
-            PublishDate = listingSale.PublishInfo.PublishDate,
-            PublishStatus = listingSale.PublishInfo.PublishStatus,
-            PublishType = listingSale.PublishInfo.PublishType,
-            PublishUser = listingSale.PublishInfo.PublishUser,
-        };
-
         public static Expression<Func<SaleListing, SaleListingOpenHouseQueryResult>> ProjectToSaleListingOpenHouseQueryResult => listingSale => new SaleListingOpenHouseQueryResult
         {
             CompanyId = listingSale.CompanyId,

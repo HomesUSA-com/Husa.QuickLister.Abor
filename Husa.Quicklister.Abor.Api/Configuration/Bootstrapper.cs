@@ -129,6 +129,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IResidentialIdxQueriesRepository, ResidentialIdxQueriesRepository>();
             services.AddScoped<IShowingTimeContactQueriesRepository, ShowingTimeContactQueriesRepository>();
             services.AddScoped<IProvideShowingTimeContacts, ShowingTimeContactQueriesRepository>();
+            services.AddScoped<IQueryListingBillingRepository, ListingBillingQueriesRepository>();
+            services.AddScoped<IListingRequestBillingQueryRepository, ListingRequestBillingQueriesRepository>();
             services.AddExtensionRepositories();
             return services;
         }

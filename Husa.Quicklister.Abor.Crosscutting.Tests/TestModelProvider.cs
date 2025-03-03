@@ -1213,21 +1213,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             return employee;
         }
 
-        public static ListingSaleBillingQueryResult GetListingSaleBillingQueryResult(Guid? id) => new()
-        {
-            Id = id ?? Guid.NewGuid(),
-            StreetName = Faker.Address.StreetName(),
-            StreetNum = "1234",
-            MlsStatus = MarketStatuses.Active,
-            ListDate = DateTime.UtcNow,
-            MlsNumber = "123456",
-            ZipCode = Faker.Address.ZipCode()[..5],
-            Subdivision = Faker.Address.City(),
-            SysModifiedOn = DateTime.UtcNow,
-            PublishType = ActionType.NewListing,
-            ListFee = (decimal?)156.00,
-        };
-
         public static User GetUser(Guid? id) => new()
         {
             Id = id ?? Guid.NewGuid(),
