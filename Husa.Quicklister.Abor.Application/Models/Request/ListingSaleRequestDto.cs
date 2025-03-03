@@ -15,5 +15,7 @@ namespace Husa.Quicklister.Abor.Application.Models.Request
         public virtual SalePropertyDetailDto SaleProperty { get; set; }
 
         public virtual ShowingTimeDto ShowingTime { get; set; }
+
+        public virtual bool UseShowingTime { get; set; }
     }
 }

@@ -104,7 +104,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         public void GetSummaryWhenNoPreviousRequestExistsSuccess()
         {
             // Arrange
-            const int expectedSummarySections = 14;
+            const int expectedSummarySections = 10;
             var creationDateTime = DateTime.UtcNow;
             var sut = GetListingRequest(creationDateTime);
             sut.Setup(s => s.GetSummary(It.IsAny<SaleListingRequest>())).CallBase();
@@ -140,7 +140,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         public void GetSummaryWhenNoPreviousRequestExistsWithStatusSummarySuccess()
         {
             // Arrange
-            const int expectedSummarySections = 15;
+            const int expectedSummarySections = 11;
             var creationDateTime = DateTime.UtcNow;
             var sut = GetListingRequest(creationDateTime);
             sut.Setup(s => s.GetSummary(It.IsAny<SaleListingRequest>())).CallBase();
@@ -174,7 +174,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         [Fact]
         public void GetSummaryWhenStatusChangesFromPendingToSold()
         {
-            const int expectedSummarySections = 15;
+            const int expectedSummarySections = 11;
             var creationDateTime = DateTime.UtcNow;
             var oldCompleteRequest = GetListingRequest(creationDateTime);
             var sut = GetListingRequest(creationDateTime);
@@ -278,6 +278,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         {
             // Arrange
             var listing = TestModelProvider.GetListingSaleEntity(Guid.NewGuid(), true);
+            listing.UseShowingTime = true;
             var saleListingRequest = new SaleListingRequest(listing, Guid.NewGuid())
             {
                 RequestState = ListingRequestState.Completed,
