@@ -15,5 +15,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
         public Guid? UnlockedFromLegacyBy { get; set; }
         public string UnlockedFromLegacyByFullName { get; set; }
         public DateTime? UnlockedFromLegacyOn { get; set; }
+        public bool UseShowingTime { get; set; }
     }
 }

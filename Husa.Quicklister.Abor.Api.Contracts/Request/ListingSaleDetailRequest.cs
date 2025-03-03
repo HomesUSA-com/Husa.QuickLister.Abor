@@ -12,5 +12,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request
         public SalePropertyDetailRequest SaleProperty { get; set; }
 
         public ShowingTimeInfo ShowingTime { get; set; }
+
+        public virtual bool UseShowingTime { get; set; }
     }
 }

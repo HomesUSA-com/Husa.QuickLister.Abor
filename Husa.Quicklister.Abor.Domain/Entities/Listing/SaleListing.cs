@@ -19,9 +19,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Extensions.Listing;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Domain.Attributes;
     using Husa.Quicklister.Extensions.Domain.Entities.Listing;
-    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
@@ -119,9 +117,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<ManagementTrace> ManagementTraces { get; set; }
 
         public virtual ICollection<ShowingTimeContact> ShowingTimeContacts { get; set; }
-
-        [IgnoreXmlProperty]
-        public virtual XmlRequestError XmlRequestError { get; set; }
 
         public virtual bool IsExisting => ExistingListingStatuses.Contains(this.MlsStatus);
 

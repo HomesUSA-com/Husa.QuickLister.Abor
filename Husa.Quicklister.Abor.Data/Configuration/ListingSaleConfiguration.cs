@@ -25,6 +25,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
             builder.ListingProperties();
             builder.ConfigureLegacyMapping();
+            builder.ConfigureListingForeignKey();
             builder.OwnsOne(sf => sf.StatusFieldsInfo, StatusExtensions.ConfigureStatusInfoMapping).Navigation(e => e.StatusFieldsInfo);
             builder.OwnsOne(sf => sf.PublishInfo, PublishInfoExtensions.ConfigurePublishInfoMapping).Navigation(e => e.PublishInfo).IsRequired();
             builder.OwnsOne(sf => sf.InvoiceInfo, ConfigureInvoiceInfoMapping).Navigation(e => e.InvoiceInfo).IsRequired();

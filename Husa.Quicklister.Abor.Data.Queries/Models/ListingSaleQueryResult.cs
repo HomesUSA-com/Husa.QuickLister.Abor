@@ -27,5 +27,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
         public States State { get; set; }
 
         public Guid? CommunityId { get; set; }
+        public bool UseShowingTime { get; set; }
     }
 }

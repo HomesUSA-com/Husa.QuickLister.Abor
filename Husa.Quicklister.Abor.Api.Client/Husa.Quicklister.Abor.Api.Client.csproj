@@ -8,20 +8,19 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.16.4</Version>
+        <Version>2.17.2</Version>
         <PackageReleaseNotes>
-            Release 2.16.4:
+            Release 2.16.3:
             - Upgrade quicklister extensionas api client package
             - Upgrade domain package
             - Include Gutters Full in Exterior Features Enum
-            - Update Creedmoor to Creedmor in Elementary School
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.0.5" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.13.2" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.14.0" />
     </ItemGroup>
 
     <ItemGroup>

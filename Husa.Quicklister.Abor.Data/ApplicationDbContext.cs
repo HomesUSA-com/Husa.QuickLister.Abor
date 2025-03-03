@@ -13,23 +13,19 @@ namespace Husa.Quicklister.Abor.Data
     using Husa.Quicklister.Abor.Domain.Entities.ReverseProspect;
     using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Data;
     using Husa.Quicklister.Extensions.Data.Interfaces;
-    using Husa.Quicklister.Extensions.Domain.Entities;
     using Husa.Quicklister.Extensions.Domain.Entities.Agent;
     using Microsoft.EntityFrameworkCore;
     using Cities = Husa.Quicklister.Abor.Domain.Enums.Domain.Cities;
 
     public class ApplicationDbContext :
-        DbContext,
-        IDbSetViolationWarningLog,
+        QlApplicationDbContext,
         IDbSetSaleListing<SaleListing>,
         IDbSetXmlSaleListing<SaleListing>,
         IDbSetAgent,
         IDbSetOffice<Office, OfficeValueObject, Cities, StateOrProvince>
     {
-        public const string Schema = "dbo";
-        public const string ConnectionName = "HomesUSAConnection";
-
         public ApplicationDbContext()
         {
         }
@@ -63,13 +59,9 @@ namespace Husa.Quicklister.Abor.Data
 
         public virtual DbSet<ManagementTrace> ManagementTrace { get; set; }
 
-        public virtual DbSet<XmlRequestError> XmlRequestError { get; set; }
-
         public virtual DbSet<LotListing> LotListing { get; set; }
 
         public virtual DbSet<LotManagementTrace> LotManagementTrace { get; set; }
-
-        public virtual DbSet<ViolationWarningLog> ViolationWarningLog { get; set; }
 
         public virtual DbSet<ShowingTimeContact> ShowingTimeContacts { get; set; }
 
