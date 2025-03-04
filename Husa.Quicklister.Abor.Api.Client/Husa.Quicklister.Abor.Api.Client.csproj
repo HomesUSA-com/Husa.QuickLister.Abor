@@ -8,10 +8,11 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.17.0</Version>
+        <Version>2.17.3</Version>
         <PackageReleaseNotes>
-            Release 2.17.1:
+            Release 2.17.3:
             - Handle ShowingTimeInfo in ListingRequests
+             - Update Creedmoor to Creedmor in Elementary School
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
