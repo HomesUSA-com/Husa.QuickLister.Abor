@@ -44,7 +44,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
         public ListingsMappingProfile()
         {
             this.CreateMap<Api.Contracts.Request.ListingRequestFilter, ListingQueryFilter>();
-            this.CreateMap<Api.Contracts.Request.ListingSaleBillingRequestFilter, ListingSaleBillingQueryFilter>();
+            this.CreateMap<Api.Contracts.Request.ListingSaleBillingRequestFilter, ListingBillingQueryFilter>();
             this.CreateMap<InvoiceRequest, InvoiceDto>();
             this.CreateMap<SalePropertyQueryResult, SalePropertyResponse>();
             this.CreateMap<FeaturesQueryResult, FeaturesResponse>();

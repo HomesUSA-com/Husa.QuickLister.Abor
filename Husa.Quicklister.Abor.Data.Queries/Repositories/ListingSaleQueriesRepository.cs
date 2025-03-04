@@ -6,7 +6,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
-    using Husa.CompanyServicesManager.Api.Contracts.Request;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
@@ -87,52 +86,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             await this.userQueriesRepository.FillUsersNameAsync(data);
 
             return new DataSet<ListingSaleQueryResult>(data, total);
-        }
-
-        public async Task<DataSet<ListingSaleBillingQueryResult>> GetBillableListingsAsync(ListingSaleBillingQueryFilter queryFilter)
-        {
-            this.logger.LogInformation("Starting to get the ABOR billable Listing Sales");
-
-            var query = this.context.ListingSale
-                .FilterNotDeleted()
-                .FilterByBillingType(queryFilter.ActionType)
-                .FilterByCompany(queryFilter.CompanyId)
-                .FilterBySearch(queryFilter.SearchBy)
-                .FilterByBillingDate(queryFilter.From, queryFilter.To)
-                .FilterByInvoice();
-
-            var total = await query.CountAsync();
-            var billableListings = await query
-                .Select(ListingSaleProjection.ProjectToListingSaleBillingQueryResult)
-                .ApplySortByNotProjectedFields(queryFilter.SortBy)
-                .ToListAsync();
-
-            var companyServices = await this.serviceSubscriptionClient.Company.GetCompanyServices(queryFilter.CompanyId, new FilterServiceSubscriptionRequest());
-
-            foreach (var listing in billableListings)
-            {
-                var serviceCode = GetServiceCode(listing.PublishType);
-                listing.ListFee = companyServices.Data
-                    .SingleOrDefault(s => s.ServiceCode == serviceCode)?
-                    .Price;
-            }
-
-            // fill PublishUserName
-            var userIds = billableListings.Where(x => x.PublishUser.HasValue).Select(x => x.PublishUser.Value).Distinct();
-            var users = await this.userQueriesRepository.GetUsersById(userIds);
-            var listings = billableListings.GroupJoin(
-                    users,
-                    listing => listing.PublishUser,
-                    user => user.Id,
-                    (listing, user) => new { listing, user })
-                .SelectMany(x => x.user.DefaultIfEmpty(), (left, rigth) => new { left.listing, user = rigth })
-                .Select(temp =>
-                {
-                    temp.listing.PublishUserName = temp.user != null ? $"{temp.user.FirstName} {temp.user.LastName}" : string.Empty;
-                    return temp.listing;
-                });
-
-            return new(listings, total);
         }
 
         public async Task<ListingSaleQueryDetailResult> GetListing(Guid listingId)
