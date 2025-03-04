@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Api.Mappings.Migration;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Extensions;
 
