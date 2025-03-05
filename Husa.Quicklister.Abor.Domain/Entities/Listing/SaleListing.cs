@@ -21,7 +21,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Attributes;
     using Husa.Quicklister.Extensions.Domain.Entities.Listing;
-    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
@@ -259,17 +258,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual void UpdateInvoiceData(Guid userId, string invoiceId, string docNumber, DateTime createdDate)
         {
             this.InvoiceInfo = new InvoiceInfo(userId, invoiceId, docNumber, createdDate);
-        }
-
-        public virtual void UpdateFromXml(XmlListingDetailResponse listing, Guid userId, bool ignoreRequestByCompletionDate = false)
-        {
-            if (listing.Price.HasValue && !PendingAndCanceledStatuses.Contains(this.MlsStatus))
-            {
-                this.ListPrice = listing.Price;
-            }
-
-            this.XmlListingId = listing.Id;
-            this.SaleProperty.UpdateFromXml(listing, ignoreRequestByCompletionDate);
         }
 
         public void ImportDataFromPlan(Plan plan)

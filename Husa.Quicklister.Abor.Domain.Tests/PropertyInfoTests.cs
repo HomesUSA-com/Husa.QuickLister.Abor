@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Extensions.XML;
     using Husa.Xml.Api.Contracts.Response;
     using Xunit;
 

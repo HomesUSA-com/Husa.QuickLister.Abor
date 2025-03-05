@@ -500,12 +500,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.UpdateFeatures(features);
         }
 
-        public void UpdateFromXml(XmlListingDetailResponse listing, bool ignoreRequestByCompletionDate = false)
-        {
-            this.PropertyInfo.UpdateFromXml(listing, ignoreRequestByCompletionDate);
-            this.FeaturesInfo.UpdateFromXml(listing);
-        }
-
         protected override void DeleteChildren(Guid userId) => throw new NotImplementedException();
 
         protected bool AreRoomsEqual(ICollection<ListingSaleRoom> other)
