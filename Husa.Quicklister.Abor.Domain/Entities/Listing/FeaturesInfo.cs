@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 {
+    using System;
     using System.Collections.Generic;
     using Husa.Extensions.Domain.Extensions;
     using Husa.Extensions.Domain.ValueObjects;
@@ -85,16 +86,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             return importedFeatures;
         }
 
-        public virtual void UpdateFromXml(XmlListingDetailResponse listing)
-        {
-            if (!string.IsNullOrEmpty(listing.Description))
-            {
-                this.PropertyDescription = listing.Description
-                    .CleanAfterKeyword(RemoveKeyword)
-                    .GetSubstring(PropertyDescriptionLength);
-            }
-        }
-
         public FeaturesInfo Clone()
         {
             return (FeaturesInfo)this.MemberwiseClone();
@@ -138,6 +129,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             var clonnedFeatures = this.Clone();
             clonnedFeatures.IsNewConstruction = plan.IsNewConstruction;
             return clonnedFeatures;
+        }
+
+        internal void CopyExteriorFeatures(ICollection<ExteriorFeatures> exteriorFeatures)
+        {
+            if (this.ExteriorFeatures != null && this.ExteriorFeatures.Contains(Enums.Domain.ExteriorFeatures.GuttersFull))
+            {
+                exteriorFeatures.Add(Enums.Domain.ExteriorFeatures.GuttersFull);
+            }
+
+            this.ExteriorFeatures = exteriorFeatures;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

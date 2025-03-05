@@ -256,17 +256,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.InvoiceInfo = new InvoiceInfo(userId, invoiceId, docNumber, createdDate);
         }
 
-        public virtual void UpdateFromXml(XmlListingDetailResponse listing, Guid userId, bool ignoreRequestByCompletionDate = false)
-        {
-            if (listing.Price.HasValue && !PendingAndCanceledStatuses.Contains(this.MlsStatus))
-            {
-                this.ListPrice = listing.Price;
-            }
-
-            this.XmlListingId = listing.Id;
-            this.SaleProperty.UpdateFromXml(listing, ignoreRequestByCompletionDate);
-        }
-
         public void ImportDataFromPlan(Plan plan)
         {
             this.SaleProperty.ImportDataFromPlan(plan);

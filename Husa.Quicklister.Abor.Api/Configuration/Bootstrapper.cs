@@ -59,6 +59,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Api.Configuration;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Application.Interfaces.ShowingTime;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
@@ -66,6 +67,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.ReverseProspect.Api.Client;
     using Husa.Xml.Api.Client;
     using Husa.Xml.Api.Client.Interface;
+    using Husa.Xml.Api.Contracts.Response;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -194,6 +196,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<InterfaceExtensions.Reports.IDiscrepancyReportService, DiscrepancyReportService>();
             services.AddScoped<InterfaceExtensions.Listing.ICallForwardService, CallForwardService>();
             services.AddScoped<InterfaceExtensions.JsonImport.IListingJsonImportService, ListingJsonImportService>();
+            services.AddScoped<IListingRequestXmlService<XmlListingDetailResponse>, ListingRequestXmlService>();
 
             services.AddScoped<IShowingTimeContactService, ShowingTimeContactService>();
 

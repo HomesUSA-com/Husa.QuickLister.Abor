@@ -500,12 +500,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.UpdateFeatures(features);
         }
 
-        public void UpdateFromXml(XmlListingDetailResponse listing, bool ignoreRequestByCompletionDate = false)
-        {
-            this.PropertyInfo.UpdateFromXml(listing, ignoreRequestByCompletionDate);
-            this.FeaturesInfo.UpdateFromXml(listing);
-        }
-
         protected override void DeleteChildren(Guid userId) => throw new NotImplementedException();
 
         protected bool AreRoomsEqual(ICollection<ListingSaleRoom> other)
@@ -535,6 +529,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             yield return this.ShowingInfo;
             yield return this.SchoolsInfo;
             yield return this.SalesOfficeInfo;
+        }
+
+        private static T AssignIfNotNull<T>(T currentValue, T newValue)
+        {
+            return !EqualityComparer<T>.Default.Equals(newValue, default(T))
+                ? newValue
+                : currentValue;
         }
 
         private void ImportPropertyFromCommunity(Property property)
@@ -674,7 +675,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FeaturesInfo.Fencing = featuresInfo.Fencing;
                 this.FeaturesInfo.ConstructionMaterials = featuresInfo.ConstructionMaterials;
                 this.FeaturesInfo.View = featuresInfo.View;
-                this.FeaturesInfo.ExteriorFeatures = featuresInfo.ExteriorFeatures;
+                this.FeaturesInfo.CopyExteriorFeatures(featuresInfo.ExteriorFeatures);
                 this.FeaturesInfo.HomeFaces = featuresInfo.HomeFaces;
                 this.FeaturesInfo.WaterfrontFeatures = featuresInfo.WaterfrontFeatures;
                 this.FeaturesInfo.WaterBodyName = featuresInfo.WaterBodyName;
@@ -800,10 +801,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
 
             this.SchoolsInfo ??= new();
-            this.SchoolsInfo.ElementarySchool = schoolsInfo.ElementarySchool;
-            this.SchoolsInfo.MiddleSchool = schoolsInfo.MiddleSchool;
-            this.SchoolsInfo.HighSchool = schoolsInfo.HighSchool;
-            this.SchoolsInfo.SchoolDistrict = schoolsInfo.SchoolDistrict;
+
+            this.SchoolsInfo.ElementarySchool = AssignIfNotNull(this.SchoolsInfo.ElementarySchool, schoolsInfo.ElementarySchool);
+            this.SchoolsInfo.MiddleSchool = AssignIfNotNull(this.SchoolsInfo.MiddleSchool, schoolsInfo.MiddleSchool);
+            this.SchoolsInfo.HighSchool = AssignIfNotNull(this.SchoolsInfo.HighSchool, schoolsInfo.HighSchool);
+            this.SchoolsInfo.SchoolDistrict = AssignIfNotNull(this.SchoolsInfo.SchoolDistrict, schoolsInfo.SchoolDistrict);
+
             if (this.SchoolsInfo.ElementarySchool != null && this.SchoolsInfo.ElementarySchool != ElementarySchool.Other)
             {
                 this.SchoolsInfo.OtherElementarySchool = null;
