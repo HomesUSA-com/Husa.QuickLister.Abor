@@ -86,16 +86,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             return importedFeatures;
         }
 
-        public virtual void UpdateFromXml(XmlListingDetailResponse listing)
-        {
-            if (!string.IsNullOrEmpty(listing.Description))
-            {
-                this.PropertyDescription = listing.Description
-                    .CleanAfterKeyword(RemoveKeyword)
-                    .GetSubstring(PropertyDescriptionLength);
-            }
-        }
-
         public FeaturesInfo Clone()
         {
             return (FeaturesInfo)this.MemberwiseClone();

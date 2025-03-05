@@ -11,6 +11,5 @@ namespace Husa.Quicklister.Abor.Domain.Repositories
         Task<SaleListing> GetListing(string streetNumber, string streetName, Cities city, string zipcode, string unitNumber = null);
 
         Task<SaleListing> GetListingByMlsNumber(Guid listingId, string mlsNumber);
-        bool HasXmlChanges(SaleListing entity);
     }
 }

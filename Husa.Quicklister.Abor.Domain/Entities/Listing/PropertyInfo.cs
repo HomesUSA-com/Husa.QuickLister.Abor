@@ -9,7 +9,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Interfaces.SaleListing;
-    using Husa.Quicklister.Extensions.Domain.Attributes;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
@@ -26,7 +25,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
         }
 
-        [XmlPropertyUpdate]
         [DataType(DataType.DateTime, ErrorMessage = "The {0} value is invalid for datetime.")]
         public DateTime? ConstructionCompletionDate
         {
@@ -38,7 +36,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public int? ConstructionStartYear { get; set; }
 
-        [XmlPropertyUpdate]
         public string LegalDescription { get; set; }
 
         public string TaxId { get; set; }
@@ -51,7 +48,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public string LotSize { get; set; }
 
-        [XmlPropertyUpdate]
         public ICollection<LotDescription> LotDescription { get; set; }
 
         public PropertySubType? PropertyType { get; set; }
@@ -86,25 +82,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             }
 
             return importedPropertyInfo;
-        }
-
-        public void UpdateFromXml(XmlListingDetailResponse listing, bool ignoreRequestByCompletionDate = false)
-        {
-            if (!string.IsNullOrEmpty(listing.LegalDescLot))
-            {
-                this.LotDescription = listing.LegalDescLot.CsvToEnum<LotDescription>().ToArray();
-            }
-
-            if (ignoreRequestByCompletionDate && this.ConstructionStage.HasValue && this.ConstructionStage.Value == Enums.Domain.ConstructionStage.Complete)
-            {
-                return;
-            }
-
-            if (listing.Day.HasValue && this.constructionCompletionDate.HasValue && (this.constructionCompletionDate.Value.Date != listing.Day.Value.Date))
-            {
-                this.ConstructionCompletionDate = listing.Day;
-                this.ConstructionStage = listing.Day.Value.Date > DateTime.UtcNow.Date ? Enums.Domain.ConstructionStage.Incomplete : Enums.Domain.ConstructionStage.Complete;
-            }
         }
 
         public PropertyInfo Clone()
