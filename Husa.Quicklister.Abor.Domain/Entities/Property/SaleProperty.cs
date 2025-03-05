@@ -681,7 +681,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FeaturesInfo.Fencing = featuresInfo.Fencing;
                 this.FeaturesInfo.ConstructionMaterials = featuresInfo.ConstructionMaterials;
                 this.FeaturesInfo.View = featuresInfo.View;
-                this.FeaturesInfo.ExteriorFeatures = featuresInfo.ExteriorFeatures;
+                this.FeaturesInfo.CopyExteriorFeatures(featuresInfo.ExteriorFeatures);
                 this.FeaturesInfo.HomeFaces = featuresInfo.HomeFaces;
                 this.FeaturesInfo.WaterfrontFeatures = featuresInfo.WaterfrontFeatures;
                 this.FeaturesInfo.WaterBodyName = featuresInfo.WaterBodyName;
