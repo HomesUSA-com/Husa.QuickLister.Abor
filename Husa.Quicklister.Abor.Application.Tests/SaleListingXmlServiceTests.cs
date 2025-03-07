@@ -31,6 +31,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
+    using Husa.Quicklister.Extensions.Domain.Repositories;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Request;
     using Husa.Xml.Api.Contracts.Response;
@@ -55,6 +56,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<IListingRequestXmlService<XmlListingDetailResponse>> saleListingRequestService = new();
         private readonly Mock<ISaleListingXmlMediaService> xmlMediaService = new();
         private readonly Mock<ILogger<SaleListingXmlService>> logger = new();
+        private readonly Mock<IRequestErrorRepository> pequestErrorRepository = new();
 
         public SaleListingXmlServiceTests(ApplicationServicesFixture fixture)
         {
@@ -73,6 +75,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.saleListingRequestService.Object,
                 this.companyClient.Object,
                 this.saleListingMediaService.Object,
+                this.pequestErrorRepository.Object,
                 this.fixture.Options.Object,
                 this.fixture.Mapper);
         }

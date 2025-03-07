@@ -18,5 +18,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
         public Counties? County { get; set; }
 
         public MarketCode Market { get; set; }
+        public bool UseShowingTime { get; set; }
     }
 }

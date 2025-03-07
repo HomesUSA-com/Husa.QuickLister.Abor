@@ -49,5 +49,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models
         public StreetType? StreetType { get; set; }
 
         public bool UpdateGeocodes { get; set; }
+
+        public bool UseShowingTime { get; set; }
     }
 }

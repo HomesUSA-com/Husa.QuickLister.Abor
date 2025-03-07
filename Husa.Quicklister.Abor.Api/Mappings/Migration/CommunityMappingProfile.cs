@@ -129,7 +129,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.AccessInformation, cr => cr.Ignore())
                 .ForMember(dto => dto.AppointmentRestrictions, cr => cr.Ignore())
                 .ForMember(dto => dto.AdditionalInstructions, cr => cr.Ignore())
-                .ForMember(dto => dto.ShowingTimeContacts, cr => cr.Ignore());
+                .ForMember(dto => dto.ShowingTimeContacts, cr => cr.Ignore())
+                .ForMember(dto => dto.UseShowingTime, cr => cr.Ignore());
         }
     }
 }

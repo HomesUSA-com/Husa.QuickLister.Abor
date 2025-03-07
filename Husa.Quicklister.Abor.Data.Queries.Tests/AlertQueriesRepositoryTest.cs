@@ -60,24 +60,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
             Assert.NotEmpty(result.Data);
         }
 
-        [Fact]
-        public async Task GetAsync_XmlListingUpdatedWithoutRequest_Success()
-        {
-            // Arrange
-            var listing = ListingTestProvider.GetListingEntity();
-            listing.XmlRequestError = new(listing.Id, "error message");
-            var listings = new SaleListing[] { listing };
-            var sut = this.GetInMemoryRepository(listings);
-            var filter = new BaseAlertQueryFilter();
-
-            // Act
-            var result = await sut.GetAsync(AlertType.XmlListingUpdatedWithoutRequest, filter);
-
-            // Assert
-            Assert.Equal(listings.Length, result.Total);
-            Assert.NotEmpty(result.Data);
-        }
-
         /// <summary>
         /// This method is used to build a new instance of UserContext with the values of a valid user from the targetted DB. Note: The values of the user below only apply to the dev database.
         /// </summary>

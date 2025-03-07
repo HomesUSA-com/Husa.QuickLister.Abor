@@ -103,6 +103,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<RepositoriesExtensions.IViolationWarningAlertRepository, ViolationWarningAlertRepository>();
             services.AddScoped<ILegacySaleListingRepository, LegacySaleListingRepository>();
             services.AddScoped<IShowingTimeContactRepository, ShowingTimeContactRepository>();
+            services.AddScoped<RepositoriesExtensions.IRequestErrorRepository, RequestErrorRepository>();
 
             return services;
         }
@@ -130,6 +131,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IResidentialIdxQueriesRepository, ResidentialIdxQueriesRepository>();
             services.AddScoped<IShowingTimeContactQueriesRepository, ShowingTimeContactQueriesRepository>();
             services.AddScoped<IProvideShowingTimeContacts, ShowingTimeContactQueriesRepository>();
+            services.AddScoped<IQueryListingBillingRepository, ListingBillingQueriesRepository>();
+            services.AddScoped<IListingRequestBillingQueryRepository, ListingRequestBillingQueriesRepository>();
             services.AddExtensionRepositories();
             return services;
         }

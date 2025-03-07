@@ -127,33 +127,6 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task AddXmlRequestError(Guid listingId, string errorMessage)
-        {
-            var error = this.context.XmlRequestError.FirstOrDefault(error => error.ListingId == listingId);
-
-            if (error == null)
-            {
-                error = new XmlRequestError(listingId, errorMessage);
-                this.context.XmlRequestError.Add(error);
-            }
-            else
-            {
-                error.UpdateErrorMessage(errorMessage);
-            }
-
-            await this.SaveChangesAsync();
-        }
-
-        public async Task DeleteXmlRequestError(Guid listingId)
-        {
-            var error = this.context.XmlRequestError.FirstOrDefault(error => error.ListingId == listingId);
-            if (error != null)
-            {
-                this.context.XmlRequestError.Remove(error);
-                await this.SaveChangesAsync();
-            }
-        }
-
         public async Task<IEnumerable<SaleListing>> GetListingsForDiscrepancyAsync(bool listingsInBoth)
         {
             var currentUser = this.userContextProvider.GetCurrentUser();
