@@ -141,7 +141,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Community
             if (response.Code == ResponseCode.Information)
             {
                 this.Logger.LogInformation("Command result: {message} {community}", response.Message, communityId);
-                return this.NotFound(response);
+                return this.Ok(response);
             }
 
             return this.Ok(response.Result);
