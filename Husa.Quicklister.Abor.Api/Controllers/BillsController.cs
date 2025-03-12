@@ -7,9 +7,9 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Extensions.Authorization.Filters;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Quickbooks.Models.Invoice;
-    using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Reports;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Microsoft.AspNetCore.Mvc;
@@ -37,7 +37,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
         [HttpGet]
         [ApiAuthorization(new RoleEmployee[0])]
-        public async Task<IActionResult> GetBillingListing([FromQuery] ListingSaleBillingRequestFilter filters)
+        public async Task<IActionResult> GetBillingListing([FromQuery] ListingBillingRequestFilter filters)
         {
             this.logger.LogInformation("Starting to get the billable listing");
             var requestFilter = this.mapper.Map<ListingBillingQueryFilter>(filters);
