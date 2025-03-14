@@ -7,12 +7,12 @@ namespace Husa.Quicklister.Abor.Api.Tests
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Quickbooks.Models.Invoice;
-    using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Reports;
     using Husa.Quicklister.Abor.Api.Controllers;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
     using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Extensions;
     using Husa.Quicklister.Extensions.Data.Queries.Models;
@@ -62,7 +62,7 @@ namespace Husa.Quicklister.Abor.Api.Tests
                     listing2,
                 };
 
-            var filter = new ListingSaleBillingRequestFilter
+            var filter = new ListingBillingRequestFilter
             {
                 CompanyId = companyId,
                 SearchBy = string.Empty,
@@ -98,7 +98,7 @@ namespace Husa.Quicklister.Abor.Api.Tests
 
             var listingSaleResponse = new List<SaleListingBillingQueryResult>() { };
 
-            var filter = new ListingSaleBillingRequestFilter
+            var filter = new ListingBillingRequestFilter
             {
                 CompanyId = companyId,
                 SearchBy = string.Empty,
