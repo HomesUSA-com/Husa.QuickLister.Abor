@@ -129,7 +129,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
             {
                 results.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.BackOnMarketDate) }));
             }
-            else if (record.BackOnMarketDate.Value < DateTime.Today.AddDays(1))
+            else if (record.BackOnMarketDate.Value < DateTime.UtcNow.AddDays(1))
             {
                 results.Add(new(OperatorType.GreaterEqual.GetErrorMessage("tomorrow"), new[] { nameof(record.BackOnMarketDate) }));
             }
