@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
+    using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using ExtensionServices = Husa.Quicklister.Extensions.Application.Services.JsonImport;
 
@@ -20,8 +21,9 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
             ISaleListingRequestMediaService mediaService,
             ISaleListingRequestRepository requestRepository,
             IUserContextProvider userContextProvider,
+            IRequestErrorRepository requestErrorRepository,
             ILogger<ListingRequestJsonImportService> logger)
-            : base(mediaService, requestRepository, userContextProvider, logger)
+            : base(mediaService, requestRepository, userContextProvider, requestErrorRepository, logger)
         {
         }
 

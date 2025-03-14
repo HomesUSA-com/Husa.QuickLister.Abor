@@ -75,6 +75,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
                 nameof(this.SysModifiedBy),
                 nameof(this.SysTimestamp),
                 nameof(this.LegacyId),
+                nameof(this.ListDate),
             });
     }
 }

@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using Husa.Quicklister.Abor.Data.Extensions;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Api.Mappings.Migration;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class SaleListingMappingProfile : Profile
@@ -117,7 +118,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.ListType, pr => pr.Ignore())
                 .ForMember(dto => dto.MarketModifiedOn, pr => pr.Ignore())
                 .ForMember(dto => dto.IsManuallyManaged, pr => pr.MapFrom(x => !x.IsXmlManaged))
-                .ForMember(dto => dto.ShowingTime, pr => pr.Ignore());
+                .ForMember(dto => dto.ShowingTime, pr => pr.Ignore())
+                .ForMember(dto => dto.UseShowingTime, pr => pr.Ignore());
 
             this.CreateMap<OpenHouseResponse, OpenHouseDto>()
                 .ForMember(dto => dto.Refreshments, pr => pr.MapFrom(x => x.Refreshments.CsvToEnum<Refreshments>(true)))

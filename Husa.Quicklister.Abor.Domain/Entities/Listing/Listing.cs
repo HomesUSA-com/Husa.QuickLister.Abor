@@ -6,7 +6,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Domain.Attributes;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using ExtensionListing = Husa.Quicklister.Extensions.Domain.Entities.Listing.Listing;
 
@@ -27,7 +26,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual int? DOM { get; set; }
 
-        [XmlPropertyUpdate]
         public virtual decimal? ListPrice { get; set; }
 
         public virtual ListType ListType { get; protected set; } = ListType.Residential;
@@ -36,7 +34,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual string MarketUniqueId { get; set; }
 
-        [XmlPropertyUpdate]
         public virtual MarketStatuses MlsStatus { get; set; }
 
         public virtual PublishInfo PublishInfo { get; set; }
@@ -82,7 +79,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.CopyInformationFromValueObject(listingSaleStatusFields);
         }
 
-        public virtual void UpdateActionType(ActionType actionType)
+        public override void UpdateActionType(ActionType actionType)
         {
             this.PublishInfo.PublishType = actionType;
         }

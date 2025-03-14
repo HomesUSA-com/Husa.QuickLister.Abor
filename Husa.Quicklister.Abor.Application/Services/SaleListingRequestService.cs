@@ -57,6 +57,7 @@ namespace Husa.Quicklister.Abor.Application.Services
             IServiceSubscriptionClient serviceSubscriptionClient,
             IEmailSender emailSender,
             IUserRepository userRepository,
+            IRequestErrorRepository requestErrorRepository,
             IProvideShowingTimeContacts showingTimeContactsProvider)
             : base(
                   saleRequestRepository,
@@ -64,6 +65,7 @@ namespace Husa.Quicklister.Abor.Application.Services
                   userContextProvider,
                   saleCommunityRepository,
                   listingSaleRepository,
+                  requestErrorRepository,
                   mapper,
                   logger,
                   userRepository,

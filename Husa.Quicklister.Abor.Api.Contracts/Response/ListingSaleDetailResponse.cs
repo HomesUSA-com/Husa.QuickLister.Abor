@@ -20,5 +20,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
         public Guid? UnlockedFromLegacyBy { get; set; }
         public string UnlockedFromLegacyByFullName { get; set; }
         public DateTime? UnlockedFromLegacyOn { get; set; }
+        public virtual bool UseShowingTime { get; set; }
     }
 }

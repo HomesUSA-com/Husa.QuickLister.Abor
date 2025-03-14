@@ -12,16 +12,19 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Extensions.Common.Exceptions;
     using Husa.MediaService.Domain.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Abor.Domain.Extensions.XML;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Extensions;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Repositories;
     using Husa.Xml.Api.Client.Interface;
+    using Husa.Xml.Api.Contracts.Response;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
@@ -38,8 +41,9 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
         private readonly IMapper mapper;
         private readonly ApplicationOptions options;
         private readonly ISaleListingService listingSaleService;
-        private readonly ISaleListingRequestService saleListingRequestService;
+        private readonly IListingRequestXmlService<XmlListingDetailResponse> saleListingRequestService;
         private readonly ISaleListingXmlMediaService xmlMediaService;
+        private readonly IRequestErrorRepository requestErrorRepository;
 
         private readonly IEnumerable<MarketStatuses> notAlowedStatusForRequest = new[]
         {
@@ -54,9 +58,10 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             ILogger<SaleListingXmlService> logger,
             ISaleListingXmlMediaService xmlMediaService,
             ISaleListingService listingSaleService,
-            ISaleListingRequestService saleListingRequestService,
+            IListingRequestXmlService<XmlListingDetailResponse> saleListingRequestService,
             IServiceSubscriptionClient serviceSubscriptionClient,
             ISaleListingMediaService saleListingMediaService,
+            IRequestErrorRepository requestErrorRepository,
             IOptions<ApplicationOptions> options,
             IMapper mapper)
             : base(listingSaleRepository, communityRepository, userContextProvider, xmlClient, logger)
@@ -68,6 +73,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             this.xmlMediaService = xmlMediaService ?? throw new ArgumentNullException(nameof(xmlMediaService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
+            this.requestErrorRepository = requestErrorRepository ?? throw new ArgumentNullException(nameof(requestErrorRepository));
         }
 
         public async Task<Guid> ProcessListingAsync(Guid xmlListingId, ImportActionType listAction)
@@ -108,14 +114,8 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                     return listing.Id;
                 }
 
-                listing.UpdateFromXml(
-                    xmlListing,
-                    userId: currentUser.Id,
-                    ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate);
-                if (this.ListingSaleRepository.HasXmlChanges(listing))
-                {
-                    listing.LockByUser(currentUser.Id);
-                }
+                listing.UpdateFromXml(xmlListing, ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate);
+                listing.LockByUser(currentUser.Id);
             }
 
             await this.ListingSaleRepository.SaveChangesAsync(listing);
@@ -130,15 +130,16 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             var skipPlanAndCommunity = listing.XmlDiscrepancyListingId != null && listing.XmlDiscrepancyListingId.Value != Guid.Empty;
             var xmlListing = await this.GetListingFromXml(skipPlanAndCommunity ? listing.XmlDiscrepancyListingId.Value : xmlListingId, skipPlanAndCommunity: skipPlanAndCommunity);
             var currentUser = this.UserContextProvider.GetCurrentUser();
+            var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value) ?? throw new NotFoundException<CompanyDetail>(xmlListing.CompanyId.Value);
             this.Logger.LogInformation("Updating the xml listing with id {xmlListingId}", xmlListingId);
-            var hasOpenRequest = await this.saleListingRequestService.HasOpenRequest(listing.Id);
+
             if (listing.IsManuallyManaged)
             {
                 this.Logger.LogWarning("The listing: {listingId} is configured to be manually managed, skipping", listing.Id);
                 return;
             }
 
-            if (!listing.IsInMls || hasOpenRequest)
+            if (!listing.IsInMls)
             {
                 this.Logger.LogWarning("The listing could not be updated because there is an open listing request {listingId}", listing.Id);
                 return;
@@ -150,14 +151,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 return;
             }
 
-            var companyDetail = await this.serviceSubscriptionClient.Company.GetCompany(xmlListing.CompanyId.Value) ?? throw new NotFoundException<CompanyDetail>(xmlListing.CompanyId.Value);
             var shouldProcessNewMedia = !companyDetail.SettingInfo.StopXMLMediaSyncOfExistingListings;
-            listing.UpdateFromXml(
-                xmlListing,
-                currentUser.Id,
-                ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate);
-            var mediaHasChanges = false;
-
             if (shouldProcessNewMedia)
             {
                 var currentListingMedia = await this.saleListingMediaService.MediaClient.GetResources(listing.Id, MediaType.Residential);
@@ -169,26 +163,27 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                         checkMediaLimit: true,
                         maxImagesAllowed: mediaLimitAllowed,
                         useServiceBus: true);
-                    mediaHasChanges = true;
                 }
             }
 
-            if (this.ListingSaleRepository.HasXmlChanges(listing) || mediaHasChanges)
+            listing.UpdateFromXml(xmlListing, ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate);
+
+            var requestResult = listing.GenerateRequest(currentUser.Id);
+            if (requestResult.Errors.Any())
+            {
+                listing.LockUnsubmitted(currentUser.Id);
+                await this.ListingSaleRepository.SaveChangesAsync(listing);
+                this.Logger.LogWarning("The listing request could not be created due to the following: {@errors}", requestResult.Errors);
+                var errors = string.Join(", ", requestResult.Errors.Select(x => x.ErrorMessage));
+                await this.requestErrorRepository.AddRequestError(listing.Id, $"The listing request could not be created due to the following: {errors}", ImportSource.Xml);
+                return;
+            }
+
+            var requestResponse = await this.saleListingRequestService.CreateRequestAsync(listing, xmlListing, ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate);
+            if (requestResponse.Code == ResponseCode.Success)
             {
                 listing.LockByUser(currentUser.Id);
                 await this.ListingSaleRepository.SaveChangesAsync(listing);
-                var requestResult = listing.GenerateRequest(currentUser.Id);
-                if (!requestResult.Errors.Any())
-                {
-                    await this.saleListingRequestService.GenerateRequestAsync(requestResult.Result, disposeServiceBus: false);
-                }
-                else
-                {
-                    this.Logger.LogWarning("The listing request could not be created due to the following: {@errors}", requestResult.Errors);
-                    var errors = string.Join(", ", requestResult.Errors.Select(x => x.ErrorMessage));
-                    await this.ListingSaleRepository.AddXmlRequestError(listing.Id, $"The listing request could not be created due to the following: {errors}");
-                    return;
-                }
             }
 
             await this.XmlClient.Listing.ProcessListing(xmlListingId, request: new() { ListingId = listing.Id, Type = XmlContract.ListActionType.ListUpdate });

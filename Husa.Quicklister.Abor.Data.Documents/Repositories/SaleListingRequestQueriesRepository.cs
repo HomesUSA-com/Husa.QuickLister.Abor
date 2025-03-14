@@ -5,7 +5,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Document.Interfaces;
     using Husa.Extensions.Document.Models;
@@ -17,10 +16,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
     using Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest;
     using Husa.Quicklister.Abor.Data.Documents.Projections;
     using Husa.Quicklister.Abor.Data.Documents.Specifications;
-    using Husa.Quicklister.Abor.Data.Queries.Extensions;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
-    using Husa.Quicklister.Abor.Data.Queries.Models;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
@@ -83,28 +79,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
             queryResult.StatusFieldsInfo.SecondAgentMarketUniqueId = await this.agentQueriesRepository.GetAgentUniqueMarketIdAsync(queryResult.StatusFieldsInfo.AgentIdSecond);
 
             return queryResult;
-        }
-
-        public async Task<DataSet<ListingSaleBillingQueryResult>> GetBillableListingsAsync(ListingSaleBillingQueryFilter queryFilter, CancellationToken cancellationToken = default)
-        {
-            var billableListings = await this.listingSaleQueriesRepository.GetBillableListingsAsync(queryFilter);
-
-            foreach (var listing in billableListings.Data)
-            {
-                var request = await this.GetFirstCompletedRequestAsync(listing.Id, sysModifiedOn: queryFilter.To, cancellationToken);
-                if (request != null)
-                {
-                    listing.SysCreatedOn = request.SysCreatedOn;
-                    listing.SysCreatedBy = request.SysCreatedBy;
-                }
-            }
-
-            await this.userQueriesRepository.FillUsersNameAsync(billableListings.Data);
-
-            var listingsFilteredBySearch = billableListings.Data.FilterBySearch(queryFilter.SearchBy);
-            var total = listingsFilteredBySearch.Count();
-
-            return new(listingsFilteredBySearch, total);
         }
 
         protected override IQueryable<ListingRequestForSummaryQueryResult<SaleListingRequest>> FilterByFieldChange(IQueryable<ListingRequestForSummaryQueryResult<SaleListingRequest>> requests, RequestFieldChange fieldChange)

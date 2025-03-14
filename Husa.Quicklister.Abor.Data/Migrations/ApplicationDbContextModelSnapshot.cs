@@ -202,6 +202,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
+                    b.Property<bool>("UseShowingTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("XmlStatus")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -390,6 +395,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                         .HasColumnType("datetime")
                         .HasColumnName("UnlockedFromLegacyOn");
 
+                    b.Property<bool>("UseShowingTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<Guid?>("XmlDiscrepancyListingId")
                         .HasColumnType("uniqueidentifier");
 
@@ -494,33 +504,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                         .HasDatabaseName("IX_ScrapedListing");
 
                     b.ToTable("ScrapedListing");
-                });
-
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.XmlRequestError", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ErrorMessage")
-                        .HasMaxLength(1024)
-                        .HasColumnType("nvarchar(1024)");
-
-                    b.Property<Guid>("ListingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("SysCreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("SysModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ListingId")
-                        .IsUnique();
-
-                    b.ToTable("XmlRequestError");
                 });
 
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Lot.LotListing", b =>
@@ -641,6 +624,9 @@ namespace Husa.Quicklister.Abor.Data.Migrations
 
                     b.Property<DateTime>("SysTimestamp")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("UseShowingTime")
+                        .HasColumnType("bit");
 
                     b.Property<Guid?>("XmlDiscrepancyListingId")
                         .HasColumnType("uniqueidentifier");
@@ -1197,6 +1183,38 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.ToTable("Agent");
                 });
 
+            modelBuilder.Entity("Husa.Quicklister.Extensions.Domain.Entities.Listing.XmlRequestError", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ErrorMessage")
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.Property<string>("ImportSource")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<Guid>("ListingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("SysCreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("SysModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ListingId")
+                        .IsUnique();
+
+                    b.ToTable("XmlRequestError");
+                });
+
             modelBuilder.Entity("Husa.Quicklister.Extensions.Domain.Entities.ViolationWarningLog", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1251,6 +1269,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.HasIndex("Id")
                         .IsUnique()
                         .HasDatabaseName("IX_ViolationWarningLog");
+
+                    b.HasIndex("ListingId");
 
                     b.ToTable("ViolationWarningLog");
                 });
@@ -2520,17 +2540,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                         });
 
                     b.Navigation("ListingDetails");
-                });
-
-            modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.XmlRequestError", b =>
-                {
-                    b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Listing.SaleListing", "SaleListing")
-                        .WithOne("XmlRequestError")
-                        .HasForeignKey("Husa.Quicklister.Abor.Domain.Entities.Listing.XmlRequestError", "ListingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SaleListing");
                 });
 
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Lot.LotListing", b =>
@@ -4196,6 +4205,24 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Navigation("AgentValue");
                 });
 
+            modelBuilder.Entity("Husa.Quicklister.Extensions.Domain.Entities.Listing.XmlRequestError", b =>
+                {
+                    b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Listing.SaleListing", null)
+                        .WithMany()
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Husa.Quicklister.Extensions.Domain.Entities.ViolationWarningLog", b =>
+                {
+                    b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Listing.SaleListing", null)
+                        .WithMany()
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Listing.ListingSaleRoom", b =>
                 {
                     b.HasOne("Husa.Quicklister.Abor.Domain.Entities.Property.SaleProperty", null)
@@ -4252,8 +4279,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Navigation("ListingSaleTraces");
 
                     b.Navigation("ManagementTraces");
-
-                    b.Navigation("XmlRequestError");
                 });
 
             modelBuilder.Entity("Husa.Quicklister.Abor.Domain.Entities.Lot.LotListing", b =>
