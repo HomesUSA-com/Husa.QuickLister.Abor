@@ -122,7 +122,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             listingSale.SysModifiedOn < DateTime.UtcNow.Date;
 
         // Not Listed in MLS
-        public static Expression<Func<SaleListing, bool>> NotListedInMlsExpression => listingSale => string.IsNullOrEmpty(listingSale.MlsNumber) && listingSale.MlsStatus == MarketStatuses.Active;
+        public static Expression<Func<SaleListing, bool>> NotListedInMlsExpression => listingSale =>
+            string.IsNullOrEmpty(listingSale.MlsNumber) &&
+            listingSale.MlsStatus == MarketStatuses.Active &&
+            listingSale.SysModifiedOn < DateTime.UtcNow.Date;
 
         // Agent Bonus Expiration Date - 7 days or Less
         public static Expression<Func<SaleListing, bool>> AgentBonusExpirationDateOrLessExpression => listingSale =>
