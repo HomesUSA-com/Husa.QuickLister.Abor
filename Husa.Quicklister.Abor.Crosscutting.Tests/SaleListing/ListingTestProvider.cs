@@ -17,6 +17,13 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
 
     public static class ListingTestProvider
     {
+        public static void SetSysModifiedOnForTesting(this SaleListing entity, DateTime value)
+        {
+            typeof(SaleListing)
+                .GetProperty("SysModifiedOn")
+                .SetValue(entity, value);
+        }
+
         public static SaleProperty GetSalePropertyEntity(
             Guid? listingId = null,
             Guid? companyId = null,
@@ -92,6 +99,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                 };
             }
 
+            listing.SetSysModifiedOnForTesting(DateTime.UtcNow.AddDays(-1));
             return listing;
         }
 
@@ -140,6 +148,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                 companyId ?? Guid.NewGuid(),
                 false);
             listing.UpdateTrackValues(Guid.NewGuid());
+            listing.SetSysModifiedOnForTesting(DateTime.UtcNow.AddDays(-1));
             return listing;
         }
 
