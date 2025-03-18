@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
     {
         public LotListingRequestMediaService(
             IOptions<ServiceBusSettings> serviceBusSettings,
+            IOptions<ApplicationOptions> options,
             IUserContextProvider userContextProvider,
             ILotListingRequestRepository requestRepository,
             IMediaServiceClient mediaClient,
@@ -32,6 +33,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
             IMapper mapper)
             : base(
                 serviceBusSettings,
+                options,
                 userContextProvider,
                 requestRepository,
                 mediaClient,

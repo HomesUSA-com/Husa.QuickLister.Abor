@@ -33,7 +33,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             { AlertType.ActiveAndPendingListing, ActiveAndPendingListingsExpression },
             { AlertType.ComparableAndRelistListing, ComparableAndRelistListingsExpression },
             { AlertType.CompletedHomesWithoutPhotoRequest, CompletedHomesWithoutPhotoRequestExpression },
-            { AlertType.LockedListingsImported, LockedListingsExpression },
+            { AlertType.LockedListingsImported, LockedListingsImportedExpression },
         };
 
         // Temp Off Market - Back on Market (BOM) Date - Due in 7 days or Less
@@ -112,8 +112,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             listingSale.SaleProperty.FinancialInfo.HasBonusWithAmount &&
             listingSale.SaleProperty.FinancialInfo.BonusExpirationDate <= DateTime.UtcNow;
 
+        // Locked Listings Imported
+        public static Expression<Func<SaleListing, bool>> LockedListingsImportedExpression => listingSale => Listing.LockedListingStatuses.Contains(listingSale.LockedStatus);
+
         // Locked Listings
-        public static Expression<Func<SaleListing, bool>> LockedListingsExpression => listingSale => Listing.LockedListingStatuses.Contains(listingSale.LockedStatus);
+        public static Expression<Func<SaleListing, bool>> LockedListingsExpression => listingSale =>
+            Listing.LockedListingStatuses.Contains(listingSale.LockedStatus) &&
+            !string.IsNullOrEmpty(listingSale.MlsNumber) &&
+            listingSale.SysModifiedOn < DateTime.UtcNow.Date;
 
         // Not Listed in MLS
         public static Expression<Func<SaleListing, bool>> NotListedInMlsExpression => listingSale => string.IsNullOrEmpty(listingSale.MlsNumber) && listingSale.MlsStatus == MarketStatuses.Active;

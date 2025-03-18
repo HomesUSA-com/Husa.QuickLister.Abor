@@ -31,6 +31,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
                 UnitNumber = listingRequest.SaleProperty.AddressInfo.UnitNumber,
                 UpdateGeocodes = listingRequest.SaleProperty.PropertyInfo.UpdateGeocodes,
                 StreetType = listingRequest.SaleProperty.AddressInfo.StreetType,
+                UseShowingTime = listingRequest.UseShowingTime,
             };
 
         public static Expression<Func<SaleListingRequest, ListingSaleRequestDetailQueryResult>> ProjectionToListingSaleRequestDetailQueryResult =>
@@ -74,7 +75,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
                 StatusFieldsInfo = listingRequest.StatusFieldsInfo.ToListingRequestStatusFieldsQueryResult(),
                 SaleProperty = listingRequest.SaleProperty.ToProjectionListingSaleRequestSalePropertyQueryResult(),
                 PublishInfo = listingRequest.PublishInfo.ToProjectionPublishInfo(),
-                ShowingTime = listingRequest.ShowingTimeInfo?.ToProjectionShowingTime(),
+                ShowingTime = listingRequest.UseShowingTime ? listingRequest.ShowingTimeInfo?.ToProjectionShowingTime() : null,
+                UseShowingTime = listingRequest.UseShowingTime,
             };
     }
 }

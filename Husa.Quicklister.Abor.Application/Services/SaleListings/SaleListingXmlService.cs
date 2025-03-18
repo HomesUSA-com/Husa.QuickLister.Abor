@@ -22,6 +22,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Extensions.Application.Extensions;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Repositories;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Response;
     using Microsoft.Extensions.Logging;
@@ -42,6 +43,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
         private readonly ISaleListingService listingSaleService;
         private readonly IListingRequestXmlService<XmlListingDetailResponse> saleListingRequestService;
         private readonly ISaleListingXmlMediaService xmlMediaService;
+        private readonly IRequestErrorRepository requestErrorRepository;
 
         private readonly IEnumerable<MarketStatuses> notAlowedStatusForRequest = new[]
         {
@@ -59,6 +61,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             IListingRequestXmlService<XmlListingDetailResponse> saleListingRequestService,
             IServiceSubscriptionClient serviceSubscriptionClient,
             ISaleListingMediaService saleListingMediaService,
+            IRequestErrorRepository requestErrorRepository,
             IOptions<ApplicationOptions> options,
             IMapper mapper)
             : base(listingSaleRepository, communityRepository, userContextProvider, xmlClient, logger)
@@ -70,6 +73,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             this.xmlMediaService = xmlMediaService ?? throw new ArgumentNullException(nameof(xmlMediaService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
+            this.requestErrorRepository = requestErrorRepository ?? throw new ArgumentNullException(nameof(requestErrorRepository));
         }
 
         public async Task<Guid> ProcessListingAsync(Guid xmlListingId, ImportActionType listAction)
@@ -171,7 +175,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 await this.ListingSaleRepository.SaveChangesAsync(listing);
                 this.Logger.LogWarning("The listing request could not be created due to the following: {@errors}", requestResult.Errors);
                 var errors = string.Join(", ", requestResult.Errors.Select(x => x.ErrorMessage));
-                await this.ListingSaleRepository.AddXmlRequestError(listing.Id, $"The listing request could not be created due to the following: {errors}");
+                await this.requestErrorRepository.AddRequestError(listing.Id, $"The listing request could not be created due to the following: {errors}", ImportSource.Xml);
                 return;
             }
 

@@ -18,8 +18,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Interfaces
 
         Task<ListingSaleQueryDetailResult> GetListingByAddress(string streetName, string streetNumber, string zipCode);
 
-        Task<DataSet<ListingSaleBillingQueryResult>> GetBillableListingsAsync(ListingSaleBillingQueryFilter queryFilter);
-
         Task<DataSet<SaleListingOpenHouseQueryResult>> GetListingsWithOpenHouse(BaseQueryFilter queryFilter);
     }
 }

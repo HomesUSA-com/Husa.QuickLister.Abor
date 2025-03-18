@@ -7,15 +7,17 @@ namespace Husa.Quicklister.Abor.Api.Tests
     using System.Threading.Tasks;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Quickbooks.Models.Invoice;
-    using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Reports;
     using Husa.Quicklister.Abor.Api.Controllers;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Crosscutting.Tests;
-    using Husa.Quicklister.Abor.Data.Documents.Interfaces;
-    using Husa.Quicklister.Abor.Data.Queries.Models;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
+    using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
+    using Husa.Quicklister.Extensions.Data.Queries.Extensions;
+    using Husa.Quicklister.Extensions.Data.Queries.Models;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -26,20 +28,19 @@ namespace Husa.Quicklister.Abor.Api.Tests
     public class BillsControllerTests
     {
         private readonly ApplicationServicesFixture fixture;
-        private readonly Mock<ISaleListingRequestQueriesRepository> saleListingRequestQueriesRepository;
+        private readonly Mock<IListingRequestBillingQueryRepository> saleListingRequestQueriesRepository = new();
         private readonly Mock<ILogger<BillsController>> logger;
         private readonly Mock<ISaleListingBillService> saleListingBillService;
 
         public BillsControllerTests(ApplicationServicesFixture fixture)
         {
             this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
-            this.saleListingRequestQueriesRepository = new Mock<ISaleListingRequestQueriesRepository>();
             this.saleListingBillService = new Mock<ISaleListingBillService>();
             this.logger = new Mock<ILogger<BillsController>>();
             this.Sut = new BillsController(
                 this.saleListingRequestQueriesRepository.Object,
-                this.logger.Object,
                 this.saleListingBillService.Object,
+                this.logger.Object,
                 this.fixture.Mapper);
         }
 
@@ -52,16 +53,16 @@ namespace Husa.Quicklister.Abor.Api.Tests
             var listingId1 = Guid.NewGuid();
             var listingId2 = Guid.NewGuid();
             var companyId = Guid.NewGuid();
-            var listing1 = TestModelProvider.GetListingSaleBillingQueryResult(listingId1);
-            var listing2 = TestModelProvider.GetListingSaleBillingQueryResult(listingId2);
+            var listing1 = GetListingSaleBillingQueryResult(listingId1);
+            var listing2 = GetListingSaleBillingQueryResult(listingId2);
 
-            var listingSaleResponse = new List<ListingSaleBillingQueryResult>()
+            var listingSaleResponse = new List<SaleListingBillingQueryResult>()
                 {
                     listing1,
                     listing2,
                 };
 
-            var filter = new ListingSaleBillingRequestFilter
+            var filter = new ListingBillingRequestFilter
             {
                 CompanyId = companyId,
                 SearchBy = string.Empty,
@@ -71,10 +72,10 @@ namespace Husa.Quicklister.Abor.Api.Tests
                 To = DateTime.UtcNow,
             };
 
-            var dataSet = new DataSet<ListingSaleBillingQueryResult>(listingSaleResponse, listingSaleResponse.Count);
+            var dataSet = new DataSet<SaleListingBillingQueryResult>(listingSaleResponse, listingSaleResponse.Count);
 
             this.saleListingRequestQueriesRepository
-            .Setup(m => m.GetBillableListingsAsync(It.IsAny<ListingSaleBillingQueryFilter>(), It.IsAny<CancellationToken>()))
+            .Setup(m => m.GetBillableListingsAsync(It.IsAny<ListingBillingQueryFilter>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(dataSet)
             .Verifiable();
 
@@ -83,7 +84,7 @@ namespace Husa.Quicklister.Abor.Api.Tests
 
             // Assert
             var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(actionResult);
-            var result = Assert.IsAssignableFrom<DataSet<ListingSaleBillingQueryResult>>(okObjectResult.Value);
+            var result = Assert.IsAssignableFrom<DataSet<SaleListingBillingQueryResult>>(okObjectResult.Value);
             Assert.NotEmpty(result.Data);
             Assert.Equal(2, result.Total);
             this.saleListingRequestQueriesRepository.Verify();
@@ -95,9 +96,9 @@ namespace Husa.Quicklister.Abor.Api.Tests
             // Arrange
             var companyId = Guid.NewGuid();
 
-            var listingSaleResponse = new List<ListingSaleBillingQueryResult>() { };
+            var listingSaleResponse = new List<SaleListingBillingQueryResult>() { };
 
-            var filter = new ListingSaleBillingRequestFilter
+            var filter = new ListingBillingRequestFilter
             {
                 CompanyId = companyId,
                 SearchBy = string.Empty,
@@ -107,10 +108,10 @@ namespace Husa.Quicklister.Abor.Api.Tests
                 To = DateTime.UtcNow,
             };
 
-            var dataSet = new DataSet<ListingSaleBillingQueryResult>(listingSaleResponse, listingSaleResponse.Count);
+            var dataSet = new DataSet<SaleListingBillingQueryResult>(listingSaleResponse, listingSaleResponse.Count);
 
             this.saleListingRequestQueriesRepository
-            .Setup(m => m.GetBillableListingsAsync(It.IsAny<ListingSaleBillingQueryFilter>(), It.IsAny<CancellationToken>()))
+            .Setup(m => m.GetBillableListingsAsync(It.IsAny<ListingBillingQueryFilter>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(dataSet)
             .Verifiable();
 
@@ -119,7 +120,7 @@ namespace Husa.Quicklister.Abor.Api.Tests
 
             // Assert
             var okObjectResult = Assert.IsAssignableFrom<OkObjectResult>(actionResult);
-            var result = Assert.IsAssignableFrom<DataSet<ListingSaleBillingQueryResult>>(okObjectResult.Value);
+            var result = Assert.IsAssignableFrom<DataSet<SaleListingBillingQueryResult>>(okObjectResult.Value);
             Assert.Empty(result.Data);
             this.saleListingRequestQueriesRepository.Verify();
         }
@@ -158,5 +159,20 @@ namespace Husa.Quicklister.Abor.Api.Tests
             Assert.Equal(invoiceId, okObjectResult.Value);
             this.saleListingRequestQueriesRepository.Verify();
         }
+
+        private static SaleListingBillingQueryResult GetListingSaleBillingQueryResult(Guid? id) => new()
+        {
+            Id = id ?? Guid.NewGuid(),
+            StreetName = Faker.Address.StreetName(),
+            StreetNum = "1234",
+            MlsStatus = MarketStatuses.Active.ToCamelCase(),
+            ListDate = DateTime.UtcNow,
+            MlsNumber = "123456",
+            ZipCode = Faker.Address.ZipCode()[..5],
+            Subdivision = Faker.Address.City(),
+            SysModifiedOn = DateTime.UtcNow,
+            PublishType = ActionType.NewListing,
+            ListFee = (decimal?)156.00,
+        };
     }
 }

@@ -12,5 +12,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
         public ListingRequestStatusFieldsQueryResult StatusFieldsInfo { get; set; }
 
         public FullShowingTimeQueryResult ShowingTime { get; set; }
+        public bool UseShowingTime { get; set; }
     }
 }

@@ -38,6 +38,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.userContextProvider = new Mock<IUserContextProvider>();
             this.Sut = new SaleListingMediaService(
                 this.busOptions.Object,
+                this.fixture.Options.Object,
                 this.userContextProvider.Object,
                 this.mediaServiceClient.Object,
                 this.busClient.Object,

@@ -136,8 +136,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         [Required]
         [MinLength(1)]
         public ICollection<GuestAccommodationsDescription> GuestAccommodationsDescription { get; set; }
+
+        [RequiredIfCollection(nameof(GuestAccommodationsDescription), Enums.Domain.GuestAccommodationsDescription.None, isIn: false)]
         public int? GuestBedroomsTotal { get; set; }
+
+        [RequiredIfCollection(nameof(GuestAccommodationsDescription), Enums.Domain.GuestAccommodationsDescription.None, isIn: false)]
+
         public int? GuestFullBathsTotal { get; set; }
+
+        [RequiredIfCollection(nameof(GuestAccommodationsDescription), Enums.Domain.GuestAccommodationsDescription.None, isIn: false)]
+
         public int? GuestHalfBathsTotal { get; set; }
         public bool IsNewConstruction { get; set; }
 

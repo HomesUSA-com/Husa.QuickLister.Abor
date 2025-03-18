@@ -1,6 +1,5 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 {
-    using System;
     using System.Collections.Generic;
     using Husa.Extensions.Domain.Extensions;
     using Husa.Extensions.Domain.ValueObjects;

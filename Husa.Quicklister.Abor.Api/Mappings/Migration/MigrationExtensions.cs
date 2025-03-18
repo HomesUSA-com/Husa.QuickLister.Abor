@@ -6,9 +6,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
     using Husa.Extensions.Common;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Extensions.Domain.Enums;
-    using MigrationBillingType = Husa.Migration.Enums.BillingType;
-    using MigrationOpenHouseType = Husa.Migration.Enums.OpenHouseType;
     using MigrationRoomType = Husa.Migration.Enums.RoomType;
 
     public static class MigrationExtensions
@@ -61,18 +58,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
             }
         }
 
-        public static OpenHouseType ToOpenHouseType(this MigrationOpenHouseType type) => type switch
-        {
-            MigrationOpenHouseType.Monday => OpenHouseType.Monday,
-            MigrationOpenHouseType.Tuesday => OpenHouseType.Tuesday,
-            MigrationOpenHouseType.Wednesday => OpenHouseType.Wednesday,
-            MigrationOpenHouseType.Thursday => OpenHouseType.Thursday,
-            MigrationOpenHouseType.Friday => OpenHouseType.Friday,
-            MigrationOpenHouseType.Saturday => OpenHouseType.Saturday,
-            MigrationOpenHouseType.Sunday => OpenHouseType.Sunday,
-            _ => OpenHouseType.Monday,
-        };
-
         public static RoomType ToRoomType(this MigrationRoomType type) => type switch
         {
             MigrationRoomType.Dining => RoomType.Dining,
@@ -92,16 +77,5 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
             MigrationRoomType.Office => RoomType.Office,
             _ => throw new NotImplementedException(),
         };
-
-        public static ActionType ToActionType(this MigrationBillingType type) =>
-            type switch
-            {
-                MigrationBillingType.NewListing => ActionType.NewListing,
-                MigrationBillingType.Comparable => ActionType.Comparable,
-                MigrationBillingType.PendingTransfer => ActionType.PendingTransfer,
-                MigrationBillingType.Relist => ActionType.Relist,
-                MigrationBillingType.Transfer => ActionType.ActiveTransfer,
-                _ => throw new NotImplementedException(),
-            };
     }
 }

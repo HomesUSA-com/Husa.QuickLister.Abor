@@ -7,11 +7,11 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Extensions.Authorization.Filters;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Quickbooks.Models.Invoice;
-    using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Reports;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Data.Documents.Interfaces;
-    using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request;
+    using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
+    using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
@@ -19,29 +19,29 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     [Route("bills")]
     public class BillsController : Controller
     {
-        private readonly ISaleListingRequestQueriesRepository saleListingRequestRepository;
-        private readonly ILogger<BillsController> logger;
+        private readonly IListingRequestBillingQueryRepository billingRequestRepository;
         private readonly ISaleListingBillService saleListingBillService;
+        private readonly ILogger<BillsController> logger;
         private readonly IMapper mapper;
         public BillsController(
-            ISaleListingRequestQueriesRepository saleListingRequestRepository,
-            ILogger<BillsController> logger,
+            IListingRequestBillingQueryRepository saleListingRequestRepository,
             ISaleListingBillService saleListingBillService,
+            ILogger<BillsController> logger,
             IMapper mapper)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.saleListingRequestRepository = saleListingRequestRepository ?? throw new ArgumentNullException(nameof(saleListingRequestRepository));
+            this.billingRequestRepository = saleListingRequestRepository ?? throw new ArgumentNullException(nameof(saleListingRequestRepository));
             this.saleListingBillService = saleListingBillService ?? throw new ArgumentNullException(nameof(saleListingBillService));
         }
 
         [HttpGet]
         [ApiAuthorization(new RoleEmployee[0])]
-        public async Task<IActionResult> GetBillingListing([FromQuery] ListingSaleBillingRequestFilter filters)
+        public async Task<IActionResult> GetBillingListing([FromQuery] ListingBillingRequestFilter filters)
         {
             this.logger.LogInformation("Starting to get the billable listing");
-            var requestFilter = this.mapper.Map<ListingSaleBillingQueryFilter>(filters);
-            var listing = await this.saleListingRequestRepository.GetBillableListingsAsync(requestFilter);
+            var requestFilter = this.mapper.Map<ListingBillingQueryFilter>(filters);
+            var listing = await this.billingRequestRepository.GetBillableListingsAsync(requestFilter);
             return this.Ok(listing);
         }
 

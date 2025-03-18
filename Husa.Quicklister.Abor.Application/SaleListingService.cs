@@ -177,6 +177,7 @@ namespace Husa.Quicklister.Abor.Application
             listingSale.SetMigrateFullListing(migrateFullListing);
             listingSale.SaleProperty.SetMigrateFullListing(migrateFullListing);
             listingSale.UpdateStatusFieldsInfo(statusFieldsInfo);
+            listingSale.UseShowingTime = listingDto.UseShowingTime;
 
             if (!migrateFullListing)
             {
@@ -205,7 +206,7 @@ namespace Husa.Quicklister.Abor.Application
         {
             entity = await this.GetEntity(entity);
             this.Logger.LogInformation("Starting update open house information for listing with id {listingId}", entity.Id);
-            if (showingTimeDto is not null)
+            if (entity.UseShowingTime && showingTimeDto is not null)
             {
                 var showingTime = this.mapper.Map<ShowingTime>(showingTimeDto);
                 entity.UpdateShowingTime(showingTime);
@@ -367,6 +368,7 @@ namespace Husa.Quicklister.Abor.Application
                 LockedStatus.LockedNotSubmitted,
                 this.UserContextProvider.GetCurrentUserId());
             listingSale.UpdateStatusFieldsInfo(statusFieldsInfo);
+            listingSale.UseShowingTime = listingSaleDto.UseShowingTime;
             await this.UpdatePropertyInfo(listingSaleDto.SaleProperty.PropertyInfo, entity: listingSale);
             await this.UpdateAddressInfo(listingSaleDto.SaleProperty.AddressInfo, entity: listingSale);
             await this.UpdateShowingInfo(listingSaleDto.SaleProperty.ShowingInfo, entity: listingSale);
