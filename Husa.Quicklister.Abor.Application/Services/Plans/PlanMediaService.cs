@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
     {
         public PlanMediaService(
             IOptions<ServiceBusSettings> serviceBusSettings,
+            IOptions<ApplicationOptions> options,
             IUserContextProvider userContextProvider,
             IMediaServiceClient mediaServiceClient,
             ServiceBusClient busClient,
@@ -32,6 +33,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
             IMapper mapper)
          : base(
                serviceBusSettings,
+               options,
                userContextProvider,
                mediaServiceClient,
                busClient,

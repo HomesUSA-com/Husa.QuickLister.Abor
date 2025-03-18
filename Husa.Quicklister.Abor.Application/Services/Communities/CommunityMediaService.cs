@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     {
         public CommunityMediaService(
             IOptions<ServiceBusSettings> serviceBusSettings,
+            IOptions<ApplicationOptions> options,
             IUserContextProvider userContextProvider,
             IMediaServiceClient mediaServiceClient,
             ServiceBusClient busClient,
@@ -32,6 +33,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             IMapper mapper)
          : base(
                serviceBusSettings,
+               options,
                userContextProvider,
                mediaServiceClient,
                busClient,
