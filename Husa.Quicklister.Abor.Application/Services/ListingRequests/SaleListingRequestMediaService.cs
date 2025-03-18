@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
     using Husa.Quicklister.Extensions.Crosscutting;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using ApplicationOptions = Husa.Quicklister.Abor.Crosscutting.ApplicationOptions;
     using ExtensionServices = Husa.Quicklister.Extensions.Application.Media;
 
     public class SaleListingRequestMediaService : ExtensionServices.ListingRequestMediaService<SaleListingRequest, ISaleListingRequestRepository>, ISaleListingRequestMediaService
