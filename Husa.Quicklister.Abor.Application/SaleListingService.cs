@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
+    using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Repositories;
@@ -35,11 +36,9 @@ namespace Husa.Quicklister.Abor.Application
     using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
 
-    public class SaleListingService : ExtensionsServices.SaleListingService<SaleListing, IListingSaleRepository>, ISaleListingService
+    public class SaleListingService : ExtensionsServices.SaleListingService<SaleListing, IListingSaleRepository, ICommunitySaleRepository, SaleProperty, CommunitySale>, ISaleListingService
     {
-        private readonly IMapper mapper;
         private readonly ISaleListingRequestRepository saleRequestRepository;
-        private readonly ICommunitySaleRepository communitySaleRepository;
         private readonly IPlanRepository planRepository;
         private readonly ISaleListingMediaService listingMediaService;
         private readonly ISaleListingPhotoService saleListingPhotoService;
@@ -66,13 +65,11 @@ namespace Husa.Quicklister.Abor.Application
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<SaleListingService> logger)
-             : base(listingSaleRepository, lockLegacyListingService, serviceSubscriptionClient, logger, userContextProvider)
+             : base(listingSaleRepository, communitySaleRepository, lockLegacyListingService, serviceSubscriptionClient, logger, userContextProvider, mapper)
         {
             this.saleRequestRepository = saleRequestRepository ?? throw new ArgumentNullException(nameof(saleRequestRepository));
-            this.communitySaleRepository = communitySaleRepository ?? throw new ArgumentNullException(nameof(communitySaleRepository));
             this.planRepository = planRepository ?? throw new ArgumentNullException(nameof(planRepository));
             this.listingMediaService = listingMediaService ?? throw new ArgumentNullException(nameof(listingMediaService));
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.xmlClient = xmlClient ?? throw new ArgumentNullException(nameof(xmlClient));
             this.saleListingPhotoService = saleListingPhotoService ?? throw new ArgumentNullException(nameof(saleListingPhotoService));
             this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
@@ -438,7 +435,7 @@ namespace Husa.Quicklister.Abor.Application
 
         protected override async Task UpdateCommunity(SaleListing listing, Guid communityId, bool filterByUserContext = true)
         {
-            var community = await this.communitySaleRepository.GetById(communityId, filterByCompany: filterByUserContext) ?? throw new NotFoundException<CommunitySale>(communityId);
+            var community = await this.communityRepository.GetById(communityId, filterByCompany: filterByUserContext) ?? throw new NotFoundException<CommunitySale>(communityId);
 
             if (listing.SaleProperty.CompanyId != community.CompanyId)
             {
@@ -462,11 +459,6 @@ namespace Husa.Quicklister.Abor.Application
             listing.SaleProperty.UpdateRoomsInfoFromPlan(plan, listing.Id, updateRooms);
 
             listing.SaleProperty.PlanId = planId;
-        }
-
-        protected override void ImportListingToCommunity(SaleListing listingSale)
-        {
-            throw new NotImplementedException();
         }
 
         private async Task ImportDataFromCommunityAndPlan(SaleListing listingSaleEntity, QuickCreateListingDto listingSale)
@@ -494,7 +486,7 @@ namespace Husa.Quicklister.Abor.Application
         {
             var communityId = fromCommunityId ?? throw new ArgumentNullException(nameof(fromCommunityId));
             this.Logger.LogInformation("Starting import data from community with id: {communityId} to sale listing with id: {listingId}", communityId, listingSale.Id);
-            var communitySale = await this.communitySaleRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
+            var communitySale = await this.communityRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
             if (listingSale.SaleProperty.CompanyId != communitySale.CompanyId)
             {
                 this.Logger.LogInformation("The selected Community with id: {communityId} was not found for the company id: '{companyId}'", communityId, communitySale.CompanyId);

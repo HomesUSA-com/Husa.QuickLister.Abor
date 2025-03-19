@@ -23,6 +23,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -820,6 +821,41 @@ namespace Husa.Quicklister.Abor.Application.Tests
             Assert.Equal(listingSale.SaleProperty.SpacesDimensionsInfo.MainLevelBedroomTotal, listingSale.SaleProperty.Plan.BasePlan.MainLevelBedroomTotal);
             Assert.Equal(listingSale.SaleProperty.SpacesDimensionsInfo.OtherLevelsBedroomTotal, listingSale.SaleProperty.Plan.BasePlan.OtherLevelsBedroomTotal);
             Assert.Equal(listingSale.SaleProperty.SpacesDimensionsInfo.LivingAreasTotal, listingSale.SaleProperty.Plan.BasePlan.LivingAreasTotal);
+        }
+
+        [Fact]
+        public async Task ImportListingInfoToCommunity()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var listingSale = TestModelProvider.GetListingSaleEntity(Guid.NewGuid(), true);
+
+            listingSale.SaleProperty.Community.AppointmentType = null;
+            listingSale.AppointmentType = AppointmentType.AppointmentRequired;
+            listingSale.SaleProperty.Community.AdditionalInstructions = null;
+            listingSale.AdditionalInstructions = new() { NotesForApptStaff = "Note 1", NotesForShowingAgent = "Note 2" };
+            listingSale.SaleProperty.Community.Financial.BuyersAgentCommission = null;
+            listingSale.SaleProperty.FinancialInfo.BuyersAgentCommission = 100;
+            listingSale.SaleProperty.Community.Property.County = Counties.Bexar;
+            listingSale.SaleProperty.AddressInfo.County = Counties.Baylor;
+            listingSale.SaleProperty.Community.Utilities.Fireplaces = 1;
+            listingSale.SaleProperty.FeaturesInfo.Fireplaces = null;
+            listingSale.SaleProperty.Community.Utilities.CoolingSystem = null;
+            listingSale.SaleProperty.FeaturesInfo.CoolingSystem = new[] { CoolingSystem.CeilingFan };
+
+            this.listingSaleRepository
+                 .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()))
+            .ReturnsAsync(listingSale)
+                 .Verifiable();
+
+            await this.Sut.CopyListingInfoToCommunity(listingId);
+
+            Assert.Equal(listingSale.SaleProperty.Community.AppointmentType, listingSale.AppointmentType);
+            Assert.Equal(listingSale.SaleProperty.Community.AppointmentRestrictions, listingSale.AppointmentRestrictions);
+            Assert.Equal(listingSale.SaleProperty.Community.Financial.BuyersAgentCommission, listingSale.SaleProperty.FinancialInfo.BuyersAgentCommission);
+            Assert.NotEqual(listingSale.SaleProperty.Community.Property.County, listingSale.SaleProperty.AddressInfo.County);
+            Assert.NotNull(listingSale.SaleProperty.Community.Utilities.Fireplaces);
+            Assert.Equal(listingSale.SaleProperty.Community.Utilities.CoolingSystem, listingSale.SaleProperty.FeaturesInfo.CoolingSystem);
         }
 
         private async Task UnlockListing_Success(UserContext user, LockedStatus lockedStatus, Guid lockedBy)
