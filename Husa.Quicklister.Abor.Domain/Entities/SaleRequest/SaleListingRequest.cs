@@ -93,6 +93,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
             this.ListDate = listingRequestValue.ListDate;
             this.ListPrice = listingRequestValue.ListPrice;
             this.MlsStatus = listingRequestValue.MlsStatus;
+            this.UseShowingTime = listingRequestValue.UseShowingTime;
             this.StatusFieldsInfo.UpdateInformation(statusFieldsInfo);
             this.SaleProperty.UpdateInformation(salePropertyValue);
         }

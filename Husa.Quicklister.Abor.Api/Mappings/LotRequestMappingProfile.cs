@@ -21,7 +21,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<LotListingRequestDetailQueryResult, LotListingRequestDetailResponse>();
             this.CreateMap<LotListingRequestForUpdate, LotListingDto>();
             this.CreateMap<LotListingRequestForUpdate, LotListingRequestDto>();
-            this.CreateMap<LotListingRequestDto, ListingRequestValueObject>();
+            this.CreateMap<LotListingRequestDto, ListingRequestValueObject>()
+                .ForMember(dst => dst.UseShowingTime, ops => ops.Ignore());
             this.CreateMap<LotListingRequestDto, LotPropertyValueObject>();
         }
     }

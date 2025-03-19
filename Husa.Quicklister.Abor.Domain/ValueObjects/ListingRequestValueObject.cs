@@ -17,6 +17,8 @@ namespace Husa.Quicklister.Abor.Domain.ValueObjects
 
         public MarketStatuses MlsStatus { get; set; }
 
+        public bool UseShowingTime { get; set; }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return this.ExpirationDate;
