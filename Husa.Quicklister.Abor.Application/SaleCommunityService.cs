@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Microsoft.Extensions.Logging;
@@ -35,9 +36,10 @@ namespace Husa.Quicklister.Abor.Application
             ICommunityHistoryService communityHistoryService,
             IServiceSubscriptionClient serviceSubscriptionClient,
             IUserContextProvider userContextProvider,
+            ICommunityDeletionService communityDeletionService,
             IMapper mapper,
             ILogger<SaleCommunityService> logger)
-            : base(communitySaleRepository, userContextProvider, logger)
+            : base(communitySaleRepository, userContextProvider, communityDeletionService, logger)
         {
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
             this.communityHistoryService = communityHistoryService ?? throw new ArgumentNullException(nameof(communityHistoryService));

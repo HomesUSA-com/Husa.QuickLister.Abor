@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
     using Husa.Quicklister.Abor.Application.Tests.Providers;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Application.Interfaces.JsonImport;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -29,6 +30,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
         private readonly Mock<IUserContextProvider> userContextProvider = new();
         private readonly Mock<IJsonImportClient> jsonClient = new();
         private readonly Mock<IServiceSubscriptionClient> companyClient = new();
+        private readonly Mock<ICommunityDeletionService> deletionService = new();
 
         public CommunityJsonImportServiceTests(ApplicationServicesFixture fixture)
         {
@@ -40,6 +42,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Communities
                 this.communitySaleRepository.Object,
                 this.userContextProvider.Object,
                 this.companyClient.Object,
+                this.deletionService.Object,
                 fixture.Options.Object,
                 this.logger.Object);
         }

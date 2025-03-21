@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -31,6 +32,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<IUserContextProvider> userContextProvider = new();
         private readonly Mock<IMapper> mapper = new();
         private readonly Mock<ILogger<SaleCommunityService>> logger = new();
+        private readonly Mock<ICommunityDeletionService> deletionService = new();
 
         public CommunitySaleServiceTests()
         {
@@ -39,6 +41,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.communityHistoryService.Object,
                 this.serviceSubscriptionClient.Object,
                 this.userContextProvider.Object,
+                this.deletionService.Object,
                 this.mapper.Object,
                 this.logger.Object);
         }

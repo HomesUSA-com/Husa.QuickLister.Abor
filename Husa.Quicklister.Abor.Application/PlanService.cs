@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Microsoft.Extensions.Logging;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Plans;
+    using InterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces.Plan;
 
     public class PlanService : ExtensionsServices.PlanService<Plan, IPlanRepository>, IPlanService
     {
@@ -25,9 +26,10 @@ namespace Husa.Quicklister.Abor.Application
             IPlanRepository planRepository,
             IServiceSubscriptionClient serviceSubscriptionClient,
             IUserContextProvider userContextProvider,
+            InterfaceExtensions.IPlanDeletionService planDeletionService,
             IMapper mapper,
             ILogger<PlanService> logger)
-            : base(planRepository, userContextProvider, logger)
+            : base(planRepository, userContextProvider, planDeletionService, logger)
         {
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
