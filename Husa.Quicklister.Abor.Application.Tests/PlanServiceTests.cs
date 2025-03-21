@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -27,6 +28,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient;
         private readonly Mock<ILogger<PlanService>> logger;
         private readonly Mock<IUserContextProvider> userContextProvider;
+        private readonly Mock<IPlanDeletionService> deletionService = new();
 
         public PlanServiceTests(ApplicationServicesFixture fixture)
         {
@@ -67,48 +69,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.planRepository.Verify();
             Assert.IsType<Guid>(result);
             Assert.Equal(planId, result);
-        }
-
-        [Fact]
-        public async Task DeletePlan_DeleteComplete_Success()
-        {
-            // Arrange
-            var planId = Guid.NewGuid();
-            var plan = TestModelProvider.GetPlanEntity(planId, true);
-            var deleteInCascade = false;
-
-            this.planRepository
-                .Setup(c => c.GetById(It.Is<Guid>(id => id == planId), It.Is<bool>(filterByCompany => filterByCompany)))
-                .ReturnsAsync(plan)
-                .Verifiable();
-            var sut = this.GetSut();
-
-            // Act
-            await sut.DeletePlan(planId, deleteInCascade);
-
-            // Assert
-            this.planRepository.Verify(r => r.SaveChangesAsync(It.IsAny<Plan>()), Times.Once);
-            this.planRepository.Verify(c => c.GetById(It.Is<Guid>(id => id == planId), It.Is<bool>(filterByCompany => filterByCompany)), Times.Once);
-        }
-
-        [Fact]
-        public async Task DeletePlan_DeleteFail_Success()
-        {
-            // Arrange
-            var planId = Guid.NewGuid();
-            Plan plan = null;
-            var deleteInCascade = false;
-
-            this.planRepository
-                .Setup(c => c.GetById(It.Is<Guid>(id => id == planId), It.Is<bool>(filterByCompany => filterByCompany)))
-                .ReturnsAsync(plan)
-                .Verifiable();
-            var sut = this.GetSut();
-
-            // Act and Assert
-            await Assert.ThrowsAsync<NotFoundException<Plan>>(() => sut.DeletePlan(planId, deleteInCascade));
-            this.planRepository.Verify(r => r.SaveChangesAsync(It.IsAny<Plan>()), Times.Never);
-            this.planRepository.Verify(c => c.GetById(It.Is<Guid>(id => id == planId), It.Is<bool>(filterByCompany => filterByCompany)), Times.Once);
         }
 
         [Fact]
@@ -186,6 +146,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.planRepository.Object,
                 this.serviceSubscriptionClient.Object,
                 this.userContextProvider.Object,
+                this.deletionService.Object,
                 this.fixture.Mapper,
                 this.logger.Object);
     }
