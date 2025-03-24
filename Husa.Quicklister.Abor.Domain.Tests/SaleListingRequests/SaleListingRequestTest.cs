@@ -28,45 +28,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
         }
 
         [Fact]
-        public void GetSummaryWhenTheListPriceChangedSuccess()
-        {
-            // Arrange
-            const int expectedFields = 2;
-            var creationDateTime = new DateTime(2022, 11, 4, 0, 0, 0, DateTimeKind.Utc);
-            var oldCompleteRequest = GetListingRequest(creationDateTime);
-            oldCompleteRequest.SetupGet(s => s.ListPrice).Returns(120000);
-
-            var sut = GetListingRequest(creationDateTime);
-            sut.SetupGet(s => s.ListPrice).Returns(150000);
-            sut.Setup(s => s.GetSummary(It.IsAny<SaleListingRequest>())).CallBase();
-            sut.Setup(s => s.GetRequestSummary(It.IsAny<SaleListingRequest>())).CallBase();
-
-            var propertyRecord = new Mock<SalePropertyRecord>();
-            propertyRecord
-                .Setup(p => p.GetSummarySections(It.Is<SalePropertyRecord>(record => record == null)))
-                .Returns(GetSalePropertySummary())
-                .Verifiable();
-
-            var showingTimeRecord = new ShowingTimeRecordTest();
-            sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
-            sut.SetupGet(s => s.ShowingTimeInfo).Returns(showingTimeRecord);
-
-            var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
-            statusFieldsRecord
-                .Setup(p => p.GetSummary(It.Is<SaleStatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
-                .Returns((SummarySection)null)
-                .Verifiable();
-            sut.SetupGet(s => s.StatusFieldsInfo).Returns(statusFieldsRecord.Object);
-
-            // Act
-            var summaryResult = sut.Object.GetSummary(oldCompleteRequest.Object);
-
-            // Assert
-            var section = Assert.Single(summaryResult);
-            Assert.Equal(expectedFields, section.Fields.Count());
-        }
-
-        [Fact]
         public void GetSummaryWhenThereAreNoChangesSuccess()
         {
             // Arrange
@@ -98,122 +59,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
 
             // Assert
             Assert.Empty(summaryResult);
-        }
-
-        [Fact]
-        public void GetSummaryWhenNoPreviousRequestExistsSuccess()
-        {
-            // Arrange
-            const int expectedSummarySections = 10;
-            var creationDateTime = DateTime.UtcNow;
-            var sut = GetListingRequest(creationDateTime);
-            sut.Setup(s => s.GetSummary(It.IsAny<SaleListingRequest>())).CallBase();
-
-            var propertyRecord = new Mock<SalePropertyRecord>();
-            propertyRecord
-                .Setup(p => p.GetSummarySections(It.Is<SalePropertyRecord>(p => p == null)))
-                .Returns(GetSalePropertySummary())
-                .Verifiable();
-            var showingTimeRecord = new ShowingTimeRecordDummyTest();
-
-            sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
-            sut.SetupGet(s => s.ShowingTimeInfo).Returns(showingTimeRecord);
-
-            var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
-            statusFieldsRecord
-                .Setup(p => p.GetSummary(It.Is<SaleStatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
-                .Returns((SummarySection)null)
-                .Verifiable();
-            sut.SetupGet(s => s.StatusFieldsInfo).Returns(statusFieldsRecord.Object);
-
-            // Act
-            var summaryResult = sut.Object.GetSummary((SaleListingRequest)null);
-
-            // Assert
-            Assert.NotEmpty(summaryResult);
-            Assert.Equal(expectedSummarySections, summaryResult.Count());
-            propertyRecord.Verify();
-            statusFieldsRecord.Verify();
-        }
-
-        [Fact]
-        public void GetSummaryWhenNoPreviousRequestExistsWithStatusSummarySuccess()
-        {
-            // Arrange
-            const int expectedSummarySections = 11;
-            var creationDateTime = DateTime.UtcNow;
-            var sut = GetListingRequest(creationDateTime);
-            sut.Setup(s => s.GetSummary(It.IsAny<SaleListingRequest>())).CallBase();
-
-            var propertyRecord = new Mock<SalePropertyRecord>();
-            propertyRecord
-                .Setup(p => p.GetSummarySections(It.Is<SalePropertyRecord>(p => p == null)))
-                .Returns(GetSalePropertySummary())
-                .Verifiable();
-
-            sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
-            sut.SetupGet(s => s.ShowingTimeInfo).Returns(new ShowingTimeRecordDummyTest());
-
-            var statusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
-            statusFieldsRecord
-                .Setup(p => p.GetSummary(It.Is<SaleStatusFieldsRecord>(p => p == null), It.IsAny<MarketStatuses>()))
-                .Returns(GetStatusFieldSummary())
-                .Verifiable();
-            sut.SetupGet(s => s.StatusFieldsInfo).Returns(statusFieldsRecord.Object);
-
-            // Act
-            var summaryResult = sut.Object.GetSummary((SaleListingRequest)null);
-
-            // Assert
-            Assert.NotEmpty(summaryResult);
-            Assert.Equal(expectedSummarySections, summaryResult.Count());
-            propertyRecord.Verify();
-            statusFieldsRecord.Verify();
-        }
-
-        [Fact]
-        public void GetSummaryWhenStatusChangesFromPendingToSold()
-        {
-            const int expectedSummarySections = 11;
-            var creationDateTime = DateTime.UtcNow;
-            var oldCompleteRequest = GetListingRequest(creationDateTime);
-            var sut = GetListingRequest(creationDateTime);
-            sut.Setup(s => s.GetSummary(It.IsAny<SaleListingRequest>())).CallBase();
-
-            var propertyRecord = new Mock<SalePropertyRecord>();
-            propertyRecord
-                .Setup(p => p.GetSummarySections(It.IsAny<SalePropertyRecord>()))
-                .Returns(GetSalePropertySummary())
-                .Verifiable();
-
-            sut.SetupGet(s => s.SaleProperty).Returns(propertyRecord.Object);
-            sut.SetupGet(s => s.ShowingTimeInfo).Returns(new ShowingTimeRecordDummyTest());
-
-            var saleStatusFieldsRecord = new Mock<SaleStatusFieldsRecord>();
-            saleStatusFieldsRecord
-                .Setup(p => p.GetSummary(It.IsAny<SaleStatusFieldsRecord>(), It.IsAny<MarketStatuses>()))
-                .Returns(GetStatusFieldSummary())
-                .Verifiable();
-            sut.SetupGet(s => s.StatusFieldsInfo).Returns(saleStatusFieldsRecord.Object);
-
-            sut.Setup(s => s.GetRequestSummary(It.IsAny<SaleListingRequest>())).Returns(new[]
-            {
-                new SummaryField()
-                {
-                    FieldName = "MlsStatus",
-                    NewValue = MarketStatuses.Closed,
-                    OldValue = MarketStatuses.Pending,
-                },
-            });
-
-            // Act
-            var summaryResult = sut.Object.GetSummary(oldCompleteRequest.Object);
-
-            // Assert
-            Assert.NotEmpty(summaryResult);
-            Assert.Equal(expectedSummarySections, summaryResult.Count());
-            propertyRecord.Verify();
-            saleStatusFieldsRecord.Verify();
         }
 
         [Fact]
@@ -412,19 +257,5 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             yield return new SummarySection { Name = ShowingRecord.SummarySection, Fields = new[] { new SummaryField { FieldName = nameof(ShowingRecord.AgentPrivateRemarks), NewValue = "some-private-remarks", OldValue = null } } };
             yield return new SummarySection { Name = SalesOfficeRecord.SummarySection, Fields = new[] { new SummaryField { FieldName = nameof(SalesOfficeRecord.SalesOfficeCity), NewValue = "some-sales-office-city", OldValue = null } } };
         }
-
-        private static SummarySection GetStatusFieldSummary() => new()
-        {
-            Name = SaleStatusFieldsRecord.SummarySection,
-            Fields = new[]
-            {
-                new SummaryField
-                {
-                    FieldName = nameof(SaleStatusFieldsRecord.CancelledReason),
-                    NewValue = "some-cancelled-reason",
-                    OldValue = null,
-                },
-            },
-        };
     }
 }

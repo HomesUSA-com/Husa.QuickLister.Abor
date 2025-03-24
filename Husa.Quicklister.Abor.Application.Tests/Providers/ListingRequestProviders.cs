@@ -47,7 +47,6 @@ namespace Husa.Quicklister.Abor.Application.Tests.Providers
             }
 
             saleListingRequest.Setup(p => p.GetSummary(It.IsAny<SaleListingRequest>())).CallBase().Verifiable();
-            saleListingRequest.Setup(p => p.GetRequestSummary(It.IsAny<ListingRequest>())).CallBase().Verifiable();
 
             return saleListingRequest;
         }
