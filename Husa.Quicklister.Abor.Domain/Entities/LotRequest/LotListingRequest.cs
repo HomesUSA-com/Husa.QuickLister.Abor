@@ -152,14 +152,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
         }
 
         public override IEnumerable<SummarySection> GetSummary<TListingRequest>(TListingRequest previousRequest)
-            => this.GetSummary(previousRequest as LotListingRequest);
-
-        public IEnumerable<SummarySection> GetSummary(LotListingRequest previousRequest)
         {
-            var summarySections = this.GetSummarySections(previousRequest).Where(summary => summary != null).ToList();
-            var rootFieldChanges = this.GetRootFieldsSummary(previousRequest);
+            var summarySections = this.GetSummarySections(previousRequest);
+            var rootFieldChanges = this.GetRootSummary(previousRequest);
 
-            if (summarySections.Count == 0 && !rootFieldChanges.Any())
+            if (!summarySections.Any() && !rootFieldChanges.Any())
             {
                 return Array.Empty<SummarySection>();
             }
@@ -177,7 +174,28 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
             return new List<SummarySection> { new() { Name = SummarySection, Fields = rootFieldChanges } }.Concat(summarySections);
         }
 
-        private IEnumerable<SummarySection> GetSummarySections(LotListingRequest prevRecord)
+        protected override IEnumerable<SummaryField> GetRootSummary<TListingRequest>(TListingRequest previousRequest) => SummaryExtensions.GetFieldSummary(
+            this, previousRequest, filterFields: new[]
+            {
+                nameof(this.ListDate),
+                nameof(this.ListPrice),
+                nameof(this.ExpirationDate),
+                nameof(this.OwnerName),
+                nameof(this.MlsStatus),
+            });
+
+        protected override IEnumerable<SummarySection> GetSummarySections<TListingRequest>(TListingRequest previousRequest)
+        {
+            var summarySections = base.GetSummarySections(previousRequest).ToList();
+            if (previousRequest is LotListingRequest prevRecord)
+            {
+                summarySections.AddRange(this.GetInternalSummarySections(prevRecord));
+            }
+
+            return summarySections.Where(summary => summary != null && summary.Fields.Any());
+        }
+
+        private IEnumerable<SummarySection> GetInternalSummarySections(LotListingRequest prevRecord)
         {
             yield return this.PropertyInfo.GetSummarySection(prevRecord?.PropertyInfo, sectionName: nameof(this.PropertyInfo));
             yield return this.AddressInfo.GetSummarySection(prevRecord?.AddressInfo, sectionName: nameof(this.AddressInfo));
@@ -188,15 +206,5 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
             yield return this.SalesOfficeInfo?.GetSummarySection(prevRecord?.SalesOfficeInfo, sectionName: nameof(this.SalesOfficeInfo));
             yield return this.StatusFieldsInfo?.GetSummarySection(prevRecord?.StatusFieldsInfo, this.MlsStatus, sectionName: nameof(this.StatusFieldsInfo));
         }
-
-        private IEnumerable<SummaryField> GetRootFieldsSummary(LotListingRequest oldObject) => SummaryExtensions.GetFieldSummary(
-            this, oldObject, filterFields: new[]
-            {
-                nameof(this.ListDate),
-                nameof(this.ListPrice),
-                nameof(this.ExpirationDate),
-                nameof(this.OwnerName),
-                nameof(this.MlsStatus),
-            });
     }
 }
