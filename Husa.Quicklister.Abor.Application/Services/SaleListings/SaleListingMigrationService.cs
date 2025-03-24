@@ -63,6 +63,8 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             listingDto.SaleProperty.Id = listing.SaleProperty.Id;
             listingDto.SaleProperty.SalePropertyInfo.OwnerName = listing.SaleProperty.OwnerName;
             listingDto.SaleProperty.SalePropertyInfo.CompanyId = listing.SaleProperty.CompanyId;
+            listingDto.SaleProperty.FeaturesInfo.DocumentsAvailable = listing.SaleProperty.FeaturesInfo.DocumentsAvailable;
+            listingDto.SaleProperty.FeaturesInfo.Disclosures = listing.SaleProperty.FeaturesInfo.Disclosures;
             listingDto.SaleProperty.SalePropertyInfo.PlanId = listing.SaleProperty.PlanId ?? await this.GetPlanId(legacyListing);
             var communityId = listing.SaleProperty.CommunityId ?? await this.GetCommunityId(legacyListing);
             if (communityId.HasValue)

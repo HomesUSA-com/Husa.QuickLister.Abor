@@ -27,8 +27,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     public class ListingJsonImportService : JsonExtensions.ListingJsonImportService<
         SaleListing,
         CommunitySale,
-        IListingSaleRepository,
-        ICommunitySaleRepository>
+        IListingSaleRepository>
     {
         private readonly ISaleListingService listingService;
         public ListingJsonImportService(
