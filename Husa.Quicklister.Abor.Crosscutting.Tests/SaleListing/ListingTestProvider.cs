@@ -90,6 +90,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                 Id = listingPlanId,
             };
             listing.SaleProperty.PropertyInfo.TaxLot = "TaxLot";
+            listing.SaleProperty.AddressInfo.StreetType = StreetType.ALY;
 
             if (createCommunity)
             {

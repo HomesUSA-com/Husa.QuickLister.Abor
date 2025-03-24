@@ -56,8 +56,8 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
 
             var result = await this.sut.CreateRequestAsync(listing, spec);
 
-            Assert.Equal(ResponseCode.Success, result.Code);
-            this.requestRepository.Verify(r => r.AddDocumentAsync(It.IsAny<SaleListingRequest>(), It.IsAny<CancellationToken>()), Times.Once);
+            Assert.Equal(ResponseCode.Information, result.Code);
+            this.requestRepository.Verify(r => r.AddDocumentAsync(It.IsAny<SaleListingRequest>(), It.IsAny<CancellationToken>()), Times.Never);
         }
     }
 }

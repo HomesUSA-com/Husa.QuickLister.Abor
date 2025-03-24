@@ -3,8 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using Husa.Extensions.Document.Extensions;
-    using Husa.Extensions.Document.ValueObjects;
+    using System.Linq;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
@@ -61,21 +60,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
             this.MlsStatus = listingRequestValue.MlsStatus;
         }
 
-        public virtual IEnumerable<SummaryField> GetRequestSummary(ListingRequest oldObject) => SummaryExtensions.GetFieldSummary(
-            this, oldObject, excludeFields: new string[]
-            {
-                nameof(this.Id),
-                nameof(this.MlsNumber),
-                nameof(this.CDOM),
-                nameof(this.DOM),
-                nameof(this.RequestState),
-                nameof(this.SysCreatedOn),
-                nameof(this.SysCreatedBy),
-                nameof(this.SysModifiedOn),
-                nameof(this.SysModifiedBy),
-                nameof(this.SysTimestamp),
-                nameof(this.LegacyId),
-                nameof(this.ListDate),
-            });
+        protected override IEnumerable<string> GetRootSummaryExcludedFields()
+            => base.GetRootSummaryExcludedFields()
+                .Concat([nameof(this.CDOM),
+                         nameof(this.DOM),
+                         nameof(this.MarketModifiedOn),
+                         nameof(this.MarketUniqueId)]);
     }
 }
