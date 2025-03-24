@@ -132,66 +132,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
         }
 
         public override IEnumerable<SummarySection> GetSummary<TListingRequest>(TListingRequest previousRequest)
-            => this.GetSummary(previousRequest as SaleListingRequest);
-
-        public void UpdateLegacyInformation(Guid userId, int requestLegacyId, SaleListing listing)
         {
-            this.LegacyId = requestLegacyId;
-            this.SysModifiedBy = userId;
-            this.SysCreatedBy = userId;
-            this.ListingSaleId = listing.Id;
-            this.CompanyId = listing.CompanyId;
-            this.SaleProperty.Id = listing.SalePropertyId;
-            this.SaleProperty.CompanyId = listing.CompanyId;
-            this.SaleProperty.CommunityId = listing.SaleProperty.CommunityId;
-            this.SaleProperty.PlanId = listing.SaleProperty.PlanId;
-            this.SaleProperty.SysCreatedOn = listing.SaleProperty.SysCreatedOn;
-            this.SaleProperty.SysTimestamp = listing.SaleProperty.SysTimestamp;
-            this.SaleProperty.SysCreatedBy = listing.SaleProperty.SysCreatedBy;
-            this.SaleProperty.Address = listing.SaleProperty.Address;
-            this.SaleProperty.SysModifiedOn = this.SysModifiedOn;
-            this.SaleProperty.SysModifiedBy = userId;
-        }
-
-        private static void AddValuesToSummaryFieldWhenTransitioningMarketStatus(
-            MarketStatuses oldMarketStatus,
-            MarketStatuses newMarketStatus,
-            SummaryField listStatusField,
-            List<SummarySection> summarySections,
-            string sectionName,
-            params SummaryField[] fieldsToAdd)
-        {
-            if (HasMarketStatusChangedFromOldToNew(listStatusField, oldMarketStatus, newMarketStatus))
-            {
-                SummaryExtensions.AddFieldsToSummary(
-                        summarySections,
-                        sectionName,
-                        fieldsToAdd);
-            }
-        }
-
-        private IEnumerable<SummarySection> GetSummary(SaleListingRequest previousRequest)
-        {
-            var summarySections = new List<SummarySection>();
-            if (previousRequest is null || !this.SaleProperty.Equals(previousRequest.SaleProperty))
-            {
-                summarySections.AddRange(this.SaleProperty.GetSummarySections(previousRequest?.SaleProperty));
-            }
-
-            summarySections.Add(this.StatusFieldsInfo.GetSummary(previousRequest?.StatusFieldsInfo, this.MlsStatus));
-            if (this.UseShowingTime)
-            {
-                summarySections.AddRange(
-                    this.ShowingTimeInfo?.GetSummarySections(previousRequest?.ShowingTimeInfo)
-                    ?? Array.Empty<SummarySection>());
-                summarySections.AddRange(
-                    this.ShowingTimeInfo?.GetSummaryContacts(previousRequest?.ShowingTimeInfo)
-                    ?? Array.Empty<SummarySection>());
-            }
-
-            summarySections = summarySections.Where(summary => summary != null).ToList();
-
-            var rootFieldChanges = this.GetRequestSummary(previousRequest);
+            var summarySections = this.GetSummarySections(previousRequest).ToList();
+            var rootFieldChanges = this.GetRootSummary(previousRequest);
 
             if (!summarySections.Any() && !rootFieldChanges.Any())
             {
@@ -225,6 +168,70 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
             }
 
             return new List<SummarySection> { new() { Name = SummarySection, Fields = rootFieldChanges } }.Concat(summarySections);
+        }
+
+        public void UpdateLegacyInformation(Guid userId, int requestLegacyId, SaleListing listing)
+        {
+            this.LegacyId = requestLegacyId;
+            this.SysModifiedBy = userId;
+            this.SysCreatedBy = userId;
+            this.ListingSaleId = listing.Id;
+            this.CompanyId = listing.CompanyId;
+            this.SaleProperty.Id = listing.SalePropertyId;
+            this.SaleProperty.CompanyId = listing.CompanyId;
+            this.SaleProperty.CommunityId = listing.SaleProperty.CommunityId;
+            this.SaleProperty.PlanId = listing.SaleProperty.PlanId;
+            this.SaleProperty.SysCreatedOn = listing.SaleProperty.SysCreatedOn;
+            this.SaleProperty.SysTimestamp = listing.SaleProperty.SysTimestamp;
+            this.SaleProperty.SysCreatedBy = listing.SaleProperty.SysCreatedBy;
+            this.SaleProperty.Address = listing.SaleProperty.Address;
+            this.SaleProperty.SysModifiedOn = this.SysModifiedOn;
+            this.SaleProperty.SysModifiedBy = userId;
+        }
+
+        protected override IEnumerable<SummarySection> GetSummarySections<TListingRequest>(TListingRequest previousRequest)
+        {
+            var summarySections = base.GetSummarySections(previousRequest).ToList();
+
+            if (previousRequest is SaleListingRequest previousSaleRequest)
+            {
+                if (!this.SaleProperty.Equals(previousSaleRequest.SaleProperty))
+                {
+                    summarySections.AddRange(this.SaleProperty.GetSummarySections(previousSaleRequest.SaleProperty));
+                }
+
+                summarySections.Add(this.StatusFieldsInfo.GetSummary(previousSaleRequest.StatusFieldsInfo, this.MlsStatus));
+            }
+            else
+            {
+                summarySections.AddRange(this.SaleProperty.GetSummarySections(null));
+                summarySections.Add(this.StatusFieldsInfo.GetSummary(null, this.MlsStatus));
+            }
+
+            return summarySections.Where(summary => summary != null && summary.Fields.Any());
+        }
+
+        protected override IEnumerable<string> GetRootSummaryExcludedFields()
+            => base.GetRootSummaryExcludedFields()
+                .Concat([nameof(this.SaleProperty),
+                         nameof(this.StatusFieldsInfo),
+                         nameof(this.PublishInfo)]);
+
+        private static void AddValuesToSummaryFieldWhenTransitioningMarketStatus(
+            MarketStatuses oldMarketStatus,
+            MarketStatuses newMarketStatus,
+            SummaryField listStatusField,
+            List<SummarySection> summarySections,
+            string sectionName,
+            params SummaryField[] fieldsToAdd)
+        {
+            if (HasMarketStatusChangedFromOldToNew(listStatusField, oldMarketStatus, newMarketStatus))
+            {
+                SummaryExtensions.AddFieldsToSummary(
+                        summarySections,
+                        sectionName,
+                        fieldsToAdd);
+            }
         }
     }
 }
