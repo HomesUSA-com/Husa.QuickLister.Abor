@@ -3,7 +3,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.Extensions.Common.Validations;
     using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -28,11 +27,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         public ICollection<string> RealtorContactEmail { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [DataChecker]
         public string Directions { get; set; }
         public string OwnerName { get; set; }
 
-        [DataChecker]
         [MaxLength(1000, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string AgentPrivateRemarksAdditional { get; set; }
         public string LockBoxSerialNumber { get; set; }
