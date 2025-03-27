@@ -30,7 +30,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         public string Directions { get; set; }
         public string OwnerName { get; set; }
 
-        [DataChecker]
         [MaxLength(1000, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string AgentPrivateRemarksAdditional { get; set; }
         public string LockBoxSerialNumber { get; set; }
