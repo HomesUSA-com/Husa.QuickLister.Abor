@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.AspNetCore.TestHost;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Diagnostics;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -91,6 +92,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             services.AddDbContext<ApplicationDbContext>(options => options
                 .UseLazyLoadingProxies()
                 .UseInMemoryDatabase(databaseName: "HusaQuicklisterAbor", TestBootstrapper.InMemoryDatabaseRoot)
+                .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.ManyServiceProvidersCreatedWarning))
                 .EnableSensitiveDataLogging());
 
             services.AddScoped<ApplicationQueriesDbContext>();

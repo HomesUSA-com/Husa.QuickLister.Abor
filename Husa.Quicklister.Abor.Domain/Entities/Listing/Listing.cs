@@ -127,12 +127,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 this.ExpirationDate = listingValue.ExpirationDate;
                 this.ListType = listingValue.ListType;
                 this.MlsNumber = listingValue.MlsNumber;
-                this.ListDate = listingValue.ListDate;
             }
 
             this.MarketModifiedOn = listingValue.MarketModifiedOn;
             this.MlsStatus = listingValue.MlsStatus;
             this.ListPrice = listingValue.ListPrice;
+            this.ListDate = listingValue.ListDate;
         }
 
         protected override void DeleteChildren(Guid userId)
