@@ -53,8 +53,6 @@ namespace Husa.Quicklister.Abor.Data
 
         public virtual DbSet<ReverseProspect> ReverseProspect { get; set; }
 
-        public virtual DbSet<CommunityEmployee> CommunityEmployee { get; set; }
-
         public virtual DbSet<ScrapedListing> ScrapedListing { get; set; }
 
         public virtual DbSet<ManagementTrace> ManagementTrace { get; set; }
