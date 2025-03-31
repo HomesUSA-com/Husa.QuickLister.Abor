@@ -1,11 +1,9 @@
 namespace Husa.Quicklister.Abor.Data.Queries
 {
     using System;
-    using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Extensions.Data.Interfaces;
     using Microsoft.EntityFrameworkCore;
 
-    public class ApplicationQueriesDbContext : ApplicationDbContext, IDbSetCommunityEmployee<CommunityEmployee>
+    public class ApplicationQueriesDbContext : ApplicationDbContext
     {
         public ApplicationQueriesDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

@@ -20,7 +20,7 @@ namespace Husa.Quicklister.Abor.Data
     using Cities = Husa.Quicklister.Abor.Domain.Enums.Domain.Cities;
 
     public class ApplicationDbContext :
-        QlApplicationDbContext,
+        QlApplicationDbContext<CommunityEmployee>,
         IDbSetSaleListing<SaleListing>,
         IDbSetXmlSaleListing<SaleListing>,
         IDbSetAgent,
