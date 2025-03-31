@@ -20,7 +20,7 @@ namespace Husa.Quicklister.Abor.Data
     using Cities = Husa.Quicklister.Abor.Domain.Enums.Domain.Cities;
 
     public class ApplicationDbContext :
-        QlApplicationDbContext,
+        QlApplicationDbContext<CommunityEmployee>,
         IDbSetSaleListing<SaleListing>,
         IDbSetXmlSaleListing<SaleListing>,
         IDbSetAgent,
@@ -52,8 +52,6 @@ namespace Husa.Quicklister.Abor.Data
         public virtual DbSet<Office> Office { get; set; }
 
         public virtual DbSet<ReverseProspect> ReverseProspect { get; set; }
-
-        public virtual DbSet<CommunityEmployee> CommunityEmployee { get; set; }
 
         public virtual DbSet<ScrapedListing> ScrapedListing { get; set; }
 
