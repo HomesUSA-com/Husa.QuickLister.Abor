@@ -16,7 +16,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Data.Queries.Models.Alerts;
     using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Data.Specifications;
+    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Specifications;
@@ -26,7 +28,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Microsoft.Extensions.Logging;
     using AlertExtension = Husa.Quicklister.Extensions.Data.Queries.Repositories;
 
-    public class AlertQueriesRepository : AlertExtension.AlertQueriesRepository<ApplicationQueriesDbContext, SaleListing, DetailAlertQueryResult, MarketStatuses>, IAlertQueriesRepository
+    public class AlertQueriesRepository : AlertExtension.AlertQueriesRepository<ApplicationQueriesDbContext, SaleListing, SaleProperty, DetailAlertQueryResult, MarketStatuses, CommunityEmployee>, IAlertQueriesRepository
     {
         public AlertQueriesRepository(
             ApplicationQueriesDbContext context,
