@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
     using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using InterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces.Plan;
     using PlanExtensions = Husa.Quicklister.Extensions.Application.Services.JsonImport;
     public class PlanJsonImportService : PlanExtensions.PlanJsonImportService<Plan, IPlanRepository>
     {
@@ -21,9 +22,10 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
             IPlanRepository planRepository,
             IUserContextProvider userContextProvider,
             IServiceSubscriptionClient companyClient,
+            InterfaceExtensions.IPlanDeletionService planDeletionService,
             IOptions<ApplicationOptions> applicationOptions,
             ILogger<PlanJsonImportService> logger)
-            : base(client, planRepository, userContextProvider, companyClient, applicationOptions, logger)
+            : base(client, planRepository, userContextProvider, companyClient, planDeletionService, applicationOptions, logger)
         {
         }
 

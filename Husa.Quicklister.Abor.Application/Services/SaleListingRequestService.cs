@@ -27,6 +27,7 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.ListingRequests;
+    using ShowingTimeRecord = Husa.Quicklister.Extensions.Domain.Entities.Request.ShowingTimeRecord;
     using ShowingTimeValueObject = Husa.Quicklister.Extensions.Domain.Entities.ShowingTime.ShowingTime;
 
     public class SaleListingRequestService :
@@ -96,12 +97,27 @@ namespace Husa.Quicklister.Abor.Application.Services
             var listingRequestValueObject = this.Mapper.Map<ListingRequestValueObject>(listingSaleRequestDto);
             var statusFieldInfo = this.Mapper.Map<ListingStatusFieldsInfo>(listingSaleRequestDto.StatusFieldsInfo);
             var salePropertyInfo = this.Mapper.Map<SalePropertyValueObject>(listingSaleRequestDto.SaleProperty);
-            var showingTime = this.Mapper.Map<ShowingTimeValueObject>(listingSaleRequestDto.ShowingTime);
 
             var listingRequest = await this.RequestRepository.GetByIdAsync(listingRequestId, cancellationToken);
             listingRequest.UpdateRequestInformation(listingRequestValueObject, statusFieldInfo, salePropertyInfo);
-            var contacts = await this.ShowingTimeContactsProvider.GetScopedContacts(ContactScope.Listing, listingSaleRequestDto.ListingSaleId);
-            listingRequest.ShowingTimeInfo?.UpdateInformation(showingTime, contacts);
+            if (listingSaleRequestDto.UseShowingTime)
+            {
+                var showingTime = this.Mapper.Map<ShowingTimeValueObject>(listingSaleRequestDto.ShowingTime);
+                var contacts = await this.ShowingTimeContactsProvider.GetScopedContacts(ContactScope.Listing, listingSaleRequestDto.ListingSaleId);
+                if (listingRequest.ShowingTimeInfo is null)
+                {
+                    listingRequest.ShowingTimeInfo = ShowingTimeRecord.CreateRecord(showingTime);
+                }
+                else
+                {
+                    listingRequest.ShowingTimeInfo.UpdateInformation(showingTime, contacts);
+                }
+            }
+            else
+            {
+                listingRequest.ShowingTimeInfo = null;
+            }
+
             var userId = this.UserContextProvider.GetCurrentUserId();
 
             await this.RequestRepository.UpdateDocumentAsync(listingRequestId, listingRequest, userId, cancellationToken);

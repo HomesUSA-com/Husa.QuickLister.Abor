@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Extensions.JsonImport;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -22,9 +23,10 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             ICommunitySaleRepository communityRepository,
             IUserContextProvider userContextProvider,
             IServiceSubscriptionClient companyClient,
+            ICommunityDeletionService communityDeletionService,
             IOptions<ApplicationOptions> applicationOptions,
             ILogger<CommunityJsonImportService> logger)
-            : base(client, communityRepository, userContextProvider, companyClient, applicationOptions, logger)
+            : base(client, communityRepository, userContextProvider, companyClient, communityDeletionService, applicationOptions, logger)
         {
         }
 

@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
@@ -18,12 +19,18 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.Community;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
+    using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Models.Community;
+    using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
+    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
@@ -46,7 +53,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<ISaleListingRequestRepository> saleRequestRepository = new();
         private readonly Mock<IListingSaleRepository> saleListingRepository = new();
         private readonly Mock<ICommunitySaleRepository> saleCommunityRepository = new();
-        private readonly Mock<IProvideShowingTimeContacts> showingTImeContactsProvider = new();
+        private readonly Mock<IProvideShowingTimeContacts> showingTimeContactsProvider = new();
         private readonly Mock<IRequestErrorRepository> pequestErrorRepository = new();
 
         public SaleListingRequestServiceTests(ApplicationServicesFixture fixture)
@@ -131,6 +138,84 @@ namespace Husa.Quicklister.Abor.Application.Tests
             Assert.Equal(ListingRequestState.Pending, result.RequestState);
         }
 
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task UpdateListingRequestAsync_ShowingTimeFlag_ShouldHandleCorrectly(bool useShowingTime)
+        {
+            // Arrange
+            var listingRequestId = Guid.NewGuid();
+            var listingSaleId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            var showingTime = TestModelProvider.ShowingTimeFaker();
+            var mapper = new Mock<IMapper>();
+
+            var listingSaleRequestDto = new ListingSaleRequestDto
+            {
+                UseShowingTime = useShowingTime,
+                ListingSaleId = listingSaleId,
+                ShowingTime = this.fixture.Mapper.Map<ShowingTimeDto>(showingTime),
+                SaleProperty = ListingTestProvider.GetSalePropertyDetailDto(),
+            };
+
+            var existingRequest = ListingRequestProviders.GetSaleListingRequestMock(listingRequestId, listingSaleId).Object;
+
+            this.saleRequestRepository.Setup(r => r.GetByIdAsync(listingRequestId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(existingRequest);
+
+            mapper.Setup(m => m.Map<ListingRequestValueObject>(It.IsAny<ListingSaleRequestDto>()))
+                .Returns(new ListingRequestValueObject());
+
+            mapper.Setup(m => m.Map<ListingStatusFieldsInfo>(It.IsAny<object>()))
+                .Returns(new ListingStatusFieldsInfo());
+
+            mapper.Setup(m => m.Map<SalePropertyValueObject>(It.IsAny<object>()))
+                .Returns(new SalePropertyValueObject());
+
+            if (useShowingTime)
+            {
+                mapper.Setup(m => m.Map<ShowingTime>(It.IsAny<object>()))
+                    .Returns(showingTime);
+
+                this.showingTimeContactsProvider.Setup(s => s.GetScopedContacts(ContactScope.Listing, listingSaleId))
+                    .ReturnsAsync(new List<ShowingTimeContact>());
+            }
+
+            this.userContextProvider.Setup(u => u.GetCurrentUserId()).Returns(userId);
+
+            this.saleRequestRepository.Setup(r => r.UpdateDocumentAsync(
+                    listingRequestId,
+                    It.IsAny<SaleListingRequest>(),
+                    userId,
+                    It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            await this.GetSut(mapper.Object).UpdateListingRequestAsync(listingRequestId, listingSaleRequestDto);
+
+            // Assert
+            this.saleRequestRepository.Verify(r => r.GetByIdAsync(listingRequestId, It.IsAny<CancellationToken>()), Times.Once);
+
+            if (useShowingTime)
+            {
+                mapper.Verify(m => m.Map<ShowingTime>(It.IsAny<object>()), Times.Once);
+                this.showingTimeContactsProvider.Verify(s => s.GetScopedContacts(ContactScope.Listing, listingSaleId), Times.Once);
+            }
+            else
+            {
+                mapper.Verify(m => m.Map<ShowingTime>(It.IsAny<object>()), Times.Never);
+                this.showingTimeContactsProvider.Verify(s => s.GetScopedContacts(It.IsAny<ContactScope>(), It.IsAny<Guid>()), Times.Never);
+            }
+
+            this.saleRequestRepository.Verify(
+                r => r.UpdateDocumentAsync(
+                listingRequestId,
+                It.IsAny<SaleListingRequest>(),
+                userId,
+                It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
         private CommunitySale GetCommunityWithUnlockedListing(Guid communityId, Guid unlockedListingId, Guid newRequestId, Guid lockedListingBy)
         {
             var saleCommunity = CommunityTestProvider.GetCommunityEntity(communityId);
@@ -158,19 +243,19 @@ namespace Husa.Quicklister.Abor.Application.Tests
             return saleCommunity;
         }
 
-        private SaleListingRequestService GetSut() => new(
+        private SaleListingRequestService GetSut(IMapper mapper = null) => new(
             this.saleRequestRepository.Object,
             this.saleListingRepository.Object,
             this.mediaService.Object,
             this.userContextProvider.Object,
             this.saleCommunityRepository.Object,
-            this.fixture.Mapper,
+            mapper ?? this.fixture.Mapper,
             this.logger.Object,
             this.fixture.Options.Object,
             this.serviceSubscriptionClient.Object,
             this.emailSender.Object,
             this.userQueriesRepository.Object,
             this.pequestErrorRepository.Object,
-            this.showingTImeContactsProvider.Object);
+            this.showingTimeContactsProvider.Object);
     }
 }

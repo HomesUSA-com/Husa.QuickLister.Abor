@@ -3,11 +3,13 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Api.Mappings;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
+    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
 
     public class ShowingTimeMappingProfile : ShowingTimeExtensionsMappingProfile
     {
         public ShowingTimeMappingProfile()
         {
+            this.CreateMap<ShowingTime, ShowingTimeDto>();
             this.CreateMap<ContactDto, ShowingTimeContact>()
                 .ForMember(dst => dst.Id, ops => ops.Ignore())
                 .ForMember(dst => dst.Communities, ops => ops.Ignore())

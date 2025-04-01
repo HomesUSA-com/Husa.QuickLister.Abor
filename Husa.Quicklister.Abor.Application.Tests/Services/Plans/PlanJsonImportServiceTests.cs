@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.JsonImport;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
@@ -27,6 +28,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
         private readonly Mock<IUserContextProvider> userContextProvider = new();
         private readonly Mock<IJsonImportClient> jsonClient = new();
         private readonly Mock<IServiceSubscriptionClient> companyClient = new();
+        private readonly Mock<IPlanDeletionService> deletionService = new();
         public PlanJsonImportServiceTests(ApplicationServicesFixture fixture)
         {
             var jsonPlanClientMock = new Mock<IJsonImportPlan>();
@@ -36,6 +38,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
                 this.planSaleRepository.Object,
                 this.userContextProvider.Object,
                 this.companyClient.Object,
+                this.deletionService.Object,
                 fixture.Options.Object,
                 this.logger.Object);
         }

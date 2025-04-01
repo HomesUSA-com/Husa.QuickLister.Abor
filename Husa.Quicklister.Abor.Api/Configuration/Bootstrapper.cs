@@ -175,6 +175,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<InterfaceExtensions.Migration.IPlanMigrationService, PlanMigrationService>();
             services.AddScoped<IPlanMediaService, PlanMediaService>();
             services.AddScoped<IPlanNotesService, PlanNotesService>();
+            services.AddScoped<InterfaceExtensions.Plan.IPlanDeletionService, PlanDeletionService>();
 
             services.AddScoped<ISaleCommunityService, SaleCommunityService>();
             services.AddScoped<ICommunityPhotoService, CommunityPhotoService>();
@@ -184,6 +185,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<InterfaceExtensions.Migration.ICommunityHistoryMigrationService, CommunityHistoryMigrationService>();
             services.AddScoped<ICommunityMediaService, CommunityMediaService>();
             services.AddScoped<ICommunityNotesService, CommunityNotesService>();
+            services.AddScoped<InterfaceExtensions.Community.ICommunityDeletionService, CommunityDeletionService>();
 
             services.AddScoped<IUploaderService, UploaderService>();
             services.AddScoped<INotesBusService, NotesBusService>();

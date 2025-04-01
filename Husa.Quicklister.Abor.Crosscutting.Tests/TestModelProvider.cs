@@ -65,6 +65,40 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
     public static class TestModelProvider
     {
+        public static ShowingTime ShowingTimeFaker() => new()
+        {
+            AppointmentType = Faker.Enum.Random<AppointmentType>(),
+            AccessInformation = new()
+            {
+                AccessMethod = Faker.Enum.Random<AccessMethod>(),
+                AlarmNotes = Faker.Lorem.Sentence(),
+                AlarmArmCode = Faker.Lorem.GetFirstWord(),
+                AlarmDisarmCode = Faker.Lorem.GetFirstWord(),
+                AlarmPasscode = Faker.Lorem.GetFirstWord(),
+                ProvideAlarmDetails = Faker.Boolean.Random(),
+                CbsCode = Faker.Lorem.GetFirstWord(),
+                Code = Faker.Lorem.GetFirstWord(),
+                Combination = Faker.Lorem.GetFirstWord(),
+                SharingCode = Faker.Lorem.GetFirstWord(),
+                DeviceId = Faker.Lorem.GetFirstWord(),
+                Location = Faker.Lorem.GetFirstWord(),
+                Serial = Faker.Lorem.GetFirstWord(),
+            },
+            AdditionalInstructions = new()
+            {
+                NotesForApptStaff = Faker.Lorem.Sentence(),
+                NotesForShowingAgent = Faker.Lorem.Sentence(),
+            },
+            AppointmentRestrictions = new()
+            {
+                AllowAppraisals = Faker.Boolean.Random(),
+                AllowInspectionsAndWalkThroughs = Faker.Boolean.Random(),
+                LeadTime = Faker.Boolean.Random(),
+                RequiredTimeHours = Faker.RandomNumber.Next(1, 12),
+                SuggestedTimeHours = Faker.RandomNumber.Next(1, 12),
+            },
+        };
+
         public static ListingSaleQueryResult GetListingSaleQueryResult(Guid? id) => new()
         {
             Id = id ?? Guid.NewGuid(),
