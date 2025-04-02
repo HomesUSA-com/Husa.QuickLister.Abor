@@ -115,7 +115,7 @@ namespace Husa.Quicklister.Abor.Data.Specifications
         {
             if (actionType == null || actionType == ActionType.All)
             {
-                return listings.Where(l => l.PublishInfo.PublishType != null);
+                return listings.Where(l => l.PublishInfo.PublishType != null && l.PublishInfo.PublishType != ActionType.Migrated);
             }
 
             return listings.Where(l => l.PublishInfo.PublishType == actionType);
