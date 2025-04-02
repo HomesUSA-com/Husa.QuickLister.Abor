@@ -70,5 +70,27 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var constructionStage = xmlLsitng.Day.Value.Date > DateTime.UtcNow.Date ? Enums.Domain.ConstructionStage.Incomplete : Enums.Domain.ConstructionStage.Complete;
             Assert.Equal(propertyInfo.ConstructionStage, constructionStage);
         }
+
+        [Fact]
+        public void UpdateFromPropertyInfoFromXmlCompareDatas()
+        {
+            // Arrange
+            var dateInput = DateTime.UtcNow.AddMonths(-1);
+            var xmlListing = new XmlListingDetailResponse()
+            {
+                Day = dateInput,
+            };
+            var propertyInfo = new PropertyInfo()
+            {
+                ConstructionCompletionDate = dateInput,
+                ConstructionStage = Enums.Domain.ConstructionStage.Incomplete,
+            };
+
+            // Act
+            propertyInfo.UpdateFromXml(xmlListing, ignoreRequestByCompletionDate: false);
+
+            // Assert
+            Assert.Equal(Domain.Enums.Domain.ConstructionStage.Complete, propertyInfo.ConstructionStage);
+        }
     }
 }

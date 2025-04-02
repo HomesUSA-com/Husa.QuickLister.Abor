@@ -52,7 +52,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.DOM, dto => dto.MapFrom(src => src.ListingMessage.DOM))
                 .ForMember(vo => vo.ListPrice, dto => dto.MapFrom(src => src.ListingMessage.ListPrice))
                 .ForMember(vo => vo.ExpirationDate, dto => dto.MapFrom(src => src.ListingMessage.ExpirationDate))
-                .ForMember(vo => vo.ListDate, dto => dto.MapFrom(src => src.ListingMessage.ListDate))
+                .ForMember(vo => vo.ListDate, dto => dto.MapFrom(src => src.ListingMessage.ContractStatusChangeDate))
                 .ForMember(vo => vo.ListType, dto => dto.MapFrom(src => src.ListingMessage.ListingType.FirstOrDefault().ToAborEnum()))
                 .ForMember(vo => vo.MarketModifiedOn, dto => dto.MapFrom(src => src.ListingMessage.ModificationTimestamp.ToUtcDateTime()))
                 .ForMember(vo => vo.MarketUniqueId, dto => dto.MapFrom(src => src.ListingMessage.EntityKey))
