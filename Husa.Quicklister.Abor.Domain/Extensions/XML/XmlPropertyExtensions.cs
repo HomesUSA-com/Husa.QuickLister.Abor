@@ -17,15 +17,27 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.XML
                 fields.LotDescription = xmlListing.LegalDescLot.CsvToEnum<LotDescription>().ToArray();
             }
 
-            if (ignoreRequestByCompletionDate && fields.ConstructionStage.HasValue && fields.ConstructionStage.Value == ConstructionStage.Complete)
+            if (!xmlListing.Day.HasValue)
             {
                 return;
             }
 
-            if (xmlListing.Day.HasValue && fields.ConstructionCompletionDate.HasValue && fields.ConstructionCompletionDate.Value.Date != xmlListing.Day.Value.Date)
+            if (ignoreRequestByCompletionDate && fields.ConstructionStage.HasValue && fields.ConstructionStage.Value == Enums.Domain.ConstructionStage.Complete)
             {
-                fields.ConstructionCompletionDate = xmlListing.Day;
-                fields.ConstructionStage = xmlListing.Day.Value.Date > DateTime.UtcNow.Date ? ConstructionStage.Incomplete : ConstructionStage.Complete;
+                return;
+            }
+
+            if (fields.ConstructionCompletionDate.HasValue)
+            {
+                if (fields.ConstructionCompletionDate.Value.Date != xmlListing.Day.Value.Date)
+                {
+                    fields.ConstructionCompletionDate = xmlListing.Day;
+                    fields.ConstructionStage = xmlListing.Day.Value.Date > DateTime.UtcNow.Date ? Enums.Domain.ConstructionStage.Incomplete : Enums.Domain.ConstructionStage.Complete;
+                }
+                else if (fields.ConstructionCompletionDate.Value.Date <= DateTime.UtcNow.Date)
+                {
+                    fields.ConstructionStage = Enums.Domain.ConstructionStage.Complete;
+                }
             }
         }
     }
