@@ -50,7 +50,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet("{planId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetPlanById([FromRoute] Guid planId)
         {
             this.Logger.LogInformation("Getting the plan detail with Id '{planId}'.", planId);
@@ -63,7 +62,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet("Name")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly])]
         public async Task<IActionResult> GetPlanByName([FromQuery] PlanByNameFilter filters)
         {
             this.Logger.LogInformation("Retrieving the plans with the filters: {@filters}.", filters);
@@ -81,7 +80,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPost]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin])]
         public async Task<IActionResult> CreateAsync(CreatePlanRequest createPlanRequest)
         {
             this.Logger.LogInformation("Adding plan profile with Name: {planName} and company {companyId}", createPlanRequest.Name, createPlanRequest.CompanyId);
@@ -91,7 +90,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPut("{planId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> UpdatePlanAsync([FromRoute] Guid planId, [FromBody] UpdatePlanRequest updatePlanRequest)
         {
             this.Logger.LogInformation("Updating plan with id: {planId}", planId);
@@ -102,7 +101,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet("{planId:guid}/sale-listings/{listingId:guid}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetPlanWithListingProjection([FromRoute][Required] Guid planId, [FromRoute][Required] Guid listingId)
         {
             this.Logger.LogInformation("Starting the process to import information from listing Id '{listingId}' to plan profile id '{planId}'", listingId, planId);

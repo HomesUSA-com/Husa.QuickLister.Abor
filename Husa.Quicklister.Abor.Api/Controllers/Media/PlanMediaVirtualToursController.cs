@@ -23,7 +23,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         }
 
         [HttpPost]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> CreateVirtualTourAsync([FromRoute] Guid planId, [FromBody] VirtualTour virtualTour)
         {
             this.logger.LogInformation("Starting to add Virtual tour to entity id {planId}", planId);
@@ -34,7 +34,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         }
 
         [HttpDelete("{virtualTourId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> DeleteVirtualTour([FromRoute] Guid planId, [FromRoute] Guid virtualTourId)
         {
             this.logger.LogInformation("Starting to delete virtual tour with id {virtualTourId}", virtualTourId);

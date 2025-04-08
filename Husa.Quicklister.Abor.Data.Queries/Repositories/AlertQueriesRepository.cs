@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
-    using Husa.Extensions.Authorization.Enums;
+    using Husa.Extensions.Authorization.Specifications;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.PhotoService.Api.Client.Interfaces;
@@ -16,7 +16,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Data.Queries.Models.Alerts;
     using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Data.Specifications;
+    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Specifications;
@@ -70,25 +72,18 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
         protected override IQueryable<SaleListing> FilterByCommunityEmployee(IQueryable<SaleListing> query)
         {
             var currentUser = this.UserContext.GetCurrentUser();
-            if (currentUser.UserRole == UserRole.User && currentUser.EmployeeRole == RoleEmployee.SalesEmployee)
-            {
-                var communityIds = this.Context.CommunityEmployee.Where(x => x.UserId == currentUser.Id && !x.IsDeleted).Select(x => x.CommunityId).ToList();
-                query = query.Where(x => x.SaleProperty.CommunityId.HasValue && communityIds.Contains(x.SaleProperty.CommunityId.Value));
-            }
-
-            return query;
+            return query
+                .FilterByCommunityEmployee<SaleListing, SaleProperty, CommunityEmployee>(this.Context.CommunityEmployee, currentUser);
         }
 
         protected override IQueryable<SaleListing> GetSaleListingAlerts(string search = null)
         {
-            var currentUser = this.UserContext.GetCurrentUser();
             var query = this.Context.ListingSale
                 .Include(d => d.SaleProperty)
                 .Include(d => d.SaleProperty.Community)
                 .Include(d => d.SaleProperty.Community.Employees)
                 .Include(d => d.StatusFieldsInfo)
-                .FilterNotDeleted()
-                .FilterByCompany(currentUser);
+                .FilterNotDeleted();
 
             query = this.FilterByCommunityEmployee(query);
 

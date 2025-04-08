@@ -2,12 +2,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using AutoMapper;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Enums;
-    using Husa.Quicklister.Extensions.Data.Specifications;
-    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
+    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Xml.Api.Client.Interface;
     using RepositoryExtensions = Husa.Quicklister.Extensions.Data.Queries.Repositories.QueryXmlRepository;
 
@@ -24,14 +22,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
 
         protected override MarketCode MarketCode => MarketCode.Austin;
 
-        protected override IEnumerable<Guid> GetUserCommunityIds(IUserContext currentUser)
-        => this.context.Community
-                   .FilterNotDeleted()
-                   .FilterByImportStatus(XmlStatus.Approved)
-                   .FilterByCompany(currentUser)
-                   .Join(this.context.CommunityEmployee, comm => comm.Id, emp => emp.CommunityId, (communities, employee) => new { communities, employee })
-                   .Where(employeeCommunties => !employeeCommunties.employee.IsDeleted && employeeCommunties.employee.UserId == currentUser.Id)
-                   .Select(employeeCommunties => employeeCommunties.communities.Id)
-                   .ToList();
+        protected override (bool ApplyFilter, IEnumerable<Guid> CommunityIds) GetCommunityIds(IUserContext currentUser)
+            => this.GetSalesEmployeeCommunityIds<CommunitySale, CommunityEmployee, ApplicationQueriesDbContext>(currentUser, this.context);
     }
 }

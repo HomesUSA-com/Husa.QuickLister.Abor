@@ -65,3 +65,6 @@ dotnet_diagnostic.S6602.severity = suggestion
 
 # S2094: Remove this empty class, write its code or make it an "interface".
 dotnet_diagnostic.S2094.severity = suggestion
+
+# SA1010: Opening square brackets should be spaced correctly
+dotnet_diagnostic.SA1010.severity = suggestion

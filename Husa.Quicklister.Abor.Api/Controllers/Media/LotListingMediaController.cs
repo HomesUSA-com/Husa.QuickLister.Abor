@@ -30,7 +30,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
         protected override int MediaLimitAllowed => this.options.MediaAllowed.LotListingMaxAllowedMedia;
 
         [HttpPost("import")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> ImportMediaAsync([FromRoute] Guid entityId, [FromBody] IEnumerable<ImportMedia> media)
         {
             this.Logger.LogInformation("Importing resources for entity id {entityId}", entityId);

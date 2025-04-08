@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Linq;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.Authorization.Specifications;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Linq.Specifications;

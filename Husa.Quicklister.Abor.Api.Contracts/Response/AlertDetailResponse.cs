@@ -13,10 +13,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
 
         public string ModifiedBy { get; set; }
 
-        public DateTime? ExpirationDate { get; set; }
-
-        public DateTime? BonusExpirationDate { get; set; }
-
         public DateTime? SysModifiedOn { get; set; }
 
         public int? DOM { get; set; }

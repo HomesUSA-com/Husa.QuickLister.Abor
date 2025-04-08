@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Linq;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.Authorization.Specifications;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Linq.Specifications;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
@@ -72,7 +73,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
 
             var contacts = await this.context.ShowingTimeContacts.FilterNotDeleted()
                 .Where(c => !companyId.HasValue || c.CompanyId == Guid.Empty || c.CompanyId == companyId.Value)
-                .ApplySearchByFilter(filters.SearchBy)
+                .ApplyShowingSearchByFilter(filters.SearchBy)
                 .ApplySortByFields(filters.SortBy)
                 .ApplyPaginationFilter(filters.Skip, filters.Take, filters.IsForDownloading)
                 .Select(this.contactProjections.ToShowingTimeContactQueryResult)

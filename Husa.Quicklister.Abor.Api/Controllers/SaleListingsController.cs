@@ -100,7 +100,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet("{listingId:guid}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetListing([FromRoute] Guid listingId)
         {
             this.logger.LogInformation("Received request to GET sale listing with Id '{listingId}'.", listingId);
@@ -110,7 +109,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPost]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> CreateAsync(QuickCreateListingRequest listingSale)
         {
             this.logger.LogInformation("Starting to add in Listing in ABOR with Address: {StreetNumber} {StreetName} ", listingSale.StreetNumber, listingSale.StreetName);
@@ -126,7 +125,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPut("{listingId:guid}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> UpdateListing([FromRoute] Guid listingId, ListingSaleDetailRequest saleListingRequest)
         {
             this.logger.LogInformation("Received request to UPDATE sale listing with Id '{listingId}'.", listingId);
@@ -139,7 +138,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpDelete("{listingId:guid}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> DeleteListing([FromRoute] Guid listingId)
         {
             this.logger.LogInformation("Received request to DELETE sale listing with Id '{listingId}'.", listingId);
@@ -150,7 +149,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPatch("{listingId:guid}/change-community")]
-        [ApiAuthorization(new RoleEmployee[0])]
+        [RolesFilter([UserRole.MLSAdministrator])]
         public async Task<IActionResult> ChangeCommunity([FromRoute] Guid listingId, [FromQuery][Required] Guid communityId)
         {
             this.logger.LogInformation("Starting the process to change the community linked to the listing Id '{listingId}' for the Community Id '{communityId}'", listingId, communityId);
@@ -161,7 +160,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPatch("{listingId:guid}/change-plan")]
-        [ApiAuthorization(new RoleEmployee[0])]
+        [RolesFilter([UserRole.MLSAdministrator])]
         public async Task<IActionResult> ChangePlan([FromRoute] Guid listingId, [FromQuery][Required] Guid planId, [FromQuery] bool updateRooms = false)
         {
             this.logger.LogInformation("Starting the process to change the plan profile linked to the listing Id '{listingId}' for the Plan Profile Id '{planId}'", listingId, planId);
@@ -172,7 +171,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet("{listingId:guid}/listing-requests")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly])]
         public async Task<IActionResult> GetRequestByListingSaleAsync(Guid listingId, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Start to handle query request by listing sale Id {listingId}", listingId);
@@ -187,7 +186,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPut("{listingId:guid}/unlock")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> UnlockListing(Guid listingId, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Start to unlock listing sale Id {listingId}", listingId);
@@ -244,7 +243,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPut("{listingId:guid}/mls-media")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin])]
         public Task ImportMediaFromMartketAsync([FromRoute] Guid listingId)
         {
             this.logger.LogInformation("Starting to import resources from market for listing with id {listingId}", listingId);
@@ -278,7 +277,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPatch("{listingId:guid}/action-type")]
-        [ApiAuthorization(new RoleEmployee[0])]
+        [RolesFilter([UserRole.MLSAdministrator])]
         public async Task<IActionResult> UpdateActionTypeAsync(Guid listingId, ActionTypeRequest listingRequestForUpdate, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Start to update action type from listing {listingId}", listingId);

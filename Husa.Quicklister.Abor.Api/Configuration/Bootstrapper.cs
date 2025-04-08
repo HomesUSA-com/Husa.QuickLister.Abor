@@ -109,7 +109,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
         }
 
         public static IServiceCollection AddCommonRepositories(this IServiceCollection services)
-            => services.AddScoped<RepositoriesExtensions.IUserRepository, UserRepository>();
+            => services.AddScoped<RepositoriesExtensions.IUserRepository, Husa.Quicklister.Extensions.Data.Queries.Repositories.UserRepository>();
 
         public static IServiceCollection AddQueriesRepositories(this IServiceCollection services)
         {

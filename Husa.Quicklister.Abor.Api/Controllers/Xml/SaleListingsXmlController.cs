@@ -5,8 +5,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Xml
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using AutoMapper;
-    using Husa.Extensions.Authorization.Enums;
-    using Husa.Extensions.Authorization.Filters;
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Xml;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
@@ -39,7 +37,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Xml
         }
 
         [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetListings([FromQuery] XmlListingFilterRequest filter)
         {
             this.logger.LogInformation("Starting to get xml listings {@filter}", filter);
