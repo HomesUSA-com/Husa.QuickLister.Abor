@@ -38,6 +38,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
+    using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
     using XmlListActionType = Husa.Xml.Domain.Enums.ListActionType;
     using XmlResponse = Husa.Xml.Api.Contracts.Response;
 
@@ -51,7 +52,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<IUserContextProvider> contextProvider = new();
         private readonly Mock<IListingSaleRepository> listingSaleRepository = new();
         private readonly Mock<ISaleListingService> listingSaleService = new();
-        private readonly Mock<ISaleListingMediaService> saleListingMediaService = new();
+        private readonly Mock<ExtensionsInterfaces.ISaleListingMediaService> saleListingMediaService = new();
         private readonly Mock<ICommunitySaleRepository> communitySaleRepository = new();
         private readonly Mock<IListingRequestXmlService<XmlListingDetailResponse>> saleListingRequestService = new();
         private readonly Mock<ISaleListingXmlMediaService> xmlMediaService = new();
@@ -802,7 +803,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 {
                     Id = Guid.NewGuid(),
                     Uri = new Uri("http://www.google.com"),
-                    MimeType = MimeType.Image,
                     UriMedium = new Uri("http://www.google.com"),
                 },
             };

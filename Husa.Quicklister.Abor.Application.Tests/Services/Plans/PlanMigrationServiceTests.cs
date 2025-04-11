@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;

@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
+    using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Media;
 
     public class SaleListingXmlMediaService : ExtensionsServices.XmlMediaService<
@@ -22,7 +23,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     {
         public SaleListingXmlMediaService(
             IXmlClient xmlClient,
-            ISaleListingMediaService mediaService,
+            ExtensionsInterfaces.ISaleListingMediaService mediaService,
             IPlanRepository planRepository,
             ICommunitySaleRepository communitySaleRepository,
             IListingSaleRepository listingSaleRepository,

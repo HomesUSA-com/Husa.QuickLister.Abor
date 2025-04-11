@@ -40,7 +40,7 @@ namespace Husa.Quicklister.Abor.Application
     {
         private readonly ISaleListingRequestRepository saleRequestRepository;
         private readonly IPlanRepository planRepository;
-        private readonly ISaleListingMediaService listingMediaService;
+        private readonly ExtensionsInterfaces.ISaleListingMediaService listingMediaService;
         private readonly ISaleListingPhotoService saleListingPhotoService;
         private readonly IXmlClient xmlClient;
         private readonly ExtensionsCrosscutting.FeatureFlags featureFlags;
@@ -58,7 +58,7 @@ namespace Husa.Quicklister.Abor.Application
             IPlanRepository planRepository,
             IServiceSubscriptionClient serviceSubscriptionClient,
             IUserContextProvider userContextProvider,
-            ISaleListingMediaService listingMediaService,
+            ExtensionsInterfaces.ISaleListingMediaService listingMediaService,
             ISaleListingPhotoService saleListingPhotoService,
             ExtensionsInterfaces.ILockLegacyListingService lockLegacyListingService,
             IXmlClient xmlClient,

@@ -27,6 +27,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Xml.Api.Contracts.Response;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
     using XmlContract = Husa.Xml.Domain.Enums;
 
@@ -37,7 +38,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
         ICommunitySaleRepository>, ISaleListingXmlService
     {
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
-        private readonly ISaleListingMediaService saleListingMediaService;
+        private readonly ExtensionsInterfaces.ISaleListingMediaService saleListingMediaService;
         private readonly IMapper mapper;
         private readonly ApplicationOptions options;
         private readonly ISaleListingService listingSaleService;
@@ -60,7 +61,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             ISaleListingService listingSaleService,
             IListingRequestXmlService<XmlListingDetailResponse> saleListingRequestService,
             IServiceSubscriptionClient serviceSubscriptionClient,
-            ISaleListingMediaService saleListingMediaService,
+            ExtensionsInterfaces.ISaleListingMediaService saleListingMediaService,
             IRequestErrorRepository requestErrorRepository,
             IOptions<ApplicationOptions> options,
             IMapper mapper)
