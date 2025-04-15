@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Extensions.Document.Interfaces;
     using Husa.Extensions.EmailNotification.Services;
     using Husa.Extensions.Media.Interfaces;
+    using Husa.Extensions.OpenAI;
     using Husa.JsonImport.Api.Client.Interface;
     using Husa.MediaService.Client;
     using Husa.Notes.Client;
@@ -49,6 +50,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             services.AddSingleton(new Mock<INotesClient>().Object);
             services.AddSingleton(new Mock<IEmailSender>().Object);
             services.AddSingleton(new Mock<IMediaService>().Object);
+            services.AddSingleton(new Mock<IOpenAIClient>().Object);
             services.AddSingleton(new Mock<ISaleListingRequestQueriesRepository>().Object);
             services.MockCosmosClient();
             services.AddScoped<ServiceBusClient>(provider =>

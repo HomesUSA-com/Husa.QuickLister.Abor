@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest
     using System;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Domain.Enums;
 
     public class ListingRequestQueryResponse
     {
@@ -39,5 +40,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest
         public bool UpdateGeocodes { get; set; }
 
         public bool UseShowingTime { get; set; }
+        public MediaVerificationStatus? MediaVerificationStatus { get; set; }
     }
 }
