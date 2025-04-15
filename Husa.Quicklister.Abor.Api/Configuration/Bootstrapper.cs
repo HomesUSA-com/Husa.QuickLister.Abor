@@ -348,10 +348,10 @@ namespace Husa.Quicklister.Abor.Api.Configuration
         public static IServiceCollection ConfigureXmlClient(this IServiceCollection services, bool withTokenRequest = true)
         {
             services
-                .AddHttpClient<IXmlClient, XmlClient>(async (provider, client) =>
+                .AddHttpClient<IXmlClient, XmlClient>((provider, client) =>
                 {
                     var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                    await client.ConfigureClientAsync(provider, options.Services.XmlService);
+                    client.BaseAddress = new Uri(options.Services.XmlService);
                 })
                 .ConfigureHeaderHandling(withTokenRequest);
 
