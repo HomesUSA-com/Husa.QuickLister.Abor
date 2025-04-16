@@ -17,6 +17,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Notes.Client;
     using Husa.PhotoService.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Api.Client.Tests.Authentication;
+    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
@@ -126,7 +127,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var xmlSubdivisionClientMock = new Mock<IXmlSubdivision>();
             xmlSubdivisionClientMock.SetupAllProperties();
 
-            var xmlClientMock = new Mock<IXmlClient>();
+            var xmlClientMock = new Mock<IXmlClientWithoutToken>();
             xmlClientMock.SetupGet(s => s.Listing).Returns(xmlListingClientMock.Object);
             xmlClientMock.SetupGet(s => s.Plan).Returns(xmlPlanClientMock.Object);
             xmlClientMock.SetupGet(s => s.Subdivision).Returns(xmlSubdivisionClientMock.Object);

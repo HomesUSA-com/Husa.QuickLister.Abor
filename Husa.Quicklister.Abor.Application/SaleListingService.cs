@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Application.Models.SalePropertyDetail;
     using Husa.Quicklister.Abor.Crosscutting;
+    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -28,7 +29,6 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using CompanyServiceSubscriptionFilter = Husa.CompanyServicesManager.Api.Contracts.Request.FilterServiceSubscriptionRequest;
@@ -42,7 +42,7 @@ namespace Husa.Quicklister.Abor.Application
         private readonly IPlanRepository planRepository;
         private readonly ISaleListingMediaService listingMediaService;
         private readonly ISaleListingPhotoService saleListingPhotoService;
-        private readonly IXmlClient xmlClient;
+        private readonly IXmlClientWithoutToken xmlClient;
         private readonly ExtensionsCrosscutting.FeatureFlags featureFlags;
 
         private readonly IEnumerable<MarketStatuses> statusAllowedForReleaseXmlListing = new[]
@@ -61,7 +61,7 @@ namespace Husa.Quicklister.Abor.Application
             ISaleListingMediaService listingMediaService,
             ISaleListingPhotoService saleListingPhotoService,
             ExtensionsInterfaces.ILockLegacyListingService lockLegacyListingService,
-            IXmlClient xmlClient,
+            IXmlClientWithoutToken xmlClient,
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<SaleListingService> logger)
