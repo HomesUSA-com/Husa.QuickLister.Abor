@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Extensions.Data.Documents.Interfaces.QueryResults;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
 
     public class ListingRequestQueryResult : IProvideQuicklisterUserInfo, IListingRequestQueryResult
@@ -51,5 +52,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models
         public bool UpdateGeocodes { get; set; }
 
         public bool UseShowingTime { get; set; }
+
+        public MediaVerificationStatus? MediaVerificationStatus { get; set; }
     }
 }

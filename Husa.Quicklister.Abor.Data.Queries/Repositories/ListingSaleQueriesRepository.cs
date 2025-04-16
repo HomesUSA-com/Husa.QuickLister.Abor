@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.Authorization.Specifications;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Linq.Specifications;
@@ -19,7 +20,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Extensions.Data.Queries.Extensions;
     using Husa.Quicklister.Extensions.Data.Queries.Models;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Queries.Repositories.SaleListing;
@@ -58,7 +58,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             this.logger.LogInformation("Starting to get the ABOR List Sales in Status : {mlsStatus}", queryFilter.MlsStatus);
             var currentUser = this.userContext.GetCurrentUser();
 
-            var (isSalesEmployee, communityIds) = await currentUser.GetSalesEmployeeCommunities(this.context.CommunityEmployee, queryFilter.CommunityId);
+            var (isSalesEmployee, communityIds) = await currentUser.GetSalesEmployeeCommunitiesAsync(this.context.CommunityEmployee, queryFilter.CommunityId);
             if (isSalesEmployee && !communityIds.Any())
             {
                 return new DataSet<ListingSaleQueryResult>(new List<ListingSaleQueryResult>() { }, 0);
@@ -108,7 +108,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 return listing;
             }
 
-            var (isSalesEmployee, communityIds) = await currentUser.GetSalesEmployeeCommunities(this.context.CommunityEmployee, listing.SaleProperty.SalePropertyInfo.CommunityId);
+            var (isSalesEmployee, communityIds) = await currentUser.GetSalesEmployeeCommunitiesAsync(this.context.CommunityEmployee, listing.SaleProperty.SalePropertyInfo.CommunityId);
             if (isSalesEmployee && !communityIds.Any())
             {
                 throw new UnauthorizedAccessException("User does not belong to the community.");

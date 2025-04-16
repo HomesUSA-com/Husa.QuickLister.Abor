@@ -30,7 +30,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Notes
         }
 
         [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetNotes([FromRoute] Guid communityId)
         {
             this.logger.LogInformation("Starting to get community note resources for the entity {communityId}", communityId);
@@ -40,7 +39,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Notes
         }
 
         [HttpGet("{noteId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.CompanyAdminReadonly)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.CompanyAdminReadonly])]
         public async Task<IActionResult> GetNoteById([FromRoute] Guid communityId, [FromRoute] Guid noteId)
         {
             this.logger.LogInformation("Starting to get the note for community entity {communityId} and note Id '{noteId}'", communityId, noteId);
@@ -50,7 +49,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Notes
         }
 
         [HttpPost]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> CreateAsync([FromRoute] Guid communityId, [FromBody] NoteRequest note)
         {
             this.logger.LogInformation("Starting to add note to community with id {communityId}", communityId);
@@ -59,7 +58,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Notes
         }
 
         [HttpDelete("{noteId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> DeleteById([FromRoute] Guid communityId, [FromRoute] Guid noteId)
         {
             this.logger.LogInformation("Starting to delete note fro community with id {noteId}", noteId);
@@ -68,7 +67,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Notes
         }
 
         [HttpPut("{noteId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid communityId, [FromRoute] Guid noteId, [FromBody] NoteRequest note)
         {
             this.logger.LogInformation("Starting to update note for community with id {noteId}", noteId);

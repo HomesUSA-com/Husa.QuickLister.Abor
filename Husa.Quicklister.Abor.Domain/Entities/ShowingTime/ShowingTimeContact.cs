@@ -2,13 +2,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.ShowingTime
 {
     using System;
     using System.Collections.Generic;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Domain.Entities;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
 
-    public class ShowingTimeContact : Entity, IShowingTimeContact
+    public class ShowingTimeContact : Entity, IShowingTimeContact, IProvideCompany
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

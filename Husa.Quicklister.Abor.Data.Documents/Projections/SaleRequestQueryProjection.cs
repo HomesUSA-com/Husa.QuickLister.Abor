@@ -32,6 +32,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Projections
                 UpdateGeocodes = listingRequest.SaleProperty.PropertyInfo.UpdateGeocodes,
                 StreetType = listingRequest.SaleProperty.AddressInfo.StreetType,
                 UseShowingTime = listingRequest.UseShowingTime,
+                MediaVerificationStatus = listingRequest.MediaVerificationStatus,
             };
 
         public static Expression<Func<SaleListingRequest, ListingSaleRequestDetailQueryResult>> ProjectionToListingSaleRequestDetailQueryResult =>

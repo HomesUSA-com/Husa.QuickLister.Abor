@@ -44,7 +44,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<IXmlClientWithoutToken> xXmlClient = new();
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
         private readonly Mock<ILogger<SaleListingService>> logger = new();
-        private readonly Mock<ISaleListingMediaService> listingMediaService = new();
+        private readonly Mock<ExtensionsInterfaces.ISaleListingMediaService> listingMediaService = new();
         private readonly Mock<ISaleListingPhotoService> saleListingPhotoService = new();
         private readonly Mock<ExtensionsInterfaces.ILockLegacyListingService> legacyListingService = new();
 

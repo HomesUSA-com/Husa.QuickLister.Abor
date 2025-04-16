@@ -12,7 +12,6 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Services.LotListings;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
@@ -20,6 +19,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Lot;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Moq;

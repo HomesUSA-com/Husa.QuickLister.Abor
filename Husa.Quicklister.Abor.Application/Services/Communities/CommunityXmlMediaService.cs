@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Microsoft.Extensions.Logging;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Media;
     public class CommunityXmlMediaService : ExtensionsServices.XmlMediaService<

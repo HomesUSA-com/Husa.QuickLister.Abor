@@ -6,9 +6,9 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Filters;
     using Husa.MediaService.Api.Contracts.Request;
-    using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Extensions.Api.Controllers.Media;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Lot;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -17,25 +17,21 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Media
     [Route("lot-listings/{entityId}/media")]
     public class LotListingMediaController : MediaController<ILotListingMediaService>
     {
-        private readonly ApplicationOptions options;
         public LotListingMediaController(
             ILotListingMediaService listingMediaService,
             IOptions<ApplicationOptions> options,
             ILogger<LotListingMediaController> logger)
             : base(listingMediaService, logger)
         {
-            this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
-        protected override int MediaLimitAllowed => this.options.MediaAllowed.LotListingMaxAllowedMedia;
-
         [HttpPost("import")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> ImportMediaAsync([FromRoute] Guid entityId, [FromBody] IEnumerable<ImportMedia> media)
         {
             this.Logger.LogInformation("Importing resources for entity id {entityId}", entityId);
 
-            await this.MediaService.Resource.ImportAsync(entityId, media, mediaLimitAllowed: this.MediaLimitAllowed);
+            await this.MediaService.Resource.ImportAsync(entityId, media);
 
             return this.Ok();
         }

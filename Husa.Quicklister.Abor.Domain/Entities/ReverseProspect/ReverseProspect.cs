@@ -2,10 +2,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.ReverseProspect
 {
     using System;
     using System.Collections.Generic;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Domain.Entities;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
-    public class ReverseProspect : Entity
+    public class ReverseProspect : Entity, IProvideCompany
     {
         public ReverseProspect(Guid listingId, Guid userId, Guid companyId, string reportData, ReverseProspectStatus status)
             : this()
