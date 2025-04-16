@@ -6,9 +6,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using AutoMapper;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Enums;
+    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
-    using Husa.Xml.Api.Client.Interface;
     using RepositoryExtensions = Husa.Quicklister.Extensions.Data.Queries.Repositories.QueryXmlRepository;
 
     public class QueryXmlRepository : RepositoryExtensions
@@ -16,7 +16,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
         private readonly ApplicationQueriesDbContext context;
 
         public QueryXmlRepository(
-            ApplicationQueriesDbContext context, IXmlClient xmlClient, IUserContextProvider userContext, IMapper mapper)
+            ApplicationQueriesDbContext context, IXmlClientWithoutToken xmlClient, IUserContextProvider userContext, IMapper mapper)
              : base(xmlClient, userContext, mapper)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));

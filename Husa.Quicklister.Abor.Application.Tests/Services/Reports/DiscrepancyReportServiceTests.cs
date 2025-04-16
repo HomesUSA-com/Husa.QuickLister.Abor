@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Reports
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Application.Services.Reports;
+    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Xml.Api.Client.Interface;
@@ -23,7 +24,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Reports
         private readonly ApplicationServicesFixture fixture;
         private readonly Mock<IListingSaleRepository> saleListingRepository = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
-        private readonly Mock<IXmlClient> xmlClient = new();
+        private readonly Mock<IXmlClientWithoutToken> xmlClient = new();
         private readonly Mock<IDownloaderCtxClient> downloaderCtxClient = new();
         private readonly Mock<IDownloaderSaborClient> downloaderSaborClient = new();
         private readonly Mock<ILogger<DiscrepancyReportService>> logger = new();
