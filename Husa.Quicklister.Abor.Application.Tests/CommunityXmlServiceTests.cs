@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Services.Communities;
+    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
@@ -29,7 +30,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<ILogger<CommunityXmlService>> logger = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
-        private readonly Mock<IXmlClient> xmlClient = new();
+        private readonly Mock<IXmlClientWithoutToken> xmlClient = new();
         private readonly ITestOutputHelper outputHelper;
 
         public CommunityXmlServiceTests(ITestOutputHelper outputHelper)
