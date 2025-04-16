@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
+    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -47,7 +48,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     public class SaleListingXmlServiceTests
     {
         private readonly ApplicationServicesFixture fixture;
-        private readonly Mock<IXmlClient> xmlClient = new();
+        private readonly Mock<IXmlClientWithoutToken> xmlClient = new();
         private readonly Mock<IServiceSubscriptionClient> companyClient = new();
         private readonly Mock<IUserContextProvider> contextProvider = new();
         private readonly Mock<IListingSaleRepository> listingSaleRepository = new();

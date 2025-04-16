@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Application.Services.Communities;
     using Husa.Quicklister.Abor.Application.Services.Plans;
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
+    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -34,7 +35,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     [Collection("Husa.Quicklister.Abor.Application.Test")]
     public class XmlMediaServiceTests
     {
-        private readonly Mock<IXmlClient> xmlClient = new();
+        private readonly Mock<IXmlClientWithoutToken> xmlClient = new();
         private readonly Mock<IPlanRepository> planRepository = new();
         private readonly Mock<ICommunitySaleRepository> communitySaleRepository = new();
         private readonly Mock<IListingSaleRepository> listingSaleRepository = new();

@@ -8,12 +8,12 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests.Repositories
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Common.Classes;
     using Husa.MediaService.Client;
+    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Crosscutting.Tests.Community;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Xml.Api.Client.Interface;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Diagnostics;
     using Microsoft.EntityFrameworkCore.Storage;
@@ -27,7 +27,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests.Repositories
 
     public class ResidentialIdxQueriesRepositoryTests
     {
-        private readonly Mock<IXmlClient> xmlClient = new();
+        private readonly Mock<IXmlClientWithToken> xmlClient = new();
         private readonly Mock<IServiceSubscriptionClient> companyClient = new();
         private readonly Mock<IMediaServiceClient> mediaClient = new();
 
