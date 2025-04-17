@@ -68,5 +68,9 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
         public DateTime? PublishDate { get; set; }
 
         public string City { get; set; }
+
+        public DateTime? AlertCreatedOn { get; set; }
+
+        public DateTime? AlertModifiedOn { get; set; }
     }
 }
