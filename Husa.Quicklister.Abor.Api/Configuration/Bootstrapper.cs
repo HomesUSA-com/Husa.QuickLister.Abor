@@ -357,7 +357,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             {
                 var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
                 await client.ConfigureClientAsync(provider, options.Services.XmlService);
-            });
+            })
+            .ConfigureHeaderHandling(withTokenRequest: true);
 
             return services;
         }
