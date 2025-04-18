@@ -14,7 +14,6 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Crosscutting;
-    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -24,6 +23,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
+    using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Response;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -52,7 +52,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
         };
 
         public SaleListingXmlService(
-            IXmlClientWithoutToken xmlClient,
+            IXmlClient xmlClient,
             IListingSaleRepository listingSaleRepository,
             ICommunitySaleRepository communityRepository,
             IUserContextProvider userContextProvider,

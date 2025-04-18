@@ -4,7 +4,6 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
@@ -17,7 +16,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
     public class PlanXmlService : PlanExtensions.PlanXmlService<Plan, IPlanRepository>, IPlanXmlService
     {
         public PlanXmlService(
-            IXmlClientWithoutToken xmlClient,
+            IXmlClient xmlClient,
             IPlanRepository planRepository,
             IUserContextProvider userContextProvider,
             ILogger<PlanXmlService> logger)

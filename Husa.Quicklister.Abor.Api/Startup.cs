@@ -49,7 +49,6 @@ namespace Husa.Quicklister.Abor.Api
                 .ConfigureDatabase(this.Configuration)
                 .ConfigureAzureBlobConnection(this.Configuration)
                 .ConfigureHttpClients()
-                .ConfigureXmlClient()
                 .ConfigureMigrationClient();
 
             services

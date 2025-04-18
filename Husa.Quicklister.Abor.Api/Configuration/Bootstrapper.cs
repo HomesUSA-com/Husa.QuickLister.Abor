@@ -49,7 +49,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
     using Husa.Quicklister.Abor.Application.Services.ShowingTime;
     using Husa.Quicklister.Abor.Crosscutting;
-    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Data;
     using Husa.Quicklister.Abor.Data.Commands.Repositories;
     using Husa.Quicklister.Abor.Data.Documents.Repositories;
@@ -335,24 +334,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             }).ConfigureHeaderHandling(withTokenRequest);
 
             services.ConfigureJsonImportClient<ApplicationOptions>(withTokenRequest);
-
-            return services;
-        }
-
-        public static IServiceCollection ConfigureXmlClient(this IServiceCollection services, bool withTokenRequest = true)
-        {
-            services.AddHttpClient<IXmlClientWithToken, XmlClientWithToken>((provider, client) =>
-            {
-                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                client.BaseAddress = new Uri(options.Services.XmlService);
-            })
-            .ConfigureHeaderHandling(withTokenRequest: true);
-
-            services.AddHttpClient<IXmlClientWithoutToken, XmlClientWithoutToken>(async (provider, client) =>
-            {
-                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                await client.ConfigureClientAsync(provider, options.Services.XmlService);
-            });
+            services.ConfigureXmlClient<ApplicationOptions>();
 
             return services;
         }
