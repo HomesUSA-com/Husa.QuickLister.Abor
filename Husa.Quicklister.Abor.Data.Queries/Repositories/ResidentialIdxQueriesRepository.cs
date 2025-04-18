@@ -5,11 +5,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Common.Enums;
     using Husa.MediaService.Client;
-    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.ResidentialIdx;
     using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Extensions.Crosscutting.Clients;
     using ExtensionsRepositories = Husa.Quicklister.Extensions.Data.Queries.Repositories;
 
     public class ResidentialIdxQueriesRepository : ExtensionsRepositories.ResidentialIdxQueriesRepository<SaleListing, ApplicationQueriesDbContext, ResidentialIdxQueryResult>, IResidentialIdxQueriesRepository

@@ -6,10 +6,10 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     using Husa.CompanyServicesManager.Api.Contracts.Response;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
+    using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Response;
     using Microsoft.Extensions.Logging;
     using CommunityExtensions = Husa.Quicklister.Extensions.Application.Services.Communities;
@@ -17,7 +17,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     public class CommunityXmlService : CommunityExtensions.CommunityXmlService<CommunitySale, ICommunitySaleRepository>, ICommunityXmlService
     {
         public CommunityXmlService(
-            IXmlClientWithoutToken xmlClient,
+            IXmlClient xmlClient,
             ICommunitySaleRepository communityRepository,
             IUserContextProvider userContextProvider,
             IServiceSubscriptionClient serviceSubscriptionClient,
