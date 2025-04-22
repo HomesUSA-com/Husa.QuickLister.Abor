@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <AssemblyName>Husa.Quicklister.Abor.Api.Client</AssemblyName>
@@ -8,9 +8,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.18.1</Version>
+        <Version>2.18.2</Version>
         <PackageReleaseNotes>
-            Release 2.18.1:
+            Release 2.18.2:
             - Update Husa.Extensions.Authorization
             - Add Listing Request Media Validation
             - Update document package to bring request changes

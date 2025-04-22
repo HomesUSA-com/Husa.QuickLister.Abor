@@ -14,8 +14,8 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.XML
         {
             if (!string.IsNullOrEmpty(xmlListing.Description))
             {
-                var newDescription = CleanPropertyDescription(xmlListing.Description);
-                var oldDescription = CleanPropertyDescription(fields.PropertyDescription);
+                var newDescription = CleanPropertyDescription(xmlListing.Description, forComparisonOnly: true);
+                var oldDescription = CleanPropertyDescription(fields.PropertyDescription, forComparisonOnly: true);
                 if (newDescription != oldDescription)
                 {
                     fields.PropertyDescription = CleanPropertyDescription(xmlListing.Description);
@@ -23,7 +23,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.XML
             }
         }
 
-        private static string CleanPropertyDescription(string description)
+        private static string CleanPropertyDescription(string description, bool forComparisonOnly = false)
         {
             if (string.IsNullOrEmpty(description))
             {
@@ -43,6 +43,12 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.XML
             }
 
             decoded = decoded.Trim();
+
+            if (forComparisonOnly)
+            {
+                decoded = decoded.CleanForComparison();
+            }
+
             return decoded;
         }
     }
