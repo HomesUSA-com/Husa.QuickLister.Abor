@@ -1,7 +1,7 @@
 namespace Husa.Quicklister.Abor.Api.ValidationsRules
 {
-    using System;
     using FluentValidation;
+    using Husa.Extensions.Common;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -46,47 +46,50 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
 
         public void ValidationsRulesForChangeStatusToActiveUnderContract()
         {
+            var today = DateTimeExtensions.TodayUtc();
             this.When(l => l.MlsStatus == MarketStatuses.ActiveUnderContract, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .LessThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
+                    .LessThanOrEqualTo(today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
 
                 this.RuleFor(f => f.StatusFieldsInfo.EstimatedClosedDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .GreaterThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("tomorrow", GreaterThanOrEqualTo));
+                    .GreaterThanOrEqualTo(today.AddDays(1)).WithMessage(GetErrorMessage("tomorrow", GreaterThanOrEqualTo));
 
                 this.RuleFor(f => f.StatusFieldsInfo.ClosedDate)
-                    .GreaterThanOrEqualTo(DateTime.Today).WithMessage(GetErrorMessage("today", GreaterThanOrEqualTo));
+                    .GreaterThanOrEqualTo(today).WithMessage(GetErrorMessage("today", GreaterThanOrEqualTo));
             });
         }
 
         public void ValidationsRulesForChangeStatusToPending()
         {
+            var today = DateTimeExtensions.TodayUtc();
             this.When(l => l.MlsStatus == MarketStatuses.Pending, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.EstimatedClosedDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .GreaterThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("tomorrow", GreaterThanOrEqualTo));
+                    .GreaterThanOrEqualTo(today.AddDays(1)).WithMessage(GetErrorMessage("tomorrow", GreaterThanOrEqualTo));
 
                 this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .LessThanOrEqualTo(DateTime.Today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
+                    .LessThanOrEqualTo(today.AddDays(1)).WithMessage(GetErrorMessage("today", LessThanOrEqualTo));
             });
         }
 
         public void ValidationsRulesForChangeStatusToClosed()
         {
+            var today = DateTimeExtensions.TodayUtc();
             this.When(l => l.MlsStatus == MarketStatuses.Closed, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.PendingDate.Value.Date)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .LessThanOrEqualTo(DateTime.Today.AddDays(-1).Date)
+                    .LessThanOrEqualTo(today.AddDays(-1))
                     .WithMessage(GetErrorMessage("yesterday", LessThanOrEqualTo));
 
                 this.RuleFor(f => f.StatusFieldsInfo.ClosedDate.Value.Date)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .LessThanOrEqualTo(DateTime.Today.Date)
+                    .LessThanOrEqualTo(today)
                     .WithMessage("The close date cannot be in the future.");
 
                 this.RuleFor(f => f.StatusFieldsInfo.ClosedDate.Value.Date)
@@ -105,11 +108,12 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
 
         public void ValidationsRulesForChangeStatusToHold()
         {
+            var today = DateTimeExtensions.TodayUtc();
             this.When(l => l.MlsStatus == MarketStatuses.Hold, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.BackOnMarketDate.Value.Date)
                     .NotEmpty().WithMessage(RequiredFieldMessage)
-                    .GreaterThanOrEqualTo(DateTime.UtcNow.AddDays(1).Date).WithMessage(GetErrorMessage("tomorrow", GreaterThanOrEqualTo));
+                    .GreaterThanOrEqualTo(today.AddDays(1)).WithMessage(GetErrorMessage("tomorrow", GreaterThanOrEqualTo));
 
                 this.RuleFor(f => f.StatusFieldsInfo.OffMarketDate).NotEmpty().WithMessage(RequiredFieldMessage);
             });
