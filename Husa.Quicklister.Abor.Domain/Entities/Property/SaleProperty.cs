@@ -112,6 +112,14 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public virtual bool CanBeDeleted => !this.IsDeleted && this.SaleListings != null && this.SaleListings.Any(sl => sl.IsInMarket && sl.IsExisting);
 
+        public void UpdateBaseInfo(string ownerName)
+        {
+            if (!string.IsNullOrWhiteSpace(ownerName))
+            {
+                this.OwnerName = ownerName;
+            }
+        }
+
         public virtual void UpdatePropertyInfo(PropertyInfo propertyInfo)
         {
             if (propertyInfo is null)

@@ -183,6 +183,7 @@ namespace Husa.Quicklister.Abor.Application
             }
             else
             {
+                listingSale.SaleProperty.UpdateBaseInfo(listingDto.SaleProperty.SalePropertyInfo?.OwnerName);
                 await this.UpdatePropertyInfo(listingDto.SaleProperty.PropertyInfo, entity: listingSale);
                 await this.UpdateAddressInfo(listingDto.SaleProperty.AddressInfo, entity: listingSale);
                 await this.UpdateShowingInfo(listingDto.SaleProperty.ShowingInfo, entity: listingSale);
