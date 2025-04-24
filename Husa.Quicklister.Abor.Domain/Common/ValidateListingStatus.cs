@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Common;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -51,6 +52,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
         private static IEnumerable<ValidationResult> ActiveUnderContractValidations(TStatusFields record)
         {
             var result = new List<ValidationResult>();
+            var today = DateTime.Today.ToUtc();
 
             if (!record.PendingDate.HasValue)
             {
@@ -58,10 +60,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
             }
             else
             {
-                var pendingDate = record.PendingDate.Value;
-                var tomorrow = DateTime.Today.AddDays(1);
-
-                if (pendingDate > tomorrow)
+                if (record.PendingDate.DateCompare(OperatorType.GreaterThan, today.AddDays(1)))
                 {
                     result.Add(new ValidationResult(OperatorType.LessEqual.GetErrorMessage("today"), new[] { nameof(record.PendingDate) }));
                 }
@@ -71,12 +70,12 @@ namespace Husa.Quicklister.Abor.Domain.Common
             {
                 result.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.EstimatedClosedDate) }));
             }
-            else if (record.EstimatedClosedDate.Value < DateTime.Today.AddDays(1))
+            else if (record.EstimatedClosedDate.DateCompare(OperatorType.LessThan, today.AddDays(1)))
             {
                 result.Add(new(OperatorType.GreaterEqual.GetErrorMessage("tomorrow"), new[] { nameof(record.EstimatedClosedDate) }));
             }
 
-            if (record.ClosedDate.HasValue && record.ClosedDate.Value < DateTime.Today)
+            if (record.ClosedDate.DateCompare(OperatorType.LessThan, today))
             {
                 result.Add(new(OperatorType.GreaterEqual.GetErrorMessage("today"), new[] { nameof(record.ClosedDate) }));
             }
@@ -94,12 +93,13 @@ namespace Husa.Quicklister.Abor.Domain.Common
         private static IEnumerable<ValidationResult> PendingValidations(TStatusFields record)
         {
             var result = new List<ValidationResult>();
+            var today = DateTime.Today.ToUtc();
 
             if (!record.PendingDate.HasValue)
             {
                 result.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.PendingDate) }));
             }
-            else if (record.PendingDate.Value > DateTime.Today.AddDays(1))
+            else if (record.PendingDate.DateCompare(OperatorType.GreaterThan, today.AddDays(1)))
             {
                 result.Add(new(OperatorType.LessEqual.GetErrorMessage("today"), new[] { nameof(record.PendingDate) }));
             }
@@ -108,7 +108,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
             {
                 result.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.EstimatedClosedDate) }));
             }
-            else if (record.EstimatedClosedDate.Value < DateTime.Today)
+            else if (record.EstimatedClosedDate.DateCompare(OperatorType.LessThan, today))
             {
                 result.Add(new(OperatorType.GreaterEqual.GetErrorMessage("today"), new[] { nameof(record.EstimatedClosedDate) }));
             }
@@ -125,11 +125,12 @@ namespace Husa.Quicklister.Abor.Domain.Common
             requiredFields.AddValue(!record.BackOnMarketDate.HasValue, nameof(record.BackOnMarketDate));
 
             var results = ToRequiredFieldValidationResult(requiredFields);
+            var today = DateTime.Today.ToUtc();
             if (!record.BackOnMarketDate.HasValue)
             {
                 results.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.BackOnMarketDate) }));
             }
-            else if (record.BackOnMarketDate.Value.Date < DateTime.UtcNow.AddDays(1).Date)
+            else if (record.BackOnMarketDate.DateCompare(OperatorType.LessThan, today.AddDays(1)))
             {
                 results.Add(new(OperatorType.GreaterEqual.GetErrorMessage("tomorrow"), new[] { nameof(record.BackOnMarketDate) }));
             }
@@ -140,6 +141,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
         private static IEnumerable<ValidationResult> SoldValidations(TStatusFields record)
         {
             var requiredFields = new List<string>();
+            var today = DateTime.Today.ToUtc();
 
             requiredFields.AddValue(!record.ClosedDate.HasValue, nameof(record.ClosedDate));
             requiredFields.AddValue(!record.PendingDate.HasValue, nameof(record.PendingDate));
@@ -152,19 +154,19 @@ namespace Husa.Quicklister.Abor.Domain.Common
             var results = ToRequiredFieldValidationResult(requiredFields);
             results.AddValue(record.ClosePrice.HasValue && record.ClosePrice.Value <= 0, new(OperatorType.GreaterThan.GetErrorMessage("zero")));
 
-            if (record.PendingDate.HasValue && record.PendingDate.Value.Date > DateTime.Today.AddDays(-1).Date)
+            if (record.PendingDate.DateCompare(OperatorType.GreaterThan, today.AddDays(-1)))
             {
                 results.Add(new ValidationResult(OperatorType.LessEqual.GetErrorMessage("yesterday"), new[] { nameof(record.PendingDate) }));
             }
 
             if (record.ClosedDate.HasValue)
             {
-                if (record.ClosedDate.Value.Date > DateTime.Today.Date)
+                if (record.ClosedDate.DateCompare(OperatorType.GreaterThan, today))
                 {
                     results.Add(new ValidationResult("The close date cannot be in the future.", new[] { nameof(record.ClosedDate) }));
                 }
 
-                if (record.PendingDate.HasValue && record.ClosedDate.Value.Date < record.PendingDate.Value.AddDays(1).Date)
+                if (record.PendingDate.HasValue && record.ClosedDate.DateCompare(OperatorType.LessThan, record.PendingDate.Value.AddDays(1)))
                 {
                     results.Add(new ValidationResult("The close date must be at least one day after the pending date.", new[] { nameof(record.ClosedDate) }));
                 }

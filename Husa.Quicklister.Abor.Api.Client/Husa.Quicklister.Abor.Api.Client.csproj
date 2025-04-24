@@ -8,12 +8,13 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.18.2</Version>
+        <Version>2.18.3</Version>
         <PackageReleaseNotes>
-            Release 2.18.2:
+            Release 2.18.3:
             - Update Husa.Extensions.Authorization
             - Add Listing Request Media Validation
             - Update document package to bring request changes
+            - Update Husa.Quicklister.Extensions.Documents package
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

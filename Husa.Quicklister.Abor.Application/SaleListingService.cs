@@ -183,14 +183,7 @@ namespace Husa.Quicklister.Abor.Application
             }
             else
             {
-                listingSale.SaleProperty.UpdateBaseInfo(listingDto.SaleProperty.SalePropertyInfo?.OwnerName);
-                await this.UpdatePropertyInfo(listingDto.SaleProperty.PropertyInfo, entity: listingSale);
-                await this.UpdateAddressInfo(listingDto.SaleProperty.AddressInfo, entity: listingSale);
-                await this.UpdateShowingInfo(listingDto.SaleProperty.ShowingInfo, entity: listingSale);
-                await this.UpdateSchoolsInfo(listingDto.SaleProperty.SchoolsInfo, entity: listingSale);
-                await this.UpdateFeaturesInfo(listingDto.SaleProperty.FeaturesInfo, entity: listingSale);
-                await this.UpdateFinancialInfo(listingDto.SaleProperty.FinancialInfo, entity: listingSale);
-                await this.UpdateSpacesDimensionsInfo(listingDto.SaleProperty.SpacesDimensionsInfo, entity: listingSale, isBlockedSquareFootage: company.MlsInfo.BlockSquareFootage);
+                await this.UpdateListingSaleProperty(listingSale, listingDto.SaleProperty, isBlockedSquareFootage: company.MlsInfo.BlockSquareFootage);
             }
 
             await this.UpdateRooms(listingDto.SaleProperty.Rooms, entity: listingSale);
@@ -367,13 +360,8 @@ namespace Husa.Quicklister.Abor.Application
                 this.UserContextProvider.GetCurrentUserId());
             listingSale.UpdateStatusFieldsInfo(statusFieldsInfo);
             listingSale.UseShowingTime = listingSaleDto.UseShowingTime;
-            await this.UpdatePropertyInfo(listingSaleDto.SaleProperty.PropertyInfo, entity: listingSale);
-            await this.UpdateAddressInfo(listingSaleDto.SaleProperty.AddressInfo, entity: listingSale);
-            await this.UpdateShowingInfo(listingSaleDto.SaleProperty.ShowingInfo, entity: listingSale);
-            await this.UpdateSchoolsInfo(listingSaleDto.SaleProperty.SchoolsInfo, entity: listingSale);
-            await this.UpdateFeaturesInfo(listingSaleDto.SaleProperty.FeaturesInfo, entity: listingSale);
-            await this.UpdateFinancialInfo(listingSaleDto.SaleProperty.FinancialInfo, entity: listingSale);
-            await this.UpdateSpacesDimensionsInfo(listingSaleDto.SaleProperty.SpacesDimensionsInfo, entity: listingSale);
+
+            await this.UpdateListingSaleProperty(listingSale, listingSaleDto.SaleProperty);
             await this.UpdateRooms(listingSaleDto.SaleProperty.Rooms, entity: listingSale);
             await this.UpdateOpenHouse(listingSaleDto.SaleProperty.OpenHouses, entity: listingSale);
             await this.UpdateShowingTime(listingSaleDto.ShowingTime, entity: listingSale);
@@ -475,6 +463,18 @@ namespace Husa.Quicklister.Abor.Application
             {
                 await this.ImportPlanDataAsync(listingSaleEntity, listingSale.PlanId.Value);
             }
+        }
+
+        private async Task UpdateListingSaleProperty(SaleListing listing, SalePropertyDetailDto salePropertyDto, bool isBlockedSquareFootage = false)
+        {
+            listing.SaleProperty.UpdateBaseInfo(salePropertyDto.SalePropertyInfo?.OwnerName);
+            await this.UpdatePropertyInfo(salePropertyDto.PropertyInfo, entity: listing);
+            await this.UpdateAddressInfo(salePropertyDto.AddressInfo, entity: listing);
+            await this.UpdateShowingInfo(salePropertyDto.ShowingInfo, entity: listing);
+            await this.UpdateSchoolsInfo(salePropertyDto.SchoolsInfo, entity: listing);
+            await this.UpdateFeaturesInfo(salePropertyDto.FeaturesInfo, entity: listing);
+            await this.UpdateFinancialInfo(salePropertyDto.FinancialInfo, entity: listing);
+            await this.UpdateSpacesDimensionsInfo(salePropertyDto.SpacesDimensionsInfo, entity: listing, isBlockedSquareFootage: isBlockedSquareFootage);
         }
 
         private async Task ImportDataFromListingAsync(SaleListing listingSaleEntity, Guid listingIdToImport)
