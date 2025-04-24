@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Domain.Common
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -51,7 +52,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
         private static IEnumerable<ValidationResult> ActiveUnderContractValidations(TStatusFields record)
         {
             var result = new List<ValidationResult>();
-            var today = DateTimeExtensions.TodayUtc();
+            var today = DateTime.Today.ToUtc();
 
             if (!record.PendingDate.HasValue)
             {
@@ -92,7 +93,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
         private static IEnumerable<ValidationResult> PendingValidations(TStatusFields record)
         {
             var result = new List<ValidationResult>();
-            var today = DateTimeExtensions.TodayUtc();
+            var today = DateTime.Today.ToUtc();
 
             if (!record.PendingDate.HasValue)
             {
@@ -124,7 +125,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
             requiredFields.AddValue(!record.BackOnMarketDate.HasValue, nameof(record.BackOnMarketDate));
 
             var results = ToRequiredFieldValidationResult(requiredFields);
-            var today = DateTimeExtensions.TodayUtc();
+            var today = DateTime.Today.ToUtc();
             if (!record.BackOnMarketDate.HasValue)
             {
                 results.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.BackOnMarketDate) }));
@@ -140,7 +141,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
         private static IEnumerable<ValidationResult> SoldValidations(TStatusFields record)
         {
             var requiredFields = new List<string>();
-            var today = DateTimeExtensions.TodayUtc();
+            var today = DateTime.Today.ToUtc();
 
             requiredFields.AddValue(!record.ClosedDate.HasValue, nameof(record.ClosedDate));
             requiredFields.AddValue(!record.PendingDate.HasValue, nameof(record.PendingDate));

@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Api.ValidationsRules
 {
+    using System;
     using FluentValidation;
     using Husa.Extensions.Common;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest;
@@ -46,7 +47,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
 
         public void ValidationsRulesForChangeStatusToActiveUnderContract()
         {
-            var today = DateTimeExtensions.TodayUtc();
+            var today = DateTime.Today.ToUtc();
             this.When(l => l.MlsStatus == MarketStatuses.ActiveUnderContract, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.PendingDate)
@@ -64,7 +65,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
 
         public void ValidationsRulesForChangeStatusToPending()
         {
-            var today = DateTimeExtensions.TodayUtc();
+            var today = DateTime.Today.ToUtc();
             this.When(l => l.MlsStatus == MarketStatuses.Pending, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.EstimatedClosedDate)
@@ -79,7 +80,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
 
         public void ValidationsRulesForChangeStatusToClosed()
         {
-            var today = DateTimeExtensions.TodayUtc();
+            var today = DateTime.Today.ToUtc();
             this.When(l => l.MlsStatus == MarketStatuses.Closed, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.PendingDate.Value.Date)
@@ -108,7 +109,7 @@ namespace Husa.Quicklister.Abor.Api.ValidationsRules
 
         public void ValidationsRulesForChangeStatusToHold()
         {
-            var today = DateTimeExtensions.TodayUtc();
+            var today = DateTime.Today.ToUtc();
             this.When(l => l.MlsStatus == MarketStatuses.Hold, () =>
             {
                 this.RuleFor(f => f.StatusFieldsInfo.BackOnMarketDate.Value.Date)
