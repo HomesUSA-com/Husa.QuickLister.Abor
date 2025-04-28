@@ -22,6 +22,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.ListingRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Notes;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;

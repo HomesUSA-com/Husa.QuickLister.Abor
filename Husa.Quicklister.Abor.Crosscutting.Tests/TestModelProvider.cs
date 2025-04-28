@@ -18,7 +18,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using Husa.PhotoService.Domain.Enums;
     using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Community;
-    using Husa.Quicklister.Abor.Api.Contracts.Request.Notes;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Plan;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Agent;
@@ -733,13 +732,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             Phones = new List<ResponsePhoto.PhotoRequestPhoneType>(),
         };
 
-        public static NoteRequest GetNoteRequest(Guid? noteId) => new()
-        {
-            Id = noteId ?? Guid.NewGuid(),
-            Description = Faker.Lorem.Sentence(),
-            Title = Faker.Lorem.GetFirstWord(),
-        };
-
         public static RequestNote.Note GetRequestNote(Guid? noteId) => new()
         {
             Id = noteId ?? Guid.NewGuid(),
@@ -748,13 +740,6 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
         };
 
         public static ResponseNote.Note GetResponseNote(Guid? noteId) => new()
-        {
-            Id = noteId ?? Guid.NewGuid(),
-            Description = Faker.Lorem.Sentence(),
-            Title = Faker.Lorem.GetFirstWord(),
-        };
-
-        public static NoteDetailResult GetNoteDetailResult(Guid? noteId) => new()
         {
             Id = noteId ?? Guid.NewGuid(),
             Description = Faker.Lorem.Sentence(),

@@ -8,20 +8,17 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.18.3</Version>
+        <Version>2.19.0-dev001</Version>
         <PackageReleaseNotes>
-            Release 2.18.3:
-            - Update Husa.Extensions.Authorization
-            - Add Listing Request Media Validation
-            - Update document package to bring request changes
-            - Update Husa.Quicklister.Extensions.Documents package
+            Release 2.19.0:
+            - Moved notes to extensions
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.2.0" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.15.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.16.0-dev001" />
     </ItemGroup>
 
     <ItemGroup>

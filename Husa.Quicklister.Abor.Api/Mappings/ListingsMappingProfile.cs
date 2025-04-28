@@ -4,14 +4,12 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Extensions.Common;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Quickbooks.Models.Invoice;
-    using Husa.Notes.Api.Contracts.Response;
     using Husa.PhotoService.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Reports;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
-    using Husa.Quicklister.Abor.Api.Contracts.Response.Notes;
     using Husa.Quicklister.Abor.Api.Contracts.Response.PhotoRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ReverseProspect;
     using Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail;
@@ -37,7 +35,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.ReverseProspect.Api.Contracts.Response;
     using DownloaderCtxResponse = Husa.Downloader.CTX.Api.Contracts.Response;
     using ExtensionMapping = Husa.Quicklister.Extensions.Api.Mappings.ListingMappingProfile;
-    using HusaNotesTypes = Husa.Notes.Domain.Enums.NoteType;
 
     public class ListingsMappingProfile : ExtensionMapping
     {
@@ -201,17 +198,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<ListingStatusFieldsDto, ListingStatusFieldsInfo>();
             this.CreateMap<ListingSaleStatusFieldsDto, ListingStatusFieldsInfo>();
 
-            this.CreateMap<Note, NotesResponse>()
-                .ForMember(ln => ln.ModifiedBy, n => n.Ignore())
-                .ForMember(ln => ln.SysModifiedBy, n => n.Ignore())
-                .ForMember(ln => ln.CreatedBy, n => n.Ignore())
-                .ForMember(ln => ln.SysModifiedOn, n => n.Ignore())
-                .ForMember(ln => ln.LockedByUsername, sl => sl.Ignore())
-                .ForMember(ln => ln.LockedBy, sl => sl.Ignore())
-                .ForMember(ln => ln.Type, sl => sl.MapFrom(src => GetNoteType(src.Type)));
-
-            this.CreateMap<NoteDetailResult, NotesResponse>();
-
             this.CreateMap<PublishInfo, PublishInfoResponse>();
 
             this.CreateMap<DownloaderCtxResponse.MediaDetailResponse, ListingSaleMediaDto>()
@@ -226,16 +212,5 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<DiscrepancyAnalysisResult, DiscrepancyAnalysisResponse>();
             this.CreateMap<DiscrepancyDetailResult, DiscrepancyDetailResponse>();
         }
-
-        private static NoteType GetNoteType(HusaNotesTypes noteType) => noteType switch
-        {
-            HusaNotesTypes.Residential => NoteType.Residential,
-            HusaNotesTypes.CommunityProfile => NoteType.CommunityProfile,
-            HusaNotesTypes.PlanProfile => NoteType.PlanProfile,
-            HusaNotesTypes.Lot => NoteType.Lot,
-            HusaNotesTypes.Lease => NoteType.Lease,
-            HusaNotesTypes.ListingRequest => NoteType.ListingRequest,
-            _ => throw new ArgumentOutOfRangeException(nameof(noteType)),
-        };
     }
 }
