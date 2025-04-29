@@ -459,7 +459,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var requestResult = CommandSingleResult<Guid, ValidationResult>.Error("Error Creating Request");
             this.saleListingRequestService
-              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
               .ReturnsAsync(requestResult)
               .Verifiable();
 
@@ -510,7 +510,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var requestResult = CommandSingleResult<Guid, ValidationResult>.Error("Error Creating Request");
             this.saleListingRequestService
-              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
               .ReturnsAsync(requestResult)
               .Verifiable();
 
@@ -567,7 +567,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var requestResult = CommandSingleResult<Guid, ValidationResult>.Success();
             this.saleListingRequestService
-              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
               .ReturnsAsync(requestResult)
               .Verifiable();
 
@@ -605,14 +605,14 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var requestResult = CommandSingleResult<Guid, ValidationResult>.Success();
             this.saleListingRequestService
-              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
               .ReturnsAsync(requestResult)
               .Verifiable();
 
             // Act and Assert
             await this.Sut.UpdateListingFromXmlAsync(xmlListingId);
             this.listingSaleRepository.Verify(x => x.GetListingByXmlListingId(It.Is<Guid>(r => r == xmlListingId)), Times.Once);
-            this.saleListingRequestService.Verify(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Once);
+            this.saleListingRequestService.Verify(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -635,7 +635,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             // Act and Assert
             await this.Sut.UpdateListingFromXmlAsync(xmlListingId);
-            this.saleListingRequestService.Verify(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Never);
+            this.saleListingRequestService.Verify(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Theory]
@@ -823,7 +823,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                .Verifiable();
 
             this.saleListingRequestService
-               .Setup(x => x.CreateRequestAsync(It.IsAny<SaleListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+               .Setup(x => x.CreateRequestAsync(It.IsAny<SaleListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                .Verifiable();
 
             this.saleListingMediaService
