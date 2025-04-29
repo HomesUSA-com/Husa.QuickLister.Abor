@@ -167,7 +167,10 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 }
             }
 
-            listing.UpdateFromXml(xmlListing, ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate);
+            listing.UpdateFromXml(
+                xmlListing,
+                ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate,
+                ignoreRequestByDescription: companyDetail.SettingInfo.StopXMLDescriptionManagement);
 
             var requestResult = listing.GenerateRequest(currentUser.Id);
             if (requestResult.Errors.Any())
@@ -180,7 +183,11 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 return;
             }
 
-            var requestResponse = await this.saleListingRequestService.CreateRequestAsync(listing, xmlListing, ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate);
+            var requestResponse = await this.saleListingRequestService.CreateRequestAsync(
+                listing,
+                xmlListing,
+                ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate,
+                ignoreRequestByDescription: companyDetail.SettingInfo.StopXMLDescriptionManagement);
             if (requestResponse.Code == ResponseCode.Success)
             {
                 listing.LockByUser(currentUser.Id);
