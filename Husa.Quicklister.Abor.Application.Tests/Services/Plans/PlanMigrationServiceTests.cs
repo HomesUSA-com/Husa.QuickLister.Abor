@@ -9,11 +9,11 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.Plans
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Migration.Api.Client;
     using Husa.Migration.Api.Contracts.Request;
-    using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Application.Services.Plans;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Photo;
     using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
     using Microsoft.Extensions.Logging;
     using Moq;
