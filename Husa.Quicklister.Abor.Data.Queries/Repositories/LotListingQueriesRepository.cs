@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
+    using Husa.Extensions.Authorization.Specifications;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Linq.Specifications;
     using Husa.Quicklister.Abor.Crosscutting;

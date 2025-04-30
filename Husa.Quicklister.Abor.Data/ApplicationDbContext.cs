@@ -24,7 +24,9 @@ namespace Husa.Quicklister.Abor.Data
         IDbSetSaleListing<SaleListing>,
         IDbSetXmlSaleListing<SaleListing>,
         IDbSetAgent,
-        IDbSetOffice<Office, OfficeValueObject, Cities, StateOrProvince>
+        IDbSetOffice<Office, OfficeValueObject, Cities, StateOrProvince>,
+        IDbSetCommunityEmployee<CommunityEmployee>,
+        IDbSetCommunity<CommunitySale>
     {
         public ApplicationDbContext()
         {

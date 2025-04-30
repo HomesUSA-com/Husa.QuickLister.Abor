@@ -49,7 +49,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
     using Husa.Quicklister.Abor.Application.Services.ShowingTime;
     using Husa.Quicklister.Abor.Crosscutting;
-    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Data;
     using Husa.Quicklister.Abor.Data.Commands.Repositories;
     using Husa.Quicklister.Abor.Data.Documents.Repositories;
@@ -83,7 +82,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
         public static IServiceCollection BindOptions(this IServiceCollection services)
         {
             services
-                .BindApplicationSettings()
+                .BindApplicationOptions<ApplicationOptions>(Husa.Extensions.Common.Enums.MarketCode.Austin)
                 .BindDocumentDbSettings()
                 .BindDownloaderSettings();
 
@@ -108,7 +107,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
         }
 
         public static IServiceCollection AddCommonRepositories(this IServiceCollection services)
-            => services.AddScoped<RepositoriesExtensions.IUserRepository, UserRepository>();
+            => services.AddScoped<RepositoriesExtensions.IUserRepository, Husa.Quicklister.Extensions.Data.Queries.Repositories.UserRepository>();
 
         public static IServiceCollection AddQueriesRepositories(this IServiceCollection services)
         {
@@ -151,19 +150,15 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ISaleListingNotesService, SaleListingNotesService>();
             services.AddScoped<ISaleListingPhotoService, SaleListingPhotoService>();
             services.AddScoped<ISaleListingXmlService, SaleListingXmlService>();
-            services.AddScoped<ISaleListingMediaService, SaleListingMediaService>();
 
             services.AddScoped<ILotListingService, LotListingService>();
             services.AddScoped<ILotListingNotesService, LotListingNotesService>();
             services.AddScoped<ILotListingPhotoService, LotListingPhotoService>();
-            services.AddScoped<ILotListingMediaService, LotListingMediaService>();
             services.AddScoped<ILotListingRequestService, LotListingRequestService>();
-            services.AddScoped<InterfaceExtensions.Request.ILotListingRequestMediaService, LotListingRequestMediaService>();
 
             services.AddScoped<ICommunityHistoryService, CommunityHistoryService>();
             services.AddScoped<ISaleListingRequestService, SaleListingRequestService>();
             services.AddScoped<InterfaceExtensions.JsonImport.IListingRequestJsonImportService, ListingRequestJsonImportService>();
-            services.AddScoped<InterfaceExtensions.Request.ISaleListingRequestMediaService, SaleListingRequestMediaService>();
             services.AddScoped<InterfaceExtensions.Migration.IListingRequestMigrationService, ListingRequestMigrationService>();
             services.AddScoped<ISaleListingMigrationService, SaleListingMigrationService>();
 
@@ -172,7 +167,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<InterfaceExtensions.JsonImport.IPlanJsonImportService, PlanJsonImportService>();
             services.AddScoped<InterfaceExtensions.Plan.IPlanXmlService, PlanXmlService>();
             services.AddScoped<InterfaceExtensions.Migration.IPlanMigrationService, PlanMigrationService>();
-            services.AddScoped<IPlanMediaService, PlanMediaService>();
             services.AddScoped<IPlanNotesService, PlanNotesService>();
             services.AddScoped<InterfaceExtensions.Plan.IPlanDeletionService, PlanDeletionService>();
 
@@ -182,7 +176,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<InterfaceExtensions.JsonImport.ICommunityJsonImportService, CommunityJsonImportService>();
             services.AddScoped<ICommunityMigrationService, CommunityMigrationService>();
             services.AddScoped<InterfaceExtensions.Migration.ICommunityHistoryMigrationService, CommunityHistoryMigrationService>();
-            services.AddScoped<ICommunityMediaService, CommunityMediaService>();
             services.AddScoped<ICommunityNotesService, CommunityNotesService>();
             services.AddScoped<InterfaceExtensions.Community.ICommunityDeletionService, CommunityDeletionService>();
 
@@ -202,6 +195,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IShowingTimeContactService, ShowingTimeContactService>();
 
             services.ConfigureLegacyListingService(Migration.Enums.MigrationMarketType.Austin);
+            services.ConfigureMediaServices();
             return services;
         }
 
@@ -340,25 +334,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             }).ConfigureHeaderHandling(withTokenRequest);
 
             services.ConfigureJsonImportClient<ApplicationOptions>(withTokenRequest);
-
-            return services;
-        }
-
-        public static IServiceCollection ConfigureXmlClient(this IServiceCollection services, bool withTokenRequest = true)
-        {
-            services.AddHttpClient<IXmlClientWithToken, XmlClientWithToken>((provider, client) =>
-            {
-                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                client.BaseAddress = new Uri(options.Services.XmlService);
-            })
-            .ConfigureHeaderHandling(withTokenRequest: true);
-
-            services.AddHttpClient<IXmlClientWithoutToken, XmlClientWithoutToken>(async (provider, client) =>
-            {
-                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                await client.ConfigureClientAsync(provider, options.Services.XmlService);
-            })
-            .ConfigureHeaderHandling(withTokenRequest: true);
+            services.ConfigureXmlClient<ApplicationOptions>();
 
             return services;
         }
@@ -390,15 +366,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddSingleton<IXmlSubscriber, XmlSubscriber>();
             services.AddSingleton<IMigrationMessagesHandler, MigrationMessagesHandler>();
             services.AddSingleton<IMigrationSubscriber, MigrationSubscriber>();
-
-            return services;
-        }
-
-        private static IServiceCollection BindApplicationSettings(this IServiceCollection services)
-        {
-            services
-                .AddOptions<ApplicationOptions>()
-                .Configure<IConfiguration>((settings, config) => config.GetSection(ApplicationOptions.Section).Bind(settings));
 
             return services;
         }

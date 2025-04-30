@@ -103,5 +103,10 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources.LotListing
             this.logger.LogInformation("Create ABOR requests for listings from community with id {communityId}", communityId);
             return await this.client.PostAsJsonAsync<Guid, IEnumerable<Guid>>($"{this.baseUri}/create-from-community", communityId, cancellationToken);
         }
+
+        public Task MediaVerification(Guid listingRequestId, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

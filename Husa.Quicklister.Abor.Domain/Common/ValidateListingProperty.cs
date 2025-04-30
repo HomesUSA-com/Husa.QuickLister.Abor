@@ -4,7 +4,9 @@ namespace Husa.Quicklister.Abor.Domain.Common
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Common;
     using Husa.Extensions.Common.Classes;
+    using Husa.Extensions.Common.Enums;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces.SaleListing;
@@ -46,7 +48,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
                 results.Add(new("The " + nameof(record.ConstructionStage) + " should be complete", new[] { nameof(record.ConstructionStage) }));
             }
 
-            if (record.ConstructionCompletionDate.HasValue && record.ConstructionCompletionDate.Value.Date > DateTime.UtcNow.Date)
+            if (record.ConstructionCompletionDate.DateCompare(OperatorType.GreaterThan, DateTime.Today))
             {
                 results.Add(new("The " + nameof(record.ConstructionCompletionDate) + " must be less or equal to today", new[] { nameof(record.ConstructionCompletionDate) }));
             }

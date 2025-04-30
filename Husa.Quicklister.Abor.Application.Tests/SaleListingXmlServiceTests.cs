@@ -21,7 +21,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
-    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -39,6 +38,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
+    using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
     using XmlListActionType = Husa.Xml.Domain.Enums.ListActionType;
     using XmlResponse = Husa.Xml.Api.Contracts.Response;
 
@@ -47,12 +47,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
     public class SaleListingXmlServiceTests
     {
         private readonly ApplicationServicesFixture fixture;
-        private readonly Mock<IXmlClientWithoutToken> xmlClient = new();
+        private readonly Mock<IXmlClient> xmlClient = new();
         private readonly Mock<IServiceSubscriptionClient> companyClient = new();
         private readonly Mock<IUserContextProvider> contextProvider = new();
         private readonly Mock<IListingSaleRepository> listingSaleRepository = new();
         private readonly Mock<ISaleListingService> listingSaleService = new();
-        private readonly Mock<ISaleListingMediaService> saleListingMediaService = new();
+        private readonly Mock<ExtensionsInterfaces.ISaleListingMediaService> saleListingMediaService = new();
         private readonly Mock<ICommunitySaleRepository> communitySaleRepository = new();
         private readonly Mock<IListingRequestXmlService<XmlListingDetailResponse>> saleListingRequestService = new();
         private readonly Mock<ISaleListingXmlMediaService> xmlMediaService = new();
@@ -459,7 +459,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var requestResult = CommandSingleResult<Guid, ValidationResult>.Error("Error Creating Request");
             this.saleListingRequestService
-              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
               .ReturnsAsync(requestResult)
               .Verifiable();
 
@@ -510,7 +510,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var requestResult = CommandSingleResult<Guid, ValidationResult>.Error("Error Creating Request");
             this.saleListingRequestService
-              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
               .ReturnsAsync(requestResult)
               .Verifiable();
 
@@ -567,7 +567,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var requestResult = CommandSingleResult<Guid, ValidationResult>.Success();
             this.saleListingRequestService
-              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
               .ReturnsAsync(requestResult)
               .Verifiable();
 
@@ -605,14 +605,14 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var requestResult = CommandSingleResult<Guid, ValidationResult>.Success();
             this.saleListingRequestService
-              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+              .Setup(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
               .ReturnsAsync(requestResult)
               .Verifiable();
 
             // Act and Assert
             await this.Sut.UpdateListingFromXmlAsync(xmlListingId);
             this.listingSaleRepository.Verify(x => x.GetListingByXmlListingId(It.Is<Guid>(r => r == xmlListingId)), Times.Once);
-            this.saleListingRequestService.Verify(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Once);
+            this.saleListingRequestService.Verify(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -635,7 +635,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             // Act and Assert
             await this.Sut.UpdateListingFromXmlAsync(xmlListingId);
-            this.saleListingRequestService.Verify(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Never);
+            this.saleListingRequestService.Verify(x => x.CreateRequestAsync(It.IsAny<IListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Theory]
@@ -803,7 +803,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 {
                     Id = Guid.NewGuid(),
                     Uri = new Uri("http://www.google.com"),
-                    MimeType = MimeType.Image,
                     UriMedium = new Uri("http://www.google.com"),
                 },
             };
@@ -824,7 +823,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                .Verifiable();
 
             this.saleListingRequestService
-               .Setup(x => x.CreateRequestAsync(It.IsAny<SaleListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+               .Setup(x => x.CreateRequestAsync(It.IsAny<SaleListing>(), It.IsAny<XmlListingDetailResponse>(), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                .Verifiable();
 
             this.saleListingMediaService

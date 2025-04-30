@@ -36,7 +36,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet]
-        [ApiAuthorization(new RoleEmployee[0])]
+        [RolesFilter([UserRole.MLSAdministrator])]
         public async Task<IActionResult> GetBillingListing([FromQuery] ListingBillingRequestFilter filters)
         {
             this.logger.LogInformation("Starting to get the billable listing");
@@ -46,7 +46,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPost]
-        [ApiAuthorization(new RoleEmployee[0])]
+        [RolesFilter([UserRole.MLSAdministrator])]
         public async Task<IActionResult> CreateInvoice(InvoiceRequest invoiceRequest)
         {
             this.logger.LogInformation("Starting to create invoice for company: {comapany}", invoiceRequest.CompanyId);

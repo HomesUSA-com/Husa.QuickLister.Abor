@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
+    using Husa.Extensions.Authorization.Specifications;
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;

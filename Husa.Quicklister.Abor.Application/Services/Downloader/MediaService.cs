@@ -19,12 +19,13 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
     using Husa.Quicklister.Extensions.ServiceBus.Contracts;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
 
     public class MediaService : IMediaService
     {
         private readonly IMapper mapper;
         private readonly IListingSaleRepository listingSaleRepository;
-        private readonly ISaleListingMediaService listingMediaService;
+        private readonly ExtensionsInterfaces.ISaleListingMediaService listingMediaService;
         private readonly IDownloaderCtxClient downloaderCtxClient;
         private readonly IImportMlsMediaMessagingService saleListingMediaMessagingService;
         private readonly IUserContextProvider userContextProvider;
@@ -34,7 +35,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
 
         public MediaService(
             IListingSaleRepository listingSaleRepository,
-            ISaleListingMediaService saleListingMediaService,
+            ExtensionsInterfaces.ISaleListingMediaService saleListingMediaService,
             IDownloaderCtxClient downloaderCtxClient,
             IImportMlsMediaMessagingService mediaMessagingService,
             IUserContextProvider userContextProvider,
@@ -68,7 +69,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             }
 
             await this.listingMediaService.Resource.DeleteAsync(listingSale.Id, dispose: false);
-            await this.listingMediaService.Resource.BulkCreateAsync(listingSale.Id, mediaDto, mediaLimitAllowed: this.options.MediaAllowed.SaleListingMaxAllowedMedia);
+            await this.listingMediaService.Resource.BulkCreateAsync(listingSale.Id, mediaDto);
         }
 
         public async Task ImportMediaFromMlsAsync(Guid listingId, bool dispose = true)

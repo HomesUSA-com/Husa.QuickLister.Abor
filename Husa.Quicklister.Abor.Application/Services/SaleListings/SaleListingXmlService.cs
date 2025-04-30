@@ -14,7 +14,6 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Crosscutting;
-    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -24,9 +23,11 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
+    using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Response;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
     using XmlContract = Husa.Xml.Domain.Enums;
 
@@ -37,7 +38,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
         ICommunitySaleRepository>, ISaleListingXmlService
     {
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
-        private readonly ISaleListingMediaService saleListingMediaService;
+        private readonly ExtensionsInterfaces.ISaleListingMediaService saleListingMediaService;
         private readonly IMapper mapper;
         private readonly ApplicationOptions options;
         private readonly ISaleListingService listingSaleService;
@@ -51,7 +52,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
         };
 
         public SaleListingXmlService(
-            IXmlClientWithoutToken xmlClient,
+            IXmlClient xmlClient,
             IListingSaleRepository listingSaleRepository,
             ICommunitySaleRepository communityRepository,
             IUserContextProvider userContextProvider,
@@ -60,7 +61,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             ISaleListingService listingSaleService,
             IListingRequestXmlService<XmlListingDetailResponse> saleListingRequestService,
             IServiceSubscriptionClient serviceSubscriptionClient,
-            ISaleListingMediaService saleListingMediaService,
+            ExtensionsInterfaces.ISaleListingMediaService saleListingMediaService,
             IRequestErrorRepository requestErrorRepository,
             IOptions<ApplicationOptions> options,
             IMapper mapper)
@@ -166,7 +167,10 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 }
             }
 
-            listing.UpdateFromXml(xmlListing, ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate);
+            listing.UpdateFromXml(
+                xmlListing,
+                ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate,
+                ignoreRequestByDescription: companyDetail.SettingInfo.StopXMLDescriptionManagement);
 
             var requestResult = listing.GenerateRequest(currentUser.Id);
             if (requestResult.Errors.Any())
@@ -179,7 +183,11 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 return;
             }
 
-            var requestResponse = await this.saleListingRequestService.CreateRequestAsync(listing, xmlListing, ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate);
+            var requestResponse = await this.saleListingRequestService.CreateRequestAsync(
+                listing,
+                xmlListing,
+                ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate,
+                ignoreRequestByDescription: companyDetail.SettingInfo.StopXMLDescriptionManagement);
             if (requestResponse.Code == ResponseCode.Success)
             {
                 listing.LockByUser(currentUser.Id);

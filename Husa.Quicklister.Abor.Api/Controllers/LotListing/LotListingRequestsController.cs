@@ -57,7 +57,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpGet]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly])]
         public async Task<IActionResult> GetListRequestAsync([FromQuery] ListingRequestFilter requestFilter, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Starting to get filtered ABOR lot listings request with company id {companyId}", requestFilter.CompanyId);
@@ -69,7 +69,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpGet("{id:guid}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly])]
         public async Task<IActionResult> GetListRequestLotByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Starting to get listing lot request with id: {id}", id);
@@ -85,7 +85,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpGet("{id:guid}/summary")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly])]
         public async Task<IActionResult> GetRequestSummaryAsync(Guid id, CancellationToken cancellationToken)
         {
             this.logger.LogInformation("Start to handle summary of lot listing request with {listingRequestId}", id);
@@ -102,7 +102,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpPost("submit")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> SaveAndSubmitListingAsync(Guid listingId, LotListingRequestForUpdate listingLotForUpdate, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Starting to update ABOR listing with id {lotListingId}", listingId);
@@ -114,7 +114,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpPut("{id:guid}")]
-        [ApiAuthorization(new RoleEmployee[0])]
+        [RolesFilter([UserRole.MLSAdministrator])]
         public async Task<IActionResult> UpdateAsync(Guid id, LotListingRequestForUpdate listingLotForUpdate, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Starting to update ABOR listing request with id {listingRequestId}", id);
@@ -124,7 +124,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpPut("{id:guid}/return")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> ReturnRequestAsync(Guid id, [FromBody] ListingRequestReturnContract returnRequest, CancellationToken cancellationToken = default)
         {
             await this.requestService.ChangeRequestStatus(id, ListingRequestState.Returned, returnRequest.ReturnReason, cancellationToken: cancellationToken);
@@ -134,7 +134,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpPut("{id:guid}/complete")]
-        [ApiAuthorization(new RoleEmployee[0])]
+        [RolesFilter([UserRole.MLSAdministrator])]
         public async Task<IActionResult> CompleteRequestAsync(Guid id, string mlsNumber, ActionType actionType, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Start to handle complete of lot listing request with id {listingRequestId}", id);

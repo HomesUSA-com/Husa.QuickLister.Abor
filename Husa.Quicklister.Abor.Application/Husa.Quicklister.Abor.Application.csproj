@@ -15,11 +15,11 @@
         <PackageReference Include="Husa.Downloader.CTX.Api.Client" Version="2.2.13" />
         <PackageReference Include="Husa.Extensions.EmailNotification" Version="4.0.1" />
         <PackageReference Include="Husa.Extensions.ServiceBus" Version="5.0.10" />
-        <PackageReference Include="Husa.Extensions.Linq" Version="4.0.9" />
+        <PackageReference Include="Husa.Extensions.Linq" Version="4.1.0" />
         <PackageReference Include="Husa.Downloader.Sabor.Api.Client" Version="2.0.3" />
         <PackageReference Include="Husa.Notes.Client" Version="2.1.2" />
         <PackageReference Include="Husa.Notes.ServiceBus.Contracts" Version="2.1.2" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Application" Version="2.20.4" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Application" Version="2.21.6" />
         <PackageReference Include="Husa.Quicklister.Extensions.ServiceBus.Contracts" Version="2.1.2" />
         <PackageReference Include="Husa.ReverseProspect.Api.Client" Version="2.2.0" />
         <PackageReference Include="Husa.Xml.ServiceBus.Messages" Version="2.0.0" />

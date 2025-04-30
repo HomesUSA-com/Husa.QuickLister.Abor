@@ -12,12 +12,12 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Extensions.Document.Interfaces;
     using Husa.Extensions.EmailNotification.Services;
     using Husa.Extensions.Media.Interfaces;
+    using Husa.Extensions.OpenAI;
     using Husa.JsonImport.Api.Client.Interface;
     using Husa.MediaService.Client;
     using Husa.Notes.Client;
     using Husa.PhotoService.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Api.Client.Tests.Authentication;
-    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
@@ -50,6 +50,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             services.AddSingleton(new Mock<INotesClient>().Object);
             services.AddSingleton(new Mock<IEmailSender>().Object);
             services.AddSingleton(new Mock<IMediaService>().Object);
+            services.AddSingleton(new Mock<IOpenAIClient>().Object);
             services.AddSingleton(new Mock<ISaleListingRequestQueriesRepository>().Object);
             services.MockCosmosClient();
             services.AddScoped<ServiceBusClient>(provider =>
@@ -127,7 +128,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             var xmlSubdivisionClientMock = new Mock<IXmlSubdivision>();
             xmlSubdivisionClientMock.SetupAllProperties();
 
-            var xmlClientMock = new Mock<IXmlClientWithoutToken>();
+            var xmlClientMock = new Mock<IXmlClient>();
             xmlClientMock.SetupGet(s => s.Listing).Returns(xmlListingClientMock.Object);
             xmlClientMock.SetupGet(s => s.Plan).Returns(xmlPlanClientMock.Object);
             xmlClientMock.SetupGet(s => s.Subdivision).Returns(xmlSubdivisionClientMock.Object);

@@ -22,6 +22,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
+    using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Application.Test")]
@@ -29,7 +30,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     {
         private readonly ApplicationServicesFixture fixture;
         private readonly Mock<IListingSaleRepository> listingSaleRepository = new();
-        private readonly Mock<ISaleListingMediaService> mediaService = new();
+        private readonly Mock<ExtensionsInterfaces.ISaleListingMediaService> mediaService = new();
         private readonly Mock<ILogger<MediaService>> logger = new();
         private readonly Mock<IDownloaderCtxClient> downloaderCtxClient = new();
         private readonly Mock<IImportMlsMediaMessagingService> saleListingMediaMessagingService = new();
@@ -93,7 +94,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Verifiable();
 
             this.mediaService
-               .Setup(r => r.Resource.BulkCreateAsync(It.IsAny<Guid>(), It.IsAny<IEnumerable<ListingSaleMediaDto>>(), It.IsAny<int>()))
+               .Setup(r => r.Resource.BulkCreateAsync(It.IsAny<Guid>(), It.IsAny<IEnumerable<ListingSaleMediaDto>>()))
                .Verifiable();
 
             // Act

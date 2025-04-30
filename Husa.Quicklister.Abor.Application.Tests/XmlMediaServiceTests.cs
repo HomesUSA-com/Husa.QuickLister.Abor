@@ -11,18 +11,17 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.ServiceBus.Interfaces;
     using Husa.MediaService.Api.Contracts.Request;
-    using Husa.Quicklister.Abor.Application.Interfaces.Community;
-    using Husa.Quicklister.Abor.Application.Interfaces.Listing;
-    using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Application.Services.Communities;
     using Husa.Quicklister.Abor.Application.Services.Plans;
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
-    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Community;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Listing;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Plan;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Request;
     using Husa.Xml.Api.Contracts.Response;
@@ -35,7 +34,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     [Collection("Husa.Quicklister.Abor.Application.Test")]
     public class XmlMediaServiceTests
     {
-        private readonly Mock<IXmlClientWithoutToken> xmlClient = new();
+        private readonly Mock<IXmlClient> xmlClient = new();
         private readonly Mock<IPlanRepository> planRepository = new();
         private readonly Mock<ICommunitySaleRepository> communitySaleRepository = new();
         private readonly Mock<IListingSaleRepository> listingSaleRepository = new();

@@ -25,10 +25,16 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
         {
         }
 
-        protected override CommandSingleResult<SaleListingRequest, ValidationResult> GenerateRequest(IListing listing, SaleListingRequest oldCompleteRequest, XmlListingDetailResponse spec, Guid userId, bool ignoreRequestByCompletionDate = false)
+        protected override CommandSingleResult<SaleListingRequest, ValidationResult> GenerateRequest(
+            IListing listing,
+            SaleListingRequest oldCompleteRequest,
+            XmlListingDetailResponse spec,
+            Guid userId,
+            bool ignoreRequestByCompletionDate = false,
+            bool ignoreRequestByDescription = false)
         {
             var newRequest = oldCompleteRequest.Clone();
-            newRequest.UpdateXromXml(spec, ignoreRequestByCompletionDate: ignoreRequestByCompletionDate);
+            newRequest.UpdateXromXml(spec, ignoreRequestByCompletionDate: ignoreRequestByCompletionDate, ignoreRequestByDescription: ignoreRequestByDescription);
             newRequest.UpdateTrackValues(userId, isNewRecord: true);
             newRequest.MlsNumber = listing.MlsNumber;
             newRequest.ListDate = listing.ListDate;

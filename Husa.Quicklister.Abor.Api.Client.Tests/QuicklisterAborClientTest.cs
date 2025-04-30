@@ -13,7 +13,6 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.CompanyServicesManager.Api.Contracts.Request;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
-    using Husa.Quicklister.Abor.Crosscutting.Clients;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -23,6 +22,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Alert;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Xml;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Request;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -378,7 +378,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 Baths = 2,
                 Bedrooms = 2,
             };
-            var xmlClient = this.customWebApplicationFactory.Services.GetRequiredService<IXmlClientWithoutToken>();
+            var xmlClient = this.customWebApplicationFactory.Services.GetRequiredService<IXmlClient>();
             var xmlResourceMock = Mock.Get(xmlClient.Listing);
             xmlResourceMock.Setup(c => c.GetByIdAsync(It.Is<Guid>(x => x == Factory.XmlListingId), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(xmlListingDetailResponse);
 
@@ -417,7 +417,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 PlanId = Guid.NewGuid(),
             };
 
-            var xmlClient = this.customWebApplicationFactory.Services.GetRequiredService<IXmlClientWithoutToken>();
+            var xmlClient = this.customWebApplicationFactory.Services.GetRequiredService<IXmlClient>();
             var xmlResourceMock = Mock.Get(xmlClient.Listing);
             xmlResourceMock.Setup(c => c.GetByIdAsync(It.Is<Guid>(x => x == Factory.XmlListingId), It.Is<bool>(x => false), It.IsAny<CancellationToken>())).ReturnsAsync(xmlListingDetailResponse);
 
@@ -455,7 +455,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 Market = MarketCode.Austin,
                 CompanyId = Factory.CompanyId,
             };
-            var xmlClient = this.customWebApplicationFactory.GetService<IXmlClientWithoutToken>();
+            var xmlClient = this.customWebApplicationFactory.GetService<IXmlClient>();
             var xmlResourceMock = Mock.Get(xmlClient.Listing);
             xmlResourceMock
                 .Setup(s => s.GetByIdAsync(It.Is<Guid>(id => id == Factory.XmlListingId), It.Is<bool>(skipProfiles => !skipProfiles), It.IsAny<CancellationToken>()))
@@ -485,7 +485,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 Market = MarketCode.Austin,
                 CompanyId = Factory.CompanyId,
             };
-            var xmlClient = this.customWebApplicationFactory.GetService<IXmlClientWithoutToken>();
+            var xmlClient = this.customWebApplicationFactory.GetService<IXmlClient>();
             var xmlResourceMock = Mock.Get(xmlClient.Listing);
 
             xmlResourceMock.Setup(s => s.GetByIdAsync(It.Is<Guid>(x => x == xmlListingId), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
@@ -508,7 +508,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
                 Market = MarketCode.Austin,
                 CompanyId = Factory.CompanyId,
             };
-            var xmlClient = this.customWebApplicationFactory.GetService<IXmlClientWithoutToken>();
+            var xmlClient = this.customWebApplicationFactory.GetService<IXmlClient>();
             var xmlResourceMock = Mock.Get(xmlClient.Listing);
 
             xmlResourceMock.Setup(s => s.GetByIdAsync(It.Is<Guid>(x => x == xmlListingId), It.IsAny<bool>(), It.IsAny<CancellationToken>()))

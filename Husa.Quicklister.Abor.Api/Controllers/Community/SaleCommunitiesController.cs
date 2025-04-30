@@ -58,7 +58,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Community
         }
 
         [HttpPost]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> CreateAsync(CreateCommunityRequest communityRequest)
         {
             this.Logger.LogInformation("Starting to add a community sale in ABOR with Name: {communityName} and company id {companyId}", communityRequest.Name, communityRequest.CompanyId);
@@ -68,7 +68,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Community
         }
 
         [HttpGet("Name")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly])]
         public async Task<IActionResult> GetCommunityByName([FromQuery] CommunityByNameFilter filters)
         {
             this.Logger.LogInformation("Retrieving the communities with the filters: {@filters}.", filters);
@@ -86,7 +86,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Community
         }
 
         [HttpGet("{communityId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetCommunityById([FromRoute] Guid communityId)
         {
             this.Logger.LogInformation("Received request to GET community detail with Id '{communityId}'.", communityId);
@@ -118,7 +117,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Community
         }
 
         [HttpPut("{communityId}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> UpdateCommunityAsync(Guid communityId, [FromBody] CommunitySaleRequest communitySaleRequest)
         {
             this.Logger.LogInformation("Updating the community sale in Abor with id {communityId}", communityId);
@@ -130,7 +129,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Community
         }
 
         [HttpPut("{communityId}/submit")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee)]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> SaveAndSubmitCommunityAsync(Guid communityId, CommunitySaleRequest communitySaleRequest, CancellationToken cancellationToken = default)
         {
             this.Logger.LogInformation("Submitting community sale with id {communityId}", communityId);
@@ -148,7 +147,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Community
         }
 
         [HttpGet("{communityId:guid}/sale-listings/{listingId:guid}")]
-        [ApiAuthorization(RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.Readonly, RoleEmployee.SalesEmployeeReadonly, RoleEmployee.CompanyAdminReadonly)]
         public async Task<IActionResult> GetCommunityWithListingProjection([FromRoute] Guid communityId, [FromRoute] Guid listingId)
         {
             this.Logger.LogInformation("Starting the process to import information from listing Id '{listingId}' to community id '{communityId}'", listingId, communityId);

@@ -8,8 +8,8 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers.Media
     using Husa.MediaService.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Controllers.Media;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
-    using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Lot;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -95,7 +95,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers.Media
             var listingId = Guid.NewGuid();
             var simpleMedia = TestModelProvider.MediaDetail(listingId);
 
-            this.listingMediaService.Setup(m => m.Resource.CreateAsync(It.IsAny<Guid>(), It.IsAny<Request.Media>(), It.IsAny<int>()))
+            this.listingMediaService.Setup(m => m.Resource.CreateAsync(It.IsAny<Guid>(), It.IsAny<Request.Media>()))
                 .Verifiable();
 
             // Act
@@ -103,7 +103,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers.Media
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(actionResult);
-            this.listingMediaService.Verify(x => x.Resource.CreateAsync(It.Is<Guid>(x => x == listingId), It.Is<Request.Media>(m => m == simpleMedia), It.IsAny<int>()), Times.Once);
+            this.listingMediaService.Verify(x => x.Resource.CreateAsync(It.Is<Guid>(x => x == listingId), It.Is<Request.Media>(m => m == simpleMedia)), Times.Once);
         }
 
         [Fact]
@@ -174,11 +174,11 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers.Media
             // Arrange
             var mediaId = Guid.NewGuid();
             var listingId = Guid.NewGuid();
-            this.listingMediaService.Setup(x => x.Resource.DeleteByIdAsync(It.Is<Guid>(x => x == listingId), It.IsAny<Guid>(), It.IsAny<int>())).Verifiable();
+            this.listingMediaService.Setup(x => x.Resource.DeleteByIdAsync(It.Is<Guid>(x => x == listingId), It.IsAny<Guid>())).Verifiable();
 
             // Act and Assert
             Assert.IsAssignableFrom<OkResult>(await this.Sut.DeleteResource(listingId, mediaId));
-            this.listingMediaService.Verify(x => x.Resource.DeleteByIdAsync(It.Is<Guid>(x => x == listingId), It.Is<Guid>(x => x == mediaId), It.IsAny<int>()), Times.Once);
+            this.listingMediaService.Verify(x => x.Resource.DeleteByIdAsync(It.Is<Guid>(x => x == listingId), It.Is<Guid>(x => x == mediaId)), Times.Once);
         }
 
         [Fact]
