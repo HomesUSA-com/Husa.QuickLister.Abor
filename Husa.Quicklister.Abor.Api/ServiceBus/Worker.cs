@@ -14,8 +14,6 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
 
     public class Worker : Husa.Quicklister.Extensions.Api.ServiceBus.Worker
     {
-        private readonly IPhotoServiceSubscriber photoSubscriber;
-        private readonly IPhotoServiceMessagesHandler photoMessagesHandler;
         private readonly IDownloaderSubscriber downloaderSubscriber;
         private readonly IDownloaderMessagesHandler downloaderMessagesHandler;
         private readonly IXmlSubscriber xmlSubscriber;
@@ -38,12 +36,10 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
             IJsonImportMessagesHandler jsonImportMessagesHandler,
             IOptions<ApplicationOptions> options,
             ILogger<Worker> logger)
-            : base(companySubscriber, companyMessagesHandler, jsonImportSubscriber, jsonImportMessagesHandler, options?.Value?.FeatureFlags, logger)
+            : base(photoSubscriber, photoMessagesHandler, companySubscriber, companyMessagesHandler, jsonImportSubscriber, jsonImportMessagesHandler, options?.Value?.FeatureFlags, logger)
         {
             this.downloaderSubscriber = downloaderSubscriber ?? throw new ArgumentNullException(nameof(downloaderSubscriber));
             this.downloaderMessagesHandler = downloaderMessagesHandler ?? throw new ArgumentNullException(nameof(downloaderMessagesHandler));
-            this.photoSubscriber = photoSubscriber ?? throw new ArgumentNullException(nameof(photoSubscriber));
-            this.photoMessagesHandler = photoMessagesHandler ?? throw new ArgumentNullException(nameof(photoMessagesHandler));
             this.xmlSubscriber = xmlSubscriber ?? throw new ArgumentNullException(nameof(xmlSubscriber));
             this.xmlMessagesHandler = xmlMessagesHandler ?? throw new ArgumentNullException(nameof(xmlMessagesHandler));
             this.migrationSubscriber = migrationSubscriber ?? throw new ArgumentNullException(nameof(migrationSubscriber));
@@ -54,9 +50,6 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
         {
             try
             {
-                this.Logger.LogInformation(RegisterHandlerMsg, nameof(this.photoMessagesHandler));
-                this.photoSubscriber.ConfigureClient(this.photoMessagesHandler);
-
                 this.Logger.LogInformation(RegisterHandlerMsg, nameof(this.migrationMessagesHandler));
                 this.migrationSubscriber.ConfigureClient(this.migrationMessagesHandler);
 
@@ -85,9 +78,6 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus
 
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
-            this.Logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.photoSubscriber));
-            await this.photoSubscriber.CloseClient();
-
             this.Logger.LogInformation(CloseSubscriptionClientMsg, nameof(this.migrationSubscriber));
             await this.migrationSubscriber.CloseClient();
 

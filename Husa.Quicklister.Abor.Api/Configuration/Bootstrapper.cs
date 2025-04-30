@@ -145,11 +145,9 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IMediaService, MediaService>();
 
             services.AddScoped<ISaleListingService, SaleListingService>();
-            services.AddScoped<ISaleListingPhotoService, SaleListingPhotoService>();
             services.AddScoped<ISaleListingXmlService, SaleListingXmlService>();
 
             services.AddScoped<ILotListingService, LotListingService>();
-            services.AddScoped<ILotListingPhotoService, LotListingPhotoService>();
             services.AddScoped<ILotListingRequestService, LotListingRequestService>();
 
             services.AddScoped<ICommunityHistoryService, CommunityHistoryService>();
@@ -159,14 +157,12 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ISaleListingMigrationService, SaleListingMigrationService>();
 
             services.AddScoped<IPlanService, PlanService>();
-            services.AddScoped<IPlanPhotoService, PlanPhotoService>();
             services.AddScoped<InterfaceExtensions.JsonImport.IPlanJsonImportService, PlanJsonImportService>();
             services.AddScoped<InterfaceExtensions.Plan.IPlanXmlService, PlanXmlService>();
             services.AddScoped<InterfaceExtensions.Migration.IPlanMigrationService, PlanMigrationService>();
             services.AddScoped<InterfaceExtensions.Plan.IPlanDeletionService, PlanDeletionService>();
 
             services.AddScoped<ISaleCommunityService, SaleCommunityService>();
-            services.AddScoped<ICommunityPhotoService, CommunityPhotoService>();
             services.AddScoped<InterfaceExtensions.Community.ICommunityXmlService, CommunityXmlService>();
             services.AddScoped<InterfaceExtensions.JsonImport.ICommunityJsonImportService, CommunityJsonImportService>();
             services.AddScoped<ICommunityMigrationService, CommunityMigrationService>();
@@ -190,6 +186,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.ConfigureLegacyListingService(Migration.Enums.MigrationMarketType.Austin);
             services.ConfigureMediaServices();
             services.ConfigureNoteServices();
+            services.ConfigurePhotoServices();
             return services;
         }
 
@@ -354,8 +351,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddExtensionServiceBusHandlers();
             services.AddSingleton<IDownloaderSubscriber, DownloaderSubscriber>();
             services.AddSingleton<IDownloaderMessagesHandler, DownloaderMessagesHandler>();
-            services.AddSingleton<IPhotoServiceMessagesHandler, PhotoServiceMessagesHandler>();
-            services.AddSingleton<IPhotoServiceSubscriber, PhotoServiceSubscriber>();
+            services.AddSingleton<Extensions.Api.ServiceBus.Handlers.IPhotoServiceMessagesHandler, PhotoServiceMessagesHandler>();
             services.AddSingleton<IXmlMessagesHandler, XmlMessagesHandler>();
             services.AddSingleton<IXmlSubscriber, XmlSubscriber>();
             services.AddSingleton<IMigrationMessagesHandler, MigrationMessagesHandler>();
