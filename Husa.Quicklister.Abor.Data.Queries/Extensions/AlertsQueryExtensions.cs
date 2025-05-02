@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using Husa.Extensions.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
@@ -119,7 +120,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         public static Expression<Func<SaleListing, bool>> LockedListingsExpression => listingSale =>
             Listing.LockedListingStatuses.Contains(listingSale.LockedStatus) &&
             !string.IsNullOrEmpty(listingSale.MlsNumber) &&
-            listingSale.SysModifiedOn < DateTime.UtcNow.Date;
+            listingSale.SysModifiedOn < DateTime.Today.ToUtc();
 
         // Not Listed in MLS
         public static Expression<Func<SaleListing, bool>> NotListedInMlsExpression => listingSale =>
