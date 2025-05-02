@@ -1,0 +1,15 @@
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.name }}
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: {{ .Values.service.annotations.azureLoadBalancerResourceGroup }}
+    service.beta.kubernetes.io/azure-pip-name: {{ .Values.service.annotations.azurePipName }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.ports.port }}
+      targetPort: {{ .Values.service.ports.targetPort }}
+  selector:
+    app: {{ .Values.service.selector.app }}

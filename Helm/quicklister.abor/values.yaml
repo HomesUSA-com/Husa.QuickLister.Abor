@@ -1,0 +1,35 @@
+service:
+  name: quicklisterabor-service
+  annotations:
+    azureLoadBalancerResourceGroup: HomesUSA-DEV
+    azurePipName: pip-aks-husa-ql-abor-cus-dev
+  type: LoadBalancer
+  ports:
+    port: 80
+    targetPort: 8080
+  selector:
+    app: quicklisterabor
+
+
+deployment:
+  name: quicklisterabor-deployment
+  namespace: default
+  replicas: 1
+  selector:
+    app: quicklisterabor
+  template:
+    labels:
+      app: quicklisterabor
+      azureWorkloadIdentityUse: "true"  # Required. Only pods with this label can use workload identity.
+    serviceAccountName: saquicklisterabor
+    containers:
+        name: quicklisterabor
+        image: #{ImageName}#
+        containerPort: 8080
+        env:
+          KeyVault__Name: "#{KeyVault.Name}#"
+
+serviceaccount:
+  clientid: "e32a6848-681d-4e09-82e1-ab59c88e6a69"
+  name: saquicklisterabor
+  namespace: default

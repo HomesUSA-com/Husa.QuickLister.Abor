@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+  namespace: {{ .Values.deployment.namespace }}
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.selector.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.template.labels.app }}
+        azure.workload.identity/use: "true"  # Required. Only pods with this label can use workload identity.
+    spec:
+      serviceAccountName: {{ .Values.deployment.template.serviceAccountName }}
+      containers:
+        - name: {{ .Values.deployment.template.containers.name }}
+          image: {{ .Values.deployment.template.containers.image }}
+          ports:
+            - containerPort: {{ .Values.deployment.template.containers.containerPort }}
+          env:
+          - name: KeyVault__Name
+            value: {{ .Values.deployment.template.containers.env.KeyVault__Name }}
