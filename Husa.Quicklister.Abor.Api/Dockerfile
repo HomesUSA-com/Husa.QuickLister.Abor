@@ -8,7 +8,7 @@ RUN wget -qO- https://aka.ms/install-artifacts-credprovider.sh | bash
 
 WORKDIR /app
 EXPOSE 443
-EXPOSE 80
+EXPOSE 8080
 
 # Set environment variable for authentication
 ENV VSS_NUGET_EXTERNAL_FEED_ENDPOINTS="{\"endpointCredentials\": [{\"endpoint\":\"https://pkgs.dev.azure.com/homesusacom/HomesUSA/_packaging/homesusa-dev/nuget/v3/index.json\", \"username\":\"build\", \"password\":\"${FEED_ACCESSTOKEN}\"}]}"
