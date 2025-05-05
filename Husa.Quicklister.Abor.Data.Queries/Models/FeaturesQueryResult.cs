@@ -41,6 +41,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models
         public int? GuestFullBathsTotal { get; set; }
         public int? GuestHalfBathsTotal { get; set; }
         public string PropertyDescription { get; set; }
+        public bool IsAIGeneratedPropertyDescription { get; set; }
         public bool IsNewConstruction { get; set; }
     }
 }

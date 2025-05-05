@@ -41,6 +41,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
         public int? GuestFullBathsTotal { get; set; }
         public int? GuestHalfBathsTotal { get; set; }
         public string PropertyDescription { get; set; }
+        public bool IsAIGeneratedPropertyDescription { get; set; }
         public bool IsNewConstruction { get; set; }
     }
 }

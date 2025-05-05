@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models.ListingRequest
     public class FeaturesInfoQueryResult
     {
         public string PropertyDescription { get; set; }
+        public bool IsAIGeneratedPropertyDescription { get; set; }
         public int? Fireplaces { get; set; }
         public ICollection<FireplaceDescription> FireplaceDescription { get; set; }
         public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get; set; }

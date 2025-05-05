@@ -12,7 +12,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.XML
         private static readonly string RemoveKeyword = "MLS Number";
         public static void UpdateFromXml(this IProvideSaleFeature fields, XmlListingDetailResponse xmlListing, bool ignoreRequestByDescription = false)
         {
-            if (!string.IsNullOrEmpty(xmlListing.Description) && !ignoreRequestByDescription)
+            if (!string.IsNullOrEmpty(xmlListing.Description) && !ignoreRequestByDescription && !fields.IsAIGeneratedPropertyDescription)
             {
                 var newDescription = CleanPropertyDescription(xmlListing.Description, forComparisonOnly: true);
                 var oldDescription = CleanPropertyDescription(fields.PropertyDescription, forComparisonOnly: true);

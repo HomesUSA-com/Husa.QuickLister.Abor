@@ -69,6 +69,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual int? GuestFullBathsTotal { get; set; }
         public virtual int? GuestHalfBathsTotal { get; set; }
         public virtual string PropertyDescription { get; set; }
+        public virtual bool IsAIGeneratedPropertyDescription { get; set; }
         public virtual bool IsNewConstruction { get; set; }
 
         public static FeaturesInfo ImportFromXml(XmlListingDetailResponse listing, FeaturesInfo features)

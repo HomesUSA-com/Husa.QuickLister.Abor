@@ -98,6 +98,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
         private sealed class StubSaleFeature : IProvideSaleFeature
         {
             public string PropertyDescription { get; set; }
+            public bool IsAIGeneratedPropertyDescription { get; set; }
             public ICollection<NeighborhoodAmenities> NeighborhoodAmenities { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
             public ICollection<RestrictionsDescription> RestrictionsDescription { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
             public ICollection<Disclosures> Disclosures { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

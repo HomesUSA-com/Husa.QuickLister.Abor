@@ -12,7 +12,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.XML
     public static class XmlListingRequestExtensions
     {
         public static readonly IEnumerable<MarketStatuses> PendingAndCanceledStatuses = MarketStatusesExtensions.PendingAndCanceledStatuses;
-        public static void UpdateXromXml(
+        public static void UpdateFromXml(
             this SaleListingRequest listing,
             XmlListingDetailResponse xmlListing,
             ImportActionType? listAction = null,
