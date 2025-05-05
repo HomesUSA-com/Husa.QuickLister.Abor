@@ -27,11 +27,12 @@ steps:
 
 - script: | 
     echo "Building Docker image"
-    docker build -t $(containerRegistry).azurecr.io/$(repository):$(Build.BuildId)_$(Build.SourceBranchName)_$(date +%Y%m%d) -f $(Dockerfile) . --build-arg FEED_ACCESSTOKEN=$(TOKEN)
+    docker build -t $(containerRegistry).azurecr.io/$(repository):$(Build.BuildId)_$(Build.SourceBranchName)_$(date +%Y%m%d) -t $(containerRegistry).azurecr.io/$(repository):latest -f $(Dockerfile) . --build-arg FEED_ACCESSTOKEN=$(TOKEN)
   displayName: 'Docker Build'
 
 - script: | 
     echo "Pushing Docker image to ACR"
+    docker push $(containerRegistry).azurecr.io/$(repository):latest
     docker push $(containerRegistry).azurecr.io/$(repository):$(Build.BuildId)_$(Build.SourceBranchName)_$(date +%Y%m%d)
   displayName: 'Docker Push'
   condition: and(succeededOrFailed(), ne(variables.isPullRequest, true))
