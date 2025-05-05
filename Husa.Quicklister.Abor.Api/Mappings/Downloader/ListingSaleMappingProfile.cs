@@ -144,6 +144,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.SqFtTotal, dto => dto.MapFrom(src => src.ListingMessage.SquareFeetTotal));
 
             this.CreateMap<ResidentialResponse, FeaturesDto>()
+                .ForMember(vo => vo.IsAIGeneratedPropertyDescription, dto => dto.Ignore())
                 .ForMember(vo => vo.HomeFaces, dto => dto.MapFrom(src => src.ListingMessage.FrontFaces.ToAborEnum()))
                 .ForMember(vo => vo.Foundation, dto => dto.MapFrom(src => src.FeaturesMessage.Foundation.Select(x => x.ToAborEnum()).Where(y => y != null)))
                 .ForMember(vo => vo.RoofDescription, dto => dto.MapFrom(src => src.FeaturesMessage.RoofDescription.Select(x => x.ToAborEnum()).Where(y => y != null)))

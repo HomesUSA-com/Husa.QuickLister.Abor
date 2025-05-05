@@ -36,6 +36,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(x => x.MlsArea.ToEnumOrNullFromEnumMember<MlsArea>()))
                 .ForMember(dto => dto.FemaFloodPlain, pr => pr.MapFrom(x => x.FemaFloodPlain.ToFemaFloodPlain()));
             this.CreateMap<FeaturesResponse, FeaturesDto>()
+                .ForMember(dto => dto.IsAIGeneratedPropertyDescription, pr => pr.Ignore())
                 .ForMember(dto => dto.GarageDescription, pr => pr.Ignore())
                 .ForMember(dto => dto.GarageSpaces, pr => pr.MapFrom(x => x.GarageCapacity))
                 .ForMember(dto => dto.PatioAndPorchFeatures, pr => pr.MapFrom(x => x.PatioAndPorchFeatures.CsvToEnum<PatioAndPorchFeatures>(true)))
