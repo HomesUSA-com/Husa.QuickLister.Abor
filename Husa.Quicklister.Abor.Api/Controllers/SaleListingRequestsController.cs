@@ -45,7 +45,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         private readonly ISaleListingNotesService listingNotesService;
         private readonly IUserRepository userQueriesRepository;
         private readonly IValidateListingStatusChanges<ListingSaleRequestForUpdate> validateListingStatusChanges;
-        private readonly ISaleListingRequestMediaService listingRequestMediaService;
 
         public SaleListingRequestsController(
             ISaleListingRequestQueriesRepository saleRequestQueryRepository,
@@ -54,13 +53,11 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             ISaleListingRequestService saleRequestService,
             IUserRepository userQueriesRepository,
             IMapper mapper,
-            ISaleListingRequestMediaService listingRequestMediaService,
             IValidateListingStatusChanges<ListingSaleRequestForUpdate> validateListingStatusChanges,
             IShowingTimeContactQueriesRepository showingTimeContactQueriesRepository,
             ILogger<SaleListingRequestsController> logger)
             : base(showingTimeContactQueriesRepository, saleRequestService, mapper, logger)
         {
-            this.listingRequestMediaService = listingRequestMediaService ?? throw new ArgumentNullException(nameof(listingRequestMediaService));
             this.saleRequestQueryRepository = saleRequestQueryRepository ?? throw new ArgumentNullException(nameof(saleRequestQueryRepository));
             this.listingSaleService = listingSaleService ?? throw new ArgumentNullException(nameof(listingSaleService));
             this.listingNotesService = listingNotesService ?? throw new ArgumentNullException(nameof(listingNotesService));
@@ -142,7 +139,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             if (!result.HasErrors() && string.IsNullOrEmpty(result.Message))
             {
                 await this.listingSaleService.CopyListingInfoToCommunity(listingId);
-                _ = this.listingRequestMediaService.ValidateImages(result.Result);
             }
 
             return this.ToActionResult(result);
