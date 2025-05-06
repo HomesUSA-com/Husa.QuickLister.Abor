@@ -19,7 +19,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -41,7 +40,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
         private readonly Mock<IValidateListingStatusChanges<ListingSaleRequestForUpdate>> validateListingStatusChanges = new();
         private readonly Mock<ILogger<SaleListingRequestsController>> logger = new();
         private readonly Mock<IShowingTimeContactQueriesRepository> showingTimeContactQueriesRepository = new();
-        private readonly Mock<ISaleListingRequestMediaService> saleListingRequestMediaService = new();
 
         public SaleListingRequestsControllerTests(ApplicationServicesFixture fixture)
         {
@@ -53,7 +51,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
                 this.saleRequestService.Object,
                 this.userQueriesRepository.Object,
                 this.fixture.Mapper,
-                this.saleListingRequestMediaService.Object,
                 this.validateListingStatusChanges.Object,
                 this.showingTimeContactQueriesRepository.Object,
                 this.logger.Object);
