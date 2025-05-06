@@ -1,17 +1,13 @@
 namespace Husa.Quicklister.Abor.Domain.Extensions.XML
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
-    using Husa.Quicklister.Abor.Domain.Enums;
-    using Husa.Quicklister.Abor.Domain.Extensions.Listing;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Xml.Api.Contracts.Response;
 
     public static class XmlListingRequestExtensions
     {
-        public static readonly IEnumerable<MarketStatuses> PendingAndCanceledStatuses = MarketStatusesExtensions.PendingAndCanceledStatuses;
         public static void UpdateXromXml(
             this SaleListingRequest listing,
             XmlListingDetailResponse xmlListing,
@@ -20,7 +16,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.XML
             bool ignoreRequestByDescription = false)
         {
             ArgumentNullException.ThrowIfNull(xmlListing);
-            if (xmlListing.Price.HasValue && listing.ListPrice.HasValue && xmlListing.Price.Value != listing.ListPrice.Value && !PendingAndCanceledStatuses.Contains(listing.MlsStatus))
+            if (xmlListing.Price.HasValue && listing.ListPrice.HasValue && xmlListing.Price.Value != listing.ListPrice.Value && !listing.MlsStatus.IsAlowedStatusXmlForRequest())
             {
                 listing.ListPrice = xmlListing.Price;
             }
