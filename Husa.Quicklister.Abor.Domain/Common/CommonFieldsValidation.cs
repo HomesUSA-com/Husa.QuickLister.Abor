@@ -1,5 +1,8 @@
 namespace Husa.Quicklister.Abor.Domain.Common
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
@@ -52,6 +55,20 @@ namespace Husa.Quicklister.Abor.Domain.Common
                 CommissionType.Amount => agentBonusCommision.AgentBonusAmount <= (decimal)MaxAgentAmount,
                 _ => false,
             };
+        }
+
+        public static bool IsAlowedStatusXmlForRequest(this MarketStatuses status)
+        {
+            IEnumerable<MarketStatuses> notAlowedStatusForRequest = new[]
+            {
+                MarketStatuses.Canceled,
+                MarketStatuses.Closed,
+                MarketStatuses.Expired,
+                MarketStatuses.Hold,
+                MarketStatuses.Pending,
+            };
+
+            return !notAlowedStatusForRequest.Contains(status);
         }
     }
 }

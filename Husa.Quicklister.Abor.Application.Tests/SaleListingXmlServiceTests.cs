@@ -482,7 +482,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var companyId = Guid.NewGuid();
             this.SetupMlsAdministrator();
             var saleListingMock = TestModelProvider.GetListingSaleEntityMock(listingId);
-            saleListingMock.Setup(x => x.MlsStatus).Returns(MarketStatuses.Closed);
+            saleListingMock.Setup(x => x.MlsStatus).Returns(MarketStatuses.Active);
             var saleListing = saleListingMock.Object;
             saleListing.XmlListingId = xmlListingId;
             saleListing.CompanyId = companyId;
