@@ -1,7 +1,6 @@
 namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -14,9 +13,9 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Crosscutting;
+    using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Extensions.XML;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Extensions;
@@ -45,11 +44,6 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
         private readonly IListingRequestXmlService<XmlListingDetailResponse> saleListingRequestService;
         private readonly ISaleListingXmlMediaService xmlMediaService;
         private readonly IRequestErrorRepository requestErrorRepository;
-
-        private readonly IEnumerable<MarketStatuses> notAlowedStatusForRequest = new[]
-        {
-            MarketStatuses.Canceled,
-        };
 
         public SaleListingXmlService(
             IXmlClient xmlClient,
@@ -109,9 +103,9 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             }
             else
             {
-                if (listing.MlsStatus == MarketStatuses.Closed)
+                if (!listing.MlsStatus.IsAlowedStatusXmlForRequest())
                 {
-                    this.Logger.LogWarning("The listing could not be updated because is an sold listing {listingId}", listing.Id);
+                    this.Logger.LogWarning("The listing could not be updated because is an {listing.MlsStatus} listingId: {listingId}", listing.MlsStatus, listing.Id);
                     return listing.Id;
                 }
 
@@ -146,7 +140,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 return;
             }
 
-            if (this.notAlowedStatusForRequest.Contains(listing.MlsStatus))
+            if (!listing.MlsStatus.IsAlowedStatusXmlForRequest())
             {
                 this.Logger.LogWarning("The listing could not be updated because is an {listing.MlsStatus} listing {listingId}", listing.MlsStatus.ToString(), listing.Id);
                 return;
