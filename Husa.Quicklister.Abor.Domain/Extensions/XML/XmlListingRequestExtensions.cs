@@ -2,7 +2,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.XML
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Extensions.Listing;
@@ -20,7 +20,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.XML
             bool ignoreRequestByDescription = false)
         {
             ArgumentNullException.ThrowIfNull(xmlListing);
-            if (xmlListing.Price.HasValue && listing.ListPrice.HasValue && xmlListing.Price.Value != listing.ListPrice.Value && !PendingAndCanceledStatuses.Contains(listing.MlsStatus))
+            if (xmlListing.Price.HasValue && listing.ListPrice.HasValue && xmlListing.Price.Value != listing.ListPrice.Value && !listing.MlsStatus.IsAlowedStatusXmlForRequest())
             {
                 listing.ListPrice = xmlListing.Price;
             }
