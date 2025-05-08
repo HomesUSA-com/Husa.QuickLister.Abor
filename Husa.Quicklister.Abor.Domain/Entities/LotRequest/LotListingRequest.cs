@@ -187,8 +187,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
         protected override IEnumerable<SummarySection> GetSummarySections<TListingRequest>(TListingRequest previousRequest)
         {
             var summarySections = base.GetSummarySections(previousRequest).ToList();
-            if (previousRequest is LotListingRequest prevRecord)
+            if (previousRequest is LotListingRequest || previousRequest is null)
             {
+                var prevRecord = previousRequest as LotListingRequest;
                 summarySections.AddRange(this.GetInternalSummarySections(prevRecord));
             }
 
