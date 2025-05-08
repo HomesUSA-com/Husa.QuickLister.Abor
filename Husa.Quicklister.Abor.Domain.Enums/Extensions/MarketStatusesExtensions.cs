@@ -17,8 +17,6 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.Listing
             MarketStatuses.ActiveUnderContract,
             MarketStatuses.Hold,
             MarketStatuses.Pending,
-            MarketStatuses.Canceled,
-            MarketStatuses.Closed,
         };
         public static readonly IEnumerable<MarketStatuses> PendingListingStatuses = new[] { MarketStatuses.Pending };
         public static readonly IEnumerable<MarketStatuses> PendingAndCanceledStatuses = new[]
