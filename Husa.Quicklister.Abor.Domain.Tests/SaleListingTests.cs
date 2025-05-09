@@ -97,7 +97,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             listing.Setup(x => x.SaleProperty.PropertyInfo).Returns(new PropertyRecord()
             {
                 ConstructionStage = ConstructionStage.Complete,
-                ConstructionCompletionDate = DateTime.UtcNow,
+                ConstructionCompletionDate = DateTime.UtcNow.AddDays(-1),
                 ConstructionStartYear = 2024,
                 LegalDescription = "Legal descrption test",
                 TaxId = "1245",
