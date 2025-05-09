@@ -16,7 +16,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.XML
             bool ignoreRequestByDescription = false)
         {
             ArgumentNullException.ThrowIfNull(xmlListing);
-            if (xmlListing.Price.HasValue && listing.ListPrice.HasValue && xmlListing.Price.Value != listing.ListPrice.Value && !listing.MlsStatus.IsAlowedStatusXmlForRequest())
+            if (xmlListing.Price.HasValue && listing.ListPrice.HasValue && xmlListing.Price.Value != listing.ListPrice.Value && listing.MlsStatus.IsAllowedStatusXmlForRequest())
             {
                 listing.ListPrice = xmlListing.Price;
             }

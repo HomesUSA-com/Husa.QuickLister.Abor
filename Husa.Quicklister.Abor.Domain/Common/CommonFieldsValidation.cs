@@ -57,7 +57,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
             };
         }
 
-        public static bool IsAlowedStatusXmlForRequest(this MarketStatuses status)
+        public static bool IsAllowedStatusXmlForRequest(this MarketStatuses status)
         {
             IEnumerable<MarketStatuses> notAlowedStatusForRequest = new[]
             {
