@@ -105,7 +105,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             {
                 if (!listing.MlsStatus.IsAllowedStatusXmlForRequest())
                 {
-                    this.Logger.LogWarning("The listing could not be updated because is an {listing.MlsStatus} listingId: {listingId}", listing.MlsStatus, listing.Id);
+                    this.Logger.LogWarning("The listing could not be updated because is an {MlsStatus} listingId: {listingId}", listing.MlsStatus, listing.Id);
                     return listing.Id;
                 }
 
@@ -142,7 +142,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
             if (!listing.MlsStatus.IsAllowedStatusXmlForRequest())
             {
-                this.Logger.LogWarning("The listing could not be updated because is an {listing.MlsStatus} listing {listingId}", listing.MlsStatus.ToString(), listing.Id);
+                this.Logger.LogWarning("The listing could not be updated because is an {MlsStatus} listing {listingId}", listing.MlsStatus, listing.Id);
                 return;
             }
 
