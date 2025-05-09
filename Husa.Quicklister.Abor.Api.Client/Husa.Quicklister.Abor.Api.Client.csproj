@@ -10,9 +10,10 @@
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
         <Version>2.19.2</Version>
         <PackageReleaseNotes>
-            Release 2.19.2:
-            - Moved notes to extensions
-            - Add field to features requests and responses
+          Release 2.19.2:
+          - Moved notes to extensions
+          - Add field to features requests and responses
+          - Update Husa.Quicklister.Extensions.Domain.Enums package
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
