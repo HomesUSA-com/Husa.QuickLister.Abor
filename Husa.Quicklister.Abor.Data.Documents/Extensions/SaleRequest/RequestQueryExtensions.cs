@@ -123,6 +123,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Extensions.SaleRequest
                 GuestFullBathsTotal = features.GuestFullBathsTotal,
                 GuestHalfBathsTotal = features.GuestHalfBathsTotal,
                 IsNewConstruction = features.IsNewConstruction,
+                ParkingTotal = features.ParkingTotal,
             };
 
         public static ShowingInfoQueryResult ToProjectionShowing<T>(this T showing)

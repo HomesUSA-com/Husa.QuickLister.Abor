@@ -97,6 +97,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.GuestBedroomsTotal).HasColumnName(nameof(FeaturesInfo.GuestBedroomsTotal)).HasMaxLength(3);
             builder.Property(r => r.GuestHalfBathsTotal).HasColumnName(nameof(FeaturesInfo.GuestHalfBathsTotal)).HasMaxLength(3);
             builder.Property(r => r.GuestFullBathsTotal).HasColumnName(nameof(FeaturesInfo.GuestFullBathsTotal)).HasMaxLength(3);
+            builder.Property(r => r.ParkingTotal).HasColumnName(nameof(FeaturesInfo.ParkingTotal)).HasMaxLength(20);
         }
 
         private static void ConfigureFinancialMapping(OwnedNavigationBuilder<SaleProperty, FinancialInfo> builder)

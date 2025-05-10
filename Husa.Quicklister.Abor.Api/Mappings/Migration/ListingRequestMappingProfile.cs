@@ -69,6 +69,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.UnitStyle, pr => pr.MapFrom(x => x.HousingStyle.CsvToEnum<UnitStyle>(true)))
                 .ForMember(dto => dto.GuestAccommodationsDescription, pr => pr.MapFrom(x => x.GuestAccommodationsDescription.CsvToEnum<GuestAccommodationsDescription>(true)))
                 .ForMember(dto => dto.WaterBodyName, pr => pr.MapFrom(x => x.WaterBodyName.ToEnumOrNullFromEnumMember<WaterBodyName>()))
+                .ForMember(dto => dto.ParkingTotal, pr => pr.Ignore())
                 .ForMember(dto => dto.DistanceToWaterAccess, pr => pr.MapFrom(x => x.DistanceToWaterAccess.ToEnumOrNullFromEnumMember<DistanceToWaterAccess>()));
             this.CreateMap<SpacesDimensionsResponse, SpacesDimensionsRecord>()
                 .ForMember(dto => dto.MainLevelBedroomTotal, pr => pr.MapFrom(x => x.NumBedrooms))

@@ -181,6 +181,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Downloader
                 .ForMember(vo => vo.GuestFullBathsTotal, dto => dto.Ignore())
                 .ForMember(vo => vo.GuestHalfBathsTotal, dto => dto.Ignore())
                 .ForMember(vo => vo.Disclosures, dto => dto.Ignore())
+                .ForMember(vo => vo.ParkingTotal, dto => dto.Ignore())
                 .ForMember(vo => vo.DocumentsAvailable, dto => dto.Ignore());
 
             this.CreateMap<ResidentialResponse, FinancialDto>()

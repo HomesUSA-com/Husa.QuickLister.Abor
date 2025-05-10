@@ -654,6 +654,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FeaturesInfo.GuestBedroomsTotal = featuresInfo.GuestBedroomsTotal;
                 this.FeaturesInfo.GuestFullBathsTotal = featuresInfo.GuestFullBathsTotal;
                 this.FeaturesInfo.GuestHalfBathsTotal = featuresInfo.GuestHalfBathsTotal;
+                this.FeaturesInfo.ParkingTotal = featuresInfo.ParkingTotal;
 
                 if (!this.migrateFullListing)
                 {

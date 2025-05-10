@@ -11,6 +11,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "Attached")]
         [Description("Attached")]
         Attached,
+        [EnumMember(Value = "CARPT")]
+        [Description("Carpot")]
+        Carpot,
         [EnumMember(Value = "CIRDW")]
         [Description("Circular Driveway")]
         CircularDriveway,
