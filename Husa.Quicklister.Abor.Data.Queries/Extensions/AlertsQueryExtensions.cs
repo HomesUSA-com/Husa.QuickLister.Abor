@@ -117,10 +117,18 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
         public static Expression<Func<SaleListing, bool>> LockedListingsImportedExpression => listingSale => Listing.LockedListingStatuses.Contains(listingSale.LockedStatus);
 
         // Locked Listings
-        public static Expression<Func<SaleListing, bool>> LockedListingsExpression => listingSale =>
-            Listing.LockedListingStatuses.Contains(listingSale.LockedStatus) &&
-            !string.IsNullOrEmpty(listingSale.MlsNumber) &&
-            listingSale.SysModifiedOn < DateTime.Today.ToUtc();
+        public static Expression<Func<SaleListing, bool>> LockedListingsExpression
+        {
+            get
+            {
+                var todayUtc = DateTime.Today.ToUtc();
+
+                return listingSale =>
+                    Listing.LockedListingStatuses.Contains(listingSale.LockedStatus) &&
+                    !string.IsNullOrEmpty(listingSale.MlsNumber) &&
+                    listingSale.SysModifiedOn < todayUtc;
+            }
+        }
 
         // Not Listed in MLS
         public static Expression<Func<SaleListing, bool>> NotListedInMlsExpression => listingSale =>
