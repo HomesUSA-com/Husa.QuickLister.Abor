@@ -8,12 +8,13 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.19.2</Version>
+        <Version>2.19.3</Version>
         <PackageReleaseNotes>
-          Release 2.19.2:
+          Release 2.19.3:
           - Moved notes to extensions
           - Add field to features requests and responses
           - Update Husa.Quicklister.Extensions.Domain.Enums package
+          - Include Carpot option in GarageDescription and add Parking Total Field
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

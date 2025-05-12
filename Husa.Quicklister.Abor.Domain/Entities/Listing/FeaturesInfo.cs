@@ -33,6 +33,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<CoolingSystem> CoolingSystem { get; set; }
         public virtual ICollection<Appliances> Appliances { get; set; }
         public virtual int? GarageSpaces { get; set; }
+        public virtual int? ParkingTotal { get; set; }
         public virtual ICollection<GarageDescription> GarageDescription { get; set; }
         public virtual ICollection<LaundryLocation> LaundryLocation { get; set; }
         public virtual ICollection<InteriorFeatures> InteriorFeatures { get; set; }
@@ -180,6 +181,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             yield return this.GuestHalfBathsTotal;
             yield return this.PropertyDescription;
             yield return this.IsNewConstruction;
+            yield return this.ParkingTotal;
         }
     }
 }

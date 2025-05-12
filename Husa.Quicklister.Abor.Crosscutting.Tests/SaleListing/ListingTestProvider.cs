@@ -186,6 +186,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
         public static FeaturesInfo GetFeaturesInfo() => new()
         {
             GarageSpaces = 1,
+            ParkingTotal = 1,
             Fireplaces = 0,
             HomeFaces = HomeFaces.West,
             PropertyDescription = "PropertyDescription",
@@ -238,6 +239,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                     PropertyDescription = "PropertyDescription",
                     InteriorFeatures = new[] { InteriorFeatures.MultipleDiningAreas },
                     GarageSpaces = 1,
+                    ParkingTotal = 1,
                     Fireplaces = 0,
                     HomeFaces = HomeFaces.West,
                     DistanceToWaterAccess = DistanceToWaterAccess.SeeRemarks,

@@ -55,6 +55,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Sale
                 PropertyDescription = features.PropertyDescription,
                 IsAIGeneratedPropertyDescription = features.IsAIGeneratedPropertyDescription,
                 IsNewConstruction = features.IsNewConstruction,
+                ParkingTotal = features.ParkingTotal,
             };
         }
 
