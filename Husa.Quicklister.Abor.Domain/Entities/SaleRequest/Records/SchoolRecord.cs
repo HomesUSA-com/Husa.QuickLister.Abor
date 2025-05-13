@@ -24,10 +24,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         [Required]
         public HighSchool HighSchool { get; set; }
 
+        [MaxLength(20, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string OtherElementarySchool { get; set; }
 
+        [MaxLength(20, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string OtherMiddleSchool { get; set; }
 
+        [MaxLength(20, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string OtherHighSchool { get; set; }
 
         public SchoolRecord CloneRecord() => (SchoolRecord)this.MemberwiseClone();
