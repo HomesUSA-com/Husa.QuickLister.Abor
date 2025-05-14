@@ -64,6 +64,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
                    .HasEnumCollectionValue<View>(300);
             builder.Property(r => r.ExteriorFeatures).HasColumnName(nameof(IProvideFeature.ExteriorFeatures))
                    .HasEnumCollectionValue<ExteriorFeatures>(300);
+            builder.Property(r => r.ParkingTotal).HasColumnName(nameof(IProvideFeature.ParkingTotal)).HasMaxLength(20);
         }
     }
 }
