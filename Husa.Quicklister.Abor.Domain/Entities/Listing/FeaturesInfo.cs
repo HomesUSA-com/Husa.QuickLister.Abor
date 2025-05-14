@@ -121,6 +121,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             clonnedFeatures.PatioAndPorchFeatures = utilities.PatioAndPorchFeatures;
             clonnedFeatures.View = utilities.View;
             clonnedFeatures.ExteriorFeatures = utilities.ExteriorFeatures;
+            clonnedFeatures.ParkingTotal = utilities.ParkingTotal;
 
             return clonnedFeatures;
         }

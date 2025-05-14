@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
         ICollection<CoolingSystem> CoolingSystem { get; set; }
         ICollection<Appliances> Appliances { get; set; }
         int? GarageSpaces { get; set; }
+        int? ParkingTotal { get; set; }
         ICollection<GarageDescription> GarageDescription { get; set; }
         ICollection<LaundryLocation> LaundryLocation { get; set; }
         ICollection<InteriorFeatures> InteriorFeatures { get; set; }

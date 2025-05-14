@@ -690,6 +690,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FeaturesInfo.WaterBodyName = featuresInfo.WaterBodyName;
                 this.CopyFireplaces(featuresInfo.Fireplaces);
                 this.FeaturesInfo.FireplaceDescription = featuresInfo.FireplaceDescription;
+                this.FeaturesInfo.ParkingTotal = featuresInfo.ParkingTotal;
             }
 
             this.FeaturesInfo.PropertyDescription = featuresInfo.PropertyDescription;

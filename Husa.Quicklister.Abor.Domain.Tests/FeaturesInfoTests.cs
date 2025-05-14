@@ -110,6 +110,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             public ICollection<CoolingSystem> CoolingSystem { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
             public ICollection<Appliances> Appliances { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
             public int? GarageSpaces { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+            public int? ParkingTotal { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
             public ICollection<GarageDescription> GarageDescription { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
             public ICollection<LaundryLocation> LaundryLocation { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
             public ICollection<InteriorFeatures> InteriorFeatures { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

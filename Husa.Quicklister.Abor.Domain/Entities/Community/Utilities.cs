@@ -24,6 +24,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual ICollection<CoolingSystem> CoolingSystem { get; set; }
         public virtual ICollection<Appliances> Appliances { get; set; }
         public virtual int? GarageSpaces { get; set; }
+        public virtual int? ParkingTotal { get; set; }
         public virtual ICollection<GarageDescription> GarageDescription { get; set; }
         public virtual ICollection<LaundryLocation> LaundryLocation { get; set; }
         public virtual ICollection<InteriorFeatures> InteriorFeatures { get; set; }
@@ -97,6 +98,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             clonedUtilities.PatioAndPorchFeatures = info.PatioAndPorchFeatures;
             clonedUtilities.View = info.View;
             clonedUtilities.ExteriorFeatures = info.ExteriorFeatures;
+            clonedUtilities.ParkingTotal = info.ParkingTotal;
 
             return clonedUtilities;
         }
@@ -127,6 +129,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             yield return this.PatioAndPorchFeatures;
             yield return this.View;
             yield return this.ExteriorFeatures;
+            yield return this.ParkingTotal;
         }
 
         private static DomainEnums.NeighborhoodAmenities GetNeighborhoodAmenity(AmenityType amenityType) => amenityType switch
