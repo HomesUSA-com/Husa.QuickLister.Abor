@@ -433,7 +433,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var saleListingMock = TestModelProvider.GetListingSaleEntityMock(listingId);
             var saleListingRequest = new Mock<SaleListingRequest>();
             saleListingMock
-                .Setup(x => x.GenerateRequest(It.IsAny<Guid>()))
+                .Setup(x => x.GenerateRequest(It.IsAny<IUserContextProvider>()))
                 .Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Success(saleListingRequest.Object))
                 .Verifiable();
             var saleListing = saleListingMock.Object;
@@ -544,7 +544,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             };
 
             var saleListingRequestMock = new Mock<SaleListingRequest>();
-            saleListingMock.Setup(x => x.GenerateRequest(It.IsAny<Guid>())).Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Success(saleListingRequestMock.Object));
+            saleListingMock.Setup(x => x.GenerateRequest(It.IsAny<IUserContextProvider>())).Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Success(saleListingRequestMock.Object));
 
             var xmlListingClientMock = new Mock<IXmlListing>();
             this.xmlClient.SetupGet(x => x.Listing).Returns(xmlListingClientMock.Object);
@@ -624,7 +624,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var companyId = Guid.NewGuid();
             this.SetupMlsAdministrator();
             var saleListingMock = TestModelProvider.GetListingSaleEntityMock(listingId, true, companyId, generateRequest: false);
-            saleListingMock.Setup(c => c.GenerateRequest(It.IsAny<Guid>()))
+            saleListingMock.Setup(c => c.GenerateRequest(It.IsAny<IUserContextProvider>()))
                 .Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Error(new ValidationResult[] { new("error") }))
                 .Verifiable();
             saleListingMock.Setup(x => x.XmlListingId).Returns(xmlListingId);

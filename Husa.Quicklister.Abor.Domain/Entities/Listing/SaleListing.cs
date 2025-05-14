@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
@@ -120,12 +121,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
         public virtual bool IsExisting => ExistingListingStatuses.Contains(this.MlsStatus);
 
-        public virtual CommandSingleResult<SaleListingRequest, ValidationResult> GenerateRequest(Guid userId)
+        public virtual CommandSingleResult<SaleListingRequest, ValidationResult> GenerateRequest(IUserContextProvider userContextProvider)
         {
+            var userId = userContextProvider.GetCurrentUserId();
             try
             {
                 var request = new SaleListingRequest(saleListing: this, userId);
-                return this.AddRequest(request, userId);
+                return this.AddRequest(request, userContextProvider);
             }
             catch (Exception ex)
             {

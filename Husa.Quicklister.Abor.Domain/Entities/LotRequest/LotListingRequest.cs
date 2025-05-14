@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Common;
@@ -144,10 +145,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
             this.MlsStatus = listingRequestValue.MlsStatus;
         }
 
-        public override IEnumerable<ValidationResult> IsValidForSubmit()
+        public override IEnumerable<ValidationResult> IsValidForSubmit(IUserContextProvider userContextProvider = null)
         {
-            var validationResults = ValidatePropertiesAttribute.GetErrors(this);
-            var statusResults = ValidateListingStatus<StatusFieldsRecord>.GetErrors(this.MlsStatus, this.StatusFieldsInfo);
+            var validationResults = base.IsValidForSubmit(userContextProvider);
+            var validateListingStatus = new ValidateListingStatus<StatusFieldsRecord>(userContextProvider);
+            var statusResults = validateListingStatus.GetErrors(this.MlsStatus, this.StatusFieldsInfo);
             return statusResults != null ? validationResults.Concat(new[] { statusResults }) : validationResults;
         }
 
