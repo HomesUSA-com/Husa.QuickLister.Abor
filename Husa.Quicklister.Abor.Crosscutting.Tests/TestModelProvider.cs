@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     using System.Linq;
     using Husa.CompanyServicesManager.Api.Contracts.Response;
     using Husa.Downloader.CTX.Api.Contracts.Response.Residential;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Models;
     using Husa.Extensions.Common;
@@ -276,7 +277,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
             if (!generateRequest)
             {
-                listingSale.Setup(c => c.GenerateRequest(It.IsAny<Guid>())).CallBase();
+                listingSale.Setup(c => c.GenerateRequest(It.IsAny<IUserContextProvider>())).CallBase();
             }
             else
             {
@@ -284,7 +285,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
 
                 saleListingRequest.SetupGet(sl => sl.Id).Returns(listingSale.Object.Id).Verifiable();
 
-                listingSale.Setup(c => c.GenerateRequest(It.IsAny<Guid>())).Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Success(saleListingRequest.Object))
+                listingSale.Setup(c => c.GenerateRequest(It.IsAny<IUserContextProvider>())).Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Success(saleListingRequest.Object))
                     .Verifiable();
             }
 

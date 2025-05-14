@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
 {
     using System;
     using System.Linq;
+    using Husa.Extensions.Authorization;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
@@ -63,9 +64,9 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
             var listing = new Mock<LotListingRequest>();
             listing.Setup(sp => sp.MlsStatus).Returns(mlsStatus);
             listing.Setup(x => x.StatusFieldsInfo).Returns(new LotStatusFieldsRecord());
-            listing.Setup(sp => sp.IsValidForSubmit()).CallBase();
+            listing.Setup(sp => sp.IsValidForSubmit(It.IsAny<IUserContextProvider>())).CallBase();
 
-            var result = listing.Object.IsValidForSubmit();
+            var result = listing.Object.IsValidForSubmit(GetIUserContextProvider());
 
             var statusError = result.FirstOrDefault(x => x.ErrorMessage.Contains("StatusFields"));
             Assert.NotNull(statusError);
@@ -77,7 +78,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
             var mlsStatus = MarketStatuses.Pending;
             var listing = new Mock<LotListingRequest>();
             listing.Setup(sp => sp.MlsStatus).Returns(mlsStatus);
-            listing.Setup(sp => sp.IsValidForSubmit()).CallBase();
+            listing.Setup(sp => sp.IsValidForSubmit(It.IsAny<IUserContextProvider>())).CallBase();
 
             var statusFields = new LotStatusFieldsRecord()
             {
@@ -86,7 +87,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
             };
             listing.Setup(x => x.StatusFieldsInfo).Returns(statusFields);
 
-            var result = listing.Object.IsValidForSubmit();
+            var result = listing.Object.IsValidForSubmit(GetIUserContextProvider());
 
             var statusError = result.FirstOrDefault(x => x.ErrorMessage.Contains("StatusFields"));
             Assert.NotNull(statusError);
@@ -115,6 +116,15 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
             Assert.Equal(2, statusSummary.Count());
             Assert.Contains(statusSummary, x => x.FieldName == nameof(LotStatusFieldsRecord.PendingDate));
             Assert.Contains(statusSummary, x => x.FieldName == nameof(LotStatusFieldsRecord.ClosedDate));
+        }
+
+        private static IUserContextProvider GetIUserContextProvider()
+        {
+            var userContextProvider = new Mock<IUserContextProvider>();
+            var userId = Guid.NewGuid();
+            userContextProvider.Setup(u => u.GetCurrentUserId()).Returns(userId).Verifiable();
+            userContextProvider.Setup(u => u.GetUserLocalDate()).Returns(DateTime.UtcNow).Verifiable();
+            return userContextProvider.Object;
         }
     }
 }
