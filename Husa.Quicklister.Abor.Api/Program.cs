@@ -48,17 +48,14 @@ namespace Husa.Quicklister.Abor.Api
                     if (host.HostingEnvironment.IsDevelopment())
                     {
                         configuration.AddJsonFile($"appsettings.{host.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                        configuration.AddUserSecrets<Startup>();
                     }
 
                     configuration.AddEnvironmentVariables();
 
-                    if (host.HostingEnvironment.IsDevelopment())
+                    if (!host.HostingEnvironment.IsDevelopment())
                     {
-                        configuration.AddUserSecrets<Startup>();
-                    }
-                    else
-                    {
-                        configuration.AddKeyVault(host);
+                        configuration.AddAppConfiguration(host, "QuicklisterAbor:Settings");
                     }
                 })
                 .UseSerilog((context, services, loggerConfiguration) => loggerConfiguration.ReadFrom.Configuration(context.Configuration))

@@ -27,7 +27,7 @@ deployment:
         image: #{ImageName}#
         containerPort: 8080
         env:
-          KeyVault__Name: "#{KeyVault.Name}#"
+          AZURE_APPCONFIGURATION_ENDPOINT: "https://aac-husa-cus-dev.azconfig.io"
 
 serviceaccount:
   clientid: "e32a6848-681d-4e09-82e1-ab59c88e6a69"

@@ -21,5 +21,5 @@ spec:
           ports:
             - containerPort: {{ .Values.deployment.template.containers.containerPort }}
           env:
-          - name: KeyVault__Name
-            value: {{ .Values.deployment.template.containers.env.KeyVault__Name }}
+          - name: AZURE_APPCONFIGURATION_ENDPOINT
+            value: {{ .Values.deployment.template.containers.env.AZURE_APPCONFIGURATION_ENDPOINT }}
