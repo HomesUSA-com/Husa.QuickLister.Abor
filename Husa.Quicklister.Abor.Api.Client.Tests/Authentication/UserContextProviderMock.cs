@@ -1,4 +1,4 @@
-﻿namespace Husa.Quicklister.Abor.Api.Client.Tests.Authentication
+namespace Husa.Quicklister.Abor.Api.Client.Tests.Authentication
 {
     using System;
     using Husa.Extensions.Authorization;
@@ -19,6 +19,7 @@
             var mock = new Mock<IUserContextProvider>();
             mock.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
             mock.Setup(u => u.GetCurrentUserId()).Returns(user.Id).Verifiable();
+            mock.Setup(u => u.GetUserLocalDate()).Returns(DateTime.UtcNow).Verifiable();
 
             return mock;
         }
