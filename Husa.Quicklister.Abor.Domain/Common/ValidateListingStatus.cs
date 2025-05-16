@@ -18,7 +18,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
         private readonly DateTime today;
         public ValidateListingStatus(IUserContextProvider userContextProvider)
         {
-            this.today = userContextProvider.GetUserLocalDate();
+            this.today = userContextProvider?.GetUserLocalDate() ?? DateTime.Today.ToUniversalTime();
         }
 
         public ValidationResult GetErrors(MarketStatuses mlsStatus, TStatusFields value)
