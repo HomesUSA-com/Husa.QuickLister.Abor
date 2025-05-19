@@ -93,6 +93,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(r => r.UnitStyle).HasColumnName(nameof(FeaturesInfo.UnitStyle)).HasEnumCollectionValue<UnitStyle>(100);
             builder.Property(r => r.IsNewConstruction).HasColumnName(nameof(FeaturesInfo.IsNewConstruction));
             builder.Property(r => r.PropertyDescription).HasColumnName(nameof(FeaturesInfo.PropertyDescription)).HasMaxLength(PropertyDescriptionLength).IsRequired(false);
+            builder.Property(r => r.IsAIGeneratedPropertyDescription).HasColumnName(nameof(FeaturesInfo.IsAIGeneratedPropertyDescription)).HasColumnType("bit");
             builder.Property(r => r.GuestBedroomsTotal).HasColumnName(nameof(FeaturesInfo.GuestBedroomsTotal)).HasMaxLength(3);
             builder.Property(r => r.GuestHalfBathsTotal).HasColumnName(nameof(FeaturesInfo.GuestHalfBathsTotal)).HasMaxLength(3);
             builder.Property(r => r.GuestFullBathsTotal).HasColumnName(nameof(FeaturesInfo.GuestFullBathsTotal)).HasMaxLength(3);

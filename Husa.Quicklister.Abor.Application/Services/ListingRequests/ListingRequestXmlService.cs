@@ -34,7 +34,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
             bool ignoreRequestByDescription = false)
         {
             var newRequest = oldCompleteRequest.Clone();
-            newRequest.UpdateXromXml(spec, ignoreRequestByCompletionDate: ignoreRequestByCompletionDate, ignoreRequestByDescription: ignoreRequestByDescription);
+            newRequest.UpdateFromXml(spec, ignoreRequestByCompletionDate: ignoreRequestByCompletionDate, ignoreRequestByDescription: ignoreRequestByDescription);
             newRequest.UpdateTrackValues(userId, isNewRecord: true);
             newRequest.MlsNumber = listing.MlsNumber;
             newRequest.ListDate = listing.ListDate;

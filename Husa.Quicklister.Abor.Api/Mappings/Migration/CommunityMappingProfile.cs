@@ -39,6 +39,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.ConstructionMaterials, cr => cr.MapFrom(x => x.Exterior.CsvToEnum<ConstructionMaterials>(true)))
                 .ForMember(dto => dto.GarageDescription, cr => cr.MapFrom(x => x.GarageDescription.CsvToEnum<GarageDescription>(true)))
                 .ForMember(dto => dto.GarageSpaces, pr => pr.MapFrom(x => x.GarageCapacity))
+                .ForMember(dto => dto.ParkingTotal, pr => pr.Ignore())
                 .ForMember(dto => dto.PatioAndPorchFeatures, pr => pr.MapFrom(x => x.PatioAndPorchFeatures.CsvToEnum<PatioAndPorchFeatures>(true)))
                 .ForMember(dto => dto.Fencing, pr => pr.MapFrom(x => x.FenceDescription.CsvToEnum<Fencing>(true)))
                 .ForMember(dto => dto.Foundation, pr => pr.MapFrom(x => x.Foundation.CsvToEnum<Foundation>(true)))

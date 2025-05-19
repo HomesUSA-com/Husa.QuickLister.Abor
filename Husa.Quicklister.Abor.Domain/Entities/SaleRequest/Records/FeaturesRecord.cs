@@ -20,6 +20,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         [Required(AllowEmptyStrings = false)]
         public string PropertyDescription { get; set; }
 
+        public bool IsAIGeneratedPropertyDescription { get; set; }
+
         [Required]
         public int? Fireplaces { get; set; }
 
@@ -68,6 +70,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         public ICollection<Appliances> Appliances { get; set; }
         [Required]
         public int? GarageSpaces { get; set; }
+        [Required]
+        public int? ParkingTotal { get; set; }
 
         [IfRequired(nameof(GarageSpaces), 0, OperatorType.GreaterThan)]
         public ICollection<GarageDescription> GarageDescription { get; set; }
@@ -196,6 +200,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
                 GuestHalfBathsTotal = featuresInfo.GuestHalfBathsTotal,
                 PropertyDescription = featuresInfo.PropertyDescription,
                 IsNewConstruction = featuresInfo.IsNewConstruction,
+                ParkingTotal = featuresInfo.ParkingTotal,
             };
         }
 

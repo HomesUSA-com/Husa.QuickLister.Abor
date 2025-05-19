@@ -26,6 +26,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Extensions.Api.Controllers;
     using Husa.Quicklister.Extensions.Api.Filters;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Notes;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;

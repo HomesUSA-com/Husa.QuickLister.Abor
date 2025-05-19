@@ -654,6 +654,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FeaturesInfo.GuestBedroomsTotal = featuresInfo.GuestBedroomsTotal;
                 this.FeaturesInfo.GuestFullBathsTotal = featuresInfo.GuestFullBathsTotal;
                 this.FeaturesInfo.GuestHalfBathsTotal = featuresInfo.GuestHalfBathsTotal;
+                this.FeaturesInfo.ParkingTotal = featuresInfo.ParkingTotal;
 
                 if (!this.migrateFullListing)
                 {
@@ -689,6 +690,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 this.FeaturesInfo.WaterBodyName = featuresInfo.WaterBodyName;
                 this.CopyFireplaces(featuresInfo.Fireplaces);
                 this.FeaturesInfo.FireplaceDescription = featuresInfo.FireplaceDescription;
+                this.FeaturesInfo.ParkingTotal = featuresInfo.ParkingTotal;
             }
 
             this.FeaturesInfo.PropertyDescription = featuresInfo.PropertyDescription;

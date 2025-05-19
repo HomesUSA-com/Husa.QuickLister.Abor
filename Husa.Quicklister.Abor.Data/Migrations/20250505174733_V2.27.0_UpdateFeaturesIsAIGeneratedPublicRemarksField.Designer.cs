@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250505174733_V2.27.0_UpdateFeaturesIsAIGeneratedPublicRemarksField")]
+    partial class V2270_UpdateFeaturesIsAIGeneratedPublicRemarksField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2014,11 +2017,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(286)")
                                 .HasColumnName("NeighborhoodAmenities");
 
-                            b1.Property<int?>("ParkingTotal")
-                                .HasMaxLength(20)
-                                .HasColumnType("int")
-                                .HasColumnName("ParkingTotal");
-
                             b1.Property<string>("PatioAndPorchFeatures")
                                 .HasMaxLength(300)
                                 .HasColumnType("nvarchar(300)")
@@ -3549,11 +3547,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasMaxLength(286)
                                 .HasColumnType("nvarchar(286)")
                                 .HasColumnName("NeighborhoodAmenities");
-
-                            b1.Property<int?>("ParkingTotal")
-                                .HasMaxLength(20)
-                                .HasColumnType("int")
-                                .HasColumnName("ParkingTotal");
 
                             b1.Property<string>("PatioAndPorchFeatures")
                                 .HasMaxLength(300)

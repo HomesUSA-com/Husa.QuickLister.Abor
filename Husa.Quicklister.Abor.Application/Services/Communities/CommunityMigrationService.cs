@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Photo;
     using Microsoft.Extensions.Logging;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.Migration;
     using PhotoRequest = Husa.PhotoService.Api.Contracts.Request;

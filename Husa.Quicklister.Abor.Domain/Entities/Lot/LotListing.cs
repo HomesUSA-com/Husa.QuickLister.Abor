@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
@@ -132,12 +133,13 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             }
         }
 
-        public virtual CommandSingleResult<LotListingRequest, ValidationResult> GenerateRequest(Guid userId)
+        public virtual CommandSingleResult<LotListingRequest, ValidationResult> GenerateRequest(IUserContextProvider userContextProvider)
         {
+            var userId = userContextProvider.GetCurrentUserId();
             try
             {
                 var request = new LotListingRequest(listing: this, userId);
-                return this.AddRequest(request, userId);
+                return this.AddRequest(request, userContextProvider);
             }
             catch (Exception ex)
             {

@@ -33,6 +33,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<CoolingSystem> CoolingSystem { get; set; }
         public virtual ICollection<Appliances> Appliances { get; set; }
         public virtual int? GarageSpaces { get; set; }
+        public virtual int? ParkingTotal { get; set; }
         public virtual ICollection<GarageDescription> GarageDescription { get; set; }
         public virtual ICollection<LaundryLocation> LaundryLocation { get; set; }
         public virtual ICollection<InteriorFeatures> InteriorFeatures { get; set; }
@@ -69,6 +70,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual int? GuestFullBathsTotal { get; set; }
         public virtual int? GuestHalfBathsTotal { get; set; }
         public virtual string PropertyDescription { get; set; }
+        public virtual bool IsAIGeneratedPropertyDescription { get; set; }
         public virtual bool IsNewConstruction { get; set; }
 
         public static FeaturesInfo ImportFromXml(XmlListingDetailResponse listing, FeaturesInfo features)
@@ -119,6 +121,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             clonnedFeatures.PatioAndPorchFeatures = utilities.PatioAndPorchFeatures;
             clonnedFeatures.View = utilities.View;
             clonnedFeatures.ExteriorFeatures = utilities.ExteriorFeatures;
+            clonnedFeatures.ParkingTotal = utilities.ParkingTotal;
 
             return clonnedFeatures;
         }
@@ -179,6 +182,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             yield return this.GuestHalfBathsTotal;
             yield return this.PropertyDescription;
             yield return this.IsNewConstruction;
+            yield return this.ParkingTotal;
         }
     }
 }

@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
@@ -73,7 +74,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var listing = TestModelProvider.GetListingSaleRequestEntity(requestId);
             listing.Setup(sp => sp.MlsStatus).Returns(mlsStatus);
             listing.Setup(x => x.SaleProperty.PropertyInfo).Returns(new PropertyRecord());
-            listing.Setup(sp => sp.IsValidForSubmit()).CallBase();
+            listing.Setup(sp => sp.IsValidForSubmit(It.IsAny<IUserContextProvider>())).CallBase();
 
             var result = listing.Object.IsValidForSubmit();
 
@@ -106,7 +107,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 LotDescription = new List<LotDescription>() { LotDescription.Agricultural },
                 PropertyType = PropertySubType.Condominium,
             });
-            listing.Setup(sp => sp.IsValidForSubmit()).CallBase();
+            listing.Setup(sp => sp.IsValidForSubmit(It.IsAny<IUserContextProvider>())).CallBase();
 
             var result = listing.Object.IsValidForSubmit();
 
@@ -138,7 +139,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 LotDescription = new List<LotDescription>() { LotDescription.Agricultural },
                 PropertyType = PropertySubType.Condominium,
             });
-            listing.Setup(sp => sp.IsValidForSubmit()).CallBase();
+            listing.Setup(sp => sp.IsValidForSubmit(It.IsAny<IUserContextProvider>())).CallBase();
 
             var result = listing.Object.IsValidForSubmit();
 

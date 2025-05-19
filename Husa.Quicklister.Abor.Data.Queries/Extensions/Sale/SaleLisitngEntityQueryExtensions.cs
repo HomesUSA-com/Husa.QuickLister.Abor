@@ -53,7 +53,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Sale
                 GuestFullBathsTotal = features.GuestFullBathsTotal,
                 GuestHalfBathsTotal = features.GuestHalfBathsTotal,
                 PropertyDescription = features.PropertyDescription,
+                IsAIGeneratedPropertyDescription = features.IsAIGeneratedPropertyDescription,
                 IsNewConstruction = features.IsNewConstruction,
+                ParkingTotal = features.ParkingTotal,
             };
         }
 
@@ -344,6 +346,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Sale
                 PatioAndPorchFeatures = utilities.PatioAndPorchFeatures,
                 View = utilities.View,
                 ExteriorFeatures = utilities.ExteriorFeatures,
+                ParkingTotal = utilities.ParkingTotal,
             };
         }
 

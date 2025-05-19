@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
         public ICollection<CoolingSystem> CoolingSystem { get; set; }
         public ICollection<Appliances> Appliances { get; set; }
         public int? GarageSpaces { get; set; }
+        public int? ParkingTotal { get; set; }
         public ICollection<GarageDescription> GarageDescription { get; set; }
         public ICollection<LaundryLocation> LaundryLocation { get; set; }
         public ICollection<InteriorFeatures> InteriorFeatures { get; set; }
@@ -41,6 +42,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail
         public int? GuestFullBathsTotal { get; set; }
         public int? GuestHalfBathsTotal { get; set; }
         public string PropertyDescription { get; set; }
+        public bool IsAIGeneratedPropertyDescription { get; set; }
         public bool IsNewConstruction { get; set; }
     }
 }

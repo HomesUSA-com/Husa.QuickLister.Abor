@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Husa.Extensions.Authorization;
     using Husa.Extensions.Common;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
@@ -11,12 +12,18 @@ namespace Husa.Quicklister.Abor.Domain.Common
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Extensions;
 
-    public static class ValidateListingStatus<TStatusFields>
+    public class ValidateListingStatus<TStatusFields>
         where TStatusFields : IProvideStatusFields
     {
-        public static ValidationResult GetErrors(MarketStatuses mlsStatus, TStatusFields value)
+        private readonly DateTime today;
+        public ValidateListingStatus(IUserContextProvider userContextProvider)
         {
-            var errors = GetValidations(mlsStatus, value).ToList();
+            this.today = userContextProvider?.GetUserLocalDate() ?? DateTime.Today.ToUniversalTime();
+        }
+
+        public ValidationResult GetErrors(MarketStatuses mlsStatus, TStatusFields value)
+        {
+            var errors = this.GetValidations(mlsStatus, value).ToList();
             var validationContext = new ValidationContext(value, serviceProvider: null, items: null);
             Validator.TryValidateObject(value, validationContext, errors, validateAllProperties: true);
 
@@ -30,29 +37,40 @@ namespace Husa.Quicklister.Abor.Domain.Common
             return ValidationResult.Success;
         }
 
-        private static IEnumerable<ValidationResult> GetValidations(MarketStatuses mlsStatus, TStatusFields value)
+        private static IEnumerable<ValidationResult> CanceledValidations(TStatusFields record)
+        {
+            var result = new List<ValidationResult>();
+            result.AddValue(string.IsNullOrWhiteSpace(record.CancelledReason), new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.OffMarketDate) }));
+            return result;
+        }
+
+        private static List<ValidationResult> ToRequiredFieldValidationResult(List<string> fields)
+        {
+            return fields.Count > 0 ? new List<ValidationResult> { new(ErrorExtensions.RequiredFieldMessage, fields) } : new List<ValidationResult>();
+        }
+
+        private IEnumerable<ValidationResult> GetValidations(MarketStatuses mlsStatus, TStatusFields value)
         {
             switch (mlsStatus)
             {
                 case MarketStatuses.Pending:
-                    return PendingValidations(value);
+                    return this.PendingValidations(value);
                 case MarketStatuses.Hold:
-                    return HoldValidations(value);
+                    return this.HoldValidations(value);
                 case MarketStatuses.Closed:
-                    return SoldValidations(value);
+                    return this.SoldValidations(value);
                 case MarketStatuses.Canceled:
                     return CanceledValidations(value);
                 case MarketStatuses.ActiveUnderContract:
-                    return ActiveUnderContractValidations(value);
+                    return this.ActiveUnderContractValidations(value);
             }
 
             return new List<ValidationResult>();
         }
 
-        private static IEnumerable<ValidationResult> ActiveUnderContractValidations(TStatusFields record)
+        private IEnumerable<ValidationResult> ActiveUnderContractValidations(TStatusFields record)
         {
             var result = new List<ValidationResult>();
-            var today = DateTime.Today.ToUtc();
 
             if (!record.PendingDate.HasValue)
             {
@@ -60,7 +78,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
             }
             else
             {
-                if (record.PendingDate.DateCompare(OperatorType.GreaterThan, today.AddDays(1)))
+                if (record.PendingDate.DateCompare(OperatorType.GreaterThan, this.today.AddDays(1)))
                 {
                     result.Add(new ValidationResult(OperatorType.LessEqual.GetErrorMessage("today"), new[] { nameof(record.PendingDate) }));
                 }
@@ -70,12 +88,12 @@ namespace Husa.Quicklister.Abor.Domain.Common
             {
                 result.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.EstimatedClosedDate) }));
             }
-            else if (record.EstimatedClosedDate.DateCompare(OperatorType.LessThan, today.AddDays(1)))
+            else if (record.EstimatedClosedDate.DateCompare(OperatorType.LessThan, this.today.AddDays(1)))
             {
                 result.Add(new(OperatorType.GreaterEqual.GetErrorMessage("tomorrow"), new[] { nameof(record.EstimatedClosedDate) }));
             }
 
-            if (record.ClosedDate.DateCompare(OperatorType.LessThan, today))
+            if (record.ClosedDate.DateCompare(OperatorType.LessThan, this.today))
             {
                 result.Add(new(OperatorType.GreaterEqual.GetErrorMessage("today"), new[] { nameof(record.ClosedDate) }));
             }
@@ -83,23 +101,15 @@ namespace Husa.Quicklister.Abor.Domain.Common
             return result;
         }
 
-        private static IEnumerable<ValidationResult> CanceledValidations(TStatusFields record)
+        private IEnumerable<ValidationResult> PendingValidations(TStatusFields record)
         {
             var result = new List<ValidationResult>();
-            result.AddValue(string.IsNullOrWhiteSpace(record.CancelledReason), new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.OffMarketDate) }));
-            return result;
-        }
-
-        private static IEnumerable<ValidationResult> PendingValidations(TStatusFields record)
-        {
-            var result = new List<ValidationResult>();
-            var today = DateTime.Today.ToUtc();
 
             if (!record.PendingDate.HasValue)
             {
                 result.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.PendingDate) }));
             }
-            else if (record.PendingDate.DateCompare(OperatorType.GreaterThan, today.AddDays(1)))
+            else if (record.PendingDate.DateCompare(OperatorType.GreaterThan, this.today.AddDays(1)))
             {
                 result.Add(new(OperatorType.LessEqual.GetErrorMessage("today"), new[] { nameof(record.PendingDate) }));
             }
@@ -108,7 +118,7 @@ namespace Husa.Quicklister.Abor.Domain.Common
             {
                 result.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.EstimatedClosedDate) }));
             }
-            else if (record.EstimatedClosedDate.DateCompare(OperatorType.LessThan, today))
+            else if (record.EstimatedClosedDate.DateCompare(OperatorType.LessThan, this.today))
             {
                 result.Add(new(OperatorType.GreaterEqual.GetErrorMessage("today"), new[] { nameof(record.EstimatedClosedDate) }));
             }
@@ -118,19 +128,18 @@ namespace Husa.Quicklister.Abor.Domain.Common
             return result;
         }
 
-        private static IEnumerable<ValidationResult> HoldValidations(TStatusFields record)
+        private IEnumerable<ValidationResult> HoldValidations(TStatusFields record)
         {
             var requiredFields = new List<string>();
             requiredFields.AddValue(!record.OffMarketDate.HasValue, nameof(record.OffMarketDate));
             requiredFields.AddValue(!record.BackOnMarketDate.HasValue, nameof(record.BackOnMarketDate));
 
             var results = ToRequiredFieldValidationResult(requiredFields);
-            var today = DateTime.Today.ToUtc();
             if (!record.BackOnMarketDate.HasValue)
             {
                 results.Add(new(ErrorExtensions.RequiredFieldMessage, new[] { nameof(record.BackOnMarketDate) }));
             }
-            else if (record.BackOnMarketDate.DateCompare(OperatorType.LessThan, today.AddDays(1)))
+            else if (record.BackOnMarketDate.DateCompare(OperatorType.LessThan, this.today.AddDays(1)))
             {
                 results.Add(new(OperatorType.GreaterEqual.GetErrorMessage("tomorrow"), new[] { nameof(record.BackOnMarketDate) }));
             }
@@ -138,10 +147,9 @@ namespace Husa.Quicklister.Abor.Domain.Common
             return results;
         }
 
-        private static IEnumerable<ValidationResult> SoldValidations(TStatusFields record)
+        private IEnumerable<ValidationResult> SoldValidations(TStatusFields record)
         {
             var requiredFields = new List<string>();
-            var today = DateTime.Today.ToUtc();
 
             requiredFields.AddValue(!record.ClosedDate.HasValue, nameof(record.ClosedDate));
             requiredFields.AddValue(!record.PendingDate.HasValue, nameof(record.PendingDate));
@@ -154,14 +162,14 @@ namespace Husa.Quicklister.Abor.Domain.Common
             var results = ToRequiredFieldValidationResult(requiredFields);
             results.AddValue(record.ClosePrice.HasValue && record.ClosePrice.Value <= 0, new(OperatorType.GreaterThan.GetErrorMessage("zero")));
 
-            if (record.PendingDate.DateCompare(OperatorType.GreaterThan, today.AddDays(-1)))
+            if (record.PendingDate.DateCompare(OperatorType.GreaterThan, this.today.AddDays(-1)))
             {
                 results.Add(new ValidationResult(OperatorType.LessEqual.GetErrorMessage("yesterday"), new[] { nameof(record.PendingDate) }));
             }
 
             if (record.ClosedDate.HasValue)
             {
-                if (record.ClosedDate.DateCompare(OperatorType.GreaterThan, today))
+                if (record.ClosedDate.DateCompare(OperatorType.GreaterThan, this.today))
                 {
                     results.Add(new ValidationResult("The close date cannot be in the future.", new[] { nameof(record.ClosedDate) }));
                 }
@@ -173,11 +181,6 @@ namespace Husa.Quicklister.Abor.Domain.Common
             }
 
             return results;
-        }
-
-        private static List<ValidationResult> ToRequiredFieldValidationResult(List<string> fields)
-        {
-            return fields.Count > 0 ? new List<ValidationResult> { new(ErrorExtensions.RequiredFieldMessage, fields) } : new List<ValidationResult>();
         }
     }
 }

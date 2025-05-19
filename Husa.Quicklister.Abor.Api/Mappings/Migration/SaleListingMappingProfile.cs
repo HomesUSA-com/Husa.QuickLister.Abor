@@ -36,6 +36,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.MlsArea, pr => pr.MapFrom(x => x.MlsArea.ToEnumOrNullFromEnumMember<MlsArea>()))
                 .ForMember(dto => dto.FemaFloodPlain, pr => pr.MapFrom(x => x.FemaFloodPlain.ToFemaFloodPlain()));
             this.CreateMap<FeaturesResponse, FeaturesDto>()
+                .ForMember(dto => dto.IsAIGeneratedPropertyDescription, pr => pr.Ignore())
                 .ForMember(dto => dto.GarageDescription, pr => pr.Ignore())
                 .ForMember(dto => dto.GarageSpaces, pr => pr.MapFrom(x => x.GarageCapacity))
                 .ForMember(dto => dto.PatioAndPorchFeatures, pr => pr.MapFrom(x => x.PatioAndPorchFeatures.CsvToEnum<PatioAndPorchFeatures>(true)))
@@ -67,6 +68,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.View, pr => pr.MapFrom(x => x.ViewDescription.ToView()))
                 .ForMember(dto => dto.WaterfrontFeatures, pr => pr.MapFrom(x => x.WaterfrontFeatures.CsvToEnum<WaterfrontFeatures>(true)))
                 .ForMember(dto => dto.UnitStyle, pr => pr.MapFrom(x => x.HousingStyle.CsvToEnum<UnitStyle>(true)))
+                .ForMember(dto => dto.ParkingTotal, pr => pr.Ignore())
                 .ForMember(dto => dto.GuestAccommodationsDescription, pr => pr.MapFrom(x => x.GuestAccommodationsDescription.CsvToEnum<GuestAccommodationsDescription>(true)))
                 .ForMember(dto => dto.WaterBodyName, pr => pr.MapFrom(x => x.WaterBodyName.ToEnumOrNullFromEnumMember<WaterBodyName>()))
                 .ForMember(dto => dto.DistanceToWaterAccess, pr => pr.MapFrom(x => x.DistanceToWaterAccess.ToEnumOrNullFromEnumMember<DistanceToWaterAccess>()));

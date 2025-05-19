@@ -236,7 +236,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
         private void SetupGenerateRequest(Mock<LotListing> saleListing, Guid userId, CommandSingleResult<LotListingRequest, ValidationResult> result)
         {
             saleListing
-                .Setup(sl => sl.GenerateRequest(It.Is<Guid>(id => id == userId)))
+                .Setup(sl => sl.GenerateRequest(It.Is<IUserContextProvider>(p => p.GetCurrentUserId() == userId)))
                 .Returns(result)
                 .Verifiable();
 

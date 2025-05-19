@@ -33,7 +33,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
-    using Husa.Quicklister.Abor.Application.Interfaces.Notes;
     using Husa.Quicklister.Abor.Application.Interfaces.Office;
     using Husa.Quicklister.Abor.Application.Interfaces.Plan;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
@@ -43,7 +42,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Application.Services.Downloader;
     using Husa.Quicklister.Abor.Application.Services.ListingRequests;
     using Husa.Quicklister.Abor.Application.Services.LotListings;
-    using Husa.Quicklister.Abor.Application.Services.Notes;
     using Husa.Quicklister.Abor.Application.Services.Plans;
     using Husa.Quicklister.Abor.Application.Services.Reports;
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
@@ -147,13 +145,9 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IMediaService, MediaService>();
 
             services.AddScoped<ISaleListingService, SaleListingService>();
-            services.AddScoped<ISaleListingNotesService, SaleListingNotesService>();
-            services.AddScoped<ISaleListingPhotoService, SaleListingPhotoService>();
             services.AddScoped<ISaleListingXmlService, SaleListingXmlService>();
 
             services.AddScoped<ILotListingService, LotListingService>();
-            services.AddScoped<ILotListingNotesService, LotListingNotesService>();
-            services.AddScoped<ILotListingPhotoService, LotListingPhotoService>();
             services.AddScoped<ILotListingRequestService, LotListingRequestService>();
 
             services.AddScoped<ICommunityHistoryService, CommunityHistoryService>();
@@ -163,24 +157,19 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ISaleListingMigrationService, SaleListingMigrationService>();
 
             services.AddScoped<IPlanService, PlanService>();
-            services.AddScoped<IPlanPhotoService, PlanPhotoService>();
             services.AddScoped<InterfaceExtensions.JsonImport.IPlanJsonImportService, PlanJsonImportService>();
             services.AddScoped<InterfaceExtensions.Plan.IPlanXmlService, PlanXmlService>();
             services.AddScoped<InterfaceExtensions.Migration.IPlanMigrationService, PlanMigrationService>();
-            services.AddScoped<IPlanNotesService, PlanNotesService>();
             services.AddScoped<InterfaceExtensions.Plan.IPlanDeletionService, PlanDeletionService>();
 
             services.AddScoped<ISaleCommunityService, SaleCommunityService>();
-            services.AddScoped<ICommunityPhotoService, CommunityPhotoService>();
             services.AddScoped<InterfaceExtensions.Community.ICommunityXmlService, CommunityXmlService>();
             services.AddScoped<InterfaceExtensions.JsonImport.ICommunityJsonImportService, CommunityJsonImportService>();
             services.AddScoped<ICommunityMigrationService, CommunityMigrationService>();
             services.AddScoped<InterfaceExtensions.Migration.ICommunityHistoryMigrationService, CommunityHistoryMigrationService>();
-            services.AddScoped<ICommunityNotesService, CommunityNotesService>();
             services.AddScoped<InterfaceExtensions.Community.ICommunityDeletionService, CommunityDeletionService>();
 
             services.AddScoped<IUploaderService, UploaderService>();
-            services.AddScoped<INotesBusService, NotesBusService>();
             services.AddScoped<IPlanXmlMediaService, PlanXmlMediaService>();
             services.AddScoped<ICommunityXmlMediaService, CommunityXmlMediaService>();
             services.AddScoped<ISaleListingXmlMediaService, SaleListingXmlMediaService>();
@@ -196,6 +185,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.ConfigureLegacyListingService(Migration.Enums.MigrationMarketType.Austin);
             services.ConfigureMediaServices();
+            services.ConfigureNoteServices();
+            services.ConfigurePhotoServices();
             return services;
         }
 
@@ -360,8 +351,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddExtensionServiceBusHandlers();
             services.AddSingleton<IDownloaderSubscriber, DownloaderSubscriber>();
             services.AddSingleton<IDownloaderMessagesHandler, DownloaderMessagesHandler>();
-            services.AddSingleton<IPhotoServiceMessagesHandler, PhotoServiceMessagesHandler>();
-            services.AddSingleton<IPhotoServiceSubscriber, PhotoServiceSubscriber>();
+            services.AddSingleton<Extensions.Api.ServiceBus.Handlers.IPhotoServiceMessagesHandler, PhotoServiceMessagesHandler>();
             services.AddSingleton<IXmlMessagesHandler, XmlMessagesHandler>();
             services.AddSingleton<IXmlSubscriber, XmlSubscriber>();
             services.AddSingleton<IMigrationMessagesHandler, MigrationMessagesHandler>();

@@ -166,7 +166,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate,
                 ignoreRequestByDescription: companyDetail.SettingInfo.StopXMLDescriptionManagement);
 
-            var requestResult = listing.GenerateRequest(currentUser.Id);
+            var requestResult = listing.GenerateRequest(this.UserContextProvider);
             if (requestResult.Errors.Any())
             {
                 listing.LockUnsubmitted(currentUser.Id);
