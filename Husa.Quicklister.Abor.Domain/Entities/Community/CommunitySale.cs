@@ -427,11 +427,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             this.UpdateSchools(schools: communityInfo.SchoolsInfo);
             this.UpdateShowing(showing: communityInfo.ShowingInfo);
             this.UpdateOpenHouse(openHouses: communityOpenHouses);
-
-            if (communityInfo.ShowingTime is not null)
-            {
-                this.UpdateShowingTime(communityInfo.ShowingTime);
-            }
+            this.UpdateShowingTime(communityInfo.UseShowingTime, communityInfo.ShowingTime);
         }
 
         public CommunityHistory GenerateRecord()

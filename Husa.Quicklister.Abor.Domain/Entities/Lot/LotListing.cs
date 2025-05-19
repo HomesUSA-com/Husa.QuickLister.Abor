@@ -18,7 +18,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
 
-    public class LotListing : Entities.Listing.Listing, IGenerateListingRequest<LotListingRequest>
+    public class LotListing : Entities.Listing.Listing, IGenerateListingRequest<LotListingRequest>, IGenerateRequestFromCommunity<LotListingRequest, CommunitySale>
     {
         public LotListing(
                 MarketStatuses mlsStatus,
@@ -148,17 +148,22 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             }
         }
 
-        public virtual CommandSingleResult<LotListingRequest, ValidationResult> GenerateRequestFromCommunity(LotListingRequest lastCompletedRequest, Guid userId)
+        public virtual CommandSingleResult<LotListingRequest, ValidationResult> GenerateRequestFromCommunity(
+            LotListingRequest lastCompletedRequest,
+            CommunitySale community,
+            IUserContextProvider userContextProvider)
         {
             this.UpdateListingFromCommunitySubmit();
+            this.UpdateShowingTimeFromCommunitySubmit(community);
 
             var newRequest = lastCompletedRequest.Clone();
             newRequest.ImportDataFromCommunitySubmit(this.Community);
-            newRequest.UpdateTrackValues(userId, isNewRecord: true);
+            newRequest.UpdateShowingTimeFromCommunitySubmit(community);
+            newRequest.UpdateTrackValues(userContextProvider.GetCurrentUserId(), isNewRecord: true);
             newRequest.MlsNumber = this.MlsNumber;
             newRequest.ListDate = this.ListDate;
 
-            return this.AddRequest(newRequest, userId);
+            return this.AddRequest(newRequest, userContextProvider);
         }
 
         protected override IEnumerable<object> GetEntityEqualityComponents()

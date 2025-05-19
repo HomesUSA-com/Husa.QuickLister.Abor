@@ -100,7 +100,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
             this.SaleProperty.UpdateInformation(salePropertyValue);
         }
 
-        public override IEnumerable<ValidationResult> IsValidForSubmit(IUserContextProvider userContextProvider = null)
+        public override IEnumerable<ValidationResult> IsValidForSubmit(IUserContextProvider userContextProvider)
         {
             var validationResults = base.IsValidForSubmit(userContextProvider);
             var propertyResults = (CompositeValidationResult)ValidateListingProperty<PropertyRecord>.GetErrors(this.MlsStatus, this.SaleProperty.PropertyInfo);
