@@ -2,7 +2,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.Common.Validations;
     using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -22,6 +24,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         [MaxLength(14, ErrorMessage = "The {0} value cannot exceed {1} characters. ")]
         public string ContactPhone { get; set; }
 
+        [IfRequired(nameof(ShowingRequirements), Enums.Domain.ShowingRequirements.SeeShowingInstructions, OperatorType.Contains)]
         public string ShowingInstructions { get; set; }
 
         public ICollection<string> RealtorContactEmail { get; set; }
