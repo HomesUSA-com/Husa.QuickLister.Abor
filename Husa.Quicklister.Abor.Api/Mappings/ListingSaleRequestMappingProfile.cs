@@ -70,9 +70,11 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.SaleListings, config => config.Ignore())
                 .ForMember(dest => dest.SysTimestamp, config => config.Ignore());
 
-            this.CreateMap<RequestBaseFilter, RequestBaseQueryFilter>();
+            this.CreateMap<RequestBaseFilter, RequestBaseQueryFilter>()
+                 .ForMember(dest => dest.EntityId, config => config.Ignore());
             this.CreateMap<SaleListingRequestFilter, SaleListingRequestQueryFilter>()
-                .ForMember(dest => dest.ListingId, config => config.MapFrom(dto => dto.SaleListingId));
+                .ForMember(dest => dest.ListingId, config => config.MapFrom(dto => dto.SaleListingId))
+                .ForMember(dest => dest.EntityId, config => config.MapFrom(dto => dto.SaleListingId));
 
             this.CreateMap<SummarySectionQueryResult, SummarySectionContract>();
             this.CreateMap<SummaryFieldQueryResult, SummaryFieldContract>();
