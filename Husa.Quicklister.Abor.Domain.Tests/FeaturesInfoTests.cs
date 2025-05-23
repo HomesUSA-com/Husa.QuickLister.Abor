@@ -95,6 +95,28 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             Assert.Contains("..", fields.PropertyDescription);
         }
 
+        [Fact]
+        public void StopUpdatePropertyDescriptionByIAField()
+        {
+            // Arrange
+            var fields = new StubSaleFeature
+            {
+                PropertyDescription = "Should be replaced 2",
+                IsAIGeneratedPropertyDescription = true,
+            };
+            var xmlListing = new XmlListingDetailResponse
+            {
+                Description = "Should be replaced 1 ",
+            };
+
+            // Act
+            fields.UpdateFromXml(xmlListing);
+
+            // Assert
+            Assert.NotEqual("Should be replaced", fields.PropertyDescription);
+            Assert.DoesNotContain("<br>", fields.PropertyDescription);
+        }
+
         private sealed class StubSaleFeature : IProvideSaleFeature
         {
             public string PropertyDescription { get; set; }
