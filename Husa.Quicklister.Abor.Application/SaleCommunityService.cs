@@ -95,6 +95,7 @@ namespace Husa.Quicklister.Abor.Application
                 SchoolsInfo = this.mapper.Map<SchoolsInfo>(communitySaleDto.FinancialSchools.Schools),
                 ShowingInfo = this.mapper.Map<CommunityShowingInfo>(communitySaleDto.Showing),
                 ShowingTime = this.mapper.Map<ShowingTime>(communitySaleDto.ShowingTime),
+                UseShowingTime = communitySaleDto.UseShowingTime,
             };
             var communityOpenHouses = this.mapper.Map<IEnumerable<CommunityOpenHouse>>(communitySaleDto.OpenHouses);
 
