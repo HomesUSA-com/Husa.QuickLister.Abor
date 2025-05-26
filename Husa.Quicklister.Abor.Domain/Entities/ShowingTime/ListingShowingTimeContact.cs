@@ -2,7 +2,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.ShowingTime
 {
     using System;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
+    using Husa.Quicklister.Extensions.Domain.Interfaces.ShowingTime;
 
     public class ListingShowingTimeContact : IContactOrder
     {

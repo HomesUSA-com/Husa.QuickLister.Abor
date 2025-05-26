@@ -22,5 +22,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
         public XmlStatus XmlStatus { get; set; }
         public JsonImportStatus JsonImportStatus { get; set; }
         public ShowingTimeQueryResult ShowingTime { get; set; }
+        public bool UseShowingTime { get; set; }
     }
 }

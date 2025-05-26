@@ -15,5 +15,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.Community
         public CommunityShowingRequest Showing { get; set; }
         public ShowingTimeInfo ShowingTime { get; set; }
         public IEnumerable<OpenHouseRequest> OpenHouses { get; set; }
+        public bool UseShowingTime { get; set; }
     }
 }

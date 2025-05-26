@@ -25,6 +25,7 @@ namespace Husa.Quicklister.Abor.Domain.ValueObjects
         public virtual CommunityShowingInfo ShowingInfo { get; set; }
 
         public virtual ShowingTime ShowingTime { get; set; }
+        public virtual bool UseShowingTime { get; set; }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
@@ -37,6 +38,7 @@ namespace Husa.Quicklister.Abor.Domain.ValueObjects
             yield return this.SchoolsInfo;
             yield return this.ShowingInfo;
             yield return this.ShowingTime;
+            yield return this.UseShowingTime;
         }
     }
 }
