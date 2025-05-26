@@ -201,6 +201,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
                 PropertyDescription = featuresInfo.PropertyDescription,
                 IsNewConstruction = featuresInfo.IsNewConstruction,
                 ParkingTotal = featuresInfo.ParkingTotal,
+                IsAIGeneratedPropertyDescription = featuresInfo.IsAIGeneratedPropertyDescription,
             };
         }
 
