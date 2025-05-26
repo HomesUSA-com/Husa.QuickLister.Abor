@@ -31,7 +31,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
                 string ownerName,
                 Counties? county = null,
                 Guid? communityId = null,
-                bool manuallyManaged = false)
+                bool manuallyManaged = true)
                 : this()
         {
             this.CompanyId = companyId;
@@ -59,7 +59,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             this.ManagementTraces = new List<LotManagementTrace>();
         }
 
-        public LotListing(LotValueObject lotInfo, Guid companyId, bool manuallyManaged = false)
+        public LotListing(LotValueObject lotInfo, Guid companyId, bool manuallyManaged = true)
         {
             this.CompanyId = companyId;
             this.MlsStatus = lotInfo.MlsStatus;
