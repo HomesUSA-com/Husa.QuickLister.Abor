@@ -102,8 +102,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
                 company.Id,
                 company.Name,
                 lotListing.County,
-                lotListing.CommunityId,
-                lotListing.IsManuallyManaged)
+                lotListing.CommunityId)
             {
                 LegacyId = lotListing.LegacyId,
             };
