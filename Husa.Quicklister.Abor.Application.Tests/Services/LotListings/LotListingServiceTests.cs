@@ -180,6 +180,12 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
             var user = TestModelProvider.GetCurrentUser(userId, companyId, userRole: UserRole.User);
             this.lotListingRepositoryMock.Setup(x => x.GetById(listingId, true)).ReturnsAsync(listing);
             this.userContextProviderMock.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
+            var company = TestModelProvider.GetCompanyDetail();
+
+            this.serviceSubscriptionClientMock
+               .Setup(x => x.Company
+                   .GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(company);
 
             // Act & Assert
             await Assert.ThrowsAsync<DomainException>(async () => await this.sut.UnlockListing(listingId));
@@ -193,7 +199,13 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
             var companyId = Guid.NewGuid();
             var userId = Guid.NewGuid();
             var user = TestModelProvider.GetCurrentUser(userId, companyId, userRole: UserRole.MLSAdministrator);
+            var company = TestModelProvider.GetCompanyDetail();
             var listingSale = new LotListing { Id = listingId };
+
+            this.serviceSubscriptionClientMock
+               .Setup(x => x.Company
+                   .GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(company);
 
             this.userContextProviderMock.Setup(x => x.GetCurrentUser()).Returns(user);
             this.lotListingRepositoryMock.Setup(x => x.GetById(listingId, true)).ReturnsAsync(listingSale);
@@ -204,7 +216,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
 
             // Assert
             Assert.Equal(ResponseCode.Success, result.Code);
-            Assert.Equal($"Unlocked lot listing with id {listingId}.", result.Result);
+            Assert.Equal($"Unlocked LotListing with id {listingId}.", result.Result);
         }
 
         [Fact]
@@ -215,8 +227,14 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
             var companyId = Guid.NewGuid();
             var userId = Guid.NewGuid();
             var user = TestModelProvider.GetCurrentUser(userId, companyId, userRole: UserRole.User);
+            var company = TestModelProvider.GetCompanyDetail();
             user.EmployeeRole = RoleEmployee.CompanyAdmin;
             var listingSale = new LotListing { Id = listingId, LockedBy = userId, LockedStatus = Quicklister.Extensions.Domain.Enums.LockedStatus.LockedNotSubmitted };
+
+            this.serviceSubscriptionClientMock
+               .Setup(x => x.Company
+                   .GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync(company);
 
             this.userContextProviderMock.Setup(x => x.GetCurrentUser()).Returns(user);
             this.lotListingRepositoryMock.Setup(x => x.GetById(listingId, true)).ReturnsAsync(listingSale);
@@ -227,7 +245,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
 
             // Assert
             Assert.Equal(ResponseCode.Error, result.Code);
-            Assert.Equal($"The lot listing {listingId} has an open request, cannot be unlocked.", result.Message);
+            Assert.Equal($"The sale listing {listingId} has an open request, cannot be unlocked.", result.Message);
         }
 
         [Fact]

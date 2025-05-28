@@ -648,6 +648,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             var userId = Guid.NewGuid();
             var user = TestModelProvider.GetCurrentUser(userId, companyId);
+            var company = TestModelProvider.GetCompanyDetail();
             this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
             Mock.Get(listing).Setup(l => l.CanUnlock(It.IsAny<IUserContext>(), false)).Returns(true);
 
@@ -655,6 +656,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => filterByCompany)))
                 .ReturnsAsync(listing)
                 .Verifiable();
+
+            this.serviceSubscriptionClient
+                .Setup(x => x.Company
+                    .GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(company);
 
             // Act
             await this.Sut.UnlockListing(listingId);
@@ -866,12 +872,18 @@ namespace Husa.Quicklister.Abor.Application.Tests
             listing.LockedBy = lockedBy;
             listing.LockedStatus = lockedStatus;
             Mock.Get(listing).Setup(l => l.CanUnlock(It.IsAny<IUserContext>(), false)).Returns(true);
+            var company = TestModelProvider.GetCompanyDetail();
 
             this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
             this.listingSaleRepository
                 .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => filterByCompany)))
                 .ReturnsAsync(listing)
                 .Verifiable();
+
+            this.serviceSubscriptionClient
+                .Setup(x => x.Company
+                    .GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(company);
 
             // Act
             await this.Sut.UnlockListing(listingId);

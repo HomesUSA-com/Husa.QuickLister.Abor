@@ -622,6 +622,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             {
                 BlockSquareFootage = blockSquareFootage,
             },
+            SettingInfo = new(),
         };
 
         public static MediaDetail GetMediaDetail(Guid? mediaId = null) => new()
