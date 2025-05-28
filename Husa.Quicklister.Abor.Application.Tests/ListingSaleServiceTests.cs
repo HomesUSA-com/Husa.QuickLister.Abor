@@ -649,7 +649,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var userId = Guid.NewGuid();
             var user = TestModelProvider.GetCurrentUser(userId, companyId);
             this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
-            Mock.Get(listing).Setup(l => l.CanUnlock(It.IsAny<IUserContext>())).Returns(true);
+            Mock.Get(listing).Setup(l => l.CanUnlock(It.IsAny<IUserContext>(), false)).Returns(true);
 
             this.listingSaleRepository
                 .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => filterByCompany)))
@@ -865,7 +865,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var listing = TestModelProvider.GetListingSaleEntity(listingId, true, user.CompanyId);
             listing.LockedBy = lockedBy;
             listing.LockedStatus = lockedStatus;
-            Mock.Get(listing).Setup(l => l.CanUnlock(It.IsAny<IUserContext>())).Returns(true);
+            Mock.Get(listing).Setup(l => l.CanUnlock(It.IsAny<IUserContext>(), false)).Returns(true);
 
             this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
             this.listingSaleRepository

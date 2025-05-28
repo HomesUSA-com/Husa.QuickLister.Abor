@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using Husa.Quicklister.Abor.Domain.Comparers;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -54,10 +55,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Plan
 
         public virtual ICollection<SaleProperty> SaleProperties { get; set; }
 
-        public virtual IEnumerable<SaleListing> GetActiveListingsInMarket() => this.SaleProperties
-            .Where(property => !property.IsDeleted)
-            .SelectMany(p => p.SaleListings)
-            .Where(listing => !listing.IsDeleted && SaleListing.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber));
+        public virtual Expression<Func<SaleListing, bool>> ActiveListingsInMarketExpression => listing
+           => !listing.IsDeleted && listing.SaleProperty.PlanId == this.Id && SaleListing.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber);
 
         public virtual IEnumerable<SaleListing> GetListingsToUpdate() => this.SaleProperties.GetListingsToUpdate();
 

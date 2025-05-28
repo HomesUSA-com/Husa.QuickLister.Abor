@@ -105,6 +105,11 @@ namespace Husa.Quicklister.Abor.Application
             await this.communityHistoryService.CreateRecordAsync(communityId, isSubmitted);
         }
 
+        public Task<bool> UpdateCommunityOpenHouses(Guid communityId, CommunitySaleDto communityDto, bool isSubmitted = false)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task UpdateListingsAsync(Guid communityId)
         {
             var community = await this.CommunitySaleRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);

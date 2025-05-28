@@ -115,7 +115,7 @@ namespace Husa.Quicklister.Abor.Application.Services
             this.emailSender.SendEmail(user.Email, user.FirstName, emailParameter, TemplateType.ReturnedListingRequest);
         }
 
-        protected override IEnumerable<LotListing> GetActiveListingsFromCommunity(CommunitySale community)
-            => community.GetActiveLotListings();
+        protected override Task<IEnumerable<LotListing>> GetActiveListingsFromCommunity(CommunitySale community)
+            => Task.FromResult(community.GetActiveLotListings());
     }
 }

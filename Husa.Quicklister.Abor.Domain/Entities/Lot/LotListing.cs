@@ -166,6 +166,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             return this.AddRequest(newRequest, userContextProvider);
         }
 
+        public CommandSingleResult<LotListingRequest, ValidationResult> GenerateOpenHouseRequestFromCommunity(LotListingRequest lastCompletedRequest, CommunitySale community, IUserContextProvider userContextProvider)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override IEnumerable<object> GetEntityEqualityComponents()
         {
             yield return this.OwnerName;

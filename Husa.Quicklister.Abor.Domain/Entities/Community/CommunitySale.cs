@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using Husa.CompanyServicesManager.Domain.Enums;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
@@ -95,6 +96,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual ICollection<ShowingTimeContact> ShowingTimeContacts { get; set; }
 
         public override bool CanBeDeleted => !this.SaleProperties.Any(s => s.CanBeDeleted);
+
+        public virtual Expression<Func<SaleListing, bool>> ActiveListingsInMarketExpression => listing
+            => !listing.IsDeleted && listing.SaleProperty.CommunityId == this.Id && SaleListing.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber);
 
         public virtual void UpdateProperty(Property property)
         {
@@ -254,11 +258,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
                 this.Employees.Remove(employee);
             }
         }
-
-        public virtual IEnumerable<SaleListing> GetActiveListingsInMarket() => this.SaleProperties
-            .Where(property => !property.IsDeleted)
-            .SelectMany(p => p.SaleListings)
-            .Where(listing => !listing.IsDeleted && SaleListing.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber));
 
         public virtual IEnumerable<SaleListing> GetListingsToUpdate() => this.SaleProperties.GetListingsToUpdate();
 

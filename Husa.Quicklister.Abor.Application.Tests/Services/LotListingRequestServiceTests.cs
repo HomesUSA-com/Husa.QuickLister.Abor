@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
@@ -15,7 +16,9 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
     using Husa.Extensions.EmailNotification.Services;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Application.Services;
+    using Husa.Quicklister.Abor.Application.Tests.Providers;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
+    using Husa.Quicklister.Abor.Crosscutting.Tests.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
@@ -180,6 +183,42 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
                     It.IsAny<Guid>(),
                     It.IsAny<CancellationToken>()),
                 Times.Once);
+        }
+
+        [Fact]
+        public async Task GetActiveListingsFromCommunity_Success()
+        {
+            var communityId = Guid.NewGuid();
+            var community = CommunityTestProvider.GetCommunityEntity(communityId);
+
+            // Unlocked Listing
+            var activeListing = TestModelProvider.GetLotListingEntity(Guid.NewGuid(), createStub: true, communityId: communityId);
+            activeListing.MlsStatus = Domain.Enums.MarketStatuses.Active;
+            activeListing.Community = community;
+
+            // Locked Listing
+            var closedListing = TestModelProvider.GetLotListingEntity(Guid.NewGuid(), createStub: true, communityId: communityId);
+            closedListing.MlsStatus = Domain.Enums.MarketStatuses.Closed;
+            closedListing.Community = community;
+            community.LotListings = [activeListing, closedListing];
+
+            var sut = new TestLotListingRequestService(
+                this.requestRepository.Object,
+                this.listingRepository.Object,
+                this.mediaService.Object,
+                this.userContextProvider.Object,
+                this.communityRepository.Object,
+                this.fixture.Mapper,
+                this.logger.Object,
+                this.fixture.Options.Object,
+                this.serviceSubscriptionClient.Object,
+                this.emailSender.Object,
+                this.userQueriesRepository.Object,
+                this.showingTimeContactsProvider.Object);
+
+            var listingResult = await sut.GetPublicActiveListingsFromCommunity(community);
+            Assert.Single(listingResult);
+            Assert.Equal(activeListing.Id, listingResult.Single().Id);
         }
 
         private LotListingRequestDto GetLotListingRequestDto(decimal listPrice) => new()

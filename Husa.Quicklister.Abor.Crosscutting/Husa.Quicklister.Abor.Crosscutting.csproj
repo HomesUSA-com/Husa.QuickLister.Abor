@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <AssemblyName>Husa.Quicklister.Abor.Crosscutting</AssemblyName>
@@ -8,7 +8,7 @@
     <ItemGroup>
         <PackageReference Include="Husa.JsonImport.Api.Client" Version="0.6.4" />
         <PackageReference Include="Husa.Extensions.Authorization" Version="4.3.1" />
-        <PackageReference Include="Husa.Extensions.Common" Version="4.2.1" />
+        <PackageReference Include="Husa.Extensions.Common" Version="4.2.2" />
         <PackageReference Include="Husa.Extensions.Quickbooks" Version="1.0.2" />
         <PackageReference Include="Husa.Quicklister.Extensions.Crosscutting" Version="2.10.0-dev001" />
         <PackageReference Include="Husa.Xml.Client" Version="2.3.8" />

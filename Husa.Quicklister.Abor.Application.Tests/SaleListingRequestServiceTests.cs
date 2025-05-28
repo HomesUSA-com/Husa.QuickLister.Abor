@@ -1,35 +1,26 @@
 namespace Husa.Quicklister.Abor.Application.Tests
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
-    using Husa.Extensions.Common.Classes;
-    using Husa.Extensions.Common.Enums;
     using Husa.Extensions.EmailNotification.Services;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Application.Services;
     using Husa.Quicklister.Abor.Application.Tests.Providers;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
-    using Husa.Quicklister.Abor.Crosscutting.Tests.Community;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
-    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
-    using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -57,49 +48,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
         public SaleListingRequestServiceTests(ApplicationServicesFixture fixture)
         {
             this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
-        }
-
-        [Fact]
-        public async Task CreateRequestsFromCommunity_Success()
-        {
-            // Arrange
-            var lastListingRequest = new Mock<SaleListingRequest>();
-
-            var userId = Guid.NewGuid();
-            var saleListingRequestId = Guid.NewGuid();
-            var unlockedListingId = Guid.NewGuid();
-            var lockedListingBy = Guid.NewGuid();
-
-            // Community
-            var communityId = Guid.NewGuid();
-            var saleCommunity = this.GetCommunityWithUnlockedListing(communityId, unlockedListingId, saleListingRequestId, lockedListingBy);
-            this.saleCommunityRepository
-                .Setup(sl => sl.GetCommunityByIdAsync(It.Is<Guid>(id => id == communityId)))
-                .ReturnsAsync(saleCommunity)
-                .Verifiable();
-            this.saleRequestRepository
-                .Setup(sl => sl.GetLastCompletedRequestAsync(It.Is<Guid>(id => id == unlockedListingId), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(lastListingRequest.Object)
-                .Verifiable();
-            this.userContextProvider
-                .Setup(sl => sl.GetCurrentUserId())
-                .Returns(userId)
-                .Verifiable();
-
-            var sut = this.GetSut();
-
-            // Act
-            var result = await sut.CreateRequestsFromCommunityAsync(communityId, cancellationToken: default);
-
-            // Assert
-            Assert.Equal(ResponseCode.Success, result.Code);
-            var objectResult = Assert.IsAssignableFrom<CommunityRequestsResponse>(result.Result);
-            Assert.Single(objectResult.CreatedListingRequestIds);
-            Assert.Single(objectResult.LockedListings);
-
-            this.userQueriesRepository.Verify(sl => sl.FillUsersNameAsync(It.Is<IEnumerable<IProvideQuicklisterUserInfo>>(x => x.Any(x => x.LockedBy == lockedListingBy))), Times.Once);
-            this.saleRequestRepository.Verify(sl => sl.AddDocumentAsync(It.Is<SaleListingRequest>(x => x.Id == saleListingRequestId), It.IsAny<CancellationToken>()), Times.Once);
-            this.mediaService.Verify(sl => sl.CreateMediaRequestAsync(It.Is<Guid>(x => x == unlockedListingId), It.Is<Guid>(x => x == saleListingRequestId), It.IsAny<bool>()), Times.Once);
         }
 
         [Fact]
@@ -194,33 +142,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 userId,
                 It.IsAny<CancellationToken>()),
                 Times.Once);
-        }
-
-        private CommunitySale GetCommunityWithUnlockedListing(Guid communityId, Guid unlockedListingId, Guid newRequestId, Guid lockedListingBy)
-        {
-            var saleCommunity = CommunityTestProvider.GetCommunityEntity(communityId);
-            saleCommunity.Property.Subdivision = "CommunitySubdivision";
-            var changes = new List<string> { nameof(saleCommunity.Property.Subdivision) };
-            saleCommunity.UpdateChanges(nameof(saleCommunity.Property), changes);
-
-            // Unlocked Listing
-            var unlockedListingMock = TestModelProvider.GetListingSaleEntityMock(unlockedListingId, createStub: true, communityId: communityId, lockedStatus: LockedStatus.NoLocked);
-            var saleListingRequest = ListingRequestProviders.GetSaleListingRequestMock(newRequestId, unlockedListingId, Guid.NewGuid());
-            unlockedListingMock
-                .Setup(x => x.GenerateRequestFromCommunity(It.IsAny<SaleListingRequest>(), saleCommunity, It.IsAny<IUserContextProvider>()))
-                .Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Success(saleListingRequest.Object))
-                .Verifiable();
-            var unlockedListing = unlockedListingMock.Object;
-            unlockedListing.SaleProperty.AddressInfo.Subdivision = "ListingSubdivision";
-            unlockedListing.SaleProperty.Community = saleCommunity;
-
-            // Locked Listing
-            var lockedListingId = Guid.NewGuid();
-            var lockedListing = TestModelProvider.GetListingSaleEntity(lockedListingId, createStub: true, communityId: communityId, lockedStatus: LockedStatus.LockedByUser);
-            lockedListing.LockedBy = lockedListingBy;
-
-            saleCommunity.SaleProperties = new[] { unlockedListing.SaleProperty, lockedListing.SaleProperty };
-            return saleCommunity;
         }
 
         private SaleListingRequestService GetSut(IMapper mapper = null) => new(

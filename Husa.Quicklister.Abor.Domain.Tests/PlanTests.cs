@@ -2,10 +2,14 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
+    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Extensions;
+    using Husa.Quicklister.Abor.Domain.Tests.Providers;
+    using Moq;
     using Xunit;
     using XmlResponse = Husa.Xml.Api.Contracts.Response;
 
@@ -122,6 +126,27 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             Assert.Equal(mainLevelBedroomTotal, plan.BasePlan.MainLevelBedroomTotal);
             Assert.Equal(otherLevelsBedroomTotal, plan.BasePlan.OtherLevelsBedroomTotal);
             Assert.Equal(livingAreasTotal, plan.BasePlan.LivingAreasTotal);
+        }
+
+        [Fact]
+        public void GetActiveListingsInMarket()
+        {
+            var planId = Guid.NewGuid();
+            var plan = new Mock<Plan>();
+            plan.Setup(x => x.Id).Returns(planId);
+            plan.Setup(x => x.ActiveListingsInMarketExpression).CallBase();
+            var expression = plan.Object.ActiveListingsInMarketExpression;
+            var listings = new[]
+            {
+                GetListinMock(Guid.NewGuid(), planId),
+                GetListinMock(Guid.NewGuid(), planId),
+                GetListinMock(Guid.NewGuid(), planId, MarketStatuses.Closed),
+                GetListinMock(Guid.NewGuid(), Guid.NewGuid()),
+            };
+            var result = listings.Where(expression.Compile());
+            Assert.Equal(2, result.Count());
+            static Domain.Entities.Listing.SaleListing GetListinMock(Guid id, Guid planId, MarketStatuses? mlsStatus = null)
+                => TestEntityProvider.GetSaleListing(id, planId: planId, mlsStatus: mlsStatus);
         }
 
         private void SetBasePlanSpaceDimensionsFields(

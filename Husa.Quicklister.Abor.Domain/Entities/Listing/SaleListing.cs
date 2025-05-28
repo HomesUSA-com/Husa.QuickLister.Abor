@@ -274,6 +274,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.SaleProperty.ImportDataFromCommunity(community);
         }
 
+        public CommandSingleResult<SaleListingRequest, ValidationResult> GenerateOpenHouseRequestFromCommunity(SaleListingRequest lastCompletedRequest, CommunitySale community, IUserContextProvider userContextProvider)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void ChangeCompany(Guid companyId, string companyName)
         {
             this.CompanyId = companyId;
