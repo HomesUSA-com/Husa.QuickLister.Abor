@@ -73,6 +73,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings.Migration
                 .ForMember(dto => dto.BuyersAgentCommissionType, pr => pr.MapFrom(x => x.BuyersAgentCommissionType.ToEnumOrNullFromEnumMember<CommissionType>()))
                 .ForMember(dto => dto.BonusExpirationDate, pr => pr.MapFrom(x => x.HasBonusWithAmount ? x.BonusExpirationDate : null));
             this.CreateMap<ShowingResponse, CommunityShowingInfo>()
+                .ForMember(dto => dto.EnableOpenHouses, pr => pr.Ignore())
+                .ForMember(dto => dto.ShowOpenHousesPending, pr => pr.Ignore())
                 .ForMember(dto => dto.OwnerName, pr => pr.Ignore())
                 .ForMember(dto => dto.OccupantPhone, pr => pr.MapFrom(x => x.AltPhoneCommunity))
                 .ForMember(dto => dto.ContactPhone, pr => pr.MapFrom(x => x.AgentListApptPhone))

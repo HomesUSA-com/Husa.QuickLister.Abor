@@ -13,5 +13,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Community.CommunityDetail
         public string OwnerName { get; set; }
         public LockBoxType? LockBoxType { get; set; }
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
+        public bool EnableOpenHouses { get; set; }
+        public bool ShowOpenHousesPending { get; set; }
     }
 }

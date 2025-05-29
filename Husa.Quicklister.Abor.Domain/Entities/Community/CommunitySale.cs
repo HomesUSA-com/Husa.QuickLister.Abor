@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Extensions.Domain.Extensions;
     using Husa.Quicklister.Abor.Crosscutting.Extensions;
     using Husa.Quicklister.Abor.Domain.Common;
+    using Husa.Quicklister.Abor.Domain.Comparers;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
@@ -99,6 +100,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
 
         public virtual Expression<Func<SaleListing, bool>> ActiveListingsInMarketExpression => listing
             => !listing.IsDeleted && listing.SaleProperty.CommunityId == this.Id && SaleListing.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber);
+
+        public bool HasChangesOpenHouses => this.Changes != null && this.GetChangedProperties(nameof(this.OpenHouses)).Any();
 
         public virtual void UpdateProperty(Property property)
         {
@@ -427,6 +430,20 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             this.UpdateShowing(showing: communityInfo.ShowingInfo);
             this.UpdateOpenHouse(openHouses: communityOpenHouses);
             this.UpdateShowingTime(communityInfo.UseShowingTime, communityInfo.ShowingTime);
+        }
+
+        public virtual void UpdateOpenHouses(IEnumerable<CommunityOpenHouse> openHouses)
+        {
+            var sameLists = this.OpenHouses.OrderBy(x => x.Type)
+                .SequenceEqual(openHouses.OrderBy(x => x.Type), new OpenHouseComparer());
+
+            if (!sameLists)
+            {
+                this.Changes ??= new HashSet<string>();
+                this.Changes.Add(nameof(this.OpenHouses));
+                this.OpenHouses.Clear();
+                this.OpenHouses = [.. openHouses];
+            }
         }
 
         public CommunityHistory GenerateRecord()

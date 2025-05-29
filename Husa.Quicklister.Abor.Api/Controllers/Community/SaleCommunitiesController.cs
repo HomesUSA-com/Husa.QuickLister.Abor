@@ -146,6 +146,32 @@ namespace Husa.Quicklister.Abor.Api.Controllers.Community
             return this.Ok(response.Result);
         }
 
+        [HttpPut("{communityId}/submit-open-house")]
+        [RolesFilter(employeeRoles: new[] { RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee })]
+        public async Task<IActionResult> SaveAndSubmitCommunityOHAsync(Guid communityId, CommunitySaleRequest communitySaleRequest, CancellationToken cancellationToken = default)
+        {
+            this.Logger.LogInformation("Submitting community sale open-houses with id {communityId}", communityId);
+            var communitySaleDto = this.Mapper.Map<CommunitySaleDto>(communitySaleRequest);
+            await this.CommunityService.UpdateCommunityOpenHouses(communityId, communitySaleDto, isSubmitted: true);
+            try
+            {
+                var response = await this.saleRequestService.SubmitCommunityOpenHousesAsync(communityId, cancellationToken);
+
+                if (response.Code == ResponseCode.Information)
+                {
+                    this.Logger.LogInformation("Command result: {message} {community}", response.Message, communityId);
+                    return this.Ok(response);
+                }
+
+                return this.Ok(response.Result);
+            }
+            catch (Exception ex)
+            {
+                this.Logger.LogError(ex, "Error submitting open houses for community {communityId}", communityId);
+                return this.StatusCode((int)HttpStatusCode.InternalServerError, new { Message = "An error occurred while submitting open houses." });
+            }
+        }
+
         [HttpGet("{communityId:guid}/sale-listings/{listingId:guid}")]
         public async Task<IActionResult> GetCommunityWithListingProjection([FromRoute] Guid communityId, [FromRoute] Guid listingId)
         {

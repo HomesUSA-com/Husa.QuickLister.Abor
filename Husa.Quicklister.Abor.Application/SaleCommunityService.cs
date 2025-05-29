@@ -105,9 +105,26 @@ namespace Husa.Quicklister.Abor.Application
             await this.communityHistoryService.CreateRecordAsync(communityId, isSubmitted);
         }
 
-        public Task<bool> UpdateCommunityOpenHouses(Guid communityId, CommunitySaleDto communityDto, bool isSubmitted = false)
+        public async Task<bool> UpdateCommunityOpenHouses(Guid communityId, CommunitySaleDto communityDto, bool isSubmitted = false)
         {
-            throw new NotImplementedException();
+            var community = await this.CommunitySaleRepository.GetById(communityId, filterByCompany: true) ?? throw new NotFoundException<CommunitySale>(communityId);
+            this.Logger.LogInformation("Starting update sale community open-houses with id {communityId}", communityId);
+            var user = this.UserContextProvider.GetCurrentUser();
+            community.CanUpdate(user);
+            var communityFound = await this.CommunitySaleRepository.GetCommunity(communityDto.Profile.Name, communityDto.CompanyId);
+
+            if (communityFound is not null && communityFound.Id != community.Id)
+            {
+                throw new DomainException($"Community '{communityFound.ProfileInfo.Name}' for the company '{communityFound.ProfileInfo.OwnerName}' already exists!");
+            }
+
+            community.Showing.EnableOpenHouses = communityDto.Showing.EnableOpenHouses;
+            community.UpdateOpenHouses(this.mapper.Map<IEnumerable<CommunityOpenHouse>>(communityDto.OpenHouses));
+
+            await this.CommunitySaleRepository.SaveChangesAsync();
+            await this.communityHistoryService.CreateRecordAsync(communityId, isSubmitted);
+
+            return community.HasChangesOpenHouses;
         }
 
         public async Task UpdateListingsAsync(Guid communityId)

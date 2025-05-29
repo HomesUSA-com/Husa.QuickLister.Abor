@@ -6,9 +6,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Husa.Xml.Api.Contracts.Response;
 
-    public class CommunityShowingInfo : ValueObject, IProvideShowingInfo
+    public class CommunityShowingInfo : ValueObject, IProvideShowingInfo, IProvideShowingOpenHouse
     {
         public const int MaxDirectionsLength = 2000;
 
@@ -43,6 +44,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual string OwnerName { get; set; }
         public virtual LockBoxType? LockBoxType { get; set; }
         public ICollection<string> RealtorContactEmail { get; set; }
+        public bool EnableOpenHouses { get; set; }
+        public bool ShowOpenHousesPending { get; set; }
 
         public static CommunityShowingInfo ImportFromXml(SubdivisionResponse subdivision, CommunityShowingInfo showingInfo)
         {

@@ -245,6 +245,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Sale
                 Directions = showing.Directions,
                 LockBoxType = showing.LockBoxType,
                 OwnerName = showing.OwnerName,
+                EnableOpenHouses = showing.EnableOpenHouses,
+                ShowOpenHousesPending = showing.ShowOpenHousesPending,
             };
         }
 

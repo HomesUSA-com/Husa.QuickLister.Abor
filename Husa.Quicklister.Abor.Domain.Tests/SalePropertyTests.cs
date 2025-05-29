@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
+    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
@@ -921,6 +922,30 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 
             // Assert
             Assert.True(isOpenHouseImported);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void UpdateOpenHousesFromCommunitySubmit(bool communityOpenHouseHasChanges)
+        {
+            var community = TestModelProvider.GetCommunitySaleEntity(Guid.NewGuid());
+            if (communityOpenHouseHasChanges)
+            {
+                community.Changes.Add(nameof(community.OpenHouses));
+            }
+            else
+            {
+                community.OpenHouses.Clear();
+            }
+
+            var saleProperty = TestModelProvider.GetListingSaleEntity(Guid.NewGuid(), true).SaleProperty;
+            saleProperty.OpenHouses = new List<SaleListingOpenHouse>();
+            var salePropertyRecord = SalePropertyRecord.CreateRecord(saleProperty);
+            saleProperty.UpdateOpenHousesFromCommunitySubmit(community);
+            salePropertyRecord.UpdateOpenHousesFromCommunitySubmit(community);
+            Assert.Equal(communityOpenHouseHasChanges, saleProperty.OpenHouses.Count != 0);
+            Assert.Equal(communityOpenHouseHasChanges, salePropertyRecord.OpenHouses.Count != 0);
         }
     }
 }

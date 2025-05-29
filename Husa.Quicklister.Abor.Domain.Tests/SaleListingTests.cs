@@ -264,6 +264,36 @@ namespace Husa.Quicklister.Abor.Domain.Tests
         }
 
         [Fact]
+        public void GenerateOpenHouseRequestFromCommunity_Success()
+        {
+            // Arrange
+            var communityId = Guid.NewGuid();
+            var listingId = Guid.NewGuid();
+
+            var community = CommunityTestProvider.GetCommunityEntity(communityId);
+            community.Property.MlsArea = MlsArea.LW;
+            var changes = new List<string> { nameof(community.Property.MlsArea) };
+            community.UpdateChanges(nameof(community.Property), changes);
+
+            var listing = ListingTestProvider.GetListingEntity(listingId);
+            listing.SaleProperty = TestModelProvider.GetFullSalePropertyWithStaticValues(listing.SalePropertyId);
+            listing.SaleProperty.Community = community;
+
+            var newSaleListingRequest = new Mock<SaleListingRequest>();
+            newSaleListingRequest.SetupAllProperties();
+
+            var lastSaleListingRequest = new Mock<SaleListingRequest>();
+            lastSaleListingRequest.SetupAllProperties();
+            lastSaleListingRequest.Setup(x => x.Clone()).Returns(newSaleListingRequest.Object);
+
+            // Act
+            var result = listing.GenerateOpenHouseRequestFromCommunity(lastSaleListingRequest.Object, community, GetIUserContextProvider());
+
+            // Assert
+            Assert.Equal(ResponseCode.Success, result.Code);
+        }
+
+        [Fact]
         public void ChangeCompany_Success()
         {
             // Arrange
@@ -279,6 +309,15 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             Assert.Equal(newCompanyId, listing.CompanyId);
             Assert.Equal(newCompanyId, listing.SaleProperty.CompanyId);
             Assert.Equal(newCompanyName, listing.SaleProperty.OwnerName);
+        }
+
+        private static IUserContextProvider GetIUserContextProvider()
+        {
+            var userContextProvider = new Mock<IUserContextProvider>();
+            var userId = Guid.NewGuid();
+            userContextProvider.Setup(u => u.GetCurrentUserId()).Returns(userId).Verifiable();
+            userContextProvider.Setup(u => u.GetUserLocalDate()).Returns(DateTime.UtcNow).Verifiable();
+            return userContextProvider.Object;
         }
     }
 }

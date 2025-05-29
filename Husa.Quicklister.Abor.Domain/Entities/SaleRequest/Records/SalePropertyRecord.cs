@@ -147,6 +147,15 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
             return salePropertyRecord;
         }
 
+        public void UpdateOpenHousesFromCommunitySubmit(CommunitySale community)
+        {
+            if (community.HasChangesOpenHouses)
+            {
+                this.OpenHouses = [.. community.OpenHouses
+                    .Select(oh => Records.OpenHouseRecord.CreateOpenHouse(oh))];
+            }
+        }
+
         public virtual void UpdateInformation(SalePropertyValueObject saleProperty)
         {
             ArgumentNullException.ThrowIfNull(saleProperty);

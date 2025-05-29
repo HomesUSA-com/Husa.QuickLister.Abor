@@ -155,6 +155,28 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             return this.AddRequest(newRequest, userContextProvider);
         }
 
+        public virtual CommandSingleResult<SaleListingRequest, ValidationResult> GenerateOpenHouseRequestFromCommunity(
+            SaleListingRequest lastCompletedRequest,
+            CommunitySale community,
+            IUserContextProvider userContextProvider)
+        {
+            var userId = userContextProvider.GetCurrentUserId();
+            var newRequest = lastCompletedRequest.Clone();
+            this.SaleProperty.UpdateOpenHousesFromCommunitySubmit(community);
+            newRequest.SaleProperty.UpdateOpenHousesFromCommunitySubmit(this.SaleProperty.Community);
+            if (community.HasChangesOpenHouses)
+            {
+                this.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
+                newRequest.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
+            }
+
+            newRequest.UpdateTrackValues(userId, isNewRecord: true);
+            newRequest.MlsNumber = this.MlsNumber;
+            newRequest.ListDate = this.ListDate;
+
+            return this.AddRequest(newRequest, userId);
+        }
+
         public override void UpdateManuallyManagement(bool manuallyManaged)
         {
             if (this.IsManuallyManaged != manuallyManaged)
@@ -272,11 +294,6 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public void ImportDataFromCommunity(CommunitySale community)
         {
             this.SaleProperty.ImportDataFromCommunity(community);
-        }
-
-        public CommandSingleResult<SaleListingRequest, ValidationResult> GenerateOpenHouseRequestFromCommunity(SaleListingRequest lastCompletedRequest, CommunitySale community, IUserContextProvider userContextProvider)
-        {
-            throw new NotImplementedException();
         }
 
         public override void ChangeCompany(Guid companyId, string companyName)

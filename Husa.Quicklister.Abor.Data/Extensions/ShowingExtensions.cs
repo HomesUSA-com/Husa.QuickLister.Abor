@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
     using Husa.Extensions.Linq.ValueConverters;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Extensions.Domain.Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,7 +14,7 @@ namespace Husa.Quicklister.Abor.Data.Extensions
     {
         public static void ConfigureShowing<TOwnerEntity, TDependentEntity>(this OwnedNavigationBuilder<TOwnerEntity, TDependentEntity> builder)
             where TOwnerEntity : class
-            where TDependentEntity : class, IProvideShowingInfo
+            where TDependentEntity : class, IProvideShowingInfo, IProvideShowingOpenHouse
         {
             if (builder is null)
             {
@@ -37,6 +38,8 @@ namespace Husa.Quicklister.Abor.Data.Extensions
                .HasMaxLength(500)
                .IsRequired(false)
                .HasConversion(new StringCollectionValueConverter(";"), valueComparer: new StringCollectionValueComparer());
+            builder.Property(r => r.EnableOpenHouses).HasColumnName(nameof(IProvideShowingOpenHouse.EnableOpenHouses)).HasColumnType("bit");
+            builder.Property(r => r.ShowOpenHousesPending).HasColumnName(nameof(IProvideShowingOpenHouse.ShowOpenHousesPending)).HasColumnType("bit");
         }
     }
 }

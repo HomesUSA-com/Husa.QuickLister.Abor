@@ -379,6 +379,27 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 => TestEntityProvider.GetSaleListing(id, communityId: communityId, mlsStatus: mlsStatus);
         }
 
+        [Fact]
+        public void UpadateOpenHouses_Success()
+        {
+            var community = TestModelProvider.GetCommunitySaleEntity(Guid.NewGuid());
+            community.UpdateOpenHouses(Array.Empty<CommunityOpenHouse>().Append(new CommunityOpenHouse(
+                community.Id,
+                OpenHouseType.Monday,
+                startTime: TimeSpan.MinValue,
+                endTime: TimeSpan.MaxValue,
+                refreshments: [])));
+            Assert.True(community.HasChangesOpenHouses);
+        }
+
+        [Fact]
+        public void UpadateOpenHouses_NoChanges()
+        {
+            var community = TestModelProvider.GetCommunitySaleEntity(Guid.NewGuid());
+            community.UpdateOpenHouses(community.OpenHouses);
+            Assert.False(community.HasChangesOpenHouses);
+        }
+
         private static ProfileInfo SetupProfileInfo(string subdivisionName, string companyName) => new()
         {
             Name = subdivisionName,
