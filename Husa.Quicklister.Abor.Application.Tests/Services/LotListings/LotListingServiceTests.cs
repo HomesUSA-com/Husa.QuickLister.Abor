@@ -245,7 +245,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
 
             // Assert
             Assert.Equal(ResponseCode.Error, result.Code);
-            Assert.Equal($"The sale listing {listingId} has an open request, cannot be unlocked.", result.Message);
+            Assert.Equal($"The LotListing {listingId} has an open request, cannot be unlocked.", result.Message);
         }
 
         [Fact]
