@@ -171,7 +171,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpGet("{listingId:guid}/listing-requests")]
-        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly])]
+        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee, RoleEmployee.CompanyAdminReadonly, RoleEmployee.SalesEmployeeReadonly])]
         public async Task<IActionResult> GetRequestByListingSaleAsync(Guid listingId, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Start to handle query request by listing sale Id {listingId}", listingId);
