@@ -17,6 +17,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Tests.Providers;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Moq;
     using Xunit;
@@ -76,7 +77,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             listing.Setup(x => x.SaleProperty.PropertyInfo).Returns(new PropertyRecord());
             listing.Setup(sp => sp.IsValidForSubmit(It.IsAny<IUserContextProvider>())).CallBase();
 
-            var result = listing.Object.IsValidForSubmit();
+            var result = listing.Object.IsValidForSubmit(TestEntityProvider.GetIUserContextProvider());
 
             var saleError = result.FirstOrDefault(x => x.ErrorMessage.Contains("SaleProperty"));
             ValidationResult propertyError = null;
@@ -109,7 +110,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             });
             listing.Setup(sp => sp.IsValidForSubmit(It.IsAny<IUserContextProvider>())).CallBase();
 
-            var result = listing.Object.IsValidForSubmit();
+            var result = listing.Object.IsValidForSubmit(TestEntityProvider.GetIUserContextProvider());
 
             var saleError = result.FirstOrDefault(x => x.ErrorMessage.Contains("SaleProperty"));
             ValidationResult propertyError = null;
@@ -141,7 +142,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             });
             listing.Setup(sp => sp.IsValidForSubmit(It.IsAny<IUserContextProvider>())).CallBase();
 
-            var result = listing.Object.IsValidForSubmit();
+            var result = listing.Object.IsValidForSubmit(TestEntityProvider.GetIUserContextProvider());
 
             var saleError = result.FirstOrDefault(x => x.ErrorMessage.Contains("SaleProperty"));
             ValidationResult propertyError = null;
@@ -159,7 +160,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var requestId = Guid.NewGuid();
             var listing = TestModelProvider.GetListingSaleRequestEntity(requestId);
 
-            var result = listing.Object.IsValidForSubmit();
+            var result = listing.Object.IsValidForSubmit(TestEntityProvider.GetIUserContextProvider());
 
             Assert.NotNull(result);
         }
@@ -238,7 +239,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             // Arrange
             var communityId = Guid.NewGuid();
             var listingId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
 
             var community = CommunityTestProvider.GetCommunityEntity(communityId);
             community.Property.MlsArea = MlsArea.LW;
@@ -257,7 +257,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             lastSaleListingRequest.Setup(x => x.Clone()).Returns(newSaleListingRequest.Object);
 
             // Act
-            var result = listing.GenerateRequestFromCommunity(lastSaleListingRequest.Object, userId);
+            var result = listing.GenerateRequestFromCommunity(lastSaleListingRequest.Object, community, TestEntityProvider.GetIUserContextProvider());
 
             // Assert
             Assert.Equal(ResponseCode.Success, result.Code);

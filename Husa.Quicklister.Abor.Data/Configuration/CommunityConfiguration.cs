@@ -19,7 +19,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
         {
             ArgumentNullException.ThrowIfNull(builder);
             builder.ConfigureCommunity();
-            builder.ConfigureShowingTime();
             builder.HasMany(o => o.ShowingTimeContacts)
                 .WithMany(o => o.Communities)
                 .UsingEntity<CommunityShowingTimeContact>();

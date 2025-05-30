@@ -6,8 +6,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.ShowingTime
     using Husa.Extensions.Domain.Entities;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
+    using Husa.Quicklister.Extensions.Domain.Interfaces.ShowingTime;
 
     public class ShowingTimeContact : Entity, IShowingTimeContact, IProvideCompany
     {

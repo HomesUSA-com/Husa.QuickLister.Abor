@@ -38,5 +38,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Community
         public string Name { get; set; }
         public Cities? City { get; set; }
         public ShowingTimeInfo ShowingTime { get; set; }
+        public bool UseShowingTime { get; set; }
     }
 }

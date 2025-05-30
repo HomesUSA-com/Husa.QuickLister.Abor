@@ -145,7 +145,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.LotRequest
             this.MlsStatus = listingRequestValue.MlsStatus;
         }
 
-        public override IEnumerable<ValidationResult> IsValidForSubmit(IUserContextProvider userContextProvider = null)
+        public override IEnumerable<ValidationResult> IsValidForSubmit(IUserContextProvider userContextProvider)
         {
             var validationResults = base.IsValidForSubmit(userContextProvider);
             var validateListingStatus = new ValidateListingStatus<StatusFieldsRecord>(userContextProvider);

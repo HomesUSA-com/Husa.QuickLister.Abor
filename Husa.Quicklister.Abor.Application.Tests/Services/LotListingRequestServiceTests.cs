@@ -17,6 +17,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
     using Husa.Quicklister.Abor.Application.Services;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
+    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records;
@@ -241,7 +242,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
                 .Verifiable();
 
             saleListing
-                .Setup(sl => sl.GenerateRequestFromCommunity(It.IsAny<LotListingRequest>(), It.Is<Guid>(id => id == userId)))
+                .Setup(sl => sl.GenerateRequestFromCommunity(It.IsAny<LotListingRequest>(), It.IsAny<CommunitySale>(), It.Is<IUserContextProvider>(x => x.GetCurrentUserId() == userId)))
                 .Returns(result)
                 .Verifiable();
         }

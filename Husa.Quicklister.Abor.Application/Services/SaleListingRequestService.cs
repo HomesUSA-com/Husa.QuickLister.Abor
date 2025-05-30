@@ -22,13 +22,10 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
-    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.ListingRequests;
-    using ShowingTimeRecord = Husa.Quicklister.Extensions.Domain.Entities.Request.ShowingTimeRecord;
-    using ShowingTimeValueObject = Husa.Quicklister.Extensions.Domain.Entities.ShowingTime.ShowingTime;
 
     public class SaleListingRequestService :
         ExtensionsServices.SaleListingRequestService<
@@ -100,23 +97,7 @@ namespace Husa.Quicklister.Abor.Application.Services
 
             var listingRequest = await this.RequestRepository.GetByIdAsync(listingRequestId, cancellationToken);
             listingRequest.UpdateRequestInformation(listingRequestValueObject, statusFieldInfo, salePropertyInfo);
-            if (listingSaleRequestDto.UseShowingTime)
-            {
-                var showingTime = this.Mapper.Map<ShowingTimeValueObject>(listingSaleRequestDto.ShowingTime);
-                var contacts = await this.ShowingTimeContactsProvider.GetScopedContacts(ContactScope.Listing, listingSaleRequestDto.ListingSaleId);
-                if (listingRequest.ShowingTimeInfo is null)
-                {
-                    listingRequest.ShowingTimeInfo = ShowingTimeRecord.CreateRecord(showingTime);
-                }
-                else
-                {
-                    listingRequest.ShowingTimeInfo.UpdateInformation(showingTime, contacts);
-                }
-            }
-            else
-            {
-                listingRequest.ShowingTimeInfo = null;
-            }
+            await this.UpdateListingShowingTime(listingRequest, listingSaleRequestDto.ShowingTime);
 
             var userId = this.UserContextProvider.GetCurrentUserId();
 
