@@ -1,6 +1,5 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 {
-    using System;
     using System.Linq;
     using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
@@ -40,7 +39,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 
         public virtual SummarySection GetSummary(SaleStatusFieldsRecord oldStatusFielsValues, MarketStatuses mlsStatus)
         {
-            var summaryFields = SummaryExtensions.GetFieldSummary(this, oldStatusFielsValues, filterFields: GetFieldsByMlsStatus(mlsStatus));
+            var summaryFields = this.GetFieldSummary(oldStatusFielsValues, mlsStatus);
 
             if (!summaryFields.Any())
             {
@@ -53,41 +52,5 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
                 Fields = summaryFields,
             };
         }
-
-        private static string[] GetFieldsByMlsStatus(MarketStatuses mlsStatus) => mlsStatus switch
-        {
-            MarketStatuses.Canceled => new string[] { nameof(CancelledReason) },
-            MarketStatuses.Hold => new string[] { nameof(BackOnMarketDate), nameof(OffMarketDate) },
-            MarketStatuses.Pending => new string[]
-            {
-                nameof(PendingDate),
-                nameof(EstimatedClosedDate),
-                nameof(HasBuyerAgent),
-                nameof(AgentId),
-                nameof(HasContingencyInfo),
-            },
-            MarketStatuses.ActiveUnderContract => new string[]
-            {
-                nameof(PendingDate),
-                nameof(ClosedDate),
-                nameof(EstimatedClosedDate),
-                nameof(HasContingencyInfo),
-                nameof(ContingencyInfo),
-            },
-            MarketStatuses.Closed => new string[]
-            {
-                nameof(HasContingencyInfo),
-                nameof(AgentId),
-                nameof(AgentIdSecond),
-                nameof(HasSecondBuyerAgent),
-                nameof(HasBuyerAgent),
-                nameof(PendingDate),
-                nameof(ClosedDate),
-                nameof(ClosePrice),
-                nameof(SaleTerms),
-                nameof(SellConcess),
-            },
-            _ => Array.Empty<string>(),
-        };
     }
 }
