@@ -121,6 +121,27 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 
             // Should include property sections
             Assert.Contains(result, s => s.Name == SalePropertyRecord.SummarySection);
+        }
+
+        [Fact]
+        public void GetSummary_WithNullPreviousRequestExpiredListing_ReturnsFullSummary()
+        {
+            // Arrange
+            var saleListing = TestProviderListing.CreateSaleListing(MarketStatuses.Closed);
+            var currentRequest = new SaleListingRequest(saleListing, Guid.NewGuid());
+            currentRequest.StatusFieldsInfo.ClosedDate = DateTime.UtcNow;
+
+            // Act
+            var result = currentRequest.GetSummary<SaleListingRequest>(null).ToList();
+
+            // Assert
+            Assert.NotEmpty(result);
+
+            // Should include root section
+            Assert.Contains(result, s => s.Name == SaleListingRequest.SummarySection);
+
+            // Should include property sections
+            Assert.Contains(result, s => s.Name == SalePropertyRecord.SummarySection);
 
             // Should include status fields section
             Assert.Contains(result, s => s.Name == SaleStatusFieldsRecord.SummarySection);
