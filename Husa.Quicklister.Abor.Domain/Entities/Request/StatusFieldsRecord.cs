@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Microsoft.IdentityModel.Tokens;
 
     public record StatusFieldsRecord : IProvideStatusFields
     {
@@ -75,7 +76,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
         public virtual SummarySection GetSummarySection<T>(T oldStatusFielsValues, MarketStatuses? mlsStatus, string sectionName)
             where T : StatusFieldsRecord
         {
-            var summaryFields = SummaryExtensions.GetFieldSummary(this, oldStatusFielsValues, filterFields: this.GetFieldsByMlsStatus(mlsStatus));
+            var summaryFields = this.GetFieldSummary(oldStatusFielsValues, mlsStatus);
 
             if (!summaryFields.Any())
             {
@@ -87,6 +88,18 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Request
                 Name = sectionName,
                 Fields = summaryFields,
             };
+        }
+
+        protected IEnumerable<SummaryField> GetFieldSummary<T>(T oldStatusFielsValues, MarketStatuses? mlsStatus)
+            where T : StatusFieldsRecord
+        {
+            var fieldsMlsStatus = this.GetFieldsByMlsStatus(mlsStatus);
+            if (fieldsMlsStatus.IsNullOrEmpty())
+            {
+                return Array.Empty<SummaryField>();
+            }
+
+            return SummaryExtensions.GetFieldSummary(this, oldStatusFielsValues, filterFields: fieldsMlsStatus);
         }
 
         protected virtual string[] GetFieldsByMlsStatus(MarketStatuses? mlsStatus) => mlsStatus switch
