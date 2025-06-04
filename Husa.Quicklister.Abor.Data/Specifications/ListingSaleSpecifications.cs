@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Data.Specifications
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Extensions.Listing;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
     public static class ListingSaleSpecifications
@@ -64,6 +65,14 @@ namespace Husa.Quicklister.Abor.Data.Specifications
 
             return listings.Where(p => p.MlsStatus != MarketStatuses.Closed);
         }
+
+        public static IQueryable<T> FilterByActiveOrPendingStatus<T>(this IQueryable<T> listings)
+            where T : SaleListing
+                => listings.Where(p => MarketStatusesExtensions.ActiveAndPendingStatusesForDiscrepancyReport.Contains(p.MlsStatus));
+
+        public static IQueryable<T> WithPriceAbove<T>(this IQueryable<T> listings, decimal threshold = 0)
+            where T : SaleListing
+                => listings.Where(p => p.ListPrice > threshold);
 
         public static IQueryable<T> FilterByCommunities<T>(this IQueryable<T> listings, IEnumerable<Guid> communityIds)
            where T : SaleListing

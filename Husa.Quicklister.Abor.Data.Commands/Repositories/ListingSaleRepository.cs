@@ -5,7 +5,6 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
     using System.Linq;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
-    using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Specifications;
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -134,9 +133,9 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
 
             var query = this.context.ListingSale
             .FilterNotDeleted()
-            .FilterByCompany(currentUser.CompanyId, currentUser.UserRole == UserRole.User || currentUser.CompanyId.HasValue)
-            .Where(l => (l.MlsStatus == MarketStatuses.Active || l.MlsStatus == MarketStatuses.Pending) &&
-                l.ListPrice > 0);
+            .FilterByCompany(currentUser)
+            .FilterByActiveOrPendingStatus()
+            .WithPriceAbove();
             if (listingsInBoth)
             {
                 query.Where(l => (l.XmlListingId != null || l.XmlDiscrepancyListingId != null) && !string.IsNullOrEmpty(l.MlsNumber));
