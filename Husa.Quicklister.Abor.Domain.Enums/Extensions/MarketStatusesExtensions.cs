@@ -49,5 +49,11 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.Listing
             MarketStatuses.Pending,
             MarketStatuses.ActiveUnderContract,
         };
+        public static readonly IEnumerable<MarketStatuses> ActiveAndPendingStatusesForDiscrepancyReport =
+        [
+            MarketStatuses.Active,
+            MarketStatuses.ActiveUnderContract,
+            MarketStatuses.Pending,
+        ];
     }
 }
