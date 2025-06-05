@@ -160,6 +160,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             CommunitySale community,
             IUserContextProvider userContextProvider)
         {
+            var validationRequest = this.GenerateRequest(userContextProvider);
+            if (validationRequest.HasErrors())
+            {
+                return validationRequest;
+            }
+
             var userId = userContextProvider.GetCurrentUserId();
             var newRequest = lastCompletedRequest.Clone();
             this.SaleProperty.UpdateOpenHousesFromCommunitySubmit(community);
