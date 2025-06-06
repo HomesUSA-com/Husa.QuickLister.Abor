@@ -1,14 +1,10 @@
 namespace Husa.Quicklister.Abor.Application.Services
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
-    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
-    using Husa.Extensions.EmailNotification.Enums;
-    using Husa.Extensions.EmailNotification.Services;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Crosscutting;
@@ -21,6 +17,7 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
@@ -40,8 +37,6 @@ namespace Husa.Quicklister.Abor.Application.Services
         ISaleListingRequestService
     {
         private readonly ApplicationOptions options;
-        private readonly IServiceSubscriptionClient serviceSubscriptionClient;
-        private readonly IEmailSender emailSender;
 
         public SaleListingRequestService(
             ISaleListingRequestRepository saleRequestRepository,
@@ -52,8 +47,7 @@ namespace Husa.Quicklister.Abor.Application.Services
             IMapper mapper,
             ILogger<SaleListingRequestService> logger,
             IOptions<ApplicationOptions> options,
-            IServiceSubscriptionClient serviceSubscriptionClient,
-            IEmailSender emailSender,
+            IEmailService emailService,
             IUserRepository userRepository,
             IRequestErrorRepository requestErrorRepository,
             IProvideShowingTimeContacts showingTimeContactsProvider)
@@ -64,14 +58,13 @@ namespace Husa.Quicklister.Abor.Application.Services
                   saleCommunityRepository,
                   listingSaleRepository,
                   requestErrorRepository,
+                  emailService,
                   mapper,
                   logger,
                   userRepository,
                   showingTimeContactsProvider)
         {
             this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
-            this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
-            this.emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
         }
 
         protected override int MinRequiredMedia => this.options.ListingRequest.MinRequiredMedia;
@@ -102,25 +95,6 @@ namespace Husa.Quicklister.Abor.Application.Services
             var userId = this.UserContextProvider.GetCurrentUserId();
 
             await this.RequestRepository.UpdateDocumentAsync(listingRequestId, listingRequest, userId, cancellationToken);
-        }
-
-        protected override async Task SendReturnedListingRequestEmail(SaleListingRequest request, string reason)
-        {
-            var userId = new Guid(request.SysCreatedBy.ToString());
-
-            var user = await this.serviceSubscriptionClient.User.GetUserDetail(userId);
-
-            var callbackUrl = $"{this.options.QuicklisterUIUri}/sale-listings/{request.ListingSaleId}";
-
-            var emailParameter = new Dictionary<EmailParameter, string>
-            {
-                { EmailParameter.Link, callbackUrl },
-                { EmailParameter.Name, user.FirstName },
-                { EmailParameter.Address, request.SaleProperty.Address },
-                { EmailParameter.ReturnedReason, reason },
-            };
-
-            this.emailSender.SendEmail(user.Email, user.FirstName, emailParameter, TemplateType.ReturnedListingRequest);
         }
     }
 }

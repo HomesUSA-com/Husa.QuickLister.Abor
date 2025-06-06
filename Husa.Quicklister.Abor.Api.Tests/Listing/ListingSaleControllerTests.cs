@@ -336,27 +336,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
         }
 
         [Fact]
-        public async Task UnlockListing_Complete_Success()
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-            var expectedResponse = CommandResult<string>.Success("some-message");
-
-            var sut = this.GetSut();
-            this.listingSaleService
-                .Setup(ls => ls.UnlockListing(It.Is<Guid>(id => id == listingId), default))
-                .ReturnsAsync(expectedResponse)
-                .Verifiable();
-
-            // Act
-            await sut.UnlockListing(listingId);
-
-            // Assert
-            this.listingSaleService.Verify();
-            this.listingSaleService.Verify(x => x.UnlockListing(It.Is<Guid>(x => x == listingId), default), Times.Once);
-        }
-
-        [Fact]
         public async Task CloseListingCompleteSuccess()
         {
             // Arrange

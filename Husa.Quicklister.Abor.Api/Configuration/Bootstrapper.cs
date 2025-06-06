@@ -360,6 +360,12 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             return services;
         }
 
+        public static IServiceCollection LocalRegisterEmail(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.RegisterEmail<ApplicationOptions>(configuration);
+            return services;
+        }
+
         private static IServiceCollection BindDocumentDbSettings(this IServiceCollection services)
         {
             services

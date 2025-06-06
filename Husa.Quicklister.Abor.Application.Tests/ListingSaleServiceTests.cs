@@ -22,6 +22,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Husa.Xml.Api.Client.Interface;
@@ -47,6 +48,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<ExtensionsInterfaces.ISaleListingMediaService> listingMediaService = new();
         private readonly Mock<ISaleListingPhotoService> saleListingPhotoService = new();
         private readonly Mock<ExtensionsInterfaces.ILockLegacyListingService> legacyListingService = new();
+        private readonly Mock<IEmailService> emailService = new();
 
         public ListingSaleServiceTests(ApplicationServicesFixture fixture)
         {
@@ -62,6 +64,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.saleListingPhotoService.Object,
                 this.legacyListingService.Object,
                 this.xXmlClient.Object,
+                this.emailService.Object,
                 this.fixture.Options.Object,
                 this.fixture.Mapper,
                 this.logger.Object);
