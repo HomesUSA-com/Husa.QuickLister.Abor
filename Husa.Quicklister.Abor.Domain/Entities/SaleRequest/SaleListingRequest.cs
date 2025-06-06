@@ -62,6 +62,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
 
         public virtual PublishFieldsRecord PublishInfo { get; set; }
 
+        public override string Address => $"{this.SaleProperty.AddressInfo.StreetNumber} {this.SaleProperty.AddressInfo.StreetName}";
         public override Guid CompanyId
         {
             get { return this.companyId ?? this.SaleProperty.CompanyId; }

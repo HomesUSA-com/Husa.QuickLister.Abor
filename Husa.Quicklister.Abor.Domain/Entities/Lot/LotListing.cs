@@ -86,7 +86,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public virtual LotShowingInfo ShowingInfo { get; set; }
         public virtual CommunitySale Community { get; set; }
         public virtual ICollection<LotManagementTrace> ManagementTraces { get; set; }
-
+        public override string Address => $"{this.AddressInfo.StreetNumber} {this.AddressInfo.StreetName}";
         public LotListing Clone()
         {
             var clonedProperty = (LotListing)this.MemberwiseClone();

@@ -121,7 +121,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<ShowingTimeContact> ShowingTimeContacts { get; set; }
 
         public virtual bool IsExisting => ExistingListingStatuses.Contains(this.MlsStatus);
-
+        public override string Address => this.SaleProperty.Address;
         public virtual CommandSingleResult<SaleListingRequest, ValidationResult> GenerateRequest(IUserContextProvider userContextProvider)
         {
             var userId = userContextProvider.GetCurrentUserId();

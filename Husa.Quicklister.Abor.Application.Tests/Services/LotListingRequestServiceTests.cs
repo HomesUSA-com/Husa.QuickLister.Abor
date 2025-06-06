@@ -1,18 +1,14 @@
 namespace Husa.Quicklister.Abor.Application.Tests.Services
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
-    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
-    using Husa.Extensions.EmailNotification.Enums;
-    using Husa.Extensions.EmailNotification.Services;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Application.Services;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
@@ -24,6 +20,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -38,8 +35,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
     {
         private readonly Mock<ILogger<LotListingRequestService>> logger = new();
         private readonly ApplicationServicesFixture fixture;
-        private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
-        private readonly Mock<IEmailSender> emailSender = new();
+        private readonly Mock<IEmailService> emailService = new();
         private readonly Mock<ExtensionsUserRepository> userQueriesRepository = new();
         private readonly Mock<ExtensionsMediaService> mediaService = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
@@ -118,12 +114,6 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
             this.listingRepository
                 .Setup(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.IsAny<bool>()))
                 .ReturnsAsync(listing.Object);
-            this.serviceSubscriptionClient.Setup(u => u.User.GetUserDetail(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(
-                new Husa.CompanyServicesManager.Api.Contracts.Response.UserDetail()
-                {
-                    Email = "email@test.com",
-                    FirstName = "User",
-                }).Verifiable();
 
             var sut = this.GetSut();
 
@@ -131,9 +121,9 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
             await sut.ChangeRequestStatus(requestId, ListingRequestState.Returned, reason: "reason");
 
             // Assert
-            this.emailSender.Verify(
-                sl => sl.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Dictionary<EmailParameter, string>>(), It.IsAny<TemplateType>(), It.IsAny<string[]>()),
-                Times.Once);
+            this.emailService.Verify(
+               sl => sl.SendReturnedListingRequestEmail(It.IsAny<LotListingRequest>(), It.IsAny<string>(), It.IsAny<string>()),
+               Times.Once);
         }
 
         [Fact]
@@ -256,8 +246,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
             this.fixture.Mapper,
             this.logger.Object,
             this.fixture.Options.Object,
-            this.serviceSubscriptionClient.Object,
-            this.emailSender.Object,
+            this.emailService.Object,
             this.userQueriesRepository.Object,
             this.showingTimeContactsProvider.Object);
     }

@@ -4,7 +4,6 @@ namespace Husa.Quicklister.Abor.Api
     using Husa.Extensions.Api.Client;
     using Husa.Extensions.Api.Cors;
     using Husa.Extensions.Api.Middleware;
-    using Husa.Extensions.EmailNotification;
     using Husa.Extensions.Logger.Enrichers;
     using Husa.Extensions.Media.Extensions;
     using Husa.Extensions.OpenAI.Configuration;
@@ -64,7 +63,7 @@ namespace Husa.Quicklister.Abor.Api
 
             services
                 .RegisterAutoMapper()
-                .EmailNotificationRegister(this.Configuration);
+                .LocalRegisterEmail(this.Configuration);
 
             services.ControllerConfiguration(this.Configuration);
 

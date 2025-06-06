@@ -8,11 +8,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
-    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
-    using Husa.Extensions.EmailNotification.Services;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Application.Services;
     using Husa.Quicklister.Abor.Application.Tests.Providers;
@@ -25,6 +23,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -43,8 +42,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     {
         private readonly Mock<ILogger<SaleListingRequestService>> logger = new();
         private readonly ApplicationServicesFixture fixture;
-        private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
-        private readonly Mock<IEmailSender> emailSender = new();
+        private readonly Mock<IEmailService> emailService = new();
         private readonly Mock<ExtensionsUserRepository> userQueriesRepository = new();
         private readonly Mock<ExtensionsMediaService> mediaService = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
@@ -232,8 +230,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             mapper ?? this.fixture.Mapper,
             this.logger.Object,
             this.fixture.Options.Object,
-            this.serviceSubscriptionClient.Object,
-            this.emailSender.Object,
+            this.emailService.Object,
             this.userQueriesRepository.Object,
             this.pequestErrorRepository.Object,
             this.showingTimeContactsProvider.Object);
