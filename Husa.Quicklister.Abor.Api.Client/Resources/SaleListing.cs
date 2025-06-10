@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
     using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Uploader;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.Listing;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using ExtensionsContract = Husa.Quicklister.Extensions.Api.Contracts;
@@ -120,6 +121,13 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             this.logger.LogInformation("Getting email leads for listing with id: {listingId}.", listingId);
             var endpoint = $"{this.baseUri}/{listingId}/email-leads";
             return this.client.GetAsync<ExtensionsContract.Response.EmailLeadResponse>(endpoint, token);
+        }
+
+        public Task<IEnumerable<ListingLockedBySystemResponse>> GetListingLockedBySystemAsync(CancellationToken token = default)
+        {
+            this.logger.LogInformation("Getting listings awaiting for Mls Update");
+            var endpoint = $"{this.baseUri}/locked-by-system";
+            return this.client.GetAsync<IEnumerable<ExtensionsContract.Response.Listing.ListingLockedBySystemResponse>>(endpoint, token);
         }
 
         private string GetListingsEndpoint(ExtensionsContract.Request.Listing.IListingRequestFilter filters)

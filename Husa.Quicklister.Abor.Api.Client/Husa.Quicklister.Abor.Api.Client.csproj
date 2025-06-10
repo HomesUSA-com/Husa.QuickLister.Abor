@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <AssemblyName>Husa.Quicklister.Abor.Api.Client</AssemblyName>
@@ -8,9 +8,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.19.6</Version>
+        <Version>2.19.7</Version>
         <PackageReleaseNotes>
-          Release 2.19.6:
+          Release 2.19.7:
           - Moved notes to extensions
           - Add field to features requests and responses
           - Update Husa.Quicklister.Extensions.Domain.Enums package
@@ -23,7 +23,7 @@
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.2.1" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.16.3" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.16.5" />
     </ItemGroup>
 
     <ItemGroup>

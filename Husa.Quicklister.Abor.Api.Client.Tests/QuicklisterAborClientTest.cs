@@ -29,6 +29,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Moq;
     using Xunit;
     using BaseFilterRequest = Husa.Quicklister.Extensions.Api.Contracts.Request.BaseFilterRequest;
+    using ExtensionsListingResponse = Husa.Quicklister.Extensions.Api.Contracts.Response.Listing.ListingLockedBySystemResponse;
     using Request = Husa.Quicklister.Abor.Api.Contracts.Request;
     using Response = Husa.CompanyServicesManager.Api.Contracts.Response;
     using XmlResponse = Husa.Xml.Api.Contracts.Response;
@@ -618,6 +619,31 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             // Assert
             Assert.NotEmpty(response.Data);
             Assert.True(response.Total == take);
+        }
+
+        [Fact]
+        public async Task GetListingLockedBySystemAsyncSuccess()
+        {
+            // Act
+            var lockedListings = await this.quicklisterAborClient.SaleListing
+                .GetListingLockedBySystemAsync(CancellationToken.None);
+
+            // Assert
+            Assert.NotNull(lockedListings);
+            Assert.All(lockedListings, listing =>
+                Assert.IsType<ExtensionsListingResponse>(listing));
+        }
+
+        [Fact]
+        public async Task GetListingLockedBySystemAsyncReturnsEmptyWhenNone()
+        {
+            // If your TestStartup seeds zero “locked by system” listings,
+            // this will pass; otherwise it will fail, alerting you to a data change.
+            var lockedListings = await this.quicklisterAborClient.SaleListing
+                .GetListingLockedBySystemAsync();
+
+            Assert.NotNull(lockedListings);
+            Assert.Empty(lockedListings);
         }
 
         private sealed class DataGenerator : IEnumerable<object[]>
