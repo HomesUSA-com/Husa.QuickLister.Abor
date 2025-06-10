@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <AssemblyName>Husa.Quicklister.Abor.Api.Client</AssemblyName>
@@ -18,7 +18,7 @@
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.2.1" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.17.0" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.17.1" />
     </ItemGroup>
 
     <ItemGroup>
