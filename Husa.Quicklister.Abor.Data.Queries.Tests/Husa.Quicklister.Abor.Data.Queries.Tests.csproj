@@ -24,6 +24,7 @@
       <ProjectReference Include="..\Husa.Quicklister.Abor.Crosscutting.Tests\Husa.Quicklister.Abor.Crosscutting.Tests.csproj" />
       <ProjectReference Include="..\Husa.Quicklister.Abor.Data.Queries\Husa.Quicklister.Abor.Data.Queries.csproj" />
       <ProjectReference Include="..\Husa.Quicklister.Abor.Data\Husa.Quicklister.Abor.Data.csproj" />
+      <ProjectReference Include="..\Husa.Quicklister.Abor.Domain\Husa.Quicklister.Abor.Domain.csproj" />
     </ItemGroup>
 
 </Project>

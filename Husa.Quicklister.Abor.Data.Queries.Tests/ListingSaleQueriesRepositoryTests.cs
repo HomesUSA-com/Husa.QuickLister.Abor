@@ -3,6 +3,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
@@ -18,6 +19,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Extensions;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -294,6 +297,59 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
             // Assert
             Assert.NotNull(result);
             Assert.NotNull(result.EmailLead);
+        }
+
+        [Fact]
+        public async Task GetLockedBySystem_ReturnsEmpty_WhenNoneLocked()
+        {
+            // Arrange: no listings at all
+            var sut = this.GetInMemoryRepository(
+                listings: new List<SaleListing>(),
+                communities: new List<CommunitySale>());
+
+            // Act
+            var result = await sut.GetLockedBySystem();
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public async Task GetLockedBySystem_ReturnsOnlyLockedBySystem()
+        {
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var communityId = Guid.NewGuid();
+
+            // create one locked and one unlocked listing
+            var locked = ListingTestProvider.GetListingEntity(Guid.NewGuid(), companyId, communityId);
+            locked.LockedStatus = LockedStatus.LockedBySystem;
+
+            var unlocked = ListingTestProvider.GetListingEntity(Guid.NewGuid(), companyId, communityId);
+            unlocked.LockedStatus = LockedStatus.NoLocked;
+
+            var sut = this.GetInMemoryRepository(
+                listings: new[] { locked, unlocked },
+                communities: new List<CommunitySale>());
+
+            // Act
+            var results = (await sut.GetLockedBySystem()).ToList();
+
+            // Assert
+            Assert.Single(results);
+            var item = results[0];
+
+            // projection should match entity
+            Assert.Equal(locked.MlsNumber, item.MlsNumber);
+            Assert.Equal(locked.MlsStatus.ToString(), item.MlsStatus);
+            Assert.Equal(
+                locked.SaleProperty.AddressInfo.GetFormalAddress(),
+                item.Address);
+            Assert.Equal(locked.CompanyId, item.CompanyId);
+            Assert.Equal(locked.MarketModifiedOn, item.MarketModifiedOn);
+            Assert.Equal(locked.SysModifiedOn, item.SysModifiedOn);
+            Assert.Equal(locked.SysModifiedBy, item.SysModifiedBy);
         }
 
         private void SetupMlsAdmin()
