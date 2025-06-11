@@ -10,7 +10,6 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.Quicklister.Abor.Application.Extensions;
     using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Lot;
@@ -18,24 +17,23 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
-    using Husa.Quicklister.Abor.Domain.Entities.LotRequest;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Extensions.Lot;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Interfaces.Lot;
-    using Husa.Quicklister.Extensions.Application.Models.Listing;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services;
 
-    public class LotListingService : ExtensionsServices.ListingService<LotListing, ILotListingRepository, LotListingRequest, ILotListingRequestRepository>, ILotListingService
+    public class LotListingService : ExtensionsServices.ListingService<LotListing, ILotListingRepository>, ILotListingService
     {
         private readonly IMapper mapper;
         private readonly ICommunitySaleRepository communityRepository;
         private readonly ILotListingMediaService listingMediaService;
+        private readonly Husa.Quicklister.Extensions.Crosscutting.FeatureFlags featureFlags;
+        private readonly IServiceSubscriptionClient serviceSubscriptionClient;
 
         public LotListingService(
             ILotListingRepository lotListingRepository,
@@ -43,19 +41,18 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             IServiceSubscriptionClient serviceSubscriptionClient,
             IUserContextProvider userContextProvider,
             ILotListingMediaService listingMediaService,
-            IEmailService emailService,
-            ILotListingRequestRepository lotListingRequestRepository,
+            ILotListingLockService unlockService,
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<LotListingService> logger)
-             : base(lotListingRepository, logger, userContextProvider, emailService, serviceSubscriptionClient, lotListingRequestRepository, applicationOptions)
+             : base(lotListingRepository, logger, userContextProvider, unlockService)
         {
             this.communityRepository = communityRepository ?? throw new ArgumentNullException(nameof(communityRepository));
             this.listingMediaService = listingMediaService ?? throw new ArgumentNullException(nameof(listingMediaService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
+            this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
         }
-
-        protected override Func<LotListing, UnlockedListingDto> UnlockedListingDtoProjection => ListingDtoExtensions.ToUnlockedLotDto;
 
         private static IEnumerable<MarketStatuses> StatusesThatAllowDuplicates => new[] { MarketStatuses.Canceled, MarketStatuses.Closed };
 
@@ -91,7 +88,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
                 return CommandResult<LotListing>.Error($"listing {formalAddress} already exists!", existingListings);
             }
 
-            var company = await this.ServiceSubscriptionClient.Company.GetCompany(lotListing.CompanyId);
+            var company = await this.serviceSubscriptionClient.Company.GetCompany(lotListing.CompanyId);
             var lotListingEntity = new LotListing(
                 lotListing.MlsStatus,
                 lotListing.StreetName,
@@ -179,7 +176,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
                 throw new DomainException($"Duplicate MLS # {mlsNumber}. It is already assigned to {listingWithMlsNumber.AddressInfo.FormalAddress}");
             }
 
-            lotListing.CompleteListingRequest(mlsNumber, this.UserContextProvider.GetCurrentUserId(), requestStatus, actionType, this.FeatureFlags.IsDownloaderEnabled);
+            lotListing.CompleteListingRequest(mlsNumber, this.UserContextProvider.GetCurrentUserId(), requestStatus, actionType, this.featureFlags.IsDownloaderEnabled);
 
             await this.ListingRepository.SaveChangesAsync(lotListing);
         }

@@ -9,7 +9,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.CompanyServicesManager.Domain.Enums;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
-    using Husa.Extensions.Authorization.Models;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
@@ -22,7 +21,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Husa.Xml.Api.Client.Interface;
@@ -36,7 +34,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     [Collection("Husa.Quicklister.Abor.Application.Test")]
     public class ListingSaleServiceTests
     {
-        private readonly Mock<ISaleListingRequestRepository> saleRequestRepository = new();
         private readonly ApplicationServicesFixture fixture;
         private readonly Mock<IListingSaleRepository> listingSaleRepository = new();
         private readonly Mock<ICommunitySaleRepository> communitySaleRepository = new();
@@ -48,13 +45,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
         private readonly Mock<ExtensionsInterfaces.ISaleListingMediaService> listingMediaService = new();
         private readonly Mock<ISaleListingPhotoService> saleListingPhotoService = new();
         private readonly Mock<ExtensionsInterfaces.ILockLegacyListingService> legacyListingService = new();
-        private readonly Mock<IEmailService> emailService = new();
+        private readonly Mock<ExtensionsInterfaces.ISaleListingLockService> lockService = new();
 
         public ListingSaleServiceTests(ApplicationServicesFixture fixture)
         {
             this.fixture = fixture ?? throw new ArgumentNullException(nameof(fixture));
             this.Sut = new SaleListingService(
-                this.saleRequestRepository.Object,
                 this.listingSaleRepository.Object,
                 this.communitySaleRepository.Object,
                 this.planRepository.Object,
@@ -64,7 +60,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 this.saleListingPhotoService.Object,
                 this.legacyListingService.Object,
                 this.xXmlClient.Object,
-                this.emailService.Object,
+                this.lockService.Object,
                 this.fixture.Options.Object,
                 this.fixture.Mapper,
                 this.logger.Object);
@@ -619,123 +615,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Fact]
-        public async Task UnlockListing_ListingNotFound_Error()
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            SaleListing listingSale = null;
-            var user = TestModelProvider.GetCurrentUser(userId, companyId);
-
-            this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
-
-            this.listingSaleRepository
-                .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => filterByCompany)))
-                .ReturnsAsync(listingSale)
-                .Verifiable();
-
-            // Act and Assert
-            await Assert.ThrowsAsync<NotFoundException<SaleListing>>(() => this.Sut.UnlockListing(listingId));
-            this.listingSaleRepository.Verify(r => r.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Never);
-            this.listingSaleRepository.Verify(c => c.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => filterByCompany)), Times.Once);
-        }
-
-        [Fact]
-        public async Task UnlockListing_ListingFound_Success()
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var listing = TestModelProvider.GetListingSaleEntity(listingId, true, companyId);
-
-            var userId = Guid.NewGuid();
-            var user = TestModelProvider.GetCurrentUser(userId, companyId);
-            var company = TestModelProvider.GetCompanyDetail();
-            this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
-            Mock.Get(listing).Setup(l => l.CanUnlock(It.IsAny<IUserContext>(), false)).Returns(true);
-
-            this.listingSaleRepository
-                .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => filterByCompany)))
-                .ReturnsAsync(listing)
-                .Verifiable();
-
-            this.serviceSubscriptionClient
-                .Setup(x => x.Company
-                    .GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(company);
-
-            // Act
-            await this.Sut.UnlockListing(listingId);
-
-            // Assert
-            this.listingSaleRepository.Verify(r => r.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Once);
-            this.listingSaleRepository.Verify(
-                c => c.GetById(
-                    It.Is<Guid>(id => id == listingId),
-                    It.Is<bool>(filterByCompany => filterByCompany)),
-                Times.Once);
-        }
-
-        [Fact]
-        public async Task UnlockNotSubmittedListingAsCompanyAdmin_Success()
-        {
-            // Arrange
-            var userId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var user = TestModelProvider.GetCurrentUser(userId, companyId);
-            user.EmployeeRole = RoleEmployee.CompanyAdmin;
-
-            await this.UnlockListing_Success(user, LockedStatus.LockedNotSubmitted, user.Id);
-        }
-
-        [Fact]
-        public async Task UnlockNotSubmittedListingAsCompanyAdmin_LockByOtherUser_Success()
-        {
-            // Arrange
-            var userId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var user = TestModelProvider.GetCurrentUser(userId, companyId);
-            user.EmployeeRole = RoleEmployee.CompanyAdmin;
-
-            await this.UnlockListing_Success(user, LockedStatus.LockedNotSubmitted, Guid.NewGuid());
-        }
-
-        [Fact]
-        public async Task UnlockNotSubmittedListingAsSalesEmployee_Success()
-        {
-            // Arrange
-            var userId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var user = TestModelProvider.GetCurrentUser(userId, companyId);
-            user.EmployeeRole = RoleEmployee.SalesEmployee;
-
-            await this.UnlockListing_Success(user, LockedStatus.LockedNotSubmitted, userId);
-        }
-
-        [Fact]
-        public async Task UnlockListingLockedByUserAsMlsAdmin_Success()
-        {
-            // Arrange
-            var userId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var user = TestModelProvider.GetCurrentUser(userId, companyId, UserRole.MLSAdministrator);
-
-            await this.UnlockListing_Success(user, LockedStatus.LockedByUser, Guid.NewGuid());
-        }
-
-        [Fact]
-        public async Task UnlockListingLockedBySystemAsMlsAdmin_Success()
-        {
-            // Arrange
-            var userId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var user = TestModelProvider.GetCurrentUser(userId, companyId, UserRole.MLSAdministrator);
-
-            await this.UnlockListing_Success(user, LockedStatus.LockedBySystem, userId);
-        }
-
-        [Fact]
         public async Task DeclinePhotos_ListingFound_Success()
         {
             // Arrange
@@ -865,39 +744,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
             Assert.NotEqual(listingSale.SaleProperty.Community.Property.County, listingSale.SaleProperty.AddressInfo.County);
             Assert.NotNull(listingSale.SaleProperty.Community.Utilities.Fireplaces);
             Assert.Equal(listingSale.SaleProperty.Community.Utilities.CoolingSystem, listingSale.SaleProperty.FeaturesInfo.CoolingSystem);
-        }
-
-        private async Task UnlockListing_Success(UserContext user, LockedStatus lockedStatus, Guid lockedBy)
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-            var listing = TestModelProvider.GetListingSaleEntity(listingId, true, user.CompanyId);
-            listing.LockedBy = lockedBy;
-            listing.LockedStatus = lockedStatus;
-            Mock.Get(listing).Setup(l => l.CanUnlock(It.IsAny<IUserContext>(), false)).Returns(true);
-            var company = TestModelProvider.GetCompanyDetail();
-
-            this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
-            this.listingSaleRepository
-                .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => filterByCompany)))
-                .ReturnsAsync(listing)
-                .Verifiable();
-
-            this.serviceSubscriptionClient
-                .Setup(x => x.Company
-                    .GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(company);
-
-            // Act
-            await this.Sut.UnlockListing(listingId);
-
-            // Assert
-            this.listingSaleRepository.Verify(r => r.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Once);
-            this.listingSaleRepository.Verify(
-                c => c.GetById(
-                    It.Is<Guid>(id => id == listingId),
-                    It.Is<bool>(filterByCompany => filterByCompany)),
-                Times.Once);
         }
 
         private void SetupSubscriptionClientCompany(Guid companyId, ServiceCode? service = null, bool blockSquareFootage = false)

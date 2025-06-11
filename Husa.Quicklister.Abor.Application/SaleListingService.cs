@@ -11,7 +11,6 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.Quicklister.Abor.Application.Extensions;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Request;
@@ -22,13 +21,10 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Plan;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
-    using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
-    using Husa.Quicklister.Extensions.Application.Models.Listing;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -39,12 +35,13 @@ namespace Husa.Quicklister.Abor.Application
     using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
 
-    public class SaleListingService : ExtensionsServices.SaleListingService<SaleListing, IListingSaleRepository, ICommunitySaleRepository, SaleProperty, CommunitySale, SaleListingRequest, ISaleListingRequestRepository>, ISaleListingService
+    public class SaleListingService : ExtensionsServices.SaleListingService<SaleListing, IListingSaleRepository, ICommunitySaleRepository, SaleProperty, CommunitySale>, ISaleListingService
     {
         private readonly IPlanRepository planRepository;
         private readonly ExtensionsInterfaces.ISaleListingMediaService listingMediaService;
         private readonly ISaleListingPhotoService saleListingPhotoService;
         private readonly IXmlClient xmlClient;
+        private readonly Husa.Quicklister.Extensions.Crosscutting.FeatureFlags featureFlags;
 
         private readonly IEnumerable<MarketStatuses> statusAllowedForReleaseXmlListing = new[]
         {
@@ -53,7 +50,6 @@ namespace Husa.Quicklister.Abor.Application
         };
 
         public SaleListingService(
-            ISaleListingRequestRepository saleRequestRepository,
             IListingSaleRepository listingSaleRepository,
             ICommunitySaleRepository communitySaleRepository,
             IPlanRepository planRepository,
@@ -63,19 +59,18 @@ namespace Husa.Quicklister.Abor.Application
             ISaleListingPhotoService saleListingPhotoService,
             ExtensionsInterfaces.ILockLegacyListingService lockLegacyListingService,
             IXmlClient xmlClient,
-            IEmailService emailService,
+            ExtensionsInterfaces.ISaleListingLockService unlockService,
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<SaleListingService> logger)
-            : base(listingSaleRepository, communitySaleRepository, saleRequestRepository, lockLegacyListingService, serviceSubscriptionClient, emailService, logger, userContextProvider, mapper, applicationOptions)
+            : base(listingSaleRepository, communitySaleRepository, lockLegacyListingService, serviceSubscriptionClient, unlockService, logger, userContextProvider, mapper)
         {
             this.planRepository = planRepository ?? throw new ArgumentNullException(nameof(planRepository));
             this.listingMediaService = listingMediaService ?? throw new ArgumentNullException(nameof(listingMediaService));
             this.xmlClient = xmlClient ?? throw new ArgumentNullException(nameof(xmlClient));
             this.saleListingPhotoService = saleListingPhotoService ?? throw new ArgumentNullException(nameof(saleListingPhotoService));
+            this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
         }
-
-        protected override Func<SaleListing, UnlockedListingDto> UnlockedListingDtoProjection => ListingDtoExtensions.ToUnlockedListingDto;
 
         private static IEnumerable<MarketStatuses> StatusesThatAllowDuplicates => new[] { MarketStatuses.Canceled, MarketStatuses.Closed };
 
@@ -336,7 +331,7 @@ namespace Husa.Quicklister.Abor.Application
             }
 
             var mlsNumberWasEmpty = string.IsNullOrWhiteSpace(listingSale.MlsNumber);
-            listingSale.CompleteListingRequest(mlsNumber, this.UserContextProvider.GetCurrentUserId(), requestStatus, actionType, this.FeatureFlags.IsDownloaderEnabled);
+            listingSale.CompleteListingRequest(mlsNumber, this.UserContextProvider.GetCurrentUserId(), requestStatus, actionType, this.featureFlags.IsDownloaderEnabled);
 
             await this.ListingRepository.SaveChangesAsync(listingSale);
 

@@ -19,7 +19,6 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Repositories;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Interfaces.Lot;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
@@ -37,9 +36,8 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
         private readonly Mock<ICommunitySaleRepository> communitySaleRepositoryMock = new();
         private readonly Mock<ILotListingMediaService> listingMediaServiceMock = new();
         private readonly Mock<IUserContextProvider> userContextProviderMock = new();
-        private readonly Mock<ILotListingRequestRepository> lotListingRequestRepositoryMock = new();
         private readonly Mock<ILogger<LotListingService>> loggerMock = new();
-        private readonly Mock<IEmailService> emailService = new();
+        private readonly Mock<ILotListingLockService> lockService = new();
 
         public LotListingServiceTests(ApplicationServicesFixture fixture)
         {
@@ -49,8 +47,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
                 this.serviceSubscriptionClientMock.Object,
                 this.userContextProviderMock.Object,
                 this.listingMediaServiceMock.Object,
-                this.emailService.Object,
-                this.lotListingRequestRepositoryMock.Object,
+                this.lockService.Object,
                 fixture.Options.Object,
                 fixture.Mapper,
                 this.loggerMock.Object);
@@ -159,96 +156,6 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
 
             // Assert
             this.lotListingRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<LotListing>()), Times.Once);
-        }
-
-        [Fact]
-        public async Task UnlockListing_WhenListingNotFound_ThrowsNotFoundException()
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-            this.lotListingRepositoryMock.Setup(x => x.GetById(listingId, true)).ReturnsAsync((LotListing)null);
-
-            // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException<LotListing>>(async () => await this.sut.UnlockListing(listingId));
-        }
-
-        [Fact]
-        public async Task UnlockListing_WhenUserCannotUnlock_ThrowsDomainException()
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var listing = new LotListing();
-            var user = TestModelProvider.GetCurrentUser(userId, companyId, userRole: UserRole.User);
-            this.lotListingRepositoryMock.Setup(x => x.GetById(listingId, true)).ReturnsAsync(listing);
-            this.userContextProviderMock.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
-            var company = TestModelProvider.GetCompanyDetail();
-
-            this.serviceSubscriptionClientMock
-               .Setup(x => x.Company
-                   .GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
-               .ReturnsAsync(company);
-
-            // Act & Assert
-            await Assert.ThrowsAsync<DomainException>(async () => await this.sut.UnlockListing(listingId));
-        }
-
-        [Fact]
-        public async Task UnlockListing_ValidListing_ShouldUnlockListing()
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
-            var user = TestModelProvider.GetCurrentUser(userId, companyId, userRole: UserRole.MLSAdministrator);
-            var company = TestModelProvider.GetCompanyDetail();
-            var listingSale = new LotListing { Id = listingId };
-
-            this.serviceSubscriptionClientMock
-               .Setup(x => x.Company
-                   .GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
-               .ReturnsAsync(company);
-
-            this.userContextProviderMock.Setup(x => x.GetCurrentUser()).Returns(user);
-            this.lotListingRepositoryMock.Setup(x => x.GetById(listingId, true)).ReturnsAsync(listingSale);
-            this.lotListingRequestRepositoryMock.Setup(x => x.CheckFirstListingRequestExistAsync(listingId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
-
-            // Act
-            var result = await this.sut.UnlockListing(listingId);
-
-            // Assert
-            Assert.Equal(ResponseCode.Success, result.Code);
-            Assert.Equal($"Unlocked LotListing with id {listingId}.", result.Result);
-        }
-
-        [Fact]
-        public async Task UnlockListing_ListingHasOpenRequest_ReturnError()
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
-            var user = TestModelProvider.GetCurrentUser(userId, companyId, userRole: UserRole.User);
-            var company = TestModelProvider.GetCompanyDetail();
-            user.EmployeeRole = RoleEmployee.CompanyAdmin;
-            var listingSale = new LotListing { Id = listingId, LockedBy = userId, LockedStatus = Quicklister.Extensions.Domain.Enums.LockedStatus.LockedNotSubmitted };
-
-            this.serviceSubscriptionClientMock
-               .Setup(x => x.Company
-                   .GetCompany(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
-               .ReturnsAsync(company);
-
-            this.userContextProviderMock.Setup(x => x.GetCurrentUser()).Returns(user);
-            this.lotListingRepositoryMock.Setup(x => x.GetById(listingId, true)).ReturnsAsync(listingSale);
-            this.lotListingRequestRepositoryMock.Setup(x => x.CheckFirstListingRequestExistAsync(listingId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
-
-            // Act
-            var result = await this.sut.UnlockListing(listingId);
-
-            // Assert
-            Assert.Equal(ResponseCode.Error, result.Code);
-            Assert.Equal($"The LotListing {listingId} has an open request, cannot be unlocked.", result.Message);
         }
 
         [Fact]
