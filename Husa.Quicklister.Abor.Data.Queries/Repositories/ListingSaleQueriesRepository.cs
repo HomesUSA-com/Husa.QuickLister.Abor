@@ -203,5 +203,14 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
 
             return communityLeads;
         }
+
+        public async Task<IEnumerable<ListingLockedBySystemQueryResult>> GetLockedBySystem()
+        {
+            var data = await this.context.ListingSale
+                .Where(l => l.LockedStatus == LockedStatus.LockedBySystem)
+                .Select(ListingSaleProjection.ProjectToListingLockedBySystemQueryResult)
+                .ToListAsync();
+            return data;
+        }
     }
 }

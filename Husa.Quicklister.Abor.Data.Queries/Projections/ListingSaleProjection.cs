@@ -9,7 +9,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Extensions.Data.Queries.Extensions;
+    using Husa.Quicklister.Extensions.Data.Queries.Models;
     using Husa.Quicklister.Extensions.Data.Queries.Projections;
 
     public static class ListingSaleProjection
@@ -102,6 +104,17 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             Id = listingSale.Id,
             MlsNumber = listingSale.MlsNumber,
             OpenHouses = listingSale.SaleProperty.OpenHouses.ToProjectionOpenHouses(),
+        };
+
+        public static Expression<Func<SaleListing, ListingLockedBySystemQueryResult>> ProjectToListingLockedBySystemQueryResult => listingSale => new ListingLockedBySystemQueryResult
+        {
+            MlsNumber = listingSale.MlsNumber,
+            MlsStatus = listingSale.MlsStatus.ToString(),
+            Address = listingSale.SaleProperty.AddressInfo.GetFormalAddress(),
+            CompanyId = listingSale.CompanyId,
+            MarketModifiedOn = listingSale.MarketModifiedOn,
+            SysModifiedOn = listingSale.SysModifiedOn,
+            SysModifiedBy = listingSale.SysModifiedBy,
         };
 
         private static ListingSaleStatusFieldQueryResult ToProjectionSaleStatusFieldsInfo(this ListingStatusFieldsInfo statusFieldsInfo)
