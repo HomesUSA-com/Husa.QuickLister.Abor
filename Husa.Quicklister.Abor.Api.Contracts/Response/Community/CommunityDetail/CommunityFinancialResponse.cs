@@ -8,6 +8,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Community.CommunityDetail
 
     public class CommunityFinancialResponse
     {
+        public int? TaxYear { get; set; }
+
         public decimal? TaxRate { get; set; }
 
         public string TitleCompany { get; set; }
