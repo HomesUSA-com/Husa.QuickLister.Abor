@@ -64,7 +64,6 @@ namespace Husa.Quicklister.Abor.Domain.Common
                 MarketStatuses.Canceled,
                 MarketStatuses.Closed,
                 MarketStatuses.Expired,
-                MarketStatuses.Hold,
                 MarketStatuses.Pending,
             };
 
