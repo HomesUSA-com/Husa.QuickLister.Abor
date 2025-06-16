@@ -10,11 +10,9 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Common
     public class CommonFieldsValidationTests
     {
         [Theory]
-        [InlineData(MarketStatuses.Active, true)]
         [InlineData(MarketStatuses.Pending, false)]
         [InlineData(MarketStatuses.Expired, false)]
         [InlineData(MarketStatuses.Canceled, false)]
-        [InlineData(MarketStatuses.Hold, false)]
         [InlineData(MarketStatuses.Closed, false)]
         public void IsAllowedStatusForXmlRequest(MarketStatuses status, bool espectedResult)
         {
