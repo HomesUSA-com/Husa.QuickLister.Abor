@@ -8,6 +8,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.Community
 
     public class FinancialSchoolsQueryResult
     {
+        public int? TaxYear { get; set; }
+
         public decimal? TaxRate { get; set; }
 
         public string TitleCompany { get; set; }

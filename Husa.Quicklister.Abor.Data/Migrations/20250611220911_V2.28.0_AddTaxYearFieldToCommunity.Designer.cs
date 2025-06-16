@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250611220911_V2.28.0_AddTaxYearFieldToCommunity")]
+    partial class V2280_AddTaxYearFieldToCommunity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1722,10 +1725,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(2000)")
                                 .HasColumnName("Directions");
 
-                            b1.Property<bool>("EnableOpenHouses")
-                                .HasColumnType("bit")
-                                .HasColumnName("EnableOpenHouses");
-
                             b1.Property<string>("LockBoxType")
                                 .HasMaxLength(30)
                                 .HasColumnType("nvarchar(30)")
@@ -1745,10 +1744,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasMaxLength(500)
                                 .HasColumnType("nvarchar(500)")
                                 .HasColumnName("RealtorContactEmail");
-
-                            b1.Property<bool>("ShowOpenHousesPending")
-                                .HasColumnType("bit")
-                                .HasColumnName("ShowOpenHousesPending");
 
                             b1.Property<string>("ShowingInstructions")
                                 .HasMaxLength(2000)
