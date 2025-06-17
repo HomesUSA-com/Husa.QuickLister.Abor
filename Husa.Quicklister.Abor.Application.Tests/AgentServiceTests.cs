@@ -33,10 +33,10 @@ namespace Husa.Quicklister.Abor.Application.Tests
         public async Task WhenCallProcessDataFromDownloaderAsyncAndAgentNotExitsts_AgentIsCreatedSuccess()
         {
             var marketUniqueId = Faker.RandomNumber.Next(10000, 90000).ToString();
-            this.agentRepository.Setup(r => r.GetAgentByMarketUniqueId(It.Is<string>(muid => muid == marketUniqueId))).ReturnsAsync(TestModelProvider.GetAgentEntity()).Verifiable();
+            this.agentRepository.Setup(r => r.GetAgentByMlsId(It.Is<string>(muid => muid == marketUniqueId))).ReturnsAsync(TestModelProvider.GetAgentEntity()).Verifiable();
             await this.agentService.ProcessDataFromDownloaderAsync(TestModelProvider.GetAgentDto());
 
-            this.agentRepository.Verify(r => r.GetAgentByMarketUniqueId(It.IsAny<string>()), Times.Once);
+            this.agentRepository.Verify(r => r.GetAgentByMlsId(It.IsAny<string>()), Times.Once);
             this.agentRepository.Verify(r => r.SaveChangesAsync(It.IsAny<Agent>()), Times.Once);
             this.agentRepository.Verify(r => r.Attach(It.IsAny<Agent>()), Times.Once);
         }
@@ -47,11 +47,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var marketUniqueId = Faker.RandomNumber.Next(10000, 90000).ToString();
             var agentDto = TestModelProvider.GetAgentDto();
             agentDto.MarketUniqueId = marketUniqueId;
-            this.agentRepository.Setup(r => r.GetAgentByMarketUniqueId(It.Is<string>(muid => muid == marketUniqueId))).ReturnsAsync(TestModelProvider.GetAgentEntity()).Verifiable();
+            this.agentRepository.Setup(r => r.GetAgentByMlsId(It.Is<string>(muid => muid == marketUniqueId))).ReturnsAsync(TestModelProvider.GetAgentEntity()).Verifiable();
 
             await this.agentService.ProcessDataFromDownloaderAsync(agentDto);
 
-            this.agentRepository.Verify(r => r.GetAgentByMarketUniqueId(It.IsAny<string>()), Times.Once);
+            this.agentRepository.Verify(r => r.GetAgentByMlsId(It.IsAny<string>()), Times.Once);
             this.agentRepository.Verify(r => r.SaveChangesAsync(It.IsAny<Agent>()), Times.Once);
         }
     }
