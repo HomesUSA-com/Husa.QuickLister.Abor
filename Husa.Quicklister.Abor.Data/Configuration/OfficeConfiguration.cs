@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
 
     public class OfficeConfiguration : IEntityTypeConfiguration<Office>
     {
+        public const int ZipCodeLength = 5;
         public void Configure(EntityTypeBuilder<Office> builder)
         {
             if (builder is null)
@@ -30,7 +31,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration
             builder.Property(f => f.Address).HasMaxLength(65).HasColumnName(nameof(OfficeValueObject.Address));
             builder.Property(f => f.City).HasColumnName(nameof(OfficeValueObject.City)).HasEnumFieldValue<Domain.Enums.Domain.Cities>(50, isRequired: true);
             builder.Property(x => x.StateOrProvince).HasConversion(new EnumToStringConverter<StateOrProvince>()).HasMaxLength(2).HasColumnName(nameof(OfficeValueObject.StateOrProvince));
-            builder.Property(f => f.Zip).HasMaxLength(5).HasColumnName(nameof(OfficeValueObject.Zip));
+            builder.Property(f => f.Zip).HasMaxLength(ZipCodeLength).HasColumnName(nameof(OfficeValueObject.Zip));
             builder.Property(f => f.ZipExt).HasMaxLength(4).HasColumnName(nameof(OfficeValueObject.ZipExt));
             builder.Property(f => f.Phone).HasMaxLength(20).HasColumnName(nameof(OfficeValueObject.Phone));
             builder.Property(f => f.Status).HasMaxLength(10).HasColumnName(nameof(OfficeValueObject.Status));

@@ -36,6 +36,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
             }
             else
             {
+                office.OfficeValue ??= new OfficeValueObject();
                 office.UpdateInformation(officeValue);
             }
 
