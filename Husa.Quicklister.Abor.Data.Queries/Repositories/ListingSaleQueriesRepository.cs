@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Data.Queries.Models;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Queries.Repositories.SaleListing;
@@ -70,7 +71,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .FilterByCommunities(communityIds)
                 .FilterByPlan(queryFilter.PlanId)
                 .FilterByStatus(queryFilter.MlsStatus)
-                .FilterByListed(queryFilter.ListedType)
+                .FilterByListed(queryFilter.ListedType, ListingSaleSpecifications.FilterByMlsStatusNotEqualTo<SaleListing>(MarketStatuses.Closed))
                 .FilterBySearch(queryFilter.SearchBy)
                 .FilterByStreetNumber(queryFilter.StreetNumber)
                 .FilterByStreetName(queryFilter.StreetName)

@@ -19,6 +19,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Interfaces.Lot;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
@@ -38,6 +39,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
         private readonly Mock<IUserContextProvider> userContextProviderMock = new();
         private readonly Mock<ILotListingRequestRepository> lotListingRequestRepositoryMock = new();
         private readonly Mock<ILogger<LotListingService>> loggerMock = new();
+        private readonly Mock<IEmailService> emailService = new();
 
         public LotListingServiceTests(ApplicationServicesFixture fixture)
         {
@@ -47,6 +49,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
                 this.serviceSubscriptionClientMock.Object,
                 this.userContextProviderMock.Object,
                 this.listingMediaServiceMock.Object,
+                this.emailService.Object,
                 this.lotListingRequestRepositoryMock.Object,
                 fixture.Options.Object,
                 fixture.Mapper,

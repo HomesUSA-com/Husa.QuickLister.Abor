@@ -18,16 +18,13 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
-    using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
-    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Extensions.Api.Controllers;
     using Husa.Quicklister.Extensions.Api.Filters;
     using Husa.Quicklister.Extensions.Application.Interfaces.Notes;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -37,7 +34,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
     [ApiController]
     [Route("sale-listing-requests")]
-    public class SaleListingRequestsController : ListingRequestsController<SaleListingRequest, ISaleListingRequestService, ShowingTimeContact>
+    public class SaleListingRequestsController : ListingRequestsController<SaleListingRequest, ISaleListingRequestService>
     {
         private readonly ISaleListingRequestQueriesRepository saleRequestQueryRepository;
         private readonly ISaleListingRequestService saleRequestService;
@@ -54,9 +51,8 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             IUserRepository userQueriesRepository,
             IMapper mapper,
             IValidateListingStatusChanges<ListingSaleRequestForUpdate> validateListingStatusChanges,
-            IShowingTimeContactQueriesRepository showingTimeContactQueriesRepository,
             ILogger<SaleListingRequestsController> logger)
-            : base(showingTimeContactQueriesRepository, saleRequestService, mapper, logger)
+            : base(saleRequestService, mapper, logger)
         {
             this.saleRequestQueryRepository = saleRequestQueryRepository ?? throw new ArgumentNullException(nameof(saleRequestQueryRepository));
             this.listingSaleService = listingSaleService ?? throw new ArgumentNullException(nameof(listingSaleService));

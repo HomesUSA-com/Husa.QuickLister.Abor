@@ -30,6 +30,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         Listing,
         ISaleListing<SaleProperty>,
         IGenerateListingRequest<SaleListingRequest>,
+        IGenerateRequestFromCommunity<SaleListingRequest, CommunitySale>,
         IListingInvoiceInfo,
         IListingPlan<Plan>,
         IListingCommunity<CommunitySale>,
@@ -120,7 +121,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual ICollection<ShowingTimeContact> ShowingTimeContacts { get; set; }
 
         public virtual bool IsExisting => ExistingListingStatuses.Contains(this.MlsStatus);
-
+        public override string Address => this.SaleProperty.Address;
         public virtual CommandSingleResult<SaleListingRequest, ValidationResult> GenerateRequest(IUserContextProvider userContextProvider)
         {
             var userId = userContextProvider.GetCurrentUserId();
@@ -136,17 +137,22 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             }
         }
 
-        public virtual CommandSingleResult<SaleListingRequest, ValidationResult> GenerateRequestFromCommunity(SaleListingRequest lastCompletedRequest, Guid userId)
+        public virtual CommandSingleResult<SaleListingRequest, ValidationResult> GenerateRequestFromCommunity(
+            SaleListingRequest lastCompletedRequest,
+            CommunitySale community,
+            IUserContextProvider userContextProvider)
         {
             this.SaleProperty.UpdateListingFromCommunitySubmit();
+            this.UpdateShowingTimeFromCommunitySubmit(community);
 
             var newRequest = lastCompletedRequest.Clone();
             newRequest.SaleProperty.ImportDataFromCommunitySubmit(this.SaleProperty.Community);
-            newRequest.UpdateTrackValues(userId, isNewRecord: true);
+            newRequest.UpdateShowingTimeFromCommunitySubmit(community);
+            newRequest.UpdateTrackValues(userContextProvider.GetCurrentUserId(), isNewRecord: true);
             newRequest.MlsNumber = this.MlsNumber;
             newRequest.ListDate = this.ListDate;
 
-            return this.AddRequest(newRequest, userId);
+            return this.AddRequest(newRequest, userContextProvider);
         }
 
         public override void UpdateManuallyManagement(bool manuallyManaged)

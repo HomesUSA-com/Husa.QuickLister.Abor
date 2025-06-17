@@ -42,30 +42,6 @@ namespace Husa.Quicklister.Abor.Data.Specifications
             return listingsActiveAndPendingWithShowOpenHousesPendingActive;
         }
 
-        public static IQueryable<T> FilterByListed<T>(this IQueryable<T> listings, ListedType? listedType)
-            where T : Listing
-        {
-            if (!listedType.HasValue)
-            {
-                return listings;
-            }
-
-            if (listedType == ListedType.Unlisted)
-            {
-                return listings.Where(p => string.IsNullOrEmpty(p.MlsNumber));
-            }
-            else if (listedType == ListedType.Listed)
-            {
-                return listings.Where(p => !string.IsNullOrEmpty(p.MlsNumber));
-            }
-            else if (listedType == ListedType.AwaitingMlsUpdate)
-            {
-                return listings.Where(p => p.LockedStatus == LockedStatus.LockedByUser || p.LockedStatus == LockedStatus.LockedBySystem);
-            }
-
-            return listings.Where(p => p.MlsStatus != MarketStatuses.Closed);
-        }
-
         public static IQueryable<T> FilterByActiveOrPendingStatus<T>(this IQueryable<T> listings)
             where T : SaleListing
                 => listings.Where(p => MarketStatusesExtensions.ActiveAndPendingStatusesForDiscrepancyReport.Contains(p.MlsStatus));
@@ -206,5 +182,9 @@ namespace Husa.Quicklister.Abor.Data.Specifications
         }
 
         public static IQueryable<SaleListing> HasOpenHouse(this IQueryable<SaleListing> listings) => listings.Where(listingSale => listingSale.SaleProperty.OpenHouses.Any());
+
+        public static Func<T, bool> FilterByMlsStatusNotEqualTo<T>(MarketStatuses marketStatus)
+            where T : SaleListing
+                => listing => listing.MlsStatus != marketStatus;
     }
 }

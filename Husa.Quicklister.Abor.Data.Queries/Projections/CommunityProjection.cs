@@ -52,6 +52,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             BackupPhone = community.ProfileInfo.BackupPhone,
             OfficePhone = community.ProfileInfo.OfficePhone,
             ShowingTime = community.ToProjectionShowingTime(),
+            UseShowingTime = community.UseShowingTime,
         };
 
         public static Expression<Func<CommunityEmployee, CommunityEmployeeQueryResult>> ProjectionToCommunityEmployeeQueryResult => communityEmployee => new CommunityEmployeeQueryResult

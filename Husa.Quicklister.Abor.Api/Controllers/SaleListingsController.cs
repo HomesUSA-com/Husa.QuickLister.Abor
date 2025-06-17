@@ -184,27 +184,6 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             return this.Ok(this.mapper.Map<IEnumerable<ListingSaleRequestQueryResponse>>(queryResponse));
         }
 
-        [HttpPut("{listingId:guid}/unlock")]
-        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
-        public async Task<IActionResult> UnlockListing(Guid listingId, CancellationToken cancellationToken = default)
-        {
-            this.logger.LogInformation("Start to unlock listing sale Id {listingId}", listingId);
-
-            if (listingId == Guid.Empty)
-            {
-                return this.BadRequest(listingId);
-            }
-
-            var queryResponse = await this.listingService.UnlockListing(listingId, cancellationToken);
-
-            if (queryResponse.Code == ResponseCode.Error)
-            {
-                return this.BadRequest(queryResponse);
-            }
-
-            return this.Ok();
-        }
-
         [HttpPut("{listingId:guid}/close")]
         [Authorize(Roles.MLSAdministrator)]
         public async Task<IActionResult> CloseListing(Guid listingId, CancellationToken cancellationToken = default)

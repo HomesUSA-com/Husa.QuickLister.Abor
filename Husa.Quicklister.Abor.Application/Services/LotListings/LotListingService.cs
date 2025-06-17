@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Quicklister.Abor.Application.Extensions;
     using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Lot;
@@ -21,7 +22,9 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Extensions.Lot;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Interfaces.Lot;
+    using Husa.Quicklister.Extensions.Application.Models.Listing;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -43,11 +46,12 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             IServiceSubscriptionClient serviceSubscriptionClient,
             IUserContextProvider userContextProvider,
             ILotListingMediaService listingMediaService,
+            IEmailService emailService,
             ILotListingRequestRepository lotListingRequestRepository,
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<LotListingService> logger)
-             : base(lotListingRepository, logger, userContextProvider)
+             : base(lotListingRepository, logger, userContextProvider, emailService)
         {
             this.communityRepository = communityRepository ?? throw new ArgumentNullException(nameof(communityRepository));
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
@@ -56,6 +60,8 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
             this.lotListingRequestRepository = lotListingRequestRepository ?? throw new ArgumentNullException(nameof(lotListingRequestRepository));
         }
+
+        protected override Func<LotListing, UnlockedListingDto> UnlockedListingDtoProjection => ListingDtoExtensions.ToUnlockedLotDto;
 
         private static IEnumerable<MarketStatuses> StatusesThatAllowDuplicates => new[] { MarketStatuses.Canceled, MarketStatuses.Closed };
 
@@ -102,8 +108,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
                 company.Id,
                 company.Name,
                 lotListing.County,
-                lotListing.CommunityId,
-                lotListing.IsManuallyManaged)
+                lotListing.CommunityId)
             {
                 LegacyId = lotListing.LegacyId,
             };

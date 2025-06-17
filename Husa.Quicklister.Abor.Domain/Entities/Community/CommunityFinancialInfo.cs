@@ -17,6 +17,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             this.BuyersAgentCommissionType = CommissionType.Percent;
         }
 
+        public int? TaxYear { get; set; }
+
         public decimal? TaxRate { get; set; }
 
         public string TitleCompany { get; set; }
@@ -87,6 +89,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual CommunityFinancialInfo ImportFinancial(FinancialInfo info)
         {
             var clonedFinancial = this.Clone();
+            clonedFinancial.TaxYear = info.TaxYear;
             clonedFinancial.TaxRate = info.TaxRate;
             clonedFinancial.TitleCompany = info.TitleCompany;
             clonedFinancial.AcceptableFinancing = info.AcceptableFinancing;

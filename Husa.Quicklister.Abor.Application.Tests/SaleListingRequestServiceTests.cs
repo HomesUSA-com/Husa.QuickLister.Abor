@@ -8,11 +8,9 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
-    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
-    using Husa.Extensions.EmailNotification.Services;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Application.Services;
     using Husa.Quicklister.Abor.Application.Tests.Providers;
@@ -22,13 +20,12 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
-    using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Models.Community;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
-    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Interfaces;
@@ -45,8 +42,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     {
         private readonly Mock<ILogger<SaleListingRequestService>> logger = new();
         private readonly ApplicationServicesFixture fixture;
-        private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
-        private readonly Mock<IEmailSender> emailSender = new();
+        private readonly Mock<IEmailService> emailService = new();
         private readonly Mock<ExtensionsUserRepository> userQueriesRepository = new();
         private readonly Mock<ExtensionsMediaService> mediaService = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
@@ -145,41 +141,25 @@ namespace Husa.Quicklister.Abor.Application.Tests
         {
             // Arrange
             var listingRequestId = Guid.NewGuid();
-            var listingSaleId = Guid.NewGuid();
+            var listingId = Guid.NewGuid();
             var userId = Guid.NewGuid();
             var showingTime = TestModelProvider.ShowingTimeFaker();
-            var mapper = new Mock<IMapper>();
 
             var listingSaleRequestDto = new ListingSaleRequestDto
             {
                 UseShowingTime = useShowingTime,
-                ListingSaleId = listingSaleId,
+                ListingSaleId = listingId,
                 ShowingTime = this.fixture.Mapper.Map<ShowingTimeDto>(showingTime),
                 SaleProperty = ListingTestProvider.GetSalePropertyDetailDto(),
+                StatusFieldsInfo = new(),
             };
 
-            var existingRequest = ListingRequestProviders.GetSaleListingRequestMock(listingRequestId, listingSaleId).Object;
+            var existingRequestMock = ListingRequestProviders.GetSaleListingRequestMock(listingRequestId, listingId);
+            existingRequestMock.Setup(p => p.UpdateRequestInformation(It.IsAny<ListingRequestValueObject>(), It.IsAny<ListingStatusFieldsInfo>(), It.IsAny<SalePropertyValueObject>())).CallBase().Verifiable();
+            var existingRequest = existingRequestMock.Object;
 
             this.saleRequestRepository.Setup(r => r.GetByIdAsync(listingRequestId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(existingRequest);
-
-            mapper.Setup(m => m.Map<ListingRequestValueObject>(It.IsAny<ListingSaleRequestDto>()))
-                .Returns(new ListingRequestValueObject());
-
-            mapper.Setup(m => m.Map<ListingStatusFieldsInfo>(It.IsAny<object>()))
-                .Returns(new ListingStatusFieldsInfo());
-
-            mapper.Setup(m => m.Map<SalePropertyValueObject>(It.IsAny<object>()))
-                .Returns(new SalePropertyValueObject());
-
-            if (useShowingTime)
-            {
-                mapper.Setup(m => m.Map<ShowingTime>(It.IsAny<object>()))
-                    .Returns(showingTime);
-
-                this.showingTimeContactsProvider.Setup(s => s.GetScopedContacts(ContactScope.Listing, listingSaleId))
-                    .ReturnsAsync(new List<ShowingTimeContact>());
-            }
 
             this.userContextProvider.Setup(u => u.GetCurrentUserId()).Returns(userId);
 
@@ -191,19 +171,17 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 .Returns(Task.CompletedTask);
 
             // Act
-            await this.GetSut(mapper.Object).UpdateListingRequestAsync(listingRequestId, listingSaleRequestDto);
+            await this.GetSut().UpdateListingRequestAsync(listingRequestId, listingSaleRequestDto);
 
             // Assert
             this.saleRequestRepository.Verify(r => r.GetByIdAsync(listingRequestId, It.IsAny<CancellationToken>()), Times.Once);
 
             if (useShowingTime)
             {
-                mapper.Verify(m => m.Map<ShowingTime>(It.IsAny<object>()), Times.Once);
-                this.showingTimeContactsProvider.Verify(s => s.GetScopedContacts(ContactScope.Listing, listingSaleId), Times.Once);
+                this.showingTimeContactsProvider.Verify(s => s.GetScopedContacts(ContactScope.Listing, listingId), Times.Once);
             }
             else
             {
-                mapper.Verify(m => m.Map<ShowingTime>(It.IsAny<object>()), Times.Never);
                 this.showingTimeContactsProvider.Verify(s => s.GetScopedContacts(It.IsAny<ContactScope>(), It.IsAny<Guid>()), Times.Never);
             }
 
@@ -227,7 +205,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var unlockedListingMock = TestModelProvider.GetListingSaleEntityMock(unlockedListingId, createStub: true, communityId: communityId, lockedStatus: LockedStatus.NoLocked);
             var saleListingRequest = ListingRequestProviders.GetSaleListingRequestMock(newRequestId, unlockedListingId, Guid.NewGuid());
             unlockedListingMock
-                .Setup(x => x.GenerateRequestFromCommunity(It.IsAny<SaleListingRequest>(), It.IsAny<Guid>()))
+                .Setup(x => x.GenerateRequestFromCommunity(It.IsAny<SaleListingRequest>(), saleCommunity, It.IsAny<IUserContextProvider>()))
                 .Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Success(saleListingRequest.Object))
                 .Verifiable();
             var unlockedListing = unlockedListingMock.Object;
@@ -252,8 +230,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             mapper ?? this.fixture.Mapper,
             this.logger.Object,
             this.fixture.Options.Object,
-            this.serviceSubscriptionClient.Object,
-            this.emailSender.Object,
+            this.emailService.Object,
             this.userQueriesRepository.Object,
             this.pequestErrorRepository.Object,
             this.showingTimeContactsProvider.Object);

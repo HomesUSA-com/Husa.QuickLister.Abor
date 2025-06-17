@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Tests.Providers;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Moq;
     using Xunit;
@@ -66,7 +67,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
             listing.Setup(x => x.StatusFieldsInfo).Returns(new LotStatusFieldsRecord());
             listing.Setup(sp => sp.IsValidForSubmit(It.IsAny<IUserContextProvider>())).CallBase();
 
-            var result = listing.Object.IsValidForSubmit(GetIUserContextProvider());
+            var result = listing.Object.IsValidForSubmit(TestEntityProvider.GetIUserContextProvider());
 
             var statusError = result.FirstOrDefault(x => x.ErrorMessage.Contains("StatusFields"));
             Assert.NotNull(statusError);
@@ -87,7 +88,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
             };
             listing.Setup(x => x.StatusFieldsInfo).Returns(statusFields);
 
-            var result = listing.Object.IsValidForSubmit(GetIUserContextProvider());
+            var result = listing.Object.IsValidForSubmit(TestEntityProvider.GetIUserContextProvider());
 
             var statusError = result.FirstOrDefault(x => x.ErrorMessage.Contains("StatusFields"));
             Assert.NotNull(statusError);
@@ -116,15 +117,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
             Assert.Equal(2, statusSummary.Count());
             Assert.Contains(statusSummary, x => x.FieldName == nameof(LotStatusFieldsRecord.PendingDate));
             Assert.Contains(statusSummary, x => x.FieldName == nameof(LotStatusFieldsRecord.ClosedDate));
-        }
-
-        private static IUserContextProvider GetIUserContextProvider()
-        {
-            var userContextProvider = new Mock<IUserContextProvider>();
-            var userId = Guid.NewGuid();
-            userContextProvider.Setup(u => u.GetCurrentUserId()).Returns(userId).Verifiable();
-            userContextProvider.Setup(u => u.GetUserLocalDate()).Returns(DateTime.UtcNow).Verifiable();
-            return userContextProvider.Object;
         }
     }
 }

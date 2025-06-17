@@ -272,6 +272,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions.Sale
         {
             return new()
             {
+                TaxYear = community.Financial.TaxYear,
                 TaxRate = community.Financial.TaxRate,
                 TitleCompany = community.Financial.TitleCompany,
                 AcceptableFinancing = community.Financial.AcceptableFinancing,

@@ -15,5 +15,6 @@ namespace Husa.Quicklister.Abor.Application.Models.Community
         public CommunityShowingDto Showing { get; set; }
         public ShowingTimeDto ShowingTime { get; set; }
         public IEnumerable<OpenHouseDto> OpenHouses { get; set; }
+        public bool UseShowingTime { get; set; }
     }
 }

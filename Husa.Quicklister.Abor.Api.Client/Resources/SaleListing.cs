@@ -123,6 +123,12 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             return this.client.GetAsync<ExtensionsContract.Response.EmailLeadResponse>(endpoint, token);
         }
 
+        public Task UnlockUnsubmittedListings(CancellationToken token = default)
+        {
+            var endpoint = $"{this.baseUri}/unlock";
+            return this.client.PatchAsync(endpoint, null, token: token);
+        }
+
         public Task<IEnumerable<ListingLockedBySystemResponse>> GetListingLockedBySystemAsync(CancellationToken token = default)
         {
             this.logger.LogInformation("Getting listings awaiting for Mls Update");

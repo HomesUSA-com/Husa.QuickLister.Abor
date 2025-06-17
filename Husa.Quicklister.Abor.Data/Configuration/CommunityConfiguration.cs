@@ -19,7 +19,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration
         {
             ArgumentNullException.ThrowIfNull(builder);
             builder.ConfigureCommunity();
-            builder.ConfigureShowingTime();
             builder.HasMany(o => o.ShowingTimeContacts)
                 .WithMany(o => o.Communities)
                 .UsingEntity<CommunityShowingTimeContact>();
@@ -42,6 +41,9 @@ namespace Husa.Quicklister.Abor.Data.Configuration
         private static void ConfigureFinancial(OwnedNavigationBuilder<CommunitySale, CommunityFinancialInfo> builder)
         {
             builder.ConfigureFinancial();
+            builder.Property(x => x.TaxYear)
+                .HasColumnName(nameof(CommunityFinancialInfo.TaxYear))
+                .IsRequired(false);
             builder.Ignore(p => p.ReadableBuyersAgentCommission);
         }
 

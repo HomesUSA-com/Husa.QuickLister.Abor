@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.Lot
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Tests.Providers;
@@ -39,19 +40,20 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.Lot
         public void GenerateRequestFromCommunity_Success()
         {
             // Arrange
-            var userId = Guid.NewGuid();
+            var user = TestEntityProvider.GetIUserContextProvider();
+            var community = new CommunitySale(Guid.NewGuid(), "Company", "company");
             var listing = new LotListing()
             {
-                Community = new(Guid.NewGuid(), "Company", "company"),
+                Community = community,
             };
             var request = TestProviderLotRequest.GetLotListingRequestMock();
             request.Setup(x => x.Clone()).CallBase().Verifiable();
 
             // Act
-            listing.GenerateRequestFromCommunity(request.Object, userId);
+            listing.GenerateRequestFromCommunity(request.Object, community, user);
 
             // Assert
-            request.Verify(r => r.UpdateTrackValues(userId, It.IsAny<bool>()), Times.Once);
+            request.Verify(r => r.UpdateTrackValues(user.GetCurrentUserId(), It.IsAny<bool>()), Times.Once);
         }
     }
 }

@@ -10,7 +10,6 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Downloader.CTX.Api.Client;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Document.Interfaces;
-    using Husa.Extensions.EmailNotification.Services;
     using Husa.Extensions.Media.Interfaces;
     using Husa.Extensions.OpenAI;
     using Husa.JsonImport.Api.Client.Interface;
@@ -21,6 +20,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Interfaces.Media;
     using Husa.ReverseProspect.Api.Client;
     using Husa.Xml.Api.Client.Interface;
@@ -48,7 +48,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             services.AddSingleton(new Mock<IMediaServiceClient>().Object);
             services.AddSingleton(new Mock<IBlobService>().Object);
             services.AddSingleton(new Mock<INotesClient>().Object);
-            services.AddSingleton(new Mock<IEmailSender>().Object);
+            services.AddSingleton(new Mock<IEmailService>().Object);
             services.AddSingleton(new Mock<IMediaService>().Object);
             services.AddSingleton(new Mock<IOpenAIClient>().Object);
             services.AddSingleton(new Mock<ISaleListingRequestQueriesRepository>().Object);

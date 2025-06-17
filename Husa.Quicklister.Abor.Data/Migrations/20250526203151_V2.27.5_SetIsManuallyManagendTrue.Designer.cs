@@ -4,6 +4,7 @@ using Husa.Quicklister.Abor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Husa.Quicklister.Abor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250526203151_V2.27.5_SetIsManuallyManagendTrue")]
+    partial class V2275_SetIsManuallyManagendTrue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,8 +206,9 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                         .HasDefaultValueSql("(getdate())");
 
                     b.Property<bool>("UseShowingTime")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
-                        .HasColumnName("UseShowingTime");
+                        .HasDefaultValue(false);
 
                     b.Property<string>("XmlStatus")
                         .IsRequired()
@@ -397,8 +401,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Property<bool>("UseShowingTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("UseShowingTime");
+                        .HasDefaultValue(false);
 
                     b.Property<Guid?>("XmlDiscrepancyListingId")
                         .HasColumnType("uniqueidentifier");
@@ -1422,10 +1425,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasPrecision(18, 2)
                                 .HasColumnType("decimal(18,2)")
                                 .HasColumnName("TaxRate");
-
-                            b1.Property<int?>("TaxYear")
-                                .HasColumnType("int")
-                                .HasColumnName("TaxYear");
 
                             b1.Property<string>("TitleCompany")
                                 .HasMaxLength(45)

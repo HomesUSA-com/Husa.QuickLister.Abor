@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Quicklister.Abor.Application.Extensions;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Request;
@@ -25,6 +26,8 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
+    using Husa.Quicklister.Extensions.Application.Models.Listing;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -62,10 +65,11 @@ namespace Husa.Quicklister.Abor.Application
             ISaleListingPhotoService saleListingPhotoService,
             ExtensionsInterfaces.ILockLegacyListingService lockLegacyListingService,
             IXmlClient xmlClient,
+            IEmailService emailService,
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<SaleListingService> logger)
-             : base(listingSaleRepository, communitySaleRepository, lockLegacyListingService, serviceSubscriptionClient, logger, userContextProvider, mapper)
+             : base(listingSaleRepository, communitySaleRepository, lockLegacyListingService, serviceSubscriptionClient, emailService, logger, userContextProvider, mapper)
         {
             this.saleRequestRepository = saleRequestRepository ?? throw new ArgumentNullException(nameof(saleRequestRepository));
             this.planRepository = planRepository ?? throw new ArgumentNullException(nameof(planRepository));
@@ -74,6 +78,8 @@ namespace Husa.Quicklister.Abor.Application
             this.saleListingPhotoService = saleListingPhotoService ?? throw new ArgumentNullException(nameof(saleListingPhotoService));
             this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
         }
+
+        protected override Func<SaleListing, UnlockedListingDto> UnlockedListingDtoProjection => ListingDtoExtensions.ToUnlockedListingDto;
 
         private static IEnumerable<MarketStatuses> StatusesThatAllowDuplicates => new[] { MarketStatuses.Canceled, MarketStatuses.Closed };
 
