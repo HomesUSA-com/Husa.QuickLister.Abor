@@ -25,7 +25,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Downloader
         public async Task ProcessDataFromDownloaderAsync(AgentDto agentDto)
         {
             this.logger.LogInformation("Service agent is starting to process data from downloader for agent with agent id {agentMarketUniqueId}", agentDto.MarketUniqueId);
-            var agent = await this.agentRepository.GetAgentByMarketUniqueId(agentDto.MarketUniqueId);
+            var agent = await this.agentRepository.GetAgentByMlsId(agentDto.MlsId);
             var agentValue = this.mapper.Map<AgentValueObject>(agentDto);
 
             if (agent is null)
