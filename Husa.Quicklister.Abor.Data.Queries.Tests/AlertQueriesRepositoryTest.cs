@@ -15,6 +15,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
+    using Husa.Xml.Api.Client.Interface;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Diagnostics;
     using Microsoft.EntityFrameworkCore.Storage;
@@ -30,6 +31,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
         private readonly Mock<IUserRepository> userQueriesRepository = new();
         private readonly Mock<IPhotoServiceClient> photoService = new();
         private readonly Mock<IUserContextProvider> userContex = new();
+        private readonly Mock<IXmlClient> xmlClient = new();
         private readonly Mock<ILogger<AlertQueriesRepository>> logger = new();
         private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
 
@@ -89,6 +91,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
                 this.userQueriesRepository.Object,
                 this.photoService.Object,
                 this.serviceSubscriptionClient.Object,
+                this.xmlClient.Object,
                 this.logger.Object,
                 this.userContex.Object);
         }

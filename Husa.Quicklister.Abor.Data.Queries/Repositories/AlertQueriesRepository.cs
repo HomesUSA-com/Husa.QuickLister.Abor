@@ -24,6 +24,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
+    using Husa.Xml.Api.Client.Interface;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using AlertExtension = Husa.Quicklister.Extensions.Data.Queries.Repositories;
@@ -35,9 +36,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             IUserRepository userQueriesRepository,
             IPhotoServiceClient photoService,
             IServiceSubscriptionClient serviceSubscriptionClient,
+            IXmlClient xmlClient,
             ILogger<AlertQueriesRepository> logger,
             IUserContextProvider userContext)
-            : base(userQueriesRepository, logger, photoService, serviceSubscriptionClient, userContext, context)
+            : base(userQueriesRepository, logger, photoService, serviceSubscriptionClient, xmlClient, userContext, context)
         {
         }
 
@@ -93,6 +95,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             }
 
             return query;
+        }
+
+        protected override IQueryable<SaleListing> FilterByActive(IQueryable<SaleListing> query)
+        {
+            return query.Where(l => l.MlsStatus == MarketStatuses.Active);
         }
     }
 }
