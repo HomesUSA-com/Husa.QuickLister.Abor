@@ -646,6 +646,24 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             Assert.Empty(lockedListings);
         }
 
+        [Fact]
+        public async Task CreateTaxIdRequestAsyncFails()
+        {
+            // Act && Assert
+            var listingId = Factory.ListingId;
+            var taxId = "12345";
+            await Assert.ThrowsAsync<HttpRequestException>(() => this.quicklisterAborClient.ListingSaleRequest.CreateTaxIdRequestAsync(listingId, taxId));
+        }
+
+        [Fact]
+        public async Task CreateTaxIdLotRequestAsyncFails()
+        {
+            // Act && Assert
+            var listingId = Factory.ListingId;
+            var taxId = "12345";
+            await Assert.ThrowsAsync<HttpRequestException>(() => this.quicklisterAborClient.ListingLotRequest.CreateTaxIdRequestAsync(listingId, taxId));
+        }
+
         private sealed class DataGenerator : IEnumerable<object[]>
         {
             private readonly List<object[]> data = new()

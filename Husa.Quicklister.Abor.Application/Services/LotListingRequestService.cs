@@ -2,10 +2,12 @@ namespace Husa.Quicklister.Abor.Application.Services
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.Common.Classes;
     using Husa.Quicklister.Abor.Application.Interfaces.Request;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Crosscutting;
@@ -19,6 +21,7 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
+    using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -95,5 +98,17 @@ namespace Husa.Quicklister.Abor.Application.Services
 
         protected override Task<IEnumerable<LotListing>> GetActiveListingsFromCommunity(CommunitySale community)
             => Task.FromResult(community.GetActiveLotListings());
+
+        protected override CommandSingleResult<LotListingRequest, ValidationResult> UpdateTaxIdAndGenerateRequest(LotListing listing, LotListingRequest oldCompleteRequest, string taxId, Guid userId)
+        {
+            var newRequest = oldCompleteRequest.Clone();
+            newRequest.UpdateTrackValues(userId, isNewRecord: true);
+            listing.PropertyInfo.TaxId = taxId;
+            newRequest.PropertyInfo.TaxId = taxId;
+            newRequest.MlsNumber = listing.MlsNumber;
+            newRequest.ListDate = listing.ListDate;
+
+            return listing.AddRequest(newRequest, userId);
+        }
     }
 }

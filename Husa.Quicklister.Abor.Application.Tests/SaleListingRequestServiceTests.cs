@@ -6,12 +6,14 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Application.Services;
     using Husa.Quicklister.Abor.Application.Tests.Providers;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
+    using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
@@ -140,6 +142,47 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 userId,
                 It.IsAny<CancellationToken>()),
                 Times.Once);
+        }
+
+        [Fact]
+        public async Task CreateListingRequestWithTaxId_WhenNoCompletedRequestExists_ReturnsDomainException()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var requestId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            var taxId = "12345";
+            var saleListing = new Mock<SaleListing>();
+            var propertyInfo = new Mock<PropertyInfo>();
+            propertyInfo.Object.TaxId = "1234";
+            saleListing.SetupGet(sl => sl.Id).Returns(listingId).Verifiable();
+            saleListing.SetupGet(sl => sl.SaleProperty.PropertyInfo).Returns(propertyInfo.Object);
+
+            var saleListingRequest = ListingRequestProviders.GetSaleListingRequestMock(requestId, listingId: listingId, Guid.NewGuid(), requestState: ListingRequestState.Pending);
+            var clonedRequest = ListingRequestProviders.GetSaleListingRequestMock(requestId, listingId: listingId, Guid.NewGuid(), requestState: ListingRequestState.Pending);
+
+            this.saleListingRepository
+                .Setup(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => !filterByCompany)))
+                .ReturnsAsync(saleListing.Object);
+
+            this.saleRequestRepository
+                .Setup(sl => sl.CheckFirstListingRequestExistAsync(It.Is<Guid>(id => id == listingId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false);
+
+            this.saleRequestRepository
+                .Setup(sl => sl.GetLastCompletedRequestAsync(It.Is<Guid>(id => id == listingId), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(saleListingRequest.Object);
+
+            this.userContextProvider
+                .Setup(sl => sl.GetCurrentUserId())
+                .Returns(userId);
+
+            saleListingRequest.Setup(p => p.Clone()).Returns(clonedRequest.Object);
+
+            var sut = this.GetSut();
+
+            // Act && Assert
+            await Assert.ThrowsAsync<DomainException>(() => sut.CreateRequestAsync(listingId, taxId, cancellationToken: default));
         }
 
         private SaleListingRequestService GetSut(IMapper mapper = null) => new(
