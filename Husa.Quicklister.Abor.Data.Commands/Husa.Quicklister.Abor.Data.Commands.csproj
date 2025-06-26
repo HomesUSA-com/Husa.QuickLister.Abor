@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Husa.Quicklister.Abor.Data.Documents\Husa.Quicklister.Abor.Data.Documents.csproj" />
       <ProjectReference Include="..\Husa.Quicklister.Abor.Data\Husa.Quicklister.Abor.Data.csproj" />
     </ItemGroup>
 
