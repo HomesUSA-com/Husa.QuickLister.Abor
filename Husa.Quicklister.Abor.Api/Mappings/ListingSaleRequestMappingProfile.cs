@@ -3,7 +3,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using AutoMapper;
     using Husa.Extensions.Common;
     using Husa.Extensions.Document.Models;
-    using Husa.Extensions.Document.QueryFilters;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleRequest;
@@ -70,8 +69,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.SaleListings, config => config.Ignore())
                 .ForMember(dest => dest.SysTimestamp, config => config.Ignore());
 
-            this.CreateMap<RequestBaseFilter, RequestBaseQueryFilter>()
-                 .ForMember(dest => dest.EntityId, config => config.Ignore());
             this.CreateMap<SaleListingRequestFilter, SaleListingRequestQueryFilter>()
                 .ForMember(dest => dest.ListingId, config => config.MapFrom(dto => dto.SaleListingId))
                 .ForMember(dest => dest.EntityId, config => config.MapFrom(dto => dto.SaleListingId));

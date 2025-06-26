@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Husa.Quicklister.Extensions.Domain.Enums" Version="1.14.0-dev002" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Domain.Enums" Version="1.14.0-dev003" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 

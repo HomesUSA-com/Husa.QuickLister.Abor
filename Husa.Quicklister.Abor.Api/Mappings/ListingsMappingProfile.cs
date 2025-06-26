@@ -34,9 +34,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.ReverseProspect.Api.Contracts.Response;
     using DownloaderCtxResponse = Husa.Downloader.CTX.Api.Contracts.Response;
-    using ExtensionMapping = Husa.Quicklister.Extensions.Api.Mappings.ListingMappingProfile;
 
-    public class ListingsMappingProfile : ExtensionMapping
+    public class ListingsMappingProfile : Husa.Quicklister.Extensions.Api.Mappings.EntityMappingProfile
     {
         public ListingsMappingProfile()
         {

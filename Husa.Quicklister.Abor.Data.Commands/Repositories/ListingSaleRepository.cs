@@ -6,16 +6,23 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Specifications;
+    using Husa.Extensions.Document.Models;
+    using Husa.Extensions.Document.ValueObjects;
+    using Husa.Quicklister.Abor.Data.Commands.Extensions;
     using Husa.Quicklister.Abor.Data.Specifications;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
+    using Husa.Quicklister.Extensions.Crosscutting;
+    using Husa.Quicklister.Extensions.Data.Documents.Repositories;
     using Husa.Quicklister.Extensions.Data.Specifications;
+    using Microsoft.Azure.Cosmos;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
 
-    public class ListingSaleRepository : Repository<SaleListing>, IListingSaleRepository
+    public class ListingSaleRepository : SavedChangesRepository<SaleListing, ApplicationDbContext>, IListingSaleRepository
     {
         private readonly List<MarketStatuses> openStatuses = new()
         {
@@ -25,8 +32,13 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             MarketStatuses.Hold,
         };
 
-        public ListingSaleRepository(ApplicationDbContext context, IUserContextProvider userContextProvider, ILogger<ListingSaleRepository> logger)
-            : base(context, userContextProvider, logger)
+        public ListingSaleRepository(
+           ApplicationDbContext context,
+           CosmosClient cosmosClient,
+           IUserContextProvider userContextProvider,
+           ILogger<ListingSaleRepository> logger,
+           IOptions<DocumentDbSettings> options)
+           : base(context, cosmosClient, userContextProvider, logger, options.Value.DatabaseName, options.Value.ListingChangesCollectionName)
         {
         }
 
@@ -146,6 +158,21 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             }
 
             return await query.ToListAsync();
+        }
+
+        protected override SavedChangesLog CreateChangesLog(SaleListing originalEntity, SaleListing updatedEntity)
+        {
+            var currentUser = this.userContextProvider.GetCurrentUser();
+            var fieldChanges = new List<SummaryField>();
+            ListingChangesLogExtensions.ProcessEntityChanges(fieldChanges, originalEntity, updatedEntity);
+            ListingChangesLogExtensions.ProcessSalePropertyChanges(fieldChanges, originalEntity.SaleProperty, updatedEntity.SaleProperty);
+            return new()
+            {
+                EntityId = updatedEntity.Id,
+                UserId = currentUser.Id,
+                UserName = currentUser.Name,
+                Fields = fieldChanges,
+            };
         }
     }
 }
