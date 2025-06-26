@@ -8,9 +8,9 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.21.3</Version>
+        <Version>2.21.4</Version>
         <PackageReleaseNotes>
-            Release 2.21.3:
+            Release 2.21.4:
             - Add fields to community showing responses
             - Update nugets
             - Update ShowingTime fields
@@ -40,3 +40,4 @@
         </ItemGroup>
     </Target>
 </Project>
+
