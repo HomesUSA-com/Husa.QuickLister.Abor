@@ -182,6 +182,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<InterfaceExtensions.Listing.ICallForwardService, CallForwardService>();
             services.AddScoped<InterfaceExtensions.JsonImport.IListingJsonImportService, ListingJsonImportService>();
             services.AddScoped<IListingRequestXmlService<XmlListingDetailResponse>, ListingRequestXmlService>();
+            services.AddScoped<InterfaceExtensions.Listing.ISaleListingHistoryService, SaleListingHistoryService>();
 
             services.AddScoped<IShowingTimeContactService, ShowingTimeContactService>();
 
