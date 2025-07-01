@@ -8,23 +8,22 @@ namespace Husa.Quicklister.Abor.Data.Commands.Extensions
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Interfaces;
+    using LogExtensions = Husa.Quicklister.Extensions.Data.Documents.Extensions.ListingChangesLogExtensions;
 
     public static class ListingChangesLogExtensions
     {
         public static void ProcessEntityChanges(List<SummaryField> fields, SaleListing originalEntity, SaleListing updatedEntity)
         {
+            var showingTimeKeys = LogExtensions.ProcessShowingTimeChanges(fields, originalEntity, updatedEntity);
             var entityPairs = new Dictionary<string, (object Original, object Updated)>
                 {
                     { nameof(SaleListing.StatusFieldsInfo), (originalEntity.StatusFieldsInfo, updatedEntity.StatusFieldsInfo) },
-                    { nameof(SaleListing.AdditionalInstructions), (originalEntity.AdditionalInstructions, updatedEntity.AdditionalInstructions) },
-                    { nameof(SaleListing.AppointmentRestrictions), (originalEntity.AppointmentRestrictions, updatedEntity.AppointmentRestrictions) },
-                    { nameof(SaleListing.AccessInformation), (originalEntity.AccessInformation, updatedEntity.AccessInformation) },
                     { nameof(SaleListing.InvoiceInfo), (originalEntity.InvoiceInfo, updatedEntity.InvoiceInfo) },
                     { nameof(SaleListing.PublishInfo), (originalEntity.PublishInfo, updatedEntity.PublishInfo) },
                 };
             fields.AddSectionProperties(entityPairs);
 
-            var ignoreRootProperties = entityPairs.Keys.Concat([nameof(SaleListing.SaleProperty)]);
+            var ignoreRootProperties = entityPairs.Keys.Concat(showingTimeKeys).Concat([nameof(SaleListing.SaleProperty)]);
             fields.AddProperties(
                 originalEntity,
                 updatedEntity,
