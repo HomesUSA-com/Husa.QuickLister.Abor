@@ -124,7 +124,7 @@ namespace Husa.Quicklister.Abor.Application
             await this.CommunitySaleRepository.SaveChangesAsync();
             await this.communityHistoryService.CreateRecordAsync(communityId, isSubmitted);
 
-            return community.HasChangesOpenHouses;
+            return community.HasOpenHouseChangesToSubmit;
         }
 
         public async Task UpdateListingsAsync(Guid communityId)

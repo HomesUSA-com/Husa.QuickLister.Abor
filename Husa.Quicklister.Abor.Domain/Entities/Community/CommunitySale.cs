@@ -101,7 +101,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
         public virtual Expression<Func<SaleListing, bool>> ActiveListingsInMarketExpression => listing
             => !listing.IsDeleted && listing.SaleProperty.CommunityId == this.Id && SaleListing.ActiveListingStatuses.Contains(listing.MlsStatus) && !string.IsNullOrWhiteSpace(listing.MlsNumber);
 
-        public bool HasChangesOpenHouses => this.Changes != null && this.GetChangedProperties(nameof(this.OpenHouses)).Any();
+        public bool HasOpenHouseChangesToSubmit => this.HasChangesToSubmit([nameof(this.OpenHouses)]);
 
         public virtual void UpdateProperty(Property property)
         {
@@ -428,7 +428,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Community
             this.UpdateFinancial(financial: communityInfo.FinancialInfo);
             this.UpdateSchools(schools: communityInfo.SchoolsInfo);
             this.UpdateShowing(showing: communityInfo.ShowingInfo);
-            this.UpdateOpenHouse(openHouses: communityOpenHouses);
+            this.UpdateOpenHouses(openHouses: communityOpenHouses);
             this.UpdateShowingTime(communityInfo.UseShowingTime, communityInfo.ShowingTime);
         }
 
