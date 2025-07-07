@@ -389,7 +389,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 startTime: TimeSpan.MinValue,
                 endTime: TimeSpan.MaxValue,
                 refreshments: [])));
-            Assert.True(community.HasChangesOpenHouses);
+            Assert.True(community.HasOpenHouseChangesToSubmit);
         }
 
         [Fact]
@@ -397,7 +397,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
         {
             var community = TestModelProvider.GetCommunitySaleEntity(Guid.NewGuid());
             community.UpdateOpenHouses(community.OpenHouses);
-            Assert.False(community.HasChangesOpenHouses);
+            Assert.False(community.HasOpenHouseChangesToSubmit);
         }
 
         private static ProfileInfo SetupProfileInfo(string subdivisionName, string companyName) => new()

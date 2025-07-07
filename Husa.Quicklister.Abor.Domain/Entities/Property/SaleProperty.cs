@@ -510,7 +510,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public virtual void UpdateOpenHousesFromCommunitySubmit(CommunitySale communitySale)
         {
-            if (communitySale.HasChangesOpenHouses)
+            if (communitySale.HasOpenHouseChangesToSubmit)
             {
                 this.OpenHouses = [.. communitySale.OpenHouses
                     .Select(oh => new SaleListingOpenHouse(

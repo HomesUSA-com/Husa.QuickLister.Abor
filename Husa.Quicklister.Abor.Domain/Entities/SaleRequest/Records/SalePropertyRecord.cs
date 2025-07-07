@@ -149,7 +149,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 
         public void UpdateOpenHousesFromCommunitySubmit(CommunitySale community)
         {
-            if (community.HasChangesOpenHouses)
+            if (community.HasOpenHouseChangesToSubmit)
             {
                 this.OpenHouses = [.. community.OpenHouses
                     .Select(oh => Records.OpenHouseRecord.CreateOpenHouse(oh))];

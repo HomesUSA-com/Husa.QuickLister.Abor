@@ -170,7 +170,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             var newRequest = lastCompletedRequest.Clone();
             this.SaleProperty.UpdateOpenHousesFromCommunitySubmit(community);
             newRequest.SaleProperty.UpdateOpenHousesFromCommunitySubmit(this.SaleProperty.Community);
-            if (community.HasChangesOpenHouses)
+            if (community.HasOpenHouseChangesToSubmit)
             {
                 this.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
                 newRequest.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
