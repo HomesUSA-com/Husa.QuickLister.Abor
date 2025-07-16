@@ -146,6 +146,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 return;
             }
 
+            var hasMediaChanges = false;
             var shouldProcessNewMedia = !companyDetail.SettingInfo.StopXMLMediaSyncOfExistingListings;
             if (shouldProcessNewMedia)
             {
@@ -153,6 +154,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 var newMediaFromXml = await this.XmlClient.Listing.Media(xmlListingId, excludeImported: true);
                 if (newMediaFromXml != null && newMediaFromXml.Any() && currentListingMedia.Media.Count() < mediaLimitAllowed)
                 {
+                    hasMediaChanges = true;
                     await this.xmlMediaService.ImportListingMedia(
                         xmlListingId,
                         checkMediaLimit: true,
@@ -181,7 +183,8 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 listing,
                 xmlListing,
                 ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate,
-                ignoreRequestByDescription: companyDetail.SettingInfo.StopXMLDescriptionManagement);
+                ignoreRequestByDescription: companyDetail.SettingInfo.StopXMLDescriptionManagement,
+                hasMediaChanges: hasMediaChanges);
             if (requestResponse.Code == ResponseCode.Success)
             {
                 listing.LockByUser(currentUser.Id);
