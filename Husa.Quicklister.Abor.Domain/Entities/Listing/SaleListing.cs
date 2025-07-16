@@ -235,10 +235,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.SaleProperty.ImportRoomsFromEntity(saleListingToClone.SaleProperty.Rooms);
             this.SaleProperty.UpdateOpenHouse(saleListingToClone.SaleProperty.OpenHouses);
 
-            this.AppointmentType = saleListingToClone.AppointmentType;
-            this.AccessInformation = saleListingToClone.AccessInformation.Clone();
-            this.AppointmentRestrictions = saleListingToClone.AppointmentRestrictions.Clone();
-            this.AdditionalInstructions = saleListingToClone.AdditionalInstructions.Clone();
+            this.AppointmentSettings = saleListingToClone.AppointmentSettings?.Clone();
+            this.AccessInformation = saleListingToClone.AccessInformation?.Clone();
+            this.AppointmentRestrictions = saleListingToClone.AppointmentRestrictions?.Clone();
+            this.AdditionalInstructions = saleListingToClone.AdditionalInstructions?.Clone();
         }
 
         public virtual void ApplyMarketUpdate(

@@ -19,7 +19,6 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Api.Contracts.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.SaleRequest;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
@@ -133,14 +132,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dest => dest.SysTimestamp, config => config.Ignore());
 
             this.CreateMap<DocumentModels.ListingRequest.ListingSaleRequestDetailQueryResult, ListingSaleRequestDetailResponse>()
-                .ForPath(dest => dest.ListingId, config => config.MapFrom(dto => dto.ListingSaleId))
-                .AfterMap((queryResult, detailResponse) =>
-                {
-                    if (queryResult.ShowingTime is null)
-                    {
-                        detailResponse.ShowingTime = ShowingTimeFullInfo.DefaultFactory();
-                    }
-                });
+                .ForPath(dest => dest.ListingId, config => config.MapFrom(dto => dto.ListingSaleId));
 
             this.CreateMap<DocumentModels.ListingRequest.ListingRequestStatusFieldsQueryResult, ListingSaleStatusFieldsResponse>();
             this.CreateMap<DocumentModels.ListingRequest.ListingRequestSalePropertyQueryResult, SalePropertyDetailResponse>();

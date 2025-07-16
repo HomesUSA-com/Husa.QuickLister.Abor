@@ -1,13 +1,14 @@
 namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
 {
     using Husa.Quicklister.Extensions.Domain.Entities.Request;
+    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using ShowingTimeEnums = Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
 
     public record ShowingTimeRecordTest : ShowingTimeRecord
     {
         public ShowingTimeRecordTest()
         {
-            this.AppointmentType = ShowingTimeEnums.AppointmentType.AppointmentRequired;
+            this.AppointmentSettings = new() { AppointmentType = AppointmentType.AppointmentRequiredConfirmWithAll };
             this.AppointmentRestrictions = new()
             {
                 AllowAppraisals = true,

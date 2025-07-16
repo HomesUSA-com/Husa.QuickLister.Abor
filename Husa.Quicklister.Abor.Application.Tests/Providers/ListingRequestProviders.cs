@@ -36,7 +36,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Providers
             saleListingRequest.SetupGet(sl => sl.PublishInfo).Returns(new PublishFieldsRecord()).Verifiable();
             saleListingRequest.SetupGet(sl => sl.ShowingTimeInfo).Returns(new ShowingTimeRecord()
             {
-                AppointmentType = AppointmentType.AppointmentRequired,
+                AppointmentSettings = new() { AppointmentType = AppointmentType.AppointmentRequiredConfirmWithAll },
                 AppointmentRestrictions = new(),
                 AdditionalInstructions = new(),
                 AccessInformation = new(),

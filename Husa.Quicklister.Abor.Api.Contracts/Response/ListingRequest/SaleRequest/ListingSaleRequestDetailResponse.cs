@@ -2,8 +2,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleReques
 {
     using System;
     using Husa.Quicklister.Abor.Api.Contracts.Response.SalePropertyDetail;
-    using Husa.Quicklister.Extensions.Api.Contracts.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Api.Contracts.Response.ListingRequest;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.ShowingTime;
 
     public class ListingSaleRequestDetailResponse : ListingRequestDetailResponse, IListingRequestDetailResponse
     {
@@ -15,7 +15,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleReques
 
         public SalePropertyDetailResponse SaleProperty { get; set; }
 
-        public ShowingTimeFullInfo ShowingTime { get; set; }
+        public ShowingTimeFullInfoResponse ShowingTime { get; set; }
 
         public virtual bool UseShowingTime { get; set; }
     }

@@ -718,8 +718,11 @@ namespace Husa.Quicklister.Abor.Application.Tests
             var listingId = Guid.NewGuid();
             var listingSale = TestModelProvider.GetListingSaleEntity(Guid.NewGuid(), true);
 
-            listingSale.SaleProperty.Community.AppointmentType = null;
-            listingSale.AppointmentType = AppointmentType.AppointmentRequired;
+            listingSale.SaleProperty.Community.AppointmentSettings = new();
+            listingSale.AppointmentSettings = new()
+            {
+                AppointmentType = AppointmentType.AppointmentRequiredConfirmWithAny,
+            };
             listingSale.SaleProperty.Community.AdditionalInstructions = null;
             listingSale.AdditionalInstructions = new() { NotesForApptStaff = "Note 1", NotesForShowingAgent = "Note 2" };
             listingSale.SaleProperty.Community.Financial.BuyersAgentCommission = null;
@@ -738,7 +741,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             await this.Sut.CopyListingInfoToCommunity(listingId);
 
-            Assert.Equal(listingSale.SaleProperty.Community.AppointmentType, listingSale.AppointmentType);
+            Assert.Equal(listingSale.SaleProperty.Community.AppointmentSettings, listingSale.AppointmentSettings);
             Assert.Equal(listingSale.SaleProperty.Community.AppointmentRestrictions, listingSale.AppointmentRestrictions);
             Assert.Equal(listingSale.SaleProperty.Community.Financial.BuyersAgentCommission, listingSale.SaleProperty.FinancialInfo.BuyersAgentCommission);
             Assert.NotEqual(listingSale.SaleProperty.Community.Property.County, listingSale.SaleProperty.AddressInfo.County);
