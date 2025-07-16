@@ -4,7 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Community
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Api.Contracts.Response.Community.CommunityDetail;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
-    using Husa.Quicklister.Extensions.Api.Contracts.Models.ShowingTime;
+    using Husa.Quicklister.Extensions.Api.Contracts.Response.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Enums.Json;
     using Husa.Quicklister.Extensions.Domain.Enums.Xml;
@@ -37,7 +37,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.Community
         public string ZipCode { get; set; }
         public string Name { get; set; }
         public Cities? City { get; set; }
-        public ShowingTimeInfo ShowingTime { get; set; }
+        public ShowingTimeResponse ShowingTime { get; set; }
         public bool UseShowingTime { get; set; }
     }
 }

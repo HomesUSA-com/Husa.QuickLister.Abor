@@ -472,7 +472,7 @@ namespace Husa.Quicklister.Abor.Application
             }
 
             listingSale.SaleProperty.ImportDataFromCommunity(communitySale);
-            listingSale.AppointmentType = communitySale.AppointmentType;
+            listingSale.AppointmentSettings = communitySale.AppointmentSettings?.Clone();
             listingSale.AccessInformation = communitySale.AccessInformation?.Clone();
             listingSale.AppointmentRestrictions = communitySale.AppointmentRestrictions?.Clone();
             listingSale.AdditionalInstructions = communitySale.AdditionalInstructions?.Clone();

@@ -11,13 +11,13 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
         {
             yield return new SummarySection
             {
-                Name = ShowingTimeRecord.SummarySection,
+                Name = AppointmentSettingsRecord.SummarySection,
                 Fields =
                 [
                     new SummaryField
                     {
-                        FieldName = nameof(ShowingTimeRecord.AppointmentType),
-                        NewValue = ShowingTimeEnums.AppointmentType.AppointmentRequired,
+                        FieldName = nameof(AppointmentSettingsRecord.AppointmentType),
+                        NewValue = ShowingTimeEnums.AppointmentType.AppointmentRequiredConfirmWithAll,
                         OldValue = null,
                     },
                 ],
