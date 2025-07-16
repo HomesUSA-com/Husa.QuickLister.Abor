@@ -3,7 +3,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.Community
     using System;
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Api.Contracts.Request.Community.CommunityDetail;
-    using Husa.Quicklister.Extensions.Api.Contracts.Models.ShowingTime;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.ShowingTime;
 
     public class CommunitySaleRequest
     {
@@ -13,7 +13,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.Community
         public FeaturesAndUtilitiesRequest Utilities { get; set; }
         public CommunityFinancialRequest FinancialSchools { get; set; }
         public CommunityShowingRequest Showing { get; set; }
-        public ShowingTimeInfo ShowingTime { get; set; }
+        public ShowingTimeRequest ShowingTime { get; set; }
         public IEnumerable<OpenHouseRequest> OpenHouses { get; set; }
         public bool UseShowingTime { get; set; }
     }

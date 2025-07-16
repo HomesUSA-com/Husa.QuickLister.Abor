@@ -135,7 +135,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             Assert.Equal(saleListingRequest.SaleProperty.FinancialInfo.HOARequirement, requestCloned.SaleProperty.FinancialInfo.HOARequirement);
             Assert.Equal(saleListingRequest.SaleProperty.ShowingInfo.ShowingInstructions, requestCloned.SaleProperty.ShowingInfo.ShowingInstructions);
             Assert.Equal(saleListingRequest.SaleProperty.SchoolsInfo.HighSchool, requestCloned.SaleProperty.SchoolsInfo.HighSchool);
-            Assert.Equal(saleListingRequest.ShowingTimeInfo.AppointmentType, requestCloned.ShowingTimeInfo.AppointmentType);
+            Assert.Equal(saleListingRequest.ShowingTimeInfo.AppointmentSettings, requestCloned.ShowingTimeInfo.AppointmentSettings);
             Assert.Equal(saleListingRequest.ShowingTimeInfo.AppointmentRestrictions.LeadTime, requestCloned.ShowingTimeInfo.AppointmentRestrictions.LeadTime);
             Assert.Equal(saleListingRequest.ShowingTimeInfo.AdditionalInstructions.NotesForApptStaff, requestCloned.ShowingTimeInfo.AdditionalInstructions.NotesForApptStaff);
             Assert.Equal(saleListingRequest.ShowingTimeInfo.AccessInformation.AccessMethod, requestCloned.ShowingTimeInfo.AccessInformation.AccessMethod);
