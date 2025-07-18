@@ -194,14 +194,13 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 return null;
             }
 
-            var communityLeads = listing.SaleProperty.Community.ToProjectionEmailLead();
-            if (string.IsNullOrWhiteSpace(communityLeads.EmailLeadPrincipal))
+            var companyLeads = await this.GetCompanyEmailLeads(listing.SaleProperty.CompanyId);
+            if (companyLeads is null)
             {
-                var companyEmail = await this.GetCompanyEmailLeads(listing.SaleProperty.CompanyId);
-                return companyEmail;
+                return listing.SaleProperty.Community.ToProjectionEmailLead();
             }
 
-            return communityLeads;
+            return companyLeads;
         }
 
         public async Task<IEnumerable<ListingLockedBySystemQueryResult>> GetLockedBySystem()

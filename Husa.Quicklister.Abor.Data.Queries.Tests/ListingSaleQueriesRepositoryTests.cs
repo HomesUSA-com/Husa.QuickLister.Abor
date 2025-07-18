@@ -110,6 +110,85 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
         }
 
         [Fact]
+        public async Task GetEmailLeads_BuilderLeads()
+        {
+            // Arrange
+            this.SetupMlsAdmin();
+
+            var companyId = Guid.NewGuid();
+            var companyEmailLead = new CompanyResponse.EmailLead
+            {
+                Id = Guid.NewGuid(),
+                EntityType = EmailEntityType.Sale,
+                EmailPriority = EmailPriority.One,
+                Email = "principal@homesusa.com",
+            };
+            var company = new CompanyResponse.CompanyDetail()
+            {
+                Id = companyId,
+                EmailLeads = new List<CompanyResponse.EmailLead> { companyEmailLead },
+            };
+
+            var listingId = Guid.NewGuid();
+            var listing = ListingTestProvider.GetListingEntity(listingId, companyId: companyId);
+            var community = CommunityTestProvider.GetCommunityEntity(listing.SaleProperty.CommunityId, companyId: companyId);
+            community.EmailLead = new EmailLead() { EmailLeadPrincipal = "principal@homesusa.com" };
+
+            var sut = this.GetInMemoryRepository(
+                new List<SaleListing> { listing },
+                new List<CommunitySale> { community });
+
+            this.serviceSubscriptionClient.Setup(u => u.Company.GetCompany(It.IsAny<Guid>(), false, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(company)
+                .Verifiable();
+            this.serviceSubscriptionClient.Setup(u => u.Company.GetEmailLeads(It.Is<Guid>(x => x == companyId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new List<CompanyResponse.EmailLead> { companyEmailLead })
+                .Verifiable();
+
+            // Act
+            var result = await sut.GetEmailLeads(listingId);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(result.EmailLeadPrincipal, companyEmailLead.Email);
+        }
+
+        [Fact]
+        public async Task GetEmailLeads_CommunityLeads()
+        {
+            // Arrange
+            this.SetupMlsAdmin();
+
+            var companyId = Guid.NewGuid();
+            var emailLeadPrincipal = "principal@homesusa.com";
+
+            var company = new CompanyResponse.CompanyDetail()
+            {
+                Id = companyId,
+            };
+
+            var listingId = Guid.NewGuid();
+            var listing = ListingTestProvider.GetListingEntity(listingId, companyId: companyId);
+            var community = CommunityTestProvider.GetCommunityEntity(listing.SaleProperty.CommunityId, companyId: companyId);
+            community.EmailLead = new EmailLead() { EmailLeadPrincipal = emailLeadPrincipal };
+
+            var sut = this.GetInMemoryRepository(
+                new List<SaleListing> { listing },
+                new List<CommunitySale> { community });
+
+            this.serviceSubscriptionClient.Setup(u => u.Company.GetCompany(It.IsAny<Guid>(), false, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(company)
+                .Verifiable();
+
+            // Act
+            var result = await sut.GetEmailLeads(listingId);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(result.EmailLeadPrincipal, emailLeadPrincipal);
+        }
+
+        [Fact]
         public async Task GetListingNotFound()
         {
             // Arrange
