@@ -29,12 +29,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
                 [
                     new SummaryField
                     {
-                        FieldName = nameof(AppointmentRestrictionsRecord.LeadTime),
-                        NewValue = false,
-                        OldValue = null,
-                    },
-                    new SummaryField
-                    {
                         FieldName = nameof(AppointmentRestrictionsRecord.SuggestedTimeHours),
                         NewValue = 0,
                         OldValue = null,
