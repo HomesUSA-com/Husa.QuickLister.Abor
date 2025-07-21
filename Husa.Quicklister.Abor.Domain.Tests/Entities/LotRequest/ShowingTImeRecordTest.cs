@@ -13,7 +13,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
             {
                 AllowAppraisals = true,
                 AllowInspectionsAndWalkThroughs = true,
-                LeadTime = true,
                 RequiredTimeHours = 0,
                 SuggestedTimeHours = 0,
             };

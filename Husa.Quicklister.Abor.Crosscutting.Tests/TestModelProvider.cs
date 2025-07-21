@@ -96,9 +96,8 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             {
                 AllowAppraisals = Faker.Boolean.Random(),
                 AllowInspectionsAndWalkThroughs = Faker.Boolean.Random(),
-                LeadTime = Faker.Boolean.Random(),
-                RequiredTimeHours = Faker.RandomNumber.Next(1, 12),
-                SuggestedTimeHours = Faker.RandomNumber.Next(1, 12),
+                RequiredTimeHours = 0,
+                SuggestedTimeHours = 0,
             },
         };
 
