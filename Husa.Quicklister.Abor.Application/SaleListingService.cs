@@ -11,7 +11,6 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
-    using Husa.Quicklister.Abor.Application.Extensions;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Request;
@@ -26,8 +25,6 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Application.Interfaces.Email;
-    using Husa.Quicklister.Extensions.Application.Models.Listing;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -35,18 +32,16 @@ namespace Husa.Quicklister.Abor.Application
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using CompanyServiceSubscriptionFilter = Husa.CompanyServicesManager.Api.Contracts.Request.FilterServiceSubscriptionRequest;
-    using ExtensionsCrosscutting = Husa.Quicklister.Extensions.Crosscutting;
     using ExtensionsInterfaces = Husa.Quicklister.Extensions.Application.Interfaces.Listing;
     using ExtensionsServices = Husa.Quicklister.Extensions.Application.Services.SaleListings;
 
     public class SaleListingService : ExtensionsServices.SaleListingService<SaleListing, IListingSaleRepository, ICommunitySaleRepository, SaleProperty, CommunitySale>, ISaleListingService
     {
-        private readonly ISaleListingRequestRepository saleRequestRepository;
         private readonly IPlanRepository planRepository;
         private readonly ExtensionsInterfaces.ISaleListingMediaService listingMediaService;
         private readonly ISaleListingPhotoService saleListingPhotoService;
         private readonly IXmlClient xmlClient;
-        private readonly ExtensionsCrosscutting.FeatureFlags featureFlags;
+        private readonly Husa.Quicklister.Extensions.Crosscutting.FeatureFlags featureFlags;
 
         private readonly IEnumerable<MarketStatuses> statusAllowedForReleaseXmlListing = new[]
         {
@@ -55,7 +50,6 @@ namespace Husa.Quicklister.Abor.Application
         };
 
         public SaleListingService(
-            ISaleListingRequestRepository saleRequestRepository,
             IListingSaleRepository listingSaleRepository,
             ICommunitySaleRepository communitySaleRepository,
             IPlanRepository planRepository,
@@ -65,13 +59,12 @@ namespace Husa.Quicklister.Abor.Application
             ISaleListingPhotoService saleListingPhotoService,
             ExtensionsInterfaces.ILockLegacyListingService lockLegacyListingService,
             IXmlClient xmlClient,
-            IEmailService emailService,
+            ExtensionsInterfaces.ISaleListingLockService unlockService,
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<SaleListingService> logger)
-             : base(listingSaleRepository, communitySaleRepository, lockLegacyListingService, serviceSubscriptionClient, emailService, logger, userContextProvider, mapper)
+            : base(listingSaleRepository, communitySaleRepository, lockLegacyListingService, serviceSubscriptionClient, unlockService, logger, userContextProvider, mapper)
         {
-            this.saleRequestRepository = saleRequestRepository ?? throw new ArgumentNullException(nameof(saleRequestRepository));
             this.planRepository = planRepository ?? throw new ArgumentNullException(nameof(planRepository));
             this.listingMediaService = listingMediaService ?? throw new ArgumentNullException(nameof(listingMediaService));
             this.xmlClient = xmlClient ?? throw new ArgumentNullException(nameof(xmlClient));
@@ -79,13 +72,11 @@ namespace Husa.Quicklister.Abor.Application
             this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
         }
 
-        protected override Func<SaleListing, UnlockedListingDto> UnlockedListingDtoProjection => ListingDtoExtensions.ToUnlockedListingDto;
-
         private static IEnumerable<MarketStatuses> StatusesThatAllowDuplicates => new[] { MarketStatuses.Canceled, MarketStatuses.Closed };
 
         public async Task<CommandSingleResult<Guid, string>> CreateAsync(QuickCreateListingDto listingSale)
         {
-            var companyServices = await this.serviceSubscriptionClient.Company.GetCompanyServices(
+            var companyServices = await this.ServiceSubscriptionClient.Company.GetCompanyServices(
                 listingSale.CompanyId,
                 new CompanyServiceSubscriptionFilter { ServiceCode = new[] { ServiceCode.XMLImport } });
 
@@ -123,7 +114,7 @@ namespace Husa.Quicklister.Abor.Application
                 return CommandResult<SaleListing>.Error($"listing {listing.SaleProperty.AddressInfo.FormalAddress} already exists!", listing);
             }
 
-            var company = await this.serviceSubscriptionClient.Company.GetCompany(listingSale.CompanyId);
+            var company = await this.ServiceSubscriptionClient.Company.GetCompany(listingSale.CompanyId);
             var listingSaleEntity = new SaleListing(
                 listingSale.MlsStatus,
                 listingSale.StreetName,
@@ -173,7 +164,7 @@ namespace Husa.Quicklister.Abor.Application
             }
 
             var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
-            var company = await this.serviceSubscriptionClient.Company.GetCompany(listingSale.CompanyId) ?? throw new NotFoundException<SaleListing>(listingSale.CompanyId);
+            var company = await this.ServiceSubscriptionClient.Company.GetCompany(listingSale.CompanyId) ?? throw new NotFoundException<SaleListing>(listingSale.CompanyId);
             await this.UpdateBaseListingInfo(listingDto, Guid.Empty, listingSale, migrateFullListing);
 
             var statusFieldsInfo = this.mapper.Map<ListingStatusFieldsInfo>(listingDto.StatusFieldsInfo);
@@ -376,31 +367,6 @@ namespace Husa.Quicklister.Abor.Application
             return listingSale;
         }
 
-        public override async Task<CommandResult<string>> UnlockListing(Guid listingId, CancellationToken cancellationToken = default)
-        {
-            this.Logger.LogInformation("Trying to unlock Listing sale with id {listingId}.", listingId);
-            var listingSale = await this.ListingRepository.GetById(listingId, filterByCompany: true) ?? throw new NotFoundException<SaleListing>(listingId);
-
-            var currentUser = this.UserContextProvider.GetCurrentUser();
-            if (!listingSale.CanUnlock(currentUser))
-            {
-                this.Logger.LogInformation("Listing sale {listingId} cannot be unlocked.", listingId);
-                throw new DomainException($"Listing sale {listingId} cannot be unlocked.");
-            }
-
-            var existingRequest = await this.saleRequestRepository.CheckFirstListingRequestExistAsync(listingId, cancellationToken);
-
-            if (!currentUser.IsMLSAdministrator && existingRequest)
-            {
-                this.Logger.LogInformation("The sale listing {listingId} has an open request, cannot be unlocked.", listingId);
-                return CommandResult<string>.Error($"The sale listing {listingId} has an open request, cannot be unlocked.");
-            }
-
-            listingSale.Unlock(this.featureFlags.AllowManualListingUnlock);
-            await this.ListingRepository.SaveChangesAsync(listingSale);
-            return CommandResult<string>.Success($"Unlocked listing sale with id {listingId}.");
-        }
-
         public override async Task UpdateActionTypeAsync(Guid listingId, ActionType actionType, CancellationToken cancellationToken = default)
         {
             var listing = await this.ListingRepository.GetById(listingId) ?? throw new NotFoundException<SaleListing>(listingId);
@@ -501,7 +467,7 @@ namespace Husa.Quicklister.Abor.Application
             }
 
             listingSale.SaleProperty.ImportDataFromCommunity(communitySale);
-            listingSale.AppointmentType = communitySale.AppointmentType;
+            listingSale.AppointmentSettings = communitySale.AppointmentSettings?.Clone();
             listingSale.AccessInformation = communitySale.AccessInformation?.Clone();
             listingSale.AppointmentRestrictions = communitySale.AppointmentRestrictions?.Clone();
             listingSale.AdditionalInstructions = communitySale.AdditionalInstructions?.Clone();

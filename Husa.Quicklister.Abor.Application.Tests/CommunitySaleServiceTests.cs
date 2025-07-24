@@ -134,6 +134,62 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Fact]
+        public async Task UpdateCommunityOpenHouses_UpdateComplete_Success()
+        {
+            // Arrange
+            var communityId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            var companyId = Guid.NewGuid();
+            var employee = TestModelProvider.GetCommunityEmployee(Guid.NewGuid(), communityId, userId);
+            var employees = new List<CommunityEmployee>() { employee };
+            var communityMock = TestModelProvider.GetCommunitySaleEntityMock(communityId, companyId);
+            communityMock.Setup(x => x.Employees).Returns(employees);
+            var communitySale = communityMock.Object;
+
+            var communityDto = TestModelProvider.GetCommunityUpdateDto();
+            var user = TestModelProvider.GetCurrentUser(userId, companyId);
+
+            this.communitySaleRepository
+                .Setup(c => c.GetById(
+                    It.Is<Guid>(id => id == communityId),
+                    It.Is<bool>(filterByCompany => filterByCompany)))
+                .ReturnsAsync(communitySale)
+                .Verifiable();
+
+            this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
+
+            // Act
+            await this.Sut.UpdateCommunityOpenHouses(communityId, communityDto);
+
+            // Assert
+            this.userContextProvider.Verify(r => r.GetCurrentUser(), Times.Once);
+            this.communitySaleRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
+            this.communityHistoryService.Verify(r => r.CreateRecordAsync(communityId, It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Once);
+            this.communitySaleRepository.Verify(c => c.GetById(It.Is<Guid>(id => id == communityId), It.Is<bool>(filterByCompany => filterByCompany)), Times.Once);
+        }
+
+        [Fact]
+        public async Task UpdateCommunityOpenHouses_UpdateIncomplete_Error()
+        {
+            // Arrange
+            var communityId = Guid.NewGuid();
+            CommunitySale communitySale = null;
+            var communityDto = TestModelProvider.GetCommunityUpdateDto();
+
+            this.communitySaleRepository
+                .Setup(c => c.GetById(
+                    It.Is<Guid>(id => id == communityId),
+                    It.Is<bool>(filterByCompany => filterByCompany)))
+                .ReturnsAsync(communitySale)
+                .Verifiable();
+
+            // Act and Assert
+            await Assert.ThrowsAsync<NotFoundException<CommunitySale>>(() => this.Sut.UpdateCommunityOpenHouses(communityId, communityDto));
+            this.communitySaleRepository.Verify(r => r.SaveChangesAsync(It.IsAny<CommunitySale>()), Times.Never);
+            this.communitySaleRepository.Verify(c => c.GetById(It.Is<Guid>(id => id == communityId), It.Is<bool>(filterByCompany => filterByCompany)), Times.Once);
+        }
+
+        [Fact]
         public async Task UpdateListingsAsync_Success()
         {
             // Arrange

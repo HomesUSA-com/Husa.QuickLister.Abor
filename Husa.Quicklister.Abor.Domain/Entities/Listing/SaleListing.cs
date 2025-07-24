@@ -155,6 +155,34 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             return this.AddRequest(newRequest, userContextProvider);
         }
 
+        public virtual CommandSingleResult<SaleListingRequest, ValidationResult> GenerateOpenHouseRequestFromCommunity(
+            SaleListingRequest lastCompletedRequest,
+            CommunitySale community,
+            IUserContextProvider userContextProvider)
+        {
+            var validationRequest = this.GenerateRequest(userContextProvider);
+            if (validationRequest.HasErrors())
+            {
+                return validationRequest;
+            }
+
+            var userId = userContextProvider.GetCurrentUserId();
+            var newRequest = lastCompletedRequest.Clone();
+            this.SaleProperty.UpdateOpenHousesFromCommunitySubmit(community);
+            newRequest.SaleProperty.UpdateOpenHousesFromCommunitySubmit(this.SaleProperty.Community);
+            if (community.HasOpenHouseChangesToSubmit)
+            {
+                this.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
+                newRequest.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
+            }
+
+            newRequest.UpdateTrackValues(userId, isNewRecord: true);
+            newRequest.MlsNumber = this.MlsNumber;
+            newRequest.ListDate = this.ListDate;
+
+            return this.AddRequest(newRequest, userId);
+        }
+
         public override void UpdateManuallyManagement(bool manuallyManaged)
         {
             if (this.IsManuallyManaged != manuallyManaged)
@@ -207,10 +235,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.SaleProperty.ImportRoomsFromEntity(saleListingToClone.SaleProperty.Rooms);
             this.SaleProperty.UpdateOpenHouse(saleListingToClone.SaleProperty.OpenHouses);
 
-            this.AppointmentType = saleListingToClone.AppointmentType;
-            this.AccessInformation = saleListingToClone.AccessInformation.Clone();
-            this.AppointmentRestrictions = saleListingToClone.AppointmentRestrictions.Clone();
-            this.AdditionalInstructions = saleListingToClone.AdditionalInstructions.Clone();
+            this.AppointmentSettings = saleListingToClone.AppointmentSettings?.Clone();
+            this.AccessInformation = saleListingToClone.AccessInformation?.Clone();
+            this.AppointmentRestrictions = saleListingToClone.AppointmentRestrictions?.Clone();
+            this.AdditionalInstructions = saleListingToClone.AdditionalInstructions?.Clone();
         }
 
         public virtual void ApplyMarketUpdate(

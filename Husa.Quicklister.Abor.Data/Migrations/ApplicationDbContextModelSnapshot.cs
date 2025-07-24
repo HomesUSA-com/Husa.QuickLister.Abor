@@ -144,11 +144,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<string>("AppointmentType")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("AppointmentType");
-
                     b.Property<string>("Changes")
                         .HasMaxLength(3000)
                         .HasColumnType("nvarchar(3000)");
@@ -267,11 +262,6 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AppointmentType")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("AppointmentType");
 
                     b.Property<int?>("CDOM")
                         .HasColumnType("int");
@@ -395,9 +385,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                         .HasColumnName("UnlockedFromLegacyOn");
 
                     b.Property<bool>("UseShowingTime")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
-                        .HasDefaultValue(false)
                         .HasColumnName("UseShowingTime");
 
                     b.Property<Guid?>("XmlDiscrepancyListingId")
@@ -626,9 +614,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("UseShowingTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasColumnType("bit");
 
                     b.Property<Guid?>("XmlDiscrepancyListingId")
                         .HasColumnType("uniqueidentifier");
@@ -1451,6 +1437,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(50)")
                                 .HasColumnName("AccessMethod");
 
+                            b1.Property<string>("AccessNotes")
+                                .HasMaxLength(1000)
+                                .HasColumnType("nvarchar(1000)")
+                                .HasColumnName("AccessNotes");
+
                             b1.Property<string>("AlarmArmCode")
                                 .ValueGeneratedOnAdd()
                                 .HasMaxLength(100)
@@ -1507,6 +1498,15 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasDefaultValue("")
                                 .HasColumnName("DeviceId");
 
+                            b1.Property<string>("GateCode")
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("GateCode");
+
+                            b1.Property<bool>("HasManageKeySets")
+                                .HasColumnType("bit")
+                                .HasColumnName("HasManageKeySets");
+
                             b1.Property<string>("Location")
                                 .ValueGeneratedOnAdd()
                                 .HasMaxLength(1000)
@@ -1515,9 +1515,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("Location");
 
                             b1.Property<bool>("ProvideAlarmDetails")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
-                                .HasDefaultValue(false)
                                 .HasColumnName("ProvideAlarmDetails");
 
                             b1.Property<string>("Serial")
@@ -1576,35 +1574,106 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier");
 
+                            b1.Property<string>("AdvancedNotice")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("AdvancedNotice");
+
                             b1.Property<bool>("AllowAppraisals")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
-                                .HasDefaultValue(false)
                                 .HasColumnName("AllowAppraisals");
 
                             b1.Property<bool>("AllowInspectionsAndWalkThroughs")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
-                                .HasDefaultValue(false)
                                 .HasColumnName("AllowInspectionsAndWalkThroughs");
 
-                            b1.Property<bool>("LeadTime")
-                                .ValueGeneratedOnAdd()
+                            b1.Property<bool>("AllowRealtimeAvailabilityForBrokers")
                                 .HasColumnType("bit")
-                                .HasDefaultValue(false)
-                                .HasColumnName("LeadTime");
+                                .HasColumnName("AllowRealtimeAvailabilityForBrokers");
 
-                            b1.Property<int>("RequiredTimeHours")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasDefaultValue(0)
+                            b1.Property<string>("BufferTimeBetweenAppointments")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("BufferTimeBetweenAppointments");
+
+                            b1.Property<string>("MaxShowingWindowShowings")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("MaxShowingWindowShowings");
+
+                            b1.Property<string>("MinShowingWindowShowings")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("MinShowingWindowShowings");
+
+                            b1.Property<string>("OverlappingAppointmentMode")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("OverlappingAppointmentMode");
+
+                            b1.Property<string>("RequiredTimeHours")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
                                 .HasColumnName("RequiredTimeHours");
 
-                            b1.Property<int>("SuggestedTimeHours")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasDefaultValue(0)
+                            b1.Property<string>("SuggestedTimeHours")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
                                 .HasColumnName("SuggestedTimeHours");
+
+                            b1.HasKey("CommunitySaleId");
+
+                            b1.ToTable("Community");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CommunitySaleId");
+                        });
+
+                    b.OwnsOne("Husa.Quicklister.Extensions.Domain.Entities.ShowingTime.AppointmentSettings", "AppointmentSettings", b1 =>
+                        {
+                            b1.Property<Guid>("CommunitySaleId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<bool>("AllowApptCenterTakeAppts")
+                                .HasColumnType("bit")
+                                .HasColumnName("AllowApptCenterTakeAppts");
+
+                            b1.Property<bool>("AllowShowingAgentsToRequest")
+                                .HasColumnType("bit")
+                                .HasColumnName("AllowShowingAgentsToRequest");
+
+                            b1.Property<string>("AppointmentPresentationType")
+                                .HasMaxLength(30)
+                                .HasColumnType("nvarchar(30)")
+                                .HasColumnName("AppointmentPresentationType");
+
+                            b1.Property<string>("AppointmentType")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("AppointmentType");
+
+                            b1.Property<string>("FeedbackTemplate")
+                                .HasMaxLength(30)
+                                .HasColumnType("nvarchar(30)")
+                                .HasColumnName("FeedbackTemplate");
+
+                            b1.Property<bool>("IsAgentAccompaniedShowing")
+                                .HasColumnType("bit")
+                                .HasColumnName("IsAgentAccompaniedShowing");
+
+                            b1.Property<bool>("IsFeedbackRequested")
+                                .HasColumnType("bit")
+                                .HasColumnName("IsFeedbackRequested");
+
+                            b1.Property<bool>("IsPropertyOccupied")
+                                .HasColumnType("bit")
+                                .HasColumnName("IsPropertyOccupied");
+
+                            b1.Property<string>("RequiredStaffLanguage")
+                                .HasMaxLength(30)
+                                .HasColumnType("nvarchar(30)")
+                                .HasColumnName("RequiredStaffLanguage");
 
                             b1.HasKey("CommunitySaleId");
 
@@ -1722,6 +1791,10 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnType("nvarchar(2000)")
                                 .HasColumnName("Directions");
 
+                            b1.Property<bool>("EnableOpenHouses")
+                                .HasColumnType("bit")
+                                .HasColumnName("EnableOpenHouses");
+
                             b1.Property<string>("LockBoxType")
                                 .HasMaxLength(30)
                                 .HasColumnType("nvarchar(30)")
@@ -1741,6 +1814,10 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasMaxLength(500)
                                 .HasColumnType("nvarchar(500)")
                                 .HasColumnName("RealtorContactEmail");
+
+                            b1.Property<bool>("ShowOpenHousesPending")
+                                .HasColumnType("bit")
+                                .HasColumnName("ShowOpenHousesPending");
 
                             b1.Property<string>("ShowingInstructions")
                                 .HasMaxLength(2000)
@@ -2082,6 +2159,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
 
                     b.Navigation("AppointmentRestrictions");
 
+                    b.Navigation("AppointmentSettings");
+
                     b.Navigation("EmailLead")
                         .IsRequired();
 
@@ -2131,6 +2210,11 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)")
                                 .HasColumnName("AccessMethod");
+
+                            b1.Property<string>("AccessNotes")
+                                .HasMaxLength(1000)
+                                .HasColumnType("nvarchar(1000)")
+                                .HasColumnName("AccessNotes");
 
                             b1.Property<string>("AlarmArmCode")
                                 .ValueGeneratedOnAdd()
@@ -2188,6 +2272,15 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasDefaultValue("")
                                 .HasColumnName("DeviceId");
 
+                            b1.Property<string>("GateCode")
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("GateCode");
+
+                            b1.Property<bool>("HasManageKeySets")
+                                .HasColumnType("bit")
+                                .HasColumnName("HasManageKeySets");
+
                             b1.Property<string>("Location")
                                 .ValueGeneratedOnAdd()
                                 .HasMaxLength(1000)
@@ -2196,9 +2289,7 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                                 .HasColumnName("Location");
 
                             b1.Property<bool>("ProvideAlarmDetails")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
-                                .HasDefaultValue(false)
                                 .HasColumnName("ProvideAlarmDetails");
 
                             b1.Property<string>("Serial")
@@ -2255,35 +2346,105 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                             b1.Property<Guid>("SaleListingId")
                                 .HasColumnType("uniqueidentifier");
 
+                            b1.Property<string>("AdvancedNotice")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("AdvancedNotice");
+
                             b1.Property<bool>("AllowAppraisals")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
-                                .HasDefaultValue(false)
                                 .HasColumnName("AllowAppraisals");
 
                             b1.Property<bool>("AllowInspectionsAndWalkThroughs")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnType("bit")
-                                .HasDefaultValue(false)
                                 .HasColumnName("AllowInspectionsAndWalkThroughs");
 
-                            b1.Property<bool>("LeadTime")
-                                .ValueGeneratedOnAdd()
+                            b1.Property<bool>("AllowRealtimeAvailabilityForBrokers")
                                 .HasColumnType("bit")
-                                .HasDefaultValue(false)
-                                .HasColumnName("LeadTime");
+                                .HasColumnName("AllowRealtimeAvailabilityForBrokers");
 
-                            b1.Property<int>("RequiredTimeHours")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasDefaultValue(0)
+                            b1.Property<string>("BufferTimeBetweenAppointments")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("BufferTimeBetweenAppointments");
+
+                            b1.Property<string>("MaxShowingWindowShowings")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("MaxShowingWindowShowings");
+
+                            b1.Property<string>("MinShowingWindowShowings")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
+                                .HasColumnName("MinShowingWindowShowings");
+
+                            b1.Property<string>("OverlappingAppointmentMode")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("OverlappingAppointmentMode");
+
+                            b1.Property<string>("RequiredTimeHours")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
                                 .HasColumnName("RequiredTimeHours");
 
-                            b1.Property<int>("SuggestedTimeHours")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasDefaultValue(0)
+                            b1.Property<string>("SuggestedTimeHours")
+                                .HasMaxLength(10)
+                                .HasColumnType("nvarchar(10)")
                                 .HasColumnName("SuggestedTimeHours");
+
+                            b1.HasKey("SaleListingId");
+
+                            b1.ToTable("ListingSale");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SaleListingId");
+                        });
+
+                    b.OwnsOne("Husa.Quicklister.Extensions.Domain.Entities.ShowingTime.AppointmentSettings", "AppointmentSettings", b1 =>
+                        {
+                            b1.Property<Guid>("SaleListingId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<bool>("AllowApptCenterTakeAppts")
+                                .HasColumnType("bit")
+                                .HasColumnName("AllowApptCenterTakeAppts");
+
+                            b1.Property<bool>("AllowShowingAgentsToRequest")
+                                .HasColumnType("bit")
+                                .HasColumnName("AllowShowingAgentsToRequest");
+
+                            b1.Property<string>("AppointmentPresentationType")
+                                .HasMaxLength(30)
+                                .HasColumnType("nvarchar(30)")
+                                .HasColumnName("AppointmentPresentationType");
+
+                            b1.Property<string>("AppointmentType")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("AppointmentType");
+
+                            b1.Property<string>("FeedbackTemplate")
+                                .HasMaxLength(30)
+                                .HasColumnType("nvarchar(30)")
+                                .HasColumnName("FeedbackTemplate");
+
+                            b1.Property<bool>("IsAgentAccompaniedShowing")
+                                .HasColumnType("bit")
+                                .HasColumnName("IsAgentAccompaniedShowing");
+
+                            b1.Property<bool>("IsFeedbackRequested")
+                                .HasColumnType("bit")
+                                .HasColumnName("IsFeedbackRequested");
+
+                            b1.Property<bool>("IsPropertyOccupied")
+                                .HasColumnType("bit")
+                                .HasColumnName("IsPropertyOccupied");
+
+                            b1.Property<string>("RequiredStaffLanguage")
+                                .HasMaxLength(30)
+                                .HasColumnType("nvarchar(30)")
+                                .HasColumnName("RequiredStaffLanguage");
 
                             b1.HasKey("SaleListingId");
 
@@ -2442,6 +2603,8 @@ namespace Husa.Quicklister.Abor.Data.Migrations
                     b.Navigation("AdditionalInstructions");
 
                     b.Navigation("AppointmentRestrictions");
+
+                    b.Navigation("AppointmentSettings");
 
                     b.Navigation("InvoiceInfo")
                         .IsRequired();

@@ -3,15 +3,19 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
+    using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Application.Services;
+    using Husa.Quicklister.Abor.Application.Tests.Providers;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
+    using Husa.Quicklister.Abor.Crosscutting.Tests.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Base;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
@@ -170,6 +174,86 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services
                     It.IsAny<Guid>(),
                     It.IsAny<CancellationToken>()),
                 Times.Once);
+        }
+
+        [Fact]
+        public async Task GetActiveListingsFromCommunity_Success()
+        {
+            var communityId = Guid.NewGuid();
+            var community = CommunityTestProvider.GetCommunityEntity(communityId);
+
+            // Unlocked Listing
+            var activeListing = TestModelProvider.GetLotListingEntity(Guid.NewGuid(), createStub: true, communityId: communityId);
+            activeListing.MlsStatus = Domain.Enums.MarketStatuses.Active;
+            activeListing.Community = community;
+
+            // Locked Listing
+            var closedListing = TestModelProvider.GetLotListingEntity(Guid.NewGuid(), createStub: true, communityId: communityId);
+            closedListing.MlsStatus = Domain.Enums.MarketStatuses.Closed;
+            closedListing.Community = community;
+            community.LotListings = [activeListing, closedListing];
+
+            var sut = new TestLotListingRequestService(
+                this.requestRepository.Object,
+                this.listingRepository.Object,
+                this.mediaService.Object,
+                this.userContextProvider.Object,
+                this.communityRepository.Object,
+                this.fixture.Mapper,
+                this.logger.Object,
+                this.fixture.Options.Object,
+                this.emailService.Object,
+                this.userQueriesRepository.Object,
+                this.showingTimeContactsProvider.Object);
+
+            var listingResult = await sut.GetPublicActiveListingsFromCommunity(community);
+            Assert.Single(listingResult);
+            Assert.Equal(activeListing.Id, listingResult.Single().Id);
+        }
+
+        [Fact]
+        public async Task CreateListingRequestWithTaxId_WhenNoCompletedRequestExists_ReturnsDomainException()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var requestId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            var taxId = "12345";
+            var saleListing = new Mock<LotListing>();
+            var propertyInfo = new Mock<LotPropertyInfo>();
+            var propertyRecord = new Mock<LotPropertyRecord>();
+            propertyRecord.Object.TaxId = "12345";
+            propertyInfo.Object.TaxId = "1234";
+            saleListing.SetupGet(sl => sl.Id).Returns(listingId).Verifiable();
+            saleListing.SetupGet(sl => sl.PropertyInfo).Returns(propertyInfo.Object);
+
+            var saleListingRequest = this.GetLotListingRequestMock(requestId, listingId: listingId, Guid.NewGuid(), requestState: ListingRequestState.Pending);
+            saleListingRequest.SetupGet(slr => slr.PropertyInfo).Returns(propertyRecord.Object);
+            var clonedRequest = this.GetLotListingRequestMock(requestId, listingId: listingId, Guid.NewGuid(), requestState: ListingRequestState.Pending);
+            clonedRequest.SetupGet(slr => slr.PropertyInfo).Returns(propertyRecord.Object);
+
+            this.listingRepository
+                .Setup(sl => sl.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => !filterByCompany)))
+                .ReturnsAsync(saleListing.Object);
+
+            this.requestRepository
+                .Setup(sl => sl.CheckFirstListingRequestExistAsync(It.Is<Guid>(id => id == listingId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(false);
+
+            this.requestRepository
+                .Setup(sl => sl.GetLastCompletedRequestAsync(It.Is<Guid>(id => id == listingId), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(saleListingRequest.Object);
+
+            this.userContextProvider
+                .Setup(sl => sl.GetCurrentUserId())
+                .Returns(userId);
+
+            saleListingRequest.Setup(p => p.Clone()).Returns(clonedRequest.Object);
+
+            var sut = this.GetSut();
+
+            // Act && Assert
+            await Assert.ThrowsAsync<DomainException>(() => sut.CreateRequestAsync(listingId, taxId, cancellationToken: default));
         }
 
         private LotListingRequestDto GetLotListingRequestDto(decimal listPrice) => new()

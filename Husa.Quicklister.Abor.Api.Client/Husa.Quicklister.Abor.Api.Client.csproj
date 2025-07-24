@@ -8,18 +8,19 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.20.2</Version>
+        <Version>2.21.7</Version>
         <PackageReleaseNotes>
-            Release 2.20.2:
-            - Update Extensions.Api.Client
-            - Add TaxYear to CommunityFinancialRequest
+            Release 2.21.7:
+            - Add fields to community showing responses
+            - Update nugets
+            - Update ShowingTime fields
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.2.1" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.17.1" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.18.8" />
     </ItemGroup>
 
     <ItemGroup>
@@ -39,3 +40,4 @@
         </ItemGroup>
     </Target>
 </Project>
+

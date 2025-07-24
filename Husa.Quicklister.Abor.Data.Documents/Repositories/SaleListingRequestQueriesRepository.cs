@@ -96,6 +96,10 @@ namespace Husa.Quicklister.Abor.Data.Documents.Repositories
                     requests.Where(result =>
                         result.CurrentRequest.SaleProperty.PropertyInfo.ConstructionStage !=
                         result.PreviousRequest.SaleProperty.PropertyInfo.ConstructionStage),
+                RequestFieldChange.TaxId =>
+                    requests.Where(result =>
+                        result.CurrentRequest.SaleProperty.PropertyInfo.TaxId !=
+                        result.PreviousRequest.SaleProperty.PropertyInfo.TaxId),
                 _ => throw new NotImplementedException(),
             };
 

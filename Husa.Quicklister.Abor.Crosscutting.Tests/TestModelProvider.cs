@@ -67,7 +67,10 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
     {
         public static ShowingTime ShowingTimeFaker() => new()
         {
-            AppointmentType = Faker.Enum.Random<AppointmentType>(),
+            AppointmentSettings = new()
+            {
+                AppointmentType = Faker.Enum.Random<AppointmentType>(),
+            },
             AccessInformation = new()
             {
                 AccessMethod = Faker.Enum.Random<AccessMethod>(),
@@ -93,9 +96,8 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             {
                 AllowAppraisals = Faker.Boolean.Random(),
                 AllowInspectionsAndWalkThroughs = Faker.Boolean.Random(),
-                LeadTime = Faker.Boolean.Random(),
-                RequiredTimeHours = Faker.RandomNumber.Next(1, 12),
-                SuggestedTimeHours = Faker.RandomNumber.Next(1, 12),
+                RequiredTimeHours = 0,
+                SuggestedTimeHours = 0,
             },
         };
 
@@ -212,7 +214,10 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                     City = Faker.Enum.Random<Cities>(),
                     County = Faker.Enum.Random<Counties>(),
                 },
-                AppointmentType = AppointmentType.AppointmentRequired,
+                AppointmentSettings = new()
+                {
+                    AppointmentType = AppointmentType.AppointmentRequiredConfirmWithAll,
+                },
                 AppointmentRestrictions = new(),
                 AccessInformation = new(),
                 AdditionalInstructions = new(),
@@ -265,7 +270,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             listingSale.SetupGet(c => c.StatusFieldsInfo).Returns(new ListingStatusFieldsInfo());
             listingSale.SetupGet(c => c.CompanyId).Returns(listingCompanyId);
             listingSale.SetupGet(c => c.IsInMls).Returns(true);
-            listingSale.SetupGet(c => c.AppointmentType).Returns(AppointmentType.AppointmentRequired);
+            listingSale.SetupGet(c => c.AppointmentSettings).Returns(new AppointmentSettings());
             listingSale.SetupGet(c => c.AppointmentRestrictions).Returns(new AppointmentRestrictions());
             listingSale.SetupGet(c => c.AdditionalInstructions).Returns(new AdditionalInstructions());
             listingSale.SetupGet(c => c.AccessInformation).Returns(new AccessInformation()
@@ -622,6 +627,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
             {
                 BlockSquareFootage = blockSquareFootage,
             },
+            SettingInfo = new(),
         };
 
         public static MediaDetail GetMediaDetail(Guid? mediaId = null) => new()

@@ -149,12 +149,14 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.AddScoped<ILotListingService, LotListingService>();
             services.AddScoped<ILotListingRequestService, LotListingRequestService>();
+            services.AddScoped<InterfaceExtensions.Lot.ILotListingLockService, LotListingLockService>();
 
             services.AddScoped<ICommunityHistoryService, CommunityHistoryService>();
             services.AddScoped<ISaleListingRequestService, SaleListingRequestService>();
             services.AddScoped<InterfaceExtensions.JsonImport.IListingRequestJsonImportService, ListingRequestJsonImportService>();
             services.AddScoped<InterfaceExtensions.Migration.IListingRequestMigrationService, ListingRequestMigrationService>();
             services.AddScoped<ISaleListingMigrationService, SaleListingMigrationService>();
+            services.AddScoped<InterfaceExtensions.Listing.ISaleListingLockService, SaleListingLockService>();
 
             services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<InterfaceExtensions.JsonImport.IPlanJsonImportService, PlanJsonImportService>();

@@ -13,5 +13,7 @@ namespace Husa.Quicklister.Abor.Application.Models.Community
         public ICollection<string> RealtorContactEmail { get; set; }
         public LockBoxType? LockBoxType { get; set; }
         public ICollection<ShowingRequirements> ShowingRequirements { get; set; }
+        public bool EnableOpenHouses { get; set; }
+        public bool ShowOpenHousesPending { get; set; }
     }
 }

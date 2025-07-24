@@ -508,6 +508,20 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.UpdateFeatures(features);
         }
 
+        public virtual void UpdateOpenHousesFromCommunitySubmit(CommunitySale communitySale)
+        {
+            if (communitySale.HasOpenHouseChangesToSubmit)
+            {
+                this.OpenHouses = [.. communitySale.OpenHouses
+                    .Select(oh => new SaleListingOpenHouse(
+                        this.Id,
+                        oh.Type,
+                        oh.StartTime,
+                        oh.EndTime,
+                        oh.Refreshments))];
+            }
+        }
+
         protected override void DeleteChildren(Guid userId) => throw new NotImplementedException();
 
         protected bool AreRoomsEqual(ICollection<ListingSaleRoom> other)

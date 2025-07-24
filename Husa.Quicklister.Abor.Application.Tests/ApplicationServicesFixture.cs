@@ -24,7 +24,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
                 },
                 ListingRequest = new()
                 {
-                    MinRequiredMedia = 4,
+                    MinRequiredMedia = 1,
                     MaxAllowedMedia = 40,
                 },
                 MediaAllowed = new Husa.Quicklister.Extensions.Crosscutting.MediaAllowedSettings()

@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Abor.Domain.Tests.Providers;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Xml.Api.Contracts.Response;
     using Husa.Xml.Domain.Enums;
@@ -354,6 +355,49 @@ namespace Husa.Quicklister.Abor.Domain.Tests
 
             // Assert
             Assert.Equal(2, listings.Count());
+        }
+
+        [Fact]
+        public void GetActiveListingsInMarket()
+        {
+            var communityId = Guid.NewGuid();
+            var community = new Mock<CommunitySale>();
+            community.Setup(x => x.Id).Returns(communityId);
+            community.Setup(x => x.ActiveListingsInMarketExpression).CallBase();
+            var expression = community.Object.ActiveListingsInMarketExpression;
+            var listings = new[]
+            {
+                GetListinMock(Guid.NewGuid(), communityId),
+                GetListinMock(Guid.NewGuid(), communityId),
+                GetListinMock(Guid.NewGuid(), communityId, MarketStatuses.Closed),
+                GetListinMock(Guid.NewGuid(), Guid.NewGuid()),
+            };
+            var result = listings.Where(expression.Compile());
+            Assert.Equal(2, result.Count());
+
+            static Domain.Entities.Listing.SaleListing GetListinMock(Guid id, Guid communityId, MarketStatuses? mlsStatus = null)
+                => TestEntityProvider.GetSaleListing(id, communityId: communityId, mlsStatus: mlsStatus);
+        }
+
+        [Fact]
+        public void UpadateOpenHouses_Success()
+        {
+            var community = TestModelProvider.GetCommunitySaleEntity(Guid.NewGuid());
+            community.UpdateOpenHouses(Array.Empty<CommunityOpenHouse>().Append(new CommunityOpenHouse(
+                community.Id,
+                OpenHouseType.Monday,
+                startTime: TimeSpan.MinValue,
+                endTime: TimeSpan.MaxValue,
+                refreshments: [])));
+            Assert.True(community.HasOpenHouseChangesToSubmit);
+        }
+
+        [Fact]
+        public void UpadateOpenHouses_NoChanges()
+        {
+            var community = TestModelProvider.GetCommunitySaleEntity(Guid.NewGuid());
+            community.UpdateOpenHouses(community.OpenHouses);
+            Assert.False(community.HasOpenHouseChangesToSubmit);
         }
 
         private static ProfileInfo SetupProfileInfo(string subdivisionName, string companyName) => new()

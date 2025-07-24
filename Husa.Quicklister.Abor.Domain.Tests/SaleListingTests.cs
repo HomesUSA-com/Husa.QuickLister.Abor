@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests;
     using Husa.Quicklister.Abor.Crosscutting.Tests.Community;
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
+    using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
@@ -264,6 +265,90 @@ namespace Husa.Quicklister.Abor.Domain.Tests
         }
 
         [Fact]
+        public void GenerateOpenHouseRequestFromCommunity_Success()
+        {
+            // Arrange
+            var communityId = Guid.NewGuid();
+            var listingId = Guid.NewGuid();
+
+            var community = CommunityTestProvider.GetCommunityEntity(communityId);
+            community.Property.LotDescription = [LotDescription.NativePlants];
+            var changes = new List<string> { nameof(community.Property.LotDescription) };
+            community.UpdateChanges(nameof(community.Property), changes);
+
+            var newSaleListingRequest = new Mock<SaleListingRequest>();
+            newSaleListingRequest.SetupAllProperties();
+
+            var saleProperty = TestModelProvider.GetFullSalePropertyWithStaticValues(Guid.NewGuid());
+
+            var listingMock = new Mock<SaleListing>();
+            listingMock.SetupAllProperties();
+            listingMock.SetupGet(x => x.Id).Returns(listingId);
+            listingMock.Setup(x => x.GenerateRequest(It.IsAny<IUserContextProvider>()))
+                .Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Success());
+            listingMock.Setup(x => x.GenerateOpenHouseRequestFromCommunity(
+                It.IsAny<SaleListingRequest>(),
+                It.IsAny<CommunitySale>(),
+                It.IsAny<IUserContextProvider>()))
+                .CallBase();
+            listingMock.SetupGet(x => x.SaleProperty).Returns(saleProperty);
+
+            var lastSaleListingRequest = new Mock<SaleListingRequest>();
+            lastSaleListingRequest.SetupAllProperties();
+            lastSaleListingRequest.Setup(x => x.Clone()).Returns(newSaleListingRequest.Object);
+
+            // Act
+            var result = listingMock.Object.GenerateOpenHouseRequestFromCommunity(lastSaleListingRequest.Object, community, GetIUserContextProvider());
+
+            // Assert
+            Assert.Equal(ResponseCode.Success, result.Code);
+        }
+
+        [Fact]
+        public void GenerateOpenHouseRequestFromCommunity_Error()
+        {
+            // Arrange
+            var communityId = Guid.NewGuid();
+            var listingId = Guid.NewGuid();
+
+            var community = CommunityTestProvider.GetCommunityEntity(communityId);
+            community.Property.LotDescription = [LotDescription.NativePlants];
+            var changes = new List<string> { nameof(community.Property.LotDescription) };
+            community.UpdateChanges(nameof(community.Property), changes);
+
+            var newSaleListingRequest = new Mock<SaleListingRequest>();
+            newSaleListingRequest.SetupAllProperties();
+
+            var saleProperty = TestModelProvider.GetFullSalePropertyWithStaticValues(Guid.NewGuid());
+            var errors = new List<ValidationResult>
+            {
+                new("Test error", ["Property"]),
+            };
+
+            var listingMock = new Mock<SaleListing>();
+            listingMock.SetupAllProperties();
+            listingMock.SetupGet(x => x.Id).Returns(listingId);
+            listingMock.Setup(x => x.GenerateRequest(It.IsAny<IUserContextProvider>()))
+                .Returns(CommandSingleResult<SaleListingRequest, ValidationResult>.Error(errors, "Test"));
+            listingMock.Setup(x => x.GenerateOpenHouseRequestFromCommunity(
+                It.IsAny<SaleListingRequest>(),
+                It.IsAny<CommunitySale>(),
+                It.IsAny<IUserContextProvider>()))
+                .CallBase();
+            listingMock.SetupGet(x => x.SaleProperty).Returns(saleProperty);
+
+            var lastSaleListingRequest = new Mock<SaleListingRequest>();
+            lastSaleListingRequest.SetupAllProperties();
+            lastSaleListingRequest.Setup(x => x.Clone()).Returns(newSaleListingRequest.Object);
+
+            // Act
+            var result = listingMock.Object.GenerateOpenHouseRequestFromCommunity(lastSaleListingRequest.Object, community, GetIUserContextProvider());
+
+            // Assert
+            Assert.Equal(ResponseCode.Error, result.Code);
+        }
+
+        [Fact]
         public void ChangeCompany_Success()
         {
             // Arrange
@@ -279,6 +364,15 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             Assert.Equal(newCompanyId, listing.CompanyId);
             Assert.Equal(newCompanyId, listing.SaleProperty.CompanyId);
             Assert.Equal(newCompanyName, listing.SaleProperty.OwnerName);
+        }
+
+        private static IUserContextProvider GetIUserContextProvider()
+        {
+            var userContextProvider = new Mock<IUserContextProvider>();
+            var userId = Guid.NewGuid();
+            userContextProvider.Setup(u => u.GetCurrentUserId()).Returns(userId).Verifiable();
+            userContextProvider.Setup(u => u.GetUserLocalDate()).Returns(DateTime.UtcNow).Verifiable();
+            return userContextProvider.Object;
         }
     }
 }

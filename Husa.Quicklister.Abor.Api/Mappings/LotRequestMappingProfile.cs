@@ -16,7 +16,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
     {
         public LotRequestMappingProfile()
         {
-            this.CreateMap<ListingRequestFilter, ListingRequestQueryFilter>();
+            this.CreateMap<ListingRequestFilter, ListingRequestQueryFilter>()
+                .ForMember(dest => dest.EntityId, config => config.MapFrom(dto => dto.ListingId));
             this.CreateMap<ListingRequestQueryResult, ListingRequestQueryResponse>();
             this.CreateMap<LotListingRequestDetailQueryResult, LotListingRequestDetailResponse>();
             this.CreateMap<LotListingRequestForUpdate, LotListingDto>();

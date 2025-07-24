@@ -2,7 +2,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest
 {
     using System;
     using Husa.Quicklister.Abor.Api.Contracts.Request.SalePropertyDetail;
-    using Husa.Quicklister.Extensions.Api.Contracts.Models.ShowingTime;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.ShowingTime;
 
     public class ListingSaleRequestForUpdate : ListingRequest
     {
@@ -14,7 +14,7 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Request.SaleRequest
 
         public SalePropertyDetailRequest SaleProperty { get; set; }
 
-        public ShowingTimeInfo ShowingTime { get; set; }
+        public ShowingTimeRequest ShowingTime { get; set; }
 
         public virtual bool UseShowingTime { get; set; }
     }
