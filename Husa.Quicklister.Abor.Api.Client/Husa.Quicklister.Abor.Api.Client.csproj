@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <AssemblyName>Husa.Quicklister.Abor.Api.Client</AssemblyName>
@@ -8,12 +8,13 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.22.1</Version>
+        <Version>2.22.2</Version>
         <PackageReleaseNotes>
-            Release 2.22.1:
+            Release 2.22.2:
             - Update nugets
             - Update ShowingTime fields
             - Update ShowingTime FedbackTemplate enum
+            - Add modification of MLS Number to lots
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>

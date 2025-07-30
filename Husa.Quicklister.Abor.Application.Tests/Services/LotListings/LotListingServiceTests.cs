@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Services.LotListings;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
@@ -36,6 +37,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
         private readonly Mock<ICommunitySaleRepository> communitySaleRepositoryMock = new();
         private readonly Mock<ILotListingMediaService> listingMediaServiceMock = new();
         private readonly Mock<IUserContextProvider> userContextProviderMock = new();
+        private readonly Mock<ILotListingPhotoService> lotListingPhotoService = new();
         private readonly Mock<ILogger<LotListingService>> loggerMock = new();
         private readonly Mock<ILotListingLockService> lockService = new();
 
@@ -48,6 +50,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
                 this.userContextProviderMock.Object,
                 this.listingMediaServiceMock.Object,
                 this.lockService.Object,
+                this.lotListingPhotoService.Object,
                 fixture.Options.Object,
                 fixture.Mapper,
                 this.loggerMock.Object);
