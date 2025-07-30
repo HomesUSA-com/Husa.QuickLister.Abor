@@ -24,6 +24,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Api.Contracts.Request.Listing;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -127,6 +128,15 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
 
             await this.listingService.ChangeCommunity(listingId, communityId);
 
+            return this.Ok();
+        }
+
+        [HttpPatch("{listingId:guid}/mlsnumber")]
+        [RolesFilter(new UserRole[] { UserRole.MLSAdministrator }, null)]
+        public async Task<IActionResult> UpdateMlsNumber([FromRoute][Required] Guid listingId, [FromBody] MlsNumberRequest mlsNumberRequest)
+        {
+            this.logger.LogInformation("Update mlsnumber for listing Id {ListingId}", listingId);
+            await this.listingService.UpdateMlsNumberAsync(listingId, mlsNumberRequest.MlsNumber);
             return this.Ok();
         }
 
