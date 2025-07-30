@@ -32,6 +32,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
         private readonly IMapper mapper;
         private readonly ICommunitySaleRepository communityRepository;
         private readonly ILotListingMediaService listingMediaService;
+        private readonly ILotListingPhotoService saleListingPhotoService;
         private readonly Husa.Quicklister.Extensions.Crosscutting.FeatureFlags featureFlags;
         private readonly IServiceSubscriptionClient serviceSubscriptionClient;
 
@@ -42,6 +43,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             IUserContextProvider userContextProvider,
             ILotListingMediaService listingMediaService,
             ILotListingLockService unlockService,
+            ILotListingPhotoService saleListingPhotoService,
             IOptions<ApplicationOptions> applicationOptions,
             IMapper mapper,
             ILogger<LotListingService> logger)
@@ -51,6 +53,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             this.listingMediaService = listingMediaService ?? throw new ArgumentNullException(nameof(listingMediaService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.serviceSubscriptionClient = serviceSubscriptionClient ?? throw new ArgumentNullException(nameof(serviceSubscriptionClient));
+            this.saleListingPhotoService = saleListingPhotoService ?? throw new ArgumentNullException(nameof(saleListingPhotoService));
             this.featureFlags = applicationOptions?.Value?.FeatureFlags ?? throw new ArgumentNullException(nameof(applicationOptions));
         }
 
@@ -188,9 +191,12 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             await this.ListingRepository.SaveChangesAsync(lotListing);
         }
 
-        protected override Task UpdatePhotoRequestProperty(LotListing listing)
+        protected override async Task UpdatePhotoRequestProperty(LotListing listing)
         {
-            throw new NotImplementedException();
+            if (listing.LastPhotoRequestCreationDate.HasValue)
+            {
+                await this.saleListingPhotoService.SendUpdatePropertiesMessages([listing]);
+            }
         }
 
         protected override async Task UpdateCommunity(LotListing listing, Guid communityId, bool filterByUserContext = true)
