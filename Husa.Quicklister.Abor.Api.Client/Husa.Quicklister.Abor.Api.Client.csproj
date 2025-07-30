@@ -8,12 +8,13 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.21.7</Version>
+        <Version>2.21.8</Version>
         <PackageReleaseNotes>
-            Release 2.21.7:
+            Release 2.21.8:
             - Add fields to community showing responses
             - Update nugets
             - Update ShowingTime fields
+            - Add modification of MLS Number to lots
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
