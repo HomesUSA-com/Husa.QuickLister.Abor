@@ -8,20 +8,17 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.22.2</Version>
+        <Version>2.23.0-dev001</Version>
         <PackageReleaseNotes>
-            Release 2.22.2:
-            - Update nugets
-            - Update ShowingTime fields
-            - Update ShowingTime FedbackTemplate enum
-            - Add modification of MLS Number to lots
+            Release 2.23.0:
+            - Move showingtime to husa.extensions
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.2.1" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.19.1" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.20.0-dev001" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,11 +1,11 @@
 namespace Husa.Quicklister.Abor.Application.Tests.Providers
 {
     using System;
+    using Husa.Extensions.ShowingTime.Enums;
     using Husa.Quicklister.Abor.Domain.Entities.Request;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Moq;
     using ShowingTimeRecord = Husa.Quicklister.Extensions.Domain.Entities.Request.ShowingTimeRecord;
 

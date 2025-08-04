@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using AutoMapper;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.ShowingTime.Enums;
     using Husa.Quicklister.Abor.Application.Models.Request;
     using Husa.Quicklister.Abor.Application.Services;
     using Husa.Quicklister.Abor.Application.Tests.Providers;
@@ -21,7 +22,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using Moq;

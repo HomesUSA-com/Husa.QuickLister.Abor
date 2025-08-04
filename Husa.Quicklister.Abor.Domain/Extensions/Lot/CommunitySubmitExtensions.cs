@@ -1,5 +1,6 @@
 namespace Husa.Quicklister.Abor.Domain.Extensions.Lot
 {
+    using Husa.Extensions.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Entities.LotRequest;

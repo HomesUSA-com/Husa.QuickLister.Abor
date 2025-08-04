@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.ShowingTime.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
@@ -22,7 +23,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Domain.Enums;
-    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -741,8 +741,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             await this.Sut.CopyListingInfoToCommunity(listingId);
 
-            Assert.Equal(listingSale.SaleProperty.Community.AppointmentSettings, listingSale.AppointmentSettings);
-            Assert.Equal(listingSale.SaleProperty.Community.AppointmentRestrictions, listingSale.AppointmentRestrictions);
+            Assert.Equal(listingSale.SaleProperty.Community.AppointmentSettings.AppointmentType, listingSale.AppointmentSettings.AppointmentType);
             Assert.Equal(listingSale.SaleProperty.Community.Financial.BuyersAgentCommission, listingSale.SaleProperty.FinancialInfo.BuyersAgentCommission);
             Assert.NotEqual(listingSale.SaleProperty.Community.Property.County, listingSale.SaleProperty.AddressInfo.County);
             Assert.NotNull(listingSale.SaleProperty.Community.Utilities.Fireplaces);

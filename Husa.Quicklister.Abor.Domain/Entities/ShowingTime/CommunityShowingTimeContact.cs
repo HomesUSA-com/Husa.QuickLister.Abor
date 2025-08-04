@@ -1,8 +1,8 @@
 namespace Husa.Quicklister.Abor.Domain.Entities.ShowingTime
 {
     using System;
+    using Husa.Extensions.ShowingTime.Interfaces;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
-    using Husa.Quicklister.Extensions.Domain.Interfaces.ShowingTime;
 
     public class CommunityShowingTimeContact : IContactOrder
     {

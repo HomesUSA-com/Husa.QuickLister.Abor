@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Domain.Entities;
+    using Husa.Extensions.Domain.Extensions;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Comparers;

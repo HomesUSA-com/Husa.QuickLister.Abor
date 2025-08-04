@@ -8,6 +8,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Extensions.Authorization.Specifications;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Linq.Specifications;
+    using Husa.Extensions.ShowingTime.Data.Specifications;
+    using Husa.Extensions.ShowingTime.Enums;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
@@ -15,7 +17,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Queries.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Data.Specifications;
-    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 

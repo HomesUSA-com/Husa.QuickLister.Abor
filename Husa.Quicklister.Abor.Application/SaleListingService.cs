@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.ShowingTime.Models;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Request;
@@ -26,7 +27,6 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
-    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
