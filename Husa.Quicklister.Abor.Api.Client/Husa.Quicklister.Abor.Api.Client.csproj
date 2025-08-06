@@ -11,17 +11,16 @@
         <Version>2.22.2</Version>
         <PackageReleaseNotes>
             Release 2.22.2:
-            - Update nugets
-            - Update ShowingTime fields
             - Update ShowingTime FedbackTemplate enum
             - Add modification of MLS Number to lots
+            - Add other to AccessMethod
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.2.1" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.19.1" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.19.2" />
     </ItemGroup>
 
     <ItemGroup>
