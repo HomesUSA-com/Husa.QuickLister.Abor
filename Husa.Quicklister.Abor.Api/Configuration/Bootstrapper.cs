@@ -45,20 +45,16 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Application.Services.Plans;
     using Husa.Quicklister.Abor.Application.Services.Reports;
     using Husa.Quicklister.Abor.Application.Services.SaleListings;
-    using Husa.Quicklister.Abor.Application.Services.ShowingTime;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Data;
     using Husa.Quicklister.Abor.Data.Commands.Repositories;
     using Husa.Quicklister.Abor.Data.Documents.Repositories;
     using Husa.Quicklister.Abor.Data.Queries;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
-    using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
-    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Api.Configuration;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
-    using Husa.Quicklister.Extensions.Application.Interfaces.ShowingTime;
     using Husa.Quicklister.Extensions.Crosscutting;
     using Husa.Quicklister.Extensions.Data.Documents.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
@@ -98,7 +94,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ILotListingRepository, LotListingRepository>();
             services.AddScoped<RepositoriesExtensions.IViolationWarningAlertRepository, ViolationWarningAlertRepository>();
             services.AddScoped<ILegacySaleListingRepository, LegacySaleListingRepository>();
-            services.AddScoped<IShowingTimeContactRepository, ShowingTimeContactRepository>();
             services.AddScoped<RepositoriesExtensions.IRequestErrorRepository, RequestErrorRepository>();
 
             return services;
@@ -109,9 +104,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
         public static IServiceCollection AddQueriesRepositories(this IServiceCollection services)
         {
-            services.AddSingleton<ShowingTimeContactProjection>();
-            services.AddSingleton<CommunityShowingTimeContactOrderProjection>();
-            services.AddSingleton<ListingShowingTimeContactOrderProjection>();
             services.AddScoped<IListingSaleQueriesRepository, ListingSaleQueriesRepository>();
             services.AddScoped<IQueryCommunityEmployeeRepository, CommunityEmployeeQueriesRepository>();
             services.AddScoped<ICommunityQueriesRepository, CommunityQueriesRepository>();
@@ -125,8 +117,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IMigrationQueryRepository, RequestMigrationQueryRepository>();
             services.AddScoped<ILotListingQueriesRepository, LotListingQueriesRepository>();
             services.AddScoped<IResidentialIdxQueriesRepository, ResidentialIdxQueriesRepository>();
-            services.AddScoped<IShowingTimeContactQueriesRepository, ShowingTimeContactQueriesRepository>();
-            services.AddScoped<IProvideShowingTimeContacts, ShowingTimeContactQueriesRepository>();
             services.AddScoped<IQueryListingBillingRepository, ListingBillingQueriesRepository>();
             services.AddScoped<IListingRequestBillingQueryRepository, ListingRequestBillingQueriesRepository>();
             services.AddExtensionRepositories();
@@ -184,12 +174,11 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IListingRequestXmlService<XmlListingDetailResponse>, ListingRequestXmlService>();
             services.AddScoped<InterfaceExtensions.Listing.ISaleListingHistoryService, SaleListingHistoryService>();
 
-            services.AddScoped<IShowingTimeContactService, ShowingTimeContactService>();
-
             services.ConfigureLegacyListingService(Migration.Enums.MigrationMarketType.Austin);
             services.ConfigureMediaServices();
             services.ConfigureNoteServices();
             services.ConfigurePhotoServices();
+            services.ConfigureShowingTime();
             return services;
         }
 

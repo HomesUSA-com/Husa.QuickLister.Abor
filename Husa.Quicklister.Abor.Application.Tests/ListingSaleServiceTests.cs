@@ -2,6 +2,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
@@ -761,6 +762,21 @@ namespace Husa.Quicklister.Abor.Application.Tests
 
             this.serviceSubscriptionClient
                 .Setup(c => c.Company.GetCompanyServices(companyId, It.IsAny<FilterServiceSubscriptionRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataSet<CompanyResponse.ServiceSubscription>(services, services.Length));
+            this.SetupShowingTimeService(hasService: false);
+        }
+
+        private void SetupShowingTimeService(bool hasService = true)
+        {
+            var serviceCode = ServiceCode.ShowingTime;
+            var services = hasService
+                ? new CompanyResponse.ServiceSubscription[] { new() { ServiceCode = serviceCode } }
+                : Array.Empty<CompanyResponse.ServiceSubscription>();
+
+            this.serviceSubscriptionClient
+                .Setup(c => c.CompanyService.GetAsync(
+                    It.Is<FilterCompanyServiceRequest>(x => x.ServiceCode.Any(x => x == ServiceCode.ShowingTime)),
+                    It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DataSet<CompanyResponse.ServiceSubscription>(services, services.Length));
         }
     }

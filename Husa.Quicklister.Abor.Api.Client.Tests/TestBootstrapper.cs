@@ -31,6 +31,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Moq;
     using CompanyUser = Husa.CompanyServicesManager.Api.Contracts.Response.User;
+    using Response = Husa.CompanyServicesManager.Api.Contracts.Response;
     using ServiceSubscriptionResponse = Husa.CompanyServicesManager.Api.Contracts.Response.ServiceSubscription;
 
     public static class TestBootstrapper
@@ -95,6 +96,15 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             serviceSubscription.SetupGet(s => s.User).Returns(userMock.Object);
             serviceSubscription.SetupGet(s => s.Employee).Returns(new Mock<IEmployee>().Object);
             services.AddSingleton(serviceSubscription.Object);
+
+            var companyServiceMock = new Mock<ICompanyService>();
+            var serviceSubscriptions = Array.Empty<Response.ServiceSubscription>();
+            companyServiceMock
+                .Setup(c => c.GetAsync(
+                    It.Is<FilterCompanyServiceRequest>(x => x.ServiceCode.Any(x => x == Husa.CompanyServicesManager.Domain.Enums.ServiceCode.ShowingTime)),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataSet<Response.ServiceSubscription>(serviceSubscriptions, serviceSubscriptions.Length));
+            serviceSubscription.SetupGet(s => s.CompanyService).Returns(companyServiceMock.Object);
         }
 
         private static void MockCosmosClient(this IServiceCollection services)
