@@ -26,9 +26,9 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
-    using Husa.Quicklister.Extensions.Application.Extensions;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -134,12 +134,6 @@ namespace Husa.Quicklister.Abor.Application
             {
                 LegacyId = listingSale.LegacyId,
             };
-
-            if (await this.ServiceSubscriptionClient.HasService(listingSale.CompanyId, ServiceCode.ShowingTime) && company.ShowingTime != null)
-            {
-                listingSaleEntity.UseShowingTime = true;
-                listingSaleEntity.UpdateShowingTime(company.ShowingTime);
-            }
 
             if (importFromListing)
             {
@@ -479,10 +473,7 @@ namespace Husa.Quicklister.Abor.Application
             }
 
             listingSale.SaleProperty.ImportDataFromCommunity(communitySale);
-            listingSale.AppointmentSettings = communitySale.AppointmentSettings?.Clone();
-            listingSale.AccessInformation = communitySale.AccessInformation?.Clone();
-            listingSale.AppointmentRestrictions = communitySale.AppointmentRestrictions?.Clone();
-            listingSale.AdditionalInstructions = communitySale.AdditionalInstructions?.Clone();
+            listingSale.ImportShowingTimeInfo(communitySale);
         }
 
         private async Task ImportPlanDataAsync(SaleListing listingSale, Guid planId)

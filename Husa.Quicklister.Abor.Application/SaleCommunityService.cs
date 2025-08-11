@@ -5,6 +5,7 @@ namespace Husa.Quicklister.Abor.Application
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
+    using Husa.CompanyServicesManager.Domain.Enums;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Common.Classes;
@@ -17,6 +18,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Application.Extensions;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Microsoft.Extensions.Logging;
@@ -66,6 +68,12 @@ namespace Husa.Quicklister.Abor.Application
             }
 
             this.CommunitySaleRepository.Attach(community);
+
+            if (await this.serviceSubscriptionClient.HasService(community.CompanyId, ServiceCode.ShowingTime) && company.ShowingTime != null)
+            {
+                community.UpdateShowingTime(true, company.ShowingTime);
+            }
+
             await this.CommunitySaleRepository.SaveChangesAsync();
             await this.communityHistoryService.CreateRecordAsync(community.Id, isSubmitted: false);
             return CommandSingleResult<Guid, string>.Success(community.Id);

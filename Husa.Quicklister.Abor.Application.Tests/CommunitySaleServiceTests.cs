@@ -3,11 +3,15 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
+    using Husa.CompanyServicesManager.Api.Contracts.Request;
+    using Husa.CompanyServicesManager.Domain.Enums;
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Quicklister.Abor.Application.Interfaces.Community;
     using Husa.Quicklister.Abor.Crosscutting.Tests;
@@ -21,6 +25,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
+    using CompanyResponse = Husa.CompanyServicesManager.Api.Contracts.Response;
 
     [ExcludeFromCodeCoverage]
     [Collection("Husa.Quicklister.Abor.Application.Test")]
@@ -69,6 +74,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
             this.serviceSubscriptionClient
                 .Setup(c => c.Company.GetCompany(companyId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(companyDetail);
+            this.SetupShowingTimeService(hasService: true);
 
             // Act
             var result = await this.Sut.CreateAsync(communitySaleDto);
@@ -215,6 +221,20 @@ namespace Husa.Quicklister.Abor.Application.Tests
             // Assert
             this.communitySaleRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
             saleProperty.Verify(r => r.ImportDataFromCommunity(It.Is<CommunitySale>(x => x.Id == communityId)), Times.Once);
+        }
+
+        private void SetupShowingTimeService(bool hasService = true)
+        {
+            var serviceCode = ServiceCode.ShowingTime;
+            var services = hasService
+                ? new CompanyResponse.ServiceSubscription[] { new() { ServiceCode = serviceCode } }
+                : Array.Empty<CompanyResponse.ServiceSubscription>();
+
+            this.serviceSubscriptionClient
+                .Setup(c => c.CompanyService.GetAsync(
+                    It.Is<FilterCompanyServiceRequest>(x => x.ServiceCode.Any(x => x == ServiceCode.ShowingTime)),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataSet<CompanyResponse.ServiceSubscription>(services, services.Length));
         }
     }
 }
