@@ -108,7 +108,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
                     throw new DomainException($"Cannot assign an empty mls number to the listing id {this.Id}");
                 }
 
-                this.MlsNumber = mlsNumber;
+                this.MlsNumber = mlsNumber.Trim();
 
                 if (!isDownloaderEnabled && this.ListDate == null)
                 {
