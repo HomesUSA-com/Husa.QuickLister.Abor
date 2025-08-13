@@ -8,12 +8,13 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.22.2</Version>
+        <Version>2.22.3</Version>
         <PackageReleaseNotes>
-            Release 2.22.2:
+            Release 2.22.3:
             - Update ShowingTime FedbackTemplate enum
             - Add modification of MLS Number to lots
             - Add other to AccessMethod
+            - Add 'Hisle' to Elementary Schools
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
