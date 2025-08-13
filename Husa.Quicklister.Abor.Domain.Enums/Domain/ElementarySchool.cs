@@ -1481,5 +1481,8 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "Zilker")]
         [Description("Zilker")]
         Zilker,
+        [EnumMember(Value = "Hisle")]
+        [Description("Hisle")]
+        Hisle,
     }
 }
