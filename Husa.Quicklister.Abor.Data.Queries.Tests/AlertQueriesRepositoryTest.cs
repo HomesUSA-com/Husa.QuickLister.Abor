@@ -4,7 +4,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
-    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Enums;
     using Husa.Extensions.Authorization.Models;
@@ -12,6 +11,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -33,7 +33,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
         private readonly Mock<IUserContextProvider> userContex = new();
         private readonly Mock<IXmlClient> xmlClient = new();
         private readonly Mock<ILogger<AlertQueriesRepository>> logger = new();
-        private readonly Mock<IServiceSubscriptionClient> serviceSubscriptionClient = new();
+        private readonly Mock<ICompanyCacheRepository> companyRepository = new();
 
         public AlertQueriesRepositoryTest()
         {
@@ -46,11 +46,13 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
         public async Task GetAsync_Success(AlertType alertType)
         {
             // Arrange
+            var companyId = Guid.NewGuid();
             var listings = new SaleListing[]
             {
-                ListingTestProvider.GetListingEntity(),
-                ListingTestProvider.GetListingEntity(),
+                ListingTestProvider.GetListingEntity(companyId: companyId),
+                ListingTestProvider.GetListingEntity(companyId: companyId),
             };
+            this.companyRepository.Setup(x => x.GetAvailableCompanyIds()).ReturnsAsync([companyId]);
             var sut = this.GetInMemoryRepository(listings);
             var filter = new BaseAlertQueryFilter();
 
@@ -90,7 +92,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
                 queriesDbContext,
                 this.userQueriesRepository.Object,
                 this.photoService.Object,
-                this.serviceSubscriptionClient.Object,
+                this.companyRepository.Object,
                 this.xmlClient.Object,
                 this.logger.Object,
                 this.userContex.Object);

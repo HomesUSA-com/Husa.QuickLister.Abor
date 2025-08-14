@@ -77,7 +77,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             companyMock
                 .Setup(c => c.GetCompanyServices(It.IsAny<Guid>(), It.IsAny<FilterServiceSubscriptionRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DataSet<ServiceSubscriptionResponse>(companyServices, companyServices.Length));
-
+            companyMock.Setup(s => s.GetAsync(It.IsAny<CompanyRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataSet<Husa.CompanyServicesManager.Api.Contracts.Response.Company>([new() { Id = Factory.CompanyId }], 1));
             serviceSubscription.SetupGet(s => s.Company).Returns(companyMock.Object);
             serviceSubscription.SetupGet(s => s.Corporation).Returns(new Mock<ICorporation>().Object);
 

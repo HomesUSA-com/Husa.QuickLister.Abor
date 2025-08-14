@@ -5,11 +5,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Authorization.Specifications;
     using Husa.Extensions.Common.Classes;
-    using Husa.Extensions.Common.Enums;
     using Husa.PhotoService.Api.Client.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Extensions;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
@@ -20,6 +18,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
     using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Enums;
+    using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Enums;
@@ -35,19 +34,17 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             ApplicationQueriesDbContext context,
             IUserRepository userQueriesRepository,
             IPhotoServiceClient photoService,
-            IServiceSubscriptionClient serviceSubscriptionClient,
+            ICompanyCacheRepository companyRepository,
             IXmlClient xmlClient,
             ILogger<AlertQueriesRepository> logger,
             IUserContextProvider userContext)
-            : base(userQueriesRepository, logger, photoService, serviceSubscriptionClient, xmlClient, userContext, context)
+            : base(userQueriesRepository, logger, photoService, companyRepository, xmlClient, userContext, context)
         {
         }
 
         protected override IReadOnlyDictionary<AlertType, Expression<Func<SaleListing, bool>>> AlertDictionary => AlertsQueryExtensions.AlertsDictionary;
 
         protected override Expression<Func<SaleListing, DetailAlertQueryResult>> DetailAlertQueryResultProjection => ListingSaleAlertsProjection.ProjectListingSaleQueryResult;
-
-        protected override MarketCode MarketCode => MarketCode.Austin;
 
         protected override async Task<DataSet<DetailAlertQueryResult>> GetActiveEmployeesAsync(BaseAlertQueryFilter filter)
         {
@@ -78,7 +75,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .FilterByCommunityEmployee<SaleListing, SaleProperty, CommunityEmployee>(this.Context.CommunityEmployee, currentUser);
         }
 
-        protected override IQueryable<SaleListing> GetSaleListingAlerts(string search = null)
+        protected override async Task<IQueryable<SaleListing>> GetSaleListingAlerts(string search = null)
         {
             var query = this.Context.ListingSale
                 .Include(d => d.SaleProperty)
@@ -88,6 +85,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .FilterNotDeleted();
 
             query = this.FilterByCommunityEmployee(query);
+            query = await this.FilterByAvailableCompanies(query);
 
             if (!string.IsNullOrWhiteSpace(search))
             {
