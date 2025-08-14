@@ -73,6 +73,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using ApplicationOptions = Husa.Quicklister.Abor.Crosscutting.ApplicationOptions;
     using IAgentQueriesRepository = Husa.Quicklister.Abor.Data.Queries.Interfaces.IAgentQueriesRepository;
     using InterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces;
+    using QueryRepositoriesExtensions = Husa.Quicklister.Extensions.Data.Queries.Repositories;
     using RepositoriesExtensions = Husa.Quicklister.Extensions.Domain.Repositories;
 
     public static class Bootstrapper
@@ -129,6 +130,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IProvideShowingTimeContacts, ShowingTimeContactQueriesRepository>();
             services.AddScoped<IQueryListingBillingRepository, ListingBillingQueriesRepository>();
             services.AddScoped<IListingRequestBillingQueryRepository, ListingRequestBillingQueriesRepository>();
+            services.AddScoped<ICompanyCacheRepository, QueryRepositoriesExtensions.CompanyCacheRepository<ApplicationOptions>>();
             services.AddExtensionRepositories();
             return services;
         }
