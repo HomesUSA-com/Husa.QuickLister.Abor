@@ -129,6 +129,40 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
         }
 
         [Fact]
+        public async Task HandleMessageSelfApprovePlanMessage()
+        {
+            // Arrange
+            var planMessage = new UpdateSelfApprovePlanMessage
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                CompanyName = Faker.Company.Name(),
+                MarketCode = MarketCode.Austin,
+                SelfApprove = true,
+            };
+            var message = this.ArrangeMessage(planMessage);
+            var sut = this.GetSut();
+
+            // Act
+            await sut.HandleMessage(message, cancellationToken: default);
+
+            // Assert
+            this.planXmlServiceMock.Verify(
+                ds => ds.UpdateSelfApproveEntity(
+                    It.Is<Guid>(id => id == planMessage.CompanyId),
+                    It.Is<string>(id => id == planMessage.CompanyName),
+                    It.Is<Guid>(id => id == planMessage.Id)),
+                Times.Once);
+            this.communityXmlServiceMock.Verify(
+                ds => ds.ImportEntity(
+                    It.Is<Guid>(id => id == planMessage.CompanyId),
+                    It.Is<string>(id => id == planMessage.CompanyName),
+                    It.Is<Guid>(id => id == planMessage.Id),
+                    It.IsAny<bool>()),
+                Times.Never);
+        }
+
+        [Fact]
         public async Task HandleMessage_UpdateXmlListingMessage()
         {
             // Arrange
