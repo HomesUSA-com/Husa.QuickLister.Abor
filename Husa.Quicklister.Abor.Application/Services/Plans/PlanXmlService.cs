@@ -24,7 +24,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
         {
         }
 
-        public override async Task ImportEntity(Guid companyId, string companyName, Guid entityId)
+        public override async Task ImportEntity(Guid companyId, string companyName, Guid entityId, bool selfApprove = false)
         {
             this.Logger.LogInformation("Importing xml xmlPlan with id {xmlPlanId} to company with id {companyId}", entityId, companyId);
             var xmlPlan = await this.XmlClient.Plan.GetByIdAsync(entityId);
@@ -34,7 +34,21 @@ namespace Husa.Quicklister.Abor.Application.Services.Plans
             plan.UpdateBasePlanInformation(basePlan);
 
             await this.PlanRepository.SaveChangesAsync();
-            await this.XmlClient.Plan.ProcessPlan(entityId, planRequest: new() { PlanId = plan.Id });
+
+            if (selfApprove)
+            {
+                if (plan.XmlStatus != XmlStatus.NotFromXml && plan.XmlStatus != XmlStatus.Approved)
+                {
+                    plan.Approve();
+                    await this.PlanRepository.SaveChangesAsync();
+                }
+
+                await this.XmlClient.Plan.SelfApprovePlan(entityId, plan.Id);
+            }
+            else
+            {
+                await this.XmlClient.Plan.ProcessPlan(entityId, planRequest: new() { PlanId = plan.Id });
+            }
         }
 
         protected override async Task<Plan> CreatePlan(PlanResponse plan, Guid companyId, string companyName)

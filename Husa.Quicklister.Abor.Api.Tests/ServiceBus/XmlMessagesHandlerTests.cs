@@ -61,13 +61,15 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
                 ds => ds.ImportEntity(
                     It.Is<Guid>(id => id == subdivisionMessage.CompanyId),
                     It.Is<string>(id => id == subdivisionMessage.CompanyName),
-                    It.Is<Guid>(id => id == subdivisionMessage.Id)),
+                    It.Is<Guid>(id => id == subdivisionMessage.Id),
+                    It.IsAny<bool>()),
                 Times.Once);
             this.planXmlServiceMock.Verify(
                 ds => ds.ImportEntity(
                     It.Is<Guid>(id => id == subdivisionMessage.CompanyId),
                     It.Is<string>(id => id == subdivisionMessage.CompanyName),
-                    It.Is<Guid>(id => id == subdivisionMessage.Id)),
+                    It.Is<Guid>(id => id == subdivisionMessage.Id),
+                    It.IsAny<bool>()),
                 Times.Never);
         }
 
@@ -89,7 +91,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
             await sut.HandleMessage(message, cancellationToken: default);
 
             // Assert
-            this.communityXmlServiceMock.Verify(ds => ds.ImportEntity(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<Guid>()), Times.Never);
+            this.communityXmlServiceMock.Verify(ds => ds.ImportEntity(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<bool>()), Times.Never);
         }
 
         [Fact]
@@ -114,13 +116,15 @@ namespace Husa.Quicklister.Abor.Api.Tests.ServiceBus
                 ds => ds.ImportEntity(
                     It.Is<Guid>(id => id == planMessage.CompanyId),
                     It.Is<string>(id => id == planMessage.CompanyName),
-                    It.Is<Guid>(id => id == planMessage.Id)),
+                    It.Is<Guid>(id => id == planMessage.Id),
+                    It.IsAny<bool>()),
                 Times.Once);
             this.communityXmlServiceMock.Verify(
                 ds => ds.ImportEntity(
                     It.Is<Guid>(id => id == planMessage.CompanyId),
                     It.Is<string>(id => id == planMessage.CompanyName),
-                    It.Is<Guid>(id => id == planMessage.Id)),
+                    It.Is<Guid>(id => id == planMessage.Id),
+                    It.IsAny<bool>()),
                 Times.Never);
         }
 

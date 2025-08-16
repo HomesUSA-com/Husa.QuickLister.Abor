@@ -13,6 +13,7 @@ namespace Husa.Quicklister.Abor.Application.Tests
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Domain.Enums;
     using Microsoft.Extensions.Logging;
@@ -71,6 +72,73 @@ namespace Husa.Quicklister.Abor.Application.Tests
             // Assert
             this.communitySaleRepository.Verify(r => r.Attach(It.Is<CommunitySale>(c => c.CompanyId == companyId)), Times.Once);
             this.communitySaleRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
+        }
+
+        [Fact]
+        public async Task ImportSubdivisionSlefApprove()
+        {
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var companyName = "company-name";
+            var subdivisionId = Guid.NewGuid();
+            var communityId = Guid.NewGuid();
+            var communitySale = TestModelProvider.GetCommunitySaleEntity(communityId);
+            var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
+            companyDetail.EmailLeadInfo = new() { LockedEmailLeads = true };
+
+            var subdivisionResponse = XmlTestProvider.GetSubdivisionResponse(subdivisionId, communityId);
+            this.xmlClient
+                .Setup(x => x.Subdivision.GetByIdAsync(It.Is<Guid>(id => id == subdivisionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(subdivisionResponse)
+                .Verifiable();
+            this.communitySaleRepository
+                .Setup(x => x.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()))
+                .ReturnsAsync(communitySale)
+            .Verifiable();
+
+            this.outputHelper.WriteLine("This is the school for the subdivision: {0}", subdivisionResponse.SchoolDistrict.First().School.Single(t => t.Type == SchoolType.Elementary).Name);
+            this.serviceSubscriptionClient.Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), false, It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail).Verifiable();
+
+            // Act
+            await this.Sut.ImportEntity(companyId, companyName, subdivisionId, selfApprove: true);
+
+            // Assert
+            this.communitySaleRepository.Verify(r => r.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()), Times.Once);
+            this.communitySaleRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
+        }
+
+        [Fact]
+        public async Task ImportSubdivisionSlefApproveError()
+        {
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var companyName = "company-name";
+            var subdivisionId = Guid.NewGuid();
+            var communityId = Guid.NewGuid();
+            var communitySale = TestModelProvider.GetCommunitySaleEntity(communityId);
+            communitySale.XmlStatus = XmlStatus.AwaitingApproval;
+            var companyDetail = TestModelProvider.GetCompanyDetail(companyId);
+            companyDetail.EmailLeadInfo = new() { LockedEmailLeads = true };
+
+            var subdivisionResponse = XmlTestProvider.GetSubdivisionResponse(subdivisionId, communityId);
+            this.xmlClient
+                .Setup(x => x.Subdivision.GetByIdAsync(It.Is<Guid>(id => id == subdivisionId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(subdivisionResponse)
+                .Verifiable();
+            this.communitySaleRepository
+                .Setup(x => x.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()))
+                .ReturnsAsync(communitySale)
+            .Verifiable();
+
+            this.outputHelper.WriteLine("This is the school for the subdivision: {0}", subdivisionResponse.SchoolDistrict.First().School.Single(t => t.Type == SchoolType.Elementary).Name);
+            this.serviceSubscriptionClient.Setup(x => x.Company.GetCompany(It.IsAny<Guid>(), false, It.IsAny<CancellationToken>())).ReturnsAsync(companyDetail).Verifiable();
+
+            // Act
+            await this.Sut.ImportEntity(companyId, companyName, subdivisionId, selfApprove: true);
+
+            // Assert
+            this.communitySaleRepository.Verify(r => r.GetById(It.Is<Guid>(id => id == communityId), It.IsAny<bool>()), Times.Once);
+            this.communitySaleRepository.Verify(r => r.SaveChangesAsync(), Times.Exactly(2));
         }
 
         [Fact]
