@@ -975,7 +975,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         public void ConvertsToAppliancesReturnsNull()
         {
             // Arrange
-            var unknownInput = (Trestle.Appliances)100;
+            var unknownInput = (Trestle.Appliances)200;
 
             // Act
             var result = EnumMappings.ToAborEnum(unknownInput);
