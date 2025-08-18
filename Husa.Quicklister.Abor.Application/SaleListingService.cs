@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.ShowingTime.Models;
+    using Husa.MediaService.Domain.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Request;
@@ -187,6 +188,7 @@ namespace Husa.Quicklister.Abor.Application
             await this.UpdateRooms(listingDto.SaleProperty.Rooms, entity: listingSale);
             await this.UpdateOpenHouse(listingDto.SaleProperty.OpenHouses, entity: listingSale);
             await this.UpdateShowingTime(listingDto.ShowingTime, entity: listingSale);
+            await this.listingMediaService.ResizeMedia(listingDto.Id, [ImageSize.HD]);
 
             await this.ListingRepository.UpdateAsync(listingSale);
         }

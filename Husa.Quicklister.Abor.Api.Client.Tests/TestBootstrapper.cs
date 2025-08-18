@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
     using Azure.Messaging.ServiceBus;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.CompanyServicesManager.Api.Contracts.Request;
@@ -57,7 +58,24 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             services.AddScoped<ServiceBusClient>(provider =>
             {
                 var serviceBusClient = new Mock<ServiceBusClient>();
-                serviceBusClient.SetupAllProperties();
+                var serviceBusSender = new Mock<ServiceBusSender>();
+                var mockMessages = new List<ServiceBusMessage>
+                {
+                    new(body: new BinaryData("Message 1")),
+                    new(body: new BinaryData("Message 2")),
+                };
+                var mockBatch = ServiceBusModelFactory.ServiceBusMessageBatch(
+                    batchMessageStore: mockMessages,
+                    tryAddCallback: message => true,
+                    batchSizeBytes: 1024);
+
+                serviceBusSender.Setup(x => x.CreateMessageBatchAsync(It.IsAny<CancellationToken>())).ReturnsAsync(mockBatch);
+                serviceBusSender.Setup(x => x.SendMessagesAsync(It.IsAny<ServiceBusMessageBatch>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+                serviceBusSender.Setup(x => x.DisposeAsync()).Returns(ValueTask.CompletedTask);
+
+                serviceBusClient.Setup(x => x.CreateSender(It.IsAny<string>())).Returns(serviceBusSender.Object);
+                serviceBusClient.Setup(x => x.DisposeAsync()).Returns(ValueTask.CompletedTask);
+
                 return serviceBusClient.Object;
             });
             services.AddSingleton(UserContextProviderMock.SetupUserContext().Object);
