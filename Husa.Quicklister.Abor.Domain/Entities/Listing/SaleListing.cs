@@ -160,6 +160,12 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             CommunitySale community,
             IUserContextProvider userContextProvider)
         {
+            this.SaleProperty.UpdateOpenHousesFromCommunitySubmit(community);
+            if (community.HasOpenHouseChangesToSubmit)
+            {
+                this.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
+            }
+
             var validationRequest = this.GenerateRequest(userContextProvider);
             if (validationRequest.HasErrors())
             {
@@ -168,11 +174,9 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
             var userId = userContextProvider.GetCurrentUserId();
             var newRequest = lastCompletedRequest.Clone();
-            this.SaleProperty.UpdateOpenHousesFromCommunitySubmit(community);
             newRequest.SaleProperty.UpdateOpenHousesFromCommunitySubmit(this.SaleProperty.Community);
             if (community.HasOpenHouseChangesToSubmit)
             {
-                this.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
                 newRequest.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
             }
 
