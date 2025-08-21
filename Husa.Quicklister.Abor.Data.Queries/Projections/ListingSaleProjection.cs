@@ -117,6 +117,19 @@ namespace Husa.Quicklister.Abor.Data.Queries.Projections
             SysModifiedBy = listingSale.SysModifiedBy,
         };
 
+        public static Expression<Func<SaleListing, InvalidTaxIdListingsQueryResult>> ProjectToInvalidTaxIdListingsQueryResult => listingSale => new()
+        {
+            Id = listingSale.Id,
+            MlsNumber = listingSale.MlsNumber,
+            Address = $"{listingSale.SaleProperty.AddressInfo.StreetNumber} {listingSale.SaleProperty.AddressInfo.StreetName}" +
+                      $"{(listingSale.SaleProperty.AddressInfo.StreetType.HasValue ? " " + listingSale.SaleProperty.AddressInfo.StreetType.Value.ToString() : string.Empty)}" +
+                      $"{(!string.IsNullOrEmpty(listingSale.SaleProperty.AddressInfo.UnitNumber) ? " " + listingSale.SaleProperty.AddressInfo.UnitNumber : string.Empty)}",
+            CompanyId = listingSale.CompanyId,
+            OwnerName = listingSale.SaleProperty.OwnerName,
+            UnitNumber = listingSale.SaleProperty.AddressInfo.UnitNumber,
+            TaxId = listingSale.SaleProperty.PropertyInfo.TaxId,
+        };
+
         private static ListingSaleStatusFieldQueryResult ToProjectionSaleStatusFieldsInfo(this ListingStatusFieldsInfo statusFieldsInfo)
             => statusFieldsInfo.ToProjectionStatusFieldsInfo<ListingStatusFieldsInfo, ListingSaleStatusFieldQueryResult>();
     }

@@ -664,6 +664,16 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             await Assert.ThrowsAsync<HttpRequestException>(() => this.quicklisterAborClient.ListingLotRequest.CreateTaxIdRequestAsync(listingId, taxId));
         }
 
+        [Fact]
+        public async Task GetListingsWithInvalidTaxId()
+        {
+            // Arrange && Act
+            var response = await this.quicklisterAborClient.SaleListing.GetListingsWithInvalidTaxId();
+
+            // Assert
+            Assert.NotEmpty(response);
+        }
+
         private sealed class DataGenerator : IEnumerable<object[]>
         {
             private readonly List<object[]> data = new()
