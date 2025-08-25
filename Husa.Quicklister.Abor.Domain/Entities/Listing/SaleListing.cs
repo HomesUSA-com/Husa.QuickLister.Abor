@@ -169,6 +169,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             var validationRequest = this.GenerateRequest(userContextProvider);
             if (validationRequest.HasErrors())
             {
+                var currentUserId = userContextProvider.GetCurrentUserId();
+                this.UpdateTrackValues(currentUserId);
                 return validationRequest;
             }
 
