@@ -69,6 +69,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests
                     States.Arizona,
                     "12345",
                     Counties.Anderson,
+                    StreetType.PRT,
                     DateTime.Today,
                     Guid.NewGuid(),
                     "ownerName",
