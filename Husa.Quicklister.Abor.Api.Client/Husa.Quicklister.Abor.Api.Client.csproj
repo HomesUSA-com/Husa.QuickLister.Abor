@@ -8,20 +8,21 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.23.0-dev004</Version>
+        <Version>2.23.0-dev005</Version>
         <PackageReleaseNotes>
             Release 2.23.0:
             - Move showingtime to husa.extensions
 			- Add 'Hisle' to Elementary Schools
             - Update nugets
             - Get listings with Invalid Tax Id
+            - Update nugets
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.2.1" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.20.0-dev003" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.20.0-dev004" />
     </ItemGroup>
 
     <ItemGroup>
