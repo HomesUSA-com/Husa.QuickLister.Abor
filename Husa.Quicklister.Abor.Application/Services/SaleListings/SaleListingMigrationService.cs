@@ -110,7 +110,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
         protected async override Task<Guid?> CreateListing(Guid companyId, SaleListingResponse legacyListing)
         {
-            var listingDto = await this.GetQuickCreateListingDto<QuickCreateListingDto, MarketStatuses, Cities, Counties>(companyId, legacyListing);
+            var listingDto = await this.GetQuickCreateListingDto<QuickCreateListingDto, MarketStatuses, Cities, Counties, StreetType>(companyId, legacyListing);
             var queryResponse = await this.saleListingService.CreateAsync(listingDto);
 
             if (queryResponse.Code == ResponseCode.Success)

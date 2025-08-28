@@ -22,6 +22,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Extensions.Application.Interfaces.JsonImport;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using Domain = Husa.Quicklister.Abor.Domain.Enums.Domain;
     using JsonExtensions = Husa.Quicklister.Extensions.Application.Services.JsonImport;
 
     public class ListingJsonImportService : JsonExtensions.ListingJsonImportService<
@@ -47,7 +48,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
         protected override async Task<SaleListing> CreateListing(SpecDetailResponse spec)
         {
-            var listingDto = this.GetQuickCreateListingDto<QuickCreateListingDto, MarketStatuses, Cities, Counties>(spec.QlCompanyId.Value, spec);
+            var listingDto = this.GetQuickCreateListingDto<QuickCreateListingDto, MarketStatuses, Cities, Counties, Domain.StreetType>(spec.QlCompanyId.Value, spec);
             var quickCreateResult = await this.listingService.QuickCreateAsync(listingDto, importFromListing: false);
             if (quickCreateResult.Code == ResponseCode.Error)
             {
