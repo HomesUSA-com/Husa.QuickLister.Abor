@@ -36,6 +36,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             States state,
             string zipCode,
             Counties? county,
+            StreetType? streetType,
             DateTime? constructionCompletionDate,
             Guid companyId,
             string ownerName,
@@ -48,7 +49,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.OwnerName = ownerName;
             this.CommunityId = communityId;
             this.PropertyInfo = new(constructionCompletionDate);
-            this.AddressInfo = new(streetNum, streetName, unitNumber, zipCode, city, state, county);
+            this.AddressInfo = new(streetNum, streetName, unitNumber, zipCode, city, state, county, streetType);
             this.ShowingInfo = new(ownerName);
         }
 
@@ -644,7 +645,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 throw new ArgumentNullException(nameof(addressInfo));
             }
 
-            this.AddressInfo = new(addressInfo.StreetNumber, addressInfo.StreetName, addressInfo.UnitNumber, addressInfo.ZipCode, addressInfo.City, addressInfo.State, addressInfo.County)
+            this.AddressInfo = new(addressInfo.StreetNumber, addressInfo.StreetName, addressInfo.UnitNumber, addressInfo.ZipCode, addressInfo.City, addressInfo.State, addressInfo.County, addressInfo.StreetType)
             {
                 Subdivision = addressInfo.Subdivision,
                 StreetType = addressInfo.StreetType,

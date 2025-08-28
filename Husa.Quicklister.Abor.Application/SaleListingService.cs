@@ -126,6 +126,7 @@ namespace Husa.Quicklister.Abor.Application
                 listingSale.State,
                 listingSale.ZipCode,
                 listingSale.County,
+                listingSale.StreetType,
                 listingSale.ConstructionCompletionDate,
                 company.Id,
                 company.Name,
