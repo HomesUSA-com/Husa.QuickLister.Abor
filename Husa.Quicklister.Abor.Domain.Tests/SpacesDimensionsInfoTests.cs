@@ -15,11 +15,6 @@ namespace Husa.Quicklister.Abor.Domain.Tests
         [InlineData(false)]
         public void UpdateSqftoFromXmlSuccess(bool manageSqft)
         {
-            var xmlListing = new XmlListingDetailResponse()
-            {
-               Sqft = 12,
-            };
-
             var spacesDimensionsInfo = new SpacesDimensionsInfo()
             {
                 SqFtTotal = null,
@@ -31,10 +26,11 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 Latitude = default(decimal),
                 Longitude = default(decimal),
                 LegalDescLot = "legal desc",
+                Sqft = 12,
             };
 
             // Act
-            spacesDimensionsInfo.UpdateFromXml(xmlListing);
+            spacesDimensionsInfo.UpdateFromXml(xmlLsitng, manageSqft);
 
             // Assert
             var result = manageSqft ? xmlLsitng.Sqft : spacesDimensionsInfo.SqFtTotal;
