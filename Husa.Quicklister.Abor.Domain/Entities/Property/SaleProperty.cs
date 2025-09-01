@@ -490,7 +490,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public void SetMigrateFullListing(bool value) => this.migrateFullListing = value;
 
-        public void ImportFromXml(XmlListingDetailResponse listing, string companyName, Counties? county = null)
+        public void ImportFromXml(XmlListingDetailResponse listing, string companyName, Counties? county = null, bool manageSqft = false)
         {
             this.OwnerName = companyName;
             this.PlanId = listing.PlanId;
@@ -503,7 +503,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             var property = PropertyInfo.ImportFromXml(listing, this.PropertyInfo);
             this.UpdatePropertyInfo(property);
 
-            var spacesDimensions = SpacesDimensionsInfo.ImportFromXml(listing, this.SpacesDimensionsInfo);
+            var spacesDimensions = SpacesDimensionsInfo.ImportFromXml(listing, this.SpacesDimensionsInfo, manageSqft);
             this.UpdateSpacesDimensions(spacesDimensions, fromXml: true);
 
             var features = FeaturesInfo.ImportFromXml(listing, this.FeaturesInfo);

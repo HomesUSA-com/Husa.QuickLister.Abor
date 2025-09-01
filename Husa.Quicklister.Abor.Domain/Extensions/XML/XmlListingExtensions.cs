@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.XML
 
     public static class XmlListingExtensions
     {
-        public static void UpdateFromXml(this SaleListing listing, XmlListingDetailResponse xmlListing, bool ignoreRequestByCompletionDate = false, bool ignoreRequestByDescription = false)
+        public static void UpdateFromXml(this SaleListing listing, XmlListingDetailResponse xmlListing, bool ignoreRequestByCompletionDate = false, bool ignoreRequestByDescription = false, bool manageSqft = false)
         {
             ArgumentNullException.ThrowIfNull(xmlListing);
             if (xmlListing.Price.HasValue && listing.ListPrice.HasValue && xmlListing.Price.Value != listing.ListPrice.Value && listing.MlsStatus.IsAllowedStatusXmlForRequest())
@@ -18,6 +18,7 @@ namespace Husa.Quicklister.Abor.Domain.Extensions.XML
             listing.XmlListingId = xmlListing.Id;
             listing.SaleProperty.PropertyInfo.UpdateFromXml(xmlListing, ignoreRequestByCompletionDate);
             listing.SaleProperty.FeaturesInfo.UpdateFromXml(xmlListing, ignoreRequestByDescription);
+            listing.SaleProperty.SpacesDimensionsInfo.UpdateFromXml(xmlListing, manageSqft);
         }
     }
 }

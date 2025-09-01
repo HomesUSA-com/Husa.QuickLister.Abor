@@ -23,7 +23,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         public virtual int? FullBathsTotal { get; set; }
         public virtual int? LivingAreasTotal { get; set; }
 
-        public static SpacesDimensionsInfo ImportFromXml(XmlListingDetailResponse listing, SpacesDimensionsInfo spacesDimensions)
+        public static SpacesDimensionsInfo ImportFromXml(XmlListingDetailResponse listing, SpacesDimensionsInfo spacesDimensions, bool manageSqft = false)
         {
             var importedSpacesDimensions = new SpacesDimensionsInfo();
             if (spacesDimensions != null)
@@ -31,12 +31,16 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 importedSpacesDimensions = spacesDimensions.Clone();
             }
 
-            importedSpacesDimensions.SqFtTotal = listing.Sqft;
             importedSpacesDimensions.StoriesTotal = listing.Stories.ToStories();
             importedSpacesDimensions.HalfBathsTotal = listing.HalfBaths;
             importedSpacesDimensions.FullBathsTotal = listing.Baths;
             importedSpacesDimensions.MainLevelBedroomTotal = null;
             importedSpacesDimensions.OtherLevelsBedroomTotal = null;
+
+            if (manageSqft)
+            {
+                importedSpacesDimensions.SqFtTotal = listing.Sqft ?? importedSpacesDimensions.SqFtTotal;
+            }
 
             return importedSpacesDimensions;
         }
