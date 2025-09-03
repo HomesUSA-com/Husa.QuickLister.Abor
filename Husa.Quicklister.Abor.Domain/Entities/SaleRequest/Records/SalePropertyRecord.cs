@@ -151,6 +151,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         {
             if (community.HasOpenHouseChangesToSubmit)
             {
+                this.OpenHouses.Clear();
                 this.OpenHouses = [.. community.OpenHouses
                     .Select(oh => Records.OpenHouseRecord.CreateOpenHouse(oh))];
             }

@@ -160,19 +160,25 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             CommunitySale community,
             IUserContextProvider userContextProvider)
         {
+            this.SaleProperty.UpdateOpenHousesFromCommunitySubmit(community);
+            if (community.HasOpenHouseChangesToSubmit)
+            {
+                this.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
+            }
+
             var validationRequest = this.GenerateRequest(userContextProvider);
             if (validationRequest.HasErrors())
             {
+                var currentUserId = userContextProvider.GetCurrentUserId();
+                this.UpdateTrackValues(currentUserId);
                 return validationRequest;
             }
 
             var userId = userContextProvider.GetCurrentUserId();
             var newRequest = lastCompletedRequest.Clone();
-            this.SaleProperty.UpdateOpenHousesFromCommunitySubmit(community);
             newRequest.SaleProperty.UpdateOpenHousesFromCommunitySubmit(this.SaleProperty.Community);
             if (community.HasOpenHouseChangesToSubmit)
             {
-                this.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
                 newRequest.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
             }
 
@@ -201,7 +207,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                     throw new DomainException($"Cannot assign an empty mls number to the listing id {this.Id}");
                 }
 
-                this.MlsNumber = mlsNumber;
+                this.MlsNumber = mlsNumber.Trim();
 
                 if (!isDownloaderEnabled && this.ListDate == null)
                 {

@@ -160,16 +160,6 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             return await query.ToListAsync();
         }
 
-        public async override Task SaveChangesAsync()
-        {
-            if (!this.context.ChangeTracker.HasChanges())
-            {
-                return;
-            }
-
-            await this.ApplyChangesAsync();
-        }
-
         protected override SavedChangesLog CreateChangesLog(SaleListing originalEntity, SaleListing updatedEntity)
         {
             var currentUser = this.userContextProvider.GetCurrentUser();

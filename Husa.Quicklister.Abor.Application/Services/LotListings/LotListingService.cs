@@ -212,6 +212,11 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             listing.CommunityId = communityId;
         }
 
+        protected override Task AutomaticReverseProspect()
+        {
+            throw new NotImplementedException();
+        }
+
         private async Task ImportDataFromListingAsync(LotListing lotListingEntity, Guid listingIdToImport)
         {
             var listing = await this.ListingRepository.GetById(listingIdToImport) ?? throw new NotFoundException<LotListing>(listingIdToImport);

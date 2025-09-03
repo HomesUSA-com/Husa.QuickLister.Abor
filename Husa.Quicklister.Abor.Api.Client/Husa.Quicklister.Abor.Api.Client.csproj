@@ -8,12 +8,10 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.21.10</Version>
+        <Version>2.22.3</Version>
         <PackageReleaseNotes>
-            Release 2.21.10:
-            - Add fields to community showing responses
-            - Update nugets
-            - Update ShowingTime fields
+            Release 2.22.3:
+            - Update ShowingTime FedbackTemplate enum
             - Add modification of MLS Number to lots
             - Add other to AccessMethod
             - Add 'Hisle' to Elementary Schools
@@ -23,7 +21,7 @@
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.2.1" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.18.9" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.19.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -43,4 +41,3 @@
         </ItemGroup>
     </Target>
 </Project>
-
