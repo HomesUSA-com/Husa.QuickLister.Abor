@@ -12,14 +12,15 @@ namespace Husa.Quicklister.Abor.Application.Tests.Providers
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Uploader;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
     public class TestLotListingRequestService : LotListingRequestService
     {
-        public TestLotListingRequestService(ILotListingRequestRepository saleRequestRepository, ILotListingRepository listingRepository, ILotListingRequestMediaService mediaService, IUserContextProvider userContextProvider, ICommunitySaleRepository saleCommunityRepository, IMapper mapper, ILogger<LotListingRequestService> logger, IOptions<ApplicationOptions> options, IEmailService emailService, IUserRepository userRepository, IProvideShowingTimeContacts showingTimeContactsProvider)
-            : base(saleRequestRepository, listingRepository, mediaService, userContextProvider, saleCommunityRepository, mapper, logger, options, emailService, userRepository, showingTimeContactsProvider)
+        public TestLotListingRequestService(ILotListingRequestRepository saleRequestRepository, ILotListingRepository listingRepository, IUploaderService uploaderService, ILotListingRequestMediaService mediaService, IUserContextProvider userContextProvider, ICommunitySaleRepository saleCommunityRepository, IMapper mapper, ILogger<LotListingRequestService> logger, IOptions<ApplicationOptions> options, IEmailService emailService, IUserRepository userRepository, IProvideShowingTimeContacts showingTimeContactsProvider)
+            : base(saleRequestRepository, listingRepository, uploaderService, mediaService, userContextProvider, saleCommunityRepository, mapper, logger, options, emailService, userRepository, showingTimeContactsProvider)
         {
         }
 

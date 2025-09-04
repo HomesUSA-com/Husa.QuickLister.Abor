@@ -8,6 +8,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
     using Husa.Quicklister.Abor.Domain.Extensions.XML;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Uploader;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
     using Husa.Xml.Api.Contracts.Response;
@@ -18,10 +19,11 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
     {
         public ListingRequestXmlService(
             ISaleListingRequestMediaService mediaService,
+            IUploaderService uploaderService,
             ISaleListingRequestRepository requestRepository,
             IUserContextProvider userContextProvider,
             ILogger<ListingRequestXmlService> logger)
-            : base(mediaService, requestRepository, userContextProvider, logger)
+            : base(mediaService, uploaderService, requestRepository, userContextProvider, logger)
         {
         }
 
