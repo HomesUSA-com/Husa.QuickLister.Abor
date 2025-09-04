@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
     using Husa.Quicklister.Abor.Domain.Extensions.JsonImport;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Uploader;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -21,9 +22,10 @@ namespace Husa.Quicklister.Abor.Application.Services.ListingRequests
             ISaleListingRequestMediaService mediaService,
             ISaleListingRequestRepository requestRepository,
             IUserContextProvider userContextProvider,
+            IUploaderService uploaderService,
             IRequestErrorRepository requestErrorRepository,
             ILogger<ListingRequestJsonImportService> logger)
-            : base(mediaService, requestRepository, userContextProvider, requestErrorRepository, logger)
+            : base(mediaService, requestRepository, userContextProvider, uploaderService, requestErrorRepository, logger)
         {
         }
 

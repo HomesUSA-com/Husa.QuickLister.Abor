@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Uploader;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
@@ -44,6 +45,7 @@ namespace Husa.Quicklister.Abor.Application.Services
         public LotListingRequestService(
             ILotListingRequestRepository saleRequestRepository,
             ILotListingRepository listingRepository,
+            IUploaderService uploaderService,
             ILotListingRequestMediaService mediaService,
             IUserContextProvider userContextProvider,
             ICommunitySaleRepository saleCommunityRepository,
@@ -59,6 +61,7 @@ namespace Husa.Quicklister.Abor.Application.Services
                   userContextProvider,
                   saleCommunityRepository,
                   listingRepository,
+                  uploaderService,
                   emailService,
                   mapper,
                   logger,
