@@ -12,6 +12,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Uploader;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
@@ -26,12 +27,13 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ListingRequests
         private readonly Mock<ISaleListingRequestMediaService> mediaService = new();
         private readonly Mock<ILogger<ListingRequestJsonImportService>> logger = new();
         private readonly Mock<IUserContextProvider> userContextProvider = new();
+        private readonly Mock<IUploaderService> uploaderService = new();
         private readonly Mock<IRequestErrorRepository> pequestErrorRepository = new();
         private readonly ListingRequestJsonImportService sut;
 
         public ListingRequestJsonImportServiceTests()
         {
-            this.sut = new(this.mediaService.Object, this.requestRepository.Object, this.userContextProvider.Object, this.pequestErrorRepository.Object, this.logger.Object);
+            this.sut = new(this.mediaService.Object, this.requestRepository.Object, this.userContextProvider.Object, this.uploaderService.Object, this.pequestErrorRepository.Object, this.logger.Object);
         }
 
         [Fact]

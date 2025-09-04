@@ -73,6 +73,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using ApplicationOptions = Husa.Quicklister.Abor.Crosscutting.ApplicationOptions;
     using IAgentQueriesRepository = Husa.Quicklister.Abor.Data.Queries.Interfaces.IAgentQueriesRepository;
     using InterfaceExtensions = Husa.Quicklister.Extensions.Application.Interfaces;
+    using QLExtension = Husa.Quicklister.Extensions.Application;
     using QueryRepositoriesExtensions = Husa.Quicklister.Extensions.Data.Queries.Repositories;
     using RepositoriesExtensions = Husa.Quicklister.Extensions.Domain.Repositories;
 
@@ -185,7 +186,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<InterfaceExtensions.JsonImport.IListingJsonImportService, ListingJsonImportService>();
             services.AddScoped<IListingRequestXmlService<XmlListingDetailResponse>, ListingRequestXmlService>();
             services.AddScoped<InterfaceExtensions.Listing.ISaleListingHistoryService, SaleListingHistoryService>();
-
+            services.AddScoped<QLExtension.Interfaces.Uploader.IUploaderService, QLExtension.Services.Uploader.UploaderService>();
             services.AddScoped<IShowingTimeContactService, ShowingTimeContactService>();
 
             services.ConfigureLegacyListingService(Migration.Enums.MigrationMarketType.Austin);
