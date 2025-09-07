@@ -106,6 +106,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 TaxId = "1245",
                 LotSize = "5",
                 TaxLot = "2",
+                MlsArea = MlsArea.BA,
                 LotDescription = new List<LotDescription>() { LotDescription.Agricultural },
                 PropertyType = PropertySubType.Condominium,
             });
