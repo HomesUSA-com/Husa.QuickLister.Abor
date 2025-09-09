@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest.SaleRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ReverseProspect;
+    using Husa.Quicklister.Abor.Api.Filters;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Interfaces.Uploader;
@@ -125,6 +126,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         }
 
         [HttpPut("{listingId:guid}")]
+        [SavingListingValidationFilter]
         [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> UpdateListing([FromRoute] Guid listingId, ListingSaleDetailRequest saleListingRequest)
         {

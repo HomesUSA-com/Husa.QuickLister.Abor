@@ -66,6 +66,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
 
             var query = this.context.ListingSale
                 .FilterNotDeleted()
+                .FilterInactives(queryFilter.Inactive)
                 .FilterByCompany(currentUser)
                 .FilterByCommunities(communityIds)
                 .FilterByPlan(queryFilter.PlanId)

@@ -17,6 +17,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.LotListing;
+    using Husa.Quicklister.Abor.Api.Filters;
     using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Models;
@@ -97,13 +98,13 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpPut("{listingId:guid}")]
+        [SavingLotListingValidationFilter]
         [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> UpdateListing([FromRoute] Guid listingId, LotListingDetailRequest saleListingRequest)
         {
             this.logger.LogInformation("Received request to UPDATE sale listing with Id '{listingId}'.", listingId);
 
             var lotListing = this.mapper.Map<LotListingDto>(saleListingRequest);
-
             await this.listingService.UpdateListing(listingId, lotListing);
 
             return this.Ok();
