@@ -48,9 +48,10 @@ namespace Husa.Quicklister.Abor.Api.Controllers
             ExtensionInterface.ICallForwardService callForwardService,
             IUploaderService austinUploaderService,
             IMediaService mediaService,
+            ExtensionInterface.IListingDeletionService deletionService,
             ILogger<SaleListingsController> logger,
             IMapper mapper)
-            : base(listingSaleService, callForwardService, listingSaleQueriesRepository, mapper, logger)
+            : base(listingSaleService, callForwardService, listingSaleQueriesRepository, deletionService, mapper, logger)
         {
             this.austinUploaderService = austinUploaderService ?? throw new ArgumentNullException(nameof(austinUploaderService));
             this.listingSaleQueriesRepository = listingSaleQueriesRepository ?? throw new ArgumentNullException(nameof(listingSaleQueriesRepository));
@@ -115,7 +116,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         {
             this.logger.LogInformation("Starting to add in Listing in ABOR with Address: {StreetNumber} {StreetName} ", listingSale.StreetNumber, listingSale.StreetName);
             var listingSaleRequest = this.mapper.Map<QuickCreateListingDto>(listingSale);
-            var queryResponse = await this.listingService.CreateAsync(listingSaleRequest);
+            var queryResponse = await this.saleListingService.CreateAsync(listingSaleRequest);
 
             if (queryResponse.Code == ResponseCode.Error)
             {
@@ -134,18 +135,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
 
             var listingSale = this.mapper.Map<SaleListingDto>(saleListingRequest);
 
-            await this.listingService.UpdateListing(listingId, listingSale);
-
-            return this.Ok();
-        }
-
-        [HttpDelete("{listingId:guid}")]
-        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
-        public async Task<IActionResult> DeleteListing([FromRoute] Guid listingId)
-        {
-            this.logger.LogInformation("Received request to DELETE sale listing with Id '{listingId}'.", listingId);
-
-            await this.listingService.DeleteListing(listingId);
+            await this.saleListingService.UpdateListing(listingId, listingSale);
 
             return this.Ok();
         }
@@ -156,7 +146,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         {
             this.logger.LogInformation("Starting the process to change the community linked to the listing Id '{listingId}' for the Community Id '{communityId}'", listingId, communityId);
 
-            await this.listingService.ChangeCommunity(listingId, communityId);
+            await this.saleListingService.ChangeCommunity(listingId, communityId);
 
             return this.Ok();
         }
@@ -167,7 +157,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         {
             this.logger.LogInformation("Starting the process to change the plan profile linked to the listing Id '{listingId}' for the Plan Profile Id '{planId}'", listingId, planId);
 
-            await this.listingService.ChangePlan(listingId, planId, updateRooms);
+            await this.saleListingService.ChangePlan(listingId, planId, updateRooms);
 
             return this.Ok();
         }
@@ -196,7 +186,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.BadRequest(listingId);
             }
 
-            var queryResponse = await this.listingService.CloseListing(listingId);
+            var queryResponse = await this.saleListingService.CloseListing(listingId);
             if (queryResponse.Code == ResponseCode.Error)
             {
                 return this.BadRequest(queryResponse);
@@ -241,7 +231,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
                 return this.BadRequest(listingId);
             }
 
-            await this.listingService.DeclinePhotos(listingId);
+            await this.saleListingService.DeclinePhotos(listingId);
 
             return this.Ok();
         }
@@ -261,7 +251,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers
         public async Task<IActionResult> UpdateActionTypeAsync(Guid listingId, ActionTypeRequest listingRequestForUpdate, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Start to update action type from listing {listingId}", listingId);
-            await this.listingService.UpdateActionTypeAsync(listingId, listingRequestForUpdate.ActionType, cancellationToken);
+            await this.saleListingService.UpdateActionTypeAsync(listingId, listingRequestForUpdate.ActionType, cancellationToken);
             return this.Ok();
         }
     }

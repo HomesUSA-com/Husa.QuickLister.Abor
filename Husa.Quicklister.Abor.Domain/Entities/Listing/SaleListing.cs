@@ -316,6 +316,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.SaleProperty.CompanyId = companyId;
         }
 
+        protected override void DeleteChildren(Guid userId)
+        {
+            this.SaleProperty.Delete(userId, true);
+        }
+
         protected override IEnumerable<object> GetEntityEqualityComponents()
         {
             yield return this.SalePropertyId;

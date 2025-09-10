@@ -14,6 +14,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
     using Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
+    using Husa.Quicklister.Abor.Domain.Entities.Property;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest;
     using Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records;
     using Husa.Quicklister.Abor.Domain.Enums;
@@ -365,6 +366,28 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             Assert.Equal(newCompanyId, listing.CompanyId);
             Assert.Equal(newCompanyId, listing.SaleProperty.CompanyId);
             Assert.Equal(newCompanyName, listing.SaleProperty.OwnerName);
+        }
+
+        [Fact]
+        public void Delete_InvokesDeleteChildren()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            var listing = ListingTestProvider.GetListingEntity(Guid.NewGuid());
+
+            var salePropertyMock = new Mock<SaleProperty>();
+            salePropertyMock.Setup(sp => sp.Delete(It.IsAny<Guid>(), It.IsAny<bool>())).Verifiable();
+            listing.SaleProperty = salePropertyMock.Object;
+
+            var methodInfo = typeof(SaleListing).GetMethod(
+                "DeleteChildren",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            // Act
+            methodInfo.Invoke(listing, new object[] { userId });
+
+            // Assert
+            salePropertyMock.Verify(sp => sp.Delete(userId, true), Times.Once);
         }
 
         private static IUserContextProvider GetIUserContextProvider()

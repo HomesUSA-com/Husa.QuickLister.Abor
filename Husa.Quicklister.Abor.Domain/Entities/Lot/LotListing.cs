@@ -171,6 +171,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             throw new NotImplementedException();
         }
 
+        protected override void DeleteChildren(Guid userId)
+        {
+            this.ManagementTraces.Clear();
+        }
+
         protected override IEnumerable<object> GetEntityEqualityComponents()
         {
             yield return this.OwnerName;

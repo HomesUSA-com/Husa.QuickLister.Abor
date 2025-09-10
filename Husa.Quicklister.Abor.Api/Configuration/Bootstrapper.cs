@@ -144,6 +144,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.AddScoped<ILotListingService, LotListingService>();
             services.AddScoped<ILotListingRequestService, LotListingRequestService>();
+            services.AddScoped<InterfaceExtensions.Lot.ILotListingDeletionService, LotListingDeletionService>();
             services.AddScoped<InterfaceExtensions.Lot.ILotListingLockService, LotListingLockService>();
 
             services.AddScoped<ICommunityHistoryService, CommunityHistoryService>();
@@ -178,6 +179,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<InterfaceExtensions.JsonImport.IListingJsonImportService, ListingJsonImportService>();
             services.AddScoped<IListingRequestXmlService<XmlListingDetailResponse>, ListingRequestXmlService>();
             services.AddScoped<InterfaceExtensions.Listing.ISaleListingHistoryService, SaleListingHistoryService>();
+            services.AddScoped<InterfaceExtensions.Listing.IListingDeletionService, SaleListingDeletionService>();
             services.AddScoped<QLExtension.Interfaces.Uploader.IUploaderService, QLExtension.Services.Uploader.UploaderService>();
             services.AddScoped<IShowingTimeContactService, ShowingTimeContactService>();
 
