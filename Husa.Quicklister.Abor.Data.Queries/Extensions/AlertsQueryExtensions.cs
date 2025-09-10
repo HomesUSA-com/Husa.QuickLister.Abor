@@ -35,6 +35,8 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             { AlertType.ComparableAndRelistListing, ComparableAndRelistListingsExpression },
             { AlertType.CompletedHomesWithoutPhotoRequest, CompletedHomesWithoutPhotoRequestExpression },
             { AlertType.LockedListingsImported, LockedListingsImportedExpression },
+            { AlertType.InactiveDraftListings25Days, InactiveDraftListing25Days },
+            { AlertType.InactiveDraftListings28Days, InactiveDraftListing28Days },
         };
 
         // Temp Off Market - Back on Market (BOM) Date - Due in 7 days or Less
@@ -172,5 +174,13 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
             listing.SaleProperty.PropertyInfo.ConstructionCompletionDate.HasValue &&
             listing.SaleProperty.PropertyInfo.ConstructionCompletionDate.Value <= DateTime.UtcNow &&
             !listing.IsPhotosDeclined;
+
+        // Inactive Draft Listings 25 Days
+        public static Expression<Func<SaleListing, bool>> InactiveDraftListing25Days => listing =>
+            string.IsNullOrEmpty(listing.MlsNumber) && listing.SysModifiedOn.Value.Date == DateTime.UtcNow.AddDays(-25).Date;
+
+        // Inactive Draft Listings 28 Days
+        public static Expression<Func<SaleListing, bool>> InactiveDraftListing28Days => listing =>
+            string.IsNullOrEmpty(listing.MlsNumber) && listing.SysModifiedOn.Value.Date == DateTime.UtcNow.AddDays(-28).Date;
     }
 }
