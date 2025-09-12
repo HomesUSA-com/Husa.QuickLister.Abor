@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Email;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Lot;
     using Husa.Quicklister.Extensions.Application.Models.Listing;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -20,6 +21,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
         private readonly Mock<ILogger<LotListingDeletionService>> loggerMock = new();
         private readonly Mock<IUserContextProvider> userContextProviderMock = new();
         private readonly Mock<IEmailService> emailServiceMock = new();
+        private readonly Mock<ILotListingMediaService> lotListingMediaService = new();
         private readonly LotListingDeletionService sut;
 
         public LotListingDeletionServiceTests()
@@ -28,7 +30,8 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.LotListings
                 this.listingRepositoryMock.Object,
                 this.loggerMock.Object,
                 this.userContextProviderMock.Object,
-                this.emailServiceMock.Object);
+                this.emailServiceMock.Object,
+                this.lotListingMediaService.Object);
         }
 
         [Fact]

@@ -16,8 +16,9 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             ILotListingRepository listingRepository,
             ILogger<LotListingDeletionService> logger,
             IUserContextProvider userContextProvider,
-            IEmailService emailService)
-            : base(listingRepository, logger, userContextProvider, emailService)
+            IEmailService emailService,
+            ILotListingMediaService lotListingMediaService)
+            : base(listingRepository, logger, userContextProvider, emailService, lotListingMediaService)
         {
         }
 
