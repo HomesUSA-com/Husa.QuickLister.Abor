@@ -37,8 +37,9 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
            CosmosClient cosmosClient,
            IUserContextProvider userContextProvider,
            ILogger<ListingSaleRepository> logger,
-           IOptions<DocumentDbSettings> options)
-           : base(context, cosmosClient, userContextProvider, logger, options.Value.DatabaseName, options.Value.ListingChangesCollectionName)
+           IOptions<DocumentDbSettings> options,
+           IOptions<Crosscutting.ApplicationOptions> applicationOptions)
+           : base(context, cosmosClient, userContextProvider, logger, options.Value.DatabaseName, options.Value.ListingChangesCollectionName, applicationOptions)
         {
         }
 
