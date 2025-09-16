@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Interfaces.Listing;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Photo;
     using Husa.Quicklister.Extensions.Application.Models.Listing;
     using Husa.Quicklister.Extensions.Application.Services.Listings;
     using Microsoft.Extensions.Logging;
@@ -17,8 +18,9 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             ILogger<SaleListingDeletionService> logger,
             IUserContextProvider userContextProvider,
             IEmailService emailService,
-            ISaleListingMediaService saleListingMediaService)
-            : base(listingRepository, logger, userContextProvider, emailService, saleListingMediaService)
+            ISaleListingMediaService saleListingMediaService,
+            IPhotoBusService photoBusService)
+            : base(listingRepository, logger, userContextProvider, emailService, saleListingMediaService, photoBusService)
         {
         }
 

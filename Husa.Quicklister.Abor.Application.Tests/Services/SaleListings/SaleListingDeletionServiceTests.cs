@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Interfaces.Listing;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Photo;
     using Husa.Quicklister.Extensions.Application.Models.Listing;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -22,6 +23,7 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
         private readonly Mock<IUserContextProvider> userContextProviderMock = new();
         private readonly Mock<IEmailService> emailServiceMock = new();
         private readonly Mock<ISaleListingMediaService> saleListingMediaService = new();
+        private readonly Mock<IPhotoBusService> photoBusServiceMock = new();
         private readonly SaleListingDeletionService sut;
 
         public SaleListingDeletionServiceTests()
@@ -31,7 +33,8 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.SaleListings
                 this.loggerMock.Object,
                 this.userContextProviderMock.Object,
                 this.emailServiceMock.Object,
-                this.saleListingMediaService.Object);
+                this.saleListingMediaService.Object,
+                this.photoBusServiceMock.Object);
         }
 
         [Fact]
