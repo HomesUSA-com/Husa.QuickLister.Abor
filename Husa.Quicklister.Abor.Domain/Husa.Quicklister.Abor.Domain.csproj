@@ -15,7 +15,7 @@
         <PackageReference Include="Husa.Downloader.CTX.Api.Client" Version="2.4.1" />
         <PackageReference Include="Husa.Extensions.Authorization" Version="4.3.1" />
         <PackageReference Include="Husa.Extensions.Domain" Version="2.1.5" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Domain" Version="2.25.0-dev005" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Domain" Version="2.25.0-dev006" />
     </ItemGroup>
 
     <ItemGroup>
