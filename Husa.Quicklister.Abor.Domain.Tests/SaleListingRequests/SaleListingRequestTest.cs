@@ -231,6 +231,24 @@ namespace Husa.Quicklister.Abor.Domain.Tests.SaleListingRequests
             Assert.NotEmpty(errors);
         }
 
+        [Fact]
+        public void CreateFeaturesRecord_GarageSpacesZero_SetsGarageDescriptionNone()
+        {
+            // Arrange
+            var features = ListingTestProvider.GetFeaturesInfo();
+            features.GarageSpaces = 0;
+            features.GarageDescription = null;
+
+            var featuresRecord = FeaturesRecord.CreateRecord(features);
+
+            // Act
+            var garageDescription = featuresRecord.GarageDescription;
+
+            // Assert
+            Assert.NotNull(garageDescription);
+            Assert.Contains(GarageDescription.None, garageDescription);
+        }
+
         private static Mock<SaleListingRequest> GetListingRequest(DateTime? creationDate)
         {
             var creationDateTime = creationDate ?? DateTime.UtcNow;

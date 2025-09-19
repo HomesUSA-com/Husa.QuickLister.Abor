@@ -8,6 +8,9 @@ namespace Husa.Quicklister.Abor.Domain.Enums.Domain
         [EnumMember(Value = "ALLEYACC")]
         [Description("Alley Access")]
         AlleyAccess,
+        [EnumMember(Value = "NONE")]
+        [Description("None")]
+        None,
         [EnumMember(Value = "Attached")]
         [Description("Attached")]
         Attached,
