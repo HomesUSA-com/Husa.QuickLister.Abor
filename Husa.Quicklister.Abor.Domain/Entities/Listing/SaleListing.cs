@@ -34,6 +34,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         IListingInvoiceInfo,
         IListingPlan<Plan>,
         IListingCommunity<CommunitySale>,
+        IProvideMlsStatus<MarketStatuses>,
         IProvideLegacy
     {
         public const int YearsInThePast = -2;

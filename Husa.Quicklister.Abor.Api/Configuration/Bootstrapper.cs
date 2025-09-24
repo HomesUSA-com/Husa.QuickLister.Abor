@@ -49,12 +49,14 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Data;
     using Husa.Quicklister.Abor.Data.Commands.Repositories;
+    using Husa.Quicklister.Abor.Data.Documents.Providers;
     using Husa.Quicklister.Abor.Data.Documents.Repositories;
     using Husa.Quicklister.Abor.Data.Queries;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Api.Configuration;
+    using Husa.Quicklister.Extensions.Api.Mappings;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Application.Interfaces.ShowingTime;
     using Husa.Quicklister.Extensions.Crosscutting;
@@ -124,6 +126,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IQueryListingBillingRepository, ListingBillingQueriesRepository>();
             services.AddScoped<IListingRequestBillingQueryRepository, ListingRequestBillingQueriesRepository>();
             services.AddScoped<ICompanyCacheRepository, QueryRepositoriesExtensions.CompanyCacheRepository<ApplicationOptions>>();
+            services.AddScoped<IKpiQueriesRequestProvider, KpiQueriesRequestProvider>();
+            services.AddScoped<IKpiQueryRepository, KpiQueriesRepository>();
             services.AddExtensionRepositories();
             return services;
         }
@@ -241,6 +245,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
         {
             var config = MapperConfigurationExtensions.Configure
                 .AddMapping<ListingsMappingProfile>()
+                .AddMappingProfile<KpiMappingProfile>()
                 .Build();
 
             return config.CreateMapper();
