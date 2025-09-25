@@ -48,7 +48,11 @@ deployment:
       #   initialDelaySeconds: 30
       #   periodSeconds: 20
   nodeSelector: {}
-  tolerations: []
+  tolerations:
+  - key: "os"
+    operator: "Equal"
+    value: "windows"
+    effect: "NoSchedule"
   affinity: {}
   imagePullSecrets: [] 
 
