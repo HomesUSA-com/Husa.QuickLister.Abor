@@ -52,6 +52,13 @@ steps:
     sed -i "s/^version: .*/version: $version/" $chartPath
   displayName: 'Update Chart Version'
 
+- script: |
+    valuesFile="$(dirname $(helmChartPath))/values.yaml"
+    newTag="$(Build.BuildId)_$(Build.SourceBranchName)_$(date +%Y%m%d)"
+    echo "Updating image tag in $valuesFile to $newTag"
+    sed -i "s|tag:.*|tag: \"$newTag\"|" $valuesFile
+  displayName: 'Update Image Tag in values.yaml'
+
 - script: helm package $(System.DefaultWorkingDirectory)/Helm/$(helmRepository)
   displayName: 'Package Helm Chart'
 

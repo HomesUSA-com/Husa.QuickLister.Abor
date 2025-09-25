@@ -1,35 +1,72 @@
 service:
-  name: quicklisterabor-service
-  annotations:
-    azureLoadBalancerResourceGroup: HomesUSA-DEV
-    azurePipName: pip-aks-husa-ql-abor-cus-dev
-  type: LoadBalancer
-  ports:
-    port: 80
-    targetPort: 8080
+  enabled: true
+  name: quicklisterabor
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
   selector:
     app: quicklisterabor
-
 
 deployment:
-  name: quicklisterabor-deployment
-  namespace: default
-  replicas: 1
-  selector:
+  name: quicklisterabor
+  namespace: dev
+  labels:
     app: quicklisterabor
-  template:
-    labels:
-      app: quicklisterabor
-      azureWorkloadIdentityUse: "true"  # Required. Only pods with this label can use workload identity.
-    serviceAccountName: saquicklisterabor
-    containers:
-        name: quicklisterabor
-        image: #{ImageName}#
-        containerPort: 8080
-        env:
-          AZURE_APPCONFIGURATION_ENDPOINT: "https://aac-husa-cus-dev.azconfig.io"
+    "azure.workload.identity/use": "true"
+  replicas: 1
+  serviceAccountName: myserviceaccount
+  containers:
+    - name: quicklisterabor
+      image: "acrhomesusadev.azurecr.io/quicklister.abor"   # full image here
+      tag: "latest"
+      imagePullPolicy: "IfNotPresent"
+      containerPort: 8080
+      env:
+        - name: AZURE_APPCONFIGURATION_ENDPOINT
+          value: "https://aac-husa-cus-dev.azconfig.io"
+        - name: AZURE_CLIENT_ID
+          value: 32313547-be6e-4ae3-bfd5-330845d6da8b # terraform output app_client_id
+        - name: AZURE_FEDERATED_TOKEN_FILE
+          value: /var/run/secrets/kubernetes.io/serviceaccount/token
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+      # readinessProbe:
+      #   httpGet:
+      #     path: /healthz
+      #     port: 8080
+      #   initialDelaySeconds: 5
+      #   periodSeconds: 10
+      # livenessProbe:
+      #   httpGet:
+      #     path: /healthz
+      #     port: 8080
+      #   initialDelaySeconds: 30
+      #   periodSeconds: 20
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  imagePullSecrets: [] 
 
-serviceaccount:
-  clientid: "e32a6848-681d-4e09-82e1-ab59c88e6a69"
-  name: saquicklisterabor
-  namespace: default
+# NEW ingress section
+ingress:
+  enabled: true
+  className: "nginx" 
+  annotations: 
+        cert-manager.io/cluster-issuer: letsencrypt-azuredns
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/proxy-body-size: 50m
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: qlabor.aks.homesusa.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: 
+    - secretName: wildcard-aks-homesusa-tls
+      hosts:
+        - qlabor.aks.homesusa.com

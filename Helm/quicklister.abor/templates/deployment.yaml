@@ -1,25 +1,66 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.deployment.name }}
-  namespace: {{ .Values.deployment.namespace }}
+  name: {{ .Values.deployment.name | default (include "companyservice.fullname" .) }}
+  labels:
+    {{- range $k, $v := .Values.deployment.labels }}
+    {{ $k }}: {{ $v | quote }}
+    {{- end }}
 spec:
-  replicas: {{ .Values.deployment.replicas }}
+  replicas: {{ .Values.deployment.replicas | default 1 }}
   selector:
     matchLabels:
-      app: {{ .Values.deployment.selector.app }}
+      {{- range $k, $v := .Values.deployment.labels }}
+      {{ $k }}: {{ $v | quote }}
+      {{- end }}
   template:
     metadata:
       labels:
-        app: {{ .Values.deployment.template.labels.app }}
-        azure.workload.identity/use: "true"  # Required. Only pods with this label can use workload identity.
+        {{- range $k, $v := .Values.deployment.labels }}
+        {{ $k }}: {{ $v | quote }}
+        {{- end }}
     spec:
-      serviceAccountName: {{ .Values.deployment.template.serviceAccountName }}
+      serviceAccountName: {{ .Values.deployment.serviceAccountName | default "myserviceaccount" }}
       containers:
-        - name: {{ .Values.deployment.template.containers.name }}
-          image: {{ .Values.deployment.template.containers.image }}
+        {{- range .Values.deployment.containers }}
+        - name: {{ .name | quote }}
+          image: "{{ .image }}:{{ .tag }}"
+          imagePullPolicy: {{ .imagePullPolicy | default "IfNotPresent" }}
           ports:
-            - containerPort: {{ .Values.deployment.template.containers.containerPort }}
+            - containerPort: {{ .containerPort }}
           env:
-          - name: AZURE_APPCONFIGURATION_ENDPOINT
-            value: {{ .Values.deployment.template.containers.env.AZURE_APPCONFIGURATION_ENDPOINT }}
+            {{- range .env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+          {{- if .resources }}
+          resources:
+            {{ toYaml .resources | nindent 12 }}
+          {{- end }}
+          {{- if .readinessProbe }}
+          readinessProbe:
+            {{ toYaml .readinessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .livenessProbe }}
+          livenessProbe:
+            {{ toYaml .livenessProbe | nindent 12 }}
+          {{- end }}
+        {{- end }}
+      {{- if .Values.deployment.imagePullSecrets }}
+      imagePullSecrets:
+        {{- range .Values.deployment.imagePullSecrets }}
+        - name: {{ .name }}
+        {{- end }}
+      {{- end }}      
+      {{- if .Values.deployment.nodeSelector }}
+      nodeSelector:
+        {{ toYaml .Values.deployment.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment.tolerations }}
+      tolerations:
+        {{ toYaml .Values.deployment.tolerations | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment.affinity }}
+      affinity:
+        {{ toYaml .Values.deployment.affinity | nindent 8 }}
+      {{- end }}
