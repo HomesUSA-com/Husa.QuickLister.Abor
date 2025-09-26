@@ -30,8 +30,8 @@ deployment:
           value: /var/run/secrets/kubernetes.io/serviceaccount/token
       resources:
         requests:
-          cpu: 100m
-          memory: 128Mi
+          cpu: 10m
+          memory: 12Mi
         limits:
           cpu: 500m
           memory: 512Mi
