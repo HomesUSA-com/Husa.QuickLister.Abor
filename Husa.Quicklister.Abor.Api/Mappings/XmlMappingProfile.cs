@@ -29,7 +29,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.ConstructionCompletionDate, c => c.Ignore())
                 .ForMember(dto => dto.ListingIdToImport, c => c.Ignore())
                 .ForMember(dto => dto.IsManuallyManaged, c => c.Ignore())
-                .ForMember(dto => dto.StreetType, c => c.Ignore())
+                .ForMember(dto => dto.StreetType, c => c.MapFrom(x => x.StreetSuffix.ToStreetType(false) ?? StreetType.None))
                 .ForMember(dto => dto.UnitNumber, c => c.MapFrom(x => x.UnitIndicator))
                 .ForMember(dto => dto.LegacyId, c => c.Ignore());
 
