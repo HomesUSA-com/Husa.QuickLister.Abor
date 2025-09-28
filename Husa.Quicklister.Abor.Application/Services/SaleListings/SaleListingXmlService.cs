@@ -186,6 +186,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             var requestResponse = await this.saleListingRequestService.CreateRequestAsync(
                 listing,
                 xmlListing,
+                manageSqft: companyDetail.SettingInfo.EnableSqftManagementByXml,
                 ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate,
                 ignoreRequestByDescription: companyDetail.SettingInfo.StopXMLDescriptionManagement,
                 hasMediaChanges: hasMediaChanges);
