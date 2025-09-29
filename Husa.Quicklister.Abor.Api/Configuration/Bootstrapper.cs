@@ -56,7 +56,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Api.Configuration;
-    using Husa.Quicklister.Extensions.Api.Mappings;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
     using Husa.Quicklister.Extensions.Application.Interfaces.ShowingTime;
     using Husa.Quicklister.Extensions.Crosscutting;
@@ -245,7 +244,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
         {
             var config = MapperConfigurationExtensions.Configure
                 .AddMapping<ListingsMappingProfile>()
-                .AddMappingProfile<KpiMappingProfile>()
                 .Build();
 
             return config.CreateMapper();
