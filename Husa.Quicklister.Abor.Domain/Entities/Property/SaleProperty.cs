@@ -36,6 +36,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             States state,
             string zipCode,
             Counties? county,
+            StreetType? streetType,
             DateTime? constructionCompletionDate,
             Guid companyId,
             string ownerName,
@@ -48,7 +49,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.OwnerName = ownerName;
             this.CommunityId = communityId;
             this.PropertyInfo = new(constructionCompletionDate);
-            this.AddressInfo = new(streetNum, streetName, unitNumber, zipCode, city, state, county);
+            this.AddressInfo = new(streetNum, streetName, unitNumber, zipCode, city, state, county, streetType);
             this.ShowingInfo = new(ownerName);
         }
 
@@ -489,7 +490,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public void SetMigrateFullListing(bool value) => this.migrateFullListing = value;
 
-        public void ImportFromXml(XmlListingDetailResponse listing, string companyName, Counties? county = null)
+        public void ImportFromXml(XmlListingDetailResponse listing, string companyName, Counties? county = null, bool manageSqft = false)
         {
             this.OwnerName = companyName;
             this.PlanId = listing.PlanId;
@@ -502,7 +503,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             var property = PropertyInfo.ImportFromXml(listing, this.PropertyInfo);
             this.UpdatePropertyInfo(property);
 
-            var spacesDimensions = SpacesDimensionsInfo.ImportFromXml(listing, this.SpacesDimensionsInfo);
+            var spacesDimensions = SpacesDimensionsInfo.ImportFromXml(listing, this.SpacesDimensionsInfo, manageSqft);
             this.UpdateSpacesDimensions(spacesDimensions, fromXml: true);
 
             var features = FeaturesInfo.ImportFromXml(listing, this.FeaturesInfo);
@@ -524,7 +525,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
         }
 
-        protected override void DeleteChildren(Guid userId) => throw new NotImplementedException();
+        protected override void DeleteChildren(Guid userId)
+        {
+            this.Rooms.Clear();
+            this.OpenHouses.Clear();
+        }
 
         protected bool AreRoomsEqual(ICollection<ListingSaleRoom> other)
         {
@@ -644,7 +649,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 throw new ArgumentNullException(nameof(addressInfo));
             }
 
-            this.AddressInfo = new(addressInfo.StreetNumber, addressInfo.StreetName, addressInfo.UnitNumber, addressInfo.ZipCode, addressInfo.City, addressInfo.State, addressInfo.County)
+            this.AddressInfo = new(addressInfo.StreetNumber, addressInfo.StreetName, addressInfo.UnitNumber, addressInfo.ZipCode, addressInfo.City, addressInfo.State, addressInfo.County, addressInfo.StreetType)
             {
                 Subdivision = addressInfo.Subdivision,
                 StreetType = addressInfo.StreetType,

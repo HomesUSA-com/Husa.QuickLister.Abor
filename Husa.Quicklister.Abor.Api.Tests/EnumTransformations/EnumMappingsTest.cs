@@ -766,6 +766,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         [InlineData(Trestle.ParkingFeatures.InsideEntrance, GarageDescription.InsideEntrance)]
         [InlineData(Trestle.ParkingFeatures.KitchenLevel, GarageDescription.KitchenLevel)]
         [InlineData(Trestle.ParkingFeatures.Lighted, GarageDescription.Lighted)]
+        [InlineData(Trestle.ParkingFeatures.None, GarageDescription.None)]
         [InlineData(Trestle.ParkingFeatures.Oversized, GarageDescription.Oversized)]
         [InlineData(Trestle.ParkingFeatures.Private, GarageDescription.Private)]
         [InlineData(Trestle.ParkingFeatures.SideBySide, GarageDescription.SideBySide)]
@@ -975,7 +976,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.EnumTransformations
         public void ConvertsToAppliancesReturnsNull()
         {
             // Arrange
-            var unknownInput = (Trestle.Appliances)100;
+            var unknownInput = (Trestle.Appliances)200;
 
             // Act
             var result = EnumMappings.ToAborEnum(unknownInput);

@@ -34,6 +34,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models
 
         public string CreatedBy { get; set; }
 
+        public string CreatedByEmail { get; set; }
+
         public bool? IsDeleted { get; set; }
 
         public DateTime? LockedOn { get; set; }

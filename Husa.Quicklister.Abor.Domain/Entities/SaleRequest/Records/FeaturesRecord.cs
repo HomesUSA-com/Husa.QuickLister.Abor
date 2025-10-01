@@ -174,7 +174,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
                 CoolingSystem = featuresInfo.CoolingSystem,
                 Appliances = featuresInfo.Appliances,
                 GarageSpaces = featuresInfo.GarageSpaces ?? throw new DomainException(nameof(featuresInfo.GarageSpaces)),
-                GarageDescription = featuresInfo.GarageDescription,
+                GarageDescription = featuresInfo.GarageSpaces == 0 ? new[] { Enums.Domain.GarageDescription.None } : featuresInfo.GarageDescription,
                 LaundryLocation = featuresInfo.LaundryLocation,
                 InteriorFeatures = featuresInfo.InteriorFeatures,
                 Fireplaces = featuresInfo.Fireplaces ?? throw new DomainException(nameof(featuresInfo.Fireplaces)),

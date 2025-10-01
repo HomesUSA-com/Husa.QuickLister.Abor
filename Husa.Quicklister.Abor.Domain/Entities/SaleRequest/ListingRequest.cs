@@ -7,9 +7,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
+    using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
     using ExtensionsEntities = Husa.Quicklister.Extensions.Domain.Entities.Request;
 
-    public abstract class ListingRequest : ExtensionsEntities.SaleListingRequest, IProvideListingInfo
+    public abstract class ListingRequest
+        : ExtensionsEntities.SaleListingRequest, IProvideListingInfo, IProvideMlsStatus<MarketStatuses>
     {
         protected ListingRequest(ListingRequestValueObject listingRequestValue)
             : this(

@@ -6,7 +6,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Domain.Enums;
 
-    public class ListingQueryFilter : BaseQueryFilter
+    public class ListingQueryFilter : BaseListingQueryFilter
     {
         public IEnumerable<MarketStatuses> MlsStatus { get; set; }
         public ListedType? ListedType { get; set; }

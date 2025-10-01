@@ -38,6 +38,18 @@ namespace Husa.Quicklister.Abor.Crosscutting.Extensions
                 city.GetEnumFromText<Cities>();
         }
 
+        public static StreetType? ToStreetType(this string streetType, bool isExactValue = true)
+        {
+            if (string.IsNullOrWhiteSpace(streetType))
+            {
+                return null;
+            }
+
+            return isExactValue ?
+                streetType.ToEnumFromEnumMember<StreetType>() :
+                streetType.GetEnumFromText<StreetType>();
+        }
+
         public static Counties? ToCounty(this string county, bool isExactValue = true)
         {
             if (string.IsNullOrWhiteSpace(county))

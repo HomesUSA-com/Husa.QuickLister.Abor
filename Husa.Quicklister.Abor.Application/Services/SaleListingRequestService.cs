@@ -21,6 +21,7 @@ namespace Husa.Quicklister.Abor.Application.Services
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Interfaces.Email;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Uploader;
     using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Quicklister.Extensions.Domain.Repositories;
     using Microsoft.Extensions.Logging;
@@ -51,6 +52,7 @@ namespace Husa.Quicklister.Abor.Application.Services
             ILogger<SaleListingRequestService> logger,
             IOptions<ApplicationOptions> options,
             IEmailService emailService,
+            IUploaderService uploaderService,
             IUserRepository userRepository,
             IRequestErrorRepository requestErrorRepository,
             IProvideShowingTimeContacts showingTimeContactsProvider)
@@ -62,6 +64,7 @@ namespace Husa.Quicklister.Abor.Application.Services
                   listingSaleRepository,
                   requestErrorRepository,
                   emailService,
+                  uploaderService,
                   mapper,
                   logger,
                   userRepository,

@@ -30,6 +30,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
 
         [Required(AllowEmptyStrings = false)]
         public string TaxId { get; set; }
+
+        [Required]
         public MlsArea? MlsArea { get; set; }
         public string LotDimension { get; set; }
 

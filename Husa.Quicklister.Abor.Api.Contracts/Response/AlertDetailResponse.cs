@@ -23,8 +23,6 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response
 
         public Guid? SysCreatedBy { get; set; }
 
-        public string CreatedBy { get; set; }
-
         public Guid? LockedBy { get; set; }
 
         public string Obtained { get; set; }

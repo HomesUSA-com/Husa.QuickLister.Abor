@@ -17,6 +17,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
     using Husa.Quicklister.Abor.Api.Contracts.Response;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Abor.Api.Contracts.Response.LotListing;
+    using Husa.Quicklister.Abor.Api.Filters;
     using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Application.Interfaces.Media;
     using Husa.Quicklister.Abor.Application.Models;
@@ -24,34 +25,33 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
     using Husa.Quicklister.Abor.Data.Documents.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Abor.Data.Queries.Models.QueryFilters;
-    using Husa.Quicklister.Extensions.Api.Contracts.Request.Listing;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Lot;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using ExtensionController = Husa.Quicklister.Extensions.Api.Controllers;
 
     [ApiController]
     [Route("lot-listings")]
-    public class LotListingsController : Controller
+    public class LotListingsController : ExtensionController.Listing.ListingsController
     {
         private readonly ILotListingQueriesRepository lotListingQueriesRepository;
         private readonly ILotListingRequestQueriesRepository requestQueryRepository;
         private readonly IMediaService mediaService;
-        private readonly ILotListingService listingService;
-        private readonly ILogger<LotListingsController> logger;
-        private readonly IMapper mapper;
+        private readonly ILotListingService lotListingService;
 
         public LotListingsController(
             ILotListingQueriesRepository lotListingQueriesRepository,
             ILotListingRequestQueriesRepository requestQueryRepository,
             ILotListingService listingService,
             IMediaService mediaService,
+            ILotListingDeletionService deletionService,
             ILogger<LotListingsController> logger,
             IMapper mapper)
+              : base(listingService, deletionService, mapper, logger)
         {
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.lotListingQueriesRepository = lotListingQueriesRepository ?? throw new ArgumentNullException(nameof(lotListingQueriesRepository));
-            this.listingService = listingService ?? throw new ArgumentNullException(nameof(listingService));
+            this.lotListingService = listingService ?? throw new ArgumentNullException(nameof(listingService));
             this.mediaService = mediaService ?? throw new ArgumentNullException(nameof(mediaService));
             this.requestQueryRepository = requestQueryRepository ?? throw new ArgumentNullException(nameof(requestQueryRepository));
         }
@@ -86,7 +86,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         {
             this.logger.LogInformation("Starting to add in Listing in ABOR with Address: {StreetNumber} {StreetName} ", lotListing.StreetNumber, lotListing.StreetName);
             var lotListingRequest = this.mapper.Map<QuickCreateListingDto>(lotListing);
-            var queryResponse = await this.listingService.CreateAsync(lotListingRequest);
+            var queryResponse = await this.lotListingService.CreateAsync(lotListingRequest);
 
             if (queryResponse.Code == ResponseCode.Error)
             {
@@ -97,25 +97,14 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         }
 
         [HttpPut("{listingId:guid}")]
+        [SavingLotListingValidationFilter]
         [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
         public async Task<IActionResult> UpdateListing([FromRoute] Guid listingId, LotListingDetailRequest saleListingRequest)
         {
             this.logger.LogInformation("Received request to UPDATE sale listing with Id '{listingId}'.", listingId);
 
             var lotListing = this.mapper.Map<LotListingDto>(saleListingRequest);
-
-            await this.listingService.UpdateListing(listingId, lotListing);
-
-            return this.Ok();
-        }
-
-        [HttpDelete("{listingId:guid}")]
-        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
-        public async Task<IActionResult> DeleteListing([FromRoute] Guid listingId)
-        {
-            this.logger.LogInformation("Received request to DELETE sale listing with Id '{listingId}'.", listingId);
-
-            await this.listingService.DeleteListing(listingId);
+            await this.lotListingService.UpdateListing(listingId, lotListing);
 
             return this.Ok();
         }
@@ -126,37 +115,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         {
             this.logger.LogInformation("Starting the process to change the community linked to the listing Id '{listingId}' for the Community Id '{communityId}'", listingId, communityId);
 
-            await this.listingService.ChangeCommunity(listingId, communityId);
-
-            return this.Ok();
-        }
-
-        [HttpPatch("{listingId:guid}/mlsnumber")]
-        [RolesFilter(new UserRole[] { UserRole.MLSAdministrator }, null)]
-        public async Task<IActionResult> UpdateMlsNumber([FromRoute][Required] Guid listingId, [FromBody] MlsNumberRequest mlsNumberRequest)
-        {
-            this.logger.LogInformation("Update mlsnumber for listing Id {ListingId}", listingId);
-            await this.listingService.UpdateMlsNumberAsync(listingId, mlsNumberRequest.MlsNumber);
-            return this.Ok();
-        }
-
-        [HttpPut("{listingId:guid}/unlock")]
-        [RolesFilter(employeeRoles: [RoleEmployee.CompanyAdmin, RoleEmployee.SalesEmployee])]
-        public async Task<IActionResult> UnlockListing(Guid listingId, CancellationToken cancellationToken = default)
-        {
-            this.logger.LogInformation("Start to unlock listing Id {listingId}", listingId);
-
-            if (listingId == Guid.Empty)
-            {
-                return this.BadRequest(listingId);
-            }
-
-            var queryResponse = await this.listingService.UnlockListing(listingId, cancellationToken);
-
-            if (queryResponse.Code == ResponseCode.Error)
-            {
-                return this.BadRequest(queryResponse);
-            }
+            await this.lotListingService.ChangeCommunity(listingId, communityId);
 
             return this.Ok();
         }
@@ -171,7 +130,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
                 return this.BadRequest(listingId);
             }
 
-            var queryResponse = await this.listingService.CloseListing(listingId);
+            var queryResponse = await this.lotListingService.CloseListing(listingId);
             if (queryResponse.Code == ResponseCode.Error)
             {
                 return this.BadRequest(queryResponse);
@@ -199,7 +158,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
                 return this.BadRequest(listingId);
             }
 
-            await this.listingService.DeclinePhotos(listingId);
+            await this.lotListingService.DeclinePhotos(listingId);
 
             return this.Ok();
         }
@@ -223,7 +182,7 @@ namespace Husa.Quicklister.Abor.Api.Controllers.LotListing
         public async Task<IActionResult> UpdateActionTypeAsync(Guid listingId, ActionTypeRequest listingRequestForUpdate, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Start to update action type from listing {listingId}", listingId);
-            await this.listingService.UpdateActionTypeAsync(listingId, listingRequestForUpdate.ActionType, cancellationToken);
+            await this.lotListingService.UpdateActionTypeAsync(listingId, listingRequestForUpdate.ActionType, cancellationToken);
             return this.Ok();
         }
     }

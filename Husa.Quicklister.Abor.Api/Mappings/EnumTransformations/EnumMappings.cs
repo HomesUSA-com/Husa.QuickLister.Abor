@@ -439,6 +439,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings.EnumTransformations
             Trestle.ParkingFeatures.InsideEntrance => GarageDescription.InsideEntrance,
             Trestle.ParkingFeatures.KitchenLevel => GarageDescription.KitchenLevel,
             Trestle.ParkingFeatures.Lighted => GarageDescription.Lighted,
+            Trestle.ParkingFeatures.None => GarageDescription.None,
             Trestle.ParkingFeatures.Oversized => GarageDescription.Oversized,
             Trestle.ParkingFeatures.Private => GarageDescription.Private,
             Trestle.ParkingFeatures.SideBySide => GarageDescription.SideBySide,

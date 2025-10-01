@@ -46,6 +46,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
         private readonly Mock<ILogger<SaleListingsController>> logger = new();
         private readonly Mock<IMediaService> downloaderMediaService = new();
         private readonly Mock<HttpContext> httpContextMock = new();
+        private readonly Mock<ExtensionsInterface.IListingDeletionService> deletionService = new();
 
         private readonly Guid userId = new("7c189de0-2493-44fb-b9da-30d1a6657f1c");
 
@@ -60,6 +61,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
                 this.callForwardService.Object,
                 this.austinUploaderService.Object,
                 this.downloaderMediaService.Object,
+                this.deletionService.Object,
                 this.logger.Object,
                 this.fixture.Mapper);
         }
@@ -323,19 +325,6 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
         }
 
         [Fact]
-        public async Task DeleteListing_ListingFound_Success()
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-
-            // Act
-            await this.Sut.DeleteListing(listingId);
-
-            // Assert
-            this.listingSaleService.Verify(x => x.DeleteListing(listingId), Times.Once);
-        }
-
-        [Fact]
         public async Task CloseListingCompleteSuccess()
         {
             // Arrange
@@ -541,6 +530,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Listing
             this.callForwardService.Object,
             this.austinUploaderService.Object,
             this.downloaderMediaService.Object,
+            this.deletionService.Object,
             this.logger.Object,
             this.fixture.Mapper);
     }

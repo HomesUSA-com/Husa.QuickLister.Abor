@@ -117,7 +117,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<ListingSaleDetailRequest, SaleListingDto>();
 
             this.CreateMap<QuickCreateListingRequest, QuickCreateListingDto>()
-                .ForMember(dto => dto.LegacyId, c => c.Ignore());
+                .ForMember(dto => dto.LegacyId, c => c.Ignore())
+                .ForMember(dto => dto.StreetType, c => c.Ignore());
 
             this.CreateMap<ShowingDto, ShowingInfo>();
 
@@ -175,6 +176,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
                 .ForMember(dto => dto.LockedByUsername, c => c.Ignore())
                 .ForMember(dto => dto.StreetNumber, c => c.MapFrom(src => src.SaleProperty.AddressInfo.StreetNumber))
                 .ForMember(dto => dto.CreatedBy, c => c.MapFrom(src => src.SysCreatedBy))
+                .ForMember(dto => dto.CreatedByEmail, c => c.Ignore())
                 .ForMember(dto => dto.ModifiedBy, c => c.MapFrom(src => src.SysModifiedBy))
                 .ForMember(dto => dto.StreetName, c => c.MapFrom(src => src.SaleProperty.AddressInfo.StreetName));
 

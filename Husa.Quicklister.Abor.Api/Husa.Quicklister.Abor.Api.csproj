@@ -8,17 +8,16 @@
 
     <ItemGroup>
         <PackageReference Include="Figgle" Version="0.5.1" />
-        <PackageReference Include="FluentValidation" Version="11.9.0" />
-        <PackageReference Include="Husa.Downloader.CTX.ServiceBus.Contracts" Version="2.0.4" />
-        <PackageReference Include="Husa.Extensions.Api" Version="5.2.1" />
+        <PackageReference Include="Husa.Downloader.CTX.ServiceBus.Contracts" Version="2.1.0" />
+        <PackageReference Include="Husa.Extensions.Api" Version="5.2.2" />
         <PackageReference Include="Husa.Extensions.Api.Cors" Version="3.0.0" />
         <PackageReference Include="Husa.Extensions.Api.Middleware" Version="1.1.0" />
         <PackageReference Include="Husa.Extensions.EmailNotification" Version="4.0.1" />
         <PackageReference Include="Husa.Extensions.Logger.Enrichers" Version="1.0.0" />
         <PackageReference Include="Husa.Extensions.ServiceBus" Version="5.0.10" />
-        <PackageReference Include="Husa.MediaService.Client" Version="2.5.2-dev001" />
+        <PackageReference Include="Husa.MediaService.Client" Version="2.5.2" />
         <PackageReference Include="Husa.Downloader.Sabor.ServiceBus.Contracts" Version="2.0.0" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api" Version="0.21.0-dev007" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api" Version="0.22.0-dev014" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
         <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.46.0" />
