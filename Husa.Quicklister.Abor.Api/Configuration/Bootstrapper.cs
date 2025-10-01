@@ -64,6 +64,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Microsoft.OpenApi.Models;
     using ApplicationOptions = Husa.Quicklister.Abor.Crosscutting.ApplicationOptions;
@@ -270,8 +271,17 @@ namespace Husa.Quicklister.Abor.Api.Configuration
         {
             services.AddHttpClient<IReverseProspectClient, ReverseProspectClient>(async (provider, client) =>
             {
-                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                await client.ConfigureClientAsync(provider, options.Services.ReverseProspect);
+                try
+                {
+                    var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
+                    await client.ConfigureClientAsync(provider, options.Services.ReverseProspect);
+                }
+                catch (Exception ex)
+                {
+                    // Log the error but don't fail startup
+                    var logger = provider.GetService<ILogger<ReverseProspectClient>>();
+                    logger?.LogWarning(ex, "Failed to configure ReverseProspect client during startup. Service may be unavailable.");
+                }
             }).AddHeaderPropagation();
 
             services.AddHttpClient<IServiceSubscriptionClient, ServiceSubscriptionClient>((provider, client) =>
@@ -282,20 +292,44 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.AddHttpClient<IDownloaderCtxClient, DownloaderCtxClient>(async (provider, client) =>
             {
-                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                await client.ConfigureClientAsync(provider, options.Services.Downloader);
+                try
+                {
+                    var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
+                    await client.ConfigureClientAsync(provider, options.Services.Downloader);
+                }
+                catch (Exception ex)
+                {
+                    var logger = provider.GetService<ILogger<DownloaderCtxClient>>();
+                    logger?.LogWarning(ex, "Failed to configure DownloaderCtx client during startup. Service may be unavailable.");
+                }
             }).ConfigureHeaderHandling(withTokenRequest);
 
             services.AddHttpClient<IDownloaderSaborClient, DownloaderSaborClient>(async (provider, client) =>
             {
-                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                await client.ConfigureClientAsync(provider, options.Services.Downloader);
+                try
+                {
+                    var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
+                    await client.ConfigureClientAsync(provider, options.Services.Downloader);
+                }
+                catch (Exception ex)
+                {
+                    var logger = provider.GetService<ILogger<DownloaderSaborClient>>();
+                    logger?.LogWarning(ex, "Failed to configure DownloaderSabor client during startup. Service may be unavailable.");
+                }
             }).ConfigureHeaderHandling(withTokenRequest);
 
             services.AddHttpClient<IPhotoServiceClient, PhotoServiceClient>(async (provider, client) =>
             {
-                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                await client.ConfigureClientAsync(provider, options.Services.PhotoService);
+                try
+                {
+                    var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
+                    await client.ConfigureClientAsync(provider, options.Services.PhotoService);
+                }
+                catch (Exception ex)
+                {
+                    var logger = provider.GetService<ILogger<PhotoServiceClient>>();
+                    logger?.LogWarning(ex, "Failed to configure PhotoService client during startup. Service may be unavailable.");
+                }
             }).AddHeaderPropagation();
 
             services.AddHttpClient<HusaClient<IMediaServiceClient>>((provider, client) =>
@@ -306,16 +340,32 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.AddHttpClient<INotesClient, NotesClient>(async (provider, client) =>
             {
-                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                await client.ConfigureClientAsync(provider, options.Services.Notes);
+                try
+                {
+                    var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
+                    await client.ConfigureClientAsync(provider, options.Services.Notes);
+                }
+                catch (Exception ex)
+                {
+                    var logger = provider.GetService<ILogger<NotesClient>>();
+                    logger?.LogWarning(ex, "Failed to configure Notes client during startup. Service may be unavailable.");
+                }
             }).AddHeaderPropagation();
 
             services.AddScoped<IMediaServiceClient, MediaServiceClient>();
 
             services.AddHttpClient<IDownloaderSaborClient, DownloaderSaborClient>(async (provider, client) =>
             {
-                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                await client.ConfigureClientAsync(provider, options.Services.Downloader);
+                try
+                {
+                    var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
+                    await client.ConfigureClientAsync(provider, options.Services.Downloader);
+                }
+                catch (Exception ex)
+                {
+                    var logger = provider.GetService<ILogger<DownloaderSaborClient>>();
+                    logger?.LogWarning(ex, "Failed to configure DownloaderSabor client during startup. Service may be unavailable.");
+                }
             }).ConfigureHeaderHandling(withTokenRequest);
 
             services.ConfigureJsonImportClient<ApplicationOptions>(withTokenRequest);
@@ -333,8 +383,16 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.AddHttpClient<IMigrationClient, MigrationClient>(async (provider, client) =>
             {
-                var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
-                await client.ConfigureClientAsync(provider, options.Services.MigrationService);
+                try
+                {
+                    var options = provider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
+                    await client.ConfigureClientAsync(provider, options.Services.MigrationService);
+                }
+                catch (Exception ex)
+                {
+                    var logger = provider.GetService<ILogger<MigrationClient>>();
+                    logger?.LogWarning(ex, "Failed to configure Migration client during startup. Service may be unavailable.");
+                }
             });
 
             return services;
