@@ -58,6 +58,12 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                 case ImportPlanMessage importPlan:
                     await ImportEntity<IPlanXmlService>(importPlan);
                     break;
+                case UpdateSelfApproveSubdivisionMessage updateSubdivision:
+                    await UpdateSelfApproveEntity<ICommunityXmlService>(updateSubdivision);
+                    break;
+                case UpdateSelfApprovePlanMessage updatePlan:
+                    await UpdateSelfApproveEntity<IPlanXmlService>(updatePlan);
+                    break;
                 case ImportListingMessage xmlUpdateMessage:
                     await ProcessXmlUpdateMessage(xmlUpdateMessage);
                     break;
@@ -113,16 +119,28 @@ namespace Husa.Quicklister.Abor.Api.ServiceBus.Handlers
                 return mediaImportService.ImportSubdivisionMedia(importSubdivisionMedia.Id, maxImagesAllowed: this.options.MediaAllowed.CommunityMaxAllowedMedia);
             }
 
-            Task ImportEntity<TService>(ImportProfileMessage meessage)
+            async Task ImportEntity<TService>(ImportProfileMessage message)
                 where TService : IXmlCommon
             {
-                if (meessage.MarketCode != MarketCode.Austin)
+                if (message.MarketCode != MarketCode.Austin)
+                {
+                    return;
+                }
+
+                var service = scope.ServiceProvider.GetRequiredService<TService>();
+                await service.ImportEntity(message.CompanyId, message.CompanyName, message.Id, message.SelfApprove);
+            }
+
+            Task UpdateSelfApproveEntity<TService>(ImportProfileMessage message)
+                where TService : IXmlCommon
+            {
+                if (message.MarketCode != MarketCode.Austin)
                 {
                     return Task.CompletedTask;
                 }
 
                 var service = scope.ServiceProvider.GetRequiredService<TService>();
-                return service.ImportEntity(meessage.CompanyId, meessage.CompanyName, meessage.Id);
+                return service.UpdateSelfApproveEntity(message.CompanyId, message.CompanyName, message.Id);
             }
 
             UserContext GetXmlUser() => new()

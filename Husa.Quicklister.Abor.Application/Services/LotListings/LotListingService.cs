@@ -10,6 +10,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.MediaService.Domain.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Lot;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Lot;
@@ -165,6 +166,7 @@ namespace Husa.Quicklister.Abor.Application.Services.LotListings
             lotListing.UpdateStatusFieldsInfo(statusFieldsInfo);
 
             lotListing.OwnerName = listingDto.OwnerName;
+            await this.listingMediaService.ResizeMedia(listingDto.Id, [ImageSize.HD], mediaType: MediaType.Lot);
 
             await this.ListingRepository.SaveChangesAsync(lotListing);
         }

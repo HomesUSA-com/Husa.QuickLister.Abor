@@ -24,6 +24,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Extensions.Data.Queries.Models;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
     using Husa.Quicklister.Extensions.Data.Queries.Repositories.SaleListing;
+    using Husa.Quicklister.Extensions.Data.Queries.Specifications;
     using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -34,7 +35,6 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     public class ListingSaleQueriesRepository : SaleListingQueriesRepository, IListingSaleQueriesRepository
     {
         private readonly ApplicationQueriesDbContext context;
-        private readonly IUserContextProvider userContext;
         private readonly IPhotoServiceClient photoServiceClient;
         private readonly ApplicationOptions options;
 
@@ -46,10 +46,9 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             IServiceSubscriptionClient serviceSubscriptionClient,
             IPhotoServiceClient photoServiceClient,
             IOptions<ApplicationOptions> options)
-            : base(serviceSubscriptionClient, userQueriesRepository, logger)
+            : base(serviceSubscriptionClient, userQueriesRepository, userContext, logger)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
-            this.userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
             this.photoServiceClient = photoServiceClient ?? throw new ArgumentNullException(nameof(photoServiceClient));
             this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
@@ -210,6 +209,18 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .Select(ListingSaleProjection.ProjectToListingLockedBySystemQueryResult)
                 .ToListAsync();
             return data;
+        }
+
+        protected override async Task<IEnumerable<InvalidTaxIdListingsQueryResult>> GetListingsWithInvalidTaxIdQuery()
+        {
+            return await this.context.ListingSale
+                .FilterNotDeleted()
+                .FilterByListed()
+                .ExcludeAbcHomes()
+                .FilterByActiveOrPendingStatus()
+                .WithInvalidTaxId()
+                .Select(ListingSaleProjection.ProjectToInvalidTaxIdListingsQueryResult)
+                .ToListAsync();
         }
     }
 }

@@ -1,8 +1,8 @@
 namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
 {
+    using Husa.Extensions.ShowingTime.Enums;
     using Husa.Quicklister.Extensions.Domain.Entities.Request;
-    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
-    using ShowingTimeEnums = Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
+    using ShowingTimeEnums = Husa.Extensions.ShowingTime.Enums;
 
     public record ShowingTimeRecordTest : ShowingTimeRecord
     {

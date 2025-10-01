@@ -52,9 +52,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Data.Documents.Repositories;
     using Husa.Quicklister.Abor.Data.Queries;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
-    using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
-    using Husa.Quicklister.Abor.Domain.Interfaces;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Api.Configuration;
     using Husa.Quicklister.Extensions.Application.Interfaces.Request;
@@ -100,7 +98,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<ILotListingRepository, LotListingRepository>();
             services.AddScoped<RepositoriesExtensions.IViolationWarningAlertRepository, ViolationWarningAlertRepository>();
             services.AddScoped<ILegacySaleListingRepository, LegacySaleListingRepository>();
-            services.AddScoped<IShowingTimeContactRepository, ShowingTimeContactRepository>();
             services.AddScoped<RepositoriesExtensions.IRequestErrorRepository, RequestErrorRepository>();
 
             return services;
@@ -111,9 +108,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
         public static IServiceCollection AddQueriesRepositories(this IServiceCollection services)
         {
-            services.AddSingleton<ShowingTimeContactProjection>();
-            services.AddSingleton<CommunityShowingTimeContactOrderProjection>();
-            services.AddSingleton<ListingShowingTimeContactOrderProjection>();
             services.AddScoped<IListingSaleQueriesRepository, ListingSaleQueriesRepository>();
             services.AddScoped<IQueryCommunityEmployeeRepository, CommunityEmployeeQueriesRepository>();
             services.AddScoped<ICommunityQueriesRepository, CommunityQueriesRepository>();
@@ -127,8 +121,6 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IMigrationQueryRepository, RequestMigrationQueryRepository>();
             services.AddScoped<ILotListingQueriesRepository, LotListingQueriesRepository>();
             services.AddScoped<IResidentialIdxQueriesRepository, ResidentialIdxQueriesRepository>();
-            services.AddScoped<IShowingTimeContactQueriesRepository, ShowingTimeContactQueriesRepository>();
-            services.AddScoped<IProvideShowingTimeContacts, ShowingTimeContactQueriesRepository>();
             services.AddScoped<IQueryListingBillingRepository, ListingBillingQueriesRepository>();
             services.AddScoped<IListingRequestBillingQueryRepository, ListingRequestBillingQueriesRepository>();
             services.AddScoped<ICompanyCacheRepository, QueryRepositoriesExtensions.CompanyCacheRepository<ApplicationOptions>>();
@@ -193,6 +185,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.ConfigureMediaServices();
             services.ConfigureNoteServices();
             services.ConfigurePhotoServices();
+            services.ConfigureShowingTime();
             return services;
         }
 

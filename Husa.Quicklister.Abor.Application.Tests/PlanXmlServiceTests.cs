@@ -63,6 +63,33 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Fact]
+        public async Task ImportPlanSelfApprove()
+        {
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var companyName = Faker.Company.Name();
+            var xmlPlanId = Guid.NewGuid();
+            var planId = Guid.NewGuid();
+            var planSale = TestModelProvider.GetPlanEntity(planId);
+
+            this.xmlClient
+                .Setup(x => x.Plan.GetByIdAsync(It.Is<Guid>(id => id == xmlPlanId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(GetPlanResponse(xmlPlanId, planId))
+                .Verifiable();
+            this.planSaleRepository
+                .Setup(x => x.GetById(It.Is<Guid>(id => id == planId), It.IsAny<bool>()))
+                .ReturnsAsync(planSale)
+                .Verifiable();
+
+            // Act
+            await this.Sut.ImportEntity(companyId, companyName, xmlPlanId, selfApprove: true);
+
+            // Assert
+            this.planSaleRepository.Verify(r => r.GetById(It.Is<Guid>(id => id == planId), It.IsAny<bool>()), Times.Once);
+            this.planSaleRepository.Verify(r => r.SaveChangesAsync(), Times.Once);
+        }
+
+        [Fact]
         public async Task ImportPlanWithPlanIdSuccess()
         {
             // Arrange

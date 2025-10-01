@@ -60,6 +60,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 States state,
                 string zipCode,
                 Counties? county,
+                StreetType? streetType,
                 DateTime? constructionCompletionDate,
                 Guid companyId,
                 string ownerName,
@@ -70,7 +71,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
             this.CompanyId = companyId;
             this.MlsStatus = mlsStatus;
-            this.SaleProperty = new(streetName, streetNum, unitNumber, city, state, zipCode, county, constructionCompletionDate, companyId, ownerName, communityId, planId);
+            this.SaleProperty = new(streetName, streetNum, unitNumber, city, state, zipCode, county, streetType, constructionCompletionDate, companyId, ownerName, communityId, planId);
             this.IsManuallyManaged = manuallyManaged;
         }
 
@@ -277,7 +278,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             }
         }
 
-        public virtual void ImportFromXml(XmlListingDetailResponse listing, string companyName, ImportActionType listAction, Guid userId, CommunitySale community = null)
+        public virtual void ImportFromXml(XmlListingDetailResponse listing, string companyName, ImportActionType listAction, Guid userId, CommunitySale community = null, bool manageSqft = false)
         {
             this.MlsStatus = listing.Status.ToStatus();
             this.ListPrice = listing.Price;
@@ -289,7 +290,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             }
 
             var county = community?.Property?.County;
-            this.SaleProperty.ImportFromXml(listing, companyName, county);
+            this.SaleProperty.ImportFromXml(listing, companyName, county, manageSqft);
             this.Lock(userId, LockedStatus.LockedNotSubmitted);
         }
 

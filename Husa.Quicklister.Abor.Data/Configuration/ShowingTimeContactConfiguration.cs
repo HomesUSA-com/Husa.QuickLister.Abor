@@ -1,6 +1,7 @@
 namespace Husa.Quicklister.Abor.Data.Configuration
 {
     using System;
+    using Husa.Extensions.ShowingTime.Data.DbConfiguration;
     using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Data.Extensions;
     using Microsoft.EntityFrameworkCore;

@@ -518,6 +518,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests
                 addressInfo.State,
                 addressInfo.ZipCode,
                 addressInfo.County,
+                addressInfo.StreetType,
                 propertyInfo.ConstructionCompletionDate,
                 companyId,
                 ownerName,
