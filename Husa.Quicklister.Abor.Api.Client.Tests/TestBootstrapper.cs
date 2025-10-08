@@ -4,6 +4,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
     using Azure.Messaging.ServiceBus;
     using Husa.CompanyServicesManager.Api.Client.Interfaces;
     using Husa.CompanyServicesManager.Api.Contracts.Request;
@@ -31,6 +32,7 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Moq;
     using CompanyUser = Husa.CompanyServicesManager.Api.Contracts.Response.User;
+    using Response = Husa.CompanyServicesManager.Api.Contracts.Response;
     using ServiceSubscriptionResponse = Husa.CompanyServicesManager.Api.Contracts.Response.ServiceSubscription;
 
     public static class TestBootstrapper
@@ -56,7 +58,24 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             services.AddScoped<ServiceBusClient>(provider =>
             {
                 var serviceBusClient = new Mock<ServiceBusClient>();
-                serviceBusClient.SetupAllProperties();
+                var serviceBusSender = new Mock<ServiceBusSender>();
+                var mockMessages = new List<ServiceBusMessage>
+                {
+                    new(body: new BinaryData("Message 1")),
+                    new(body: new BinaryData("Message 2")),
+                };
+                var mockBatch = ServiceBusModelFactory.ServiceBusMessageBatch(
+                    batchMessageStore: mockMessages,
+                    tryAddCallback: message => true,
+                    batchSizeBytes: 1024);
+
+                serviceBusSender.Setup(x => x.CreateMessageBatchAsync(It.IsAny<CancellationToken>())).ReturnsAsync(mockBatch);
+                serviceBusSender.Setup(x => x.SendMessagesAsync(It.IsAny<ServiceBusMessageBatch>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+                serviceBusSender.Setup(x => x.DisposeAsync()).Returns(ValueTask.CompletedTask);
+
+                serviceBusClient.Setup(x => x.CreateSender(It.IsAny<string>())).Returns(serviceBusSender.Object);
+                serviceBusClient.Setup(x => x.DisposeAsync()).Returns(ValueTask.CompletedTask);
+
                 return serviceBusClient.Object;
             });
             services.AddSingleton(UserContextProviderMock.SetupUserContext().Object);
@@ -76,7 +95,8 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             companyMock
                 .Setup(c => c.GetCompanyServices(It.IsAny<Guid>(), It.IsAny<FilterServiceSubscriptionRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DataSet<ServiceSubscriptionResponse>(companyServices, companyServices.Length));
-
+            companyMock.Setup(s => s.GetAsync(It.IsAny<CompanyRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataSet<Husa.CompanyServicesManager.Api.Contracts.Response.Company>([new() { Id = Factory.CompanyId }], 1));
             serviceSubscription.SetupGet(s => s.Company).Returns(companyMock.Object);
             serviceSubscription.SetupGet(s => s.Corporation).Returns(new Mock<ICorporation>().Object);
 
@@ -95,6 +115,15 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             serviceSubscription.SetupGet(s => s.User).Returns(userMock.Object);
             serviceSubscription.SetupGet(s => s.Employee).Returns(new Mock<IEmployee>().Object);
             services.AddSingleton(serviceSubscription.Object);
+
+            var companyServiceMock = new Mock<ICompanyService>();
+            var serviceSubscriptions = Array.Empty<Response.ServiceSubscription>();
+            companyServiceMock
+                .Setup(c => c.GetAsync(
+                    It.Is<FilterCompanyServiceRequest>(x => x.ServiceCode.Any(x => x == Husa.CompanyServicesManager.Domain.Enums.ServiceCode.ShowingTime)),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataSet<Response.ServiceSubscription>(serviceSubscriptions, serviceSubscriptions.Length));
+            serviceSubscription.SetupGet(s => s.CompanyService).Returns(companyServiceMock.Object);
         }
 
         private static void MockCosmosClient(this IServiceCollection services)

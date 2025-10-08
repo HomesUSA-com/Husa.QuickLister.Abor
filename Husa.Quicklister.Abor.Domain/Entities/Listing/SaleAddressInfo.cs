@@ -7,7 +7,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
 
     public class SaleAddressInfo : Base.AddressInfo, IProvideSaleAddress
     {
-        public SaleAddressInfo(string streetNum, string streetName, string unitNumber, string zipCode, Cities city, States state, Counties? county)
+        public SaleAddressInfo(string streetNum, string streetName, string unitNumber, string zipCode, Cities city, States state, Counties? county, StreetType? streetType)
         {
             this.City = city;
             this.State = state;
@@ -16,6 +16,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.StreetName = streetName;
             this.StreetNumber = streetNum;
             this.UnitNumber = unitNumber;
+            this.StreetType = streetType;
         }
 
         public SaleAddressInfo()

@@ -4,11 +4,11 @@ namespace Husa.Quicklister.Abor.Application.Tests.Services.ShowingTime
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.ShowingTime.Enums;
     using Husa.Quicklister.Abor.Application.Services.ShowingTime;
     using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
-    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Moq;
     using Xunit;
 

@@ -41,6 +41,7 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                 Faker.Enum.Random<States>(),
                 Faker.Address.ZipCode()[..5],
                 Faker.Enum.Random<Counties>(),
+                Faker.Enum.Random<StreetType>(),
                 DateTime.Now,
                 listingCompanyId,
                 Faker.Company.Name(),
@@ -63,7 +64,9 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
             Guid? communityId = null,
             Guid? planId = null,
             MarketStatuses? marketStatuses = null,
-            bool createCommunity = false)
+            bool createCommunity = false,
+            string mlsNumber = null,
+            string ownerName = null)
         {
             var listingCompanyId = companyId ?? Guid.NewGuid();
             var listingPlanId = planId ?? Guid.NewGuid();
@@ -76,14 +79,16 @@ namespace Husa.Quicklister.Abor.Crosscutting.Tests.SaleListing
                 Faker.Enum.Random<States>(),
                 Faker.Address.ZipCode()[..5],
                 Faker.Enum.Random<Counties>(),
+                Faker.Enum.Random<StreetType>(),
                 DateTime.Now,
                 listingCompanyId,
-                Faker.Company.Name(),
+                ownerName ?? Faker.Company.Name(),
                 communityId ?? Guid.NewGuid(),
                 listingPlanId,
                 Faker.Boolean.Random())
             {
                 Id = listingId ?? Guid.NewGuid(),
+                MlsNumber = mlsNumber,
             };
             listing.SaleProperty.Plan = new Plan(listingCompanyId, Faker.Lorem.GetFirstWord(), Faker.Lorem.GetFirstWord())
             {

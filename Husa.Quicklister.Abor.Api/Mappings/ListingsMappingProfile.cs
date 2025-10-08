@@ -117,7 +117,8 @@ namespace Husa.Quicklister.Abor.Api.Mappings
             this.CreateMap<ListingSaleDetailRequest, SaleListingDto>();
 
             this.CreateMap<QuickCreateListingRequest, QuickCreateListingDto>()
-                .ForMember(dto => dto.LegacyId, c => c.Ignore());
+                .ForMember(dto => dto.LegacyId, c => c.Ignore())
+                .ForMember(dto => dto.StreetType, c => c.Ignore());
 
             this.CreateMap<ShowingDto, ShowingInfo>();
 

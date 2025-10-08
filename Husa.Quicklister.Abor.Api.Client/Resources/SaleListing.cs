@@ -136,6 +136,18 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             return this.client.GetAsync<IEnumerable<ExtensionsContract.Response.Listing.ListingLockedBySystemResponse>>(endpoint, token);
         }
 
+        public Task<IEnumerable<InvalidTaxIdListingsResponse>> GetListingsWithInvalidTaxId(CancellationToken token = default)
+        {
+            this.logger.LogInformation("Getting listings with invalid Tax Id");
+            var endpoint = $"{this.baseUri}/invalid-tax-id";
+            return this.client.GetAsync<IEnumerable<InvalidTaxIdListingsResponse>>(endpoint, token);
+        }
+
+        public Task AutomaticReverseProspect(CancellationToken token = default)
+        {
+            throw new NotImplementedException();
+        }
+
         private string GetListingsEndpoint(ExtensionsContract.Request.Listing.IListingRequestFilter filters)
         {
             return this.baseUri

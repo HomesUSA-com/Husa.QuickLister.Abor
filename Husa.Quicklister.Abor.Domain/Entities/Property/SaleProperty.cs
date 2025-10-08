@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
     using Husa.Extensions.Common.Enums;
     using Husa.Extensions.Common.Exceptions;
     using Husa.Extensions.Domain.Entities;
+    using Husa.Extensions.Domain.Extensions;
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Domain.Common;
     using Husa.Quicklister.Abor.Domain.Comparers;
@@ -35,6 +36,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             States state,
             string zipCode,
             Counties? county,
+            StreetType? streetType,
             DateTime? constructionCompletionDate,
             Guid companyId,
             string ownerName,
@@ -47,7 +49,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.OwnerName = ownerName;
             this.CommunityId = communityId;
             this.PropertyInfo = new(constructionCompletionDate);
-            this.AddressInfo = new(streetNum, streetName, unitNumber, zipCode, city, state, county);
+            this.AddressInfo = new(streetNum, streetName, unitNumber, zipCode, city, state, county, streetType);
             this.ShowingInfo = new(ownerName);
         }
 
@@ -208,7 +210,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
         }
 
-        public virtual void UpdateSpacesDimensions(SpacesDimensionsInfo spacesDimensions, bool updateSquareFootage = false, bool fromXml = false)
+        public virtual void UpdateSpacesDimensions(SpacesDimensionsInfo spacesDimensions, bool updateSquareFootage = false)
         {
             if (spacesDimensions is null)
             {
@@ -488,7 +490,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
 
         public void SetMigrateFullListing(bool value) => this.migrateFullListing = value;
 
-        public void ImportFromXml(XmlListingDetailResponse listing, string companyName, Counties? county = null)
+        public void ImportFromXml(XmlListingDetailResponse listing, string companyName, Counties? county = null, bool manageSqft = false)
         {
             this.OwnerName = companyName;
             this.PlanId = listing.PlanId;
@@ -501,8 +503,8 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             var property = PropertyInfo.ImportFromXml(listing, this.PropertyInfo);
             this.UpdatePropertyInfo(property);
 
-            var spacesDimensions = SpacesDimensionsInfo.ImportFromXml(listing, this.SpacesDimensionsInfo);
-            this.UpdateSpacesDimensions(spacesDimensions, fromXml: true);
+            var spacesDimensions = SpacesDimensionsInfo.ImportFromXml(listing, this.SpacesDimensionsInfo, manageSqft);
+            this.UpdateSpacesDimensions(spacesDimensions, updateSquareFootage: manageSqft);
 
             var features = FeaturesInfo.ImportFromXml(listing, this.FeaturesInfo);
             this.UpdateFeatures(features);
@@ -512,6 +514,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
         {
             if (communitySale.HasOpenHouseChangesToSubmit)
             {
+                this.OpenHouses.Clear();
                 this.OpenHouses = [.. communitySale.OpenHouses
                     .Select(oh => new SaleListingOpenHouse(
                         this.Id,
@@ -642,7 +645,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
                 throw new ArgumentNullException(nameof(addressInfo));
             }
 
-            this.AddressInfo = new(addressInfo.StreetNumber, addressInfo.StreetName, addressInfo.UnitNumber, addressInfo.ZipCode, addressInfo.City, addressInfo.State, addressInfo.County)
+            this.AddressInfo = new(addressInfo.StreetNumber, addressInfo.StreetName, addressInfo.UnitNumber, addressInfo.ZipCode, addressInfo.City, addressInfo.State, addressInfo.County, addressInfo.StreetType)
             {
                 Subdivision = addressInfo.Subdivision,
                 StreetType = addressInfo.StreetType,

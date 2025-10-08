@@ -4,10 +4,10 @@ namespace Husa.Quicklister.Abor.Domain.Entities.ShowingTime
     using System.Collections.Generic;
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Domain.Entities;
+    using Husa.Extensions.ShowingTime.Enums;
+    using Husa.Extensions.ShowingTime.Interfaces;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
-    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
-    using Husa.Quicklister.Extensions.Domain.Interfaces.ShowingTime;
 
     public class ShowingTimeContact : Entity, IShowingTimeContact, IProvideCompany
     {

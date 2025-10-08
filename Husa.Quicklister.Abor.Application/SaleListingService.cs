@@ -11,6 +11,8 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Extensions.Authorization;
     using Husa.Extensions.Common.Classes;
     using Husa.Extensions.Common.Exceptions;
+    using Husa.Extensions.ShowingTime.Models;
+    using Husa.MediaService.Domain.Enums;
     using Husa.Quicklister.Abor.Application.Interfaces.Listing;
     using Husa.Quicklister.Abor.Application.Models;
     using Husa.Quicklister.Abor.Application.Models.Request;
@@ -26,8 +28,8 @@ namespace Husa.Quicklister.Abor.Application
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Abor.Domain.ValueObjects;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
-    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Husa.Quicklister.Extensions.Domain.Extensions;
     using Husa.Xml.Api.Client.Interface;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -124,6 +126,7 @@ namespace Husa.Quicklister.Abor.Application
                 listingSale.State,
                 listingSale.ZipCode,
                 listingSale.County,
+                listingSale.StreetType,
                 listingSale.ConstructionCompletionDate,
                 company.Id,
                 company.Name,
@@ -186,6 +189,7 @@ namespace Husa.Quicklister.Abor.Application
             await this.UpdateRooms(listingDto.SaleProperty.Rooms, entity: listingSale);
             await this.UpdateOpenHouse(listingDto.SaleProperty.OpenHouses, entity: listingSale);
             await this.UpdateShowingTime(listingDto.ShowingTime, entity: listingSale);
+            await this.listingMediaService.ResizeMedia(listingDto.Id, [ImageSize.HD]);
 
             await this.ListingRepository.UpdateAsync(listingSale);
         }
@@ -422,6 +426,11 @@ namespace Husa.Quicklister.Abor.Application
             listing.SaleProperty.PlanId = planId;
         }
 
+        protected override Task AutomaticReverseProspect()
+        {
+            throw new NotImplementedException();
+        }
+
         private async Task ImportDataFromCommunityAndPlan(SaleListing listingSaleEntity, QuickCreateListingDto listingSale)
         {
             await this.ImportCommunityDataAsync(listingSaleEntity, listingSale.CommunityId);
@@ -467,10 +476,7 @@ namespace Husa.Quicklister.Abor.Application
             }
 
             listingSale.SaleProperty.ImportDataFromCommunity(communitySale);
-            listingSale.AppointmentSettings = communitySale.AppointmentSettings?.Clone();
-            listingSale.AccessInformation = communitySale.AccessInformation?.Clone();
-            listingSale.AppointmentRestrictions = communitySale.AppointmentRestrictions?.Clone();
-            listingSale.AdditionalInstructions = communitySale.AdditionalInstructions?.Clone();
+            listingSale.ImportShowingTimeInfo(communitySale);
         }
 
         private async Task ImportPlanDataAsync(SaleListing listingSale, Guid planId)

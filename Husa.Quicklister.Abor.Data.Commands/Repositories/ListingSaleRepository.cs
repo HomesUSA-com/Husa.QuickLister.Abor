@@ -37,8 +37,9 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
            CosmosClient cosmosClient,
            IUserContextProvider userContextProvider,
            ILogger<ListingSaleRepository> logger,
-           IOptions<DocumentDbSettings> options)
-           : base(context, cosmosClient, userContextProvider, logger, options.Value.DatabaseName, options.Value.ListingChangesCollectionName)
+           IOptions<DocumentDbSettings> options,
+           IOptions<Crosscutting.ApplicationOptions> applicationOptions)
+           : base(context, cosmosClient, userContextProvider, logger, options.Value.DatabaseName, options.Value.ListingChangesCollectionName, applicationOptions)
         {
         }
 
@@ -158,16 +159,6 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             }
 
             return await query.ToListAsync();
-        }
-
-        public async override Task SaveChangesAsync()
-        {
-            if (!this.context.ChangeTracker.HasChanges())
-            {
-                return;
-            }
-
-            await this.ApplyChangesAsync();
         }
 
         protected override SavedChangesLog CreateChangesLog(SaleListing originalEntity, SaleListing updatedEntity)

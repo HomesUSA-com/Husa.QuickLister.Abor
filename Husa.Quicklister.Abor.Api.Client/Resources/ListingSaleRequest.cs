@@ -98,11 +98,11 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             return await this.client.PostAsJsonAsync<Guid, IEnumerable<object>>(endpoint, listingSaleId, cancellationToken);
         }
 
-        public async Task<IEnumerable<object>> CreateTaxIdRequestAsync(Guid listingSaleId, string taxId, CancellationToken cancellationToken = default)
+        public async Task<object> CreateTaxIdRequestAsync(Guid listingSaleId, string taxId, CancellationToken cancellationToken = default)
         {
             this.logger.LogInformation("Create Abor Tax Id request for listing sale with id {listingSaleId}", listingSaleId);
             var endpoint = $"{this.baseUri}/{listingSaleId}/tax-id-request";
-            return await this.client.PostAsJsonAsync<string, IEnumerable<object>>(endpoint, taxId, cancellationToken);
+            return await this.client.PostAsJsonAsync<string, object>(endpoint, taxId, cancellationToken);
         }
 
         public async Task<IEnumerable<Guid>> CreateRequestsByCommunityAsync(Guid communityId, CancellationToken cancellationToken = default)

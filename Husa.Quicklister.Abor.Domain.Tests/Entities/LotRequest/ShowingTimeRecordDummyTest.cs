@@ -3,7 +3,7 @@ namespace Husa.Quicklister.Abor.Domain.Tests.Entities.LotRequest
     using System.Collections.Generic;
     using Husa.Extensions.Document.ValueObjects;
     using Husa.Quicklister.Extensions.Domain.Entities.Request;
-    using ShowingTimeEnums = Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
+    using ShowingTimeEnums = Husa.Extensions.ShowingTime.Enums;
 
     public record ShowingTimeRecordDummyTest : ShowingTimeRecord
     {

@@ -6,6 +6,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
     using System.Linq;
     using Husa.Extensions.Document.Extensions;
     using Husa.Extensions.Document.ValueObjects;
+    using Husa.Extensions.Domain.Extensions;
     using Husa.Quicklister.Abor.Domain.Comparers;
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Entities.Listing;
@@ -151,6 +152,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.SaleRequest.Records
         {
             if (community.HasOpenHouseChangesToSubmit)
             {
+                this.OpenHouses.Clear();
                 this.OpenHouses = [.. community.OpenHouses
                     .Select(oh => Records.OpenHouseRecord.CreateOpenHouse(oh))];
             }

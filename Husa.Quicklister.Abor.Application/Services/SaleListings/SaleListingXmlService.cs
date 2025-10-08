@@ -99,7 +99,13 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 listing = quickCreateResult.Results.Single();
                 this.ListingSaleRepository.Attach(listing);
                 importMedia = true;
-                listing.ImportFromXml(xmlListing, companyName: companyDetail.Name, listAction, currentUser.Id, community);
+                listing.ImportFromXml(
+                    xmlListing,
+                    companyName: companyDetail.Name,
+                    listAction,
+                    currentUser.Id,
+                    community,
+                    manageSqft: true);
             }
             else
             {
@@ -109,7 +115,11 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                     return listing.Id;
                 }
 
-                listing.UpdateFromXml(xmlListing, ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate);
+                listing.UpdateFromXml(
+                    xmlListing,
+                    manageSqft: companyDetail.SettingInfo.EnableSqftManagementByXml,
+                    ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate,
+                    ignoreRequestByDescription: companyDetail.SettingInfo.StopXMLDescriptionManagement);
                 listing.LockByUser(currentUser.Id);
             }
 
@@ -165,6 +175,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
 
             listing.UpdateFromXml(
                 xmlListing,
+                manageSqft: companyDetail.SettingInfo.EnableSqftManagementByXml,
                 ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate,
                 ignoreRequestByDescription: companyDetail.SettingInfo.StopXMLDescriptionManagement);
 
@@ -182,6 +193,7 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
             var requestResponse = await this.saleListingRequestService.CreateRequestAsync(
                 listing,
                 xmlListing,
+                manageSqft: companyDetail.SettingInfo.EnableSqftManagementByXml,
                 ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate,
                 ignoreRequestByDescription: companyDetail.SettingInfo.StopXMLDescriptionManagement,
                 hasMediaChanges: hasMediaChanges);

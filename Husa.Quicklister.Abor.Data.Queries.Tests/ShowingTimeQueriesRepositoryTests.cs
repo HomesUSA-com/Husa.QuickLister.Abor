@@ -4,11 +4,11 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
     using System.Linq;
     using System.Threading.Tasks;
     using Husa.Extensions.Authorization;
+    using Husa.Extensions.ShowingTime.Enums;
     using Husa.Quicklister.Abor.Data.Queries.Projections;
     using Husa.Quicklister.Abor.Data.Queries.Repositories;
     using Husa.Quicklister.Abor.Data.Queries.Tests.Seeders;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
-    using Husa.Quicklister.Extensions.Domain.Enums.ShowingTime;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;

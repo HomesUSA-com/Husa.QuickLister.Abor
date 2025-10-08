@@ -60,6 +60,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                 States state,
                 string zipCode,
                 Counties? county,
+                StreetType? streetType,
                 DateTime? constructionCompletionDate,
                 Guid companyId,
                 string ownerName,
@@ -70,7 +71,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         {
             this.CompanyId = companyId;
             this.MlsStatus = mlsStatus;
-            this.SaleProperty = new(streetName, streetNum, unitNumber, city, state, zipCode, county, constructionCompletionDate, companyId, ownerName, communityId, planId);
+            this.SaleProperty = new(streetName, streetNum, unitNumber, city, state, zipCode, county, streetType, constructionCompletionDate, companyId, ownerName, communityId, planId);
             this.IsManuallyManaged = manuallyManaged;
         }
 
@@ -160,19 +161,25 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             CommunitySale community,
             IUserContextProvider userContextProvider)
         {
+            this.SaleProperty.UpdateOpenHousesFromCommunitySubmit(community);
+            if (community.HasOpenHouseChangesToSubmit)
+            {
+                this.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
+            }
+
             var validationRequest = this.GenerateRequest(userContextProvider);
             if (validationRequest.HasErrors())
             {
+                var currentUserId = userContextProvider.GetCurrentUserId();
+                this.UpdateTrackValues(currentUserId);
                 return validationRequest;
             }
 
             var userId = userContextProvider.GetCurrentUserId();
             var newRequest = lastCompletedRequest.Clone();
-            this.SaleProperty.UpdateOpenHousesFromCommunitySubmit(community);
             newRequest.SaleProperty.UpdateOpenHousesFromCommunitySubmit(this.SaleProperty.Community);
             if (community.HasOpenHouseChangesToSubmit)
             {
-                this.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
                 newRequest.SaleProperty.ShowingInfo.EnableOpenHouses = community.Showing.EnableOpenHouses;
             }
 
@@ -201,7 +208,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
                     throw new DomainException($"Cannot assign an empty mls number to the listing id {this.Id}");
                 }
 
-                this.MlsNumber = mlsNumber;
+                this.MlsNumber = mlsNumber.Trim();
 
                 if (!isDownloaderEnabled && this.ListDate == null)
                 {
@@ -271,7 +278,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             }
         }
 
-        public virtual void ImportFromXml(XmlListingDetailResponse listing, string companyName, ImportActionType listAction, Guid userId, CommunitySale community = null)
+        public virtual void ImportFromXml(XmlListingDetailResponse listing, string companyName, ImportActionType listAction, Guid userId, CommunitySale community = null, bool manageSqft = false)
         {
             this.MlsStatus = listing.Status.ToStatus();
             this.ListPrice = listing.Price;
@@ -283,7 +290,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             }
 
             var county = community?.Property?.County;
-            this.SaleProperty.ImportFromXml(listing, companyName, county);
+            this.SaleProperty.ImportFromXml(listing, companyName, county, manageSqft);
             this.Lock(userId, LockedStatus.LockedNotSubmitted);
         }
 

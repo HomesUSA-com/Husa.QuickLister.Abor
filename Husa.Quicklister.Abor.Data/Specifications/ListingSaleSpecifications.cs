@@ -11,6 +11,7 @@ namespace Husa.Quicklister.Abor.Data.Specifications
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Extensions.Listing;
     using Husa.Quicklister.Extensions.Domain.Enums;
+    using Microsoft.EntityFrameworkCore;
 
     public static class ListingSaleSpecifications
     {
@@ -186,5 +187,23 @@ namespace Husa.Quicklister.Abor.Data.Specifications
         public static Func<T, bool> FilterByMlsStatusNotEqualTo<T>(MarketStatuses marketStatus)
             where T : SaleListing
                 => listing => listing.MlsStatus != marketStatus;
+
+        public static IQueryable<SaleListing> ExcludeAbcHomes(this IQueryable<SaleListing> listings)
+            => listings.Where(x => !x.SaleProperty.OwnerName.StartsWith("ABC Homes"));
+
+        public static IQueryable<SaleListing> WithInvalidTaxId(this IQueryable<SaleListing> listings)
+        => listings.Where(x =>
+
+            // Check for empty tax ID (string exists but is empty or whitespace or null)
+            (x.SaleProperty.PropertyInfo.TaxId == null || x.SaleProperty.PropertyInfo.TaxId.Trim() == string.Empty) ||
+
+            // Check for N/A variations (case-insensitive)
+            (x.SaleProperty.PropertyInfo.TaxId != null &&
+                 (EF.Functions.Like(x.SaleProperty.PropertyInfo.TaxId.ToUpper(), "N/A") ||
+                  EF.Functions.Like(x.SaleProperty.PropertyInfo.TaxId.ToUpper(), "NA"))) ||
+
+            // Check for address pattern (contains digits followed by space and text)
+            (x.SaleProperty.PropertyInfo.TaxId != null &&
+                 EF.Functions.Like(x.SaleProperty.PropertyInfo.TaxId, "[0-9]% [a-zA-Z]%")));
     }
 }

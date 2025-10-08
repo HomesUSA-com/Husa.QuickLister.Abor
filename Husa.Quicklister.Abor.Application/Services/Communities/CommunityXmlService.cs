@@ -9,6 +9,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
     using Husa.Quicklister.Abor.Domain.Entities.Community;
     using Husa.Quicklister.Abor.Domain.Repositories;
     using Husa.Quicklister.Extensions.Application.Interfaces.Community;
+    using Husa.Quicklister.Extensions.Domain.Enums.Xml;
     using Husa.Xml.Api.Client.Interface;
     using Husa.Xml.Api.Contracts.Response;
     using Microsoft.Extensions.Logging;
@@ -26,7 +27,7 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
         {
         }
 
-        public override async Task ImportEntity(Guid companyId, string companyName, Guid entityId)
+        public override async Task ImportEntity(Guid companyId, string companyName, Guid entityId, bool selfApprove = false)
         {
             this.Logger.LogInformation("Importing xml subdivision with id {subdivisionId} to company with id {companyId}", entityId, companyId);
             var subdivision = await this.XmlClient.Subdivision.GetByIdAsync(entityId);
@@ -35,7 +36,21 @@ namespace Husa.Quicklister.Abor.Application.Services.Communities
             this.Logger.LogDebug("Importing xml subdivision {subdivisionId} with the values: {@subdivision}", entityId, subdivision);
             community.ProcessXmlData(subdivision, companyName, isCentralizedEmailLeads: companyDetail.EmailLeadInfo.LockedEmailLeads);
             await this.CommunitySaleRepository.SaveChangesAsync();
-            await this.XmlClient.Subdivision.ProcessSubdivision(entityId, community.Id);
+
+            if (selfApprove)
+            {
+                if (community.XmlStatus != XmlStatus.NotFromXml && community.XmlStatus != XmlStatus.Approved)
+                {
+                    community.Approve();
+                    await this.CommunitySaleRepository.SaveChangesAsync();
+                }
+
+                await this.XmlClient.Subdivision.SelfApproveSubdivision(entityId, community.Id);
+            }
+            else
+            {
+                await this.XmlClient.Subdivision.ProcessSubdivision(entityId, community.Id);
+            }
         }
 
         protected override async Task<CommunitySale> CreateCommunity(SubdivisionResponse subdivision, Guid companyId, string subdivisionName, string companyName, string city, string county)

@@ -1,9 +1,9 @@
 namespace Husa.Quicklister.Abor.Api.Mappings
 {
     using AutoMapper;
+    using Husa.Extensions.ShowingTime.Models;
     using Husa.Quicklister.Abor.Domain.Entities.ShowingTime;
     using Husa.Quicklister.Extensions.Application.Models.ShowingTime;
-    using Husa.Quicklister.Extensions.Domain.Entities.ShowingTime;
 
     public class ShowingTimeMappingProfile : Profile
     {
