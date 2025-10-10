@@ -210,7 +210,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
         }
 
-        public virtual void UpdateSpacesDimensions(SpacesDimensionsInfo spacesDimensions, bool updateSquareFootage = false, bool fromXml = false)
+        public virtual void UpdateSpacesDimensions(SpacesDimensionsInfo spacesDimensions, bool updateSquareFootage = false)
         {
             if (spacesDimensions is null)
             {
@@ -504,7 +504,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             this.UpdatePropertyInfo(property);
 
             var spacesDimensions = SpacesDimensionsInfo.ImportFromXml(listing, this.SpacesDimensionsInfo, manageSqft);
-            this.UpdateSpacesDimensions(spacesDimensions, fromXml: true);
+            this.UpdateSpacesDimensions(spacesDimensions, updateSquareFootage: manageSqft);
 
             var features = FeaturesInfo.ImportFromXml(listing, this.FeaturesInfo);
             this.UpdateFeatures(features);

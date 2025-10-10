@@ -99,7 +99,13 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 listing = quickCreateResult.Results.Single();
                 this.ListingSaleRepository.Attach(listing);
                 importMedia = true;
-                listing.ImportFromXml(xmlListing, companyName: companyDetail.Name, listAction, currentUser.Id, community, manageSqft: companyDetail.SettingInfo.EnableSqftManagementByXml);
+                listing.ImportFromXml(
+                    xmlListing,
+                    companyName: companyDetail.Name,
+                    listAction,
+                    currentUser.Id,
+                    community,
+                    manageSqft: true);
             }
             else
             {
@@ -112,7 +118,8 @@ namespace Husa.Quicklister.Abor.Application.Services.SaleListings
                 listing.UpdateFromXml(
                     xmlListing,
                     manageSqft: companyDetail.SettingInfo.EnableSqftManagementByXml,
-                    ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate);
+                    ignoreRequestByCompletionDate: companyDetail.SettingInfo.IgnoreRequestByCompletionDate,
+                    ignoreRequestByDescription: companyDetail.SettingInfo.StopXMLDescriptionManagement);
                 listing.LockByUser(currentUser.Id);
             }
 

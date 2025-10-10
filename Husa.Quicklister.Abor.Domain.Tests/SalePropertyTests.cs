@@ -321,15 +321,15 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             var spacesDimensions = new SpacesDimensionsInfo();
 
             listingMock
-                .Setup(x => x.SaleProperty.UpdateSpacesDimensions(It.IsAny<SpacesDimensionsInfo>(), It.Is<bool>(x => x), It.IsAny<bool>()))
+                .Setup(x => x.SaleProperty.UpdateSpacesDimensions(It.IsAny<SpacesDimensionsInfo>(), It.Is<bool>(x => x)))
                 .CallBase()
                 .Verifiable();
 
             // Act
-            listing.SaleProperty.UpdateSpacesDimensions(spacesDimensions, true, fromXml: true);
+            listing.SaleProperty.UpdateSpacesDimensions(spacesDimensions, updateSquareFootage: true);
 
             // Assert
-            listingMock.Verify(r => r.SaleProperty.UpdateSpacesDimensions(spacesDimensions, true, true), Times.Once);
+            listingMock.Verify(r => r.SaleProperty.UpdateSpacesDimensions(spacesDimensions, true), Times.Once);
         }
 
         [Fact]
@@ -342,13 +342,13 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             SpacesDimensionsInfo spacesDimensions = null;
 
             listingMock
-                .Setup(x => x.SaleProperty.UpdateSpacesDimensions(It.IsAny<SpacesDimensionsInfo>(), It.IsAny<bool>(), It.Is<bool>(x => !x)))
+                .Setup(x => x.SaleProperty.UpdateSpacesDimensions(It.IsAny<SpacesDimensionsInfo>(), It.Is<bool>(x => !x)))
                 .CallBase()
                 .Verifiable();
 
             // Act and Assert
             Assert.Throws<ArgumentNullException>(() => listing.SaleProperty.UpdateSpacesDimensions(spacesDimensions));
-            listingMock.Verify(r => r.SaleProperty.UpdateSpacesDimensions(spacesDimensions, false, false), Times.Once);
+            listingMock.Verify(r => r.SaleProperty.UpdateSpacesDimensions(spacesDimensions, false), Times.Once);
         }
 
         [Fact]
