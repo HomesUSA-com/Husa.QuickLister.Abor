@@ -1,11 +1,11 @@
-#nullable disable
-
-namespace Husa.Quicklister.Abor.Data.Migrations
+﻿namespace Husa.Quicklister.Abor.Data.Migrations
 {
     using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
     /// <inheritdoc />
-    public partial class V152_IncreasedMaxLengthLegalDescription : Migration
+    public partial class V2320_IncreasedMaxLengthLegalDescription : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
