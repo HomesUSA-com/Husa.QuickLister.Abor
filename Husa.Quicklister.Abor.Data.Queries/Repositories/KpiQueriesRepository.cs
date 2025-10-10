@@ -1,6 +1,5 @@
 namespace Husa.Quicklister.Abor.Data.Queries.Repositories
 {
-    using System;
     using System.Collections.Generic;
     using Husa.Extensions.Authorization;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
@@ -36,7 +35,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
             {
                 { KpiListingStatus.Active, SaleListing.ActiveListingStatuses },
                 { KpiListingStatus.Pending, SaleListing.PendingListingStatuses },
-                { KpiListingStatus.Sold, Array.Empty<MarketStatuses>() },
+                { KpiListingStatus.Sold, [MarketStatuses.Closed] },
             };
 
         protected override Dictionary<KpiListingStatus, IEnumerable<MarketStatuses>> GetKpiMarketStatusMapping()

@@ -57,7 +57,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests.Repositories
 
             Assert.Equal(SaleListing.ActiveListingStatuses, mapping[KpiListingStatus.Active]);
             Assert.Equal(SaleListing.PendingListingStatuses, mapping[KpiListingStatus.Pending]);
-            Assert.Empty(mapping[KpiListingStatus.Sold]);
+            Assert.Equal([MarketStatuses.Closed], mapping[KpiListingStatus.Sold]);
         }
     }
 }
