@@ -6,6 +6,8 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
+    using Husa.Quicklister.Extensions.Data.Extensions;
+    using Husa.Quicklister.Extensions.Domain.Entities.Listing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,7 +22,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
             builder.Ignore(p => p.AccessInformation);
             builder.Ignore(p => p.AppointmentRestrictions);
             builder.Ignore(p => p.AdditionalInstructions);
-
+            builder.OwnsOne(sf => sf.InvoiceInfo, ConfigureInvoiceInfoMapping).Navigation(e => e.InvoiceInfo).IsRequired();
             builder.OwnsOne(o => o.StatusFieldsInfo, StatusExtensions.ConfigureStatusInfoMapping).Navigation(e => e.StatusFieldsInfo);
             builder.OwnsOne(o => o.PublishInfo, PublishInfoExtensions.ConfigurePublishInfoMapping);
             builder.OwnsOne(o => o.FeaturesInfo, ConfigureFeaturesMapping);
@@ -122,6 +124,11 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<LotListing, LotSchoolsInfo> builder)
         {
             builder.ConfigureSchools();
+        }
+
+        private static void ConfigureInvoiceInfoMapping(OwnedNavigationBuilder<LotListing, InvoiceInfo> builder)
+        {
+            builder.ConfigureInvoiceInfo();
         }
     }
 }
