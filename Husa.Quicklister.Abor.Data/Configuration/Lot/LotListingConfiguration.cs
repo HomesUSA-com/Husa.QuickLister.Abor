@@ -6,8 +6,6 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
     using Husa.Quicklister.Abor.Domain.Entities.Lot;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
     using Husa.Quicklister.Abor.Domain.Interfaces;
-    using Husa.Quicklister.Extensions.Data.Extensions;
-    using Husa.Quicklister.Extensions.Domain.Entities.Listing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -128,7 +126,11 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
 
         private static void ConfigureInvoiceInfoMapping(OwnedNavigationBuilder<LotListing, InvoiceInfo> builder)
         {
-            builder.ConfigureInvoiceInfo();
+            ArgumentNullException.ThrowIfNull(builder);
+            builder.Property((InvoiceInfo r) => r.InvoiceId).HasColumnName("InvoiceId").HasMaxLength(20);
+            builder.Property((InvoiceInfo r) => r.DocNumber).HasColumnName("DocNumber").HasMaxLength(20);
+            builder.Property((InvoiceInfo r) => r.InvoiceRequestedBy).HasColumnName("InvoiceRequestedBy");
+            builder.Property((InvoiceInfo r) => r.InvoiceRequestedOn).HasColumnName("InvoiceRequestedOn");
         }
     }
 }
