@@ -56,6 +56,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
             this.ShowingInfo = new();
             this.PropertyInfo = new();
             this.AddressInfo = new();
+            this.InvoiceInfo = new();
             this.ManagementTraces = new List<LotManagementTrace>();
         }
 
@@ -85,6 +86,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
         public virtual LotFinancialInfo FinancialInfo { get; set; }
         public virtual LotShowingInfo ShowingInfo { get; set; }
         public virtual CommunitySale Community { get; set; }
+        public virtual InvoiceInfo InvoiceInfo { get; set; }
         public virtual ICollection<LotManagementTrace> ManagementTraces { get; set; }
         public override string Address => $"{this.AddressInfo.StreetNumber} {this.AddressInfo.StreetName}";
         public LotListing Clone()
@@ -146,6 +148,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Lot
                 this.LockUnsubmitted(userId);
                 return CommandSingleResult<LotListingRequest, ValidationResult>.Error(new ValidationResult(ex.Message));
             }
+        }
+
+        public virtual void UpdateInvoiceData(Guid userId, string invoiceId, string docNumber, DateTime createdDate)
+        {
+            this.InvoiceInfo = new InvoiceInfo(userId, invoiceId, docNumber, createdDate);
         }
 
         public virtual CommandSingleResult<LotListingRequest, ValidationResult> GenerateRequestFromCommunity(

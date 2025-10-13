@@ -20,7 +20,7 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
             builder.Ignore(p => p.AccessInformation);
             builder.Ignore(p => p.AppointmentRestrictions);
             builder.Ignore(p => p.AdditionalInstructions);
-
+            builder.OwnsOne(sf => sf.InvoiceInfo, ConfigureInvoiceInfoMapping).Navigation(e => e.InvoiceInfo).IsRequired();
             builder.OwnsOne(o => o.StatusFieldsInfo, StatusExtensions.ConfigureStatusInfoMapping).Navigation(e => e.StatusFieldsInfo);
             builder.OwnsOne(o => o.PublishInfo, PublishInfoExtensions.ConfigurePublishInfoMapping);
             builder.OwnsOne(o => o.FeaturesInfo, ConfigureFeaturesMapping);
@@ -122,6 +122,15 @@ namespace Husa.Quicklister.Abor.Data.Configuration.Lot
         private static void ConfigureSchoolsMapping(OwnedNavigationBuilder<LotListing, LotSchoolsInfo> builder)
         {
             builder.ConfigureSchools();
+        }
+
+        private static void ConfigureInvoiceInfoMapping(OwnedNavigationBuilder<LotListing, InvoiceInfo> builder)
+        {
+            ArgumentNullException.ThrowIfNull(builder);
+            builder.Property((InvoiceInfo r) => r.InvoiceId).HasColumnName("InvoiceId").HasMaxLength(20);
+            builder.Property((InvoiceInfo r) => r.DocNumber).HasColumnName("DocNumber").HasMaxLength(20);
+            builder.Property((InvoiceInfo r) => r.InvoiceRequestedBy).HasColumnName("InvoiceRequestedBy");
+            builder.Property((InvoiceInfo r) => r.InvoiceRequestedOn).HasColumnName("InvoiceRequestedOn");
         }
     }
 }
