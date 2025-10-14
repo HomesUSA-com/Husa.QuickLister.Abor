@@ -9,7 +9,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests.Configuration
 
     public class ApplicationServicesFixture
     {
-        private readonly DbContextOptions<ApplicationDbContext> dbOptions;
+        public readonly DbContextOptions<ApplicationDbContext> DbOptions;
 
         public ApplicationServicesFixture()
         {
@@ -18,7 +18,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests.Configuration
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString(), new InMemoryDatabaseRoot())
                 .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.ManyServiceProvidersCreatedWarning));
-            this.dbOptions = optionsBuilder.Options;
+            this.DbOptions = optionsBuilder.Options;
         }
 
         public IMapper Mapper { get; }
@@ -27,7 +27,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests.Configuration
             where TDbContext : ApplicationDbContext
         {
             var dbContext = (TDbContext)Activator.CreateInstance(
-                typeof(TDbContext), this.dbOptions);
+                typeof(TDbContext), this.DbOptions);
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
             return dbContext;
