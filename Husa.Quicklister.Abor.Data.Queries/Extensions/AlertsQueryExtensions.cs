@@ -177,10 +177,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Extensions
 
         // Inactive Draft Listings 25 Days
         public static Expression<Func<SaleListing, bool>> InactiveDraftListing25Days => listing =>
-            string.IsNullOrEmpty(listing.MlsNumber) && listing.SysModifiedOn.Value.Date == DateTime.UtcNow.AddDays(-25).Date;
+            string.IsNullOrEmpty(listing.MlsNumber) && listing.SysCreatedOn.Date == DateTime.UtcNow.AddDays(-25).Date;
 
         // Inactive Draft Listings 28 Days
         public static Expression<Func<SaleListing, bool>> InactiveDraftListing28Days => listing =>
-            string.IsNullOrEmpty(listing.MlsNumber) && listing.SysModifiedOn.Value.Date == DateTime.UtcNow.AddDays(-28).Date;
+            string.IsNullOrEmpty(listing.MlsNumber) && listing.SysCreatedOn.Date == DateTime.UtcNow.AddDays(-28).Date;
     }
 }
