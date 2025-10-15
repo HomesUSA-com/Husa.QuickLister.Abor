@@ -161,6 +161,27 @@ namespace Husa.Quicklister.Abor.Data.Commands.Repositories
             return await query.ToListAsync();
         }
 
+        public override Task<SaleListing> GetByIdNoTracking(Guid id, bool filterByCompany = false)
+        {
+            this.logger.LogInformation("Getting Sale listing by id with no tracking: {id}", id);
+
+            var query = this.context.ListingSale
+                .AsNoTracking()
+                .Include(x => x.SaleProperty)
+                    .ThenInclude(x => x.Rooms)
+                .Include(x => x.SaleProperty)
+                    .ThenInclude(x => x.OpenHouses)
+                .Where(x => x.Id == id);
+
+            if (filterByCompany)
+            {
+                var currentUser = this.userContextProvider.GetCurrentUser();
+                query = query.FilterByCompany(currentUser);
+            }
+
+            return query.SingleOrDefaultAsync();
+        }
+
         protected override SavedChangesLog CreateChangesLog(SaleListing originalEntity, SaleListing updatedEntity)
         {
             var currentUser = this.userContextProvider.GetCurrentUser();
