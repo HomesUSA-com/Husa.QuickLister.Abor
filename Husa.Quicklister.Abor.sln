@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Api.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Data.Commands", "Husa.Quicklister.Abor.Data.Commands\Husa.Quicklister.Abor.Data.Commands.csproj", "{F753B208-34C6-46C4-9C94-363A3028851A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Data.Commands.Tests", "Husa.Quicklister.Abor.Data.Commands.Tests\Husa.Quicklister.Abor.Data.Commands.Tests.csproj", "{C1D2E3F4-A5B6-4C7D-8E9F-0A1B2C3D4E5F}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Data.Queries.Tests", "Husa.Quicklister.Abor.Data.Queries.Tests\Husa.Quicklister.Abor.Data.Queries.Tests.csproj", "{E6FDE992-78A0-455C-AC7E-F6991DD4F38C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Husa.Quicklister.Abor.Api.Client.Tests", "Husa.Quicklister.Abor.Api.Client.Tests\Husa.Quicklister.Abor.Api.Client.Tests.csproj", "{5CECE21E-4559-4B9F-991F-47303E2D6512}"
@@ -115,6 +117,10 @@ Global
 		{F753B208-34C6-46C4-9C94-363A3028851A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F753B208-34C6-46C4-9C94-363A3028851A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F753B208-34C6-46C4-9C94-363A3028851A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1D2E3F4-A5B6-4C7D-8E9F-0A1B2C3D4E5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1D2E3F4-A5B6-4C7D-8E9F-0A1B2C3D4E5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1D2E3F4-A5B6-4C7D-8E9F-0A1B2C3D4E5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1D2E3F4-A5B6-4C7D-8E9F-0A1B2C3D4E5F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E6FDE992-78A0-455C-AC7E-F6991DD4F38C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E6FDE992-78A0-455C-AC7E-F6991DD4F38C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6FDE992-78A0-455C-AC7E-F6991DD4F38C}.Release|Any CPU.ActiveCfg = Release|Any CPU
