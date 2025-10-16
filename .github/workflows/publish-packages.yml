@@ -42,7 +42,12 @@ jobs:
       run: dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
       
     - name: Pack NuGet packages
-      run: dotnet pack ${{ env.SOLUTION_FILE }} --configuration Release --no-build --output ./nupkgs
+      run: |
+        mkdir -p ./nupkgs
+        dotnet pack Husa.Quicklister.Abor.Api.Client/Husa.Quicklister.Abor.Api.Client.csproj \
+          --configuration Release --no-build --output ./nupkgs
+        dotnet pack Husa.Quicklister.Abor.ServiceBus.Contracts/Husa.Quicklister.Abor.ServiceBus.Contracts.csproj \
+          --configuration Release --no-build --output ./nupkgs
       
     - name: Publish packages to GitHub Packages
       run: |
