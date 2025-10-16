@@ -32,7 +32,7 @@ jobs:
         dotnet nuget add source https://nuget.pkg.github.com/HomesUSA-com/index.json \
           --name github \
           --username ${{ github.repository_owner }} \
-          --password ${{ secrets.GITHUB_TOKEN }} \
+          --password ${{ secrets.PACKAGE_PAT }} \
           --store-password-in-clear-text
     
     - name: Restore dependencies
@@ -50,7 +50,7 @@ jobs:
           echo "Publishing: $package"
           dotnet nuget push "$package" \
             --source github \
-            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --api-key ${{ secrets.PACKAGE_PAT }} \
             --skip-duplicate \
             || echo "Failed or duplicate: $package"
         done
