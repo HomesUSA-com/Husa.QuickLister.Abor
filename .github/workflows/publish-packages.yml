@@ -1,0 +1,58 @@
+name: CD - Publish Packages
+
+on:
+  push:
+    branches: [ master ]
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  SOLUTION_FILE: 'Husa.Quicklister.Abor.sln'
+  NUGET_SOURCE_URL: 'https://nuget.pkg.github.com/HomesUSA-com/index.json'
+
+jobs:
+  publish-packages:
+    name: Build and Publish NuGet Packages
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        source-url: ${{ env.NUGET_SOURCE_URL }}
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.SOLUTION_FILE }}
+      
+    - name: Build solution (Release)
+      run: dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
+      
+    - name: Pack NuGet packages
+      run: dotnet pack ${{ env.SOLUTION_FILE }} --configuration Release --no-build --output ./nupkgs
+      
+    - name: Publish packages to GitHub Packages
+      run: |
+        for package in ./nupkgs/*.nupkg; do
+          echo "Publishing: $package"
+          dotnet nuget push "$package" \
+            --source github \
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --skip-duplicate \
+            || echo "Failed or duplicate: $package"
+        done
+    
+    - name: Upload package artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages
+        path: ./nupkgs/*.nupkg
+        retention-days: 30
+
