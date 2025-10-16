@@ -38,13 +38,13 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ${{ env.SOLUTION_FILE }}
       
-    - name: Pack NuGet packages (builds and packs in one step)
+    - name: Build solution (generates NuGet packages automatically)
+      run: dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
+      
+    - name: Collect generated NuGet packages
       run: |
         mkdir -p ./nupkgs
-        dotnet pack Husa.Quicklister.Abor.Api.Client/Husa.Quicklister.Abor.Api.Client.csproj \
-          --configuration Release --no-restore --output ./nupkgs
-        dotnet pack Husa.Quicklister.Abor.ServiceBus.Contracts/Husa.Quicklister.Abor.ServiceBus.Contracts.csproj \
-          --configuration Release --no-restore --output ./nupkgs
+        find . -name "*.nupkg" -path "*/bin/Release/*" -exec cp {} ./nupkgs/ \;
         ls -la ./nupkgs/
       
     - name: Publish packages to GitHub Packages
