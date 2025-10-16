@@ -20,6 +20,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
     using Husa.Quicklister.Abor.Domain.Enums;
     using Husa.Quicklister.Extensions.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Data.Queries.Models.QueryFilters;
+    using Husa.Quicklister.Extensions.Data.Queries.Specifications;
     using Husa.Quicklister.Extensions.Data.Specifications;
     using Husa.Quicklister.Extensions.Domain.Enums;
     using Husa.Quicklister.Extensions.Domain.Repositories;
@@ -75,7 +76,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .FilterByCommunityEmployee<SaleListing, SaleProperty, CommunityEmployee>(this.Context.CommunityEmployee, currentUser);
         }
 
-        protected override async Task<IQueryable<SaleListing>> GetSaleListingAlerts(string search = null)
+        protected override IQueryable<SaleListing> GetSaleListingAlerts(string search = null)
         {
             var query = this.Context.ListingSale
                 .Include(d => d.SaleProperty)
@@ -84,8 +85,10 @@ namespace Husa.Quicklister.Abor.Data.Queries.Repositories
                 .Include(d => d.StatusFieldsInfo)
                 .FilterNotDeleted();
 
-            query = this.FilterByCommunityEmployee(query);
-            query = await this.FilterByAvailableCompanies(query);
+            query = this.FilterByCommunityEmployee(query)
+                .FilterByAvailableCompanies(
+                    this.UserContext.GetCurrentUser(),
+                    this.companyRepository);
 
             if (!string.IsNullOrWhiteSpace(search))
             {

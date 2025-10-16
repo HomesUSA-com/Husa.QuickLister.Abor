@@ -49,6 +49,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
     using Husa.Quicklister.Abor.Crosscutting;
     using Husa.Quicklister.Abor.Data;
     using Husa.Quicklister.Abor.Data.Commands.Repositories;
+    using Husa.Quicklister.Abor.Data.Documents.Providers;
     using Husa.Quicklister.Abor.Data.Documents.Repositories;
     using Husa.Quicklister.Abor.Data.Queries;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
@@ -124,6 +125,8 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<IQueryListingBillingRepository, ListingBillingQueriesRepository>();
             services.AddScoped<IListingRequestBillingQueryRepository, ListingRequestBillingQueriesRepository>();
             services.AddScoped<ICompanyCacheRepository, QueryRepositoriesExtensions.CompanyCacheRepository<ApplicationOptions>>();
+            services.AddScoped<IKpiQueriesRequestProvider, KpiQueriesRequestProvider>();
+            services.AddScoped<IKpiQueryRepository, KpiQueriesRepository>();
             services.AddExtensionRepositories();
             return services;
         }
@@ -144,6 +147,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
 
             services.AddScoped<ILotListingService, LotListingService>();
             services.AddScoped<ILotListingRequestService, LotListingRequestService>();
+            services.AddScoped<InterfaceExtensions.Lot.ILotListingDeletionService, LotListingDeletionService>();
             services.AddScoped<InterfaceExtensions.Lot.ILotListingLockService, LotListingLockService>();
 
             services.AddScoped<ICommunityHistoryService, CommunityHistoryService>();
@@ -178,6 +182,7 @@ namespace Husa.Quicklister.Abor.Api.Configuration
             services.AddScoped<InterfaceExtensions.JsonImport.IListingJsonImportService, ListingJsonImportService>();
             services.AddScoped<IListingRequestXmlService<XmlListingDetailResponse>, ListingRequestXmlService>();
             services.AddScoped<InterfaceExtensions.Listing.ISaleListingHistoryService, SaleListingHistoryService>();
+            services.AddScoped<InterfaceExtensions.Listing.IListingDeletionService, SaleListingDeletionService>();
             services.AddScoped<QLExtension.Interfaces.Uploader.IUploaderService, QLExtension.Services.Uploader.UploaderService>();
             services.AddScoped<IShowingTimeContactService, ShowingTimeContactService>();
 

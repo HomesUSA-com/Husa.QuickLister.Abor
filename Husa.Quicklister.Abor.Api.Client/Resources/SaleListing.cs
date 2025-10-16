@@ -148,6 +148,12 @@ namespace Husa.Quicklister.Abor.Api.Client.Resources
             throw new NotImplementedException();
         }
 
+        public Task DeleteExpiredDraftListings(CancellationToken token = default)
+        {
+            var endpoint = $"{this.baseUri}/expired-draft";
+            return this.client.DeleteAsync(endpoint, token: token);
+        }
+
         private string GetListingsEndpoint(ExtensionsContract.Request.Listing.IListingRequestFilter filters)
         {
             return this.baseUri

@@ -7,6 +7,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
     using System.Threading;
     using System.Threading.Tasks;
     using Husa.Extensions.Document.Models;
+    using Husa.Quicklister.Abor.Api.Contracts.Request;
     using Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest;
     using Husa.Quicklister.Abor.Api.Controllers.LotListing;
     using Husa.Quicklister.Abor.Api.Tests.Configuration;
@@ -16,7 +17,9 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
     using Husa.Quicklister.Abor.Data.Documents.Models;
     using Husa.Quicklister.Abor.Data.Queries.Interfaces;
     using Husa.Quicklister.Extensions.Api.Contracts.Request.Listing;
+    using Husa.Quicklister.Extensions.Application.Interfaces.Lot;
     using Husa.Quicklister.Extensions.Data.Documents.QueryFilters;
+    using Husa.Quicklister.Extensions.Domain.Enums;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -31,6 +34,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
         private readonly Mock<IMediaService> mediaService = new();
         private readonly Mock<ILotListingService> listingService = new();
         private readonly Mock<ILogger<LotListingsController>> logger = new();
+        private readonly Mock<ILotListingDeletionService> deletionService = new();
 
         public LotListingsControllerTests(ApplicationServicesFixture fixture)
         {
@@ -39,6 +43,7 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
                 this.requestQueryRepository.Object,
                 this.listingService.Object,
                 this.mediaService.Object,
+                this.deletionService.Object,
                 this.logger.Object,
                 fixture.Mapper);
         }
@@ -85,6 +90,51 @@ namespace Husa.Quicklister.Abor.Api.Tests.Controllers
             // Assert
             Assert.NotNull(actionResult);
             Assert.IsAssignableFrom<OkResult>(actionResult);
+        }
+
+        [Fact]
+        public async Task UpdateActionTypeAsync_Success()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var actionTypeRequest = new ActionTypeRequest
+            {
+                ActionType = ActionType.ActiveTransfer,
+            };
+
+            this.listingService
+                .Setup(x => x.UpdateActionTypeAsync(listingId, actionTypeRequest.ActionType, It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+
+            // Act
+            var actionResult = await this.Sut.UpdateActionTypeAsync(listingId, actionTypeRequest);
+
+            // Assert
+            Assert.NotNull(actionResult);
+            Assert.IsAssignableFrom<OkResult>(actionResult);
+            this.listingService.Verify(x => x.UpdateActionTypeAsync(listingId, actionTypeRequest.ActionType, It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ChangeCommunity_Success()
+        {
+            // Arrange
+            var listingId = Guid.NewGuid();
+            var communityId = Guid.NewGuid();
+
+            this.listingService
+                .Setup(x => x.ChangeCommunity(listingId, communityId))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+
+            // Act
+            var actionResult = await this.Sut.ChangeCommunity(listingId, communityId);
+
+            // Assert
+            Assert.NotNull(actionResult);
+            Assert.IsAssignableFrom<OkResult>(actionResult);
+            this.listingService.Verify(x => x.ChangeCommunity(listingId, communityId), Times.Once);
         }
     }
 }

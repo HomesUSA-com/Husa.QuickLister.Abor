@@ -76,6 +76,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
             var filter = new ListingQueryFilter()
             {
                 CommunityId = communityId,
+                Inactive = true,
             };
 
             // Act
@@ -103,7 +104,7 @@ namespace Husa.Quicklister.Abor.Data.Queries.Tests
                 new List<CommunitySale> { community });
 
             // Act
-            var result = await sut.GetAsync(new ListingQueryFilter());
+            var result = await sut.GetAsync(new ListingQueryFilter() { Inactive = true });
 
             // Assert
             Assert.Single(result.Data);

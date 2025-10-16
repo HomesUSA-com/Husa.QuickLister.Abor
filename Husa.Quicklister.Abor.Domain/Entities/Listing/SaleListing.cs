@@ -34,6 +34,7 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
         IListingInvoiceInfo,
         IListingPlan<Plan>,
         IListingCommunity<CommunitySale>,
+        IProvideMlsStatus<MarketStatuses>,
         IProvideLegacy
     {
         public const int YearsInThePast = -2;
@@ -314,6 +315,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Listing
             this.CompanyId = companyId;
             this.SaleProperty.OwnerName = companyName;
             this.SaleProperty.CompanyId = companyId;
+        }
+
+        protected override void DeleteChildren(Guid userId)
+        {
+            this.SaleProperty.Delete(userId, true);
         }
 
         protected override IEnumerable<object> GetEntityEqualityComponents()

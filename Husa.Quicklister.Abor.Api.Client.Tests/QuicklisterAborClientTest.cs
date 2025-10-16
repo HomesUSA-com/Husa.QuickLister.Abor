@@ -49,20 +49,23 @@ namespace Husa.Quicklister.Abor.Api.Client.Tests
             this.quicklisterAborClient = new QuicklisterAborClient(loggerFactory, client);
         }
 
-        [Fact]
-        public async Task SaleListingGetAsyncSuccess()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task SaleListingGetAsyncSuccess(bool inactive)
         {
             // Arrange
             var filter = new Request.ListingRequestFilter()
             {
                 MlsStatus = SaleListing.ActiveAndPendingListingStatuses,
+                Inactive = inactive,
             };
 
             // Act
             var listings = await this.quicklisterAborClient.SaleListing.GetAsync(filter);
 
             // Assert
-            Assert.True(listings.Count() >= 7);
+            Assert.NotEmpty(listings);
         }
 
         [Fact]

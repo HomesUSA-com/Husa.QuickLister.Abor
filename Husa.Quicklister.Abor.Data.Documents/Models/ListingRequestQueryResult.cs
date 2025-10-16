@@ -23,6 +23,8 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models
 
         public string CreatedBy { get; set; }
 
+        public string CreatedByEmail { get; set; }
+
         public string LockedByUsername { get; set; }
 
         public Guid? LockedBy { get; set; }

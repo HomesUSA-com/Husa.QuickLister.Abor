@@ -8,21 +8,22 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageDescription>Husa Quicklister Abor Client</PackageDescription>
         <PackageId>Husa.Quicklister.Abor.Api.Client</PackageId>
-        <Version>2.23.1</Version>
+        <Version>2.24.0-dev006</Version>
         <PackageReleaseNotes>
-            Release 2.23.1:
-            - Move showingtime to husa.extensions
-            - Add 'Hisle' to Elementary Schools
-            - Get listings with Invalid Tax Id
-            - Update nugets
-            - Added ViolationWarningCount to Alert details
+            Release 2.24.0:
+            - Add Kpis
+            - Add inactive to listings endpoints filters
+            - Add 'InactiveDraftListing25Days' and 'InactiveDraftListing28Days' alerts
+            - Add DeleteExpiredDraftListings to sale listing resource
+            - Update Husa.Quicklister.Extensions.Api.Client to 1.21.0-dev003
+            - Update Husa.Quicklister.Extensions.Api.Client  to 5.2.2 add New GarageDescription enum value None
         </PackageReleaseNotes>
         <GeneratePackageOnBuild Condition=" '$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Husa.Extensions.Api" Version="5.2.2" />
-        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.20.1" />
+        <PackageReference Include="Husa.Quicklister.Extensions.Api.Client" Version="1.21.0-dev004" />
     </ItemGroup>
 
     <ItemGroup>

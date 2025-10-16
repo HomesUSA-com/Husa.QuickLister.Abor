@@ -525,7 +525,11 @@ namespace Husa.Quicklister.Abor.Domain.Entities.Property
             }
         }
 
-        protected override void DeleteChildren(Guid userId) => throw new NotImplementedException();
+        protected override void DeleteChildren(Guid userId)
+        {
+            this.Rooms.Clear();
+            this.OpenHouses.Clear();
+        }
 
         protected bool AreRoomsEqual(ICollection<ListingSaleRoom> other)
         {

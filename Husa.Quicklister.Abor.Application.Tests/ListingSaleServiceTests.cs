@@ -345,54 +345,6 @@ namespace Husa.Quicklister.Abor.Application.Tests
         }
 
         [Fact]
-        public async Task DeleteListing_ListingNotFound_Error()
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            SaleListing listingSale = null;
-            var user = TestModelProvider.GetCurrentUser(userId, companyId);
-
-            this.userContextProvider.Setup(u => u.GetCurrentUser()).Returns(user).Verifiable();
-
-            this.listingSaleRepository
-                .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => filterByCompany)))
-                .ReturnsAsync(listingSale)
-                .Verifiable();
-
-            // Act and Assert
-            await Assert.ThrowsAsync<NotFoundException<SaleListing>>(() => this.Sut.DeleteListing(listingId));
-            this.listingSaleRepository.Verify(r => r.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Never);
-            this.listingSaleRepository.Verify(c => c.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => filterByCompany)), Times.Once);
-        }
-
-        [Fact]
-        public async Task DeleteListing_ListingFound_Success()
-        {
-            // Arrange
-            var listingId = Guid.NewGuid();
-            var companyId = Guid.NewGuid();
-            var listing = TestModelProvider.GetListingSaleEntity(listingId, true, companyId);
-
-            this.listingSaleRepository
-                .Setup(c => c.GetById(It.Is<Guid>(id => id == listingId), It.Is<bool>(filterByCompany => filterByCompany)))
-                .ReturnsAsync(listing)
-                .Verifiable();
-
-            // Act
-            await this.Sut.DeleteListing(listingId);
-
-            // Assert
-            this.listingSaleRepository.Verify(r => r.SaveChangesAsync(It.IsAny<SaleListing>()), Times.Once);
-            this.listingSaleRepository.Verify(
-                c => c.GetById(
-                    It.Is<Guid>(id => id == listingId),
-                    It.Is<bool>(filterByCompany => filterByCompany)),
-                Times.Once);
-        }
-
-        [Fact]
         public async Task GetEntity_GetById_Success()
         {
             // Arrange

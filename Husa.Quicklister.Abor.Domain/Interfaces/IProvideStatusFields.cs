@@ -3,18 +3,11 @@ namespace Husa.Quicklister.Abor.Domain.Interfaces
     using System;
     using System.Collections.Generic;
     using Husa.Quicklister.Abor.Domain.Enums.Domain;
+    using Husa.Quicklister.Extensions.Domain.Interfaces.Listings;
 
-    public interface IProvideStatusFields
+    public interface IProvideStatusFields : IProvideClosedFields, IProvidePendingDate
     {
-        public DateTime? PendingDate { get; set; }
-
-        public DateTime? ClosedDate { get; set; }
-
-        public DateTime? EstimatedClosedDate { get; set; }
-
         public string CancelledReason { get; set; }
-
-        public decimal? ClosePrice { get; set; }
 
         public Guid? AgentId { get; set; }
 

@@ -948,5 +948,26 @@ namespace Husa.Quicklister.Abor.Domain.Tests
             Assert.Equal(communityOpenHouseHasChanges, saleProperty.OpenHouses.Count != 0);
             Assert.Equal(communityOpenHouseHasChanges, salePropertyRecord.OpenHouses.Count != 0);
         }
+
+        [Fact]
+        public void Delete_InvokesDeleteChildren()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            var property = ListingTestProvider.GetSalePropertyEntity(Guid.NewGuid());
+            property.Rooms = RoomTestProvider.GetListingSaleRooms(totalElements: 2);
+            property.OpenHouses = TestModelProvider.GetListingSaleOpenHouses(totalElements: 2);
+
+            var methodInfo = typeof(SaleProperty).GetMethod(
+                "DeleteChildren",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            // Act
+            methodInfo.Invoke(property, new object[] { userId });
+
+            // Assert
+            Assert.Empty(property.Rooms);
+            Assert.Empty(property.OpenHouses);
+        }
     }
 }
