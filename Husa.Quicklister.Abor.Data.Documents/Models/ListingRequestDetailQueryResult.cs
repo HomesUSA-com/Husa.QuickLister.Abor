@@ -47,6 +47,7 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models
         public string LockedByUsername { get; set; }
 
         public bool IsFirstRequest { get; set; }
+        public RequestUploadStatus UploadStatus { get; set; }
         public PublishInfoQueryResult PublishInfo { get; set; }
     }
 }

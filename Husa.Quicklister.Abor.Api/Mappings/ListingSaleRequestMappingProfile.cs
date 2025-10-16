@@ -196,6 +196,7 @@ namespace Husa.Quicklister.Abor.Api.Mappings
 
             this.CreateMap<ListingSaleRequestDto, SaleListingRequest>()
                 .ForMember(dest => dest.SaleProperty, config => config.Ignore())
+                .ForMember(dest => dest.UploadStatus, config => config.Ignore())
                 .ForMember(dest => dest.ShowingTimeInfo, config => config.Ignore())
                 .ForMember(dest => dest.EntityId, config => config.MapFrom(dto => dto.ListingSaleId))
                 .ForMember(dest => dest.CDOM, config => config.Ignore())

@@ -30,6 +30,8 @@ namespace Husa.Quicklister.Abor.Api.Contracts.Response.ListingRequest
 
         public ListingRequestState RequestState { get; set; }
 
+        public RequestUploadStatus UploadStatus { get; set; }
+
         public string MlsNumber { get; set; }
 
         public MarketStatuses MlsStatus { get; set; }

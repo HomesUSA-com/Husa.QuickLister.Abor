@@ -56,5 +56,6 @@ namespace Husa.Quicklister.Abor.Data.Documents.Models
         public bool UseShowingTime { get; set; }
 
         public MediaVerificationStatus? MediaVerificationStatus { get; set; }
+        public RequestUploadStatus UploadStatus { get; set; }
     }
 }
