@@ -28,6 +28,14 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
+    - name: Authenticate with Azure DevOps
+      run: |
+        dotnet nuget update source azure-devops \
+          --username az \
+          --password ${{ secrets.AZURE_DEVOPS_PAT }} \
+          --store-password-in-clear-text \
+          --configfile NuGet.config || echo "Azure DevOps auth not required or already configured"
+    
     - name: Restore dependencies
       run: dotnet restore ${{ env.SOLUTION_FILE }}
       
