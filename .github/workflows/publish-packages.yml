@@ -45,9 +45,9 @@ jobs:
       run: |
         mkdir -p ./nupkgs
         dotnet pack Husa.Quicklister.Abor.Api.Client/Husa.Quicklister.Abor.Api.Client.csproj \
-          --configuration Release --no-build --output ./nupkgs
+          --configuration Release --output ./nupkgs
         dotnet pack Husa.Quicklister.Abor.ServiceBus.Contracts/Husa.Quicklister.Abor.ServiceBus.Contracts.csproj \
-          --configuration Release --no-build --output ./nupkgs
+          --configuration Release --output ./nupkgs
       
     - name: Publish packages to GitHub Packages
       run: |
