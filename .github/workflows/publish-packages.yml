@@ -41,13 +41,19 @@ jobs:
     - name: Build solution (Release)
       run: dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
       
-    - name: Pack NuGet packages
+    - name: Build packable projects (generates NuGet packages)
       run: |
         mkdir -p ./nupkgs
-        dotnet pack Husa.Quicklister.Abor.Api.Client/Husa.Quicklister.Abor.Api.Client.csproj \
-          --configuration Release --output ./nupkgs
-        dotnet pack Husa.Quicklister.Abor.ServiceBus.Contracts/Husa.Quicklister.Abor.ServiceBus.Contracts.csproj \
-          --configuration Release --output ./nupkgs
+        dotnet build Husa.Quicklister.Abor.Api.Client/Husa.Quicklister.Abor.Api.Client.csproj \
+          --configuration Release --no-restore
+        dotnet build Husa.Quicklister.Abor.ServiceBus.Contracts/Husa.Quicklister.Abor.ServiceBus.Contracts.csproj \
+          --configuration Release --no-restore
+        
+    - name: Copy packages to output directory
+      run: |
+        cp Husa.Quicklister.Abor.Api.Client/bin/Release/*.nupkg ./nupkgs/ || true
+        cp Husa.Quicklister.Abor.ServiceBus.Contracts/bin/Release/*.nupkg ./nupkgs/ || true
+        ls -la ./nupkgs/
       
     - name: Publish packages to GitHub Packages
       run: |
